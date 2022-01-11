@@ -1,46 +1,36 @@
-[22-23-12] [ENTRY]: [Nathan]
-[22-23-12] [SYSTEM_IO]: System data pared in IOUtil's static block
-[22-23-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[22-23-14] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
-[22-23-14] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
-[22-23-14] [SYSTEM_IO]: Userdata requested: Name
-[22-23-14] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-23-14] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-23-15] [SYSTEM_IO]: Userdata requested: Name
-[22-23-15] [SYSTEM_IO]: Userdata requested: Foreground
-[22-23-15] [SYSTEM_IO]: Userdata requested: Foreground
-[22-23-15] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-23-15] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-23-15] [SYSTEM_IO]: Userdata requested: Foreground
-[22-23-15] [SYSTEM_IO]: Userdata requested: Font
-[22-23-15] [SYSTEM_IO]: Userdata requested: OutputBorder
-[22-23-15] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-23-15] [SYSTEM_IO]: Userdata requested: InputBorder
-[22-23-15] [SYSTEM_IO]: Userdata requested: Foreground
-[22-23-15] [SYSTEM_IO]: Userdata requested: Foreground
-[22-23-15] [SYSTEM_IO]: Userdata requested: Foreground
-[22-23-15] [SYSTEM_IO]: Userdata requested: Font
-[22-23-15] [SYSTEM_IO]: Userdata requested: OutputFill
-[22-23-15] [SYSTEM_IO]: Userdata requested: InputFill
-[22-23-15] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [873029980], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
-[22-23-15] [ACTION]: Console loaded in 3643ms
-[22-23-15] [SYSTEM_IO]: Userdata requested: DebugWindows
-[22-23-15] [ENTRY]: [TESTING MODE]
-[22-23-15] [SYSTEM_IO]: Userdata requested: laststart
-[22-23-15] [SYSTEM_IO]: Userdata requested: IntroMusic
-[22-23-15] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3643ms
-[22-23-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[22-23-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(5, 5, 200, 40)], hash = [1173185512], parentFrame = [Flow Layout Test], associated text = [Test Button 0], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(215, 5, 200, 40)], hash = [1821410016], parentFrame = [Flow Layout Test], associated text = [Test Button 1], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(5, 35, 200, 40)], hash = [546384034], parentFrame = [Flow Layout Test], associated text = [Test Button 4], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(215, 35, 200, 40)], hash = [90130442], parentFrame = [Flow Layout Test], associated text = [Test Button 5], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(5, 65, 200, 40)], hash = [1001642776], parentFrame = [Flow Layout Test], associated text = [Test Button 8], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(215, 65, 200, 40)], hash = [1739408943], parentFrame = [Flow Layout Test], associated text = [Test Button 9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(425, 5, 200, 40)], hash = [334530444], parentFrame = [Flow Layout Test], associated text = [Test Button 2], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(425, 35, 200, 40)], hash = [147782402], parentFrame = [Flow Layout Test], associated text = [Test Button 6], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(635, 5, 200, 40)], hash = [1813604326], parentFrame = [Flow Layout Test], associated text = [Test Button 3], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(635, 35, 200, 40)], hash = [981387097], parentFrame = [Flow Layout Test], associated text = [Test Button 7], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-23-35] [EXCEPTION]: 
+[22-29-19] [ENTRY]: [Nathan]
+[22-29-19] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-29-21] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-29-21] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-29-21] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-29-22] [SYSTEM_IO]: Userdata requested: Name
+[22-29-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-29-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-29-22] [SYSTEM_IO]: Userdata requested: Name
+[22-29-22] [SYSTEM_IO]: Userdata requested: Foreground
+[22-29-22] [SYSTEM_IO]: Userdata requested: Foreground
+[22-29-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-29-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-29-22] [SYSTEM_IO]: Userdata requested: Foreground
+[22-29-22] [SYSTEM_IO]: Userdata requested: Font
+[22-29-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-29-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-29-22] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-29-22] [SYSTEM_IO]: Userdata requested: Foreground
+[22-29-22] [SYSTEM_IO]: Userdata requested: Foreground
+[22-29-22] [SYSTEM_IO]: Userdata requested: Foreground
+[22-29-22] [SYSTEM_IO]: Userdata requested: Font
+[22-29-22] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-29-22] [SYSTEM_IO]: Userdata requested: InputFill
+[22-29-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [873029980], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-29-23] [ACTION]: Console loaded in 3827ms
+[22-29-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-29-23] [ENTRY]: [TESTING MODE]
+[22-29-23] [SYSTEM_IO]: Userdata requested: laststart
+[22-29-23] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-29-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3827ms
+[22-29-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -89,8 +79,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -135,7 +125,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -184,8 +174,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -230,7 +220,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -279,8 +269,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -325,7 +315,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -374,8 +364,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -420,7 +410,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -469,8 +459,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -515,7 +505,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -564,8 +554,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -610,7 +600,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -659,8 +649,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -705,7 +695,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -754,8 +744,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -800,7 +790,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -849,8 +839,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -895,7 +885,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -944,8 +934,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -990,7 +980,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1039,8 +1029,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1085,7 +1075,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1134,8 +1124,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-33] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1180,7 +1170,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-33] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1229,8 +1219,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1275,7 +1265,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1324,8 +1314,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1370,7 +1360,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1419,8 +1409,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1465,7 +1455,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1514,8 +1504,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-35] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1560,7 +1550,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1609,8 +1599,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1655,7 +1645,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1704,8 +1694,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1750,7 +1740,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1799,8 +1789,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1845,7 +1835,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1894,8 +1884,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -1940,7 +1930,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -1989,8 +1979,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2035,7 +2025,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2084,8 +2074,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2130,7 +2120,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2179,8 +2169,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2225,7 +2215,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2274,8 +2264,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2320,7 +2310,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2369,8 +2359,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2415,7 +2405,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2464,8 +2454,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2510,7 +2500,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2559,8 +2549,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-36] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2605,7 +2595,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2654,8 +2644,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2700,7 +2690,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2749,8 +2739,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2795,7 +2785,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2844,8 +2834,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2890,7 +2880,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -2939,8 +2929,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -2985,7 +2975,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -3034,8 +3024,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -3080,7 +3070,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-34] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -3129,8 +3119,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-34] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-34] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -3175,7 +3165,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-35] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -3224,8 +3214,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-35] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -3270,7 +3260,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-35] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -3319,8 +3309,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-35] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -3365,7 +3355,7 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
+[22-29-35] [EXCEPTION]: 
 Index 0 out-of-bounds for length 0
 Thrown from:
 java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
@@ -3414,8 +3404,8 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
+[22-29-35] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-29-35] [DEBUG]: Index 0 out-of-bounds for length 0
 java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
 	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
@@ -3460,111 +3450,10 @@ java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [EXCEPTION]: 
-Index 0 out-of-bounds for length 0
-Thrown from:
-java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-StackTrace:
-java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
-	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
-	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
-	at java.base/java.util.Objects.checkIndex(Objects.java:372)
-	at java.base/java.util.ArrayList.get(ArrayList.java:440)
-	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:128)
-	at cyder.ui.CyderPanel.revalidateComponents(CyderPanel.java:55)
-	at cyder.ui.CyderPanel.repaint(CyderPanel.java:49)
-	at java.desktop/java.awt.Component.repaintParentIfNeeded(Component.java:2357)
-	at java.desktop/java.awt.Component.reshape(Component.java:2343)
-	at java.desktop/javax.swing.JComponent.reshape(JComponent.java:4242)
-	at java.desktop/java.awt.Component.setBounds(Component.java:2279)
-	at cyder.ui.CyderFrame$3.setBounds(CyderFrame.java:167)
-	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1472)
-	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1361)
-	at cyder.ui.ComponentResizer.changeBounds(ComponentResizer.java:254)
-	at cyder.ui.ComponentResizer.mouseDragged(ComponentResizer.java:202)
-	at java.desktop/java.awt.Component.processMouseMotionEvent(Component.java:6626)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6347)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
-	at java.desktop/java.awt.Window.processEvent(Window.java:2035)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
-	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
-	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
-	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-23-37] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[22-23-37] [DEBUG]: Index 0 out-of-bounds for length 0
-java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
-	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
-	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
-	at java.base/java.util.Objects.checkIndex(Objects.java:372)
-	at java.base/java.util.ArrayList.get(ArrayList.java:440)
-	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:128)
-	at cyder.ui.CyderPanel.revalidateComponents(CyderPanel.java:55)
-	at cyder.ui.CyderPanel.repaint(CyderPanel.java:49)
-	at java.desktop/java.awt.Component.repaintParentIfNeeded(Component.java:2357)
-	at java.desktop/java.awt.Component.reshape(Component.java:2343)
-	at java.desktop/javax.swing.JComponent.reshape(JComponent.java:4242)
-	at java.desktop/java.awt.Component.setBounds(Component.java:2279)
-	at cyder.ui.CyderFrame$3.setBounds(CyderFrame.java:167)
-	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1472)
-	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1361)
-	at cyder.ui.ComponentResizer.changeBounds(ComponentResizer.java:254)
-	at cyder.ui.ComponentResizer.mouseDragged(ComponentResizer.java:202)
-	at java.desktop/java.awt.Component.processMouseMotionEvent(Component.java:6626)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6347)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
-	at java.desktop/java.awt.Window.processEvent(Window.java:2035)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
-	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
-	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
-	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
-[22-24-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(215, 65, 200, 40)], hash = [90130442], parentFrame = [Flow Layout Test], associated text = [Test Button 5], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-24-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(215, 5, 200, 40)], hash = [1821410016], parentFrame = [Flow Layout Test], associated text = [Test Button 1], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-24-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(215, 125, 200, 40)], hash = [1739408943], parentFrame = [Flow Layout Test], associated text = [Test Button 9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-24-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 500, 28)], hash = [1562542987], parentFrame = [Flow Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-24-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(268, 253, 504, 507)], hash = [856470038], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flow Layout Test]
-[22-24-24] [SYSTEM_IO]: Userdata requested: closeanimation
-[22-26-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
-[22-26-54] [SYSTEM_IO]: Userdata requested: Name
-[22-26-54] [LOGOUT]: [Nathan]
-[22-26-54] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(156, 430, 963, 675)], hash = [643290333], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
-[22-26-54] [SYSTEM_IO]: Userdata requested: closeanimation
-[22-26-55] [EXIT]: [RUNTIME] 3m 42s
-[22-26-55] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 37
+[22-29-39] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-29-39] [SYSTEM_IO]: Userdata requested: Name
+[22-29-39] [LOGOUT]: [Nathan]
+[22-29-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(156, 430, 963, 675)], hash = [2068598972], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-29-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-29-40] [EXIT]: [RUNTIME] 20s
+[22-29-40] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 36

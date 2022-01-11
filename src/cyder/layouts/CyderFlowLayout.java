@@ -127,6 +127,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
             //find max height to use for centering
             int maxHeight = currentRow.get(0).getOriginalHeight();
             //todo index out of bounds here if frame too small?
+            // why exactly does this throw?
 
             for (FlowComponent flowComponent : currentRow) {
                 if (flowComponent.getOriginalHeight() > maxHeight)
@@ -142,9 +143,17 @@ public class CyderFlowLayout extends CyderBaseLayout {
             if (currentHeightCenteringInc >= associatedPanel.getHeight())
                 break;
 
-            //todo how to switch on the Alignment
-            // since moving frame should space components out evenly too
-            // until we can fit another component on with necessary spacing still
+            switch (alignment) {
+                case LEFT:
+                    //todo align items to the left with min spacings
+                    break;
+                case CENTER:
+                    //todo evenly space items on row (default case)
+                    break;
+                case RIGHT:
+                    //todo align items to the right with min spacings
+                    break;
+            }
 
             //okay so now center the current current row component on
             // the horizontal line y = currentHeightCenteringInc
@@ -168,8 +177,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
             }
 
             //moving on to the next row so increment the height centering
-            // var by the vertical gap
-            currentHeightCenteringInc += vgap;
+            // var by the vertical gap and the rest of the current row's max height
+            currentHeightCenteringInc += vgap + (maxHeight / 2);
         }
 
         if (focusOwner != null)
