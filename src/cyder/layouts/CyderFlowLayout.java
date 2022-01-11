@@ -7,12 +7,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CyderFlowLayout extends CyderBaseLayout {
-    private int hgap;
-    private int vgap;
-    private Alignment alignment;
+    private int hgap = DEFAULT_HGAP;
+    private int vgap = DEFAULT_VGAP;
+    private Alignment alignment = Alignment.CENTER;
 
     private static final int DEFAULT_HGAP = 5;
     private static final int DEFAULT_VGAP = 5;
+    private static final int DEFAULT_HPADDING = 5;
+    private static final int DEFAULT_VPADDING = 5;
 
     public enum Alignment {
         LEFT, CENTER, RIGHT
@@ -71,35 +73,105 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
     @Override
     public void revalidateComponents() {
+        if (flowComponents.size() < 1)
+            return;
+
         Component focusOwner = null;
 
         ArrayList<ArrayList<FlowComponent>> rows = new ArrayList<>();
         ArrayList<FlowComponent> currentRow = new ArrayList<>();
         int currentWidthAcc = 0;
 
+        int maxWidth = associatedPanel.getWidth() - 2 * DEFAULT_HPADDING;
+
+        //figure out all the rows and the most that can fit on each row
         for (FlowComponent flowComponent : flowComponents) {
+            //focus check
             if (flowComponent.getComponent().isFocusOwner() && focusOwner == null)
                 focusOwner = flowComponent.getComponent();
 
+            //if we cannot fit the component on the current row
+            if (currentWidthAcc + flowComponent.getOriginalWidth() + hgap > maxWidth) {
+                    //finish off the row by adding it to the rows list
+                   rows.add(currentRow);
+                   //make new row
+                   currentRow = new ArrayList<>();
+                   //reset current width acc
+                   currentWidthAcc = flowComponent.getOriginalWidth() + hgap + 2 * DEFAULT_HPADDING;
+            } else {
+                //we can fit it so just add to the original width
+                currentWidthAcc += flowComponent.getOriginalWidth() + hgap;
+            }
+
+            //add the component to the current row
+            currentRow.add(flowComponent);
         }
 
-        //todo add up widths of all components and figure out how many rows we will need
+        //add final row to rows if it has components since it was not added above
+        // due to it not exceeding the max length
+        if (currentRow.size() > 0)
+            rows.add(currentRow);
 
-        //todo then from that separate the rows and figure out the max height of the component from that row
+        if (rows.size() < 1)
+            throw new IllegalStateException("No rows were calculated");
 
-        //todo from there you can center components on that row based off of that
+        int currentHeightCenteringInc = DEFAULT_VPADDING;
 
-        //todo do that for each row and stop when a row will be completely invisible due to frame restrictions
+        //while more rows exist
+        while (rows.size() > 0) {
+            //get the current row of components
+            currentRow = rows.remove(0);
+
+            //find max height to use for centering
+            int maxHeight = currentRow.get(0).getOriginalHeight();
+
+            for (FlowComponent flowComponent : currentRow) {
+                if (flowComponent.getOriginalHeight() > maxHeight)
+                    maxHeight = flowComponent.getOriginalHeight();
+            }
+
+            //increment the centering height by the maxHeight for
+            // now / 2 + the vert padding value
+            currentHeightCenteringInc += (maxHeight / 2);
+
+            //make sure we can add components from this row to the frame
+            //if not then break out of while since we're done setting component bounds
+            if (currentHeightCenteringInc >= associatedPanel.getHeight())
+                break;
+
+            //todo how to switch on the Alignment
+
+            //okay so now center the current current row component on
+            // the horizontal line y = currentHeightCenteringInc
+            // The left/right positioning is determined by this.alignment
+
+            int currentX = DEFAULT_HPADDING;
+
+            //set component locations based on centering line and currentX
+            for (FlowComponent flowComponent : currentRow) {
+                //this will always work since currentHeightCenteringInc is guaranteed
+                // to be >= currentFlowComp.height / 2
+                flowComponent.getComponent().setLocation(currentX,
+                        currentHeightCenteringInc - (flowComponent.getOriginalHeight() / 2));
+
+                //increment x by current width plus hgap
+                currentX += flowComponent.getOriginalWidth() + hgap;
+            }
+
+            //moving on to the next row so increment the height centering
+            // var by the vertical gap
+            currentHeightCenteringInc += vgap;
+        }
 
         if (focusOwner != null)
             focusOwner.requestFocus();
     }
 
-    private CyderPanel cyderPanel;
+    private CyderPanel associatedPanel;
 
     @Override
     public void setAssociatedPanel(CyderPanel panel) {
-        this.cyderPanel = panel;
+        this.associatedPanel = panel;
         revalidateComponents();
     }
 

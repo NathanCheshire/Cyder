@@ -1,0 +1,118 @@
+[22-14-53] [ENTRY]: [Nathan]
+[22-14-53] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-14-55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-14-55] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-14-55] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-14-55] [SYSTEM_IO]: Userdata requested: Name
+[22-14-55] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-14-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-56] [SYSTEM_IO]: Userdata requested: Name
+[22-14-56] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-56] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-56] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-56] [SYSTEM_IO]: Userdata requested: Font
+[22-14-56] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-14-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-56] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-14-56] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-56] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-56] [SYSTEM_IO]: Userdata requested: Foreground
+[22-14-56] [SYSTEM_IO]: Userdata requested: Font
+[22-14-56] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-14-56] [SYSTEM_IO]: Userdata requested: InputFill
+[22-14-56] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [171435575], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-14-56] [ACTION]: Console loaded in 4048ms
+[22-14-56] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-14-56] [ENTRY]: [TESTING MODE]
+[22-14-56] [EXCEPTION]: 
+Index 0 out-of-bounds for length 0
+Thrown from:
+java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+StackTrace:
+java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:123)
+	at cyder.layouts.CyderFlowLayout.setAssociatedPanel(CyderFlowLayout.java:172)
+	at cyder.ui.CyderPanel.<init>(CyderPanel.java:21)
+	at cyder.testing.Debug.launchTests(Debug.java:170)
+	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1330)
+	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
+	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:243)
+	at java.desktop/java.awt.AWTEventMulticaster.windowOpened(AWTEventMulticaster.java:348)
+	at java.desktop/java.awt.Window.processWindowEvent(Window.java:2061)
+	at java.desktop/javax.swing.JFrame.processWindowEvent(JFrame.java:298)
+	at java.desktop/java.awt.Window.processEvent(Window.java:2023)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-14-56] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-14-56] [DEBUG]: Index 0 out-of-bounds for length 0
+java.lang.IndexOutOfBoundsException: Index 0 out-of-bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.layouts.CyderFlowLayout.revalidateComponents(CyderFlowLayout.java:123)
+	at cyder.layouts.CyderFlowLayout.setAssociatedPanel(CyderFlowLayout.java:172)
+	at cyder.ui.CyderPanel.<init>(CyderPanel.java:21)
+	at cyder.testing.Debug.launchTests(Debug.java:170)
+	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1330)
+	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
+	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:243)
+	at java.desktop/java.awt.AWTEventMulticaster.windowOpened(AWTEventMulticaster.java:348)
+	at java.desktop/java.awt.Window.processWindowEvent(Window.java:2061)
+	at java.desktop/javax.swing.JFrame.processWindowEvent(JFrame.java:298)
+	at java.desktop/java.awt.Window.processEvent(Window.java:2023)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-14-56] [SYSTEM_IO]: Userdata requested: laststart
+[22-14-56] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-14-56] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4048ms
+[22-14-57] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

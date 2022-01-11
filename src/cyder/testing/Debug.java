@@ -5,7 +5,10 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
+import cyder.layouts.CyderFlowLayout;
+import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderPanel;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -151,7 +154,31 @@ public class Debug {
 
     public static void launchTests() {
         try {
+            CyderFrame testFrame = new CyderFrame(600,600);
+            testFrame.setTitle("Flow Layout Test");
 
+            //make layout
+            CyderFlowLayout layout = new CyderFlowLayout(10,10);
+
+            //add 10 buttons to layout
+            for (int i = 0 ; i < 10 ; i++) {
+                CyderButton cb = new CyderButton("Test Button " + i);
+                cb.setSize(200,40);
+                layout.addComponent(cb);
+            }
+
+            //make panel and set as frame's content panel
+            CyderPanel panel = new CyderPanel(layout);
+            testFrame.setContentPanel(panel);
+
+            //resizing on
+            testFrame.initializeResizing();
+            testFrame.setResizable(true);
+            testFrame.setMaximumSize(new Dimension(1200,1200));
+            testFrame.setBackgroundResizing(true);
+
+            testFrame.setVisible(true);
+            testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
