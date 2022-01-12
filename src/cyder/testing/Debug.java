@@ -158,12 +158,12 @@ public class Debug {
             testFrame.setTitle("Flow Layout Test");
 
             //make layout
-            CyderFlowLayout layout = new CyderFlowLayout( CyderFlowLayout.Alignment.LEFT,25,15);
+            CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER,25,15);
 
             //add 10 buttons to layout
             for (int i = 1 ; i < 11 ; i++) {
                 CyderButton cb = new CyderButton("Test Button " + i);
-                cb.setSize(150, 150);
+                cb.setSize(200, 50);
                 int finalI = i;
                 cb.addActionListener(e -> testFrame.notify(finalI + "button: " + cb));
                 layout.addComponent(cb);
