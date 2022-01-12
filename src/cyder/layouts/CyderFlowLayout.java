@@ -82,8 +82,10 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
         ArrayList<ArrayList<FlowComponent>> rows = new ArrayList<>();
         ArrayList<FlowComponent> currentRow = new ArrayList<>();
+
         int currentWidthAcc = 0;
 
+        //5 width 5, means that it's our panel width minus twice the dfeault horiz padding
         int maxWidth = associatedPanel.getWidth() - 2 * DEFAULT_HPADDING;
 
         //figure out all the rows and the most that can fit on each row
@@ -94,19 +96,44 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
             //if we cannot fit the component on the current row
             if (currentWidthAcc + flowComponent.getOriginalWidth() + hgap > maxWidth) {
-                   //finish off the row by adding it to the rows list
-                   rows.add(currentRow);
-                   //make new row
-                   currentRow = new ArrayList<>();
-                   //reset current width acc
-                   currentWidthAcc = flowComponent.getOriginalWidth() + hgap + 2 * DEFAULT_HPADDING;
-            } else {
-                //we can fit it so just add to the original width
-                currentWidthAcc += flowComponent.getOriginalWidth() + hgap;
-            }
+                //if nothing in this row, add flow component to it then proceed to new row
+                if (currentRow.size() < 1) {
+                    //add current row to rows list after adding component
+                    currentRow.add(flowComponent);
+                    rows.add(currentRow);
 
-            //add the component to the current row
-            currentRow.add(flowComponent);
+                    //make new row
+                    currentRow = new ArrayList<>();
+
+                    //reset current width acc
+                    currentWidthAcc = 0;
+                }
+                //otherwise simly proceed to new row
+                else {
+                    //add current row to rows list
+                    rows.add(currentRow);
+
+                    //make new row
+                    currentRow = new ArrayList<>();
+
+                    //reset current width acc
+                    currentWidthAcc = 0;
+
+                    //increment current width
+                    currentWidthAcc += flowComponent.getOriginalWidth() + hgap;
+
+                    //add the component to the current row
+                    currentRow.add(flowComponent);
+                }
+            }
+            //otherwise it can fit on this row so do so
+            else {
+                //increment current width
+                currentWidthAcc += flowComponent.getOriginalWidth() + hgap;
+
+                //add the component to the current row
+                currentRow.add(flowComponent);
+            }
         }
 
         //add final row to rows if it has components since it was not added above
@@ -114,20 +141,20 @@ public class CyderFlowLayout extends CyderBaseLayout {
         if (currentRow.size() > 0)
             rows.add(currentRow);
 
-        if (rows.size() < 1)
-            throw new IllegalStateException("No rows were calculated");
-
         int currentHeightCenteringInc = DEFAULT_VPADDING;
 
         //while more rows exist
-        while (rows.size() > 0) {
+        while (!rows.isEmpty()) {
             //get the current row of components
             currentRow = rows.remove(0);
 
+            //TODO HOW THE FUCK DO WE GET SIZES OF 0 HERE??!!!!
+            //why does this not work, why do components go over each other somtimes?
+            if (currentRow == null || currentRow.get(0) == null)
+                break;
+
             //find max height to use for centering
             int maxHeight = currentRow.get(0).getOriginalHeight();
-            //todo index out of bounds here if frame too small?
-            // why exactly does this throw?
 
             for (FlowComponent flowComponent : currentRow) {
                 if (flowComponent.getOriginalHeight() > maxHeight)
@@ -145,7 +172,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
             switch (alignment) {
                 case LEFT:
-                    //todo align items to the left with min spacings
+                    //default
                     break;
                 case CENTER:
                     //todo evenly space items on row (default case)
