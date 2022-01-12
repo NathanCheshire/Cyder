@@ -11,7 +11,6 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
-import cyder.utilities.NumberUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -159,14 +158,14 @@ public class Debug {
             testFrame.setTitle("Flow Layout Test");
 
             //make layout
-            CyderFlowLayout layout = new CyderFlowLayout(10,10);
+            CyderFlowLayout layout = new CyderFlowLayout( CyderFlowLayout.Alignment.LEFT,25,15);
 
             //add 10 buttons to layout
             for (int i = 1 ; i < 11 ; i++) {
                 CyderButton cb = new CyderButton("Test Button " + i);
-                cb.setSize(200, NumberUtil.randInt(50,80));
+                cb.setSize(150, 150);
                 int finalI = i;
-                cb.addActionListener(e -> testFrame.notify(String.valueOf(finalI)));
+                cb.addActionListener(e -> testFrame.notify(finalI + "button: " + cb));
                 layout.addComponent(cb);
             }
 
@@ -177,7 +176,8 @@ public class Debug {
             //resizing on
             testFrame.initializeResizing();
             testFrame.setResizable(true);
-            testFrame.setMaximumSize(new Dimension(1200,1200));
+            testFrame.setMaximumSize(new Dimension(2000,2000));
+            testFrame.setMinimumSize(new Dimension(300,300));
             testFrame.setBackgroundResizing(true);
 
             testFrame.setVisible(true);

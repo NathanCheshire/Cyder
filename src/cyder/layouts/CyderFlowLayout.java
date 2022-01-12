@@ -13,6 +13,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
     private static final int DEFAULT_HGAP = 5;
     private static final int DEFAULT_VGAP = 5;
+
+    //todo be able to change these
     private static final int DEFAULT_HPADDING = 5;
     private static final int DEFAULT_VPADDING = 5;
 
@@ -78,6 +80,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
         if (flowComponents.size() < 1 || associatedPanel == null || associatedPanel.getWidth() == 0)
             return;
 
+        //for focus restoration after moving components
         Component focusOwner = null;
 
         ArrayList<ArrayList<FlowComponent>> rows = new ArrayList<>();
@@ -148,11 +151,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
             //get the current row of components
             currentRow = rows.remove(0);
 
-            //TODO HOW THE FUCK DO WE GET SIZES OF 0 HERE??!!!!
-            //why does this not work, why do components go over each other somtimes?
-            if (currentRow == null || currentRow.get(0) == null)
-                break;
-
             //find max height to use for centering
             int maxHeight = currentRow.get(0).getOriginalHeight();
 
@@ -166,46 +164,56 @@ public class CyderFlowLayout extends CyderBaseLayout {
             currentHeightCenteringInc += (maxHeight / 2);
 
             //make sure we can add components from this row to the frame
-            //if not then break out of while since we're done setting component bounds
-            if (currentHeightCenteringInc >= associatedPanel.getHeight())
-                break;
+            //if not then set rest of components to invisible
+            if (currentHeightCenteringInc >= associatedPanel.getHeight()) {
+                for (FlowComponent flowComponent : currentRow) {
+                    flowComponent.getComponent().setVisible(false);
+                }
+
+                //now continue with the rest of the rows
+                continue;
+            }
 
             switch (alignment) {
                 case LEFT:
-                    //default
+                    //okay so now center the current current row component on
+                    // the horizontal line y = currentHeightCenteringInc
+                    // The left/right positioning is determined by this.alignment
+
+                    int currentX = DEFAULT_HPADDING;
+
+                    //set component locations based on centering line and currentX
+                    for (FlowComponent flowComponent : currentRow) {
+                        //this will always work since currentHeightCenteringInc is guaranteed
+                        // to be >= currentFlowComp.height / 2
+                        flowComponent.getComponent().setLocation(currentX,
+                                currentHeightCenteringInc - (flowComponent.getOriginalHeight() / 2));
+
+                        //add to panel
+                        if (associatedPanel != null) {
+                            associatedPanel.add(flowComponent.getComponent());
+
+                            //set visible since it may have been set to invisible
+                            flowComponent.getComponent().setVisible(true);
+                        }
+
+                        //increment x by current width plus hgap
+                        currentX += flowComponent.getOriginalWidth() + hgap;
+                    }
+
+                    //moving on to the next row so increment the height centering
+                    // var by the vertical gap and the rest of the current row's max height
+                    currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
                 case CENTER:
-                    //todo evenly space items on row (default case)
+                    //todo evenly space items on row based off of total width
+                    // (we know we at least have the necessary hgap available
+                    // but we may have more space to spread out)
                     break;
                 case RIGHT:
                     //todo align items to the right with min spacings
                     break;
             }
-
-            //okay so now center the current current row component on
-            // the horizontal line y = currentHeightCenteringInc
-            // The left/right positioning is determined by this.alignment
-
-            int currentX = DEFAULT_HPADDING;
-
-            //set component locations based on centering line and currentX
-            for (FlowComponent flowComponent : currentRow) {
-                //this will always work since currentHeightCenteringInc is guaranteed
-                // to be >= currentFlowComp.height / 2
-                flowComponent.getComponent().setLocation(currentX,
-                        currentHeightCenteringInc - (flowComponent.getOriginalHeight() / 2));
-
-                //add to panel
-                if (associatedPanel != null)
-                    associatedPanel.add(flowComponent.getComponent());
-
-                //increment x by current width plus hgap
-                currentX += flowComponent.getOriginalWidth() + hgap;
-            }
-
-            //moving on to the next row so increment the height centering
-            // var by the vertical gap and the rest of the current row's max height
-            currentHeightCenteringInc += vgap + (maxHeight / 2);
         }
 
         if (focusOwner != null)
