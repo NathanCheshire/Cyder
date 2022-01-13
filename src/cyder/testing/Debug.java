@@ -158,7 +158,7 @@ public class Debug {
             testFrame.setTitle("Flow Layout Test");
 
             //make layout
-            CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER_STATIC,25,15);
+            CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER,25,15);
 
             //add 10 buttons to layout
             for (int i = 1 ; i < 11 ; i++) {

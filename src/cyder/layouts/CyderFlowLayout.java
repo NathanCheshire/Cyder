@@ -264,8 +264,36 @@ public class CyderFlowLayout extends CyderBaseLayout {
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
                 case RIGHT:
-                   //todo can't simply invert left since that places components
-                    // mirred and not in the order that they were added in
+                    necessaryWidth = 0;
+                    for (Component flowComponent : currentRow) {
+                        necessaryWidth += flowComponent.getWidth() + hgap;
+                    }
+
+                    necessaryWidth -= hgap;
+
+                    offsetX = maxWidth - necessaryWidth;
+
+                    currentX = hpadding + offsetX;
+
+                    //set component locations based on centering line and currentX
+                    for (Component flowComponent : currentRow) {
+                        //this will always work since currentHeightCenteringInc is guaranteed
+                        // to be >= currentFlowComp.height / 2
+                        flowComponent.setLocation(currentX,
+                                currentHeightCenteringInc - (flowComponent.getHeight() / 2));
+
+                        //add to panel
+                        if (associatedPanel != null) {
+                            associatedPanel.add(flowComponent);
+                        }
+
+                        //increment x by current width plus hgap
+                        currentX += flowComponent.getWidth() + hgap;
+                    }
+
+                    //moving on to the next row so increment the height centering
+                    // var by the vertical gap and the rest of the current row's max height
+                    currentHeightCenteringInc += vgap + (maxHeight / 2);
             }
         }
 
