@@ -7,16 +7,20 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CyderFlowLayout extends CyderBaseLayout {
-    private int hgap = DEFAULT_HGAP;
-    private int vgap = DEFAULT_VGAP;
-    private Alignment alignment = Alignment.CENTER;
+
+    private static final Alignment DEFAULT_ALIGNMENT = Alignment.CENTER;
+    private Alignment alignment = DEFAULT_ALIGNMENT;
 
     private static final int DEFAULT_HGAP = 5;
     private static final int DEFAULT_VGAP = 5;
+    private int hgap = DEFAULT_HGAP;
+    private int vgap = DEFAULT_VGAP;
 
     //todo be able to change these
     private static final int DEFAULT_HPADDING = 5;
     private static final int DEFAULT_VPADDING = 5;
+    private int hpadding = DEFAULT_HPADDING;
+    private int vpadding = DEFAULT_VPADDING;
 
     public enum Alignment {
         LEFT, CENTER, RIGHT
@@ -89,7 +93,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
         int currentWidthAcc = 0;
 
         //5 width 5, means that it's our panel width minus twice the dfeault horiz padding
-        int maxWidth = associatedPanel.getWidth() - 2 * DEFAULT_HPADDING;
+        int maxWidth = associatedPanel.getWidth() - 2 * hpadding;
 
         //figure out all the rows and the most that can fit on each row
         for (Component flowComponent : flowComponents) {
@@ -145,7 +149,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
             rows.add(currentRow);
         }
 
-        int currentHeightCenteringInc = DEFAULT_VPADDING;
+        int currentHeightCenteringInc = vpadding;
 
         //while more rows exist
         while (!rows.isEmpty()) {
@@ -170,7 +174,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
                     // the horizontal line y = currentHeightCenteringInc
                     // The left/right positioning is determined by this.alignment
 
-                    int currentX = DEFAULT_HPADDING;
+                    int currentX = hpadding;
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
@@ -193,26 +197,38 @@ public class CyderFlowLayout extends CyderBaseLayout {
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
                 case CENTER:
-                    //figure out minimum required width for this row
-                    int necessaryWidth = DEFAULT_HPADDING;
-                    int componentGaps = 0;
-                    final int edgeGaps = 2;
-
+                    int necessaryWidth = 0;
+                    int componentCount = 0;
                     for (Component flowComponent : currentRow) {
                         necessaryWidth += flowComponent.getWidth() + hgap;
-                        //add to component counter
-                        componentGaps++;
+                        componentCount++;
                     }
 
-                    //remove since offset by one on last component
-                    componentGaps--;
+                    necessaryWidth -= hgap;
 
-                    int addHGap = 0;
-                    if (componentGaps > 0)
-                        addHGap = necessaryWidth / componentGaps;
+                    int addSep = (maxWidth - necessaryWidth) / (componentCount + 1);
 
-                    //todo something isn't right here...
-                    System.out.println(addHGap);
+                    currentX = hpadding + addSep;
+
+                    //set component locations based on centering line and currentX
+                    for (Component flowComponent : currentRow) {
+                        //this will always work since currentHeightCenteringInc is guaranteed
+                        // to be >= currentFlowComp.height / 2
+                        flowComponent.setLocation(currentX,
+                                currentHeightCenteringInc - (flowComponent.getHeight() / 2));
+
+                        //add to panel
+                        if (associatedPanel != null) {
+                            associatedPanel.add(flowComponent);
+                        }
+
+                        //increment x by current width plus hgap
+                        currentX += flowComponent.getWidth() + hgap + addSep;
+                    }
+
+                    //moving on to the next row so increment the height centering
+                    // var by the vertical gap and the rest of the current row's max height
+                    currentHeightCenteringInc += vgap + (maxHeight / 2);
 
                     break;
                 case RIGHT:
@@ -237,4 +253,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
+
+
 }
