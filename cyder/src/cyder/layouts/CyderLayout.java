@@ -9,18 +9,39 @@ import java.awt.*;
  * which also forces the class to implement this interface
  */
 public interface CyderLayout {
-    //NOTE: ALL LAYOUTS SHOULD OVERRIDE THE PAINT METHOD AND CALCULATE HOW TO
-    // POSITION THE COMPONENTS THERE
-
-    //of course there will be more complex add and remove component methods but
-    // these are the base ones that should always exist
+    /**
+     * Adds the specified component to the linked CyderPanel.
+     * The layout will figure out how add the component to the panel successfully.
+     * You should typically add more addComponent() methods but this is the simple base one
+     * that should always be implemented.
+     *
+     * @param component the component to add to the panel
+     * @return whether or not the component was successfully added to the panel
+     */
     boolean addComponent(Component component);
+
+    /**
+     * Removes the specified component from the linked CyderPanel.
+     * The layout will figure out how to remove and revalidate the panel successfully.
+     * You should typically add more removeComponent() methods but this is the simple base one
+     * that should always be implmeneted.
+     *
+     * @param component the component to remove from the panel
+     * @return whether or not the component was successfully removed from the panel
+     */
     boolean removeComponent(Component component);
 
-    //method to recalculate bounds of components on the panel
+    /**
+     * Recalculates the bounds of all components currently added the CyderPanel.
+     */
     void revalidateComponents();
 
     //so that the layout can manage components directly on the panel and not itself
+
+    /**
+     * Sets the CyderPanel for the LayoutManager to manage the components of.
+     *
+     * @param panel the panel for the LayoutManager to manaqge the components of
+     */
     void setAssociatedPanel(CyderPanel panel);
-    //repaint should always be overridden to revalidate the bounds of components
 }

@@ -1,8 +1,9 @@
 package cyder.layouts;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
-public abstract class CyderBaseLayout extends JLabel implements CyderLayout {
-    //no implementation required, this looks better than extending JLabel and this also forces
-    // CyderLayouts to implement the base required methods for layout managing.
-}
+/**
+ * All CyderLayouts should extend this class which will force them to have the required methods
+ * of both a CyderLayout and also a JLabel
+ */
+public abstract class CyderBaseLayout extends JLabel implements CyderLayout {}
