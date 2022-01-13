@@ -120,89 +120,90 @@ public class CyderFlowLayout extends CyderBaseLayout {
         return false;
     }
 
-    //todo comment me
     /**
      * Revalidates the component sizes for the FlowLayout and repaints the linked panel so that the
      * component positions are updated.
      */
     @Override
     public void revalidateComponents() {
-        if (flowComponents.size() < 1 || associatedPanel == null || associatedPanel.getWidth() == 0)
+        //if we have no components or no panel then we can't revalidate
+        if (flowComponents.size() < 1 ||
+                associatedPanel == null ||
+                associatedPanel.getWidth() == 0)
             return;
 
         //for focus restoration after moving components
         Component focusOwner = null;
 
+        //lists for organizing components
         ArrayList<ArrayList<Component>> rows = new ArrayList<>();
         ArrayList<Component> currentRow = new ArrayList<>();
 
         int currentWidthAcc = 0;
 
-        //5 width 5, means that it's our panel width minus twice the dfeault horiz padding
+        //maximum allocated width for our components plus their gaps
+        // is the panel width minus our horizontal padding
         int maxWidth = associatedPanel.getWidth() - 2 * hpadding;
 
         //figure out all the rows and the most that can fit on each row
         for (Component flowComponent : flowComponents) {
-            //focus check
+            //find the first focus owner
             if (flowComponent.isFocusOwner() && focusOwner == null)
                 focusOwner = flowComponent;
 
-            //if we cannot fit the component on the current row
+            //if we cannot fit the component on the current row then start a new one
             if (currentWidthAcc + flowComponent.getWidth() + hgap > maxWidth) {
-                //if nothing in this row, add flow component to it then proceed to new row
+                //if nothing is in the current row,
+                // such as if the width is smaller than the first component's width
                 if (currentRow.size() < 1) {
-                    //add current row to rows list after adding component
+                    //add current row to rows list after adding
+                    // component to the current row
                     currentRow.add(flowComponent);
                     rows.add(currentRow);
 
-                    //make new row
+                    //reset row vars
                     currentRow = new ArrayList<>();
-
-                    //reset current width acc
                     currentWidthAcc = 0;
                 }
-                //otherwise simly proceed to new row
+                //otherwise simly proceed to new row after adding
+                // the current row to the rows list
                 else {
                     //add current row to rows list
                     rows.add(currentRow);
 
-                    //make new row
+                    //reset row vars for new row
                     currentRow = new ArrayList<>();
-
-                    //reset current width acc
-                    currentWidthAcc = 0;
-
-                    //increment current width
-                    currentWidthAcc += flowComponent.getWidth() + hgap;
-
-                    //add the component to the current row
+                    currentWidthAcc = flowComponent.getWidth() + hgap;
                     currentRow.add(flowComponent);
                 }
             }
-            //otherwise it can fit on this row so do so
+            //otherwise it can fit on the current row
             else {
                 //increment current width
                 currentWidthAcc += flowComponent.getWidth() + hgap;
-
                 //add the component to the current row
                 currentRow.add(flowComponent);
             }
         }
 
-        //add final row to rows if it has components since it was not added above
-        // due to it not exceeding the max length
+        //add final row to rows if it has a component since it might have
+        // not been added above due to possibly running out of components
+        // before meeting the maximum width constraint
         if (currentRow.size() > 0) {
             rows.add(currentRow);
         }
 
+        //this is horizontal line that we center the current row
+        // around and is based off of the row's tallest component
         int currentHeightCenteringInc = vpadding;
 
-        //while more rows exist
+        //for each row
         while (!rows.isEmpty()) {
-            //get the current row of components
+            //get the current row
             currentRow = rows.remove(0);
 
-            //find max height to use for centering
+            //find max height component to use for centering
+            // components on currentHeightCenteringInc
             int maxHeight = currentRow.get(0).getHeight();
 
             for (Component flowComponent : currentRow) {
@@ -214,127 +215,132 @@ public class CyderFlowLayout extends CyderBaseLayout {
             // now / 2 + the vert padding value
             currentHeightCenteringInc += (maxHeight / 2);
 
+            //figure out how much width we need for this row
+            // initial value is -hgap since the last component
+            // in the below loop will have an unnecessary hgap after it
+            int necessaryWidth = - hgap;
+            int componentCount = 0;
+
+            //sum width and component count
+            for (Component flowComponent : currentRow) {
+                necessaryWidth += flowComponent.getWidth() + hgap;
+                componentCount++;
+            }
+
+            //switch on alignment to figure out how to place the rows
+            // on the pane and what to do with possibly excess space
             switch (alignment) {
+                //left case means we align the components on the
+                // left side with minimum spacing in between
                 case LEFT:
-                    int currentX = hpadding;
+                    //the current starting value is simply the horizontal padding value
+                    int currentLeftX = hpadding;
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
-                        //this will always work since currentHeightCenteringInc is guaranteed
-                        // to be >= currentFlowComp.height / 2
-                        flowComponent.setLocation(currentX,
+                        //the below statement will always work since currentHeightCenteringInc
+                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        flowComponent.setLocation(currentLeftX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add to panel
-                        if (associatedPanel != null) {
-                            associatedPanel.add(flowComponent);
-                        }
+                        //add the component to the panel in case it was not added before
+                        associatedPanel.add(flowComponent);
 
-                        //increment x by current width plus hgap
-                        currentX += flowComponent.getWidth() + hgap;
+                        //increment x by current width plus the horizontal gap
+                        currentLeftX += flowComponent.getWidth() + hgap;
                     }
 
-                    //moving on to the next row so increment the height centering
-                    // var by the vertical gap and the rest of the current row's max height
+                    //increment the centering line by the remaining maximum
+                    // height for the current row plus the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
+
+                //center means we center the components and
+                // evenly divide possibly extra space between both
+                // padding values and gap values
                 case CENTER:
-                    int necessaryWidth = 0;
-                    int componentCount = 0;
-                    for (Component flowComponent : currentRow) {
-                        necessaryWidth += flowComponent.getWidth() + hgap;
-                        componentCount++;
-                    }
+                    //figure out how much extra padding we can give to gaps between components
+                    int partitionedRemainingWidth = (maxWidth - necessaryWidth) / (componentCount + 1);
 
-                    necessaryWidth -= hgap;
-
-                    int addSep = (maxWidth - necessaryWidth) / (componentCount + 1);
-
-                    currentX = hpadding + addSep;
+                    //the current x incrementer is the padding value with the first partitioned width
+                    int currentCenterX = hpadding + partitionedRemainingWidth;
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
-                        //this will always work since currentHeightCenteringInc is guaranteed
-                        // to be >= currentFlowComp.height / 2
-                        flowComponent.setLocation(currentX,
+                        //the below statement will always work since currentHeightCenteringInc
+                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        flowComponent.setLocation(currentCenterX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add to panel
-                        if (associatedPanel != null) {
-                            associatedPanel.add(flowComponent);
-                        }
+                        //add the component to the panel in case it was not added before
+                        associatedPanel.add(flowComponent);
 
-                        //increment x by current width plus hgap
-                        currentX += flowComponent.getWidth() + hgap + addSep;
+                        //increment our centering x by the component's width, the horizontal gap,
+                        // and the partitioned gap value
+                        currentCenterX += flowComponent.getWidth() + hgap + partitionedRemainingWidth;
                     }
 
-                    //moving on to the next row so increment the height centering
-                    // var by the vertical gap and the rest of the current row's max height
+                    //increment the centering line by the remaining maximum
+                    // height for the current row plus the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
-
                     break;
+
+                //center static means simply center the components
+                // with minimum spacing between them
                 case CENTER_STATIC:
-                    necessaryWidth = 0;
-                    for (Component flowComponent : currentRow) {
-                        necessaryWidth += flowComponent.getWidth() + hgap;
-                    }
-
-                    necessaryWidth -= hgap;
-
-                    int offsetX = (maxWidth - necessaryWidth) / 2;
-
-                    currentX = hpadding + offsetX;
+                    //the starting x is simply padding plus the
+                    // value to center the row on the panel
+                    int currentCenterStaticX = hpadding + (maxWidth - necessaryWidth) / 2;
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
-                        //this will always work since currentHeightCenteringInc is guaranteed
-                        // to be >= currentFlowComp.height / 2
-                        flowComponent.setLocation(currentX,
+                        //the below statement will always work since currentHeightCenteringInc
+                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        flowComponent.setLocation(currentCenterStaticX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add to panel
-                        if (associatedPanel != null) {
-                            associatedPanel.add(flowComponent);
-                        }
+                        //add the component to the panel in case it was not added before
+                        associatedPanel.add(flowComponent);
 
                         //increment x by current width plus hgap
-                        currentX += flowComponent.getWidth() + hgap;
+                        currentCenterStaticX += flowComponent.getWidth() + hgap;
                     }
 
-                    //moving on to the next row so increment the height centering
-                    // var by the vertical gap and the rest of the current row's max height
+                    //increment the centering line by the remaining maximum
+                    // height for the current row plus the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
+
+                 //right means that we align the components to the
+                // right with minimum spacing between components
                 case RIGHT:
-                    necessaryWidth = 0;
-                    for (Component flowComponent : currentRow) {
-                        necessaryWidth += flowComponent.getWidth() + hgap;
-                    }
-
-                    necessaryWidth -= hgap;
-
-                    offsetX = maxWidth - necessaryWidth;
-
-                    currentX = hpadding + offsetX;
+                    //the current component's starting x is the padding value
+                    // plus the maximum width minus the total width needed for the row
+                    int currentRightX = hpadding + (maxWidth - necessaryWidth);
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
-                        //this will always work since currentHeightCenteringInc is guaranteed
-                        // to be >= currentFlowComp.height / 2
-                        flowComponent.setLocation(currentX,
+                        //the below statement will always work since currentHeightCenteringInc
+                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        flowComponent.setLocation(currentRightX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        if (associatedPanel != null) {
-                            associatedPanel.add(flowComponent);
-                        }
+                        //add the component to the panel in case it was not added before
+                        associatedPanel.add(flowComponent);
 
-                        currentX += flowComponent.getWidth() + hgap;
+                        //increment currentX by the width of the component we j
+                        // ust added and the necessary gap value
+                        currentRightX += flowComponent.getWidth() + hgap;
                     }
 
+                    //increment the centering line by the remaining maximum
+                    // height for the current row plus the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
+                    break;
             }
         }
 
+        //restore focus if we found a component that was the focus owner
         if (focusOwner != null)
             focusOwner.requestFocus();
     }
