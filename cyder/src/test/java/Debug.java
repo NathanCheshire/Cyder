@@ -151,7 +151,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-
+            ManualTests.cyderGridLayoutTest();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

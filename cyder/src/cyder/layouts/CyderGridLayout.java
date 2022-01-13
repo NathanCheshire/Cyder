@@ -1,24 +1,44 @@
 package cyder.layouts;
 
+import cyder.consts.CyderStrings;
 import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
 
 public class CyderGridLayout extends CyderBaseLayout {
-    private int horizontalCells = DEFAULT_CELLS;
-    private int vertialCells = DEFAULT_CELLS;
+    //the default cells to use for both the vertical and horizontal axes
     public static final int DEFAULT_CELLS = 1;
 
-    //used for where to position components/how to position them when overflow occurs
+    private int horizontalCells = DEFAULT_CELLS;
+    private int vertialCells = DEFAULT_CELLS;
+
+    /**
+     * Enum to use to figure out how to position components if/when overflow occurs
+     */
     public enum Position {
         TOP_LEFT, TOP_CENTER, TOP_RIGHT,
         MIDDLE_LEFT, MIDDLE_CENTER, MIDDLE_RIGHT,
         BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
     }
 
+    //the components linked to the CyderPanel this LM is managing
     private GridComponent[][] components;
 
+    /**
+     * Class instantiation is not allowed unless the cells are specified
+     */
+    public CyderGridLayout() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
+
+    /**
+     * Only supported constructor for CyderGridLayout that initializes the LayoutManager
+     * with the provided values for the grid dimensions.
+     *
+     * @param xCells the amount of horizontal cells to have in the Layout
+     * @param yCells the amount of vertical cells to have in the Layout
+     */
     public CyderGridLayout(int xCells, int yCells) {
         if (xCells < 1 || yCells < 1)
             throw new IllegalArgumentException("Provided cell length does not meet the minimum requirement");
@@ -29,67 +49,80 @@ public class CyderGridLayout extends CyderBaseLayout {
         components = new GridComponent[xCells][yCells];
     }
 
+    //the CyderPanel this LM will manager
     private CyderPanel associatedPanel;
 
+    /**
+     * Sets the CyderPanel to manage. Components this LM has been given thus far
+     * will be evaluated and added to the Panel.
+     *
+     * @param associatedPanel the CyderPanel to manage
+     */
     public void setAssociatedPanel(CyderPanel associatedPanel) {
         this.associatedPanel = associatedPanel;
         revalidateComponents();
     }
 
+    /**
+     * Revalidates the bounds of all components on the grid.
+     */
     public void revalidateComponents() {
+        //if the process would be in vein, return
         if (associatedPanel == null)
             return;
 
-        //partition width into how many grid spaces we have
+        //partition width into how many horizontal grid spaces we have
         int widthPartition = (int) Math.floor(associatedPanel.getWidth() / horizontalCells);
-
-        //partition height into how many grid spaces we have
+        //partition height into how many vertical grid spaces we have
         int heightPartition = (int) Math.floor((associatedPanel.getHeight() / vertialCells));
 
-        //now accounting for offsets we can draw our components using the bounds provided
-        // components themselves take care of their own insets by being smaller than the
-        // partitioned area they're given or be placed on a label to be used as spacing
-        // and then passed to the GridLayout
-
+        //keep track of a possible focus owner
         Component focusOwner = null;
 
+        //for all the cells in our grid
         for (int xCell = 0 ; xCell < horizontalCells ; xCell++) {
             for (int yCell = 0 ; yCell < vertialCells ; yCell++) {
-                //base case of no component is at this position
+                //if no component exists at this location then continue
                 if (components[xCell][yCell] == null)
                     continue;
 
+                //figure out the starting values for this cell
                 int startX = xCell * widthPartition;
                 int startY = yCell * heightPartition;
 
+                //instantiate a reference component for the current component
                 GridComponent refComponent = components[xCell][yCell];
 
-                //focus tracking
+                //if this is the first focused component we have come across
+                // set it as the focus owner
                 if (refComponent.getComponent().isFocusOwner() && focusOwner == null)
                     focusOwner = refComponent.getComponent();
 
-                //if an instance of a CyderPanel give it all the space possible
+                //if the component is a CyderPanel, give it as much space to work with as possible
                 if (refComponent.getComponent() instanceof CyderPanel) {
                     refComponent.getComponent().setBounds(startX, startY, widthPartition, heightPartition);
-
-                    //recursive call here for revalidating all sub panels
-                    refComponent.getComponent().repaint();
+                    ((CyderPanel) (refComponent.getComponent())).revalidateComponents();
                 }
-                //if it doesn't fit in bounds then give it as much space as possible
-                else if (refComponent.getOriginalWidth() > widthPartition || refComponent.getOriginalHeight() > heightPartition) {
+                //otherwise if it doesn't fit in the partitioned space,
+                // set the size to as big as we can let it be so now overflow is visible
+                else if (refComponent.getOriginalWidth() >= widthPartition ||
+                         refComponent.getOriginalHeight() >= heightPartition) {
                     refComponent.getComponent().setBounds(startX, startY,
-                            //only one might be over the max len so take the min of partition and len
+                            //only one might be over the max value so take the min of partition and len
                             Math.min(widthPartition, refComponent.getOriginalWidth()),
                             Math.min(heightPartition, refComponent.getOriginalHeight()));
-                } else {
-                    //fits in bounds of designated space so center it
+                }
+                //otherwise it fits so calculate how to place it in the grid space
+                else {
+                    //figure out values to center the component in the grid space
                     int addX = (widthPartition - refComponent.getOriginalWidth()) / 2;
                     int addY = (heightPartition - refComponent.getOriginalHeight()) / 2;
 
+                    //figure out values for how to move the component from the centered
+                    // position to any possible Position value
                     int adjustX = 0;
                     int adjustY = 0;
 
-                    //we know it fits so use math to figure out how to add/sub from/to addX and addY
                     switch (refComponent.getPosition()) {
                         case TOP_LEFT:
                             //move up and to the left
@@ -132,24 +165,26 @@ public class CyderGridLayout extends CyderBaseLayout {
                             break;
                     }
 
+                    //set the component bounds with the original size since the component fits
                     refComponent.getComponent().setBounds(startX + addX + adjustX,
                             startY + addY + adjustY,
                             refComponent.getOriginalWidth(),
                             refComponent.getOriginalHeight());
                 }
 
-                if (associatedPanel != null)
-                    associatedPanel.add(refComponent.getComponent());
+                //add the component to the panel
+                associatedPanel.add(refComponent.getComponent());
             }
         }
 
-        //request focus to original owner
+        //return focus to original owner
         if (focusOwner != null)
             focusOwner.requestFocus();
     }
 
     /**
-     * Adds the provided component to the grid at the first available space
+     * Adds the provided component to the grid at the first available space.
+     *
      * @param component the component to add to the grid if possible
      * @return whether or not the component was added successfully
      */
@@ -169,7 +204,8 @@ public class CyderGridLayout extends CyderBaseLayout {
     }
 
     /**
-     * Adds the provided component to the grid at the first available space
+     * Adds the provided component to the grid at the first available space.
+     *
      * @param component the component to add to the grid if possible
      * @param sectionPosition the position to set the component to if it fits
      * in the partitioned space or how to position the component should it overflow the partitioned space
@@ -190,6 +226,14 @@ public class CyderGridLayout extends CyderBaseLayout {
         return false;
     }
 
+    /**
+     * Adds the provided component to the grid at the specified location.
+     *
+     * @param component the component to add to the grid
+     * @param x the x value to add the component to
+     * @param y the y value to add the component to
+     * @return whether or not the component was added to the LM
+     */
     public boolean addComponent(Component component, int x, int y) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
@@ -207,6 +251,16 @@ public class CyderGridLayout extends CyderBaseLayout {
         return true;
     }
 
+    /**
+     * Adds the component to the grid at the specified location with the provided Position value.
+     *
+     * @param component the component to add to the grid
+     * @param x the x value to add the component to
+     * @param y the y value to add the component to
+     * @param sectionPosition the position value to use to
+     *        figure out how to place the component in its cell
+     * @return whether or not the component was added to the grid
+     */
     public boolean addComponent(Component component, int x, int y, Position sectionPosition) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
@@ -224,6 +278,12 @@ public class CyderGridLayout extends CyderBaseLayout {
         return true;
     }
 
+    /**
+     * Removes the specified component from the grid.
+     *
+     * @param component the component to remove from the panel
+     * @return whether or not the component was removed from the panel
+     */
     public boolean removeComponent(Component component) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
@@ -240,6 +300,13 @@ public class CyderGridLayout extends CyderBaseLayout {
         return false;
     }
 
+    /**
+     * Removes the component at the specified location from the grid.
+     *
+     * @param x the x value of the component to remove
+     * @param y the y value of the component to remove
+     * @return whether or not the component was successfully removed
+     */
     public boolean removeComponent(int x, int y) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
@@ -255,13 +322,20 @@ public class CyderGridLayout extends CyderBaseLayout {
         return true;
     }
 
-    //standard
+    /**
+     * Standard overridden toString() method to use reflection.
+     *
+     * @return a String representation of this LM
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
-    //class so we know the original size of components for resize events
+    /**
+     * A class to use to keep track of the original sizes of
+     * components as well as their linked Position values
+     */
     private static class GridComponent {
         private Component component;
         private int originalWidth;
