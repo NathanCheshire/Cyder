@@ -1,7 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.consts.CyderStrings;
-import cyder.testing.Debug;
+import test.java.Debug;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
 

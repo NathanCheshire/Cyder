@@ -1,4 +1,4 @@
-package cyder.testing;
+package test.java;
 
 import cyder.consts.CyderRegexPatterns;
 import cyder.utilities.BoundsUtil;

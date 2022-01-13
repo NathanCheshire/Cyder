@@ -38,7 +38,7 @@ java.lang.NullPointerException
 	at cyder.layouts.CyderGridLayout.repaint(CyderGridLayout.java:34)
 	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1634)
 	at cyder.ui.CyderFrame.setCyderLayout(CyderFrame.java:2138)
-	at cyder.testing.Debug.launchTests(Debug.java:161)
+	at test.java.Debug.launchTests(Debug.java:161)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
 	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
 	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)

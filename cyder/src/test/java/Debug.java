@@ -1,14 +1,11 @@
-package cyder.testing;
+package test.java;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
-import cyder.layouts.CyderFlowLayout;
-import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderPanel;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -154,34 +151,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-            CyderFrame testFrame = new CyderFrame(600,600);
-            testFrame.setTitle("Flow Layout Test");
-
-            //make layout
-            CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER,25,15);
-
-            //add 10 buttons to layout
-            for (int i = 1 ; i < 11 ; i++) {
-                CyderButton cb = new CyderButton("Test Button " + i);
-                cb.setSize(200, 50);
-                int finalI = i;
-                cb.addActionListener(e -> testFrame.notify(finalI + "button: " + cb));
-                layout.addComponent(cb);
-            }
-
-            //make panel and set as frame's content panel
-            CyderPanel panel = new CyderPanel(layout);
-            testFrame.setContentPanel(panel);
-
-            //resizing on
-            testFrame.initializeResizing();
-            testFrame.setResizable(true);
-            testFrame.setMaximumSize(new Dimension(2000,2000));
-            testFrame.setMinimumSize(new Dimension(300,300));
-            testFrame.setBackgroundResizing(true);
-
-            testFrame.setVisible(true);
-            testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+            ManualTests.flowLayoutTest();
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

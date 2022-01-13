@@ -1,0 +1,63 @@
+[19-14-07] [ENTRY]: [Nathan]
+[19-14-07] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-14-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-14-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-14-09] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-14-09] [SYSTEM_IO]: Userdata requested: Name
+[19-14-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-14-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-14-10] [SYSTEM_IO]: Userdata requested: Name
+[19-14-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-14-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-14-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-14-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-14-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-14-10] [SYSTEM_IO]: Userdata requested: Font
+[19-14-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-14-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-14-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-14-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-14-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-14-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-14-10] [SYSTEM_IO]: Userdata requested: Font
+[19-14-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-14-10] [SYSTEM_IO]: Userdata requested: InputFill
+[19-14-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1385, 309, 600, 600)], hash = [761908092], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-14-10] [ACTION]: Console loaded in 4207ms
+[19-14-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-14-10] [ENTRY]: [TESTING MODE]
+[19-14-11] [SYSTEM_IO]: Userdata requested: laststart
+[19-14-11] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-14-11] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4207ms
+[19-14-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(290, 5, 200, 50)], hash = [967519345], parentFrame = [Flow Layout Test], associated text = [Test Button 2], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-16] [ACTION]: [Flow Layout Test] [NOTIFICATION] 2button: Component name = [cyder.ui.CyderButton], bounds = [(290, 5, 200, 50)], hash = [967519345], parentFrame = [Flow Layout Test], associated text = [Test Button 2], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(290, 5, 200, 50)], hash = [967519345], parentFrame = [Flow Layout Test], associated text = [Test Button 2], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-20] [ACTION]: [Flow Layout Test] [NOTIFICATION] 2button: Component name = [cyder.ui.CyderButton], bounds = [(290, 5, 200, 50)], hash = [967519345], parentFrame = [Flow Layout Test], associated text = [Test Button 2], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(748, 5, 200, 50)], hash = [1826827374], parentFrame = [Flow Layout Test], associated text = [Test Button 4], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-23] [ACTION]: [Flow Layout Test] [NOTIFICATION] 4button: Component name = [cyder.ui.CyderButton], bounds = [(748, 5, 200, 50)], hash = [1826827374], parentFrame = [Flow Layout Test], associated text = [Test Button 4], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-24] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-28] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(310, 70, 200, 50)], hash = [1826827374], parentFrame = [Flow Layout Test], associated text = [Test Button 4], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-28] [ACTION]: [Flow Layout Test] [NOTIFICATION] 4button: Component name = [cyder.ui.CyderButton], bounds = [(310, 70, 200, 50)], hash = [1826827374], parentFrame = [Flow Layout Test], associated text = [Test Button 4], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-28] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-33] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 265, 200, 50)], hash = [1351326625], parentFrame = [Flow Layout Test], associated text = [Test Button 5], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-33] [ACTION]: [Flow Layout Test] [NOTIFICATION] 5button: Component name = [cyder.ui.CyderButton], bounds = [(60, 265, 200, 50)], hash = [1351326625], parentFrame = [Flow Layout Test], associated text = [Test Button 5], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(43, 135, 200, 50)], hash = [1430920609], parentFrame = [Flow Layout Test], associated text = [Test Button 3], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-36] [ACTION]: [Flow Layout Test] [NOTIFICATION] 3button: Component name = [cyder.ui.CyderButton], bounds = [(43, 135, 200, 50)], hash = [1430920609], parentFrame = [Flow Layout Test], associated text = [Test Button 3], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-40] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(616, 135, 200, 50)], hash = [1674140238], parentFrame = [Flow Layout Test], associated text = [Test Button 10], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-40] [ACTION]: [Flow Layout Test] [NOTIFICATION] 10button: Component name = [cyder.ui.CyderButton], bounds = [(616, 135, 200, 50)], hash = [1674140238], parentFrame = [Flow Layout Test], associated text = [Test Button 10], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-44] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 1024, 28)], hash = [1922430120], parentFrame = [Flow Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-14-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1165, 259, 1028, 600)], hash = [1393571980], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flow Layout Test]
+[19-14-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-14-45] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-14-45] [SYSTEM_IO]: Userdata requested: Name
+[19-14-45] [LOGOUT]: [Nathan]
+[19-14-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(951, 222, 1029, 675)], hash = [11249189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-14-45] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-14-45] [EXIT]: [RUNTIME] 39s
+[19-14-45] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

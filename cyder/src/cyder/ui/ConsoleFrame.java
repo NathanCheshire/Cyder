@@ -13,7 +13,7 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
-import cyder.testing.Debug;
+import test.java.Debug;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 

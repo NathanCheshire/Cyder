@@ -37,7 +37,7 @@ cyder.layouts.CyderGridLayout.addComponent(CyderGridLayout.java:190)
 StackTrace:
 java.lang.IllegalArgumentException: Provided grid location is invalid
 	at cyder.layouts.CyderGridLayout.addComponent(CyderGridLayout.java:190)
-	at cyder.testing.Debug.launchTests(Debug.java:177)
+	at test.java.Debug.launchTests(Debug.java:177)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
 	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
 	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)
@@ -71,7 +71,7 @@ java.lang.IllegalArgumentException: Provided grid location is invalid
 [12-10-56] [DEBUG]: Provided grid location is invalid
 java.lang.IllegalArgumentException: Provided grid location is invalid
 	at cyder.layouts.CyderGridLayout.addComponent(CyderGridLayout.java:190)
-	at cyder.testing.Debug.launchTests(Debug.java:177)
+	at test.java.Debug.launchTests(Debug.java:177)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
 	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
 	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)

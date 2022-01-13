@@ -120,6 +120,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
         return false;
     }
 
+    //todo comment me
     /**
      * Revalidates the component sizes for the FlowLayout and repaints the linked panel so that the
      * component positions are updated.

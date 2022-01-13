@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.testing.Debug;
+import test.java.Debug;
 import cyder.utilities.IOUtil;
 import cyder.utilities.ReflectionUtil;
 

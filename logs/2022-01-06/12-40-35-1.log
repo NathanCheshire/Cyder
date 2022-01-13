@@ -44,7 +44,7 @@ java.lang.NullPointerException
 	at java.desktop/javax.swing.JLabel.<init>(JLabel.java:162)
 	at java.desktop/javax.swing.JLabel.<init>(JLabel.java:233)
 	at cyder.ui.CyderPanel.<init>(CyderPanel.java:21)
-	at cyder.testing.Debug.launchTests(Debug.java:182)
+	at test.java.Debug.launchTests(Debug.java:182)
 	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1278)
 	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
 	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:241)
