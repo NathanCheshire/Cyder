@@ -8,7 +8,7 @@ import java.awt.*;
  * This interface shouldn't be directly used. For custom CyderLayouts simply extend the CyderBaseLayout
  * which also forces the class to implement this interface
  */
-public interface CyderLayout {
+public interface ICyderLayout {
     /**
      * Adds the specified component to the linked CyderPanel.
      * The layout will figure out how add the component to the panel successfully.
