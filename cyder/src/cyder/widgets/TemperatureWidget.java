@@ -40,7 +40,7 @@ public class TemperatureWidget {
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");
-        ValueLabel.setFont(CyderFonts.weatherFontSmall);
+        ValueLabel.setFont(CyderFonts.segoe20);
         
         startingValue = new CyderTextField(0);
         startingValue.setRegexMatcher("[0-9.\\-]+");
@@ -56,19 +56,19 @@ public class TemperatureWidget {
         oldKelvin = new CyderCheckbox();
 
         JLabel oldFahrenheitLabel = new JLabel("Fahrenheit");
-        oldFahrenheitLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        oldFahrenheitLabel.setFont(CyderFonts.segoe30.deriveFont(22f));
         oldFahrenheitLabel.setForeground(CyderColors.navy);
         oldFahrenheitLabel.setBounds(140,110,250,30);
         temperatureFrame.getContentPane().add(oldFahrenheitLabel);
 
         JLabel oldCelsiusLabel = new JLabel("Celsius");
-        oldCelsiusLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        oldCelsiusLabel.setFont(CyderFonts.segoe30.deriveFont(22f));
         oldCelsiusLabel.setForeground(CyderColors.navy);
         oldCelsiusLabel.setBounds(140,170,250,30);
         temperatureFrame.getContentPane().add(oldCelsiusLabel);
 
         JLabel oldKelvinLabel = new JLabel("Kelvin");
-        oldKelvinLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        oldKelvinLabel.setFont(CyderFonts.segoe30.deriveFont(22f));
         oldKelvinLabel.setForeground(CyderColors.navy);
         oldKelvinLabel.setBounds(140,230,250,30);
         temperatureFrame.getContentPane().add(oldKelvinLabel);
@@ -109,7 +109,7 @@ public class TemperatureWidget {
         temperatureFrame.getContentPane().add(oldKelvin);
 
         JLabel twoLabel = new JLabel("-2-");
-        twoLabel.setFont(CyderFonts.weatherFontBig.deriveFont(45f));
+        twoLabel.setFont(CyderFonts.segoe30.deriveFont(45f));
         twoLabel.setForeground(CyderColors.navy);
         twoLabel.setBounds(260,150,150,60);
         temperatureFrame.getContentPane().add(twoLabel);
@@ -119,19 +119,19 @@ public class TemperatureWidget {
         newKelvin = new CyderCheckbox();
 
         JLabel newFahrenheitLabel = new JLabel("Fahrenheit");
-        newFahrenheitLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        newFahrenheitLabel.setFont(CyderFonts.segoe30.deriveFont(22f));
         newFahrenheitLabel.setForeground(CyderColors.navy);
         newFahrenheitLabel.setBounds(430,110,250,30);
         temperatureFrame.getContentPane().add(newFahrenheitLabel);
 
         JLabel newCelsiusLabel = new JLabel("Celsius");
-        newCelsiusLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        newCelsiusLabel.setFont(CyderFonts.segoe30.deriveFont(22f));
         newCelsiusLabel.setForeground(CyderColors.navy);
         newCelsiusLabel.setBounds(430,170,250,30);
         temperatureFrame.getContentPane().add(newCelsiusLabel);
 
         JLabel newKelvinLabel = new JLabel("Kelvin");
-        newKelvinLabel.setFont(CyderFonts.weatherFontBig.deriveFont(22f));
+        newKelvinLabel.setFont(CyderFonts.segoe30.deriveFont(22f));
         newKelvinLabel.setForeground(CyderColors.navy);
         newKelvinLabel.setBounds(430,230,250,30);
         temperatureFrame.getContentPane().add(newKelvinLabel);
@@ -290,10 +290,10 @@ public class TemperatureWidget {
         });
 
         calculate.setBackground(CyderColors.regularRed);
-        calculate.setFont(CyderFonts.weatherFontSmall);
+        calculate.setFont(CyderFonts.segoe20);
         resetValues.setFocusPainted(false);
         resetValues.setBackground(CyderColors.regularRed);
-        resetValues.setFont(CyderFonts.weatherFontSmall);
+        resetValues.setFont(CyderFonts.segoe20);
 
         calculate.setBounds(140,280,150,40);
         resetValues.setBounds(300,280,150,40);

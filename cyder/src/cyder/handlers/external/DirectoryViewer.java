@@ -79,7 +79,7 @@ public class DirectoryViewer {
         last.setFocusPainted(false);
         last.setForeground(CyderColors.navy);
         last.setBackground(CyderColors.regularRed);
-        last.setFont(CyderFonts.weatherFontSmall);
+        last.setFont(CyderFonts.segoe20);
         last.setBorder(new LineBorder(CyderColors.navy,5,false));
         last.addActionListener(e -> {
             //we may only go back if there's something in the back and it's different from where we are now
@@ -102,7 +102,7 @@ public class DirectoryViewer {
         next.setFocusPainted(false);
         next.setForeground(CyderColors.navy);
         next.setBackground(CyderColors.regularRed);
-        next.setFont(CyderFonts.weatherFontSmall);
+        next.setFont(CyderFonts.segoe20);
         next.setBorder(new LineBorder(CyderColors.navy,5,false));
         next.addActionListener(e -> {
             //only traverse forward if the stack is not empty and forward is different from where we are
@@ -132,7 +132,7 @@ public class DirectoryViewer {
 
         //files scroll list setup
         cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
-        cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
+        cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         //adding things to the list and setting up actions for what to do when an element is clicked
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
@@ -182,7 +182,7 @@ public class DirectoryViewer {
             directoryNameList.add(file.getName());
         }
         cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
-        cyderScrollList.setScrollFont(CyderFonts.weatherFontSmall.deriveFont(16f));
+        cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int finalI = i;
             class thisAction implements CyderScrollList.ScrollAction {

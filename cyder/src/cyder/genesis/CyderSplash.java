@@ -123,7 +123,7 @@ public class CyderSplash {
                             Thread.sleep(5);
                         }
 
-                        Font nathanFont = new Font("Agency FB", Font.BOLD, 50);
+                        Font nathanFont = new Font("Darling In Paris", Font.BOLD, 40);
                         CyderLabel loadingLabel = new CyderLabel("By Nathan Cheshire");
                         loadingLabel.setFont(nathanFont);
                         loadingLabel.setForeground(CyderColors.vanila);
@@ -139,6 +139,7 @@ public class CyderSplash {
 
                         String message = CyderSplash.loadingMessage;
                         int dotTimeout = 400;
+                        loadingLabel.setFont(new Font("Agency FB", Font.BOLD, 50));
 
                         for (int i = 0 ; i < 30 ; i++) {
                             loadingLabel.setText(message);

@@ -33,3 +33,10 @@
 [18-07-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [144978923], parentFrame = [Grid Layout Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-07-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1065, 160, 800, 800)], hash = [1620008668], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Grid Layout Test]
 [18-07-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-44] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-07-44] [SYSTEM_IO]: Userdata requested: Name
+[18-07-44] [LOGOUT]: [Nathan]
+[18-07-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(951, 222, 1029, 675)], hash = [76659128], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-07-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-44] [EXIT]: [RUNTIME] 38s
+[18-07-44] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -44,7 +44,7 @@ public class HangmanGame {
         HangmanFrame.setTitle("Hangman");
 
         HangmanLabel = new JLabel("<html>Nathan Was Here</html>",SwingConstants.CENTER);
-        HangmanLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(22f));
+        HangmanLabel.setFont(CyderFonts.segoe20.deriveFont(22f));
         HangmanLabel.setForeground(CyderColors.navy);
         HangmanLabel.setBounds(60,60,600,60);
         HangmanFrame.getContentPane().add(HangmanLabel);
@@ -118,7 +118,7 @@ public class HangmanGame {
         HangmanReset = new CyderButton("Reset");
         HangmanReset.setFocusPainted(false);
         HangmanReset.setBackground(CyderColors.regularRed);
-        HangmanReset.setFont(CyderFonts.weatherFontSmall);
+        HangmanReset.setFont(CyderFonts.segoe20);
         HangmanReset.addActionListener(e -> setup());
         HangmanReset.setBorder(new LineBorder(CyderColors.navy,5,false));
         HangmanReset.setBounds(80,750,712 - 80 - 80, 40);
@@ -132,7 +132,7 @@ public class HangmanGame {
     }
 
     private static void setup() {
-        HangmanLabel.setFont(CyderFonts.weatherFontSmall);
+        HangmanLabel.setFont(CyderFonts.segoe20);
         HangmanReset.setText("Reset");
 
         letterField.setEnabled(true);
@@ -184,7 +184,7 @@ public class HangmanGame {
             HangmanLabel.setText(newLabelText);
 
             if (!HangmanLabel.getText().contains("_")) {
-                HangmanLabel.setFont(CyderFonts.weatherFontSmall);
+                HangmanLabel.setFont(CyderFonts.segoe20);
                 HangmanLabel.setText("<html>Good job! You guessed the word \"" + HangmanWord + "\" Would you like to startAudio again?</html>");
                 letterField.setEnabled(false);
 
@@ -195,7 +195,7 @@ public class HangmanGame {
         else {
             if (HangmanWrongGuesses == 7) {
                 HangmanImageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman8.png"));
-                HangmanLabel.setFont(CyderFonts.weatherFontSmall);
+                HangmanLabel.setFont(CyderFonts.segoe20);
                 HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + "\" Would you like to startAudio again?</html>");
 
                 HangmanReset.setText("Play Again");

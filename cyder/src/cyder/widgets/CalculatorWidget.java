@@ -34,7 +34,7 @@ public class CalculatorWidget {
         calculatorField.setBackground(Color.WHITE);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
         calculatorField.setToolTipText("Use radians and not degrees for any trig functions");
-        calculatorField.setFont(CyderFonts.weatherFontBig);
+        calculatorField.setFont(CyderFonts.segoe30);
         calculatorField.setBounds(50,50,300,50);
         calculatorFrame.getContentPane().add(calculatorField);
 
@@ -45,7 +45,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorAdd);
         calculatorAdd.setFocusPainted(false);
         calculatorAdd.setBackground(CyderColors.regularOrange);
-        calculatorAdd.setFont(CyderFonts.weatherFontBig);
+        calculatorAdd.setFont(CyderFonts.segoe30);
         calculatorAdd.addActionListener(e -> {
             calculatorExpression += "+";
             calculatorField.setText(calculatorExpression);
@@ -58,7 +58,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorSubtract);
         calculatorSubtract.setFocusPainted(false);
         calculatorSubtract.setBackground(CyderColors.regularOrange);
-        calculatorSubtract.setFont(CyderFonts.weatherFontBig);
+        calculatorSubtract.setFont(CyderFonts.segoe30);
         calculatorSubtract.addActionListener(e -> {
             calculatorExpression += "-";
             calculatorField.setText(calculatorExpression);
@@ -71,7 +71,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorMultiply);
         calculatorMultiply.setFocusPainted(false);
         calculatorMultiply.setBackground(CyderColors.regularOrange);
-        calculatorMultiply.setFont(CyderFonts.weatherFontBig);
+        calculatorMultiply.setFont(CyderFonts.segoe30);
         calculatorMultiply.addActionListener(e -> {
             calculatorExpression += "*";
             calculatorField.setText(calculatorExpression);
@@ -84,7 +84,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorDivide);
         calculatorDivide.setFocusPainted(false);
         calculatorDivide.setBackground(CyderColors.regularOrange);
-        calculatorDivide.setFont(CyderFonts.weatherFontBig);
+        calculatorDivide.setFont(CyderFonts.segoe30);
         calculatorDivide.addActionListener(e -> {
             calculatorExpression += "/";
             calculatorField.setText(calculatorExpression);
@@ -97,7 +97,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorSeven);
         calculatorSeven.setFocusPainted(false);
         calculatorSeven.setBackground(CyderColors.regularOrange);
-        calculatorSeven.setFont(CyderFonts.weatherFontBig);
+        calculatorSeven.setFont(CyderFonts.segoe30);
         calculatorSeven.addActionListener(e -> {
             calculatorExpression += "7";
             calculatorField.setText(calculatorExpression);
@@ -110,7 +110,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorEight);
         calculatorEight.setFocusPainted(false);
         calculatorEight.setBackground(CyderColors.regularOrange);
-        calculatorEight.setFont(CyderFonts.weatherFontBig);
+        calculatorEight.setFont(CyderFonts.segoe30);
         calculatorEight.addActionListener(e -> {
             calculatorExpression += "8";
             calculatorField.setText(calculatorExpression);
@@ -123,7 +123,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorNine);
         calculatorNine.setFocusPainted(false);
         calculatorNine.setBackground(CyderColors.regularOrange);
-        calculatorNine.setFont(CyderFonts.weatherFontBig);
+        calculatorNine.setFont(CyderFonts.segoe30);
         calculatorNine.addActionListener(e -> {
             calculatorExpression += "9";
             calculatorField.setText(calculatorExpression);
@@ -136,7 +136,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorEquals);
         calculatorEquals.setFocusPainted(false);
         calculatorEquals.setBackground(CyderColors.regularOrange);
-        calculatorEquals.setFont(CyderFonts.weatherFontBig);
+        calculatorEquals.setFont(CyderFonts.segoe30);
         calculatorEquals.addActionListener(e -> {
             try {
                 String calcText = calculatorField.getText().trim();
@@ -163,7 +163,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorFour);
         calculatorFour.setFocusPainted(false);
         calculatorFour.setBackground(CyderColors.regularOrange);
-        calculatorFour.setFont(CyderFonts.weatherFontBig);
+        calculatorFour.setFont(CyderFonts.segoe30);
         calculatorFour.addActionListener(e -> {
             calculatorExpression += "4";
             calculatorField.setText(calculatorExpression);
@@ -176,7 +176,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorFive);
         calculatorFive.setFocusPainted(false);
         calculatorFive.setBackground(CyderColors.regularOrange);
-        calculatorFive.setFont(CyderFonts.weatherFontBig);
+        calculatorFive.setFont(CyderFonts.segoe30);
         calculatorFive.addActionListener(e -> {
             calculatorExpression += "5";
             calculatorField.setText(calculatorExpression);
@@ -189,7 +189,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorSix);
         calculatorSix.setFocusPainted(false);
         calculatorSix.setBackground(CyderColors.regularOrange);
-        calculatorSix.setFont(CyderFonts.weatherFontBig);
+        calculatorSix.setFont(CyderFonts.segoe30);
         calculatorSix.addActionListener(e -> {
             calculatorExpression += "6";
             calculatorField.setText(calculatorExpression);
@@ -202,7 +202,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorClear);
         calculatorClear.setFocusPainted(false);
         calculatorClear.setBackground(CyderColors.regularOrange);
-        calculatorClear.setFont(CyderFonts.weatherFontBig);
+        calculatorClear.setFont(CyderFonts.segoe30);
         calculatorClear.addActionListener(e -> {
             calculatorExpression = "";
             calculatorField.setText("");
@@ -215,7 +215,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorOne);
         calculatorOne.setFocusPainted(false);
         calculatorOne.setBackground(CyderColors.regularOrange);
-        calculatorOne.setFont(CyderFonts.weatherFontBig);
+        calculatorOne.setFont(CyderFonts.segoe30);
         calculatorOne.addActionListener(e -> {
             calculatorExpression += "1";
             calculatorField.setText(calculatorExpression);
@@ -228,7 +228,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorTwo);
         calculatorTwo.setFocusPainted(false);
         calculatorTwo.setBackground(CyderColors.regularOrange);
-        calculatorTwo.setFont(CyderFonts.weatherFontBig);
+        calculatorTwo.setFont(CyderFonts.segoe30);
         calculatorTwo.addActionListener(e -> {
             calculatorExpression += "2";
             calculatorField.setText(calculatorExpression);
@@ -241,7 +241,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorThree);
         calculatorThree.setFocusPainted(false);
         calculatorThree.setBackground(CyderColors.regularOrange);
-        calculatorThree.setFont(CyderFonts.weatherFontBig);
+        calculatorThree.setFont(CyderFonts.segoe30);
         calculatorThree.addActionListener(e -> {
             calculatorExpression += "3";
             calculatorField.setText(calculatorExpression);
@@ -254,7 +254,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorUndo);
         calculatorUndo.setFocusPainted(false);
         calculatorUndo.setBackground(CyderColors.regularOrange);
-        calculatorUndo.setFont(CyderFonts.weatherFontBig);
+        calculatorUndo.setFont(CyderFonts.segoe30);
         calculatorUndo.addActionListener(e -> {
             calculatorExpression = (calculatorExpression == null || calculatorExpression.length() == 0)
                     ? "" : (calculatorExpression.substring(0, calculatorExpression.length() - 1));
@@ -268,7 +268,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorZero);
         calculatorZero.setFocusPainted(false);
         calculatorZero.setBackground(CyderColors.regularOrange);
-        calculatorZero.setFont(CyderFonts.weatherFontBig);
+        calculatorZero.setFont(CyderFonts.segoe30);
         calculatorZero.addActionListener(e -> {
             calculatorExpression += "0";
             calculatorField.setText(calculatorExpression);
@@ -281,7 +281,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorDecimal);
         calculatorDecimal.setFocusPainted(false);
         calculatorDecimal.setBackground(CyderColors.regularOrange);
-        calculatorDecimal.setFont(CyderFonts.weatherFontBig);
+        calculatorDecimal.setFont(CyderFonts.segoe30);
         calculatorDecimal.addActionListener(e -> {
             calculatorExpression += ".";
             calculatorField.setText(calculatorExpression);
@@ -294,7 +294,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorOpenP);
         calculatorOpenP.setFocusPainted(false);
         calculatorOpenP.setBackground(CyderColors.regularOrange);
-        calculatorOpenP.setFont(CyderFonts.weatherFontBig);
+        calculatorOpenP.setFont(CyderFonts.segoe30);
         calculatorOpenP.addActionListener(e -> {
             calculatorExpression += "(";
             calculatorField.setText(calculatorExpression);
@@ -307,7 +307,7 @@ public class CalculatorWidget {
         calculatorFrame.getContentPane().add(calculatorCloseP);
         calculatorCloseP.setFocusPainted(false);
         calculatorCloseP.setBackground(CyderColors.regularOrange);
-        calculatorCloseP.setFont(CyderFonts.weatherFontBig);
+        calculatorCloseP.setFont(CyderFonts.segoe30);
         calculatorCloseP.addActionListener(e -> {
             calculatorExpression += ")";
             calculatorField.setText(calculatorExpression);

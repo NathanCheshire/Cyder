@@ -50,7 +50,7 @@ public class CyderSetup {
     public static void initUIManager() {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
         UIManager.put("ToolTip.border", new BorderUIResource(BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
-        UIManager.put("ToolTip.font", CyderFonts.tahoma.deriveFont(22f));
+        UIManager.put("ToolTip.font", CyderFonts.javaTooltipFont);
         UIManager.put("ToolTip.foreground", CyderColors.tooltipForegroundColor);
         UIManager.put("Slider.onlyLeftMouseButtonDrag", Boolean.TRUE);
     }

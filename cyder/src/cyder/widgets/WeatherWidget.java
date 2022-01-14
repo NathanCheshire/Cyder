@@ -124,13 +124,13 @@ public class WeatherWidget {
 
         currentTimeLabel = new JLabel(getWeatherTime(), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.vanila);
-        currentTimeLabel.setFont(CyderFonts.weatherFontSmall);
+        currentTimeLabel.setFont(CyderFonts.segoe20);
         currentTimeLabel.setBounds(0, 50, 480, 30);
         weatherFrame.getContentPane().add(currentTimeLabel);
 
         locationLabel = new JLabel(locationString, SwingConstants.CENTER);
         locationLabel.setForeground(CyderColors.vanila);
-        locationLabel.setFont(CyderFonts.weatherFontSmall);
+        locationLabel.setFont(CyderFonts.segoe20);
         locationLabel.setBounds(0, 85, 480, 30);
         weatherFrame.getContentPane().add(locationLabel);
 
@@ -141,13 +141,13 @@ public class WeatherWidget {
 
         sunriseLabel = new JLabel(sunrise + "am", SwingConstants.CENTER);
         sunriseLabel.setForeground(CyderColors.vanila);
-        sunriseLabel.setFont(CyderFonts.weatherFontSmall);
+        sunriseLabel.setFont(CyderFonts.segoe20);
         sunriseLabel.setBounds(0, 200, 480 / 2 - 50, 30);
         weatherFrame.getContentPane().add(sunriseLabel);
 
         sunsetLabel = new JLabel(sunset + "pm", SwingConstants.CENTER);
         sunsetLabel.setForeground(CyderColors.vanila);
-        sunsetLabel.setFont(CyderFonts.weatherFontSmall);
+        sunsetLabel.setFont(CyderFonts.segoe20);
         sunsetLabel.setBounds(290, 200, 480 - 290, 30);
         weatherFrame.getContentPane().add(sunsetLabel);
 
@@ -161,7 +161,7 @@ public class WeatherWidget {
 
         currentWeatherLabel = new JLabel(StringUtil.capsFirst(weatherCondition), SwingConstants.CENTER);
         currentWeatherLabel.setForeground(CyderColors.vanila);
-        currentWeatherLabel.setFont(CyderFonts.weatherFontSmall);
+        currentWeatherLabel.setFont(CyderFonts.segoe20);
         currentWeatherLabel.setBounds(0, 255, 480, 30);
         weatherFrame.getContentPane().add(currentWeatherLabel);
 
@@ -177,7 +177,7 @@ public class WeatherWidget {
             JLabel explenation = new JLabel("<html><div style='text-align: center;'>Enter your city, state, and country code separated by a comma" +
                     "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans, LA, US</p></p></div></html>");
 
-            explenation.setFont(CyderFonts.weatherFontSmall);
+            explenation.setFont(CyderFonts.segoe20);
             explenation.setForeground(CyderColors.navy);
             explenation.setHorizontalAlignment(JLabel.CENTER);
             explenation.setVerticalAlignment(JLabel.CENTER);
@@ -281,7 +281,7 @@ public class WeatherWidget {
 
         windSpeedLabel = new JLabel("Wind Speed: " + windSpeed + "mph", SwingConstants.CENTER);
         windSpeedLabel.setForeground(CyderColors.vanila);
-        windSpeedLabel.setFont(CyderFonts.weatherFontSmall);
+        windSpeedLabel.setFont(CyderFonts.segoe20);
         windSpeedLabel.setBounds(0, 390, 480, 30);
         weatherFrame.getContentPane().add(windSpeedLabel);
 
@@ -314,20 +314,20 @@ public class WeatherWidget {
 
         humidityLabel = new JLabel("Humidity: " + humidity + "%", SwingConstants.CENTER);
         humidityLabel.setForeground(CyderColors.vanila);
-        humidityLabel.setFont(CyderFonts.weatherFontSmall);
+        humidityLabel.setFont(CyderFonts.segoe20);
         humidityLabel.setBounds(0, 500, 480, 30);
         weatherFrame.getContentPane().add(humidityLabel);
 
         pressureLabel = new JLabel("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm",
                 SwingConstants.CENTER);
         pressureLabel.setForeground(CyderColors.vanila);
-        pressureLabel.setFont(CyderFonts.weatherFontSmall);
+        pressureLabel.setFont(CyderFonts.segoe20);
         pressureLabel.setBounds(0, 540, 480, 30);
         weatherFrame.getContentPane().add(pressureLabel);
 
         timezoneLabel = new JLabel("Timezone: " + getTimezoneLabel(), SwingConstants.CENTER);
         timezoneLabel.setForeground(CyderColors.vanila);
-        timezoneLabel.setFont(CyderFonts.weatherFontSmall);
+        timezoneLabel.setFont(CyderFonts.segoe20);
         timezoneLabel.setBounds(0, 580, 480, 30);
         weatherFrame.getContentPane().add(timezoneLabel);
 

@@ -41,7 +41,7 @@ public class TextViewer {
 
         textEditArea = new JTextArea(20, 20);
         textEditArea.setSelectionColor(CyderColors.selectionColor);
-        textEditArea.setFont(CyderFonts.weatherFontSmall);
+        textEditArea.setFont(CyderFonts.segoe20);
         textEditArea.setForeground(CyderColors.navy);
         textEditArea.setEditable(true);
         textEditArea.setAutoscrolls(true);
@@ -76,7 +76,7 @@ public class TextViewer {
         saveText.setBorder(new LineBorder(CyderColors.navy,5,false));
         saveText.setFocusPainted(false);
         saveText.setBackground(CyderColors.regularRed);
-        saveText.setFont(CyderFonts.weatherFontSmall);
+        saveText.setFont(CyderFonts.segoe20);
         saveText.addActionListener(e -> {
             try {
                 BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(File, false));

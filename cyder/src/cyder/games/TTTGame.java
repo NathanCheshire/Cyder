@@ -50,7 +50,7 @@ public class TTTGame {
         tttFrame.setTitle("TicTacToe");
 
         tttLabel = new JLabel();
-        tttLabel.setFont(CyderFonts.weatherFontSmall);
+        tttLabel.setFont(CyderFonts.segoe20);
         tttLabel.setForeground(CyderColors.navy);
         tttLabel.setBounds(ImageUtil.xOffsetForCenterJLabel(400,"Tic Tac Toe"),30,
                 ImageUtil.xOffsetForCenterJLabel(400,tttFrame.getTitle()) * 2,30);
@@ -61,14 +61,14 @@ public class TTTGame {
         ttt1.setColors(CyderColors.vanila);
         ttt1.setFocusPainted(false);
         ttt1.setBackground(CyderColors.vanila);
-        ttt1.setFont(CyderFonts.weatherFontBig);
+        ttt1.setFont(CyderFonts.segoe30);
         ttt1.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt1.addActionListener(e -> {
             if (ttt1.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt1.setText("X");
 
-                    ttt1.setFont(CyderFonts.weatherFontBig);
+                    ttt1.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -79,7 +79,7 @@ public class TTTGame {
 
                     ttt1.setForeground(tttblue);
 
-                    ttt1.setFont(CyderFonts.weatherFontBig);
+                    ttt1.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -97,14 +97,14 @@ public class TTTGame {
         ttt2.setPreferredSize(new Dimension(60, 60));
         ttt2.setFocusPainted(false);
         ttt2.setBackground(CyderColors.vanila);
-        ttt2.setFont(CyderFonts.weatherFontBig);
+        ttt2.setFont(CyderFonts.segoe30);
         ttt2.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt2.addActionListener(e -> {
             if (ttt2.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt2.setText("X");
 
-                    ttt2.setFont(CyderFonts.weatherFontBig);
+                    ttt2.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -115,7 +115,7 @@ public class TTTGame {
 
                     ttt2.setForeground(tttblue);
 
-                    ttt2.setFont(CyderFonts.weatherFontBig);
+                    ttt2.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -138,7 +138,7 @@ public class TTTGame {
 
         ttt3.setBackground(CyderColors.vanila);
 
-        ttt3.setFont(CyderFonts.weatherFontBig);
+        ttt3.setFont(CyderFonts.segoe30);
 
         ttt3.setBorder(new LineBorder(CyderColors.navy,5,false));
 
@@ -147,7 +147,7 @@ public class TTTGame {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt3.setText("X");
 
-                    ttt3.setFont(CyderFonts.weatherFontBig);
+                    ttt3.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -158,7 +158,7 @@ public class TTTGame {
 
                     ttt3.setForeground(tttblue);
 
-                    ttt3.setFont(CyderFonts.weatherFontBig);
+                    ttt3.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -177,13 +177,13 @@ public class TTTGame {
         ttt4.setColors(CyderColors.vanila);
         ttt4.setBackground(CyderColors.vanila);
         ttt4.setBorder(new LineBorder(CyderColors.navy,5,false));
-        ttt4.setFont(CyderFonts.weatherFontBig);
+        ttt4.setFont(CyderFonts.segoe30);
         ttt4.addActionListener(e -> {
             if (ttt4.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt4.setText("X");
 
-                    ttt4.setFont(CyderFonts.weatherFontBig);
+                    ttt4.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -194,7 +194,7 @@ public class TTTGame {
 
                     ttt4.setForeground(tttblue);
 
-                    ttt4.setFont(CyderFonts.weatherFontBig);
+                    ttt4.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -213,13 +213,13 @@ public class TTTGame {
         ttt5.setFocusPainted(false);
         ttt5.setBackground(CyderColors.vanila);
         ttt5.setBorder(new LineBorder(CyderColors.navy,5,false));
-        ttt5.setFont(CyderFonts.weatherFontBig);
+        ttt5.setFont(CyderFonts.segoe30);
         ttt5.addActionListener(e -> {
             if (ttt5.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt5.setText("X");
 
-                    ttt5.setFont(CyderFonts.weatherFontBig);
+                    ttt5.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -230,7 +230,7 @@ public class TTTGame {
 
                     ttt5.setForeground(tttblue);
 
-                    ttt5.setFont(CyderFonts.weatherFontBig);
+                    ttt5.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -249,13 +249,13 @@ public class TTTGame {
         ttt6.setBackground(CyderColors.vanila);
         ttt6.setColors(CyderColors.vanila);
         ttt6.setBorder(new LineBorder(CyderColors.navy,5,false));
-        ttt6.setFont(CyderFonts.weatherFontBig);
+        ttt6.setFont(CyderFonts.segoe30);
         ttt6.addActionListener(e -> {
             if (ttt6.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt6.setText("X");
 
-                    ttt6.setFont(CyderFonts.weatherFontBig);
+                    ttt6.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -266,7 +266,7 @@ public class TTTGame {
 
                     ttt6.setForeground(tttblue);
 
-                    ttt6.setFont(CyderFonts.weatherFontBig);
+                    ttt6.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -285,13 +285,13 @@ public class TTTGame {
         ttt7.setColors(CyderColors.vanila);
         ttt7.setBackground(CyderColors.vanila);
         ttt7.setBorder(new LineBorder(CyderColors.navy,5,false));
-        ttt7.setFont(CyderFonts.weatherFontBig);
+        ttt7.setFont(CyderFonts.segoe30);
         ttt7.addActionListener(e -> {
             if (ttt7.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt7.setText("X");
 
-                    ttt7.setFont(CyderFonts.weatherFontBig);
+                    ttt7.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -302,7 +302,7 @@ public class TTTGame {
 
                     ttt7.setForeground(tttblue);
 
-                    ttt7.setFont(CyderFonts.weatherFontBig);
+                    ttt7.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -320,14 +320,14 @@ public class TTTGame {
         ttt8.setFocusPainted(false);
         ttt8.setBackground(CyderColors.vanila);
         ttt8.setColors(CyderColors.vanila);
-        ttt8.setFont(CyderFonts.weatherFontBig);
+        ttt8.setFont(CyderFonts.segoe30);
         ttt8.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt8.addActionListener(e -> {
             if (ttt8.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
                     ttt8.setText("X");
 
-                    ttt8.setFont(CyderFonts.weatherFontBig);
+                    ttt8.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerO;
 
@@ -338,7 +338,7 @@ public class TTTGame {
 
                     ttt8.setForeground(tttblue);
 
-                    ttt8.setFont(CyderFonts.weatherFontBig);
+                    ttt8.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -357,7 +357,7 @@ public class TTTGame {
         ttt9.setFocusPainted(false);
         ttt9.setBackground(CyderColors.vanila);
         ttt9.setBorder(new LineBorder(CyderColors.navy,5,false));
-        ttt9.setFont(CyderFonts.weatherFontBig);
+        ttt9.setFont(CyderFonts.segoe30);
         ttt9.addActionListener(e -> {
             if (ttt9.getText().isEmpty()) {
                 if (CurrentPlayerTurn == PlayerX) {
@@ -372,7 +372,7 @@ public class TTTGame {
 
                     ttt9.setForeground(tttblue);
 
-                    ttt9.setFont(CyderFonts.weatherFontBig);
+                    ttt9.setFont(CyderFonts.segoe30);
 
                     CurrentPlayerTurn = PlayerX;
 
@@ -388,7 +388,7 @@ public class TTTGame {
         tttReset = new CyderButton("Reset");
         tttReset.setFocusPainted(false);
         tttReset.setBackground(CyderColors.regularRed);
-        tttReset.setFont(CyderFonts.weatherFontBig);
+        tttReset.setFont(CyderFonts.segoe30);
         tttReset.setBorder(new LineBorder(CyderColors.navy,5,false));
         tttReset.addActionListener(e -> TTTBoardReset());
 

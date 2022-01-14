@@ -50,7 +50,7 @@ public class CyderScrollList {
         elements = new LinkedList<>();
     }
 
-    private Font scrollFont = CyderFonts.weatherFontSmall;
+    private Font scrollFont = CyderFonts.segoe20;
 
     public Font getScrollFont() {
         return this.scrollFont;
@@ -126,7 +126,7 @@ public class CyderScrollList {
     public void addElement(String labelText, ScrollAction sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
-        add.setFont(CyderFonts.weatherFontSmall);
+        add.setFont(CyderFonts.segoe20);
         add.setVerticalAlignment(JLabel.CENTER);
         add.addMouseListener(new MouseAdapter() {
             @Override
@@ -146,7 +146,7 @@ public class CyderScrollList {
     public void addElementWithSingleCLickAction(String labelText, @NotNull ScrollAction sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
-        add.setFont(CyderFonts.weatherFontSmall);
+        add.setFont(CyderFonts.segoe20);
         add.setVerticalAlignment(JLabel.CENTER);
         add.addMouseListener(new MouseAdapter() {
             @Override

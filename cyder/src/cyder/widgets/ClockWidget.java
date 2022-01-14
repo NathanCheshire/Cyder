@@ -441,7 +441,7 @@ public class ClockWidget {
 
         JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
-        currentTimeLabel.setFont(CyderFonts.weatherFontSmall);
+        currentTimeLabel.setFont(CyderFonts.segoe20);
         currentTimeLabel.setBounds(0, 50, 600, 30);
         miniFrame.getContentPane().add(currentTimeLabel);
 
@@ -449,7 +449,7 @@ public class ClockWidget {
             JLabel locationLabel = new JLabel((currentLocation.trim().length() == 0 ?
                     ("(GMT" + currentGMTOffset + ")") : currentLocation + " " + ("(GMT" + currentGMTOffset + ")")), SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
-            locationLabel.setFont(CyderFonts.weatherFontSmall);
+            locationLabel.setFont(CyderFonts.segoe20);
             locationLabel.setBounds(0, 80, 600, 30);
             miniFrame.getContentPane().add(locationLabel);
         }

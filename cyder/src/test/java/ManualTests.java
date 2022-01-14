@@ -522,7 +522,7 @@ public class ManualTests {
                 CyderStrings.QUICK_BROWN_FOX + "<br/><br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
                 CyderStrings.QUICK_BROWN_FOX + "<br/>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
                 CyderStrings.QUICK_BROWN_FOX + "<br/><br/>Love,<br/>Nathan Cheshire" + "</html>");
-        ripplingLabel.setFont(CyderFonts.weatherFontSmall);
+        ripplingLabel.setFont(CyderFonts.segoe20);
 
         //fill content area with label
         ripplingLabel.setBounds(40,40,

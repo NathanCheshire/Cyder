@@ -82,7 +82,7 @@ public class CyderConstrainedLabel extends JLabel {
      */
     public void installDefaults() {
         setForeground(CyderColors.navy);
-        setFont(CyderFonts.weatherFontSmall);
+        setFont(CyderFonts.segoe20);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
     }

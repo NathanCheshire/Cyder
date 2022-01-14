@@ -99,14 +99,14 @@ public class UserEditor {
 
         backwardButton = new CyderButton("<");
         backwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        backwardButton.setFont(CyderFonts.weatherFontBig);
+        backwardButton.setFont(CyderFonts.segoe30);
         backwardButton.addActionListener(e -> lastEditUser());
         backwardButton.setBounds(20, 50 + 125, 50, 250);
         editUserFrame.getContentPane().add(backwardButton);
 
         forwardButton = new CyderButton(">");
         forwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        forwardButton.setFont(CyderFonts.weatherFontBig);
+        forwardButton.setFont(CyderFonts.segoe30);
         forwardButton.addActionListener(e -> nextEditUser());
         forwardButton.setBounds(830, 50 + 125, 50, 250);
         editUserFrame.getContentPane().add(forwardButton);
@@ -198,7 +198,7 @@ public class UserEditor {
 
     private static void switchToMusicAndBackgrounds() {
         JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
-        BackgroundLabel.setFont(CyderFonts.weatherFontBig);
+        BackgroundLabel.setFont(CyderFonts.segoe30);
         BackgroundLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         switchingLabel.add(BackgroundLabel);
 
@@ -270,7 +270,7 @@ public class UserEditor {
                 ErrorHandler.handle(exc);
             }
         });
-        addMusicBackground.setFont(CyderFonts.weatherFontSmall);
+        addMusicBackground.setFont(CyderFonts.segoe20);
         addMusicBackground.setBounds(20, 440, 155, 40);
         switchingLabel.add(addMusicBackground);
 
@@ -278,7 +278,7 @@ public class UserEditor {
         openMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
         openMusicBackground.setFocusPainted(false);
         openMusicBackground.setBackground(CyderColors.regularRed);
-        openMusicBackground.setFont(CyderFonts.weatherFontSmall);
+        openMusicBackground.setFont(CyderFonts.segoe20);
         openMusicBackground.addActionListener(e -> {
             String element = musicBackgroundScroll.getSelectedElement();
 
@@ -378,7 +378,7 @@ public class UserEditor {
         }, "Wait thread for getterUtil").start());
 
         renameMusicBackground.setBackground(CyderColors.regularRed);
-        renameMusicBackground.setFont(CyderFonts.weatherFontSmall);
+        renameMusicBackground.setFont(CyderFonts.segoe20);
         renameMusicBackground.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(renameMusicBackground);
 
@@ -434,7 +434,7 @@ public class UserEditor {
         });
 
         deleteMusicBackground.setBackground(CyderColors.regularRed);
-        deleteMusicBackground.setFont(CyderFonts.weatherFontSmall);
+        deleteMusicBackground.setFont(CyderFonts.segoe20);
         deleteMusicBackground.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(deleteMusicBackground);
 
@@ -470,7 +470,7 @@ public class UserEditor {
 
     private static void switchToFontAndColor() {
         JLabel TitleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
-        TitleLabel.setFont(CyderFonts.weatherFontBig);
+        TitleLabel.setFont(CyderFonts.segoe30);
         TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         switchingLabel.add(TitleLabel);
 
@@ -478,13 +478,13 @@ public class UserEditor {
         int colorOffsetY = 10;
 
         JLabel ColorLabel = new JLabel("Text Color");
-        ColorLabel.setFont(CyderFonts.weatherFontBig);
+        ColorLabel.setFont(CyderFonts.segoe30);
         ColorLabel.setForeground(CyderColors.navy);
         ColorLabel.setBounds(120 + colorOffsetX, 50 + colorOffsetY, 300, 30);
         switchingLabel.add(ColorLabel);
 
         JLabel hexLabel = new JLabel("HEX:");
-        hexLabel.setFont(CyderFonts.weatherFontSmall);
+        hexLabel.setFont(CyderFonts.segoe20);
         hexLabel.setForeground(CyderColors.navy);
         hexLabel.setBounds(30 + colorOffsetX, 110 + colorOffsetY, 70, 30);
         switchingLabel.add(hexLabel);
@@ -518,7 +518,7 @@ public class UserEditor {
         CyderTextField foregroundField = new CyderTextField(6);
         foregroundField.setRegexMatcher("[A-Fa-f0-9]+");
         foregroundField.setText(UserUtil.getUserData("Foreground"));
-        foregroundField.setFont(CyderFonts.weatherFontBig);
+        foregroundField.setFont(CyderFonts.segoe30);
         foregroundField.setToolTipText("Hex Value");
         JTextField finalHexField1 = foregroundField;
         foregroundField.addKeyListener(new KeyAdapter() {
@@ -541,13 +541,13 @@ public class UserEditor {
         switchingLabel.add(foregroundField);
 
         JLabel windowThemeColorLabel = new JLabel("Window Color");
-        windowThemeColorLabel.setFont(CyderFonts.weatherFontBig);
+        windowThemeColorLabel.setFont(CyderFonts.segoe30);
         windowThemeColorLabel.setForeground(CyderColors.navy);
         windowThemeColorLabel.setBounds(105 + colorOffsetX, 200, 300, 30);
         switchingLabel.add(windowThemeColorLabel);
 
         JLabel hexWindowLabel = new JLabel("HEX:");
-        hexWindowLabel.setFont(CyderFonts.weatherFontSmall);
+        hexWindowLabel.setFont(CyderFonts.segoe20);
         hexWindowLabel.setForeground(CyderColors.navy);
         hexWindowLabel.setBounds(30 + colorOffsetX, 255, 70, 30);
         switchingLabel.add(hexWindowLabel);
@@ -581,7 +581,7 @@ public class UserEditor {
         CyderTextField windowField = new CyderTextField(6);
         windowField.setRegexMatcher("[A-Fa-f0-9]+");
         windowField.setText(UserUtil.getUserData("windowcolor"));
-        windowField.setFont(CyderFonts.weatherFontBig);
+        windowField.setFont(CyderFonts.segoe30);
         windowField.setToolTipText("Window border color");
         windowField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -604,13 +604,13 @@ public class UserEditor {
         switchingLabel.add(windowField);
 
         JLabel FillLabel = new JLabel("Fill Color");
-        FillLabel.setFont(CyderFonts.weatherFontBig);
+        FillLabel.setFont(CyderFonts.segoe30);
         FillLabel.setForeground(CyderColors.navy);
         FillLabel.setBounds(120 + colorOffsetX, 330 + colorOffsetY, 300, 30);
         switchingLabel.add(FillLabel);
 
         JLabel hexLabelFill = new JLabel("HEX:");
-        hexLabelFill.setFont(CyderFonts.weatherFontSmall);
+        hexLabelFill.setFont(CyderFonts.segoe20);
         hexLabelFill.setForeground(CyderColors.navy);
         hexLabelFill.setBounds(30 + colorOffsetX, 390 + colorOffsetY, 70, 30);
         switchingLabel.add(hexLabelFill);
@@ -644,7 +644,7 @@ public class UserEditor {
         CyderTextField fillField = new CyderTextField(6);
         fillField.setRegexMatcher("[A-Fa-f0-9]+");
         fillField.setText(UserUtil.getUserData("Background"));
-        fillField.setFont(CyderFonts.weatherFontBig);
+        fillField.setFont(CyderFonts.segoe30);
         fillField.setToolTipText("Input field and output area fill color if enabled");
         fillField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -717,7 +717,7 @@ public class UserEditor {
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         applyFont.setToolTipText("Apply");
-        applyFont.setFont(CyderFonts.weatherFontSmall);
+        applyFont.setFont(CyderFonts.segoe20);
         applyFont.setFocusPainted(false);
         applyFont.setBackground(CyderColors.regularRed);
         applyFont.addActionListener(e -> {
@@ -740,7 +740,7 @@ public class UserEditor {
         CyderButton resetValues = new CyderButton("Reset ALL");
         resetValues.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         resetValues.setToolTipText("Reset font and all colors");
-        resetValues.setFont(CyderFonts.weatherFontSmall);
+        resetValues.setFont(CyderFonts.segoe20);
         resetValues.setFocusPainted(false);
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
@@ -825,7 +825,7 @@ public class UserEditor {
 
         //print pairs here
         CyderLabel prefsTitle = new CyderLabel("Preferences");
-        prefsTitle.setFont(CyderFonts.weatherFontBig);
+        prefsTitle.setFont(CyderFonts.segoe30);
         printingUtil.printlnComponent(prefsTitle);
 
         for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
@@ -972,7 +972,7 @@ public class UserEditor {
 
         //print pairs here
         CyderLabel prefsTitle = new CyderLabel("Field Inputs");
-        prefsTitle.setFont(CyderFonts.weatherFontBig);
+        prefsTitle.setFont(CyderFonts.segoe30);
         printingUtil.printlnComponent(prefsTitle);
 
         printingUtil.print("\n\n");
@@ -1002,7 +1002,7 @@ public class UserEditor {
 
         changeUsernameButton.setBackground(CyderColors.regularRed);
         changeUsernameButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        changeUsernameButton.setFont(CyderFonts.weatherFontSmall);
+        changeUsernameButton.setFont(CyderFonts.segoe20);
         changeUsernameButton.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
             if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getUsername())) {
@@ -1097,7 +1097,7 @@ public class UserEditor {
         consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
         consoleDatePatternField.setBackground(CyderColors.vanila);
         consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
-        consoleDatePatternField.setFont(CyderFonts.weatherFontSmall);
+        consoleDatePatternField.setFont(CyderFonts.segoe20);
         consoleDatePatternField.setForeground(CyderColors.navy);
         consoleDatePatternField.setCaretColor(CyderColors.navy);
         consoleDatePatternField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1138,7 +1138,7 @@ public class UserEditor {
         addMapField.setToolTipText("Add format: map_name, PATH/TO/EXE or FILE or URL");
         addMapField.setBackground(CyderColors.vanila);
         addMapField.setSelectionColor(CyderColors.selectionColor);
-        addMapField.setFont(CyderFonts.weatherFontSmall);
+        addMapField.setFont(CyderFonts.segoe20);
         addMapField.setForeground(CyderColors.navy);
         addMapField.setCaretColor(CyderColors.navy);
         addMapField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1224,7 +1224,7 @@ public class UserEditor {
         removeMapField.setToolTipText("Name of map to remove");
         removeMapField.setBackground(CyderColors.vanila);
         removeMapField.setSelectionColor(CyderColors.selectionColor);
-        removeMapField.setFont(CyderFonts.weatherFontSmall);
+        removeMapField.setFont(CyderFonts.segoe20);
         removeMapField.setForeground(CyderColors.navy);
         removeMapField.setCaretColor(CyderColors.navy);
         removeMapField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1277,7 +1277,7 @@ public class UserEditor {
         ffmpegField.setToolTipText("Path to ffmpeg.exe");
         ffmpegField.setBackground(CyderColors.vanila);
         ffmpegField.setSelectionColor(CyderColors.selectionColor);
-        ffmpegField.setFont(CyderFonts.weatherFontSmall);
+        ffmpegField.setFont(CyderFonts.segoe20);
         ffmpegField.setForeground(CyderColors.navy);
         ffmpegField.setCaretColor(CyderColors.navy);
         ffmpegField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1320,7 +1320,7 @@ public class UserEditor {
         youtubedlField.setToolTipText("Path to youtubedl.exe");
         youtubedlField.setBackground(CyderColors.vanila);
         youtubedlField.setSelectionColor(CyderColors.selectionColor);
-        youtubedlField.setFont(CyderFonts.weatherFontSmall);
+        youtubedlField.setFont(CyderFonts.segoe20);
         youtubedlField.setForeground(CyderColors.navy);
         youtubedlField.setCaretColor(CyderColors.navy);
         youtubedlField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1433,7 +1433,7 @@ public class UserEditor {
         weatherKeyField.setToolTipText("Your personal OpenWeatherAPI key");
         weatherKeyField.setBackground(CyderColors.vanila);
         weatherKeyField.setSelectionColor(CyderColors.selectionColor);
-        weatherKeyField.setFont(CyderFonts.weatherFontSmall);
+        weatherKeyField.setFont(CyderFonts.segoe20);
         weatherKeyField.setForeground(CyderColors.navy);
         weatherKeyField.setCaretColor(CyderColors.navy);
         weatherKeyField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1502,7 +1502,7 @@ public class UserEditor {
         ipKeyField.setToolTipText("Your personal IPData key");
         ipKeyField.setBackground(CyderColors.vanila);
         ipKeyField.setSelectionColor(CyderColors.selectionColor);
-        ipKeyField.setFont(CyderFonts.weatherFontSmall);
+        ipKeyField.setFont(CyderFonts.segoe20);
         ipKeyField.setForeground(CyderColors.navy);
         ipKeyField.setCaretColor(CyderColors.navy);
         ipKeyField.setCaret(new CyderCaret(CyderColors.navy));

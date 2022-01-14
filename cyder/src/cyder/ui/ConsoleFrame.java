@@ -928,7 +928,7 @@ public final class ConsoleFrame {
 
             //this turns into setting a center title
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
-            consoleClockLabel.setFont(CyderFonts.weatherFontSmall.deriveFont(20f));
+            consoleClockLabel.setFont(CyderFonts.segoe20.deriveFont(20f));
             consoleClockLabel.setForeground(CyderColors.vanila);
 
             //bounds not needed to be set since the executor service handles that

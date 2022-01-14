@@ -49,7 +49,7 @@ public class ImageResizerWidget {
         previewLabel = new JLabel();
 
         CyderButton chooseFile = new CyderButton("Choose Image");
-        chooseFile.setFont(CyderFonts.weatherFontSmall);
+        chooseFile.setFont(CyderFonts.segoe20);
         chooseFile.setForeground(CyderColors.navy);
         chooseFile.setBackground(CyderColors.regularRed);
         chooseFile.addActionListener(e -> {
@@ -91,7 +91,7 @@ public class ImageResizerWidget {
 
         JLabel xdimLabel = new JLabel("x pixels");
         xdimLabel.setForeground(CyderColors.navy);
-        xdimLabel.setFont(CyderFonts.weatherFontSmall);
+        xdimLabel.setFont(CyderFonts.segoe20);
 
         xdimLabel.setBounds(130,40, 100, 40);
         resizeFrame.getContentPane().add(xdimLabel);
@@ -101,7 +101,7 @@ public class ImageResizerWidget {
 
         JLabel ydimLabel = new JLabel("y pixels");
         ydimLabel.setForeground(CyderColors.navy);
-        ydimLabel.setFont(CyderFonts.weatherFontSmall);
+        ydimLabel.setFont(CyderFonts.segoe20);
 
         ydimLabel.setBounds(800 - 130 - 90,40, 100, 40);
         resizeFrame.getContentPane().add(ydimLabel);
@@ -194,7 +194,7 @@ public class ImageResizerWidget {
         resizeFrame.getContentPane().add(ydim);
 
         JLabel originalImage = new JLabel("Preview Image");
-        originalImage.setFont(CyderFonts.weatherFontSmall);
+        originalImage.setFont(CyderFonts.segoe20);
         originalImage.setForeground(CyderColors.navy);
 
         originalImage.setBounds(400 - 165 / 2,130, 180, 40);
@@ -202,7 +202,7 @@ public class ImageResizerWidget {
 
         CyderButton approve = new CyderButton("Approve Image");
         approve.setForeground(CyderColors.navy);
-        approve.setFont(CyderFonts.weatherFontSmall);
+        approve.setFont(CyderFonts.segoe20);
         approve.setBackground(CyderColors.regularRed);
         approve.setFocusPainted(false);
         approve.addActionListener(e -> {

@@ -2,6 +2,9 @@ package cyder.consts;
 
 import java.awt.*;
 
+/**
+ * Common colors used throughout Cyder
+ */
 public class CyderColors {
     //begin regular colors
 

@@ -27,13 +27,13 @@ public class ColorConverterWidget {
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");
-        hexLabel.setFont(CyderFonts.weatherFontSmall);
+        hexLabel.setFont(CyderFonts.segoe20);
         hexLabel.setForeground(navy);
         hexLabel.setBounds(30, 110,70, 30);
         colorFrame.getContentPane().add(hexLabel);
 
         JLabel rgbLabel = new JLabel("RGB:");
-        rgbLabel.setFont(CyderFonts.weatherFontSmall);
+        rgbLabel.setFont(CyderFonts.segoe20);
         rgbLabel.setForeground(navy);
         rgbLabel.setBounds(30, 180,70,30);
         colorFrame.getContentPane().add(rgbLabel);

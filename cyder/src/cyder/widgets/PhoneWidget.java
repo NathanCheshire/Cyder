@@ -27,7 +27,7 @@ public class PhoneWidget {
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");
-        numberLabel.setFont(CyderFonts.weatherFontSmall);
+        numberLabel.setFont(CyderFonts.segoe20);
         numberLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
 
         CyderButton zero = new CyderButton("0");
@@ -168,51 +168,51 @@ public class PhoneWidget {
         });
 
         one.setBackground(CyderColors.regularOrange);
-        one.setFont(CyderFonts.weatherFontBig);
+        one.setFont(CyderFonts.segoe30);
 
         two.setFocusPainted(false);
         two.setBackground(CyderColors.regularOrange);
-        two.setFont(CyderFonts.weatherFontBig);
+        two.setFont(CyderFonts.segoe30);
 
         three.setFocusPainted(false);
         three.setBackground(CyderColors.regularOrange);
-        three.setFont(CyderFonts.weatherFontBig);
+        three.setFont(CyderFonts.segoe30);
 
         four.setFocusPainted(false);
         four.setBackground(CyderColors.regularOrange);
-        four.setFont(CyderFonts.weatherFontBig);
+        four.setFont(CyderFonts.segoe30);
 
         five.setFocusPainted(false);
         five.setBackground(CyderColors.regularOrange);
-        five.setFont(CyderFonts.weatherFontBig);
+        five.setFont(CyderFonts.segoe30);
 
         six.setFocusPainted(false);
         six.setBackground(CyderColors.regularOrange);
-        six.setFont(CyderFonts.weatherFontBig);
+        six.setFont(CyderFonts.segoe30);
 
         seven.setFocusPainted(false);
         seven.setBackground(CyderColors.regularOrange);
-        seven.setFont(CyderFonts.weatherFontBig);
+        seven.setFont(CyderFonts.segoe30);
 
         eight.setFocusPainted(false);
         eight.setBackground(CyderColors.regularOrange);
-        eight.setFont(CyderFonts.weatherFontBig);
+        eight.setFont(CyderFonts.segoe30);
 
         nine.setFocusPainted(false);
         nine.setBackground(CyderColors.regularOrange);
-        nine.setFont(CyderFonts.weatherFontBig);
+        nine.setFont(CyderFonts.segoe30);
 
         zero.setFocusPainted(false);
         zero.setBackground(CyderColors.regularOrange);
-        zero.setFont(CyderFonts.weatherFontBig);
+        zero.setFont(CyderFonts.segoe30);
 
         back.setFocusPainted(false);
         back.setBackground(CyderColors.regularOrange);
-        back.setFont(CyderFonts.weatherFontBig);
+        back.setFont(CyderFonts.segoe30);
 
         dialNumber.setFocusPainted(false);
         dialNumber.setBackground(CyderColors.regularOrange);
-        dialNumber.setFont(CyderFonts.weatherFontBig);
+        dialNumber.setFont(CyderFonts.segoe30);
         dialNumber.addActionListener(e -> {
             if (phoneNum.length() > 0) {
                 checkFor223();

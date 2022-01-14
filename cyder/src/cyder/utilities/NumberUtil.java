@@ -109,7 +109,7 @@ public class NumberUtil {
         });
 
         CyderButton find = new CyderButton("Find");
-        find.setFont(CyderFonts.weatherFontSmall);
+        find.setFont(CyderFonts.segoe20);
         find.setBackground(CyderColors.regularRed);
         find.setBounds(40, 170, 600 - 80, 40);
         find.addActionListener(e -> toWords(numField.getText()));
