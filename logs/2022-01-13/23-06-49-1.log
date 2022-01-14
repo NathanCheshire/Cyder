@@ -36,3 +36,19 @@
 [23-07-01] [CLIENT]: number2string 340004
 [23-07-01] [SYSTEM_IO]: Userdata requested: filterchat
 [23-07-01] [CONSOLE_OUT]: [STRING] three hundred fourty -thousand four
+[23-09-12] [CLIENT]: number2string 341
+[23-09-12] [SYSTEM_IO]: Userdata requested: filterchat
+[23-09-12] [CONSOLE_OUT]: [STRING] three hundred fourty one
+[23-09-15] [CLIENT]: number2string 341341
+[23-09-15] [SYSTEM_IO]: Userdata requested: filterchat
+[23-09-15] [CONSOLE_OUT]: [STRING] three hundred fourty one-thousand three hundred fourty one
+[23-10-25] [CLIENT]: number2string 340004
+[23-10-25] [SYSTEM_IO]: Userdata requested: filterchat
+[23-10-25] [CONSOLE_OUT]: [STRING] three hundred fourty -thousand four
+[23-10-34] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-10-34] [SYSTEM_IO]: Userdata requested: Name
+[23-10-34] [LOGOUT]: [Nathan]
+[23-10-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(137, 204, 1029, 675)], hash = [370475881], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-10-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-10-34] [EXIT]: [RUNTIME] 3m 45s
+[23-10-34] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

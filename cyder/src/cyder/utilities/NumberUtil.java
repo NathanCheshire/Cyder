@@ -127,53 +127,70 @@ public class NumberUtil {
      * @return the string representation for the provided raw text field input
      */
     public static String toWords(String wordRep) {
+        //check for invalid input
         if (wordRep == null || wordRep.length() == 0)
             return "ERROR";
 
+        //convert to a big interger
         BigInteger num = new BigInteger(wordRep);
+
+        //check for zero
         if (num.compareTo(BigInteger.ZERO) == 0) {
             return "Zero";
         }
 
+        //check for signage
         boolean negative = num.compareTo(BigInteger.ZERO) < 0;
         wordRep = wordRep.replace("-", "");
 
+        //pad with 0's so that we have all trios
         while (wordRep.length() % 3 != 0)
             wordRep = "0" + wordRep;
 
-        String[] arr = java.util.Arrays.toString(wordRep.split("(?<=\\G...)"))
+        //now split into trios array
+        String[] baseTrios = java.util.Arrays.toString(wordRep.split("(?<=\\G...)"))
                 .replace("[", "").replace("]", "")
                 .replace(" ", "").split(",");
 
-        LinkedList<Integer> trioNums = new LinkedList<>();
+        //list of trios converted to strings
         LinkedList<String> trioStrings = new LinkedList<>();
 
-        for (String str : arr)
-            trioNums.add(Integer.parseInt(str));
+        //convert all trios to strings
+        for (String trio : baseTrios)
+            trioStrings.add(trioToWords(Integer.parseInt(trio)));
 
-        for (int trio : trioNums)
-            trioStrings.add(trioToWords(trio));
-
+        //reverse the list to build our number with correct prefixes
         LinkedList<String> reversed = new LinkedList<>();
 
         for (String str : trioStrings)
             reversed.push(str);
 
+        //clear the list so that we can add back to it
         trioStrings.clear();
 
-        for (int i = 0; i < reversed.size(); i++) {
-            String currentNum = reversed.get(i);
-            String prefix = prefix(i);
-            String add = currentNum + prefix;
+        //for all trios
+        for (int i = 0 ; i < reversed.size() ; i++) {
+            //the current trio with its prefix if it exists
+            String formattedTrio = reversed.get(i) + prefix(i);
 
-            if (add.trim().length() == 0 || add.trim().charAt(0) == '-')
+            if (i == reversed.size() - 1) {
+                int trio = Integer.parseInt(baseTrios[i]);
+                System.out.println(trio);
+                //todo for some reason this is being a fucking idiot and putting and in the wrong places
+                //todo also stray spaces sometimes still
+            }
+
+            //if it's empty (000 is possible) or if the first char is a -
+            if (formattedTrio.trim().length() == 0 || formattedTrio.trim().charAt(0) == '-')
                 continue;
 
-            trioStrings.push(add);
+            trioStrings.push(formattedTrio.trim());
         }
 
+        //build trios into string and return
         String build = "";
 
+        //add spaces in between trios
         for (String trioStr : trioStrings)
             build += trioStr.trim() + " ";
 
@@ -203,12 +220,12 @@ public class NumberUtil {
         String below100Str;
 
         if (below100 < 20 && below100 > 9) {
-            below100Str = teens[below100 - 10];
+            below100Str = teens[below100 - 10].trim();
         } else {
-            below100Str = tensPlace[tens] + " " + onesPlace[ones];
+            below100Str = tensPlace[tens].trim() + " " + onesPlace[ones].trim();
         }
 
-        return (hundredsStr + " " + below100Str);
+        return (hundredsStr + " " + below100Str).trim();
     }
 
     /**

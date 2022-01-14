@@ -1240,7 +1240,7 @@ public class InputHandler {
             PyExecutor.executeUSBq();
         } else if (firstWord.equalsIgnoreCase("number2string") ||
                 firstWord.equalsIgnoreCase("number2word")) {
-            String subOp = op.split(" ")[1].replace(",","").replace(".","");
+            String subOp = op.split(" ")[1];
 
             if (subOp.matches("[0-9]+")) {
                 println(NumberUtil.toWords(subOp));

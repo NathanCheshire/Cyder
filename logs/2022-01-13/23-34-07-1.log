@@ -1,0 +1,50 @@
+[23-34-07] [ENTRY]: [Nathan]
+[23-34-07] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-34-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-34-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-34-09] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-34-09] [SYSTEM_IO]: Userdata requested: Name
+[23-34-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-10] [SYSTEM_IO]: Userdata requested: Name
+[23-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-10] [SYSTEM_IO]: Userdata requested: Font
+[23-34-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-34-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[23-34-10] [SYSTEM_IO]: Userdata requested: Font
+[23-34-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-34-10] [SYSTEM_IO]: Userdata requested: InputFill
+[23-34-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1413, 309, 600, 600)], hash = [3259315], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-34-10] [ACTION]: Console loaded in 3624ms
+[23-34-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-34-10] [ENTRY]: [TESTING MODE]
+[23-34-10] [SYSTEM_IO]: Userdata requested: laststart
+[23-34-10] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-34-11] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3624ms
+[23-34-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-34-15] [CLIENT]: number2string 405
+[23-34-15] [SYSTEM_IO]: Userdata requested: filterchat
+[23-34-15] [CONSOLE_OUT]: [STRING] four hundred  five
+[23-34-18] [CLIENT]: number2string 4051
+[23-34-18] [SYSTEM_IO]: Userdata requested: filterchat
+[23-34-18] [CONSOLE_OUT]: [STRING] four-thousand and fifty one
+[23-34-21] [CLIENT]: number2string 40515
+[23-34-21] [SYSTEM_IO]: Userdata requested: filterchat
+[23-34-21] [CONSOLE_OUT]: [STRING] fourty-thousand five hundred fifteen
+[23-34-24] [CLIENT]: number2string 405150
+[23-34-24] [SYSTEM_IO]: Userdata requested: filterchat
+[23-34-24] [CONSOLE_OUT]: [STRING] four hundred  five-thousand one hundred fifty
+[23-34-29] [CLIENT]: number2string 4051500
+[23-34-29] [SYSTEM_IO]: Userdata requested: filterchat
+[23-34-29] [CONSOLE_OUT]: [STRING] four-million fifty one-thousand five hundred
+[23-34-33] [CLIENT]: number2string 40515001
+[23-34-33] [SYSTEM_IO]: Userdata requested: filterchat
+[23-34-33] [CONSOLE_OUT]: [STRING] fourty-million and five hundred fifteen-thousand one
