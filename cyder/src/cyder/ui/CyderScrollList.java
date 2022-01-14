@@ -103,7 +103,7 @@ public class CyderScrollList {
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setFocusable(true);
         scrollPane.setOpaque(false);
-        scrollPane.setThumbColor(CyderColors.intellijPink);
+        scrollPane.setThumbColor(CyderColors.regularPink);
         scrollPane.setBackground(CyderColors.vanila);
         scrollPane.setBorder(border);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

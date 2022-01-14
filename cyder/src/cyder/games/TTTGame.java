@@ -30,6 +30,8 @@ public class TTTGame {
 
     private static int CurrentPlayerTurn;
 
+    public static final Color tttblue = new Color(71, 81, 117);
+
     private static final int PlayerX = 0;
     private static final int PlayerO = 1;
 
@@ -75,7 +77,7 @@ public class TTTGame {
                 else {
                     ttt1.setText("O");
 
-                    ttt1.setForeground(CyderColors.tttblue);
+                    ttt1.setForeground(tttblue);
 
                     ttt1.setFont(CyderFonts.weatherFontBig);
 
@@ -111,7 +113,7 @@ public class TTTGame {
                 else {
                     ttt2.setText("O");
 
-                    ttt2.setForeground(CyderColors.tttblue);
+                    ttt2.setForeground(tttblue);
 
                     ttt2.setFont(CyderFonts.weatherFontBig);
 
@@ -154,7 +156,7 @@ public class TTTGame {
                 else {
                     ttt3.setText("O");
 
-                    ttt3.setForeground(CyderColors.tttblue);
+                    ttt3.setForeground(tttblue);
 
                     ttt3.setFont(CyderFonts.weatherFontBig);
 
@@ -190,7 +192,7 @@ public class TTTGame {
                 else {
                     ttt4.setText("O");
 
-                    ttt4.setForeground(CyderColors.tttblue);
+                    ttt4.setForeground(tttblue);
 
                     ttt4.setFont(CyderFonts.weatherFontBig);
 
@@ -226,7 +228,7 @@ public class TTTGame {
                 else {
                     ttt5.setText("O");
 
-                    ttt5.setForeground(CyderColors.tttblue);
+                    ttt5.setForeground(tttblue);
 
                     ttt5.setFont(CyderFonts.weatherFontBig);
 
@@ -262,7 +264,7 @@ public class TTTGame {
                 else {
                     ttt6.setText("O");
 
-                    ttt6.setForeground(CyderColors.tttblue);
+                    ttt6.setForeground(tttblue);
 
                     ttt6.setFont(CyderFonts.weatherFontBig);
 
@@ -298,7 +300,7 @@ public class TTTGame {
                 else {
                     ttt7.setText("O");
 
-                    ttt7.setForeground(CyderColors.tttblue);
+                    ttt7.setForeground(tttblue);
 
                     ttt7.setFont(CyderFonts.weatherFontBig);
 
@@ -334,7 +336,7 @@ public class TTTGame {
                 else {
                     ttt8.setText("O");
 
-                    ttt8.setForeground(CyderColors.tttblue);
+                    ttt8.setForeground(tttblue);
 
                     ttt8.setFont(CyderFonts.weatherFontBig);
 
@@ -368,7 +370,7 @@ public class TTTGame {
                 else {
                     ttt9.setText("O");
 
-                    ttt9.setForeground(CyderColors.tttblue);
+                    ttt9.setForeground(tttblue);
 
                     ttt9.setFont(CyderFonts.weatherFontBig);
 

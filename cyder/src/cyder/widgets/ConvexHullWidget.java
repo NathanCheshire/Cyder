@@ -58,14 +58,14 @@ public class ConvexHullWidget {
                 }
 
                 if (hullPoints != null && hullPoints.size() > 0) {
-                    g2d.setColor(CyderColors.intellijPink);
+                    g2d.setColor(CyderColors.regularPink);
                     for (Point p : hullPoints) {
                         g2d.fillOval((int) p.getX(), (int) p.getY(), size, size);
                     }
                 }
 
                 if (hullPoints != null && hullPoints.size() > 0) {
-                    g2d.setColor(CyderColors.intellijPink);
+                    g2d.setColor(CyderColors.regularPink);
 
                     for (int i = 0 ; i < hullPoints.size() ; i++) {
                         int inc = i + 1 == hullPoints.size() ? 0 : i + 1;

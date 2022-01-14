@@ -175,7 +175,7 @@ public class LoginHandler {
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        loginScroll.setThumbColor(CyderColors.intellijPink);
+        loginScroll.setThumbColor(CyderColors.regularPink);
         loginScroll.setBounds(20, 40, 560, 280);
         loginScroll.getViewport().setOpaque(false);
         loginScroll.setOpaque(false);

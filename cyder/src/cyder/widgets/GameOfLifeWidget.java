@@ -237,7 +237,7 @@ public class GameOfLifeWidget {
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
-        UI.setOldValColor(CyderColors.intellijPink);
+        UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
         speedSlider.setBounds(80 + 60,70 + 30 + 902 + 55, 440, 40);

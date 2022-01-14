@@ -248,7 +248,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 //fill
                 int oStrokeWidth = 3;
                 g2d.setStroke(new BasicStroke(oStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-                g2d.setColor(CyderColors.intellijPink);
+                g2d.setColor(CyderColors.regularPink);
 
                 int outerWidth = c.getWidth();
                 int outerHeight = c.getHeight();

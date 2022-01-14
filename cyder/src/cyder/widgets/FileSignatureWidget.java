@@ -62,7 +62,7 @@ public class FileSignatureWidget {
         signatureFrame.getContentPane().add(referenceLabel);
 
         CyderButton getFile = new CyderButton("Select File");
-        getFile.setColors(CyderColors.intellijPink);
+        getFile.setColors(CyderColors.regularPink);
         getFile.setBounds(50,190,300,40);
         getFile.addActionListener(e -> {
             try {

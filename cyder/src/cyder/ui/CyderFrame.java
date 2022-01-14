@@ -847,7 +847,7 @@ public class CyderFrame extends JFrame {
                                 currentNotification.setHeight(h);
 
                                 text.setFont(notificationFont);
-                                text.setForeground(CyderColors.tooltipForegroundColor);
+                                text.setForeground(CyderColors.notificationForegroundColor);
                                 currentNotification.add(text);
 
                                 JLabel disposeLabel = new JLabel();

@@ -130,7 +130,7 @@ public class CyderCheckbox extends JLabel {
                 //move enter check down
                 int yTranslate = 4;
 
-                graphics2D.setColor(CyderColors.intellijPink);
+                graphics2D.setColor(CyderColors.regularPink);
 
                 //thickness of line drawn
                 graphics2D.setStroke(new BasicStroke(5));
@@ -171,7 +171,7 @@ public class CyderCheckbox extends JLabel {
                 //move enter check down
                 int yTranslate = 4;
 
-                graphics2D.setColor(CyderColors.intellijPink);
+                graphics2D.setColor(CyderColors.regularPink);
 
                 //thickness of line drawn
                 graphics2D.setStroke(new BasicStroke(5));

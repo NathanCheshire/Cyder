@@ -50,9 +50,9 @@ public class ColorUtil {
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-                ret = CyderColors.textBlack;
+                ret = CyderColors.defaultLightModeTextColor;
             } else {
-                ret = CyderColors.textWhite;
+                ret = CyderColors.defaultDarkModeTextColor;
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);
@@ -69,9 +69,9 @@ public class ColorUtil {
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-                ret = CyderColors.textBlack;
+                ret = CyderColors.defaultLightModeTextColor;
             } else {
-                ret = CyderColors.textWhite;
+                ret = CyderColors.defaultDarkModeTextColor;
             }
         } catch (Exception e) {
             ErrorHandler.handle(e);

@@ -164,7 +164,7 @@ public class ManualTests {
 
     public static void iconLabelSlidingTest() {
         ImageIcon theImage =  new ImageIcon(ImageUtil.getImageGradient(600,1200,
-                CyderColors.intellijPink, CyderColors.regularBlue, CyderColors.regularBlue));
+                CyderColors.regularPink, CyderColors.regularBlue, CyderColors.regularBlue));
 
         CyderFrame testFrame = new CyderFrame(600,600, theImage);
         testFrame.setTitle("Sliding test");
@@ -294,7 +294,7 @@ public class ManualTests {
         jpb.setOrientation(JProgressBar.HORIZONTAL);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-        ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.intellijPink});
+        ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.regularPink});
         ui.setShape(CyderProgressUI.Shape.SQUARE);
         jpb.setUI(ui);
         jpb.setValue(50);
@@ -331,8 +331,8 @@ public class ManualTests {
         CyderSliderUI UI = new CyderSliderUI(audioVolumeSlider);
         UI.setThumbDiameter(25);
         UI.setSliderShape(SliderShape.CIRCLE);
-        UI.setFillColor(CyderColors.intellijPink);
-        UI.setOutlineColor(CyderColors.intellijPink);
+        UI.setFillColor(CyderColors.regularPink);
+        UI.setOutlineColor(CyderColors.regularPink);
         UI.setNewValColor(CyderColors.navy);
         UI.setOldValColor(CyderColors.regularBlue);
         UI.setTrackStroke(new BasicStroke(4.0f));
@@ -572,9 +572,9 @@ public class ManualTests {
         cg.setResizable(true);
         cg.setDrawGridLines(false);
         cg.setDrawExtendedBorder(true);
-        cg.addNode(new CyderGrid.GridNode(CyderColors.intellijPink, 20,20));
+        cg.addNode(new CyderGrid.GridNode(CyderColors.regularPink, 20,20));
         cg.addNode(new CyderGrid.GridNode(CyderColors.regularBlue, 21,21));
-        cg.addNode(new CyderGrid.GridNode(CyderColors.intellijPink, 20,21));
+        cg.addNode(new CyderGrid.GridNode(CyderColors.regularPink, 20,21));
         cg.addNode(new CyderGrid.GridNode(CyderColors.regularBlue, 21,20));
 
         testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());

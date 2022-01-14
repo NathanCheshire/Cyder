@@ -167,51 +167,51 @@ public class PhoneWidget {
             }
         });
 
-        one.setBackground(CyderColors.calculatorOrange);
+        one.setBackground(CyderColors.regularOrange);
         one.setFont(CyderFonts.weatherFontBig);
 
         two.setFocusPainted(false);
-        two.setBackground(CyderColors.calculatorOrange);
+        two.setBackground(CyderColors.regularOrange);
         two.setFont(CyderFonts.weatherFontBig);
 
         three.setFocusPainted(false);
-        three.setBackground(CyderColors.calculatorOrange);
+        three.setBackground(CyderColors.regularOrange);
         three.setFont(CyderFonts.weatherFontBig);
 
         four.setFocusPainted(false);
-        four.setBackground(CyderColors.calculatorOrange);
+        four.setBackground(CyderColors.regularOrange);
         four.setFont(CyderFonts.weatherFontBig);
 
         five.setFocusPainted(false);
-        five.setBackground(CyderColors.calculatorOrange);
+        five.setBackground(CyderColors.regularOrange);
         five.setFont(CyderFonts.weatherFontBig);
 
         six.setFocusPainted(false);
-        six.setBackground(CyderColors.calculatorOrange);
+        six.setBackground(CyderColors.regularOrange);
         six.setFont(CyderFonts.weatherFontBig);
 
         seven.setFocusPainted(false);
-        seven.setBackground(CyderColors.calculatorOrange);
+        seven.setBackground(CyderColors.regularOrange);
         seven.setFont(CyderFonts.weatherFontBig);
 
         eight.setFocusPainted(false);
-        eight.setBackground(CyderColors.calculatorOrange);
+        eight.setBackground(CyderColors.regularOrange);
         eight.setFont(CyderFonts.weatherFontBig);
 
         nine.setFocusPainted(false);
-        nine.setBackground(CyderColors.calculatorOrange);
+        nine.setBackground(CyderColors.regularOrange);
         nine.setFont(CyderFonts.weatherFontBig);
 
         zero.setFocusPainted(false);
-        zero.setBackground(CyderColors.calculatorOrange);
+        zero.setBackground(CyderColors.regularOrange);
         zero.setFont(CyderFonts.weatherFontBig);
 
         back.setFocusPainted(false);
-        back.setBackground(CyderColors.calculatorOrange);
+        back.setBackground(CyderColors.regularOrange);
         back.setFont(CyderFonts.weatherFontBig);
 
         dialNumber.setFocusPainted(false);
-        dialNumber.setBackground(CyderColors.calculatorOrange);
+        dialNumber.setBackground(CyderColors.regularOrange);
         dialNumber.setFont(CyderFonts.weatherFontBig);
         dialNumber.addActionListener(e -> {
             if (phoneNum.length() > 0) {

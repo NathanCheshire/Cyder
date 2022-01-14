@@ -110,7 +110,7 @@ public class Debug {
                 printScroll = new CyderScrollPane(printArea,
                         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-                printScroll.setThumbColor(CyderColors.intellijPink);
+                printScroll.setThumbColor(CyderColors.regularPink);
                 printScroll.setBounds(20, 40, 1050 - 40, 400 - 80);
                 printScroll.getViewport().setOpaque(false);
                 printScroll.setOpaque(false);
@@ -151,7 +151,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-            ManualTests.cyderGridLayoutTest();
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

@@ -103,7 +103,7 @@ public class ImageAveragerWidget {
         });
 
         CyderButton average = new CyderButton("Average Images");
-        average.setColors(CyderColors.intellijPink);
+        average.setColors(CyderColors.regularPink);
         average.setBounds(90,580,420,40);
         cf.getContentPane().add(average);
         average.addActionListener(e -> compute());

@@ -267,7 +267,7 @@ public class WeatherWidget {
                     y = (fm.getAscent() + (40 - (fm.getAscent() + fm.getDescent())) / 2);
                     g.drawString(maxText, 400 - 5 - CyderFrame.getMinWidth(maxText, f), y);
 
-                    g.setColor(CyderColors.intellijPink);
+                    g.setColor(CyderColors.regularPink);
                     int line = (int) Math.round(tempVal);
                     g.fillRect(line - 3, 3, 6, 34);
                 } catch (Exception e) {
@@ -303,7 +303,7 @@ public class WeatherWidget {
                 int drawToY = - (int) Math.round(y);
 
                 ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g.setColor(CyderColors.intellijPink);
+                g.setColor(CyderColors.regularPink);
                 g.drawLine(this.getWidth() / 2, this.getHeight() / 2,
                         this.getWidth() / 2 + drawToX,  this.getWidth() / 2 + drawToY);
             }

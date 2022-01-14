@@ -173,7 +173,7 @@ public class PathFinderWidget {
 
                     //draw start in pink
                     if (start != null && !outOfBounds(start)) {
-                        g2d.setColor(CyderColors.intellijPink);
+                        g2d.setColor(CyderColors.regularPink);
                         g2d.fillRect(2 + start.getX() * squareLen, 2 + start.getY() * squareLen,
                                 squareLen - 2, squareLen - 2);
                         gridLabel.repaint();
@@ -181,7 +181,7 @@ public class PathFinderWidget {
 
                     //draw end in orange
                     if (end != null && !outOfBounds(end)) {
-                        g2d.setColor(CyderColors.calculatorOrange);
+                        g2d.setColor(CyderColors.regularOrange);
                         g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
                                 squareLen - 2, squareLen - 2);
                         gridLabel.repaint();
@@ -499,7 +499,7 @@ public class PathFinderWidget {
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
-        UI.setOldValColor(CyderColors.intellijPink);
+        UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
         speedSlider.setBounds(600, 880, 290, 40);

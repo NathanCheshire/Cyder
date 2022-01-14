@@ -307,7 +307,7 @@ public final class ConsoleFrame {
             });
             outputArea.setSelectionColor(CyderColors.selectionColor);
             outputArea.setOpaque(false);
-            outputArea.setBackground(CyderColors.nul);
+            outputArea.setBackground(CyderColors.nullus);
             outputArea.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
             outputArea.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
 
@@ -331,7 +331,7 @@ public final class ConsoleFrame {
                     }
                 }
             };
-            outputScroll.setThumbColor(CyderColors.intellijPink);
+            outputScroll.setThumbColor(CyderColors.regularPink);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
             outputScroll.setFocusable(false);
@@ -556,7 +556,7 @@ public final class ConsoleFrame {
 
             suggestionButton.addActionListener(e -> new Thread(() -> {
                 String suggestion = new GetterUtil().getString("Suggestion",
-                        "Cyder Suggestion", "Submit", CyderColors.intellijPink);
+                        "Cyder Suggestion", "Submit", CyderColors.regularPink);
 
                 if (!StringUtil.isNull(suggestion)) {
                     SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
@@ -1530,7 +1530,7 @@ public final class ConsoleFrame {
         menuScroll.getViewport().setOpaque(false);
         menuScroll.setFocusable(true);
         menuScroll.setOpaque(false);
-        menuScroll.setThumbColor(CyderColors.intellijPink);
+        menuScroll.setThumbColor(CyderColors.regularPink);
         menuScroll.setBackground(CyderColors.guiThemeColor);
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

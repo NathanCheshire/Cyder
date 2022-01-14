@@ -241,7 +241,7 @@ public class PerlinWidget {
         UI.setFillColor(Color.black);
         UI.setOutlineColor(CyderColors.navy);
         UI.setNewValColor(CyderColors.regularBlue);
-        UI.setOldValColor(CyderColors.intellijPink);
+        UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
         speedSlider.setBounds(230, 680, 250, 40);
@@ -266,7 +266,7 @@ public class PerlinWidget {
         UI2.setFillColor(Color.black);
         UI2.setOutlineColor(CyderColors.navy);
         UI2.setNewValColor(CyderColors.regularBlue);
-        UI2.setOldValColor(CyderColors.intellijPink);
+        UI2.setOldValColor(CyderColors.regularPink);
         UI2.setTrackStroke(new BasicStroke(3.0f));
         featureSlider.setUI(UI2);
         featureSlider.setBounds(230, 710, 250, 40);

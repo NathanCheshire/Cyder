@@ -620,17 +620,17 @@ public class InputHandler {
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.textBlack);
-                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.textBlack);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.textBlack);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.textBlack));
-                UserUtil.setUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.textBlack));
+                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);
+                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.defaultLightModeTextColor);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
+                UserUtil.setUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.defaultLightModeTextColor));
             } else {
-                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.textWhite);
-                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.textWhite);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.textWhite);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.textWhite));
-                UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.textWhite));
+                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
+                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
+                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
+                UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultDarkModeTextColor));
             }
 
             println("Foreground fixed");
@@ -1095,7 +1095,7 @@ public class InputHandler {
             }
         } else if (eic("Demo mode")) {
             CyderFrame background = new CyderFrame(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight(),
-                    CyderColors.consoleColor);
+                    CyderColors.navyComplementary);
             background.setTitle(StringUtil.capsFirst(IOUtil.getSystemData().getVersion()) + " Demo");
 
             JButton snapButton = new JButton("Center");

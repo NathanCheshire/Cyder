@@ -873,7 +873,7 @@ public class UserEditor {
                         //move enter check down
                         int yTranslate = 4;
 
-                        graphics2D.setColor(CyderColors.intellijPink);
+                        graphics2D.setColor(CyderColors.regularPink);
 
                         //thickness of line drawn
                         graphics2D.setStroke(new BasicStroke(5));
@@ -939,7 +939,7 @@ public class UserEditor {
         preferenceScroll.getViewport().setOpaque(false);
         preferenceScroll.setFocusable(true);
         preferenceScroll.setOpaque(false);
-        preferenceScroll.setThumbColor(CyderColors.intellijPink);
+        preferenceScroll.setThumbColor(CyderColors.regularPink);
         preferenceScroll.setBackground(Color.white);
         preferenceScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         preferenceScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -1547,7 +1547,7 @@ public class UserEditor {
         fieldInputsScroll.getViewport().setOpaque(false);
         fieldInputsScroll.setFocusable(true);
         fieldInputsScroll.setOpaque(false);
-        fieldInputsScroll.setThumbColor(CyderColors.intellijPink);
+        fieldInputsScroll.setThumbColor(CyderColors.regularPink);
         fieldInputsScroll.setBackground(Color.white);
         fieldInputsScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         fieldInputsScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);

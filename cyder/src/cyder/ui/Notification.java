@@ -17,13 +17,17 @@ import java.awt.geom.GeneralPath;
 public class Notification extends JLabel {
 
     private int arrowSize = 6;
+
     private int width = 300;
     private int height = 300;
+
     private Direction ArrowType = Direction.TOP;
+
     private boolean killed;
     private static int delay = 10;
     private static int increment = 8;
-    private Color backgroundColor = CyderColors.tooltipBackgroundColor;
+
+    private Color backgroundColor = CyderColors.notificationBackgroundColor;
 
     public Notification() {
         killed = false;
@@ -117,7 +121,8 @@ public class Notification extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        graphics2D.setPaint(CyderColors.tooltipBorderColor);
+
+        graphics2D.setPaint(CyderColors.notificationBorderColor);
 
         GeneralPath outlinePath = new GeneralPath();
 
