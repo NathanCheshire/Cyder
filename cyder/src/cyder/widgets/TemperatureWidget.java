@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
@@ -36,7 +36,7 @@ public class TemperatureWidget {
         if (temperatureFrame != null)
             temperatureFrame.dispose();
 
-        temperatureFrame = new CyderFrame(600,340, CyderImages.defaultBackground);
+        temperatureFrame = new CyderFrame(600,340, CyderIcons.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");
 
         JLabel ValueLabel = new JLabel("Measurement: ");

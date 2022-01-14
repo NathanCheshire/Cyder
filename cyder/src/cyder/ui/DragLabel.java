@@ -1,7 +1,7 @@
 package cyder.ui;
 
 import cyder.consts.CyderColors;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.SystemUtil;
@@ -191,27 +191,27 @@ public class DragLabel extends JLabel {
         minimize.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                minimize.setIcon(CyderImages.minimizeIconHover);
+                minimize.setIcon(CyderIcons.minimizeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                minimize.setIcon(CyderImages.minimizeIcon);
+                minimize.setIcon(CyderIcons.minimizeIcon);
             }
         });
         minimize.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                minimize.setIcon(CyderImages.minimizeIconHover);
+                minimize.setIcon(CyderIcons.minimizeIconHover);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                minimize.setIcon(CyderImages.minimizeIcon);
+                minimize.setIcon(CyderIcons.minimizeIcon);
             }
         });
 
-        minimize.setIcon(CyderImages.minimizeIcon);
+        minimize.setIcon(CyderIcons.minimizeIcon);
         minimize.setContentAreaFilled(false);
         minimize.setBorderPainted(false);
         minimize.setFocusPainted(false);
@@ -226,36 +226,36 @@ public class DragLabel extends JLabel {
             if (effectFrame.getPinned()) {
                 effectFrame.setPinned(false);
                 effectFrame.setConsolePinned(true);
-                pinButton.setIcon(CyderImages.pinIconHoverPink);
+                pinButton.setIcon(CyderIcons.pinIconHoverPink);
             } else if (effectFrame.isConsolePinned()) {
                 effectFrame.setConsolePinned(false);
-                pinButton.setIcon(CyderImages.pinIcon);
+                pinButton.setIcon(CyderIcons.pinIcon);
             } else {
                 effectFrame.setPinned(true);
-                pinButton.setIcon(CyderImages.pinIconHover);
+                pinButton.setIcon(CyderIcons.pinIconHover);
             }
         });
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 pinButton.setIcon(effectFrame.getPinned() || effectFrame.isConsolePinned() ?
-                        CyderImages.pinIcon : CyderImages.pinIconHover);
+                        CyderIcons.pinIcon : CyderIcons.pinIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (effectFrame.getPinned()) {
-                    pinButton.setIcon(CyderImages.pinIconHover);
+                    pinButton.setIcon(CyderIcons.pinIconHover);
                 } else if (effectFrame.isConsolePinned()) {
-                    pinButton.setIcon(CyderImages.pinIconHoverPink);
+                    pinButton.setIcon(CyderIcons.pinIconHoverPink);
                 } else {
-                    pinButton.setIcon(CyderImages.pinIcon);
+                    pinButton.setIcon(CyderIcons.pinIcon);
 
                 }
             }
         });
 
-        pinButton.setIcon(CyderImages.pinIcon);
+        pinButton.setIcon(CyderIcons.pinIcon);
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);
@@ -271,27 +271,27 @@ public class DragLabel extends JLabel {
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                close.setIcon(CyderImages.closeIconHover);
+                close.setIcon(CyderIcons.closeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                close.setIcon(CyderImages.closeIcon);
+                close.setIcon(CyderIcons.closeIcon);
             }
         });
         close.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                close.setIcon(CyderImages.closeIconHover);
+                close.setIcon(CyderIcons.closeIconHover);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                close.setIcon(CyderImages.closeIcon);
+                close.setIcon(CyderIcons.closeIcon);
             }
         });
 
-        close.setIcon(CyderImages.closeIcon);
+        close.setIcon(CyderIcons.closeIcon);
         close.setContentAreaFilled(false);
         close.setBorderPainted(false);
         close.setFocusPainted(false);
@@ -506,15 +506,15 @@ public class DragLabel extends JLabel {
         for (JButton dragLabelButton : this.getButtonsList()) {
             if (dragLabelButton.getToolTipText().equals(pinButton.getToolTipText())) {
                 if (this.effectFrame.isAlwaysOnTop()) {
-                    pinButton.setIcon(CyderImages.pinIconHover);
+                    pinButton.setIcon(CyderIcons.pinIconHover);
                     effectFrame.setConsolePinned(false);
                     effectFrame.setPinned(true);
                 } else if (this.effectFrame.isConsolePinned()) {
-                    pinButton.setIcon(CyderImages.pinIconHoverPink);
+                    pinButton.setIcon(CyderIcons.pinIconHoverPink);
                     effectFrame.setPinned(false);
                     effectFrame.setConsolePinned(true);
                 } else {
-                    pinButton.setIcon(CyderImages.pinIcon);
+                    pinButton.setIcon(CyderIcons.pinIcon);
                     effectFrame.setPinned(false);
                     effectFrame.setConsolePinned(false);
                 }

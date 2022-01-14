@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -30,7 +30,7 @@ public class FileSignatureWidget {
     @Widget(trigger = "file signature", description = "A widget to read the raw file " +
             "hex data and determine if the file signature matches the provided extension")
     public static void showGUI() {
-        signatureFrame = new CyderFrame(400,420, CyderImages.defaultBackground);
+        signatureFrame = new CyderFrame(400,420, CyderIcons.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");
 
         signatureField = new CyderTextField(0);

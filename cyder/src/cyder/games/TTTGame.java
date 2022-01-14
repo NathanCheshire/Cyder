@@ -3,7 +3,7 @@ package cyder.games;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
@@ -45,7 +45,7 @@ public class TTTGame {
         if (tttFrame != null)
             tttFrame.dispose();
 
-        tttFrame = new CyderFrame(400,500, CyderImages.defaultBackground);
+        tttFrame = new CyderFrame(400,500, CyderIcons.defaultBackground);
         tttFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         tttFrame.setTitle("TicTacToe");
 

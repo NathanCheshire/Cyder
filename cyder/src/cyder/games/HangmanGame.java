@@ -2,7 +2,7 @@ package cyder.games;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -39,7 +39,7 @@ public class HangmanGame {
         if (HangmanFrame != null)
             HangmanFrame.dispose();
 
-        HangmanFrame = new CyderFrame(712,812, CyderImages.defaultBackground);
+        HangmanFrame = new CyderFrame(712,812, CyderIcons.defaultBackground);
         HangmanFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         HangmanFrame.setTitle("Hangman");
 

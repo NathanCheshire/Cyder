@@ -5,7 +5,7 @@ import com.sapher.youtubedl.YoutubeDLException;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.consts.CyderColors;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -226,7 +226,7 @@ public class YoutubeUtil {
     }
 
     public static void showGUI() {
-        CyderFrame uuidFrame = new CyderFrame(400,240, CyderImages.defaultBackground);
+        CyderFrame uuidFrame = new CyderFrame(400,240, CyderIcons.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");
         uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 

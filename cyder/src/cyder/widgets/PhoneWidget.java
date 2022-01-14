@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
@@ -23,7 +23,7 @@ public class PhoneWidget {
 
     @Widget(trigger = "phone", description = "A phone emulating widget")
     public static void showGUI() {
-        CyderFrame phoneFrame = new CyderFrame(320,500, CyderImages.defaultBackground);
+        CyderFrame phoneFrame = new CyderFrame(320,500, CyderIcons.defaultBackground);
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");

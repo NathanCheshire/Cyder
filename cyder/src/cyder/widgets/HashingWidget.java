@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.CyderButton;
@@ -34,7 +34,7 @@ public class HashingWidget {
         algorithms.add("SHA-1");
         algorithms.add("MD5");
 
-        CyderFrame hashFrame = new CyderFrame(500,200, CyderImages.defaultBackgroundLarge);
+        CyderFrame hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 

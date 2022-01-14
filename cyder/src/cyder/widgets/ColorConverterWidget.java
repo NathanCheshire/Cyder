@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.annotations.Widget;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
@@ -23,7 +23,7 @@ public class ColorConverterWidget {
 
     @Widget(trigger = "color converter", description = "A color converter widget to convert from rgb to hex and vice versa")
     public static void showGUI() {
-        CyderFrame colorFrame = new CyderFrame(400,300, CyderImages.defaultBackground);
+        CyderFrame colorFrame = new CyderFrame(400,300, CyderIcons.defaultBackground);
         colorFrame.setTitle("Color Converter");
 
         JLabel hexLabel = new JLabel("HEX:");

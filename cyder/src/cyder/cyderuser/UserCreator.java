@@ -2,7 +2,7 @@ package cyder.cyderuser;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.LoginHandler;
@@ -42,7 +42,7 @@ public class UserCreator {
         if (createUserFrame != null)
             createUserFrame.dispose();
 
-        createUserFrame = new CyderFrame(356, 473, CyderImages.defaultBackground);
+        createUserFrame = new CyderFrame(356, 473, CyderIcons.defaultBackground);
         createUserFrame.setTitle("Create User");
 
         JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
@@ -265,7 +265,7 @@ public class UserCreator {
                         newUserPasswordconf.setText("");
                     } else {
                         if (createUserBackground == null) {
-                            Image img = CyderImages.defaultBackground.getImage();
+                            Image img = CyderIcons.defaultBackground.getImage();
 
                             BufferedImage bi = new BufferedImage(img.getWidth(null),
                                     img.getHeight(null),BufferedImage.TYPE_INT_RGB);

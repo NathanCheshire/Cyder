@@ -3,7 +3,7 @@ package cyder.handlers.external;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
@@ -55,7 +55,7 @@ public class DirectoryViewer {
             dirFrame.dispose();
 
         //frame setup
-        dirFrame = new CyderFrame(630,510, CyderImages.defaultBackground);
+        dirFrame = new CyderFrame(630,510, CyderIcons.defaultBackground);
         dirFrame.setTitle(currentDirectory.getName());
 
         //field setup

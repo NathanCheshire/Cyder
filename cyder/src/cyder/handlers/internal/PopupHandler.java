@@ -1,6 +1,6 @@
 package cyder.handlers.internal;
 
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderFrame;
@@ -43,7 +43,7 @@ public class PopupHandler {
             textLabel.setBounds(10,30, boundsString.getWidth(), boundsString.getHeight());
 
             CyderFrame informFrame = new CyderFrame(boundsString.getWidth() + 20,
-                    boundsString.getHeight() + 40, CyderImages.defaultBackgroundLarge);
+                    boundsString.getHeight() + 40, CyderIcons.defaultBackgroundLarge);
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(title);
             informFrame.add(textLabel);

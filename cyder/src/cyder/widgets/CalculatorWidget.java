@@ -4,7 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
@@ -27,7 +27,7 @@ public class CalculatorWidget {
     public static void showGUI() {
         calculatorExpression = "";
 
-        CyderFrame calculatorFrame = new CyderFrame(400,595, CyderImages.defaultBackground);
+        CyderFrame calculatorFrame = new CyderFrame(400,595, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 
         CyderTextField calculatorField = new CyderTextField(0);

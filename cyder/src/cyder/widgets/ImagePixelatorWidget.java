@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -36,7 +36,7 @@ public class ImagePixelatorWidget {
     @Widget(trigger = "pixelate picture", description = "A simple image pixelator widget that transforms" +
             " the image into an image depicted of the specified number of pixels")
     public static void showGUI(File startPNG) {
-        CyderFrame pixelFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
+        CyderFrame pixelFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
         pixelFrame.setTitle("Image Pixelator");
 
         CyderLabel pixelSize = new CyderLabel("Pixel Size");

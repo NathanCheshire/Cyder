@@ -2,7 +2,7 @@ package cyder.handlers.external;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderButton;
@@ -29,7 +29,7 @@ public class TextViewer {
         if (textEditorFrame != null)
             textEditorFrame.dispose();
 
-        textEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
+        textEditorFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
         textEditorFrame.setTitle("Editing: " + File.getName().replace(".txt", ""));
 
         textNameEditField = new CyderTextField(0);

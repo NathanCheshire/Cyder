@@ -2,7 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderInts;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
@@ -347,7 +347,7 @@ public class CyderFrame extends JFrame {
      * @param height the specified height of the CyderFrame
      */
     public CyderFrame(int width, int height) {
-        this(width, height, CyderImages.defaultBackground);
+        this(width, height, CyderIcons.defaultBackground);
     }
 
     /**

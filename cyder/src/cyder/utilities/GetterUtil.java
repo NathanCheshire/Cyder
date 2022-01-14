@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.*;
@@ -55,7 +55,7 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(title);
 
@@ -105,7 +105,7 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(title);
 
@@ -181,7 +181,7 @@ public class GetterUtil {
 
         new Thread(() -> {
             try {
-                CyderFrame inputFrame = new CyderFrame(400,170, CyderImages.defaultBackground);
+                CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(title);
 
@@ -280,7 +280,7 @@ public class GetterUtil {
                     dirFrame.dispose();
 
                 //frame setup
-                dirFrame = new CyderFrame(630,510, CyderImages.defaultBackground);
+                dirFrame = new CyderFrame(630,510, CyderIcons.defaultBackground);
                 dirFrame.setTitle(currentDirectory.getName());
 
                 //field setup
@@ -568,7 +568,7 @@ public class GetterUtil {
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());
 
-                confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40, CyderImages.defaultBackgroundLarge);
+                confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
                 confirmationFrame[0].setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 confirmationFrame[0].setTitle("Confirmation");
                 confirmationFrame[0].addPreCloseAction(() -> retString[0] = "false");

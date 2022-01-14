@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
@@ -52,7 +52,7 @@ public class GameOfLifeWidget {
     @Widget(trigger = "conway", description = "Conway's game of life visualizer")
     public static void showGUI() {
         grid = new int[defaultGridLen][defaultGridLen];
-        conwayFrame = new CyderFrame(940,1120, CyderImages.defaultBackgroundLarge);
+        conwayFrame = new CyderFrame(940,1120, CyderIcons.defaultBackgroundLarge);
         conwayFrame.setTitle("Conway's Game of Life");
 
         gridLabel = new JLabel() {

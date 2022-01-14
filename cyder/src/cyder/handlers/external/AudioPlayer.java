@@ -3,7 +3,7 @@ package cyder.handlers.external;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
@@ -144,16 +144,16 @@ public class AudioPlayer {
         changeSize.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                changeSize.setIcon(CyderImages.changeSizeIconHover);
+                changeSize.setIcon(CyderIcons.changeSizeIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                changeSize.setIcon(CyderImages.changeSizeIcon);
+                changeSize.setIcon(CyderIcons.changeSizeIcon);
             }
         });
 
-        changeSize.setIcon(CyderImages.changeSizeIcon);
+        changeSize.setIcon(CyderIcons.changeSizeIcon);
         changeSize.setContentAreaFilled(false);
         changeSize.setBorderPainted(false);
         changeSize.setFocusPainted(false);

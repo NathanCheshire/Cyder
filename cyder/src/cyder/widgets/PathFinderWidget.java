@@ -2,7 +2,7 @@ package cyder.widgets;
 
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
@@ -76,7 +76,7 @@ public class PathFinderWidget {
         pathText = "";
         paused = false;
 
-        pathFindingFrame = new CyderFrame(1000,1070, CyderImages.defaultBackgroundLarge);
+        pathFindingFrame = new CyderFrame(1000,1070, CyderIcons.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Pathfinding visualizer");
 
         gridLabel = new JLabel() {

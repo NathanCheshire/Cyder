@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -55,7 +55,7 @@ public class NotesWidget {
 
         noteFrames = new LinkedList<>();
 
-        noteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
+        noteFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
         noteFrame.setTitle(ConsoleFrame.getConsoleFrame().getUsername() +
                 StringUtil.getApostrophe(ConsoleFrame.getConsoleFrame().getUsername()) + " notes");
 
@@ -178,7 +178,7 @@ public class NotesWidget {
         if (newNoteFrame != null)
             newNoteFrame.dispose();
 
-        newNoteFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
+        newNoteFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
         newNoteFrame.setTitle("New note");
 
         newNoteField = new CyderTextField(0);
@@ -278,7 +278,7 @@ public class NotesWidget {
     }
 
     private static void openNote(File File) {
-        CyderFrame noteEditorFrame = new CyderFrame(600,625, CyderImages.defaultBackground);
+        CyderFrame noteEditorFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new CyderTextField(0);

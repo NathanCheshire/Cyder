@@ -2,7 +2,7 @@ package cyder.cyderuser;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
@@ -67,7 +67,7 @@ public class UserEditor {
         if (editUserFrame != null)
             editUserFrame.dispose();
 
-        editUserFrame = new CyderFrame(900, 580, CyderImages.defaultBackground);
+        editUserFrame = new CyderFrame(900, 580, CyderIcons.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Edit User");
         editUserFrame.addPreCloseAction(() -> ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs());

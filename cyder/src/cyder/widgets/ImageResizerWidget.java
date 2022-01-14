@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
@@ -43,7 +43,7 @@ public class ImageResizerWidget {
 
     @Widget(trigger = "resize pictures", description = "An image resizing widget to crop images")
     public static void showGUI() {
-        CyderFrame resizeFrame = new CyderFrame(800,800, CyderImages.defaultBackground);
+        CyderFrame resizeFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
         resizeFrame.setTitle("Image Resizer");
 
         previewLabel = new JLabel();

@@ -2,7 +2,7 @@ package test.java;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
@@ -22,13 +22,13 @@ import java.awt.*;
 public class ManualTests {
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
     public static void dragLabelButtonTest() {
-        CyderFrame testFrame = new CyderFrame(600,600, CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(600,600, CyderIcons.defaultBackground);
         testFrame.setTitle("Test Frame");
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         JButton pinButton = new JButton("");
         pinButton.setToolTipText("Random button");
-        pinButton.setIcon(CyderImages.changeSizeIcon);
+        pinButton.setIcon(CyderIcons.changeSizeIcon);
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);
@@ -54,7 +54,7 @@ public class ManualTests {
     }
 
     public static void buttonAndTitlePosTest() {
-        CyderFrame testFrame = new CyderFrame(600, 400, CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(600, 400, CyderIcons.defaultBackground);
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         testFrame.setTitle("Testing Title");
 
@@ -90,7 +90,7 @@ public class ManualTests {
     }
 
     public static void notificationTest() {
-        CyderFrame testFrame = new CyderFrame(350,600,CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(350,600, CyderIcons.defaultBackground);
         testFrame.setTitle("Notification Test");
 
         int miliDelay = 3000;
@@ -146,7 +146,7 @@ public class ManualTests {
     }
 
     public static void askewTest() {
-        CyderFrame testFrame = new CyderFrame(350,300, CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(350,300, CyderIcons.defaultBackground);
         testFrame.setTitle("Askew Test");
 
         CyderTextField ctf = new CyderTextField(0);
@@ -251,7 +251,7 @@ public class ManualTests {
     }
 
     public static void checkboxTest() {
-        CyderFrame testFrame = new CyderFrame(400,400, CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(400,400, CyderIcons.defaultBackground);
         testFrame.setTitle("Checkbox Test");
 
         CyderCheckbox cb = new CyderCheckbox();
@@ -269,7 +269,7 @@ public class ManualTests {
     }
 
     public static void informTest() {
-        CyderFrame testFrame = new CyderFrame(300,200, CyderImages.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(300,200, CyderIcons.defaultBackground);
         testFrame.setTitle("Inform test");
 
         CyderTextField textField = new CyderTextField(0);

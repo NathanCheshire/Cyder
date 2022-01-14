@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderImages;
+import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.ui.CyderButton;
@@ -83,7 +83,7 @@ public class NumberUtil {
         if (numFrame != null)
             numFrame.dispose();
 
-        numFrame = new CyderFrame(600, 230, CyderImages.defaultBackground);
+        numFrame = new CyderFrame(600, 230, CyderIcons.defaultBackground);
         numFrame.setTitle("Number To Words");
         numFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         numFrame.initializeResizing();
