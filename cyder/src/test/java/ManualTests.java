@@ -28,7 +28,7 @@ public class ManualTests {
 
         JButton pinButton = new JButton("");
         pinButton.setToolTipText("Random button");
-        pinButton.setIcon(new ImageIcon("static/pictures/icons/changesize1.png"));
+        pinButton.setIcon(CyderImages.changeSizeIcon);
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);

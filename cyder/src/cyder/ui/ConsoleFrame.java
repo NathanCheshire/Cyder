@@ -777,7 +777,7 @@ public final class ConsoleFrame {
                     user.setScreenStat(screenStat);
                     UserUtil.setUserData(user);
 
-                    pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    pin.setIcon(CyderImages.pinIcon);
                 } else {
                     consoleCyderFrame.setAlwaysOnTop(true);
 
@@ -787,46 +787,46 @@ public final class ConsoleFrame {
                     user.setScreenStat(screenStat);
                     UserUtil.setUserData(user);
 
-                    pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    pin.setIcon(CyderImages.pinIconHover);
                 }
             });
             pin.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                        pin.setIcon(CyderImages.pinIcon);
                     } else {
-                        pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                        pin.setIcon(CyderImages.pinIconHover);
                     }
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                        pin.setIcon(CyderImages.pinIconHover);
                     } else {
-                        pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                        pin.setIcon(CyderImages.pinIcon);
                     }
                 }
             });
             pin.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    pin.setIcon(CyderImages.pinIconHover);
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                        pin.setIcon(CyderImages.pinIconHover);
                     } else {
-                        pin.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                        pin.setIcon(CyderImages.pinIcon);
                     }
                 }
             });
 
             pin.setIcon(UserUtil.extractUser().getScreenStat().isConsoleOnTop() ?
-                    new ImageIcon("static/pictures/icons/pin2.png") : new ImageIcon("static/pictures/icons/pin.png"));
+                    CyderImages.pinIconHover : CyderImages.pinIcon);
             pin.setContentAreaFilled(false);
             pin.setBorderPainted(false);
             pin.setFocusPainted(false);
@@ -838,12 +838,12 @@ public final class ConsoleFrame {
             alternateBackground.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("static/pictures/icons/ChangeSize2.png"));
+                    alternateBackground.setIcon(CyderImages.changeSizeIconHover);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("static/pictures/icons/ChangeSize1.png"));
+                    alternateBackground.setIcon(CyderImages.changeSizeIcon);
                 }
             });
             alternateBackground.addActionListener(e -> {
@@ -864,15 +864,15 @@ public final class ConsoleFrame {
             alternateBackground.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("static/pictures/icons/ChangeSize2.png"));
+                    alternateBackground.setIcon(CyderImages.changeSizeIconHover);
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    alternateBackground.setIcon(new ImageIcon("static/pictures/icons/ChangeSize1.png"));
+                    alternateBackground.setIcon(CyderImages.changeSizeIcon);
                 }
             });
-            alternateBackground.setIcon(new ImageIcon("static/pictures/icons/ChangeSize1.png"));
+            alternateBackground.setIcon(CyderImages.changeSizeIcon);
             alternateBackground.setFocusPainted(false);
             alternateBackground.setOpaque(false);
             alternateBackground.setContentAreaFilled(false);

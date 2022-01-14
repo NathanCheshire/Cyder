@@ -226,36 +226,36 @@ public class DragLabel extends JLabel {
             if (effectFrame.getPinned()) {
                 effectFrame.setPinned(false);
                 effectFrame.setConsolePinned(true);
-                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin3.png"));
+                pinButton.setIcon(CyderImages.pinIconHoverPink);
             } else if (effectFrame.isConsolePinned()) {
                 effectFrame.setConsolePinned(false);
-                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                pinButton.setIcon(CyderImages.pinIcon);
             } else {
                 effectFrame.setPinned(true);
-                pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                pinButton.setIcon(CyderImages.pinIconHover);
             }
         });
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                pinButton.setIcon(new ImageIcon(effectFrame.getPinned() || effectFrame.isConsolePinned() ?
-                        "static/pictures/icons/pin.png" : "static/pictures/icons/pin2.png"));
+                pinButton.setIcon(effectFrame.getPinned() || effectFrame.isConsolePinned() ?
+                        CyderImages.pinIcon : CyderImages.pinIconHover);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (effectFrame.getPinned()) {
-                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    pinButton.setIcon(CyderImages.pinIconHover);
                 } else if (effectFrame.isConsolePinned()) {
-                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin3.png"));
+                    pinButton.setIcon(CyderImages.pinIconHoverPink);
                 } else {
-                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    pinButton.setIcon(CyderImages.pinIcon);
 
                 }
             }
         });
 
-        pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+        pinButton.setIcon(CyderImages.pinIcon);
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
         pinButton.setFocusPainted(false);
@@ -506,15 +506,15 @@ public class DragLabel extends JLabel {
         for (JButton dragLabelButton : this.getButtonsList()) {
             if (dragLabelButton.getToolTipText().equals(pinButton.getToolTipText())) {
                 if (this.effectFrame.isAlwaysOnTop()) {
-                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin2.png"));
+                    pinButton.setIcon(CyderImages.pinIconHover);
                     effectFrame.setConsolePinned(false);
                     effectFrame.setPinned(true);
                 } else if (this.effectFrame.isConsolePinned()) {
-                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin3.png"));
+                    pinButton.setIcon(CyderImages.pinIconHoverPink);
                     effectFrame.setPinned(false);
                     effectFrame.setConsolePinned(true);
                 } else {
-                    pinButton.setIcon(new ImageIcon("static/pictures/icons/pin.png"));
+                    pinButton.setIcon(CyderImages.pinIcon);
                     effectFrame.setPinned(false);
                     effectFrame.setConsolePinned(false);
                 }
