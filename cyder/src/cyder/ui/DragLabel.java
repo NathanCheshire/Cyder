@@ -238,8 +238,14 @@ public class DragLabel extends JLabel {
         pinButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                pinButton.setIcon(effectFrame.getPinned() || effectFrame.isConsolePinned() ?
-                        CyderIcons.pinIcon : CyderIcons.pinIconHover);
+                if (effectFrame.getPinned()) {
+                    pinButton.setIcon(CyderIcons.pinIconHoverPink);
+                } else if (effectFrame.isConsolePinned()) {
+                    pinButton.setIcon(CyderIcons.pinIcon);
+                } else {
+                    pinButton.setIcon(CyderIcons.pinIconHover);
+
+                }
             }
 
             @Override

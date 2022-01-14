@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import static cyder.consts.CyderInts.INFINITY;
+import static cyder.consts.CyderInts.NEG_INFINITY;
+
 public class NumberUtil {
     private NumberUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -254,5 +257,37 @@ public class NumberUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Adds the integers together if they do not overflow the maximum integer value.
+     * If they do, returns positive infinity.
+     *
+     * @param a the first integer to add
+     * @param b the second integer to add
+     * @return the result of adding a to b guaranteed to not overflow
+     */
+    public static int addWithoutOverflow(int a, int b) {
+        //convert to longs so that addition is guaranteed to work for integers
+        long sum = (long) a + (long) b;
+
+        //check bounds of sum and return correct value
+        return (sum > INFINITY ? INFINITY : a + b);
+    }
+
+    /**
+     * Subtracts the subtrahend from the minuend and returns the result guaranteed to not have underflowed.
+     * If underflow does occur, NEG_INFINITY is returned.
+     *
+     * @param a minuend
+     * @param b the subtrahend (value to subtract from a)
+     * @return the result of subtracting b from a guaranteed to not underflow
+     */
+    public static int subtractWithoutUnderflow(int a, int b) {
+        //convert to longs so that subtraction is guaranteed to work for integers
+        long difference  = (long) a - (long) b;
+
+        //check bounds of difference and return correct result
+        return (difference < NEG_INFINITY ? NEG_INFINITY : a - b);
     }
 }

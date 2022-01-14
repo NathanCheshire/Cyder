@@ -1,0 +1,61 @@
+[22-28-46] [ENTRY]: [Nathan]
+[22-28-46] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-28-47] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-28-47] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-28-48] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-28-48] [SYSTEM_IO]: Userdata requested: Name
+[22-28-48] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-28-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-49] [SYSTEM_IO]: Userdata requested: Name
+[22-28-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-28-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-28-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-28-49] [SYSTEM_IO]: Userdata requested: Font
+[22-28-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-28-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-28-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-28-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-28-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-28-49] [SYSTEM_IO]: Userdata requested: Font
+[22-28-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-28-49] [SYSTEM_IO]: Userdata requested: InputFill
+[22-28-49] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [578777695], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-28-49] [ACTION]: Console loaded in 3738ms
+[22-28-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-28-49] [ENTRY]: [TESTING MODE]
+[22-28-49] [SYSTEM_IO]: Userdata requested: laststart
+[22-28-49] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-28-49] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3738ms
+[22-28-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-28-52] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[22-28-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-29-00] [CLIENT]: mp3
+[22-29-00] [SYSTEM_IO]: Userdata requested: filterchat
+[22-29-00] [ACTION]: AUDIO PLAYER
+[22-29-01] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[22-29-02] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [240118963], parentFrame = [Flash Player], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-29-11] [SYSTEM_IO]: Userdata requested: Background
+[22-29-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [240118963], parentFrame = [Flash Player], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-29-14] [SYSTEM_IO]: Userdata requested: Background
+[22-29-30] [SYSTEM_IO]: Userdata requested: Background
+[22-29-41] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [645045844], parentFrame = [Suggestion], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-29-41] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1327, 616, 400, 170)], hash = [2032287910], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Suggestion]
+[22-29-41] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1327, 616, 400, 170)], hash = [2032287910], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Suggestion]
+[22-29-41] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1743704644], parentFrame = [Suggestion], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-29-41] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-29-41] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-29-43] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [240118963], parentFrame = [Flash Player], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-29-43] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1679, 457, 500, 225)], hash = [1769039808], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Flash Player]
+[22-29-43] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-29-44] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[22-29-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-29-47] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-29-47] [SYSTEM_IO]: Userdata requested: Name
+[22-29-47] [LOGOUT]: [Nathan]
+[22-29-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1013, 364, 1029, 675)], hash = [93199773], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-29-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-29-47] [EXIT]: [RUNTIME] 1m 1s
+[22-29-47] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
