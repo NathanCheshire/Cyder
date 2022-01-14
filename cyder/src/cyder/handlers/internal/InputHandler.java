@@ -359,9 +359,6 @@ public class InputHandler {
         } else if (hasWord("christmas") && hasWord("card") && hasWord("2021")) {
             CardWidget.Christmas2021();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        }  else if (hasWord("number") && hasWord("word")) {
-            NumberUtil.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "NUMBER TO WORD");
         } else if (hasWord("hangman")) {
             HangmanGame.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "HANGMAN");
@@ -1241,6 +1238,15 @@ public class InputHandler {
             }, "Bad Word Code Searcher").start();
         } else if (hasWord("usb")) {
             PyExecutor.executeUSBq();
+        } else if (firstWord.equalsIgnoreCase("number2string") ||
+                firstWord.equalsIgnoreCase("number2word")) {
+            String subOp = op.split(" ")[1].replace(",","").replace(".","");
+
+            if (subOp.matches("[0-9]+")) {
+                println(NumberUtil.toWords(subOp));
+            } else {
+                println("Could not parse input as number: " + subOp);
+            }
         }
         //final attempt at unknown input --------------------------
         else {

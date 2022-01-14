@@ -1,18 +1,7 @@
 package cyder.utilities;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderTextField;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,21 +10,45 @@ import java.util.Random;
 import static cyder.consts.CyderInts.INFINITY;
 import static cyder.consts.CyderInts.NEG_INFINITY;
 
+/**
+ * A common Number methods class such as generating random
+ * numbers or converting integers to their String representations
+ */
 public class NumberUtil {
+    /**
+     * Instantiation of NumberUtil is not allowed
+     */
     private NumberUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    private static CyderFrame numFrame;
-
+    /**
+     * Returns a random integer in the range [min, upperBound).
+     *
+     * @param min the minimum possible value to return (must be at least 0)
+     * @param upperBound the upper bound of random range (excluded from possible return values)
+     * @return a random integer in the provided range [0, upperBound]
+     */
     public static int randInt(int min, int upperBound) {
         return new Random().nextInt((upperBound - min) + 1) + min;
     }
 
+    /**
+     * Returns a random integer in the range [0, upperBound).
+     *
+     * @param upperBound the upper bound of the random range (upperBound is exluded from the possible values)
+     * @return a random integer in the range [0, upperBound)
+     */
     public static int randInt(int upperBound) {
         return new Random().nextInt((upperBound) + 1);
     }
 
+    /**
+     * Determines if the provided number if a prime.
+     *
+     * @param num the possibly prime number to validate
+     * @return whether or not the provided number was a prime
+     */
     public static boolean isPrime(int num) {
         boolean ret = true;
 
@@ -48,6 +61,13 @@ public class NumberUtil {
         return ret;
     }
 
+    /**
+     * Returns a list of the prime factors of the provided integer.
+     * If the provided integer is a prime, 1 and num are returned.
+     *
+     * @param num the number to find prime factors of
+     * @return a list of prime factors of num
+     */
     public static ArrayList<Integer> primeFactors(int num) {
         if (isPrime(num)) {
             ArrayList<Integer> numbers = new ArrayList<>();
@@ -67,6 +87,14 @@ public class NumberUtil {
         }
     }
 
+    /**
+     * Calculates the fibonacci sequence given the initial values.
+     *
+     * @param a the first fibonacci number to use
+     * @param b the second fibonacci number to use
+     * @param numFibs the number of fibonacci numbers to return
+     * @return the requested number of fibonacci numbers
+     */
     public static LinkedList<Long> fib(long a, long b, int numFibs) {
         LinkedList<Long> ret = new LinkedList();
         ret.add(a);
@@ -82,54 +110,29 @@ public class NumberUtil {
         return ret;
     }
 
-    public static void showGUI() {
-        if (numFrame != null)
-            numFrame.dispose();
-
-        numFrame = new CyderFrame(600, 230, CyderIcons.defaultBackground);
-        numFrame.setTitle("Number To Words");
-        numFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-        numFrame.initializeResizing();
-
-        CyderLabel label = new CyderLabel("<html>Enter any number to be converted into word form<html/>");
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        label.setBounds(40, 40, 600 - 80, 80);
-        numFrame.getContentPane().add(label);
-
-        CyderTextField numField = new CyderTextField(40);
-        numField.setCharLimit(69);
-        numField.setBounds(40, 120, 600 - 80, 40);
-        numFrame.getContentPane().add(numField);
-
-        numField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (!(evt.getKeyChar() == KeyEvent.VK_MINUS) && !(evt.getKeyChar() >= '0' && evt.getKeyChar() <= '9')) {
-                    Toolkit.getDefaultToolkit().beep();
-                    evt.consume();
-                }
-            }
-        });
-
-        CyderButton find = new CyderButton("Find");
-        find.setFont(CyderFonts.segoe20);
-        find.setBackground(CyderColors.regularRed);
-        find.setBounds(40, 170, 600 - 80, 40);
-        find.addActionListener(e -> toWords(numField.getText()));
-        numFrame.getContentPane().add(find);
-
-        numFrame.setVisible(true);
-        numFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+    /**
+     * Returns the string representation for the provided integer.
+     *
+     * @param num the number of find a string representation for
+     * @return the string representation for the provided integer
+     */
+    public static String toWords(int num) {
+        return toWords(String.valueOf(num));
     }
 
-    private static void toWords(String wordRep) {
+    /**
+     * Returns the string representation for the provided raw text field input straight from a user.
+     *
+     * @param wordRep the result of calling textField.getText() on (an integer in the form of a String)
+     * @return the string representation for the provided raw text field input
+     */
+    public static String toWords(String wordRep) {
         if (wordRep == null || wordRep.length() == 0)
-            return;
+            return "ERROR";
 
         BigInteger num = new BigInteger(wordRep);
         if (num.compareTo(BigInteger.ZERO) == 0) {
-            numFrame.notify("Zero you idiot");
-            return;
+            return "Zero";
         }
 
         boolean negative = num.compareTo(BigInteger.ZERO) < 0;
@@ -138,7 +141,10 @@ public class NumberUtil {
         while (wordRep.length() % 3 != 0)
             wordRep = "0" + wordRep;
 
-        String[] arr = java.util.Arrays.toString(wordRep.split("(?<=\\G...)")).replace("[", "").replace("]", "").replace(" ", "").split(",");
+        String[] arr = java.util.Arrays.toString(wordRep.split("(?<=\\G...)"))
+                .replace("[", "").replace("]", "")
+                .replace(" ", "").split(",");
+
         LinkedList<Integer> trioNums = new LinkedList<>();
         LinkedList<String> trioStrings = new LinkedList<>();
 
@@ -172,11 +178,20 @@ public class NumberUtil {
             build += trioStr.trim() + " ";
 
         String neg = negative ? "negative " : "";
-
-        numFrame.inform("<html>" + neg + build.trim() + "</html>", "Conversion");
+        return neg + build.trim();
     }
 
+    /**
+     * Returns the word representation for a trio of base 10 digits.
+     * Example: 123 will return "one-hundred twenty three"
+     *
+     * @param num the number to get a word representation for
+     * @return the word representation for the provided trio of base 10 digits.
+     */
     private static String trioToWords(int num) {
+        if (num < 0 || num > 999)
+            throw new IllegalArgumentException("Provided number is not in the required range of [0, 999]");
+
         int ones = num % 10;
         int tens = (num % 100) / 10;
 
@@ -196,36 +211,78 @@ public class NumberUtil {
         return (hundredsStr + " " + below100Str);
     }
 
-    private static String[] onesPlace = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    /**
+     * String representations for all digits in the one's place
+     */
+    private static String[] onesPlace = {"", "one", "two", "three", "four",
+            "five", "six", "seven", "eight", "nine"};
 
+    /**
+     * Returns the word representation for any digit in the inclusive range [0, 9].
+     *
+     * @param num the number to get a word representation for
+     * @return the word representation for any digit in the inclusive range [0, 9]
+     */
     private static String wordForOnes(int num) {
         return onesPlace[num];
     }
 
-    private static String[] tensPlace = {"", "", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    /**
+     * String representations for all digits in the ten's place in base 10
+     */
+    private static String[] tensPlace = {"", "", "twenty", "thirty", "fourty",
+            "fifty", "sixty", "seventy", "eighty", "ninety"};
 
+    /**
+     * Returns the word representation for any digit in the ten's place in base 10.
+     * Example: 0 and 1 return nothing whilst 9 returns ninety.
+     *
+     * @param num the number to get a word represenation for provided the number is in the ten's place
+     * @return the word representation for the number in the ten's place in base 10
+     */
     private static String wordForTens(int num) {
         return tensPlace[num];
     }
 
-    private static String[] teens = {"ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+    /**
+     * String representations for numbers in the range [10, 19]
+     */
+    private static String[] teens = {"ten", "eleven", "twelve", "thirteen",
+            "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
 
+    /**
+     * Returns the word representation for a number in the inclusive range [10, 19].
+     *
+     * @param num the number to find a word representation of
+     * @return the word representation for a number in the inclusive range [10, 19]
+     */
     private static String wordForTeenNums(int num) {
         return teens[num - 10];
     }
 
-    private static String[] prefixes = {"", "-thousand", "-million", "-billion", "-trillion", "-quadrillion",
+    /**
+     * String prefixes for digit trios in base 10
+     */
+    private static final String[] prefixes = {"", "-thousand", "-million", "-billion", "-trillion", "-quadrillion",
             "-quintillion", "-sextillion", "-septillion", "-octillion", "-nonillion",
             "-decillion", "-undecillion", "-duodecillion", "-tredecillion",
             "-quattuordecillion", "-quindecillion", "-sexdexillion", "-septendecillion",
             "-octodecillion", "-novemdecillion", "-vigintillion", "-centillion"};
 
+    /**
+     * Returns the prefix associated with the place of a trio of digits in base 10.
+     * Example: 1 will return "-thousand" and 3 will return "-billion"
+     *
+     * @param trioPlace the place of the trio in its parent number
+     * @return the prefix associated with the palce of a trio of digits in base 10
+     */
     private static String prefix(int trioPlace) {
         return prefixes[trioPlace];
     }
 
     /**
-     * Returns "number" amount of random numbers within the provided range.
+     * Returns the requested amount of random numbers within the provided range.
+     *
      * @param min the minimum random number possible
      * @param max the maximum random number possible
      * @param number the number of random elements desired

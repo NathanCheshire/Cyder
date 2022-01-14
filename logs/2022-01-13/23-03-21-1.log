@@ -1,0 +1,91 @@
+[23-03-21] [ENTRY]: [Nathan]
+[23-03-21] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-03-23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-03-23] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-03-24] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-03-24] [SYSTEM_IO]: Userdata requested: Name
+[23-03-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-03-24] [SYSTEM_IO]: Userdata requested: Name
+[23-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[23-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[23-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[23-03-24] [SYSTEM_IO]: Userdata requested: Font
+[23-03-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-03-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[23-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[23-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[23-03-24] [SYSTEM_IO]: Userdata requested: Font
+[23-03-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-03-24] [SYSTEM_IO]: Userdata requested: InputFill
+[23-03-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [364090757], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-03-24] [ACTION]: Console loaded in 3684ms
+[23-03-25] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-03-25] [ENTRY]: [TESTING MODE]
+[23-03-25] [SYSTEM_IO]: Userdata requested: laststart
+[23-03-25] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-03-25] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3684ms
+[23-03-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-03-25] [CLIENT]: usb
+[23-03-25] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-26] [ACTION]: Component name = [cyder.ui.Notification], bounds = [(354, 29, 316, 67)], hash = [1225537247], parentFrame = [Stellar Cyder [Nathan]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-03-32] [CLIENT]: threads
+[23-03-32] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-32] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[23-03-32] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[23-03-32] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[23-03-32] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[23-03-32] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[23-03-32] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[23-03-32] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[23-03-32] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[23-03-32] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[23-03-32] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[23-03-36] [CLIENT]: clear
+[23-03-36] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-38] [CLIENT]: threads
+[23-03-38] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-38] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[23-03-38] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[23-03-38] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[23-03-38] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[23-03-38] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[23-03-38] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[23-03-38] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[23-03-38] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[23-03-38] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[23-03-38] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[23-03-41] [CLIENT]: clear
+[23-03-41] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-41] [CLIENT]: usb
+[23-03-41] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-45] [CLIENT]: open current log
+[23-03-45] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-48] [EXCEPTION]: 
+Something is null :/
+User: null
+Name: typinganimation
+Thrown from:
+cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+StackTrace:
+java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:451)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:429)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1634)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-03-55] [CLIENT]: open current log
+[23-03-55] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-58] [SYSTEM_IO]: Userdata requested: Background
+[23-04-00] [CLIENT]: usb
+[23-04-00] [SYSTEM_IO]: Userdata requested: filterchat
+[23-04-15] [SYSTEM_IO]: Userdata requested: Background
+[23-04-24] [CLIENT]: number2string 34
+[23-04-24] [SYSTEM_IO]: Userdata requested: filterchat
+[23-04-24] [CONSOLE_OUT]: [STRING] Could not parse number
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
