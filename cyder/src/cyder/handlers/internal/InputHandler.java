@@ -1240,12 +1240,16 @@ public class InputHandler {
             PyExecutor.executeUSBq();
         } else if (firstWord.equalsIgnoreCase("number2string") ||
                 firstWord.equalsIgnoreCase("number2word")) {
-            String subOp = op.split(" ")[1];
-
-            if (subOp.matches("[0-9]+")) {
-                println(NumberUtil.toWords(subOp));
+            if (op.split(" ").length != 2) {
+                println("Command usage: number2string YOUR_INTEGER");
             } else {
-                println("Could not parse input as number: " + subOp);
+                String subOp = op.split(" ")[1];
+
+                if (subOp.matches("[0-9]+")) {
+                    println(NumberUtil.toWords(subOp));
+                } else {
+                    println("Could not parse input as number: " + subOp);
+                }
             }
         }
         //final attempt at unknown input --------------------------

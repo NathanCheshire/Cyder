@@ -48,3 +48,7 @@
 [23-34-33] [CLIENT]: number2string 40515001
 [23-34-33] [SYSTEM_IO]: Userdata requested: filterchat
 [23-34-33] [CONSOLE_OUT]: [STRING] fourty-million and five hundred fifteen-thousand one
+[23-35-21] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1285, 206, 1029, 675)], hash = [370475881], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-35-21] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-35-21] [EXIT]: [RUNTIME] 1m 14s
+[23-35-21] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

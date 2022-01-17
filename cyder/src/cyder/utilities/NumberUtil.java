@@ -168,34 +168,24 @@ public class NumberUtil {
         //clear the list so that we can add back to it
         trioStrings.clear();
 
-        //for all trios
+        //for all trios get the prefix and add and to the last prefix (first since reversed)
         for (int i = 0 ; i < reversed.size() ; i++) {
-            //the current trio with its prefix if it exists
-            String formattedTrio = reversed.get(i) + prefix(i);
-
-            if (i == reversed.size() - 1) {
-                int trio = Integer.parseInt(baseTrios[i]);
-                System.out.println(trio);
-                //todo for some reason this is being a fucking idiot and putting and in the wrong places
-                //todo also stray spaces sometimes still
-            }
-
-            //if it's empty (000 is possible) or if the first char is a -
-            if (formattedTrio.trim().length() == 0 || formattedTrio.trim().charAt(0) == '-')
-                continue;
-
-            trioStrings.push(formattedTrio.trim());
+             trioStrings.add((i == 0  && reversed.size() > 1 ? " and " : "") + reversed.get(i) + getThousandsPrefix(i));
         }
 
-        //build trios into string and return
-        String build = "";
+        StringBuilder ret = new StringBuilder();
 
-        //add spaces in between trios
-        for (String trioStr : trioStrings)
-            build += trioStr.trim() + " ";
+        if (negative)
+            ret.append("Negative ");
 
-        String neg = negative ? "negative " : "";
-        return neg + build.trim();
+        for (int i = trioStrings.size() - 1 ; i > -1 ; i--) {
+            ret.append(trioStrings.get(i).trim());
+
+            if (i != 0)
+                ret.append(" ");
+        }
+
+        return ret.toString();
     }
 
     /**
@@ -222,7 +212,7 @@ public class NumberUtil {
         if (below100 < 20 && below100 > 9) {
             below100Str = teens[below100 - 10].trim();
         } else {
-            below100Str = tensPlace[tens].trim() + " " + onesPlace[ones].trim();
+            below100Str = (tensPlace[tens].trim() + " " + onesPlace[ones].trim()).trim();
         }
 
         return (hundredsStr + " " + below100Str).trim();
@@ -280,7 +270,7 @@ public class NumberUtil {
     /**
      * String prefixes for digit trios in base 10
      */
-    private static final String[] prefixes = {"", "-thousand", "-million", "-billion", "-trillion", "-quadrillion",
+    private static final String[] thousandPrefixes = {"", "-thousand", "-million", "-billion", "-trillion", "-quadrillion",
             "-quintillion", "-sextillion", "-septillion", "-octillion", "-nonillion",
             "-decillion", "-undecillion", "-duodecillion", "-tredecillion",
             "-quattuordecillion", "-quindecillion", "-sexdexillion", "-septendecillion",
@@ -293,8 +283,8 @@ public class NumberUtil {
      * @param trioPlace the place of the trio in its parent number
      * @return the prefix associated with the palce of a trio of digits in base 10
      */
-    private static String prefix(int trioPlace) {
-        return prefixes[trioPlace];
+    private static String getThousandsPrefix(int trioPlace) {
+        return thousandPrefixes[trioPlace];
     }
 
     /**
