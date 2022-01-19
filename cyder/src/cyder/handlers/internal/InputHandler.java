@@ -67,17 +67,31 @@ public class InputHandler {
     //todo goal is to eliminate this
     private String firstWord;
 
+    /**
+     * Private constructor to avoid incorrect instantiation.
+     */
     private InputHandler() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    /**
+     * Default constructor with required JTextPane.
+     *
+     * @param outputArea the JTextPane to output pictures/components/text/etc. to if needed
+     */
     public InputHandler(JTextPane outputArea) {
+        //set output area
         this.outputArea = outputArea;
+
+        //init other JTextPane threads
+
+        //todo perhaps these should be inside of a custom
+        // linked pane object since they need a JTextPane to work?
         masterYoutubeThread = new MasterYoutubeThread(outputArea);
         bletchyThread = new BletchyThread(outputArea);
     }
 
-    //handle methods ----------------------------------------------
+    //Master handle methods ----------------------------------------------
 
     //todo begin refactoring and breakup into other functions that are separated by category
     // that each return T/F which will determine whether or not the method should continue
@@ -90,9 +104,9 @@ public class InputHandler {
      * @return whether or not the process may proceed
      */
     private boolean handlePreliminaries(String op, boolean userTriggered) {
-        //check for null link
+        //check for null link (should be impossible)
         if (outputArea == null)
-            throw new IllegalStateException("Output area not set");
+            throw new IllegalStateException("Output area not set; what are you, some kind of European toy maker?");
 
         if (StringUtil.empytStr(op)) return false;
 
@@ -104,30 +118,29 @@ public class InputHandler {
         this.operation = op;
         this.firstWord = StringUtil.firstWord(operation);
 
-        //log CLIENT input
+        //log input as user triggered or simulated client input
         if (userTriggered) {
             SessionHandler.log(SessionHandler.Tag.CLIENT, operation);
         } else {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
         }
 
-        return true;
-    }
-
-    public void handle(String op, boolean userTriggered) throws Exception {
-        if (!handlePreliminaries(op, userTriggered))
-            return;
-
-        //redirection check ------------------------------------------
+        //check for requested redirection
         if (operation.contains(" > ")) {
+            //if has proper syntax for redirection
             String[] ops = operation.split(" > ");
 
             //if not 2 then it's some random String
             if (ops.length == 2) {
-                if (ops.length == 2 && ops[0].length() > 0 && ops[1].length() > 0) {
+                //if both parts are greater than 0
+                if (ops.length == 2 && ops[0].trim().length() > 0 && ops[1].trim().length() > 0) {
+                    //check for validity of requested filename
                     if (IOUtil.isValidFilenameWindows(ops[1])) {
+                        //set the operation to the actual op without the redirection call
                         this.operation = ops[0];
                         redirection = true;
+
+                        //create the file name
                         redirectionFile = new File("dynamic/users/" +
                                 ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + ops[1]);
 
@@ -145,12 +158,28 @@ public class InputHandler {
             }
         }
 
-        //pre-process checks --------------------------------------
-        if (UserUtil.getUserData("filterchat").equals("1") && StringUtil.filterLanguage(operation, true)) {
+        //check for bad language if filterchat
+        if (UserUtil.getUserData("filterchat").equals("1")
+                && StringUtil.filterLanguage(operation, true)) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
+            return false;
         }
+
+        return true;
+    }
+
+    /**
+     * Handles the input and provides output if necessary to the linked JTextPane.
+     *
+     * @param op the operation that is being handled
+     * @param userTriggered whether or not the provided op was produced via a user
+     * @throws Exception for numerous reasons such as if the JTextPane is not linked
+     */
+    public void handle(String op, boolean userTriggered) throws Exception {
+        if (!handlePreliminaries(op, userTriggered))
+            return;
         //printing strings ----------------------------------------
-        else if (hasWord("shakespeare")) {
+        if (hasWord("shakespeare")) {
             if (NumberUtil.randInt(1, 2) == 1) {
                 println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
             } else {
