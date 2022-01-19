@@ -1380,14 +1380,20 @@ public class InputHandler {
 
     //sub-handle methods in the order they appear above --------------------------
 
-    public boolean isURLCheck(String operation) {
+    /**
+     * Checks of the provided command is a URL and if so, opens a connection to it.
+     *
+     * @param command the command to attempt to open as a URL
+     * @return whether or not the command was indeed a valid URL
+     */
+    public boolean isURLCheck(String command) {
         boolean ret = false;
 
         try {
-            URL url = new URL(operation);
+            URL url = new URL(command);
             HttpURLConnection huc = (HttpURLConnection) url.openConnection();
             ret = true;
-            NetworkUtil.internetConnect(operation);
+            NetworkUtil.internetConnect(command);
         } catch (Exception ignored) {
             ret = false;
         }
@@ -1395,10 +1401,28 @@ public class InputHandler {
         return ret;
     }
 
-    private boolean handleMath(String userInput) {
-        int firstParen = userInput.indexOf("(");
-        int comma = userInput.indexOf(",");
-        int lastParen = userInput.indexOf(")");
+    /**
+     * Determines if the command was a simple evaluatable function such as floor() or pow().
+     * Valid expressions:
+     *      abs - 1 arg, returns the absolute value
+     *      ceil - 1 arg, returns the ceiling
+     *      floor - 1 arg, returns the floor
+     *      log - 1 arg, returns the natural log
+     *      log10 - 1 arg, returns the base 10 log
+     *      max - 2 args, returns the max
+     *      min - 2 args, returns the min
+     *      pow - 2 args, returns the first raised to the power of the second
+     *      round - 1 arg, round the arg to a whole number
+     *      sqrt - 1 arg, returns the sqrt of the number
+     *      convert2 - 1 arg, converts the number to binary
+     *
+     * @param command the command to attempt to evaluate as a simple math library call
+     * @return whether or not the command was a simple math library call
+     */
+    private boolean handleMath(String command) {
+        int firstParen = command.indexOf("(");
+        int comma = command.indexOf(",");
+        int lastParen = command.indexOf(")");
 
         String mathop;
         double param1 = 0.0;
@@ -1406,16 +1430,16 @@ public class InputHandler {
 
         try {
             if (firstParen != -1) {
-                mathop = userInput.substring(0, firstParen);
+                mathop = command.substring(0, firstParen);
 
                 if (comma != -1) {
-                    param1 = Double.parseDouble(userInput.substring(firstParen + 1, comma));
+                    param1 = Double.parseDouble(command.substring(firstParen + 1, comma));
 
                     if (lastParen != -1) {
-                        param2 = Double.parseDouble(userInput.substring(comma + 1, lastParen));
+                        param2 = Double.parseDouble(command.substring(comma + 1, lastParen));
                     }
                 } else if (lastParen != -1) {
-                    param1 = Double.parseDouble(userInput.substring(firstParen + 1, lastParen));
+                    param1 = Double.parseDouble(command.substring(firstParen + 1, lastParen));
                 }
 
                 if (mathop.equalsIgnoreCase("abs")) {
@@ -1460,24 +1484,37 @@ public class InputHandler {
         return false;
     }
 
-    private boolean evaluateExpression(String userInput) {
+    /**
+     * Determines if the provided command was a mathematical expression and if so, evaluates it.
+     *
+     * @param command the command to attempt to evaluate as a mathematical expression
+     * @return whether or not the command was a mathematical expression
+     */
+    private boolean evaluateExpression(String command) {
         try {
-            println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(userInput.trim())));
+            println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(command.trim())));
             return true;
         } catch (Exception ignored) {}
 
         return false;
     }
 
-    private boolean preferenceCheck(String op) {
+    /**
+     * Checks the command for an intended preference toggle and if so, toggles the preference.
+     * The user may include 1, true, 0, or false with the command to specify the value of the targeted preference.
+     *
+     * @param targetedPreference the preference to change
+     * @return whether or not a preference was toggled/handled
+     */
+    private boolean preferenceCheck(String targetedPreference) {
         boolean ret = false;
 
         for (Preference pref : GenesisShare.getPrefs()) {
-            if (op.equalsIgnoreCase(pref.getID()) && !pref.getDisplayName().equals("IGNORE")) {
-                if (op.contains("1") || op.toLowerCase().contains("true")) {
+            if (targetedPreference.equalsIgnoreCase(pref.getID()) && !pref.getDisplayName().equals("IGNORE")) {
+                if (targetedPreference.contains("1") || targetedPreference.toLowerCase().contains("true")) {
                     UserUtil.setUserData(pref.getID(), "1");
                     println(pref.getDisplayName() + " set to true");
-                } else if (op.contains("0") || op.toLowerCase().contains("false")) {
+                } else if (targetedPreference.contains("0") || targetedPreference.toLowerCase().contains("false")) {
                     UserUtil.setUserData(pref.getID(), "0");
                     println(pref.getDisplayName() + " set to false");
                 } else {
@@ -1494,16 +1531,22 @@ public class InputHandler {
         return ret;
     }
 
-    public boolean manualTestCheck(String operation) {
-        operation = operation.toLowerCase();
+    /**
+     * Determines if the command intended to invoke a manual test from test/ManualTests.
+     *
+     * @param command the command to attempt to recognize as a manual test
+     * @return whether or not the command was handled as a manual test call
+     */
+    public boolean manualTestCheck(String command) {
+        command = command.toLowerCase();
 
-        if (operation.contains("test")) {
+        if (command.contains("test")) {
             boolean ret = false;
 
             ManualTests mtw = new ManualTests();
 
             for (Method m : mtw.getClass().getMethods()) {
-                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
+                if (m.getName().equalsIgnoreCase(command) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(mtw);
                         println("Invoking manual test: " + m.getName());
@@ -1519,16 +1562,22 @@ public class InputHandler {
         } else return false;
     }
 
-    public boolean unitTestCheck(String operation) {
-        operation = operation.toLowerCase();
+    /**
+     * Determines if the command intended to invoke a unit test.
+     *
+     * @param command the unit test to invoke if recognized from unit tests
+     * @return whether or not the command was recognized as a unit test call
+     */
+    public boolean unitTestCheck(String command) {
+        command = command.toLowerCase();
 
-        if (operation.contains("test")) {
+        if (command.contains("test")) {
             boolean ret = false;
 
             UnitTests tests = new UnitTests();
 
             for (Method m : tests.getClass().getMethods()) {
-                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
+                if (m.getName().equalsIgnoreCase(command) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(tests);
                         println("Invoking unit test: " + m.getName());
@@ -1544,10 +1593,16 @@ public class InputHandler {
         } else return false;
     }
 
+    /**
+     * The final handle method for if all other handle methods failed
+     */
     private void unknownInput() {
         println("Unknown command");
         ConsoleFrame.getConsoleFrame().flashSuggestionButton();
-        //inform of valid tests in case they were trying to call a test
+        //inform of valid tests in case they were trying to call a test for the first
+        //todo make the suggestion button a help button that prints unit tests
+        // and a button that will trigger the make a suggestion, maybe print a
+        // text field is the resolution for embedded field within outputarea to emulate DOS/unix shell?
     }
 
     //end handle methods --------------------------------
