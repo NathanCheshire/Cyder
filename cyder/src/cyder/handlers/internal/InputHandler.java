@@ -1378,75 +1378,7 @@ public class InputHandler {
         }
     }
 
-    public void printUnitTests() {
-        println("Unit Tests:");
-        UnitTests ut = new UnitTests();
-
-        for (Method m : ut.getClass().getMethods()) {
-            if (m.getName().toLowerCase().contains("test"))
-                println(m.getName());
-        }
-    }
-
-    public void printManualTests() {
-        println("Manual tests:");
-        ManualTests mtw = new ManualTests();
-
-        for (Method m : mtw.getClass().getMethods()) {
-            if (m.getName().toLowerCase().contains("test"))
-                println(m.getName());
-        }
-    }
-
-    public boolean manualTestCheck(String operation) {
-        operation = operation.toLowerCase();
-
-        if (operation.contains("test")) {
-            boolean ret = false;
-
-            ManualTests mtw = new ManualTests();
-
-            for (Method m : mtw.getClass().getMethods()) {
-                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
-                    try {
-                        m.invoke(mtw);
-                        println("Invoking manual test: " + m.getName());
-                        ret = true;
-                    } catch (Exception e) {
-                        ErrorHandler.handle(e);
-                    }
-                    break;
-                }
-            }
-
-            return ret;
-        } else return false;
-    }
-
-    public boolean unitTestCheck(String operation) {
-        operation = operation.toLowerCase();
-
-        if (operation.contains("test")) {
-            boolean ret = false;
-
-            UnitTests tests = new UnitTests();
-
-            for (Method m : tests.getClass().getMethods()) {
-                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
-                    try {
-                        m.invoke(tests);
-                        println("Invoking unit test: " + m.getName());
-                        ret = true;
-                    } catch (Exception e) {
-                        ErrorHandler.handle(e);
-                    }
-                    break;
-                }
-            }
-
-            return ret;
-        } else return false;
-    }
+    //sub-handle methods in the order they appear above --------------------------
 
     public boolean isURLCheck(String operation) {
         boolean ret = false;
@@ -1461,15 +1393,6 @@ public class InputHandler {
         }
 
         return ret;
-    }
-
-    public void handleSecond(String input) {
-        try {
-            String desc = getUserInputDesc();
-            //tests on desc which should have been set from the first handle method
-        } catch (Exception e) {
-            ErrorHandler.handle(e);
-        }
     }
 
     private boolean handleMath(String userInput) {
@@ -1537,12 +1460,6 @@ public class InputHandler {
         return false;
     }
 
-    private void unknownInput() {
-        println("Unknown command");
-        ConsoleFrame.getConsoleFrame().flashSuggestionButton();
-        //inform of valid tests in case they were trying to call a test
-    }
-
     private boolean evaluateExpression(String userInput) {
         try {
             println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(userInput.trim())));
@@ -1552,7 +1469,6 @@ public class InputHandler {
         return false;
     }
 
-    //checks to see if a preference id was entered and if so, toggles it
     private boolean preferenceCheck(String op) {
         boolean ret = false;
 
@@ -1578,8 +1494,108 @@ public class InputHandler {
         return ret;
     }
 
+    public boolean manualTestCheck(String operation) {
+        operation = operation.toLowerCase();
+
+        if (operation.contains("test")) {
+            boolean ret = false;
+
+            ManualTests mtw = new ManualTests();
+
+            for (Method m : mtw.getClass().getMethods()) {
+                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
+                    try {
+                        m.invoke(mtw);
+                        println("Invoking manual test: " + m.getName());
+                        ret = true;
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                    break;
+                }
+            }
+
+            return ret;
+        } else return false;
+    }
+
+    public boolean unitTestCheck(String operation) {
+        operation = operation.toLowerCase();
+
+        if (operation.contains("test")) {
+            boolean ret = false;
+
+            UnitTests tests = new UnitTests();
+
+            for (Method m : tests.getClass().getMethods()) {
+                if (m.getName().equalsIgnoreCase(operation) && m.getParameterTypes().length == 0) {
+                    try {
+                        m.invoke(tests);
+                        println("Invoking unit test: " + m.getName());
+                        ret = true;
+                    } catch (Exception e) {
+                        ErrorHandler.handle(e);
+                    }
+                    break;
+                }
+            }
+
+            return ret;
+        } else return false;
+    }
+
+    private void unknownInput() {
+        println("Unknown command");
+        ConsoleFrame.getConsoleFrame().flashSuggestionButton();
+        //inform of valid tests in case they were trying to call a test
+    }
+
+    //end handle methods --------------------------------
+
     /**
-     * Prints a suggestion as to what the user should do
+     * Prints the available unit tests to the linked JTextPane.
+     */
+    public void printUnitTests() {
+        println("Unit Tests:");
+        UnitTests ut = new UnitTests();
+
+        for (Method m : ut.getClass().getMethods()) {
+            if (m.getName().toLowerCase().contains("test"))
+                println(m.getName());
+        }
+    }
+
+    /**
+     * Prints the available manual tests that follow the standard
+     * naming convention to the linked JTextPane.
+     */
+    public void printManualTests() {
+        println("Manual tests:");
+        ManualTests mtw = new ManualTests();
+
+        for (Method m : mtw.getClass().getMethods()) {
+            if (m.getName().toLowerCase().contains("test"))
+                println(m.getName());
+        }
+    }
+
+    /**
+     * Handles a secondary input following a subsequent operation that was sent to handle().
+     *
+     * @param input the secondary input to handle
+     */
+    public void handleSecond(String input) {
+        try {
+            String desc = getUserInputDesc();
+            //tests on desc which should have been set from the first handle method
+        } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Prints ten suggestions as recommendations to the user for what to use Cyder for.
+     * //todo make dynamic perhaps via a json
      */
     public void help() {
         LinkedList<String> helps = new LinkedList<>();
@@ -1612,18 +1628,38 @@ public class InputHandler {
         }
     }
 
+    /**
+     * Links a different JTextPane as this input handler's outputArea.
+     *
+     * @param outputArea the JTextPane to link
+     */
     public void setOutputArea(JTextPane outputArea) {
         this.outputArea = outputArea;
     }
 
+    /**
+     * Standard getter for the currently linked JTextPane.
+     *
+     * @return the linked JTextPane
+     */
     public JTextPane getOutputArea() {
         return this.outputArea;
     }
 
+    /**
+     * Returns the MasterYoutubeThread object associated with this input handler.
+     *
+     * @return the MasterYoutubeThread object associated with this input handler
+     */
     public MasterYoutubeThread getMasterYoutube() {
         return masterYoutubeThread;
     }
 
+    /**
+     * Returns the BletchyThread object associated with this input handler.
+     *
+     * @return the BletchyThread object associated with this input handler
+     */
     public BletchyThread getBletchyThread() {
         return bletchyThread;
     }
@@ -1647,7 +1683,8 @@ public class InputHandler {
     }
 
     /**
-     * Returns the expected secondary input description
+     * Returns the expected secondary input description.
+     *
      * @return the input description
      */
     public String getUserInputDesc() {
@@ -1655,18 +1692,28 @@ public class InputHandler {
     }
 
     /**
-     * Sets this instance's secondary input description
+     * Sets this instance's secondary input description.
+     *
      * @param s the description of the input we expect to receive next
      */
     public void setUserInputDesc(String s) {
         this.userInputDesc = s;
     }
 
+    /**
+     * Ends any custom threads such as youtube or bletchy
+     * that may have been invoked via this input handler.
+     */
     public void close() {
         masterYoutubeThread.killAllYoutube();
         bletchyThread.killBletchy();
     }
 
+    /**
+     * Returns a String representation of this input handler object.
+     *
+     * @return a String representation of this input handler object
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);
@@ -1674,14 +1721,21 @@ public class InputHandler {
 
     //printing queue methods and logic ----------------------------
 
-    //use this for adding/removing to/from both lists
+    /**
+     * Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList.
+     */
     private Semaphore makePrintingThreadsafeAgain = new Semaphore(1);
 
     //don't ever add to these lists, call the respective print functions and let them
     // handle adding them to the lists
 
-    //lists declared anonymously to allow for their add methods to be overridden
-    // allowing for semaphore usage
+
+    /**
+     * the printing list of non-important outputs.
+     * Directly adding to this list should not be performed. Instead use a print/println statement.
+     * List is declared anonymously to allow for their add methods to be overridden to allow for
+     * Semaphore usage implying thread safety when calling print statements.
+     */
     private LinkedList<Object> consolePrintingList = new LinkedList<>() {
         @Override
         public boolean add(Object e) {
@@ -1695,6 +1749,13 @@ public class InputHandler {
             return ret;
         }
     };
+
+    /**
+     * The priority printing list of important outputs.
+     * Directly adding to this list should not be performed. Instead use a print/println statement.
+     * List is declared anonymously to allow for their add methods to be overridden to allow for
+     * Semaphore usage implying thread safety when calling print statements.
+     */
     private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
         @Override
         public boolean add(Object e) {
@@ -1709,16 +1770,19 @@ public class InputHandler {
         }
     };
 
-    private boolean started = false;
+    /**
+     * Boolean describing whether or not the console printing animation thread has been invoked and begun.
+     */
+    private boolean printingAnimationInvoked = false;
 
     //console printing animation currently turned off do to concurrency issues such as
     // bletchy, YouTube thread, and drawing pictures and such, maybe we just throw everything no matter
     // what into a custom OutputQueue and from there determine how to store it and print it?
     public void startConsolePrintingAnimation() {
-        if (started)
+        if (printingAnimationInvoked)
             return;
 
-        started = true;
+        printingAnimationInvoked = true;
 
         consolePrintingList.clear();
         consolePriorityPrintingList.clear();
