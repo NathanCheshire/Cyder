@@ -178,7 +178,7 @@ public class InputHandler {
     public void handle(String op, boolean userTriggered) throws Exception {
         if (!handlePreliminaries(op, userTriggered))
             return;
-        //printing strings ----------------------------------------
+        //pure handling resulting in simple print statements
         if (hasWord("shakespeare")) {
             if (NumberUtil.randInt(1, 2) == 1) {
                 println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
@@ -348,7 +348,7 @@ public class InputHandler {
         } else if (hasWord("css")) {
             printlnImage("static/pictures/print/css.png");
         }
-        //threads -------------------------------------------------
+        //calls that will result in threads being spun off or thread operations
         else if (hasWord("random") && hasWord("youtube")) {
             masterYoutubeThread = new MasterYoutubeThread(outputArea);
             masterYoutubeThread.start(1);
@@ -364,7 +364,8 @@ public class InputHandler {
             bletchyThread.bletchy("As old as my tongue and a little bit older than my teeth, wait...",
                     false, 50, true);
         }
-        //widgets -------------------------------------------------
+        //calls that will result in opening widgets
+        //todo move handling of widgets opening to their showGUI methods and add a tag for that in logger
         else if (hasWord("clock")) {
             ClockWidget.showGUI();
         } else if ((hasWord("youtube") && hasWord("thumbnail"))) {
@@ -466,7 +467,7 @@ public class InputHandler {
             PerlinWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "PERLIN");
         }
-        //ui and settings -----------------------------------------
+        //calls that will move CyderFrames around
         else if (eic("top left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
         } else if (eic("top right")) {
@@ -550,7 +551,7 @@ public class InputHandler {
         } else if (eic("dance")) {
             ConsoleFrame.getConsoleFrame().dance();
         }
-        //program outsourcing ------------------------------------
+        //calls that will cause other programs to run/execute other than Cyder/Cyder components
         else if (hasWord("cyder") && has("dir")) {
             if (SecurityUtil.nathanLenovo()) {
                 String CurrentDir = System.getProperty("user.dir");
@@ -631,7 +632,7 @@ public class InputHandler {
         } else if (eic("1-800-273-8255") || eic("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
         }
-        //console commands ----------------------------------------
+        //general Cyder console commands todo refine me
         else if (hasWord("background") && hasWord("color")) {
             String colorInput = operation.replaceAll("(?i)background","")
                     .replaceAll("(?i)color","").replace("#","")
