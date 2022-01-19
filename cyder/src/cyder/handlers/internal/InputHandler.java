@@ -64,6 +64,9 @@ public class InputHandler {
     private String operation;
     private UserEditor userEditor;
 
+    //todo goal is to eliminate this
+    private String firstWord;
+
     private InputHandler() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
@@ -76,18 +79,30 @@ public class InputHandler {
 
     //handle methods ----------------------------------------------
 
-    public void handle(String op, boolean userTriggered) throws Exception {
-        //reset redirection now since we have a new command
-        redirection = false;
-        redirectionFile = null;
+    //todo begin refactoring and breakup into other functions that are separated by category
+    // that each return T/F which will determine whether or not the method should continue
 
+    /**
+     * Handles preliminaries such as assumptions before passing input data to the subHandle methods
+     *
+     * @param op the operation that is being handled
+     * @param userTriggered whether or not the provided op was produced via a user
+     * @return whether or not the process may proceed
+     */
+    private boolean handlePreliminaries(String op, boolean userTriggered) {
         //check for null link
         if (outputArea == null)
             throw new IllegalStateException("Output area not set");
 
-        //init String vars
+        if (StringUtil.empytStr(op)) return false;
+
+        //reset redirection now since we have a new command
+        redirection = false;
+        redirectionFile = null;
+
+        //set String vars
         this.operation = op;
-        String firstWord = StringUtil.firstWord(operation);
+        this.firstWord = StringUtil.firstWord(operation);
 
         //log CLIENT input
         if (userTriggered) {
@@ -95,6 +110,13 @@ public class InputHandler {
         } else {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
         }
+
+        return true;
+    }
+
+    public void handle(String op, boolean userTriggered) throws Exception {
+        if (!handlePreliminaries(op, userTriggered))
+            return;
 
         //redirection check ------------------------------------------
         if (operation.contains(" > ")) {
