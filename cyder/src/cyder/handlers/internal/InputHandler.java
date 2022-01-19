@@ -41,30 +41,63 @@ import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
+    /**
+     * The linked JTextPane.
+     */
     private JTextPane outputArea;
+
+    /**
+     * The MasterYoutubeThread for handling a random youtube command.
+     */
     private MasterYoutubeThread masterYoutubeThread;
+
+    /**
+     * The primary bletchy thread to print bletchy strings to the linked outputArea.
+     */
     private BletchyThread bletchyThread;
 
+    /**
+     * boolean describing whether or not input should be passed to handle() or handleSecond().
+     */
     private boolean userInputMode;
+
+    /**
+     * The description of the secondary input handleSecond will receive.
+     */
+    private String userInputDesc;
+
+    /**
+     * boolean describing whether or not to quickly append all remaining queued objects to the linked JTextPane.
+     */
     private boolean finishPrinting;
 
+    /**
+     * The file to redirect the outputs of a command to if redirection is enabled.
+     */
     private File redirectionFile;
+
+    /**
+     * Boolean describing whether or not possible command output should be redirected to the redirectionFile.
+     */
     private boolean redirection;
 
-    private String userInputDesc;
-    private String operation;
-    private UserEditor userEditor;
+    /**
+     * The command that is being handled.
+     */
+    private String command;
 
-    //todo goal is to eliminate this
+    /**
+     * The arguments of the command.
+     */
+    private ArrayList<String> args;
+
+    //todo goal is to eliminate this, replace with command and args[] list
     private String firstWord;
 
     /**
@@ -97,38 +130,58 @@ public class InputHandler {
     // that each return T/F which will determine whether or not the method should continue
 
     /**
-     * Handles preliminaries such as assumptions before passing input data to the subHandle methods
+     * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
+     * Also sets the ops array to the found command and arguments
      *
-     * @param op the operation that is being handled
-     * @param userTriggered whether or not the provided op was produced via a user
+     * @param command the command that is being handled
+     * @param userTriggered whether or not the provided operation was produced via a user
      * @return whether or not the process may proceed
      */
-    private boolean handlePreliminaries(String op, boolean userTriggered) {
+    private boolean handlePreliminaries(final String command, boolean userTriggered) {
         //check for null link (should be impossible)
         if (outputArea == null)
             throw new IllegalStateException("Output area not set; what are you, some kind of European toy maker?");
 
-        if (StringUtil.empytStr(op)) return false;
+        if (StringUtil.empytStr(this.command)) return false;
 
         //reset redirection now since we have a new command
         redirection = false;
         redirectionFile = null;
 
-        //set String vars
-        this.operation = op;
-        this.firstWord = StringUtil.firstWord(operation);
+        //set command and args[] vars
+        this.command = command.trim();
+
+        //from now on use operation and not command
+
+        //reset args
+        args.clear();
+
+        //set args ArrayList
+        if (this.command.contains(" ")) {
+            String[] arrArgs = this.command.split(" ");
+
+            //add all that have length greater than 0 after trimming
+            // and that are not the first since that is "command"
+            for (int i = 1 ; i < arrArgs.length ; i++) {
+                if (arrArgs[i].trim().length() > 0) {
+                    args.add(arrArgs[i].trim());
+                }
+            }
+        }
+
+        this.firstWord = StringUtil.firstWord(this.command);
 
         //log input as user triggered or simulated client input
         if (userTriggered) {
-            SessionHandler.log(SessionHandler.Tag.CLIENT, operation);
+            SessionHandler.log(SessionHandler.Tag.CLIENT, this.command);
         } else {
-            SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + operation);
+            SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
 
         //check for requested redirection
-        if (operation.contains(" > ")) {
+        if (this.command.contains(" > ")) {
             //if has proper syntax for redirection
-            String[] ops = operation.split(" > ");
+            String[] ops = this.command.split(" > ");
 
             //if not 2 then it's some random String
             if (ops.length == 2) {
@@ -136,8 +189,8 @@ public class InputHandler {
                 if (ops.length == 2 && ops[0].trim().length() > 0 && ops[1].trim().length() > 0) {
                     //check for validity of requested filename
                     if (IOUtil.isValidFilenameWindows(ops[1])) {
-                        //set the operation to the actual op without the redirection call
-                        this.operation = ops[0];
+                        //set the operation to the actual operation without the redirection call
+                        this.command = ops[0];
                         redirection = true;
 
                         //create the file name
@@ -160,7 +213,7 @@ public class InputHandler {
 
         //check for bad language if filterchat
         if (UserUtil.getUserData("filterchat").equals("1")
-                && StringUtil.filterLanguage(operation, true)) {
+                && StringUtil.filterLanguage(this.command, true)) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
             return false;
         }
@@ -194,7 +247,7 @@ public class InputHandler {
             println("Piss off, ghost.");
         }  else if (hasWord("alex") && hasWord("trebek")) {
             println("Do you mean who is alex trebek?");
-        } else if (StringUtil.isPalindrome(operation.replace(" ", "")) && operation.length() > 3) {
+        } else if (StringUtil.isPalindrome(command.replace(" ", "")) && command.length() > 3) {
             println("Nice palindrome.");
         } else if ((hasWord("flip") && hasWord("coin")) ||
                 (hasWord("heads") && hasWord("tails"))) {
@@ -355,7 +408,7 @@ public class InputHandler {
         } else if (hasWord("scrub")) {
             bletchyThread.bletchy("No you!", false, 50, true);
         } else if (hasWord("bletchy")) {
-            bletchyThread.bletchy(operation, false, 50, true);
+            bletchyThread.bletchy(command, false, 50, true);
         } else if (hasWord("threads") && !hasWord("daemon")) {
             ThreadUtil.printThreads();
         } else if (hasWord("threads") && hasWord("daemon")) {
@@ -561,12 +614,12 @@ public class InputHandler {
                         ", but you don't have permission to do that.");
             }
         } else if (eic("youtube word search")) {
-            println("Enter the desired word you would like to find in a YouTube URL");
-            setUserInputDesc("youtube word search");
-            ConsoleFrame.getConsoleFrame().getInputField().requestFocus();
-            setUserInputMode(true);
+            String input = "commando"; //todo make this a command with ops
+            String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
+            browse = browse.replace("REPLACE", input).replace(" ", "+");
+            NetworkUtil.internetConnect(browse);
         } else if (firstWord.equalsIgnoreCase("echo")) {
-            String[] sentences = operation.split(" ");
+            String[] sentences = command.split(" ");
             for (int i = 1; i < sentences.length; i++) {
                 print(sentences[i] + " ");
             }
@@ -634,7 +687,7 @@ public class InputHandler {
         }
         //general Cyder console commands todo refine me
         else if (hasWord("background") && hasWord("color")) {
-            String colorInput = operation.replaceAll("(?i)background","")
+            String colorInput = command.replaceAll("(?i)background","")
                     .replaceAll("(?i)color","").replace("#","")
                     .replace(" ", "");
             try {
@@ -700,7 +753,7 @@ public class InputHandler {
                 GenesisShare.exit(25);
             }
         } else if ((firstWord.equalsIgnoreCase("print") || firstWord.equalsIgnoreCase("println"))) {
-            String[] sentences = operation.split(" ");
+            String[] sentences = command.split(" ");
 
             for (int i = 1; i < sentences.length; i++) {
                 print(sentences[i] + " ");
@@ -712,10 +765,10 @@ public class InputHandler {
         } else if (hasWord("close cd")) {
             SystemUtil.closeCD("D:\\");
         } else if (firstWord.equalsIgnoreCase("define")) {
-            String defineWord = operation.replaceAll("(?i)define","").trim();
+            String defineWord = command.replaceAll("(?i)define","").trim();
             println(StringUtil.define(defineWord));
         } else if (firstWord.equalsIgnoreCase("wikisum")) {
-            String summaryWord = operation.replaceAll("(?i)wikisum","").trim();
+            String summaryWord = command.replaceAll("(?i)wikisum","").trim();
             println(StringUtil.wikiSummary(summaryWord));
         } else if (hasWord("pixelate") && hasWord("background")) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
@@ -798,7 +851,7 @@ public class InputHandler {
             },"Binary Converter Getter Thread").start();
         } else if (hasWord("prime")) {
             try {
-                String[] parts = operation.split(" ");
+                String[] parts = command.split(" ");
 
                 if (parts.length == 2) {
                     int num = Integer.parseInt(parts[1]);
@@ -828,7 +881,7 @@ public class InputHandler {
             println(NetworkUtil.getNetworkDevicesString());
         } else if (hasWord("bindump")) {
             if (has("-f")) {
-                String[] parts = operation.split("-f");
+                String[] parts = command.split("-f");
 
                 if (parts.length != 2) {
                     println("Too much/too little args");
@@ -846,7 +899,7 @@ public class InputHandler {
             }
         } else if (hasWord("hexdump")) {
             if (has("-f")) {
-                String[] parts = operation.split("-f");
+                String[] parts = command.split("-f");
 
                 if (parts.length != 2) {
                     println("Too much/too little args");
@@ -903,7 +956,7 @@ public class InputHandler {
         } else if (hasWord("long") && hasWord("word")) {
             int count = 0;
 
-            String[] words = operation.split(" ");
+            String[] words = command.split(" ");
 
             for (String word : words) {
                 if (word.equalsIgnoreCase("long")) {
@@ -924,7 +977,7 @@ public class InputHandler {
         } else if (hasWord("system") && hasWord("properties")) {
             StatUtil.systemProperties();
         } else if (hasWord("anagram")) {
-            String[] parts = operation.split(" ");
+            String[] parts = command.split(" ");
 
             if (parts.length != 3) {
                 println("Anagram usage: anagram word1 word2");
@@ -1026,7 +1079,7 @@ public class InputHandler {
         } else if (firstWord.equalsIgnoreCase("play")) {
             boolean isURL = true;
 
-            String input = operation.substring(5).trim();
+            String input = command.substring(5).trim();
 
             try {
                 URL url = new URL(input);
@@ -1306,21 +1359,21 @@ public class InputHandler {
         }
         //final attempt at unknown input --------------------------
         else {
-            if (isURLCheck(operation)) {
+            //todo respective methods should handle their own logging, add a tag for that as well
+            if (isURLCheck(command)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE URL FUNCTION HANDLED");
-            } else if (handleMath(operation)) {
+            } else if (handleMath(command)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
-            } else if (evaluateExpression(operation)) {
+            } else if (evaluateExpression(command)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH HANDLED");
-            } else if (preferenceCheck(operation)) {
+            } else if (preferenceCheck(command)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
-            } else if (manualTestCheck(operation)) {
+            } else if (manualTestCheck(command)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
-            } else if (unitTestCheck(operation)) {
+            } else if (unitTestCheck(command)) {
                 SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
             } else {
                 unknownInput();
-                //inform of valid tests in case they were trying to call a test
             }
         }
     }
@@ -1413,12 +1466,7 @@ public class InputHandler {
     public void handleSecond(String input) {
         try {
             String desc = getUserInputDesc();
-
-            if (desc.equalsIgnoreCase("youtube word search") && input != null && !input.equals("")) {
-                String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
-                browse = browse.replace("REPLACE", input).replace(" ", "+");
-                NetworkUtil.internetConnect(browse);
-            }
+            //tests on desc which should have been set from the first handle method
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
@@ -1492,6 +1540,7 @@ public class InputHandler {
     private void unknownInput() {
         println("Unknown command");
         ConsoleFrame.getConsoleFrame().flashSuggestionButton();
+        //inform of valid tests in case they were trying to call a test
     }
 
     private boolean evaluateExpression(String userInput) {
@@ -1580,7 +1629,8 @@ public class InputHandler {
     }
 
     /**
-     * Getter for this instance's input mode
+     * Getter for this instance's input mode. Used by ConsoleFrame to trigger a handleSecond call.
+     *
      * @return the value of user input mode
      */
     public boolean getUserInputMode() {
@@ -1588,7 +1638,8 @@ public class InputHandler {
     }
 
     /**
-     * Set the value of secondary input mode
+     * Set the value of secondary input mode. Used by ConsoleFrame to trigger a handleSecond call.
+     *
      * @param b the value of input mode
      */
     public void setUserInputMode(boolean b) {
@@ -2008,15 +2059,15 @@ public class InputHandler {
     //string comparison methods -----------------------------------
     
     private boolean eic(String eic) {
-        return operation.equalsIgnoreCase(eic);
+        return command.equalsIgnoreCase(eic);
     }
     
     private boolean has(String compare) {
-        return operation.toLowerCase().contains(compare.toLowerCase());
+        return command.toLowerCase().contains(compare.toLowerCase());
     }
 
     private boolean hasWord(String compare) {
-        return StringUtil.hasWord(operation, compare, false);
+        return StringUtil.hasWord(command, compare, false);
     }
 
     //direct JTextPane manipulation methods -----------------------

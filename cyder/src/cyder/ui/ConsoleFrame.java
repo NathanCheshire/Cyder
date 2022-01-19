@@ -514,7 +514,9 @@ public final class ConsoleFrame {
                         //calls to linked inputhandler
                         if (!inputHandler.getUserInputMode()) {
                             inputHandler.handle(op, true);
-                        } else if (inputHandler.getUserInputMode()) {
+                        }
+                        //send the operation to handle second if it is awaiting a secondary input
+                        else if (inputHandler.getUserInputMode()) {
                             inputHandler.setUserInputMode(false);
                             inputHandler.handleSecond(op);
                         }
