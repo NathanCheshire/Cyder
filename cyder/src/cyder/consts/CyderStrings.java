@@ -25,6 +25,8 @@ public class CyderStrings {
 
     public static final String commentSepString = "----------------------------------------";
 
+    public static final String bulletPoint = "\u2022";
+
     private CyderStrings() {
         throw new IllegalStateException(attemptedClassInstantiation);
     }

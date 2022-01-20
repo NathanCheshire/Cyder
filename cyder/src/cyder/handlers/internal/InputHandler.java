@@ -142,7 +142,7 @@ public class InputHandler {
         if (outputArea == null)
             throw new IllegalStateException("Output area not set; what are you, some kind of European toy maker?");
 
-        if (StringUtil.empytStr(this.command)) return false;
+        if (StringUtil.empytStr(command)) return false;
 
         //reset redirection now since we have a new command
         redirection = false;
@@ -154,7 +154,7 @@ public class InputHandler {
         //from now on use operation and not command
 
         //reset args
-        args.clear();
+        args = new ArrayList<>();
 
         //set args ArrayList
         if (this.command.contains(" ")) {
@@ -193,6 +193,13 @@ public class InputHandler {
                         this.command = ops[0];
                         redirection = true;
 
+                        //acquire sem to ensure file is not being written to
+                        try {
+                            redirectionSem.acquire();
+                        } catch (Exception e) {
+                            ErrorHandler.handle(e);
+                        }
+
                         //create the file name
                         redirectionFile = new File("dynamic/users/" +
                                 ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + ops[1]);
@@ -206,6 +213,9 @@ public class InputHandler {
                             redirection = false;
                             redirectionFile = null;
                         }
+
+                        //release sem
+                        redirectionSem.release();
                     }
                 }
             }
@@ -1679,7 +1689,7 @@ public class InputHandler {
         println("Try typing: ");
 
         for (int i : NumberUtil.randInt(0,helps.size() - 1,10,false)) {
-            println("•\t" + helps.get(i));
+            println(CyderStrings.bulletPoint + "\t" + helps.get(i));
         }
     }
 
@@ -1781,10 +1791,6 @@ public class InputHandler {
      */
     private Semaphore makePrintingThreadsafeAgain = new Semaphore(1);
 
-    //don't ever add to these lists, call the respective print functions and let them
-    // handle adding them to the lists
-
-
     /**
      * the printing list of non-important outputs.
      * Directly adding to this list should not be performed. Instead use a print/println statement.
@@ -1830,9 +1836,10 @@ public class InputHandler {
      */
     private boolean printingAnimationInvoked = false;
 
-    //console printing animation currently turned off do to concurrency issues such as
-    // bletchy, YouTube thread, and drawing pictures and such, maybe we just throw everything no matter
-    // what into a custom OutputQueue and from there determine how to store it and print it?
+    /**
+     * Begins the printing animation for the linked JTextPane. The typing animation is only
+     * used if the user preference is enabled.
+     */
     public void startConsolePrintingAnimation() {
         if (printingAnimationInvoked)
             return;
@@ -1937,14 +1944,29 @@ public class InputHandler {
         }, "Console Printing Animation").start();
     }
 
-    private int playInc = 0;
-    private int playRate = 2;
+    /**
+     * The increment we are currently on for inner char printing.
+     * Used to determine when to play a typing animation sound.
+     */
+    private static int playInc = 0;
 
+    /**
+     * The frequency at which we should play a printing animation sound.
+     */
+    private static int playRate = 2;
+
+    /**
+     * Appends the provided char to the linked JTextPane and plays
+     * a printing animation sound if playInc == playRate.
+     *
+     * @param c the character to append to the JTextPane
+     */
     private void innerConsolePrint(char c) {
         try {
             StyledDocument document = (StyledDocument) outputArea.getDocument();
             document.insertString(document.getLength(),
-                    UserUtil.extractUser().getCapsmode().equals("1") ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
+                    UserUtil.extractUser().getCapsmode().equals("1")
+                            ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
             outputArea.setCaretPosition(outputArea.getDocument().getLength());
 
             if (playInc == playRate - 1) {
@@ -2174,23 +2196,40 @@ public class InputHandler {
     public void printlnPriority(Object usage) {
         printPriority(usage + "\n");
     }
-    
-    //string comparison methods -----------------------------------
-    
-    private boolean eic(String eic) {
-        return command.equalsIgnoreCase(eic);
+
+    /**
+     * Determines if the current command equals the provided text ignoring case.
+     *
+     * @param compare the string to check for case insensitive equalty to command
+     * @return if the current command equals the provided text ignoring case
+     */
+    private boolean eic(String compare) {
+        return command.equalsIgnoreCase(compare);
     }
-    
+
+    /**
+     * Determines if the current command has the provided text ignoring case.
+     *
+     * @param compare the substring to check command for
+     * @return if the current command has the provided word
+     */
     private boolean has(String compare) {
         return command.toLowerCase().contains(compare.toLowerCase());
     }
 
+    /**
+     * Determines if the current command has the provided word.
+     *
+     * @param compare the word to check command for
+     * @return if the current command has the provided word
+     */
     private boolean hasWord(String compare) {
         return StringUtil.hasWord(command, compare, false);
     }
 
-    //direct JTextPane manipulation methods -----------------------
-
+    /**
+     * Removes all components from the linked JTextPane.
+     */
     private void clc() {
         outputArea.setText("");
     }
@@ -2248,6 +2287,12 @@ public class InputHandler {
         }
     }
 
+    /**
+     * Returns the last line of text on the linked JTextPane.
+     * Text is easier to get and return as opposedto general components.
+     *
+     * @return the last line of text on the linked JTextPane
+     */
     public String getLastTextLine() {
         String text = outputArea.getText();
         String[] lines = text.split("\n");
@@ -2294,8 +2339,18 @@ public class InputHandler {
 
     //redirection logic ---------------------------------------
 
+    /**
+     * Semaphore used to ensure all things that need to
+     * be written to the redirectionFile are written to it.
+     * This also ensures that multiple redirections
+     */
     Semaphore redirectionSem = new Semaphore(1);
 
+    /**
+     * Writes the provided object to the redirection file instead of the JTextPane.
+     *
+     * @param object the object to invoke toString() on and write to the current redirectionFile
+     */
     private void redirectionWrite(Object object) {
         if (!redirectionFile.exists())
             throw new IllegalStateException("Redirection file does not exist");
@@ -2309,23 +2364,28 @@ public class InputHandler {
         }
     }
 
-    //control flow handlers ---------------------------------------
-
+    /**
+     * Stops all threads invoked, sets the userInputMode to false,
+     * stops any audio playing, and finishes printing anything in the printing lists.
+     */
     private void escapeThreads() {
         //exit user input mode if in it
         setUserInputMode(false);
-        //kill YouTube threads
+
+        //kill threads
         masterYoutubeThread.killAllYoutube();
-        //kill bletchy threads
         bletchyThread.killBletchy();
-        //kill system threads
         SystemUtil.killThreads();
+
         //stop music
         IOUtil.stopAudio();
+
         //cancel dancing threads
         ConsoleFrame.getConsoleFrame().stopDancing();
+
         //finish printing anything in printing queue
         finishPrinting = true;
+
         //inform user we escaped
         consolePriorityPrintingList.add("Escaped\n");
     }
