@@ -1981,48 +1981,93 @@ public class InputHandler {
             ErrorHandler.silentHandle(e);
         }
     }
-    
+
+    /**
+     * Prints the provided ImageIcon and a new line to the linked JTextPane.
+     *
+     * @param icon the icon to print to the linked JTextPane
+     */
     public void printlnImage(ImageIcon icon) {
         consolePrintingList.add(icon);
         consolePrintingList.add("\n");
     }
-    
+
+    /**
+     * Prints the provided ImageIcon to the linked JTextPane.
+     *
+     * @param icon the icon to print to the linked JTextPane
+     */
     public void printImage(ImageIcon icon) {
         consolePrintingList.add(icon);
     }
-    
+
+    /**
+     * Prints the provided ImageIcon and a new line to the linked JTextPane.
+     *
+     * @param filename the filename of the image to print to the JTextPane
+     */
     public void printlnImage(String filename) {
         consolePrintingList.add(new ImageIcon(filename));
         consolePrintingList.add("\n");
     }
-    
+
+    /**
+     * Prints the provided ImageIcon and a new line to the linked JTextPane.
+     *
+     * @param filename the filename of the image to print to the JTextPane
+     */
     public void printImage(String filename) {
         consolePrintingList.add(new ImageIcon(filename));
     }
 
+    /**
+     * Prints the provided component and a new line to the linked JTextPane.
+     *
+     * @param c the component to print to the JTextPane
+     */
     public void printlnComponent(Component c) {
         consolePrintingList.add(c);
         consolePrintingList.add("\n");
-}
+    }
 
+    /**
+     * Prints the provided component to the linked JTextPane.
+     *
+     * @param c the component to print to the JTextPane
+     */
     public void printComponent(Component c) {
         consolePrintingList.add(c);
     }
-    
+
+    /**
+     * Prints the provided String to the linked JTextPane.
+     *
+     * @param usage the string to print to the JTextPane
+     */
     public void print(String usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
             consolePrintingList.add(usage);
     }
-    
+
+    /**
+     * Prints the provided int to the linked JTextPane.
+     *
+     * @param usage the int to print to the JTextPane
+     */
     public void print(int usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
             consolePrintingList.add(Integer.toString(usage));
     }
-    
+
+    /**
+     * Prints the provided double to the linked JTextPane.
+     *
+     * @param usage the double to print to the JTextPane
+     */
     public void print(double usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Double.toString(usage));
@@ -2030,13 +2075,23 @@ public class InputHandler {
             consolePrintingList.add(Double.toString(usage));
     }
 
+    /**
+     * Prints the provided boolean to the linked JTextPane.
+     *
+     * @param usage the boolean to print to the JTextxPane
+     */
     public void print(boolean usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
             consolePrintingList.add(Boolean.toString(usage));
     }
-    
+
+    /**
+     * Prints the provided float to the linked JTextPane.
+     *
+     * @param usage the float to print to the JTextPane
+     */
     public void print(float usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Float.toString(usage));
@@ -2044,6 +2099,11 @@ public class InputHandler {
             consolePrintingList.add(Float.toString(usage));
     }
 
+    /**
+     * Prints the provided long to the linked JTextPane.
+     *
+     * @param usage the long to print to the JTextPane
+     */
     public void print(long usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Long.toString(usage));
@@ -2051,14 +2111,24 @@ public class InputHandler {
             consolePrintingList.add(Long.toString(usage));
 
     }
-    
+
+    /**
+     * Prints the provided char to the JTextPane
+     *
+     * @param usage the char to print to the JTextPane
+     */
     public void print(char usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
             consolePrintingList.add(String.valueOf(usage));
     }
-    
+
+    /**
+     * Prints the provided object to the JTextPane
+     *
+     * @param usage the object to print to the JTextPane
+     */
     public void print(Object usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage.toString());
@@ -2066,133 +2136,287 @@ public class InputHandler {
             consolePrintingList.add(usage.toString());
     }
 
+    /**
+     * Prints the provided String and a newline to the linked JTextPane.
+     *
+     * @param usage the string to print to the JTextPane
+     */
     public void println(String usage) {
         print(usage + "\n");
     }
 
+    /**
+     * Prints the provided int and a newline to the linked JTextPane.
+     *
+     * @param usage the int to print to the JTextPane
+     */
     public void println(int usage) {
         print(usage + "\n");
     }
-    
+
+    /**
+     * Prints the provided double and a newline to the linked JTextPane.
+     *
+     * @param usage the double to print to the JTextPane
+     */
     public void println(double usage) {
         print(usage + "\n");
     }
 
+    /**
+     * Prints the provided boolean and a newline to the linked JTextPane.
+     *
+     * @param usage the boolean to print to the JTextPane
+     */
     public void println(boolean usage) {
         print(usage + "\n");
     }
 
+    /**
+     * Prints the provided float and a newline to the linked JTextPane.
+     *
+     * @param usage the float to print to the JTextPane
+     */
     public void println(float usage) {
         print(usage + "\n");
     }
-    
+
+    /**
+     * Prints the provided long and a newline to the linked JTextPane.
+     *
+     * @param usage the long to print to the JTextPane
+     */
     public void println(long usage) {
         print(usage + "\n");
     }
 
+    /**
+     * Prints the provided char and a newline to the linked JTextPane.
+     *
+     * @param usage the char to print to the JTextPane
+     */
     public void println(char usage) {
         print(usage + "\n");
     }
-    
+
+    /**
+     * Prints the provided object and a newline to the linked JTextPane.
+     *
+     * @param usage the object to print to the JTextPane
+     */
     public void println(Object usage) {
         print(usage + "\n");
     }
 
-    //print lines method
+    /**
+     * Prints the provided String lines to the linked JTextPane.
+     * Note that new lines are automatically added in this so the passed
+     * array may be strings that do not end with new lines.
+     *
+     * @param lines the lines to print to the JTextPane
+     */
     public void printlns(String[] lines) {
         for (String line : lines)
             println(line);
     }
 
-    //repeat above methods but for priority queue should an object need quick printing
-
+    /**
+     * Priority printing method to print the provided ImageIcon and a new line to the JTextPane.
+     *
+     * @param icon the icon to print to the JTextPane
+     */
     public void printlnImagePriority(ImageIcon icon) {
         consolePrintingList.add(icon);
         consolePrintingList.add("\n");
     }
 
+    /**
+     * Priority printing method to print the provided ImageIcon to the JTextPane.
+     *
+     * @param icon the icon to print to the JTextPane
+     */
     public void printImagePriority(ImageIcon icon) {
         consolePriorityPrintingList.add(icon);
     }
 
+    /**
+     * Priority printing method to print the provided ImageIcon and a new line to the JTextPane.
+     *
+     * @param filename the filename of the icon to print to the JTextPane
+     */
     public void printlnImagePriority(String filename) {
         consolePriorityPrintingList.add(new ImageIcon(filename));
         consolePriorityPrintingList.add("\n");
     }
 
+    /**
+     * Priority printing method to print the provided String to the JTextPane.
+     *
+     * @param filename the filename of the icon to print to the JTextPane
+     */
     public void printImagePriority(String filename) {
         consolePriorityPrintingList.add(new ImageIcon(filename));
     }
 
+    /**
+     * Priority printing method to print the provided Component and a new line to the JTextPane.
+     *
+     * @param c the component to print to the JTextPane
+     */
     public void printlnComponentPriority(Component c) {
         consolePriorityPrintingList.add(c);
         consolePriorityPrintingList.add("\n");
     }
 
+    /**
+     * Priority printing method to print the provided Component to the JTextPane.
+     *
+     * @param c the component to print to the JTextPane
+     */
     public void printComponentPriority(Component c) {
         consolePriorityPrintingList.add(c);
     }
 
+    /**
+     * Priority printing method to print the provided String to the JTextPane.
+     *
+     * @param usage the string to print to the JTextPane
+     */
     public void printPriority(String usage) {
         consolePriorityPrintingList.add(usage);
     }
 
+    /**
+     * Priority printing method to print the provided int to the JTextPane.
+     *
+     * @param usage the int to print to the JTextPane
+     */
     public void printPriority(int usage) {
         consolePriorityPrintingList.add(Integer.toString(usage));
     }
 
+    /**
+     * Priority printing method to print the provided double to the JTextPane.
+     *
+     * @param usage the double to print to the JTextPane
+     */
     public void printPriority(double usage) {
         consolePriorityPrintingList.add(Double.toString(usage));
     }
 
+    /**
+     * Priority printing method to print the provided boolean to the JTextPane.
+     *
+     * @param usage the boolean to print to the JTextPane
+     */
     public void printPriority(boolean usage) {
         consolePriorityPrintingList.add(Boolean.toString(usage));
     }
 
+    /**
+     * Priority printing method to print the provided float to the JTextPane.
+     *
+     * @param usage the float to print to the JTextPane
+     */
     public void printPriority(float usage) {
         consolePriorityPrintingList.add(Float.toString(usage));
-      }
+    }
 
+    /**
+     * Priority printing method to print the provided long to the JTextPane.
+     *
+     * @param usage the long to print to the JTextPane
+     */
     public void printPriority(long usage) {
         consolePriorityPrintingList.add(Long.toString(usage));
     }
 
+    /**
+     * Priority printing method to print the provided char to the JTextPane.
+     *
+     * @param usage the char to print to the JTextPane
+     */
     public void printPriority(char usage) {
         consolePriorityPrintingList.add(String.valueOf(usage));
     }
 
+    /**
+     * Priority printing method to print the provided object to the JTextPane.
+     *
+     * @param usage the object to print to the JTextPane
+     */
     public void printPriority(Object usage) {
         consolePriorityPrintingList.add(usage.toString());
     }
 
+    /**
+     * Priority printing method to print the provided String and a new line to the JTextPane.
+     *
+     * @param usage the string to print to the JTextPane
+     */
     public void printlnPriority(String usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided int and a new line to the JTextPane.
+     *
+     * @param usage the provided int to print to the JTextPane
+     */
     public void printlnPriority(int usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided double and a new line to the JTextPane.
+     *
+     * @param usage the double to print to the JTextPane
+     */
     public void printlnPriority(double usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided boolean and a new line to the JTextPane.
+     *
+     * @param usage the boolean to print to the JTextPane
+     */
     public void printlnPriority(boolean usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided float and a new line to the JTextPane.
+     *
+     * @param usage the float to print to the JTextPane
+     */
     public void printlnPriority(float usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided long and a new line to the JTextPane.
+     *
+     * @param usage the long to print to the JTextPane
+     */
     public void printlnPriority(long usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided char and a new line to the JTextPane.
+     *
+     * @param usage the char to print to the JTextPane
+     */
     public void printlnPriority(char usage) {
         printPriority(usage + "\n");
     }
 
+    /**
+     * Priority printing method to print the provided object and a new line to the JTextPane.
+     *
+     * @param usage the object to print to the JTextPane
+     */
     public void printlnPriority(Object usage) {
         printPriority(usage + "\n");
     }
