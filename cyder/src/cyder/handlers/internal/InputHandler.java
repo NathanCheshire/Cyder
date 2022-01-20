@@ -14,9 +14,6 @@ import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.DirectoryViewer;
 import cyder.py.PyExecutor;
-import test.java.Debug;
-import test.java.ManualTests;
-import test.java.UnitTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
@@ -24,6 +21,9 @@ import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
 import cyder.widgets.*;
+import test.java.Debug;
+import test.java.ManualTests;
+import test.java.UnitTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -1660,36 +1660,13 @@ public class InputHandler {
 
     /**
      * Prints ten suggestions as recommendations to the user for what to use Cyder for.
-     * //todo make dynamic perhaps via a json
      */
     public void help() {
-        LinkedList<String> helps = new LinkedList<>();
-        helps.add("Calculator");
-        helps.add("Prefs");
-        helps.add("Java");
-        helps.add("Bletchy Bletchy Park");
-        helps.add("Minecraft");
-        helps.add("Pixelate background");
-        helps.add("rgb");
-        helps.add("Hangman");
-        helps.add("Pizza");
-        helps.add("Music");
-        helps.add("Temperature");
-        helps.add("Tic tac toe");
-        helps.add("Top right");
-        helps.add("Consolidate windows");
-        helps.add("Hey");
-        helps.add("Press F17");
-        helps.add("Hexdump");
-        helps.add("Random Youtube");
-        helps.add("Dir");
-        helps.add("Nathan");
-        helps.add("Resize Image");
-
         println("Try typing: ");
 
-        for (int i : NumberUtil.randInt(0,helps.size() - 1,10,false)) {
-            println(CyderStrings.bulletPoint + "\t" + helps.get(i));
+        for (IOUtil.Suggestion suggestion : IOUtil.getSuggestions()) {
+            println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
+                    + ": Result: " + suggestion.getResult());
         }
     }
 

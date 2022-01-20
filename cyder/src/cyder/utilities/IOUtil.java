@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
@@ -14,6 +15,7 @@ import javazoom.jl.player.Player;
 import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -244,6 +246,73 @@ public class IOUtil {
 
             SessionHandler.log(SessionHandler.Tag.JAVA_ARGS, append);
         } catch (Exception e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Returns the linked list of suggestions loaded from help.json
+     *
+     * @return a linked list of Suggestion objects
+     */
+    public static LinkedList<Suggestion> getSuggestions() {
+        if (suggestions == null)
+            loadSuggestions();
+        return suggestions;
+    }
+
+    private static LinkedList<Suggestion> suggestions = null;
+
+    private static String helpFilePath = "static/help.json";
+
+    static {
+        loadSuggestions();
+    }
+
+    private static void loadSuggestions() {
+        LinkedList<Suggestion> ret = null;
+        Gson gson = new Gson();
+
+        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
+
+        try (Reader reader = new FileReader(helpFilePath)) {
+            Type helpType = new TypeToken<LinkedList<Suggestion>>(){}.getType();
+
+            ret = gson.fromJson(reader, helpType);
+
+            //if successful set as our suggestions object
+            suggestions = ret;
+        } catch (IOException e) {
+            ErrorHandler.handle(e);
+        }
+    }
+
+    /**
+     * Adds a suggestion to the help.json file, should never be invoked by a user.
+     * Make this method public when needing to access to add suggestions.
+     *
+     * @param suggestion the suggestion to add to help.json
+     */
+    private static void addSuggestion(Suggestion suggestion) {
+        Gson gson = new Gson();
+
+        loadSuggestions();
+
+        if (suggestions == null)
+            suggestions = new LinkedList<>();
+
+        if (suggestions.contains(suggestion))
+            return;
+
+        suggestions.add(suggestion);
+
+        try (FileWriter writer = new FileWriter(helpFilePath)) {
+            gson.toJson(suggestions, writer);
+            SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Suggestions had " + suggestion + " added.");
+
+            //now update suggestions
+            loadSuggestions();
+        } catch (IOException e) {
             ErrorHandler.handle(e);
         }
     }
@@ -854,6 +923,50 @@ public class IOUtil {
             public String toString() {
                 return "[code: " + this.code + ", desc: " + this.description + "]";
             }
+        }
+    }
+
+    public static class Suggestion {
+        private String command;
+        private String result;
+
+        public Suggestion(String command, String result) {
+            this.command = command;
+            this.result = result;
+        }
+
+        public String getCommand() {
+            return command;
+        }
+
+        public void setCommand(String command) {
+            this.command = command;
+        }
+
+        public String getResult() {
+            return result;
+        }
+
+        public void setResult(String result) {
+            this.result = result;
+        }
+
+        @Override
+        public String toString() {
+            return "\"" + command + "\" should trigger: \"" + result + "\"";
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (!(o instanceof Suggestion))
+                return false;
+
+            Suggestion sug = (Suggestion) o;
+
+            return sug.getResult().equals(this.getResult())
+                    && sug.getCommand().equals(this.getCommand());
         }
     }
 }
