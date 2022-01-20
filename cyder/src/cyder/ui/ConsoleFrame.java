@@ -563,17 +563,15 @@ public final class ConsoleFrame {
 
                 CyderButton suggestionButton = new CyderButton("Make a Suggestion");
                 suggestionButton.setColors(CyderColors.regularPink);
-                suggestionButton.addActionListener(ex -> {
-                    new Thread(() -> {
-                        String suggestion = new GetterUtil().getString("Suggestion",
-                                "Cyder Suggestion", "Submit", CyderColors.regularPink);
+                suggestionButton.addActionListener(ex -> new Thread(() -> {
+                    String suggestion = new GetterUtil().getString("Suggestion",
+                            "Cyder Suggestion", "Submit", CyderColors.regularPink);
 
-                        if (!StringUtil.isNull(suggestion)) {
-                            SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
-                            inputHandler.println("Suggestion logged");
-                        }
-                    }, "Suggestion Getter Waiter Thread").start();
-                });
+                    if (!StringUtil.isNull(suggestion)) {
+                        SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
+                        inputHandler.println("Suggestion logged");
+                    }
+                }, "Suggestion Getter Waiter Thread").start());
 
                 inputHandler.printlnComponent(suggestionButton);
             },"Suggestion Getter Waiter Thread").start());
@@ -3039,7 +3037,7 @@ public final class ConsoleFrame {
         IOUtil.stopAudio();
 
         //close the input handler
-        inputHandler.close();
+        inputHandler.killThreads();
         inputHandler = null;
 
         //logs

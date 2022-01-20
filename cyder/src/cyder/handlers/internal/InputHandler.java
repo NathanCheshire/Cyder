@@ -97,9 +97,6 @@ public class InputHandler {
      */
     private ArrayList<String> args;
 
-    //todo goal is to eliminate this, replace with command and args[] list
-    private String firstWord;
-
     /**
      * Private constructor to avoid incorrect instantiation.
      */
@@ -116,7 +113,7 @@ public class InputHandler {
         //set output area
         this.outputArea = outputArea;
 
-        //init other JTextPane threads
+        //init other JTextPane custom objects such as Threads
 
         //todo perhaps these should be inside of a custom
         // linked pane object since they need a JTextPane to work?
@@ -167,9 +164,10 @@ public class InputHandler {
                     args.add(arrArgs[i].trim());
                 }
             }
-        }
 
-        this.firstWord = StringUtil.firstWord(this.command);
+            //set command
+            this.command = arrArgs[0];
+        }
 
         //log input as user triggered or simulated client input
         if (userTriggered) {
@@ -623,17 +621,25 @@ public class InputHandler {
                 println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                         ", but you don't have permission to do that.");
             }
-        } else if (eic("youtube word search")) {
-            String input = "commando"; //todo make this a command with ops
-            String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
-            browse = browse.replace("REPLACE", input).replace(" ", "+");
-            NetworkUtil.internetConnect(browse);
-        } else if (firstWord.equalsIgnoreCase("echo")) {
-            String[] sentences = command.split(" ");
-            for (int i = 1; i < sentences.length; i++) {
-                print(sentences[i] + " ");
+        } else if (eic("YoutubeWordSearch")) {
+            if (checkArgsLength(1)) {
+                String input = getArg(0);
+                String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
+                browse = browse.replace("REPLACE", input).replace(" ", "+");
+                NetworkUtil.internetConnect(browse);
+            } else {
+                println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");
             }
-            println("");
+        } else if (eic("echo") || eic("print") || eic("println")) {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0 ; i < args.size() ; i++) {
+                //print arg plus a space unless last argument
+                sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
+            }
+
+            //ending new line
+            println(sb.toString());
         } else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
             Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
         } else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
@@ -695,7 +701,9 @@ public class InputHandler {
         } else if (eic("1-800-273-8255") || eic("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
         }
-        //general Cyder console commands todo refine me
+        //general Cyder console commands
+        //todo offship logic to methods such as this
+        // such be in color util witha good method name
         else if (hasWord("background") && hasWord("color")) {
             String colorInput = command.replaceAll("(?i)background","")
                     .replaceAll("(?i)color","").replace("#","")
@@ -762,24 +770,22 @@ public class InputHandler {
             } else {
                 GenesisShare.exit(25);
             }
-        } else if ((firstWord.equalsIgnoreCase("print") || firstWord.equalsIgnoreCase("println"))) {
-            String[] sentences = command.split(" ");
-
-            for (int i = 1; i < sentences.length; i++) {
-                print(sentences[i] + " ");
-            }
-
-            println("");
         } else if (hasWord("open cd")) {
             SystemUtil.openCD("D:\\");
         } else if (hasWord("close cd")) {
             SystemUtil.closeCD("D:\\");
-        } else if (firstWord.equalsIgnoreCase("define")) {
-            String defineWord = command.replaceAll("(?i)define","").trim();
-            println(StringUtil.define(defineWord));
-        } else if (firstWord.equalsIgnoreCase("wikisum")) {
-            String summaryWord = command.replaceAll("(?i)wikisum","").trim();
-            println(StringUtil.wikiSummary(summaryWord));
+        } else if (eic("define")) {
+            if (args.size() > 0) {
+                println(StringUtil.define(argsToString()));
+            } else {
+                println("define usage: define YOUR_WORD/expression");
+            }
+        } else if (eic("wikisum")) {
+            if (args.size() > 0) {
+                println(StringUtil.wikiSummary(argsToString()));
+            } else {
+                println("wikisum usage: wikisum YOUR_WORD/expression");
+            }
         } else if (hasWord("pixelate") && hasWord("background")) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
                 println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
@@ -1086,10 +1092,10 @@ public class InputHandler {
                 println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
-        } else if (firstWord.equalsIgnoreCase("play")) {
+        } else if (eic("play")) {
             boolean isURL = true;
 
-            String input = command.substring(5).trim();
+            String input = argsToString();
 
             try {
                 URL url = new URL(input);
@@ -1177,18 +1183,13 @@ public class InputHandler {
                     }
                 }, "Youtube Audio Download Waiter").start();
             }
-        }  else if (firstWord.equalsIgnoreCase("pastebin")) {
-            String[] parts = op.split(" ");
-
-            if (parts.length != 2) {
-                println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
-            } else {
+        }  else if (eic("pastebin")) {
+            if (checkArgsLength(1)) {
                 String urlString = "";
-
-                if (parts[1].contains("pastebin.com")) {
-                    urlString = parts[1];
+                if (getArg(0).contains("pastebin.com")) {
+                    urlString = getArg(0);
                 } else {
-                    urlString = "https://pastebin.com/raw/" + parts[1];
+                    urlString = "https://pastebin.com/raw/" + getArg(1);
                 }
 
                 try {
@@ -1202,8 +1203,10 @@ public class InputHandler {
                     reader.close();
                 } catch (Exception e) {
                     ErrorHandler.silentHandle(e);
-                    println("Improper pastebin url");
+                    println("Unknown pastebin url/UUID");
                 }
+            } else {
+                println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (eic("Demo mode")) {
             CyderFrame background = new CyderFrame(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight(),
@@ -1353,18 +1356,15 @@ public class InputHandler {
             }, "Bad Word Code Searcher").start();
         } else if (hasWord("usb")) {
             PyExecutor.executeUSBq();
-        } else if (firstWord.equalsIgnoreCase("number2string") ||
-                firstWord.equalsIgnoreCase("number2word")) {
-            if (op.split(" ").length != 2) {
-                println("Command usage: number2string YOUR_INTEGER");
-            } else {
-                String subOp = op.split(" ")[1];
-
-                if (subOp.matches("[0-9]+")) {
-                    println(NumberUtil.toWords(subOp));
+        } else if (eic("number2string") || eic("number2word")) {
+            if (checkArgsLength(1)) {
+                if (getArg(0).matches("[0-9]+")) {
+                    println(NumberUtil.toWords(getArg(0)));
                 } else {
-                    println("Could not parse input as number: " + subOp);
+                    println("Could not parse input as number: " + getArg(0));
                 }
+            } else {
+                println("Command usage: number2string YOUR_INTEGER");
             }
         }
         //final attempt at unknown input --------------------------
@@ -1614,6 +1614,55 @@ public class InputHandler {
     //end handle methods --------------------------------
 
     /**
+     * Returns the current user issued command.
+     *
+     * @return the current user issued command
+     */
+    public String getCommand() {
+        return this.command;
+    }
+
+    /**
+     * Returns whether or not the arguments array contains the expected number of arguments.
+     *
+     * @param expectedSize the expected size of the command arguments
+     * @return whether or not the arguments array contains the expected number of arguments
+     */
+    public boolean checkArgsLength(int expectedSize) {
+        return this.args.size() == expectedSize;
+    }
+
+    /**
+     * Returns the command argument at the provided index.
+     * Returns null if the index is out of bounds instead of throwing.
+     *
+     * @param index the index to retreive the command argument of
+     * @return the command argument at the provided index
+     */
+    public String getArg(int index) {
+        if (index + 1 <= args.size() && index >= 0) {
+            return args.get(index);
+        } else return null;
+    }
+
+    /**
+     * Returns the arguments in String form separated by spaces.
+     *
+     * @return the arguments in String form separated by spaces
+     */
+    public String argsToString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0 ; i < args.size() ; i++) {
+            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
+        }
+
+        return sb.toString();
+    }
+
+    //end argument/command accessors --------------------------------
+
+    /**
      * Prints the available unit tests to the linked JTextPane.
      */
     public void printUnitTests() {
@@ -1640,6 +1689,8 @@ public class InputHandler {
         }
     }
 
+    // end printing tests ----------------------------------
+
     /**
      * Handles a secondary input following a subsequent operation that was sent to handle().
      *
@@ -1655,7 +1706,7 @@ public class InputHandler {
     }
 
     /**
-     * Prints ten suggestions as recommendations to the user for what to use Cyder for.
+     * Prints the suggestions as recommendations to the user for what to use Cyder for.
      */
     public void help() {
         println("Try typing: ");
@@ -1742,7 +1793,7 @@ public class InputHandler {
      * Ends any custom threads such as youtube or bletchy
      * that may have been invoked via this input handler.
      */
-    public void close() {
+    public void killThreads() {
         masterYoutubeThread.killAllYoutube();
         bletchyThread.killBletchy();
     }
@@ -2570,8 +2621,7 @@ public class InputHandler {
         setUserInputMode(false);
 
         //kill threads
-        masterYoutubeThread.killAllYoutube();
-        bletchyThread.killBletchy();
+        killThreads();
         SystemUtil.killThreads();
 
         //stop music

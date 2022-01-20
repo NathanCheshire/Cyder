@@ -1,0 +1,57 @@
+[22-32-59] [ENTRY]: [Nathan]
+[22-32-59] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-32-59] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-33-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-33-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-33-01] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-33-01] [SYSTEM_IO]: Userdata requested: Name
+[22-33-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-33-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-33-01] [SYSTEM_IO]: Userdata requested: Name
+[22-33-02] [SYSTEM_IO]: Userdata requested: Foreground
+[22-33-02] [SYSTEM_IO]: Userdata requested: Foreground
+[22-33-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-33-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-33-02] [SYSTEM_IO]: Userdata requested: Foreground
+[22-33-02] [SYSTEM_IO]: Userdata requested: Font
+[22-33-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-33-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-33-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-33-02] [SYSTEM_IO]: Userdata requested: Foreground
+[22-33-02] [SYSTEM_IO]: Userdata requested: Foreground
+[22-33-02] [SYSTEM_IO]: Userdata requested: Foreground
+[22-33-02] [SYSTEM_IO]: Userdata requested: Font
+[22-33-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-33-02] [SYSTEM_IO]: Userdata requested: InputFill
+[22-33-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [492337845], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-33-02] [ACTION]: Console loaded in 3119ms
+[22-33-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-33-02] [ENTRY]: [TESTING MODE]
+[22-33-02] [SYSTEM_IO]: Userdata requested: laststart
+[22-33-02] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-33-02] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3119ms
+[22-33-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-33-08] [CLIENT]: youtubewordsearch
+[22-33-08] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-08] [CONSOLE_OUT]: [STRING] YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND
+[22-33-11] [CLIENT]: youtubewordsearch asdf asdf
+[22-33-11] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-11] [CONSOLE_OUT]: [STRING] Who is the spiciest meme lord?
+[22-33-15] [CLIENT]: youtubewordsearch aa aa
+[22-33-15] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-15] [CONSOLE_OUT]: [STRING] Unknown command
+[22-33-22] [CLIENT]: youtubewordsearch aa
+[22-33-22] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-22] [CONSOLE_OUT]: [STRING] Unknown command
+[22-33-28] [CLIENT]: youtubewordsearch hell
+[22-33-28] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-28] [CONSOLE_OUT]: [STRING] Unknown command
+[22-33-30] [CLIENT]: clear
+[22-33-30] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-33] [CLIENT]: youtubewordsearch
+[22-33-33] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-33] [CONSOLE_OUT]: [STRING] YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND
+[22-33-36] [CLIENT]: youtubewordsearch word
+[22-33-36] [SYSTEM_IO]: Userdata requested: filterchat
+[22-33-36] [CONSOLE_OUT]: [STRING] Unknown command
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
