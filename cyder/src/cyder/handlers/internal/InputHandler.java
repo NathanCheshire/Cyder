@@ -1609,10 +1609,6 @@ public class InputHandler {
     private void unknownInput() {
         println("Unknown command");
         ConsoleFrame.getConsoleFrame().flashSuggestionButton();
-        //inform of valid tests in case they were trying to call a test for the first
-        //todo make the suggestion button a help button that prints unit tests
-        // and a button that will trigger the make a suggestion, maybe print a
-        // text field is the resolution for embedded field within outputarea to emulate DOS/unix shell?
     }
 
     //end handle methods --------------------------------

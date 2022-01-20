@@ -58,7 +58,7 @@ public final class ConsoleFrame {
     private JPasswordField inputField;
     private JLabel consoleClockLabel;
     private JLabel menuLabel;
-    private JButton suggestionButton;
+    private JButton helpButton;
     private JButton menuButton;
     private JButton minimize;
     private JButton pin;
@@ -548,52 +548,64 @@ public final class ConsoleFrame {
                 inputField.revalidate();
             }
 
-            suggestionButton = new JButton("");
-            suggestionButton.setToolTipText("Suggestions");
+            helpButton = new JButton("");
+            helpButton.setToolTipText("Help");
 
             //instantiate enter listener for all buttons
             InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
             im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
-            suggestionButton.addActionListener(e -> new Thread(() -> {
-                String suggestion = new GetterUtil().getString("Suggestion",
-                        "Cyder Suggestion", "Submit", CyderColors.regularPink);
+            helpButton.addActionListener(e -> new Thread(() -> {
+                //print tests in case the user was trying to invoke one
+                inputHandler.printManualTests();
+                inputHandler.printUnitTests();
 
-                if (!StringUtil.isNull(suggestion)) {
-                    SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
-                    inputHandler.println("Suggestion logged");
-                }
+                CyderButton suggestionButton = new CyderButton("Make a Suggestion");
+                suggestionButton.setColors(CyderColors.regularPink);
+                suggestionButton.addActionListener(ex -> {
+                    new Thread(() -> {
+                        String suggestion = new GetterUtil().getString("Suggestion",
+                                "Cyder Suggestion", "Submit", CyderColors.regularPink);
+
+                        if (!StringUtil.isNull(suggestion)) {
+                            SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
+                            inputHandler.println("Suggestion logged");
+                        }
+                    }, "Suggestion Getter Waiter Thread").start();
+                });
+
+                inputHandler.printlnComponent(suggestionButton);
             },"Suggestion Getter Waiter Thread").start());
-            suggestionButton.addMouseListener(new MouseAdapter() {
+            helpButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion2.png"));
+                    helpButton.setIcon(CyderIcons.helpIconHover);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion1.png"));
+                    helpButton.setIcon(CyderIcons.helpIcon);
                 }
             });
-            suggestionButton.addFocusListener(new FocusAdapter() {
+            helpButton.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion2.png"));
+                    helpButton.setIcon(CyderIcons.helpIconHover);
                 }
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion1.png"));
+                    helpButton.setIcon(CyderIcons.helpIcon);
                 }
             });
-            suggestionButton.setBounds(32, 4, 22, 22);
-            suggestionButton.setIcon(new ImageIcon("static/pictures/icons/suggestion1.png"));
-            consoleCyderFrame.getTopDragLabel().add(suggestionButton);
-            suggestionButton.setFocusPainted(false);
-            suggestionButton.setOpaque(false);
-            suggestionButton.setContentAreaFilled(false);
-            suggestionButton.setBorderPainted(false);
+            helpButton.setBounds(32, 4, 22, 22);
+            helpButton.setIcon(CyderIcons.helpIcon);
+            consoleCyderFrame.getTopDragLabel().add(helpButton);
+            helpButton.setFocusPainted(false);
+            helpButton.setOpaque(false);
+            helpButton.setContentAreaFilled(false);
+            helpButton.setBorderPainted(false);
 
             menuButton = new JButton("");
             menuLabel = new JLabel();
@@ -2601,13 +2613,10 @@ public final class ConsoleFrame {
     public void flashSuggestionButton() {
         new Thread(() -> {
             try {
-                ImageIcon blinkIcon = new ImageIcon("static/pictures/icons/suggestion2.png");
-                ImageIcon regularIcon = new ImageIcon("static/pictures/icons/suggestion1.png");
-
                 for (int i = 0 ; i < 4 ; i++) {
-                    suggestionButton.setIcon(blinkIcon);
+                    helpButton.setIcon(CyderIcons.helpIconHover);
                     Thread.sleep(300);
-                    suggestionButton.setIcon(regularIcon);
+                    helpButton.setIcon(CyderIcons.helpIcon);
                     Thread.sleep(300);
                 }
             } catch (Exception e) {

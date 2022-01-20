@@ -38,6 +38,12 @@ public class CyderIcons {
     public static final ImageIcon closeIconHover = new ImageIcon("static/pictures/windowicons/Close2.png");
 
     /**
+     * Help icons used for ConsoleFrame
+     */
+    public static final ImageIcon helpIcon = new ImageIcon("static/pictures/icons/help1.png");
+    public static final ImageIcon helpIconHover = new ImageIcon("static/pictures/icons/help2.png");
+
+    /**
      * A default image with dimensions 1000x1000
      */
     public static final ImageIcon defaultBackground = generateDefaultBackground(1000,1000);
