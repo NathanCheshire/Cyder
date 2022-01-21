@@ -9,6 +9,7 @@ import cyder.cyderuser.UserEditor;
 import cyder.enums.ScreenPosition;
 import cyder.games.HangmanGame;
 import cyder.games.TTTGame;
+import cyder.genesis.Cyder;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;

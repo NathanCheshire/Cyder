@@ -95,4 +95,15 @@ public final class CyderRegexPatterns {
     public static final String openCharClass = "[";
     public static final String closeCharClass = "]";
     public static final String notCharClass = "^";
+    public static final String aToz = "[a-z]";
+    public static final String ATOZ = "[A-Z]";
+    public static final String atoZCaseInsensitive = "[a-zA-Z]";
+
+    //line terminators
+    public static final String newLine = "\n";
+    public static final String carriageReturns = "\r";
+    public static final String carriageNewline = "\r\n";
+    public static final String lineSepChar = "\u2028";
+    public static final String paragraphSepChar = "\u2029";
+    public static final String nextLineChar = "0085";
 }

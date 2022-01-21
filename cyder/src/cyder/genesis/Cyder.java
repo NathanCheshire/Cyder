@@ -15,8 +15,6 @@ public class Cyder {
      *           but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] CA)  {
-        //todo instance check
-
         //set start time
         GenesisShare.setAbsoluteStartTime(System.currentTimeMillis());
 
@@ -31,14 +29,22 @@ public class Cyder {
         CyderSetup.initSystemProperties();
         CyderSetup.initUIManager();
 
-        //possibly fatal subroutines
+        //prevent multiple instances, fatal subroutine if failure
+        if (!CyderSetup.checkInstances()) {
+            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
+            CyderSetup.exceptionExit("Multiple instances of Cyder are not allowed. " +
+                    "Terminate other instances before launching a new one.", "Instance Exception");
+            return;
+        }
+
+        //make sure all fonts are loaded, fatal subroutine if failure
         if (!CyderSetup.registerFonts()) {
             SessionHandler.log(SessionHandler.Tag.EXCEPTION, "SYSTEM FAILURE");
             CyderSetup.exceptionExit("Font required by system could not be loaded","Font failure");
             return;
         }
 
-        //launch splash screen
+        //launch splash screen since we will most likely be launching Cyder
         CyderSplash.showSplash();
 
         setLoadingMessage("Checkinging for exit collisions");

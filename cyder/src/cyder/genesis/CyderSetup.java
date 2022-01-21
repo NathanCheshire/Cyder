@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderInts;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.io.File;
+import java.net.ServerSocket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CyderSetup {
     private CyderSetup() {
@@ -93,5 +96,32 @@ public class CyderSetup {
     public static void exceptionExit(String message, String title) {
         GenesisShare.suspendFrameChecker();
         PopupHandler.inform(message, title, null, null, () -> GenesisShare.exit(278));
+    }
+
+    /**
+     * Determines if the provided instance of Cyder is the only one.
+     *
+     * @return whether or not the provided instance of Cyder is the only one
+     */
+    public static boolean checkInstances() {
+        AtomicBoolean ret = new AtomicBoolean(true);
+
+        new Thread(() -> {
+            try {
+                //blocking method which also throws
+                new ServerSocket(CyderInts.INSTANCE_SOCKET_PORT).accept();
+            } catch (Exception e) {
+                ErrorHandler.handle(e);
+                ret.set(false);
+            }
+        }, "Singular Cyder Instance Ensurer Thread").start();
+
+        try {
+            Thread.sleep(CyderInts.singleInstanceEnsurerTimeout);
+        } catch (InterruptedException e) {
+            ErrorHandler.handle(e);
+        }
+
+        return ret.get();
     }
 }
