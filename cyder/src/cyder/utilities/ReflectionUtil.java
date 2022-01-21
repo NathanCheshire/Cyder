@@ -1,12 +1,18 @@
 package cyder.utilities;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ReflectionUtil {
     private ReflectionUtil() {
@@ -133,5 +139,37 @@ public class ReflectionUtil {
                 getTooltipResult + "], title = [" + getTitleResult + "]";
 
         return build;
+    }
+
+    public static void findWidgets(String providedName) {
+        for (Class classer : findAllClassesUsingClassLoader(providedName)) {
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(Widget.class)) {
+                    String desc = m.getAnnotation(Widget.class).description();
+                    String trigger = m.getAnnotation(Widget.class).description();
+                    System.out.println(trigger + "," + desc);
+                }
+            }
+        }
+    }
+
+    private static Set<Class> findAllClassesUsingClassLoader(String packageName) {
+        InputStream stream = ClassLoader.getSystemClassLoader()
+                .getResourceAsStream(packageName.replaceAll("[.]", "/"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        return reader.lines()
+                .filter(line -> line.endsWith(".class"))
+                .map(line -> getClass(line, packageName))
+                .collect(Collectors.toSet());
+    }
+
+    private static Class getClass(String className, String packageName) {
+        try {
+            return Class.forName(packageName + "."
+                    + className.substring(0, className.lastIndexOf('.')));
+        } catch (ClassNotFoundException e) {
+            // handle the exception
+        }
+        return null;
     }
 }

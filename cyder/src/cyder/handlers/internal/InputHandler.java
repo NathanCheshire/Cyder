@@ -126,6 +126,11 @@ public class InputHandler {
     //todo begin refactoring and breakup into other functions that are separated by category
     // that each return T/F which will determine whether or not the method should continue
 
+    //todo OutputPane object:
+    // will have threads inside of it such as materyoutube and bletchy and have wrapper methods
+    // will have the printing thread and printing lists
+    // print methods here will redirect to methods in the linked outputPane
+
     /**
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
      * Also sets the ops array to the found command and arguments
@@ -429,6 +434,7 @@ public class InputHandler {
         //todo move handling of widgets opening to their showGUI methods and add a tag for that in logger
         else if (hasWord("clock")) {
             ClockWidget.showGUI();
+            SessionHandler.log(SessionHandler.Tag.ACTION, "CLOCK");
         } else if ((hasWord("youtube") && hasWord("thumbnail"))) {
             YoutubeUtil.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
@@ -458,6 +464,8 @@ public class InputHandler {
             ImageResizerWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
+            //todo widgets that allow multiple instances should have their method set to not dispose the current one
+            // for simplicity sake, how to do this
             new TemperatureWidget().showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
         } else if (has("click me")) {

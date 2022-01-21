@@ -8,6 +8,7 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -151,7 +152,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-
+            ReflectionUtil.findWidgets("cyder.widgets");
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }
