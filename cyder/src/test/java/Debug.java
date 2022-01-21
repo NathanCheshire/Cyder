@@ -5,6 +5,7 @@ import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ErrorHandler;
 import cyder.handlers.internal.SessionHandler;
+import cyder.objects.MultiString;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -15,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
@@ -152,7 +154,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-            ReflectionUtil.findWidgets("cyder.widgets");
+
         } catch (Exception e) {
             ErrorHandler.handle(e);
         }

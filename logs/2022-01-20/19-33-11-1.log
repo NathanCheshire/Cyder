@@ -1,0 +1,87 @@
+[19-33-12] [ENTRY]: [Nathan]
+[19-33-12] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-33-12] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-33-13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-33-13] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-33-14] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-33-14] [SYSTEM_IO]: Userdata requested: Name
+[19-33-14] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-33-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-33-14] [SYSTEM_IO]: Userdata requested: Name
+[19-33-14] [SYSTEM_IO]: Userdata requested: Foreground
+[19-33-14] [SYSTEM_IO]: Userdata requested: Foreground
+[19-33-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-33-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-33-14] [SYSTEM_IO]: Userdata requested: Foreground
+[19-33-14] [SYSTEM_IO]: Userdata requested: Font
+[19-33-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-33-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-33-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-33-14] [SYSTEM_IO]: Userdata requested: Foreground
+[19-33-14] [SYSTEM_IO]: Userdata requested: Foreground
+[19-33-14] [SYSTEM_IO]: Userdata requested: Foreground
+[19-33-14] [SYSTEM_IO]: Userdata requested: Font
+[19-33-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-33-14] [SYSTEM_IO]: Userdata requested: InputFill
+[19-33-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1770979604], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-33-15] [ACTION]: Console loaded in 3384ms
+[19-33-15] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-33-15] [ENTRY]: [TESTING MODE]
+[19-33-15] [SYSTEM_IO]: Userdata requested: laststart
+[19-33-15] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-33-15] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3384ms
+[19-33-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-33-17] [CLIENT]: widgets
+[19-33-17] [SYSTEM_IO]: Userdata requested: filterchat
+[19-33-17] [CONSOLE_OUT]: [STRING] Found 23 widgets:
+[19-33-17] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-18] [CONSOLE_OUT]: [STRING] Trigger: Fathers day card for the year of 2021, description: Fathers day card for the year of 2021
+[19-33-20] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-21] [CONSOLE_OUT]: [STRING] Trigger: Christmas card for the year of 2020, description: Christmas card for the year of 2020
+[19-33-23] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-24] [CONSOLE_OUT]: [STRING] Trigger: Christmas card for the year of 2021, description: Christmas card for the year of 2021
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CLIENT]: controlc
+[19-33-26] [SYSTEM_IO]: Userdata requested: filterchat
+[19-33-26] [CONSOLE_OUT]: [STRING] Escaped
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: Birthday card for my dad for the year 2021, description: Birthday card for my dad for the year 2021
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A troll widget that pops open a new window every time it is clicked, description: A troll widget that pops open a new window every time it is clicked
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A pathfinding visualizer for A* and Dijkstras algorithms, description: A pathfinding visualizer for A* and Dijkstras algorithms
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit, description: A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: An image resizing widget to crop images, description: An image resizing widget to crop images
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A clock widget capable of spawning mini widgets and changing the time zone, description: A clock widget capable of spawning mini widgets and changing the time zone
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A note taking widget that can save and display multiple notes, description: A note taking widget that can save and display multiple notes
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth., description: A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A color converter widget to convert from rgb to hex and vice versa, description: A color converter widget to convert from rgb to hex and vice versa
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A simple image pixelator widget that transforms the image into an image depicted of the specified number of pixels, description: A simple image pixelator widget that transforms the image into an image depicted of the specified number of pixels
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A widget that displays weather data for the current city you are in. The location is also changeable, description: A widget that displays weather data for the current city you are in. The location is also changeable
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: Perlin noise visualizer/open simplex noise visualizer, description: Perlin noise visualizer/open simplex noise visualizer
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A convex hull algorithm visualizer, description: A convex hull algorithm visualizer
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A phone emulating widget, description: A phone emulating widget
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A widget that adds multiple images together and divides by the total to obtain an average base image, description: A widget that adds multiple images together and divides by the total to obtain an average base image
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: Conway's game of life visualizer, description: Conway's game of life visualizer
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A temperature conversion widget for the three standard temperature units, description: A temperature conversion widget for the three standard temperature units
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1, description: A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A widget to read the raw file hex data and determine if the file signature matches the provided extension, description: A widget to read the raw file hex data and determine if the file signature matches the provided extension
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[19-33-26] [CONSOLE_OUT]: [STRING] Trigger: A minecraft widget that copies from the Mojang home page, description: A minecraft widget that copies from the Mojang home page
+[19-33-26] [CONSOLE_OUT]: [STRING] -------------------------------------
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

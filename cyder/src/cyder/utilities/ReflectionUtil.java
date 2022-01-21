@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ErrorHandler;
+import cyder.objects.MultiString;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -141,16 +143,23 @@ public class ReflectionUtil {
         return build;
     }
 
-    public static void findWidgets(String providedName) {
-        for (Class classer : findAllClassesUsingClassLoader(providedName)) {
+    /**
+     * Finds all classes annotated with the @Widget annotation within the widgets package
+     */
+    public static ArrayList<MultiString> findWidgets() {
+        ArrayList<MultiString> ret = new ArrayList<>();
+
+        for (Class classer : findAllClassesUsingClassLoader("cyder.widgets")) {
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
-                    String desc = m.getAnnotation(Widget.class).description();
                     String trigger = m.getAnnotation(Widget.class).description();
-                    System.out.println(trigger + "," + desc);
+                    String desc = m.getAnnotation(Widget.class).description();
+                    ret.add(new MultiString(2,new String[] {trigger, desc}));
                 }
             }
         }
+
+        return ret;
     }
 
     private static Set<Class> findAllClassesUsingClassLoader(String packageName) {
@@ -165,11 +174,11 @@ public class ReflectionUtil {
 
     private static Class getClass(String className, String packageName) {
         try {
-            return Class.forName(packageName + "."
-                    + className.substring(0, className.lastIndexOf('.')));
+            return Class.forName(packageName + "." + className.substring(0, className.lastIndexOf('.')));
         } catch (ClassNotFoundException e) {
-            // handle the exception
+            ErrorHandler.handle(e);
         }
+
         return null;
     }
 }

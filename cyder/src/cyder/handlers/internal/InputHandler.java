@@ -13,6 +13,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.DirectoryViewer;
+import cyder.objects.MultiString;
 import cyder.py.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
@@ -130,6 +131,9 @@ public class InputHandler {
     // will have threads inside of it such as materyoutube and bletchy and have wrapper methods
     // will have the printing thread and printing lists
     // print methods here will redirect to methods in the linked outputPane
+
+    //todo widgets that allow multiple instances should have their method set to not dispose the current one
+    // for simplicity sake, how to do this
 
     /**
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
@@ -464,8 +468,6 @@ public class InputHandler {
             ImageResizerWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
         } else if (hasWord("temperature") || eic("temp")) {
-            //todo widgets that allow multiple instances should have their method set to not dispose the current one
-            // for simplicity sake, how to do this
             new TemperatureWidget().showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
         } else if (has("click me")) {
@@ -1373,6 +1375,17 @@ public class InputHandler {
                 }
             } else {
                 println("Command usage: number2string YOUR_INTEGER");
+            }
+        } else if (eic("widgets")) {
+            ArrayList<MultiString> widgets = ReflectionUtil.findWidgets();
+            println("Found " + widgets.size() + " widgets:");
+            println("-------------------------------------");
+
+            for (MultiString multiString : widgets) {
+                if (multiString.getSize() == 2) {
+                    println("Trigger: " + multiString.get(0) + "\nDescription: " + multiString.get(1));
+                    println("-------------------------------------");
+                } else throw new IllegalStateException("@Widget annotation found with param length not 2");
             }
         }
         //final attempt at unknown input --------------------------
