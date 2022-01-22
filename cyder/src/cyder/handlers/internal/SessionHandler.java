@@ -235,7 +235,7 @@ public class SessionHandler {
 
             currentLog = outputFile;
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -288,7 +288,7 @@ public class SessionHandler {
 
             return success;
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -320,7 +320,7 @@ public class SessionHandler {
                 bw.close();
             }
         } catch(Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -339,7 +339,7 @@ public class SessionHandler {
                     ret++;
             }
         } catch(Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -393,7 +393,7 @@ public class SessionHandler {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;

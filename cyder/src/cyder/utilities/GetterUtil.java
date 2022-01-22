@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -85,7 +85,7 @@ public class GetterUtil {
                 inputFrame.setAlwaysOnTop(true);
                 inputFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, this + "getString thread").start();
 
@@ -94,7 +94,7 @@ public class GetterUtil {
                 Thread.onSpinWait();
             }
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         } finally {
             return returnString.get();
         }
@@ -136,7 +136,7 @@ public class GetterUtil {
                 inputFrame.setAlwaysOnTop(true);
                 inputFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, this + "getString thread").start();
 
@@ -145,7 +145,7 @@ public class GetterUtil {
                 Thread.onSpinWait();
             }
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         } finally {
             return returnString.get();
         }
@@ -212,7 +212,7 @@ public class GetterUtil {
                 inputFrame.setAlwaysOnTop(true);
                 inputFrame.setLocationRelativeTo(relativeFrame);
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, this + "getString thread").start();
 
@@ -221,7 +221,7 @@ public class GetterUtil {
                 Thread.onSpinWait();
             }
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         } finally {
             return returnString.get();
         }
@@ -387,7 +387,7 @@ public class GetterUtil {
                 dirFrame.setVisible(true);
                 dirField.requestFocus();
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, this + " getFile thread").start();
 
@@ -395,7 +395,7 @@ public class GetterUtil {
             while (setOnFileChosen.get() == null)
                 Thread.onSpinWait();
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         } finally {
             dirFrame.dispose();
             return setOnFileChosen.get().getName().equals("NULL") ? null : setOnFileChosen.get();
@@ -593,7 +593,7 @@ public class GetterUtil {
                 confirmationFrame[0].setLocationRelativeTo(relativeFrame);
 
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, this + "getConfirmation thread").start();
 
@@ -603,7 +603,7 @@ public class GetterUtil {
             }
 
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         } finally {
             confirmationFrame[0].dispose();
             return retString[0].equals("true");

@@ -367,7 +367,7 @@ public final class ConsoleFrame {
                         try {
                             inputHandler.handle("controlc", true);
                         } catch (Exception exception) {
-                            ErrorHandler.handle(exception);
+                            ExceptionHandler.handle(exception);
                         }
                     }
 
@@ -420,7 +420,7 @@ public final class ConsoleFrame {
                             h = img.getHeight(null);
 
                         } catch (Exception ex) {
-                            ErrorHandler.handle(ex);
+                            ExceptionHandler.handle(ex);
                         }
 
                         verticalDebugLine = new JLabel();
@@ -486,7 +486,7 @@ public final class ConsoleFrame {
                 }
 
                 catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             },"Console Input Caret Position Updater").start();
 
@@ -525,7 +525,7 @@ public final class ConsoleFrame {
                     inputField.setText(consoleBashString);
                     inputField.setCaretPosition(consoleBashString.length());
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             });
 
@@ -640,7 +640,7 @@ public final class ConsoleFrame {
                             try {
                                 Thread.sleep(10);
                             } catch (InterruptedException ex) {
-                                ErrorHandler.handle(ex);
+                                ExceptionHandler.handle(ex);
                             }
                         }
 
@@ -669,7 +669,7 @@ public final class ConsoleFrame {
                             try {
                                 Thread.sleep(10);
                             } catch (Exception ex) {
-                                ErrorHandler.handle(ex);
+                                ExceptionHandler.handle(ex);
                             }
                         }
 
@@ -1106,7 +1106,7 @@ public final class ConsoleFrame {
             //resume frame checker
             GenesisShare.resumeFrameChecker();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1137,7 +1137,7 @@ public final class ConsoleFrame {
                         }
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, "Stable Network Connection Checker");
         internetReachableThread.start();
@@ -1174,7 +1174,7 @@ public final class ConsoleFrame {
                         }
                     }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, "Hourly Chime Checker");
         hourlyChimerThread.start();
@@ -1197,7 +1197,7 @@ public final class ConsoleFrame {
                         }
                     }  catch (Exception e) {
                         //sometimes this throws for no reason trying to get times or something so log quietly
-                        ErrorHandler.silentHandle(e);
+                        ExceptionHandler.silentHandle(e);
                     }
                 }
         }, "Console Clock Updater");
@@ -1246,7 +1246,7 @@ public final class ConsoleFrame {
                         }
                     }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             } finally {
                 SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
                 consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
@@ -1293,7 +1293,7 @@ public final class ConsoleFrame {
                         }
                     }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"ConsoleFrame Position Saver");
         consolePosSaverThread.start();
@@ -1382,11 +1382,11 @@ public final class ConsoleFrame {
                         }
                     }
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             },"Black or White Checker").start();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1409,7 +1409,7 @@ public final class ConsoleFrame {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         }
     }
 
@@ -1595,7 +1595,7 @@ public final class ConsoleFrame {
                     try {
                         Thread.sleep(10);
                     } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
+                        ExceptionHandler.handle(ex);
                     }
                 }
 
@@ -1613,7 +1613,7 @@ public final class ConsoleFrame {
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
 
@@ -1662,7 +1662,7 @@ public final class ConsoleFrame {
                     }
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
     };
@@ -1808,7 +1808,7 @@ public final class ConsoleFrame {
             //reinit backgrounds after resizing all backgrounds that needed fixing
             initBackgrounds();
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -1836,7 +1836,7 @@ public final class ConsoleFrame {
                 initBackgrounds();
             }
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -1863,7 +1863,7 @@ public final class ConsoleFrame {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1897,7 +1897,7 @@ public final class ConsoleFrame {
             File f = getCurrentBackgroundFile();
             backgroundImageIcon = new ImageIcon(ImageIO.read(f));
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return backgroundImageIcon;
         }
@@ -1913,7 +1913,7 @@ public final class ConsoleFrame {
                 ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundIndex + 1)));
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }
@@ -1929,7 +1929,7 @@ public final class ConsoleFrame {
                 ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundFiles.size() - 1)));
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }
@@ -2041,7 +2041,7 @@ public final class ConsoleFrame {
                                 Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
-                                ErrorHandler.handle(e);
+                                ExceptionHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
@@ -2096,7 +2096,7 @@ public final class ConsoleFrame {
                                 Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
-                                ErrorHandler.handle(e);
+                                ExceptionHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
@@ -2150,7 +2150,7 @@ public final class ConsoleFrame {
                                 Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
-                                ErrorHandler.handle(e);
+                                ExceptionHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
@@ -2204,7 +2204,7 @@ public final class ConsoleFrame {
                                 Thread.sleep(delay);
                                 consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
-                                ErrorHandler.handle(e);
+                                ExceptionHandler.handle(e);
                             }
                         }
                         //set proper location for complete animation
@@ -2277,7 +2277,7 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setLocation(consoleCyderFrame.getX(), 0);
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -2417,7 +2417,7 @@ public final class ConsoleFrame {
                 consoleCyderFrame.enableDragging();
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -2618,7 +2618,7 @@ public final class ConsoleFrame {
                     Thread.sleep(300);
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, "Suggestion Button Flash").start();
     }

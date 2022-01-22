@@ -6,7 +6,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderInts;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.*;
@@ -426,7 +426,7 @@ public class CyderFrame extends JFrame {
                         try {
                             Thread.sleep(timeout);
                         } catch (Exception e) {
-                            ErrorHandler.handle(e);
+                            ExceptionHandler.handle(e);
                         }
                     }
                     titleLabel.setLocation(4, 2);
@@ -442,7 +442,7 @@ public class CyderFrame extends JFrame {
                                 try {
                                     Thread.sleep(timeout);
                                 } catch (Exception e) {
-                                    ErrorHandler.handle(e);
+                                    ExceptionHandler.handle(e);
                                 }
                             }
                             break;
@@ -453,7 +453,7 @@ public class CyderFrame extends JFrame {
                                 try {
                                     Thread.sleep(timeout);
                                 } catch (Exception e) {
-                                    ErrorHandler.handle(e);
+                                    ExceptionHandler.handle(e);
                                 }
                             }
                             break;
@@ -471,7 +471,7 @@ public class CyderFrame extends JFrame {
                         try {
                             Thread.sleep(timeout);
                         } catch (Exception e) {
-                            ErrorHandler.handle(e);
+                            ExceptionHandler.handle(e);
                         }
                     }
                     titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
@@ -932,7 +932,7 @@ public class CyderFrame extends JFrame {
                         }
                     }
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }, this + " notification queue checker").start();
         }
@@ -1034,7 +1034,7 @@ public class CyderFrame extends JFrame {
 
             setState(JFrame.ICONIFIED);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1120,7 +1120,7 @@ public class CyderFrame extends JFrame {
                 for (PostCloseAction action : postCloseActions)
                     action.invokeAction();
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, this + " CyderFrame dispose thread").start();
     }
@@ -1477,7 +1477,7 @@ public class CyderFrame extends JFrame {
             revalidate();
             repaint();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1505,7 +1505,7 @@ public class CyderFrame extends JFrame {
             revalidate();
             repaint();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1630,7 +1630,7 @@ public class CyderFrame extends JFrame {
                 setShape(null);
             }
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         }
 
         //update the border covering the resize area

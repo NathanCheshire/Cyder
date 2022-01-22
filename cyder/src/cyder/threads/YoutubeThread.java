@@ -1,7 +1,7 @@
 package cyder.threads;
 
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
@@ -38,7 +38,7 @@ public class YoutubeThread {
                 else if (UUID.length() == 0 || UUID == null)
                     throw new IllegalArgumentException("Youtube Thread UUID length 0 or null");
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
 
             long accTime = 0;
@@ -87,7 +87,7 @@ public class YoutubeThread {
                     try {
                         UUID = String.valueOf(incrementUUID(UUID.toCharArray(), 10));
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
 

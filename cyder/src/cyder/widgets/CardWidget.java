@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
@@ -114,7 +114,7 @@ public class CardWidget {
                 try {
                     Thread.sleep(10000);
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
 
                 birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP, null);
@@ -123,7 +123,7 @@ public class CardWidget {
                 birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP_RIGHT, null);
             },"Birthday card 2021 notification wait thread").start();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 

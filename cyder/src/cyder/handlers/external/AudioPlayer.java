@@ -8,7 +8,7 @@ import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -186,8 +186,8 @@ public class AudioPlayer {
                     }
                 }
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             } finally {
                 refreshAudioFiles(null);
             }
@@ -268,7 +268,7 @@ public class AudioPlayer {
             try {
                 stopAudio();
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         });
 
@@ -302,7 +302,7 @@ public class AudioPlayer {
                     resumeAudio(pauseLocation);
                 }
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         });
 
@@ -474,7 +474,7 @@ public class AudioPlayer {
             }
 
             catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
     }
@@ -547,7 +547,7 @@ public class AudioPlayer {
                 volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
             }
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -607,7 +607,7 @@ public class AudioPlayer {
             //revalidate the console audio menu
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -665,7 +665,7 @@ public class AudioPlayer {
             //refresh the audio volume
             refreshAudio();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -702,7 +702,7 @@ public class AudioPlayer {
             //now that an index has been chosen and set, start the audio again
             startAudio();
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -739,7 +739,7 @@ public class AudioPlayer {
             //now that an audio index has been found, play audio
             startAudio();
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -885,7 +885,7 @@ public class AudioPlayer {
                 }
 
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
     }
@@ -984,7 +984,7 @@ public class AudioPlayer {
                     }
 
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
         }
@@ -1034,12 +1034,12 @@ public class AudioPlayer {
 
                             Thread.sleep(250);
                         } catch (Exception e) {
-                            ErrorHandler.silentHandle(e);
+                            ExceptionHandler.silentHandle(e);
                         }
                     }
                 },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
-                ErrorHandler.silentHandle(e);
+                ExceptionHandler.silentHandle(e);
             }
         }
 
@@ -1109,14 +1109,14 @@ public class AudioPlayer {
                         }
 
                         catch (Exception e) {
-                            ErrorHandler.handle(e);
+                            ExceptionHandler.handle(e);
                         }
                     },"Flash Player scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
                 } else {
                     audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }
 
@@ -1225,7 +1225,7 @@ public class AudioPlayer {
             int min = h.min_number_of_frames(500);
             milisRet = h.total_ms((int) tn);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return milisRet;
         }
@@ -1290,7 +1290,7 @@ public class AudioPlayer {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         currentAlbumArt = null;

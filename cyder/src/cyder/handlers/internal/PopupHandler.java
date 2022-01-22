@@ -57,7 +57,7 @@ public class PopupHandler {
             informFrame.setVisible(true);
             informFrame.setLocationRelativeTo(relativeTo);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

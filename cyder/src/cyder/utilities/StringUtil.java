@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -68,7 +68,7 @@ public class StringUtil {
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
             GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -120,7 +120,7 @@ public class StringUtil {
 
             GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -168,7 +168,7 @@ public class StringUtil {
             }
         } catch (BadLocationException ignored) {}
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -188,7 +188,7 @@ public class StringUtil {
             StyleConstants.setComponent(cs, c);
             linkedJTextPane.getStyledDocument().insertString(linkedJTextPane.getStyledDocument().getLength(), str, cs);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -204,7 +204,7 @@ public class StringUtil {
             StyleConstants.setComponent(cs, c);
             linkedJTextPane.getStyledDocument().insertString(linkedJTextPane.getStyledDocument().getLength(), componentUUID, cs);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -220,7 +220,7 @@ public class StringUtil {
             printComponent(c, componentUUID, componentUUID);
             println("");
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -237,7 +237,7 @@ public class StringUtil {
             printComponent(c, nm, str);
             println("");
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -247,7 +247,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage, null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -257,7 +257,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Integer.toString(Usage), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -267,7 +267,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Double.toString(Usage), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -277,7 +277,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Boolean.toString(Usage), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -287,7 +287,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Float.toString(Usage), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -297,7 +297,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Long.toString(Usage), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -307,7 +307,7 @@ public class StringUtil {
             document.insertString(document.getLength(), String.valueOf(Usage), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -317,7 +317,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage.toString(), null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -327,7 +327,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -337,7 +337,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -347,7 +347,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -357,7 +357,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -367,7 +367,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -377,7 +377,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -387,7 +387,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -397,7 +397,7 @@ public class StringUtil {
             document.insertString(document.getLength(), Usage.toString() + "\n", null);
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -689,7 +689,7 @@ public class StringUtil {
                 }
             }
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         } finally {
             return ret;
         }
@@ -811,7 +811,7 @@ public class StringUtil {
             ret = capsFirst(docParsed.text());
         } catch (Exception e) {
             ret = "Definition not found";
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         } finally {
             return ret;
         }
@@ -835,7 +835,7 @@ public class StringUtil {
             ret = serializedPageNumber[1].replace("}","");
             ret = ret.substring(0, ret.length() - 1);
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
             ret = "Wiki article not found";
         } finally {
             return ret;

@@ -3,7 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
 import java.io.BufferedReader;
@@ -47,7 +47,7 @@ public class IPUtil {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             ipdata = gson.fromJson(reader, IPData.class);
         } catch (IOException e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         }
     }
 

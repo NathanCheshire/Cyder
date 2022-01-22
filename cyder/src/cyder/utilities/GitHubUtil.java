@@ -3,7 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -35,7 +35,7 @@ public class GitHubUtil {
 
             ret = new Gson().fromJson(rawJSON, Issue[].class);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;

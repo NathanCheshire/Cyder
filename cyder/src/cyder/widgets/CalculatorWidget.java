@@ -8,7 +8,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -151,7 +151,7 @@ public class CalculatorWidget {
                 }
             } catch (Exception exc) {
                 calculatorFrame.notify("Could not parse expression",2000, NotificationDirection.TOP_RIGHT, null);
-                ErrorHandler.silentHandle(exc);
+                ExceptionHandler.silentHandle(exc);
             }
         });
         calculatorField.addActionListener(e -> calculatorEquals.doClick());

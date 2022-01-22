@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 
 import java.awt.*;
@@ -25,7 +25,7 @@ public class NetworkUtil {
             Internet.browse(new URI(URL));
             SessionHandler.log(SessionHandler.Tag.LINK, URL);
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -63,7 +63,7 @@ public class NetworkUtil {
                 sb.append("Name:").append(netint.getName()).append("\n");
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return sb.toString();
@@ -79,7 +79,7 @@ public class NetworkUtil {
             Internet.browse(URI);
             SessionHandler.log(SessionHandler.Tag.LINK, URI.getPath());
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -95,7 +95,7 @@ public class NetworkUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return true;
@@ -109,7 +109,7 @@ public class NetworkUtil {
         try {
             Sock.connect(Address, timeout);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         long stop = System.currentTimeMillis();
@@ -118,7 +118,7 @@ public class NetworkUtil {
         try {
             Sock.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return Latency;
@@ -133,7 +133,7 @@ public class NetworkUtil {
         try {
             Sock.connect(Address, Timeout);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         long stop = System.currentTimeMillis();
@@ -142,7 +142,7 @@ public class NetworkUtil {
         try {
             Sock.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return Latency;
@@ -158,7 +158,7 @@ public class NetworkUtil {
                 return true;
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -182,7 +182,7 @@ public class NetworkUtil {
             if (reader != null)
                 reader.close();
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         } finally {
             return sb.toString();
         }
@@ -201,16 +201,16 @@ public class NetworkUtil {
                 ret = responseBody.substring(responseBody.indexOf("<title>") + 7, responseBody.indexOf("</title>"));
 
             } catch (IOException ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             } finally {
                 try {
                     response.close();
                 } catch (IOException ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }
@@ -225,7 +225,7 @@ public class NetworkUtil {
             conn.connect();
             ret = true;
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
             ret = false;
         }
 

@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.NetworkUtil;
@@ -75,11 +75,11 @@ public class FileSignatureWidget {
                             getFile.setText(currentFile.getName());
                         }
                     } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
+                        ExceptionHandler.handle(ex);
                     }
                 }, "wait thread for GetterUtil().getFile()").start();
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         });
         signatureFrame.getContentPane().add(getFile);
@@ -132,7 +132,7 @@ public class FileSignatureWidget {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

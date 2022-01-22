@@ -1,6 +1,6 @@
 package cyder.threads;
 
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.ReflectionUtil;
@@ -63,7 +63,7 @@ public class BletchyThread {
                     }
 
                     catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
 
                     su.removeLastLine();

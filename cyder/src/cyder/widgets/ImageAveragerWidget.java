@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -78,7 +78,7 @@ public class ImageAveragerWidget {
                     cf.notify("Selected file is not a png");
                 }
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }, "wait thread for GetterUtil().getFile()").start());
 
@@ -182,7 +182,7 @@ public class ImageAveragerWidget {
                         cf.notify("Average computed and saved to your user's backgrounds/ directory");
                         drawFrame.dispose();
                     } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
+                        ExceptionHandler.handle(ex);
                     }
                 });
                 save.addMouseListener(new MouseAdapter() {
@@ -206,7 +206,7 @@ public class ImageAveragerWidget {
                 drawFrame.setVisible(true);
                 drawFrame.setLocationRelativeTo(cf);
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         } else if (files.size() == 1) {
             cf.notify("Please add at least two images");
@@ -268,7 +268,7 @@ public class ImageAveragerWidget {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 

@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
@@ -69,7 +69,7 @@ public class TextViewer {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         CyderButton saveText = new CyderButton("Save & Resign");
@@ -101,7 +101,7 @@ public class TextViewer {
             }
 
             catch (Exception exc) {
-                ErrorHandler.handle(exc);
+                ExceptionHandler.handle(exc);
             }
         });
         saveText.setBounds(50,550,600 - 50 - 50, 40);

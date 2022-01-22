@@ -2,7 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
@@ -204,7 +204,7 @@ public class CyderLabel extends JLabel {
                 this.setText(originalText);
                 this.setForeground(restoreColor);
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, "Rippled thread for CyderLabel: " + this).start();
     }

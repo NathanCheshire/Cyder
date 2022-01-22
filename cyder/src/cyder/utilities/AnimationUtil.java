@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -39,7 +39,7 @@ public class AnimationUtil {
                 frame.dispose();
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -68,7 +68,7 @@ public class AnimationUtil {
 
             frame.setState(JFrame.ICONIFIED);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         if (frame instanceof CyderFrame) {
@@ -95,7 +95,7 @@ public class AnimationUtil {
                         Thread.sleep(delay);
                         comp.setLocation(comp.getX(), i);
                     } catch (InterruptedException e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
@@ -118,7 +118,7 @@ public class AnimationUtil {
                         Thread.sleep(delay);
                         comp.setLocation(comp.getX(), i);
                     } catch (InterruptedException e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
@@ -141,7 +141,7 @@ public class AnimationUtil {
                         Thread.sleep(delay);
                         comp.setLocation(i, comp.getY());
                     } catch (InterruptedException e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
                 comp.setLocation(stop, comp.getY());
@@ -164,7 +164,7 @@ public class AnimationUtil {
                         Thread.sleep(delay);
                         comp.setLocation(i, comp.getY());
                     } catch (InterruptedException e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
                 comp.setLocation(stop, comp.getY());
@@ -224,7 +224,7 @@ public class AnimationUtil {
             }
 
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return new int[]{ret[0], ret[1]};

@@ -1,6 +1,6 @@
 package cyder.py;
 
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.SystemUtil;
 
@@ -43,11 +43,11 @@ public class PyExecutor {
                         }
                     }
                     catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, "Python script executor. Script: " + pythonScriptPath).start();
     }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
@@ -49,7 +49,7 @@ public class UserUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -77,7 +77,7 @@ public class UserUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         Gson gson = new Gson();
@@ -89,7 +89,7 @@ public class UserUtil {
             gson.toJson(user, writer);
             writer.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
         }
@@ -113,7 +113,7 @@ public class UserUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         Gson gson = new Gson();
@@ -124,7 +124,7 @@ public class UserUtil {
             gson.toJson(user, writer);
             writer.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
         }
@@ -149,7 +149,7 @@ public class UserUtil {
             gson.toJson(u, writer);
             writer.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
         }
@@ -175,7 +175,7 @@ public class UserUtil {
             gson.toJson(u, writer);
             writer.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
         }
@@ -264,7 +264,7 @@ public class UserUtil {
             user.setExecutables(nonDuplicates);
             setUserData(userJsonFile, user);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -284,7 +284,7 @@ public class UserUtil {
                     int w = sourceImg.getWidth();
                 } catch (Exception e) {
                     valid = false;
-                    ErrorHandler.silentHandle(e);
+                    ExceptionHandler.silentHandle(e);
                 }
 
                 if (!valid) {
@@ -293,7 +293,7 @@ public class UserUtil {
             }
 
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             GenesisShare.getExitingSem().release();
         }
@@ -319,7 +319,7 @@ public class UserUtil {
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
             return ret;
@@ -346,7 +346,7 @@ public class UserUtil {
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
             return ret;
@@ -372,7 +372,7 @@ public class UserUtil {
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             jsonIOSem.release();
             return ret;
@@ -430,7 +430,7 @@ public class UserUtil {
             return retData;
 
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         }
 
         return defaultValue;
@@ -467,7 +467,7 @@ public class UserUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }
@@ -575,7 +575,7 @@ public class UserUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -617,7 +617,7 @@ public class UserUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -652,7 +652,7 @@ public class UserUtil {
                             break;
                         } catch (Exception e) {
                             // :/ not sure what happened here
-                            ErrorHandler.silentHandle(e);
+                            ExceptionHandler.silentHandle(e);
                         }
                     }
                 }
@@ -812,7 +812,7 @@ public class UserUtil {
                         "was attempted on the following: [" + appendBuilder + "]");
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
             ret = false;
         } finally {
             jsonIOSem.release();
@@ -905,7 +905,7 @@ public class UserUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -948,7 +948,7 @@ public class UserUtil {
 
             fis.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

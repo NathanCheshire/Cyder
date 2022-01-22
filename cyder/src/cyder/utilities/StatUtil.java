@@ -3,7 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderRegexPatterns;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
@@ -149,7 +149,7 @@ public class StatUtil {
             }
 
             catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Debug Stat Thread").start();
     }
@@ -194,7 +194,7 @@ public class StatUtil {
 
                 return localRet;
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
 
@@ -226,7 +226,7 @@ public class StatUtil {
 
                 return localRet;
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
 
@@ -296,7 +296,7 @@ public class StatUtil {
 
                 return localRet;
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
 
@@ -337,7 +337,7 @@ public class StatUtil {
 
                 return localRet;
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
 
@@ -369,7 +369,7 @@ public class StatUtil {
                                 .append("----------------------------------------\n");
                     }
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
 
@@ -403,7 +403,7 @@ public class StatUtil {
 
                 return localRet;
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
 
@@ -514,7 +514,7 @@ public class StatUtil {
                     }
                 }
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
     }

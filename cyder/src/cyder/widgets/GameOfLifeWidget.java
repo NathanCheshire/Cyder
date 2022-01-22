@@ -7,7 +7,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -166,7 +166,7 @@ public class GameOfLifeWidget {
                     Thread.sleep(2L * iterationsPerSecond);
                     simulateButton.setEnabled(true);
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }, "Conway's Game of Life start button timeout").start();
             simulateButton.setText("Simulate");
@@ -194,7 +194,7 @@ public class GameOfLifeWidget {
                         Thread.sleep(2L * iterationsPerSecond);
                         simulateButton.setEnabled(true);
                     } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
+                        ExceptionHandler.handle(ex);
                     }
                 }, "Conway's Game of Life start button timeout").start();
             } else {
@@ -409,7 +409,7 @@ public class GameOfLifeWidget {
 
                     Thread.sleep(1000 / iterationsPerSecond);
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }
         },"Conway's Game of Life game thread").start();

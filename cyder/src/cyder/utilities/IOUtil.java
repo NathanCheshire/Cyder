@@ -7,7 +7,7 @@ import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import javazoom.jl.player.Player;
@@ -49,7 +49,7 @@ public class IOUtil {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
                 SessionHandler.log(SessionHandler.Tag.LINK, filePath);
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }
     }
@@ -108,7 +108,7 @@ public class IOUtil {
             SessionHandler.log(SessionHandler.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
             openFileOutsideProgram(tmpFile.getAbsolutePath());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -120,7 +120,7 @@ public class IOUtil {
             File tmpDir = new File("src/tmp");
             SystemUtil.deleteFolder(tmpDir);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -168,7 +168,7 @@ public class IOUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
             GenesisShare.exit(-112);
         }
     }
@@ -199,7 +199,7 @@ public class IOUtil {
             //if successful set as our sd object
             sd = ret;
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -217,7 +217,7 @@ public class IOUtil {
             //now update IOUtil's sd object
             loadSystemData();
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -246,7 +246,7 @@ public class IOUtil {
 
             SessionHandler.log(SessionHandler.Tag.JAVA_ARGS, append);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -283,7 +283,7 @@ public class IOUtil {
             //if successful set as our suggestions object
             suggestions = ret;
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -313,7 +313,7 @@ public class IOUtil {
             //now update suggestions
             loadSuggestions();
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -388,7 +388,7 @@ public class IOUtil {
                 try {
                     Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }
         }
@@ -409,7 +409,7 @@ public class IOUtil {
                 try {
                     player.play();
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 } finally {
                     ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
                 }
@@ -417,7 +417,7 @@ public class IOUtil {
 
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -441,11 +441,11 @@ public class IOUtil {
                 try {
                     systemPlayer.play();
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }, "system audio thread").start();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -460,7 +460,7 @@ public class IOUtil {
                 //set to null so that generalAudioPlaying works as intended
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
@@ -496,7 +496,7 @@ public class IOUtil {
         try {
             UserUtil.setUserData("name", newName);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -509,7 +509,7 @@ public class IOUtil {
             UserUtil.setUserData("pass", SecurityUtil.toHexString(SecurityUtil.getSHA256(
                     SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -536,7 +536,7 @@ public class IOUtil {
             ret[8] = String.valueOf(attr.lastAccessTime());
             ret[9] = String.valueOf(attr.lastModifiedTime());
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -552,7 +552,7 @@ public class IOUtil {
         try {
             ret = Files.readAttributes(Paths.get(f.getPath()), DosFileAttributes.class).size();
         } catch (IOException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -578,7 +578,7 @@ public class IOUtil {
             ret = stringBytes;
 
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -609,7 +609,7 @@ public class IOUtil {
             fis.close();
             ret = sb.toString();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -674,7 +674,7 @@ public class IOUtil {
             //now fix userdata associated with the logs
             UserUtil.fixLoggedInValues();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 

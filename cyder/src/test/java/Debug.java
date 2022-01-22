@@ -3,7 +3,7 @@ package test.java;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
@@ -139,7 +139,7 @@ public class Debug {
                 bringMenuToFront();
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             debugWindowOpeningSem.release();
         }
@@ -153,7 +153,7 @@ public class Debug {
         try {
 
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

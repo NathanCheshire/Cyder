@@ -2,7 +2,7 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -168,14 +168,14 @@ public class CyderSplash {
                                     null, null, () -> GenesisShare.exit(-100));
                         }
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 },"Splash Animation").start();
 
                 splashFrame.setVisible(true);
                 splashFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Splash Loader").start();
     }

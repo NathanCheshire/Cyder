@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +84,7 @@ public class SystemUtil {
             InetAddress address = InetAddress.getLocalHost();
             name = address.getHostName();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
         return name;
     }
@@ -97,7 +97,7 @@ public class SystemUtil {
             Robot Rob = new Robot();
             Rob.mouseMove(centerX, centerY);
         } catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
     }
 
@@ -178,7 +178,7 @@ public class SystemUtil {
             }
 
             catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         },"keyboard disco thread");
 
@@ -255,7 +255,7 @@ public class SystemUtil {
             Process proc = rt.exec(command);
         } catch (Exception e) {
             ret = false;
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         } finally {
             return ret;
         }

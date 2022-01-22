@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 
-public class ErrorHandler {
-    private ErrorHandler() {
+public class ExceptionHandler {
+    private ExceptionHandler() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
@@ -22,7 +22,6 @@ public class ErrorHandler {
     public static void handle(Exception e) {
         try {
             String write = getPrintableException(e).get();
-            System.out.println(write);
 
             if (write.trim().length() > 0)
                 SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
@@ -42,29 +41,15 @@ public class ErrorHandler {
     }
 
     /**
-     * This method handles an exception the same way as {@link ErrorHandler#handle(Exception)} (String)}
+     * This method handles an exception the same way as {@link ExceptionHandler#handle(Exception)} (String)}
      * except it does so without informing the user/developer/etc.
      * @param e the exception to be silently handled
      */
     public static void silentHandle(Exception e) {
         try {
-            //obtain a String object of the error and the line number
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
+            String write = getPrintableException(e).get();
 
-            //print to the writer
-            //todo e.printStackTrace(pw);
-
-            String stackTrack = sw.toString();
-            int lineNumber = e.getStackTrace()[0].getLineNumber();
-            Class c = e.getClass();
-
-            //get our master string and write it to the
-            String write = e.getMessage() == null ? "" :
-                    "\n" + e.getMessage() + "\nThrown from:\n" + stackTrack.split("\\s+at\\s+")[1] + "\n"
-                            + "StackTrace:\n" + stackTrack;
-
-            if (write.trim().length() > 0)
+            if (write != null && write.trim().length() > 0)
                 SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
         } catch (Exception ex) {
             System.out.println("here");
@@ -78,18 +63,11 @@ public class ErrorHandler {
      * @param e the exception to be displayed
      */
     private static void silentHandleWithoutLogging(Exception e) {
-        String title = e.getMessage();
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
+       String write = getPrintableException(e).get();
 
-        //print to writer
-        //e.printStackTrace(pw);
-
-        String stackTrack = sw.toString();
-
-        if (title != null && title.length() != 0 && stackTrack != null || stackTrack.length() != 0) {
-            Debug.println(title + "\n" + stackTrack);
-        }
+       if (write != null) {
+           Debug.println(write);
+       }
     }
 
     /**

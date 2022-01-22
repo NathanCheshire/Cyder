@@ -3,7 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
@@ -329,7 +329,7 @@ public class Notification extends JLabel {
             }
 
             catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"notification appear animation").start();
     }
@@ -406,7 +406,7 @@ public class Notification extends JLabel {
             }
 
             catch (Exception e) {
-               ErrorHandler.handle(e);
+               ExceptionHandler.handle(e);
             }
         },"notification vanish animater").start();
     }

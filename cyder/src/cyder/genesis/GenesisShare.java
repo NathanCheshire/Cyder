@@ -1,7 +1,7 @@
 package cyder.genesis;
 
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -188,7 +188,7 @@ public class GenesisShare {
             //log exit
             SessionHandler.log(SessionHandler.Tag.EXIT, code);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
             System.exit(code);
         }
     }

@@ -6,7 +6,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.LoginHandler;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.*;
@@ -169,11 +169,11 @@ public class UserCreator {
                                 createUserBackground = null;
                             }
                         } catch (Exception ex) {
-                            ErrorHandler.handle(ex);
+                            ExceptionHandler.handle(ex);
                         }
                     }, "wait thread for GetterUtil().getFile()").start();
                 } catch (Exception exc) {
-                    ErrorHandler.handle(exc);
+                    ExceptionHandler.handle(exc);
                 }
             }
 
@@ -186,7 +186,7 @@ public class UserCreator {
                         chooseBackground.setText("No File Chosen");
                     }
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }
 
@@ -199,7 +199,7 @@ public class UserCreator {
                         chooseBackground.setText("Choose Background");
                     }
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }
         });
@@ -340,7 +340,7 @@ public class UserCreator {
                         c = '\0';
 
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }
         });

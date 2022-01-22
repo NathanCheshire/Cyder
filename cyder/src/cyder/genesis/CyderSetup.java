@@ -4,7 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderInts;
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
@@ -82,7 +82,7 @@ public class CyderSetup {
                         //register the font so we can use it throughout Cyder
                         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,f));
                     } catch (Exception e) {
-                        ErrorHandler.silentHandle(e);
+                        ExceptionHandler.silentHandle(e);
                         ret = false;
                         break;
                     }
@@ -111,7 +111,7 @@ public class CyderSetup {
                 //blocking method which also throws
                 new ServerSocket(CyderInts.INSTANCE_SOCKET_PORT).accept();
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
                 ret.set(false);
             }
         }, "Singular Cyder Instance Ensurer Thread").start();
@@ -119,7 +119,7 @@ public class CyderSetup {
         try {
             Thread.sleep(CyderInts.singleInstanceEnsurerTimeout);
         } catch (InterruptedException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret.get();

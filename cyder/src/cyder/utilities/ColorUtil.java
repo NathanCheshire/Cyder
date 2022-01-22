@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +55,7 @@ public class ColorUtil {
                 ret = CyderColors.defaultDarkModeTextColor;
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }
@@ -74,7 +74,7 @@ public class ColorUtil {
                 ret = CyderColors.defaultDarkModeTextColor;
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }

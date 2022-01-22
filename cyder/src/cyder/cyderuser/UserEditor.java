@@ -7,7 +7,7 @@ import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
@@ -263,11 +263,11 @@ public class UserEditor {
                         ConsoleFrame.getConsoleFrame().resizeBackgrounds();
 
                     } catch (Exception ex) {
-                        ErrorHandler.handle(ex);
+                        ExceptionHandler.handle(ex);
                     }
                 }, "wait thread for GetterUtil().getFile()").start();
             } catch (Exception exc) {
-                ErrorHandler.handle(exc);
+                ExceptionHandler.handle(exc);
             }
         });
         addMusicBackground.setFont(CyderFonts.segoe20);
@@ -373,7 +373,7 @@ public class UserEditor {
                     }
                 }
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         }, "Wait thread for getterUtil").start());
 
@@ -1120,7 +1120,7 @@ public class UserEditor {
                 UserUtil.setUserData("consoleclockformat",fieldText);
                 ConsoleFrame.getConsoleFrame().refreshClockText();
             } catch (Exception ex) {
-                ErrorHandler.silentHandle(ex);
+                ExceptionHandler.silentHandle(ex);
             }
         });
         printingUtil.printlnComponent(validateDatePatternButton);
@@ -1460,7 +1460,7 @@ public class UserEditor {
                     valid = true;
                     reader.close();
                 } catch (Exception ex) {
-                    ErrorHandler.silentHandle(ex);
+                    ExceptionHandler.silentHandle(ex);
                 }
 
                 if (valid) {
@@ -1526,7 +1526,7 @@ public class UserEditor {
                     valid = true;
                     reader.close();
                 } catch (Exception ex) {
-                    ErrorHandler.silentHandle(ex);
+                    ExceptionHandler.silentHandle(ex);
                 }
 
                 if (valid) {

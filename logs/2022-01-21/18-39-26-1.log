@@ -35,7 +35,7 @@
 [18-39-32] [SYSTEM_IO]: Userdata requested: filterchat
 [18-39-32] [DEBUG]: 1
 java.lang.ArrayIndexOutOfBoundsException: 1
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:37)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:37)
 	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:528)
 	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
 	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)

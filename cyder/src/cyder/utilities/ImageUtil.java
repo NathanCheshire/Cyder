@@ -3,7 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderStrings;
 import cyder.enums.Direction;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;
@@ -147,7 +147,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ReturnImage;
@@ -169,7 +169,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ReturnImage;
@@ -181,7 +181,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return null;
@@ -200,7 +200,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return null;
@@ -381,7 +381,7 @@ public class ImageUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -409,7 +409,7 @@ public class ImageUtil {
                 }
             }
         } catch (IOException ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
 
         return ret;
@@ -450,7 +450,7 @@ public class ImageUtil {
 
             return allWhite;
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -474,7 +474,7 @@ public class ImageUtil {
 
             return allBlack;
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -499,7 +499,7 @@ public class ImageUtil {
 
             return allBlack;
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -523,7 +523,7 @@ public class ImageUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return ret;
@@ -566,7 +566,7 @@ public class ImageUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }
@@ -606,7 +606,7 @@ public class ImageUtil {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return ret;
         }

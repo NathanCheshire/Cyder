@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -26,7 +26,7 @@ public class SecurityUtil {
             NetworkInterface NI = NetworkInterface.getByInetAddress(address);
             MAC = NI.getHardwareAddress();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         StringBuilder sb = new StringBuilder();
@@ -42,7 +42,7 @@ public class SecurityUtil {
         try {
             return compMACAddress(getMACAddress());
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -78,7 +78,7 @@ public class SecurityUtil {
         }
 
         catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
 
         return null;
@@ -91,7 +91,7 @@ public class SecurityUtil {
         }
 
         catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
 
         return null;
@@ -104,7 +104,7 @@ public class SecurityUtil {
         }
 
         catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
 
         return null;
@@ -117,7 +117,7 @@ public class SecurityUtil {
         }
 
         catch (Exception ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
 
         return null;
@@ -146,7 +146,7 @@ public class SecurityUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return null;

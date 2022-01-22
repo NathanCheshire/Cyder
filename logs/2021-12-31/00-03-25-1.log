@@ -778,11 +778,11 @@ java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.han
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [00-03-29] [EXCEPTION]: 
-widgets.Cyder.out.production.classes.cyder.handlers.internal.ErrorHandler
+widgets.Cyder.out.production.classes.cyder.handlers.internal.ExceptionHandler
 Thrown from:
 java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 StackTrace:
-java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.handlers.internal.ErrorHandler
+java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.handlers.internal.ExceptionHandler
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)
@@ -827,8 +827,8 @@ java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.han
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [00-03-29] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[00-03-29] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] widgets.Cyder.out.production.classes.cyder.handlers.internal.ErrorHandler
-java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.handlers.internal.ErrorHandler
+[00-03-29] [CONSOLE_OUT]: [STRING] [DEBUG PRINT] widgets.Cyder.out.production.classes.cyder.handlers.internal.ExceptionHandler
+java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.handlers.internal.ExceptionHandler
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)

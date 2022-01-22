@@ -2,7 +2,7 @@ package cyder.ui;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 
@@ -103,7 +103,7 @@ public class CyderButton extends JButton {
             }
 
             catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },this.getName() + " alert thread").start();
     }

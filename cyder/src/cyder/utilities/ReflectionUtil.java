@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.objects.MultiString;
 import cyder.ui.CyderFrame;
 
@@ -35,7 +35,7 @@ public class ReflectionUtil {
                     ret.append(m.invoke(obj));
                     ret.append(", ");
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }
         }
@@ -132,7 +132,7 @@ public class ReflectionUtil {
                }
            }
         } catch (Exception e) {
-           ErrorHandler.handle(e);
+           ExceptionHandler.handle(e);
         }
 
         String build = "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
@@ -176,7 +176,7 @@ public class ReflectionUtil {
         try {
             return Class.forName(packageName + "." + className.substring(0, className.lastIndexOf('.')));
         } catch (ClassNotFoundException e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return null;

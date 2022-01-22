@@ -3,7 +3,7 @@ package cyder.handlers.external;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
@@ -173,7 +173,7 @@ public class PhotoViewer {
 
             pictureFrame.refreshBackground();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -201,7 +201,7 @@ public class PhotoViewer {
 
             pictureFrame.refreshBackground();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -225,7 +225,7 @@ public class PhotoViewer {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         return null;
@@ -265,7 +265,7 @@ public class PhotoViewer {
                    pictureFrame.setTitle(name);
                }
            } catch (Exception e) {
-               ErrorHandler.handle(e);
+               ExceptionHandler.handle(e);
            }
        }, "wait thread for GetterUtil().getString() " + this).start();
     }

@@ -6,7 +6,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -213,7 +213,7 @@ public class WeatherWidget {
 
                     repullWeatherStats();
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             });
 
@@ -271,7 +271,7 @@ public class WeatherWidget {
                     int line = (int) Math.round(tempVal);
                     g.fillRect(line - 3, 3, 6, 34);
                 } catch (Exception e) {
-                    ErrorHandler.silentHandle(e);
+                    ExceptionHandler.silentHandle(e);
                 }
             }
         };
@@ -348,7 +348,7 @@ public class WeatherWidget {
                         repullWeatherStats();
                     }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Weather Stats Updater").start();
 
@@ -361,7 +361,7 @@ public class WeatherWidget {
                     currentTimeLabel.setText(getWeatherTime());
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Weather Clock Updater").start();
     }
@@ -380,7 +380,7 @@ public class WeatherWidget {
             timeOffset = Integer.parseInt(gmtOffset) / 3600;
             cal.add(Calendar.HOUR, timeOffset);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return dateFormatter.format(cal.getTime());
         }
@@ -438,7 +438,7 @@ public class WeatherWidget {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -532,9 +532,9 @@ public class WeatherWidget {
                 weatherFrame.notify("Sorry, but that location is invalid");
                 locationString = oldLocation;
                 useCustomLoc = false;
-                ErrorHandler.silentHandle(e);
+                ExceptionHandler.silentHandle(e);
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             } finally {
                 refreshWeather();
             }

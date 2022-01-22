@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderStrings;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
@@ -70,7 +70,7 @@ public class SpotlightUtil {
                     StringUtil.getPlural(filesFound, "spotlight") + "\nDeleted " + filesLeft +
                     " " + StringUtil.getPlural(filesLeft, "spotlight"));
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -101,7 +101,7 @@ public class SpotlightUtil {
         }
 
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

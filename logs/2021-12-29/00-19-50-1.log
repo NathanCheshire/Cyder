@@ -60,7 +60,7 @@ User: null
 Name: SilenceErrors
 	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
 	at cyder.utilities.UserUtil.getUserData(UserUtil.java:424)
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:40)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:40)
 	at cyder.utilities.UserUtil.setUserData(UserUtil.java:111)
 	at cyder.ui.ConsoleFrame.closeConsoleFrame(ConsoleFrame.java:2961)
 	at cyder.ui.ConsoleFrame.lambda$start$14(ConsoleFrame.java:879)
@@ -114,7 +114,7 @@ User: null
 Name: SilenceErrors
 	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
 	at cyder.utilities.UserUtil.getUserData(UserUtil.java:424)
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:40)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:40)
 	at cyder.utilities.UserUtil.setUserData(UserUtil.java:111)
 	at cyder.ui.ConsoleFrame.closeConsoleFrame(ConsoleFrame.java:2962)
 	at cyder.ui.ConsoleFrame.lambda$start$14(ConsoleFrame.java:879)
@@ -222,7 +222,7 @@ User: null
 Name: SilenceErrors
 	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:446)
 	at cyder.utilities.UserUtil.getUserData(UserUtil.java:424)
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:40)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:40)
 	at cyder.utilities.UserUtil.setUserData(UserUtil.java:111)
 	at cyder.ui.ConsoleFrame.closeConsoleFrame(ConsoleFrame.java:2973)
 	at cyder.ui.ConsoleFrame.lambda$start$14(ConsoleFrame.java:879)

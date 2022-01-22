@@ -6,7 +6,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 
@@ -552,7 +552,7 @@ public class PathFinderWidget {
 
             gridLabel.repaint();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     };
 
@@ -565,7 +565,7 @@ public class PathFinderWidget {
 
             gridLabel.repaint();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     };
 

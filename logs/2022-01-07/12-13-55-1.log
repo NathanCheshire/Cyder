@@ -2569,7 +2569,7 @@ java.lang.NullPointerException
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2608,7 +2608,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2647,7 +2647,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2686,7 +2686,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2725,7 +2725,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2764,7 +2764,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2803,7 +2803,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2842,7 +2842,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2881,7 +2881,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2920,7 +2920,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2959,7 +2959,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -2998,7 +2998,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3037,7 +3037,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3076,7 +3076,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3115,7 +3115,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3154,7 +3154,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3193,7 +3193,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3232,7 +3232,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3271,7 +3271,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3310,7 +3310,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3349,7 +3349,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3388,7 +3388,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3427,7 +3427,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3466,7 +3466,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3505,7 +3505,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3544,7 +3544,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3583,7 +3583,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3622,7 +3622,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3661,7 +3661,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3700,7 +3700,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3739,7 +3739,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3778,7 +3778,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3817,7 +3817,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3856,7 +3856,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3895,7 +3895,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3934,7 +3934,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -3973,7 +3973,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4012,7 +4012,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4051,7 +4051,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4090,7 +4090,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4129,7 +4129,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4168,7 +4168,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4207,7 +4207,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4246,7 +4246,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4285,7 +4285,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4324,7 +4324,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4363,7 +4363,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4402,7 +4402,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-01] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4441,7 +4441,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4480,7 +4480,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4519,7 +4519,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4558,7 +4558,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4597,7 +4597,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4636,7 +4636,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4675,7 +4675,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4714,7 +4714,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4753,7 +4753,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4792,7 +4792,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4831,7 +4831,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4870,7 +4870,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4909,7 +4909,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4948,7 +4948,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -4987,7 +4987,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5026,7 +5026,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5065,7 +5065,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5104,7 +5104,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5143,7 +5143,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5182,7 +5182,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5221,7 +5221,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5260,7 +5260,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5299,7 +5299,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5338,7 +5338,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5377,7 +5377,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5416,7 +5416,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5455,7 +5455,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5494,7 +5494,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5533,7 +5533,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5572,7 +5572,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5611,7 +5611,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5650,7 +5650,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5689,7 +5689,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5728,7 +5728,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5767,7 +5767,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5806,7 +5806,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5845,7 +5845,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5884,7 +5884,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5923,7 +5923,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -5962,7 +5962,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6001,7 +6001,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6040,7 +6040,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6079,7 +6079,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6118,7 +6118,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6157,7 +6157,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6196,7 +6196,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6235,7 +6235,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6274,7 +6274,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6313,7 +6313,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6352,7 +6352,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6391,7 +6391,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6430,7 +6430,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6469,7 +6469,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6508,7 +6508,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6547,7 +6547,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6586,7 +6586,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6625,7 +6625,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6664,7 +6664,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6703,7 +6703,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6742,7 +6742,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6781,7 +6781,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6820,7 +6820,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6859,7 +6859,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6898,7 +6898,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6937,7 +6937,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -6976,7 +6976,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7015,7 +7015,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7054,7 +7054,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7093,7 +7093,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7132,7 +7132,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7171,7 +7171,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7210,7 +7210,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7249,7 +7249,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7288,7 +7288,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7327,7 +7327,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-02] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7366,7 +7366,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7405,7 +7405,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7444,7 +7444,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7483,7 +7483,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7522,7 +7522,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7561,7 +7561,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7600,7 +7600,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7639,7 +7639,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7678,7 +7678,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7717,7 +7717,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7756,7 +7756,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7795,7 +7795,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7834,7 +7834,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7873,7 +7873,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7912,7 +7912,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7951,7 +7951,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -7990,7 +7990,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8029,7 +8029,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8068,7 +8068,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8107,7 +8107,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8146,7 +8146,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8185,7 +8185,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8224,7 +8224,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8263,7 +8263,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8302,7 +8302,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8341,7 +8341,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8380,7 +8380,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8419,7 +8419,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8458,7 +8458,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8497,7 +8497,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8536,7 +8536,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8575,7 +8575,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8614,7 +8614,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8653,7 +8653,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8692,7 +8692,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8731,7 +8731,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8770,7 +8770,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8809,7 +8809,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8848,7 +8848,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8887,7 +8887,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8926,7 +8926,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -8965,7 +8965,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9004,7 +9004,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9043,7 +9043,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9082,7 +9082,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9121,7 +9121,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9160,7 +9160,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9199,7 +9199,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9238,7 +9238,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9277,7 +9277,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9316,7 +9316,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9355,7 +9355,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9394,7 +9394,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9433,7 +9433,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9472,7 +9472,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9511,7 +9511,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9550,7 +9550,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9589,7 +9589,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9628,7 +9628,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9667,7 +9667,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9706,7 +9706,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9745,7 +9745,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9784,7 +9784,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9823,7 +9823,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9862,7 +9862,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9901,7 +9901,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9940,7 +9940,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-03] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -9979,7 +9979,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10018,7 +10018,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10057,7 +10057,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10096,7 +10096,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10135,7 +10135,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10174,7 +10174,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10213,7 +10213,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10252,7 +10252,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10291,7 +10291,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10330,7 +10330,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10369,7 +10369,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10408,7 +10408,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10447,7 +10447,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10486,7 +10486,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10525,7 +10525,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10564,7 +10564,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10603,7 +10603,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10642,7 +10642,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10681,7 +10681,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10720,7 +10720,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10759,7 +10759,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10798,7 +10798,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10837,7 +10837,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10876,7 +10876,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10915,7 +10915,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10954,7 +10954,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -10993,7 +10993,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11032,7 +11032,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11071,7 +11071,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11110,7 +11110,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11149,7 +11149,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11188,7 +11188,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11227,7 +11227,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11266,7 +11266,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11305,7 +11305,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11344,7 +11344,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11383,7 +11383,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11422,7 +11422,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11461,7 +11461,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11500,7 +11500,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11539,7 +11539,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11578,7 +11578,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11617,7 +11617,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11656,7 +11656,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11695,7 +11695,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11734,7 +11734,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11773,7 +11773,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11812,7 +11812,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11851,7 +11851,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11890,7 +11890,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11929,7 +11929,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -11968,7 +11968,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12007,7 +12007,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12046,7 +12046,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12085,7 +12085,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12124,7 +12124,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12163,7 +12163,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12202,7 +12202,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12241,7 +12241,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12280,7 +12280,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12319,7 +12319,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12358,7 +12358,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12397,7 +12397,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12436,7 +12436,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12475,7 +12475,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12514,7 +12514,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12553,7 +12553,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12592,7 +12592,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)
@@ -12631,7 +12631,7 @@ java.lang.ArrayIndexOutOfBoundsException: 0
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [12-14-04] [DEBUG]: 0
 java.lang.ArrayIndexOutOfBoundsException: 0
-	at cyder.handlers.internal.ErrorHandler.handle(ErrorHandler.java:32)
+	at cyder.handlers.internal.ExceptionHandler.handle(ErrorHandler.java:32)
 	at cyder.utilities.StringUtil.filterLanguage(StringUtil.java:754)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:510)
 	at cyder.utilities.StatUtil.innerFindBadWords(StatUtil.java:503)

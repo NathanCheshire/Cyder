@@ -8,7 +8,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.*;
 
@@ -74,7 +74,7 @@ public class YoutubeUtil {
                         ret.add(new File(response.getDirectory() + fileName));
                     }
                 } catch (Exception e) {
-                    ErrorHandler.silentHandle(e);
+                    ExceptionHandler.silentHandle(e);
                     ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
                 }
             } else {
@@ -119,7 +119,7 @@ public class YoutubeUtil {
 
                     ret = new File(response.getDirectory() + outName);
                 } catch (YoutubeDLException e) {
-                    ErrorHandler.silentHandle(e);
+                    ExceptionHandler.silentHandle(e);
                     ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
                 }
             } else {
@@ -141,7 +141,7 @@ public class YoutubeUtil {
                             + "/Music/AlbumArt/" + name);
                     ImageIO.write(save, "png", saveFile);
                 } catch (Exception e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }
 
@@ -162,7 +162,7 @@ public class YoutubeUtil {
             Process proc = rt.exec(command);
         } catch (Exception e) {
             ret = false;
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         } finally {
             return ret;
         }
@@ -177,7 +177,7 @@ public class YoutubeUtil {
             Process proc = rt.exec(command);
         } catch (Exception e) {
             ret = false;
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         } finally {
             return ret;
         }
@@ -269,7 +269,7 @@ public class YoutubeUtil {
                                 " You may view this by switching the background or by typing \"prefs\" " +
                                 "to view your profile settings.");
                     } catch (IOException ex) {
-                        ErrorHandler.handle(ex);
+                        ExceptionHandler.handle(ex);
                     }
                 });
                 thumbnailFrame.add(addToBackgrounds);
@@ -325,7 +325,7 @@ public class YoutubeUtil {
             ret = save;
 
         } catch (IOException ex) {
-            ErrorHandler.handle(ex);
+            ExceptionHandler.handle(ex);
         }
 
         return ret;

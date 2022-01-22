@@ -6,7 +6,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.IPUtil;
@@ -301,7 +301,7 @@ public class ClockWidget {
                     clockLabel.repaint();
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Clock Widget Updater").start();
 
@@ -341,7 +341,7 @@ public class ClockWidget {
                 hexField.setText(ColorUtil.rgbtohexString(clockColor));
                 clockLabel.repaint();
             } catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
         });
         clockFrame.getContentPane().add(hexField);
@@ -405,13 +405,13 @@ public class ClockWidget {
                         clockFrame.notify("Successfully updated location to " + wd.getName()
                                 + "<br/>GMT: " + currentGMTOffset + "<br/>" + build);
                     } catch (Exception exc) {
-                        ErrorHandler.silentHandle(exc);
+                        ExceptionHandler.silentHandle(exc);
                         clockFrame.notify("Failed to update loation");
                         locationField.setText(currentLocation);
                         locationField.setCaretPosition(0);
                     }
                 } catch (Exception ex) {
-                    ErrorHandler.silentHandle(ex);
+                    ExceptionHandler.silentHandle(ex);
                     clockFrame.notify("Failed to update loation");
                     locationField.setText(currentLocation);
                     locationField.setCaretPosition(0);
@@ -464,7 +464,7 @@ public class ClockWidget {
                     currentTimeLabel.setText(getWeatherTime(effectivelyFinal));
                 }
             } catch (Exception e) {
-                ErrorHandler.silentHandle(e);
+                ExceptionHandler.silentHandle(e);
             }
         },"Mini Clock Updater [" + currentGMTOffset + "]").start();
 
@@ -482,7 +482,7 @@ public class ClockWidget {
         try {
             cal.add(Calendar.HOUR, gmtOffsetInHours);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return dateFormatter.format(cal.getTime());
         }
@@ -497,7 +497,7 @@ public class ClockWidget {
         try {
             cal.add(Calendar.HOUR, currentGMTOffset);
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         } finally {
             return Integer.parseInt(dateFormatter.format(cal.getTime()));
         }
@@ -526,7 +526,7 @@ public class ClockWidget {
             wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
             currentGMTOffset = 0;
             currentLocation = "Greenwich, London";
         }

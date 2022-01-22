@@ -96,7 +96,7 @@ public class LoginHandler {
             }
 
             catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Login printing animation").start();
 
@@ -119,7 +119,7 @@ public class LoginHandler {
             }
 
             catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         },"Login Input Caret Position Updater").start();
     }
@@ -247,7 +247,7 @@ public class LoginHandler {
                                     priorityPrintingList.add("Unknown command; See \"help\" for help\n");
                                 }
                             } catch (Exception e) {
-                                ErrorHandler.handle(e);
+                                ExceptionHandler.handle(e);
                             }
 
                             break;
@@ -455,7 +455,7 @@ public class LoginHandler {
                 SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
             }
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         } finally {
             return ret;
         }
@@ -481,7 +481,7 @@ public class LoginHandler {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
             ret = false;
         } finally {
             return ret;

@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -228,7 +228,7 @@ public class NotesWidget {
             }
 
             catch (Exception ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
 
             newNoteFrame.dispose();
@@ -313,7 +313,7 @@ public class NotesWidget {
                     else
                         noteEditorFrame.removeClosingConfirmation();
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             }
         });
@@ -341,7 +341,7 @@ public class NotesWidget {
 
             InitReader.close();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         currentUserNote = File;
@@ -418,7 +418,7 @@ public class NotesWidget {
             }
 
             catch (Exception exc) {
-                ErrorHandler.handle(exc);
+                ExceptionHandler.handle(exc);
             }
         });
         saveNote.setBounds(50,550,600 - 50 - 50, 40);

@@ -8,7 +8,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.ErrorHandler;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.structs.CyderQueue;
@@ -187,7 +187,7 @@ public class ManualTests {
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
-                ErrorHandler.handle(interruptedException);
+                ExceptionHandler.handle(interruptedException);
             }
         }).start());
         testFrame.getContentPane().add(slideUp);
@@ -205,7 +205,7 @@ public class ManualTests {
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
-                ErrorHandler.handle(interruptedException);
+                ExceptionHandler.handle(interruptedException);
             }
         }).start());
         testFrame.getContentPane().add(slideLeft);
@@ -223,7 +223,7 @@ public class ManualTests {
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
-                ErrorHandler.handle(interruptedException);
+                ExceptionHandler.handle(interruptedException);
             }
         }).start());
         testFrame.getContentPane().add(slideDown);
@@ -241,7 +241,7 @@ public class ManualTests {
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
-                ErrorHandler.handle(interruptedException);
+                ExceptionHandler.handle(interruptedException);
             }
         }).start());
         testFrame.getContentPane().add(slideRight);
@@ -308,7 +308,7 @@ public class ManualTests {
                 try {
                     Thread.sleep(2000 / jpb.getMaximum());
                 } catch (InterruptedException e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }
 
@@ -317,7 +317,7 @@ public class ManualTests {
                 try {
                     Thread.sleep(500 / jpb.getMaximum());
                 } catch (InterruptedException e) {
-                    ErrorHandler.handle(e);
+                    ExceptionHandler.handle(e);
                 }
             }
         }, "ProgressBar Animator").start();

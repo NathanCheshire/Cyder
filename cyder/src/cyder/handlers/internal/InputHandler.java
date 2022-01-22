@@ -204,7 +204,7 @@ public class InputHandler {
                         try {
                             redirectionSem.acquire();
                         } catch (Exception e) {
-                            ErrorHandler.handle(e);
+                            ExceptionHandler.handle(e);
                         }
 
                         //create the file name
@@ -741,7 +741,7 @@ public class InputHandler {
 
                 println("Background generated, set, and saved as a separate background file.");
             } catch (Exception e) {
-                ErrorHandler.silentHandle(e);
+                ExceptionHandler.silentHandle(e);
                 println("Background color command usage: background color #EC407A");
             }
         } else if (hasWord("fix") && hasWord("foreground")) {
@@ -832,7 +832,7 @@ public class InputHandler {
                             }
                         }
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 },"Image Pixelator Getter thread").start();
             }
@@ -892,7 +892,7 @@ public class InputHandler {
                 }
             } catch (Exception e) {
                 println("Prime usage: prime number");
-                ErrorHandler.silentHandle(e);
+                ExceptionHandler.silentHandle(e);
             }
         } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
                 (!has("music") && !has("dance") && !has("script"))) {
@@ -969,7 +969,7 @@ public class InputHandler {
         } else if (hasWord("logout")) {
            ConsoleFrame.getConsoleFrame().logout();
         } else if (hasWord("throw")) {
-            ErrorHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
+            ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
@@ -1160,7 +1160,7 @@ public class InputHandler {
                             }
                         }
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }, "Youtube Audio Download Waiter").start();
             } else {
@@ -1188,7 +1188,7 @@ public class InputHandler {
                             AudioPlayer.addToMp3Queue(downloadedFile.get());
                         }
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 }, "Youtube Audio Download Waiter").start();
             }
@@ -1211,7 +1211,7 @@ public class InputHandler {
 
                     reader.close();
                 } catch (Exception e) {
-                    ErrorHandler.silentHandle(e);
+                    ExceptionHandler.silentHandle(e);
                     println("Unknown pastebin url/UUID");
                 }
             } else {
@@ -1255,7 +1255,7 @@ public class InputHandler {
                     ConsoleFrame.getConsoleFrame().notify("Screen shot " +
                             (status ? "successfully" : "unsuccessfully") + " saved to your downloads folder");
                 } catch (Exception ex) {
-                    ErrorHandler.handle(ex);
+                    ExceptionHandler.handle(ex);
                 }
             });
             pictureButton.addMouseListener(new MouseAdapter() {
@@ -1320,7 +1320,7 @@ public class InputHandler {
                 try {
                     Thread.sleep(4000);
                 } catch (Exception e) {
-                    ErrorHandler.silentHandle(e);
+                    ExceptionHandler.silentHandle(e);
                 }
 
                 outputArea.setFont(oldFont);
@@ -1513,7 +1513,7 @@ public class InputHandler {
                 }
             }
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         }
 
         return false;
@@ -1587,7 +1587,7 @@ public class InputHandler {
                         println("Invoking manual test: " + m.getName());
                         ret = true;
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                     break;
                 }
@@ -1618,7 +1618,7 @@ public class InputHandler {
                         println("Invoking unit test: " + m.getName());
                         ret = true;
                     } catch (Exception e) {
-                        ErrorHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                     break;
                 }
@@ -1726,7 +1726,7 @@ public class InputHandler {
             String desc = getUserInputDesc();
             //tests on desc which should have been set from the first handle method
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1852,7 +1852,7 @@ public class InputHandler {
             try {
                 makePrintingThreadsafeAgain.acquire();
             } catch (InterruptedException ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
             boolean ret = super.add(e);
             makePrintingThreadsafeAgain.release();
@@ -1872,7 +1872,7 @@ public class InputHandler {
             try {
                 makePrintingThreadsafeAgain.acquire();
             } catch (InterruptedException ex) {
-                ErrorHandler.handle(ex);
+                ExceptionHandler.handle(ex);
             }
             boolean ret = super.add(e);
             makePrintingThreadsafeAgain.release();
@@ -1988,7 +1988,7 @@ public class InputHandler {
                         Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {
-                ErrorHandler.handle(e);
+                ExceptionHandler.handle(e);
             }
         }, "Console Printing Animation").start();
     }
@@ -2027,7 +2027,7 @@ public class InputHandler {
                 playInc++;
             }
         } catch (Exception e) {
-            ErrorHandler.silentHandle(e);
+            ExceptionHandler.silentHandle(e);
         }
     }
 
@@ -2556,7 +2556,7 @@ public class InputHandler {
 
             GenesisShare.getPrintingSem().release();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -2606,7 +2606,7 @@ public class InputHandler {
             }
         } catch (BadLocationException ignored) {}
         catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -2633,7 +2633,7 @@ public class InputHandler {
             writer.write(String.valueOf(object));
             redirectionSem.release();
         } catch (Exception e) {
-            ErrorHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 
