@@ -12,6 +12,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
+import cyder.widgets.WidgetBase;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.player.Player;
@@ -33,7 +34,7 @@ import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 
-public class AudioPlayer {
+public class AudioPlayer implements WidgetBase {
     //last actions needed for logic
     private enum LastAction {
         SKIP,PAUSE,STOP,RESUME,PLAY
@@ -86,12 +87,22 @@ public class AudioPlayer {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    //todo make sure anything with an @Widget annotation follows this
+    // if it needs param have a default one that is the tagged one for the reflector to find
+
+    /**
+     * Method for widget finder to invoke by using reflection to find the Widget annotation
+     */
+    @Widget(trigger = "mp3", description = "An audio playing widget")
+    public static void showGUI() {
+        showGUI(null);
+    }
+
     /**
      * Constructor that launches the AudioPlayer
      * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
      * Pass {@code null} to avoid starting audio upon launch.
      */
-    @Widget(trigger = "mp3", description = "An audio playing widget")
     public static void showGUI(File startPlaying) {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AUDIO PLAYER");
 

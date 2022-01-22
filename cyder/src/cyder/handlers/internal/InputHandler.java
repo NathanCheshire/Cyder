@@ -591,8 +591,6 @@ public class InputHandler {
             Desktop.getDesktop().open(new File("C:/Windows/system32/netsh.exe"));
         } else if (commandIs("paint")) {
             //todo soon our own custom painter
-            String param = "C:/Windows/system32/mspaint.exe";
-            Runtime.getRuntime().exec(param);
         } else if (commandIs("rickandmorty")) {
             println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
             NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");

@@ -170,21 +170,39 @@ public class ReflectionUtil {
      * @return whether or not a widget was opened
      */
     public static boolean openWidget(String trigger) {
-        for (Class classer : findAllClassesUsingClassLoader("cyder.widgets")) {
-            for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(Widget.class)) {
-                    String widgetTrigger = m.getAnnotation(Widget.class).trigger();
+        //todo loop for all packages and subpackages
+        //todo some widgets can't be invoked due to multiple instances being allowed
+        // the showGUI method should always be static
 
-                    if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                        ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
-                                + classer.getName());
-                        try {
-                            m.invoke(classer);
-                            return true;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            System.out.println("here");
-                            ExceptionHandler.handle(e);
+        //todo make a json for this
+
+        //todo expand sys.json to smaller components so that you don't parse all that shit at once
+        // it'll be easier to read this way
+
+        //todo also make a devs script thing in python to find all classes that have the annotation
+        // with correct params and create a string array that you can copy over before compiling jars and such
+
+        String[] packagesWithWidgetAnnotations = new String[]
+                {"cyder.widgets", "cyder.utilities", "cyder.handlers.external"};
+
+        for (String pack: packagesWithWidgetAnnotations) {
+            for (Class classer : findAllClassesUsingClassLoader(pack)) {
+                for (Method m : classer.getMethods()) {
+                    if (m.isAnnotationPresent(Widget.class)) {
+                        String widgetTrigger = m.getAnnotation(Widget.class).trigger();
+
+                        System.out.println("on current widget trigger: " + widgetTrigger);
+                        if (widgetTrigger.equalsIgnoreCase(trigger)) {
+                            ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
+                                    + classer.getName());
+                            try {
+                                if (m.getParameterCount() == 0) {
+                                    m.invoke(classer);
+                                    return true;
+                                } else throw new IllegalStateException("Found widget showGUI() method with parameters");
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
+                            }
                         }
                     }
                 }
