@@ -6,6 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.PopupHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
@@ -30,6 +31,8 @@ public class HashingWidget implements WidgetBase {
 
     @Widget(trigger = "hash", description = "A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1")
     public void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "HASH");
+
         algorithms.add("SHA-256");
         algorithms.add("SHA-1");
         algorithms.add("MD5");

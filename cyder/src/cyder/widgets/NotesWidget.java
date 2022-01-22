@@ -7,6 +7,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
@@ -47,6 +48,8 @@ public class NotesWidget implements WidgetBase {
 
     @Widget(trigger = "note", description = "A note taking widget that can save and display multiple notes")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "NOTE");
+
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;
 

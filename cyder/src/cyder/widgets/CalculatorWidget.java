@@ -9,6 +9,7 @@ import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -25,6 +26,8 @@ public class CalculatorWidget implements WidgetBase {
 
     @Widget(trigger = "calculator", description = "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CALCULATOR");
+
         calculatorExpression = "";
 
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderIcons.defaultBackground);

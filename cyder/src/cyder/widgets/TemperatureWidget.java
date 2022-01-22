@@ -5,6 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.genesis.GenesisShare;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
@@ -33,6 +34,8 @@ public class TemperatureWidget implements WidgetBase {
 
     @Widget(trigger = "temperature", description = "A temperature conversion widget for the three standard temperature units")
     public void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "TEMPERATURE");
+
         if (temperatureFrame != null)
             temperatureFrame.dispose();
 

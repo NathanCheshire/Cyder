@@ -1,5 +1,6 @@
 package cyder.cyderuser;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
@@ -8,6 +9,7 @@ import cyder.enums.NotificationDirection;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
@@ -63,7 +65,10 @@ public class UserEditor {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    @Widget(trigger = "prefs", description = "A widget to edit your user preferences and files")
     public static void showGUI(int startingIndex) {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "PREFS");
+
         if (editUserFrame != null)
             editUserFrame.dispose();
 

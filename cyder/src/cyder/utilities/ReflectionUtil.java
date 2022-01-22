@@ -170,6 +170,8 @@ public class ReflectionUtil {
      * @return whether or not a widget was opened
      */
     public static boolean openWidget(String trigger) {
+        System.out.println(trigger);
+
         for (Class classer : findAllClassesUsingClassLoader("cyder.widgets")) {
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {

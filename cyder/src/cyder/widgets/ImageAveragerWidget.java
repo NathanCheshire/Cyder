@@ -6,6 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -42,6 +43,8 @@ public class ImageAveragerWidget implements WidgetBase {
     @Widget(trigger = "average images", description = "A widget that adds multiple images " +
             "together and divides by the total to obtain an average base image")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AVERAGE IMAGES");
+
         files = new LinkedList<>();
 
         cf = new CyderFrame(600,640);

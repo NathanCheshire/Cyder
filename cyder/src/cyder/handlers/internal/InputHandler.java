@@ -4,6 +4,7 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
+import cyder.cyderuser.UserCreator;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
@@ -247,7 +248,7 @@ public class InputHandler {
         //primary checks
         else if (generalPrintsCheck() ||
                 printImageCheck() ||
-                widgetCheck() ||
+                ReflectionUtil.openWidget((command.trim() + " " + argsToString().trim()).trim()) ||
                 cyderFrameMovementCheck() ||
                 externalOpenerCheck() ||
                 audioCommandCheck() ||
@@ -447,114 +448,6 @@ public class InputHandler {
         return ret;
     }
 
-    private boolean widgetCheck() {
-        return ReflectionUtil.openWidget(command);
-        //todo move handling of widgets opening to their showGUI methods and add a tag for that in logger
-        //todo we'll have a method for this that checks the trigger provided in the annotation
-//        if (commandIs("clock")) {
-//            ClockWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CLOCK");
-//        } else if ((commandIs("youtube") && commandIs ("thumbnail"))) {
-//            YoutubeUtil.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
-//        } else if (commandIs("minecraft")) {
-//            MinecraftWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "MINECRAFT");
-//        } else if ((commandIs("edit") && commandIs("user")) || commandIs("prefs")) {
-//            UserEditor.showGUI(0);
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "USER EDITOR");
-//        } else if (commandIs("hash") || commandIs("hashser")) {
-//            new HashingWidget().showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "SHA256 HASHER");
-//        }  else if (commandIs("search") || commandIs("dir") || (commandIs("file") && commandIs("search")) || commandIs("directory") || commandIs("ls")) {
-//            DirectoryViewer.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "DIR SEARCH");
-//        } else if (commandIs("weather")) {
-//            new WeatherWidget().showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "WEATHER");
-//        } else if (commandIs("pin") || commandIs("login")) {
-//            LoginHandler.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "LOGIN WIDGET");
-//        } else if ((commandIs("create") || commandIs("new")) && commandIs("user")) {
-//            UserCreator.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "USER CREATOR");
-//        } else if ((commandIs("resize") && (commandIs("image")) ||
-//                (commandIs("picture") && commandIs("resize")))) {
-//            ImageResizerWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
-//        } else if (commandIs("temperature") || commandIs("temp")) {
-//            new TemperatureWidget().showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
-//        } else if (commandIs("click me")) {
-//            ClickWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CLICK ME");
-//        } else if (commandIs("Father") && commandIs("day") && commandIs("2021")) {
-//            CardWidget.FathersDay2021();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-//        } else if (commandIs("christmas") && commandIs("card") && commandIs("2020")) {
-//            CardWidget.Christmas2020();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-//        } else if (commandIs("christmas") && commandIs("card") && commandIs("2021")) {
-//            CardWidget.Christmas2021();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-//        } else if (commandIs("hangman")) {
-//            HangmanGame.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "HANGMAN");
-//        } else if (commandIs("rgb") || commandIs("hex") || (commandIs("color") && commandIs("converter"))) {
-//            ColorConverterWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "COLOR CONVERTER");
-//        } else if (commandIs("pizza")) {
-//            PizzaWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "PIZZA");
-//        } else if ((commandIs("pixelate") || commandIs("distort")) &&
-//                (commandIs("image") || commandIs("picture"))) {
-//            ImagePixelatorWidget.showGUI(null);
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE PIXELATOR");
-//        } else if (commandIs("file") && commandIs("signature")) {
-//            FileSignatureWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "FILE SIGNATURE");
-//        } else if ((commandIs("tic") && commandIs("tac") && commandIs("toe")) || commandIs("TTT")) {
-//            TTTGame.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "TIC TAC TOE");
-//        } else if (commandIs("note") || commandIs("notes")) {
-//            NotesWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "NOTE EDITOR");
-//        } else if ((commandIs("mp3") || commandIs("music")) && !commandIs("stop")) {
-//            AudioPlayer.showGUI(null);
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "AUDIO PLAYER");
-//        } else if (commandIs("phone") || commandIs("dialer") || commandIs("call")) {
-//            PhoneWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "PHONE");
-//        } else if ((commandIs("calculator") || commandIs("calc")) && !commandIs("graphing")) {
-//            CalculatorWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CALCULATOR");
-//        } else if (commandIs("spotlight") || (commandIs("spotlight") && commandIs("steal") && !commandIs("wipe"))) {
-//            File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
-//            SpotlightUtil.saveSpotlights(saveDir);
-//            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
-//            println("Spotlight images saved to your user's background/ directory");
-//        } else if (commandIs("spotlight") && commandIs("wipe")) {
-//            SpotlightUtil.wipe();
-//        } else if (commandIs("convex") && commandIs("hull")) {
-//            ConvexHullWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CONVEX HULL");
-//        } else if (commandIs("average") && (commandIs("image") || commandIs("picture"))) {
-//            ImageAveragerWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE AVERAGER");
-//        } else if (commandIs("conway") || commandIs("conways")) {
-//            GameOfLifeWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "CONWAYS");
-//        } else if (commandIs("birthday") && commandIs("card") && commandIs("2021")) {
-//            CardWidget.Birthday2021();
-//        } else if (commandIs("pathfinder") || commandIs("path")) {
-//            PathFinderWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "PATHFINDER");
-//        } else if (commandIs("perlin")) {
-//            PerlinWidget.showGUI();
-//            SessionHandler.log(SessionHandler.Tag.ACTION, "PERLIN");
-//        } else ret = false;
-    }
-
     private boolean cyderFrameMovementCheck() {
         boolean ret = true;
 
@@ -750,7 +643,9 @@ public class InputHandler {
     private boolean generalCommandCheck() throws Exception {
         boolean ret = true;
 
-         if (commandIs("backgroundcolor")) {
+        if (commandIs("createuser")) {
+            UserCreator.showGUI();
+        } else if (commandIs("backgroundcolor")) {
             if (checkArgsLength(1)) {
                 try {
                     Color color = Color.decode("#" + getArg(0));

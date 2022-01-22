@@ -7,7 +7,11 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.*;
+import cyder.handlers.internal.SessionHandler;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
+import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -36,6 +40,8 @@ public class ImagePixelatorWidget implements WidgetBase {
     @Widget(trigger = "pixelate picture", description = "A simple image pixelator widget that transforms" +
             " the image into an image depicted of the specified number of pixels")
     public static void showGUI(File startPNG) {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "IMAGE PIXELATOR");
+
         CyderFrame pixelFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
         pixelFrame.setTitle("Image Pixelator");
 

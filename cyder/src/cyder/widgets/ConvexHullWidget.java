@@ -1,11 +1,15 @@
 package cyder.widgets;
 
+import cyder.algorithoms.GrahamScanAlgorithms;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.ui.*;
-import cyder.algorithoms.GrahamScanAlgorithms;
+import cyder.handlers.internal.SessionHandler;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderComboBox;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -32,6 +36,8 @@ public class ConvexHullWidget implements WidgetBase {
 
     @Widget(trigger = "convex hull", description = "A convex hull algorithm visualizer")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CONVEX HULL");
+
         boardPoints = new Vector<>();
 
         hullFrame = new CyderFrame(800,800);

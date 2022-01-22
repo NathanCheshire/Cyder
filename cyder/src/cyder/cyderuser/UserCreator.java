@@ -1,14 +1,16 @@
 package cyder.cyderuser;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.handlers.internal.LoginHandler;
-import cyder.handlers.internal.ExceptionHandler;
 import cyder.genesis.GenesisShare.Preference;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
 
@@ -36,7 +38,10 @@ public class UserCreator {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    @Widget(trigger = "createuser", description = "A user creating widget")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "USER CREATED");
+
         createUserBackground = null;
 
         if (createUserFrame != null)

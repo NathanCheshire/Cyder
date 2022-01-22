@@ -7,6 +7,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.IPUtil;
@@ -57,6 +58,8 @@ public class ClockWidget implements WidgetBase {
 
     @Widget(trigger = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone") //it's ya boi, Greenwich
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CLOCK");
+
         if (clockFrame != null)
             clockFrame.dispose();
 

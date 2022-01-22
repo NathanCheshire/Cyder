@@ -7,7 +7,11 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.*;
+import cyder.handlers.internal.SessionHandler;
+import cyder.ui.CyderButton;
+import cyder.ui.CyderCheckbox;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.SystemUtil;
 
@@ -43,6 +47,8 @@ public class ImageResizerWidget implements WidgetBase {
 
     @Widget(trigger = "resize pictures", description = "An image resizing widget to crop images")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "IMAGE RESIZER");
+
         CyderFrame resizeFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
         resizeFrame.setTitle("Image Resizer");
 

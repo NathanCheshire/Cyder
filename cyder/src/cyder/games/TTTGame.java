@@ -1,13 +1,14 @@
 package cyder.games;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
-import cyder.ui.CyderFrame;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderFrame;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
@@ -41,7 +42,10 @@ public class TTTGame {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    @Widget(trigger = "ttt", description = "A TicTacToe widget")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "TTT");
+
         if (tttFrame != null)
             tttFrame.dispose();
 

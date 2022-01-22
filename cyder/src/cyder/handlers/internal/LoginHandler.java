@@ -125,6 +125,8 @@ public class LoginHandler {
     }
 
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "LOGIN");
+
         priorityPrintingList.clear();
         printingList.clear();
         doLoginAnimations = true;

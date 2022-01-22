@@ -93,6 +93,8 @@ public class AudioPlayer {
      */
     @Widget(trigger = "mp3", description = "An audio playing widget")
     public static void showGUI(File startPlaying) {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AUDIO PLAYER");
+
         queue = new LinkedList<>();
 
         if (audioFrame != null) {

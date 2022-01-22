@@ -6,6 +6,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
@@ -62,6 +63,8 @@ public class PerlinWidget implements WidgetBase {
 
     @Widget(trigger = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "PERLIN");
+
         //set closed
         closed = false;
 

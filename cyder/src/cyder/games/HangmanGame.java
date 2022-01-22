@@ -1,11 +1,13 @@
 package cyder.games;
 
+import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -35,7 +37,10 @@ public class HangmanGame {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    @Widget(trigger = "hangman", description = "A hangman game")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "HANGMAN");
+
         if (HangmanFrame != null)
             HangmanFrame.dispose();
 

@@ -8,6 +8,7 @@ import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -51,6 +52,8 @@ public class GameOfLifeWidget implements WidgetBase {
 
     @Widget(trigger = "conway", description = "Conway's game of life visualizer")
     public static void showGUI() {
+        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CONWAY");
+
         grid = new int[defaultGridLen][defaultGridLen];
         conwayFrame = new CyderFrame(940,1120, CyderIcons.defaultBackgroundLarge);
         conwayFrame.setTitle("Conway's Game of Life");
