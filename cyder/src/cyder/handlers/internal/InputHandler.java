@@ -45,7 +45,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class InputHandler {
     /**
@@ -1352,24 +1351,14 @@ public class InputHandler {
             }
         }
         //final attempt at unknown input --------------------------
-        else {
-            //todo respective methods should handle their own logging, add a tag for that as well
-            if (isURLCheck(command)) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE URL FUNCTION HANDLED");
-            } else if (handleMath(command)) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
-            } else if (evaluateExpression(command)) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH HANDLED");
-            } else if (preferenceCheck(command)) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
-            } else if (manualTestCheck(command)) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
-            } else if (unitTestCheck(command)) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
-            } else {
-                unknownInput();
-            }
-        }
+        else if (isURLCheck(command) ||
+                handleMath(command) ||
+                evaluateExpression(command) ||
+                preferenceCheck(command) ||
+                manualTestCheck(command) ||
+                unitTestCheck(command)) {
+                //one of the above was handled and logged
+        } else unknownInput();
 
         //clean up routines --------------------------------------
 
@@ -1377,6 +1366,7 @@ public class InputHandler {
         ConsoleFrame.getConsoleFrame().getInputField().setText("");
     }
 
+    //todo respective methods should handle their own logging, add a tag for that as well
     //sub-handle methods in the order they appear above --------------------------
 
     /**
@@ -1397,6 +1387,8 @@ public class InputHandler {
             ret = false;
         }
 
+        //log before returning
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE URL FUNCTION HANDLED");
         return ret;
     }
 
@@ -1419,6 +1411,8 @@ public class InputHandler {
      * @return whether or not the command was a simple math library call
      */
     private boolean handleMath(String command) {
+        boolean ret = false;
+
         int firstParen = command.indexOf("(");
         int comma = command.indexOf(",");
         int lastParen = command.indexOf(")");
@@ -1443,44 +1437,46 @@ public class InputHandler {
 
                 if (mathop.equalsIgnoreCase("abs")) {
                     println(Math.abs(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("ceil")) {
                     println(Math.ceil(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("floor")) {
                     println(Math.floor(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("log")) {
                     println(Math.log(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("log10")) {
                     println(Math.log10(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("max")) {
                     println(Math.max(param1, param2));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("min")) {
                     println(Math.min(param1, param2));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("pow")) {
                     println(Math.pow(param1, param2));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("round")) {
                     println(Math.round(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("sqrt")) {
                     println(Math.sqrt(param1));
-                    return true;
+                    ret = true;
                 } else if (mathop.equalsIgnoreCase("convert2")) {
                     println(Integer.toBinaryString((int) (param1)));
-                    return true;
+                    ret = true;
                 }
             }
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         }
 
-        return false;
+        //log before returning
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
+        return ret;
     }
 
     /**
@@ -1490,12 +1486,15 @@ public class InputHandler {
      * @return whether or not the command was a mathematical expression
      */
     private boolean evaluateExpression(String command) {
+        boolean ret = false;
+
         try {
             println(new DoubleEvaluator().evaluate(StringUtil.firstCharToLowerCase(command.trim())));
-            return true;
+            ret = true;
         } catch (Exception ignored) {}
 
-        return false;
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH HANDLED");
+        return ret;
     }
 
     /**
@@ -1527,6 +1526,7 @@ public class InputHandler {
             }
         }
 
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
         return ret;
     }
 
@@ -1537,11 +1537,11 @@ public class InputHandler {
      * @return whether or not the command was handled as a manual test call
      */
     public boolean manualTestCheck(String command) {
+        boolean ret = false;
+
         command = command.toLowerCase();
 
         if (command.contains("test")) {
-            boolean ret = false;
-
             ManualTests mtw = new ManualTests();
 
             for (Method m : mtw.getClass().getMethods()) {
@@ -1556,9 +1556,10 @@ public class InputHandler {
                     break;
                 }
             }
+        }
 
-            return ret;
-        } else return false;
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
+        return ret;
     }
 
     /**
@@ -1568,11 +1569,11 @@ public class InputHandler {
      * @return whether or not the command was recognized as a unit test call
      */
     public boolean unitTestCheck(String command) {
+        boolean ret = false;
+
         command = command.toLowerCase();
 
         if (command.contains("test")) {
-            boolean ret = false;
-
             UnitTests tests = new UnitTests();
 
             for (Method m : tests.getClass().getMethods()) {
@@ -1587,9 +1588,10 @@ public class InputHandler {
                     break;
                 }
             }
+        }
 
-            return ret;
-        } else return false;
+        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
+        return ret;
     }
 
     /**
@@ -2452,6 +2454,18 @@ public class InputHandler {
      */
     private boolean commandMatches(String regex) {
         return command.matches(regex);
+    }
+
+    /**
+     * Determines if the current command matches the provided regex ignoreing case.
+     * Pass in the regex assuming values are lowercase as this method
+     * invokes toLowerCase() on command.
+     *
+     * @param regex the regex to match the current command to
+     * @return whether the current command matches the provided regex.
+     */
+    private boolean commandMatchesIgnorecase(String regex) {
+        return command.toLowerCase().matches(regex);
     }
 
     /**
