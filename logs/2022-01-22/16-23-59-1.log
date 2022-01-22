@@ -1,0 +1,65 @@
+[16-23-59] [ENTRY]: [Nathan]
+[16-23-59] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-23-59] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-24-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-24-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-24-02] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-24-02] [SYSTEM_IO]: Userdata requested: Name
+[16-24-02] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-24-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-24-02] [SYSTEM_IO]: Userdata requested: Name
+[16-24-02] [SYSTEM_IO]: Userdata requested: Foreground
+[16-24-02] [SYSTEM_IO]: Userdata requested: Foreground
+[16-24-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-24-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-24-02] [SYSTEM_IO]: Userdata requested: Foreground
+[16-24-02] [SYSTEM_IO]: Userdata requested: Font
+[16-24-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-24-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-24-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-24-02] [SYSTEM_IO]: Userdata requested: Foreground
+[16-24-02] [SYSTEM_IO]: Userdata requested: Foreground
+[16-24-02] [SYSTEM_IO]: Userdata requested: Foreground
+[16-24-02] [SYSTEM_IO]: Userdata requested: Font
+[16-24-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-24-02] [SYSTEM_IO]: Userdata requested: InputFill
+[16-24-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1881528688], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-24-02] [ACTION]: Console loaded in 3621ms
+[16-24-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-24-02] [ENTRY]: [TESTING MODE]
+[16-24-02] [SYSTEM_IO]: Userdata requested: laststart
+[16-24-02] [SYSTEM_IO]: Userdata requested: IntroMusic
+[16-24-03] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3621ms
+[16-24-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-24-14] [CLIENT]: bletchy
+[16-24-14] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-14] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[16-24-14] [HANDLE]: PRIMARY HANDLE
+[16-24-15] [CLIENT]: controlc
+[16-24-15] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-15] [HANDLE]: GENERAL COMMAND HANDLED
+[16-24-15] [HANDLE]: PRIMARY HANDLE
+[16-24-15] [CONSOLE_OUT]: [STRING] Escaped
+[16-24-16] [CLIENT]: bletchy
+[16-24-16] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-16] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[16-24-16] [HANDLE]: PRIMARY HANDLE
+[16-24-20] [CLIENT]: hello
+[16-24-20] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-20] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-24-20] [HANDLE]: PRIMARY HANDLE
+[16-24-20] [CONSOLE_OUT]: [STRING] I'm here....
+[16-24-22] [CLIENT]: bletch
+[16-24-22] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-22] [CONSOLE_OUT]: [STRING] Unknown command
+[16-24-25] [CLIENT]: bletchy
+[16-24-25] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-25] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[16-24-25] [HANDLE]: PRIMARY HANDLE
+[16-24-26] [CLIENT]: hi
+[16-24-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-24-26] [SYSTEM_IO]: Userdata requested: Name
+[16-24-27] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-24-27] [HANDLE]: PRIMARY HANDLE
+[16-24-28] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
