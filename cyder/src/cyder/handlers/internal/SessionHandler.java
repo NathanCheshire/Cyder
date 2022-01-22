@@ -54,7 +54,8 @@ public class SessionHandler {
      * @param <T> the object instance of representation
      */
     public static <T> void log(Tag tag, T representation) {
-        StringBuilder logBuilder = new StringBuilder("[" + TimeUtil.logTime() + "] ");
+        String initialTimeTag = "[" + TimeUtil.logTime() + "] ";
+        StringBuilder logBuilder = new StringBuilder(initialTimeTag);
 
         switch (tag) {
             case CLIENT:
@@ -174,13 +175,28 @@ public class SessionHandler {
                 logBuilder.append("[UNKNOWN]: ");
                 logBuilder.append(representation);
                 break;
+            case PRIVATE_MESSAGE_RECEIVED:
+                break;
             case DEBUG_PRINT:
                 logBuilder.append("[DEBUG]: ");
                 logBuilder.append(representation);
                 break;
+            case HANDLE_METHOD:
+                logBuilder.append("[HANDLE]: ");
+                logBuilder.append(representation);
+                break;
+            case WIDGET_OPENED:
+                logBuilder.append("[WIDGET OPENED]: ");
+                logBuilder.append(representation);
+                break;
+            default:
+                throw new IllegalArgumentException("Handle case not found; you're probably an " +
+                        "idiot and added an enum type but forgot to implement it here");
         }
 
         //write to log file
+        if (logBuilder.toString().equalsIgnoreCase(initialTimeTag))
+            throw new IllegalArgumentException("Attempting to write nothing to the log file");
         writeLine(logBuilder.toString());
     }
 

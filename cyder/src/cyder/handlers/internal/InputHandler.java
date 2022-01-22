@@ -116,20 +116,13 @@ public class InputHandler {
         bletchyThread = new BletchyThread(outputArea);
     }
 
-    //Master handle methods ----------------------------------------------
-
-    //todo begin refactoring and breakup into other functions that are separated by category
-    // that each return T/F which will determine whether or not the method should continue
-
     //todo OutputPane object:
     // will have threads inside of it such as materyoutube and bletchy and have wrapper methods
     // will have the printing thread and printing lists
     // print methods here will redirect to methods in the linked outputPane
 
-    //todo widgets that allow multiple instances should have their method set to not dispose the current one
-    // for simplicity sake, how to do this
-
-    //todo goal here is to eliminate usage of hasWord and has since we're going command based
+    //todo if command is not found attempt to find most similar one and if threshhold is 80% or above
+    // then print that command as a suggestion
 
     /**
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
@@ -243,7 +236,7 @@ public class InputHandler {
      */
     public void handle(String op, boolean userTriggered) throws Exception {
         if (!handlePreliminaries(op, userTriggered)) {
-
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
         }
         //primary checks
         else if (generalPrintsCheck() ||
@@ -253,7 +246,7 @@ public class InputHandler {
                 externalOpenerCheck() ||
                 audioCommandCheck() ||
                 generalCommandCheck()) {
-
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "PRIMARY HANDLE");
         }
         //final checks
         else if (isURLCheck(command) ||
@@ -262,7 +255,7 @@ public class InputHandler {
                 preferenceCheck(command) ||
                 manualTestCheck(command) ||
                 unitTestCheck(command)) {
-                //one of the above was handled and logged
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "FINAL HANDLE");
         } else unknownInput();
 
         //clean up routines --------------------------------------
@@ -405,7 +398,7 @@ public class InputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
-        } ret = false;
+        } else ret = false;
 
         if (ret)
             SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
@@ -1336,9 +1329,7 @@ public class InputHandler {
             HttpURLConnection huc = (HttpURLConnection) url.openConnection();
             ret = true;
             NetworkUtil.internetConnect(command);
-        } catch (Exception ignored) {
-            ret = false;
-        }
+        } catch (Exception ignored) {}
 
         //log before returning
         if (ret)
@@ -1365,17 +1356,17 @@ public class InputHandler {
      * @return whether or not the command was a simple math library call
      */
     private boolean handleMath(String command) {
-        boolean ret = false;
-
-        int firstParen = command.indexOf("(");
-        int comma = command.indexOf(",");
-        int lastParen = command.indexOf(")");
-
-        String mathop;
-        double param1 = 0.0;
-        double param2 = 0.0;
+        boolean ret = true;
 
         try {
+            int firstParen = command.indexOf("(");
+            int comma = command.indexOf(",");
+            int lastParen = command.indexOf(")");
+
+            String mathop;
+            double param1 = 0.0;
+            double param2 = 0.0;
+
             if (firstParen != -1) {
                 mathop = command.substring(0, firstParen);
 
@@ -1391,41 +1382,31 @@ public class InputHandler {
 
                 if (mathop.equalsIgnoreCase("abs")) {
                     println(Math.abs(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("ceil")) {
                     println(Math.ceil(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("floor")) {
                     println(Math.floor(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("log")) {
                     println(Math.log(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("log10")) {
                     println(Math.log10(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("max")) {
                     println(Math.max(param1, param2));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("min")) {
                     println(Math.min(param1, param2));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("pow")) {
                     println(Math.pow(param1, param2));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("round")) {
                     println(Math.round(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("sqrt")) {
                     println(Math.sqrt(param1));
-                    ret = true;
                 } else if (mathop.equalsIgnoreCase("convert2")) {
                     println(Integer.toBinaryString((int) (param1)));
-                    ret = true;
-                }
-            }
+                } else ret = false;
+            } else ret = false;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
+            ret = false;
         }
 
         //log before returning

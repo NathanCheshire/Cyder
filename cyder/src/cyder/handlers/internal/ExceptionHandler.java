@@ -112,7 +112,7 @@ public class ExceptionHandler {
 
         //trace
         if (stackTrace != null)
-            exceptionPrintBuilder.append("\nTrace: ").append(stackTrace.replace(e.getMessage(), ""));
+            exceptionPrintBuilder.append("\nTrace: ").append(stackTrace);
         else
             exceptionPrintBuilder.append("\nStack trace not found; what are you some kind of Eurpoean toy maker?");
 
