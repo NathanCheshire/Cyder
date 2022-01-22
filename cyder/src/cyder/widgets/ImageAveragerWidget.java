@@ -28,7 +28,7 @@ import java.util.LinkedList;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
-public class ImageAveragerWidget {
+public class ImageAveragerWidget implements WidgetBase {
     private static LinkedList<File> files;
     private static JLabel imagesScrollLabel;
     private static CyderScrollList imagesScroll;

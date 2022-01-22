@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MinecraftWidget {
+public class MinecraftWidget implements WidgetBase {
     private static CyderFrame minecraftFrame;
     private static JLabel realmsLabel;
     private static JLabel chestLabel;

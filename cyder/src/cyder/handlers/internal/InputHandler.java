@@ -4,15 +4,10 @@ import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
-import cyder.cyderuser.UserCreator;
-import cyder.cyderuser.UserEditor;
 import cyder.enums.ScreenPosition;
-import cyder.games.HangmanGame;
-import cyder.games.TTTGame;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
-import cyder.handlers.external.DirectoryViewer;
 import cyder.objects.MultiString;
 import cyder.py.PyExecutor;
 import cyder.threads.BletchyThread;
@@ -21,7 +16,6 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
-import cyder.widgets.*;
 import test.java.Debug;
 import test.java.ManualTests;
 import test.java.UnitTests;
@@ -247,9 +241,40 @@ public class InputHandler {
      * @throws Exception for numerous reasons such as if the JTextPane is not linked
      */
     public void handle(String op, boolean userTriggered) throws Exception {
-        if (!handlePreliminaries(op, userTriggered))
-            return;
-        //pure handling resulting in simple print statements
+        if (!handlePreliminaries(op, userTriggered)) {
+
+        }
+        //primary checks
+        else if (generalPrintsCheck() ||
+                printImageCheck() ||
+                widgetCheck() ||
+                cyderFrameMovementCheck() ||
+                externalOpenerCheck() ||
+                audioCommandCheck() ||
+                generalCommandCheck()) {
+
+        }
+        //final checks
+        else if (isURLCheck(command) ||
+                handleMath(command) ||
+                evaluateExpression(command) ||
+                preferenceCheck(command) ||
+                manualTestCheck(command) ||
+                unitTestCheck(command)) {
+                //one of the above was handled and logged
+        } else unknownInput();
+
+        //clean up routines --------------------------------------
+
+        //just to be safe...
+        ConsoleFrame.getConsoleFrame().getInputField().setText("");
+    }
+
+    //primary sections of handle methods
+
+    private boolean generalPrintsCheck() {
+        boolean ret = true;
+
         if (commandIs("shakespeare")) {
             if (NumberUtil.randInt(1, 2) == 1) {
                 println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
@@ -379,9 +404,17 @@ public class InputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
-        }
-        //printing imageicons -------------------------------------
-        else if (commandIs("java")) {
+        } ret = false;
+
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
+        return ret;
+    }
+
+    private boolean printImageCheck() {
+        boolean ret = true;
+
+        if (commandIs("java")) {
             printlnImage("static/pictures/print/Duke.png");
         } else if (commandIs("msu")) {
             printlnImage("static/pictures/print/msu.png");
@@ -407,114 +440,125 @@ public class InputHandler {
         } else if (commandIs("age")) {
             bletchyThread.bletchy("As old as my tongue and a little bit older than my teeth, wait...",
                     false, 50, true);
-        }
-        //calls that will result in opening widgets
+        } else ret = false;
+
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
+        return ret;
+    }
+
+    private boolean widgetCheck() {
+        return ReflectionUtil.openWidget(command);
         //todo move handling of widgets opening to their showGUI methods and add a tag for that in logger
         //todo we'll have a method for this that checks the trigger provided in the annotation
-        else if (commandIs("clock")) {
-            ClockWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CLOCK");
-        } else if ((commandIs("youtube") && commandIs ("thumbnail"))) {
-            YoutubeUtil.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
-        } else if (commandIs("minecraft")) {
-            MinecraftWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "MINECRAFT");
-        } else if ((commandIs("edit") && commandIs("user")) || commandIs("prefs")) {
-            UserEditor.showGUI(0);
-            SessionHandler.log(SessionHandler.Tag.ACTION, "USER EDITOR");
-        } else if (commandIs("hash") || commandIs("hashser")) {
-            new HashingWidget().showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "SHA256 HASHER");
-        }  else if (commandIs("search") || commandIs("dir") || (commandIs("file") && commandIs("search")) || commandIs("directory") || commandIs("ls")) {
-            DirectoryViewer.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "DIR SEARCH");
-        } else if (commandIs("weather")) {
-            new WeatherWidget().showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "WEATHER");
-        } else if (commandIs("pin") || commandIs("login")) {
-            LoginHandler.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "LOGIN WIDGET");
-        } else if ((commandIs("create") || commandIs("new")) && commandIs("user")) {
-            UserCreator.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "USER CREATOR");
-        } else if ((commandIs("resize") && (commandIs("image")) ||
-                (commandIs("picture") && commandIs("resize")))) {
-            ImageResizerWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
-        } else if (commandIs("temperature") || commandIs("temp")) {
-            new TemperatureWidget().showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
-        } else if (commandIs("click me")) {
-            ClickWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CLICK ME");
-        } else if (commandIs("Father") && commandIs("day") && commandIs("2021")) {
-            CardWidget.FathersDay2021();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (commandIs("christmas") && commandIs("card") && commandIs("2020")) {
-            CardWidget.Christmas2020();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (commandIs("christmas") && commandIs("card") && commandIs("2021")) {
-            CardWidget.Christmas2021();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (commandIs("hangman")) {
-            HangmanGame.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "HANGMAN");
-        } else if (commandIs("rgb") || commandIs("hex") || (commandIs("color") && commandIs("converter"))) {
-            ColorConverterWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "COLOR CONVERTER");
-        } else if (commandIs("pizza")) {
-            PizzaWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "PIZZA");
-        } else if ((commandIs("pixelate") || commandIs("distort")) &&
-                (commandIs("image") || commandIs("picture"))) {
-            ImagePixelatorWidget.showGUI(null);
-            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE PIXELATOR");
-        } else if (commandIs("file") && commandIs("signature")) {
-            FileSignatureWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "FILE SIGNATURE");
-        } else if ((commandIs("tic") && commandIs("tac") && commandIs("toe")) || commandIs("TTT")) {
-            TTTGame.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "TIC TAC TOE");
-        } else if (commandIs("note") || commandIs("notes")) {
-            NotesWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "NOTE EDITOR");
-        } else if ((commandIs("mp3") || commandIs("music")) && !commandIs("stop")) {
-            AudioPlayer.showGUI(null);
-            SessionHandler.log(SessionHandler.Tag.ACTION, "AUDIO PLAYER");
-        } else if (commandIs("phone") || commandIs("dialer") || commandIs("call")) {
-            PhoneWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "PHONE");
-        } else if ((commandIs("calculator") || commandIs("calc")) && !commandIs("graphing")) {
-            CalculatorWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CALCULATOR");
-        } else if (commandIs("spotlight") || (commandIs("spotlight") && commandIs("steal") && !commandIs("wipe"))) {
-            File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
-            SpotlightUtil.saveSpotlights(saveDir);
-            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
-            println("Spotlight images saved to your user's background/ directory");
-        } else if (commandIs("spotlight") && commandIs("wipe")) {
-            SpotlightUtil.wipe();
-        } else if (commandIs("convex") && commandIs("hull")) {
-            ConvexHullWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CONVEX HULL");
-        } else if (commandIs("average") && (commandIs("image") || commandIs("picture"))) {
-            ImageAveragerWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE AVERAGER");
-        } else if (commandIs("conway") || commandIs("conways")) {
-            GameOfLifeWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "CONWAYS");
-        } else if (commandIs("birthday") && commandIs("card") && commandIs("2021")) {
-            CardWidget.Birthday2021();
-        } else if (commandIs("pathfinder") || commandIs("path")) {
-            PathFinderWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "PATHFINDER");
-        } else if (commandIs("perlin")) {
-            PerlinWidget.showGUI();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "PERLIN");
-        }
-        //calls that will move CyderFrames around
-        else if (commandIs("top left")) {
+//        if (commandIs("clock")) {
+//            ClockWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CLOCK");
+//        } else if ((commandIs("youtube") && commandIs ("thumbnail"))) {
+//            YoutubeUtil.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
+//        } else if (commandIs("minecraft")) {
+//            MinecraftWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "MINECRAFT");
+//        } else if ((commandIs("edit") && commandIs("user")) || commandIs("prefs")) {
+//            UserEditor.showGUI(0);
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "USER EDITOR");
+//        } else if (commandIs("hash") || commandIs("hashser")) {
+//            new HashingWidget().showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "SHA256 HASHER");
+//        }  else if (commandIs("search") || commandIs("dir") || (commandIs("file") && commandIs("search")) || commandIs("directory") || commandIs("ls")) {
+//            DirectoryViewer.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "DIR SEARCH");
+//        } else if (commandIs("weather")) {
+//            new WeatherWidget().showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "WEATHER");
+//        } else if (commandIs("pin") || commandIs("login")) {
+//            LoginHandler.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "LOGIN WIDGET");
+//        } else if ((commandIs("create") || commandIs("new")) && commandIs("user")) {
+//            UserCreator.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "USER CREATOR");
+//        } else if ((commandIs("resize") && (commandIs("image")) ||
+//                (commandIs("picture") && commandIs("resize")))) {
+//            ImageResizerWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
+//        } else if (commandIs("temperature") || commandIs("temp")) {
+//            new TemperatureWidget().showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
+//        } else if (commandIs("click me")) {
+//            ClickWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CLICK ME");
+//        } else if (commandIs("Father") && commandIs("day") && commandIs("2021")) {
+//            CardWidget.FathersDay2021();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
+//        } else if (commandIs("christmas") && commandIs("card") && commandIs("2020")) {
+//            CardWidget.Christmas2020();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
+//        } else if (commandIs("christmas") && commandIs("card") && commandIs("2021")) {
+//            CardWidget.Christmas2021();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
+//        } else if (commandIs("hangman")) {
+//            HangmanGame.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "HANGMAN");
+//        } else if (commandIs("rgb") || commandIs("hex") || (commandIs("color") && commandIs("converter"))) {
+//            ColorConverterWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "COLOR CONVERTER");
+//        } else if (commandIs("pizza")) {
+//            PizzaWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "PIZZA");
+//        } else if ((commandIs("pixelate") || commandIs("distort")) &&
+//                (commandIs("image") || commandIs("picture"))) {
+//            ImagePixelatorWidget.showGUI(null);
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE PIXELATOR");
+//        } else if (commandIs("file") && commandIs("signature")) {
+//            FileSignatureWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "FILE SIGNATURE");
+//        } else if ((commandIs("tic") && commandIs("tac") && commandIs("toe")) || commandIs("TTT")) {
+//            TTTGame.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "TIC TAC TOE");
+//        } else if (commandIs("note") || commandIs("notes")) {
+//            NotesWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "NOTE EDITOR");
+//        } else if ((commandIs("mp3") || commandIs("music")) && !commandIs("stop")) {
+//            AudioPlayer.showGUI(null);
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "AUDIO PLAYER");
+//        } else if (commandIs("phone") || commandIs("dialer") || commandIs("call")) {
+//            PhoneWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "PHONE");
+//        } else if ((commandIs("calculator") || commandIs("calc")) && !commandIs("graphing")) {
+//            CalculatorWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CALCULATOR");
+//        } else if (commandIs("spotlight") || (commandIs("spotlight") && commandIs("steal") && !commandIs("wipe"))) {
+//            File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
+//            SpotlightUtil.saveSpotlights(saveDir);
+//            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
+//            println("Spotlight images saved to your user's background/ directory");
+//        } else if (commandIs("spotlight") && commandIs("wipe")) {
+//            SpotlightUtil.wipe();
+//        } else if (commandIs("convex") && commandIs("hull")) {
+//            ConvexHullWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CONVEX HULL");
+//        } else if (commandIs("average") && (commandIs("image") || commandIs("picture"))) {
+//            ImageAveragerWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE AVERAGER");
+//        } else if (commandIs("conway") || commandIs("conways")) {
+//            GameOfLifeWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "CONWAYS");
+//        } else if (commandIs("birthday") && commandIs("card") && commandIs("2021")) {
+//            CardWidget.Birthday2021();
+//        } else if (commandIs("pathfinder") || commandIs("path")) {
+//            PathFinderWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "PATHFINDER");
+//        } else if (commandIs("perlin")) {
+//            PerlinWidget.showGUI();
+//            SessionHandler.log(SessionHandler.Tag.ACTION, "PERLIN");
+//        } else ret = false;
+    }
+
+    private boolean cyderFrameMovementCheck() {
+        boolean ret = true;
+
+        if (commandIs("top left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
         } else if (commandIs("top right")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_RIGHT);
@@ -600,9 +644,17 @@ public class InputHandler {
             }
         } else if (commandIs("dance")) {
             ConsoleFrame.getConsoleFrame().dance();
-        }
-        //calls that will cause other programs to run/execute other than Cyder/Cyder components
-        else if (commandIs("YoutubeWordSearch")) {
+        } else ret = false;
+
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
+        return ret;
+    }
+
+    private boolean externalOpenerCheck() throws Exception {
+        boolean ret = true;
+
+        if (commandIs("YoutubeWordSearch")) {
             if (checkArgsLength(1)) {
                 String input = getArg(0);
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
@@ -660,9 +712,17 @@ public class InputHandler {
             NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
         } else if (commandIs("about:blank")) {
             NetworkUtil.internetConnect("about:blank");
-        }
-        //playing audio -------------------------------------------
-        else if (commandIs("hey")) {
+        } else ret = false;
+
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
+        return ret;
+    }
+
+    private boolean audioCommandCheck() {
+        boolean ret = true;
+
+        if (commandIs("hey")) {
             IOUtil.playAudio("static/audio/heyya.mp3");
         }  else if (commandIs("windows")) {
             IOUtil.playAudio("static/audio/windows.mp3");
@@ -680,9 +740,17 @@ public class InputHandler {
             IOUtil.playAudio("static/audio/commando.mp3");
         } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
-        }
-        //general Cyder console commands ------------------------------------
-        else if (commandIs("backgroundcolor")) {
+        } else ret = false;
+
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
+        return ret;
+    }
+
+    private boolean generalCommandCheck() throws Exception {
+        boolean ret = true;
+
+         if (commandIs("backgroundcolor")) {
             if (checkArgsLength(1)) {
                 try {
                     Color color = Color.decode("#" + getArg(0));
@@ -808,24 +876,24 @@ public class InputHandler {
         } else if (commandIs("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (commandIs("analyzecode")) {
-           new Thread(() -> {
-               File startDir = new File("src");
+            new Thread(() -> {
+                File startDir = new File("src");
 
-               int totalLines = StatUtil.totalLines(startDir);
-               int codeLines = StatUtil.totalJavaLines(startDir);
-               int blankLines = StatUtil.totalBlankLines(startDir);
-               int commentLines = StatUtil.totalComments(startDir);
-               int javaFiles = StatUtil.totalJavaFiles(startDir);
+                int totalLines = StatUtil.totalLines(startDir);
+                int codeLines = StatUtil.totalJavaLines(startDir);
+                int blankLines = StatUtil.totalBlankLines(startDir);
+                int commentLines = StatUtil.totalComments(startDir);
+                int javaFiles = StatUtil.totalJavaFiles(startDir);
 
-               println("Total lines: " + totalLines);
-               println("Code lines: " + codeLines);
-               println("Blank lines: " + blankLines);
-               println("Comment lines: " + commentLines);
-               println("Java Files: " + javaFiles);
+                println("Total lines: " + totalLines);
+                println("Code lines: " + codeLines);
+                println("Blank lines: " + blankLines);
+                println("Comment lines: " + commentLines);
+                println("Java Files: " + javaFiles);
 
-               double ratio = ((double) codeLines / (double) commentLines);
-               println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
-           }, "Code Analyzer").start();
+                double ratio = ((double) codeLines / (double) commentLines);
+                println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
+            }, "Code Analyzer").start();
         } else if (commandIs("f17")) {
             new Robot().keyPress(KeyEvent.VK_F17);
         }  else if (commandIs("debugstats")) {
@@ -857,9 +925,9 @@ public class InputHandler {
                 println("Prime usage: prime NUMBER");
             }
         } else if (commandIs("quit") ||
-                    commandIs("exit") ||
-                    commandIs("leave") ||
-                    commandIs("close")) {
+                commandIs("exit") ||
+                commandIs("leave") ||
+                commandIs("close")) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
@@ -927,7 +995,7 @@ public class InputHandler {
         } else if (commandIs("askew")) {
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
         } else if (commandIs("logout")) {
-           ConsoleFrame.getConsoleFrame().logout();
+            ConsoleFrame.getConsoleFrame().logout();
         } else if (commandIs("throw")) {
             ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (commandIs("clearops")) {
@@ -973,8 +1041,8 @@ public class InputHandler {
         } else if (commandIs("resetmouse")) {
             SystemUtil.resetMouse();
         } else if (commandIs("clc") ||
-                   commandIs("cls") ||
-                   commandIs("clear")) {
+                commandIs("cls") ||
+                commandIs("clear")) {
             clc();
         } else if (commandIs("mouse")) {
             if (checkArgsLength(2)) {
@@ -1008,13 +1076,13 @@ public class InputHandler {
                 int count = 0;
 
                 for (File logDir : logDirs) {
-                   for (File log : logDir.listFiles()) {
-                       if (StringUtil.getExtension(log).equals(".log")
-                               && !log.equals(SessionHandler.getCurrentLog())) {
-                           log.delete();
-                           count++;
-                       }
-                   }
+                    for (File log : logDir.listFiles()) {
+                        if (StringUtil.getExtension(log).equals(".log")
+                                && !log.equals(SessionHandler.getCurrentLog())) {
+                            log.delete();
+                            count++;
+                        }
+                    }
                 }
 
                 println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
@@ -1087,7 +1155,7 @@ public class InputHandler {
                                     NetworkUtil.getURLTitle("https://www.youtube.com/playlist?list=" + playlistID));
                             Future<LinkedList<java.io.File>> downloadedFiles =
                                     YoutubeUtil.downloadPlaylist(playlistID,"dynamic/users/"
-                                    + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                                            + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
                             //wait for all music to be downloaded
                             while (!downloadedFiles.isDone()) {
@@ -1268,7 +1336,7 @@ public class InputHandler {
             }, "GitHub issue printer").start();
         } else if (commandIs("exitcodes")) {
             for (IOUtil.SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
-               println(exitCondition.getCode() + ": " + exitCondition.getDescription());
+                println(exitCondition.getCode() + ": " + exitCondition.getDescription());
             }
         } else if (commandIs("blackpanther")|| commandIs("chadwickboseman")) {
             new Thread(() -> {
@@ -1349,24 +1417,14 @@ public class InputHandler {
                     println("-------------------------------------");
                 } else throw new IllegalStateException("@Widget annotation found with param length not 2");
             }
-        }
-        //final attempt at unknown input --------------------------
-        else if (isURLCheck(command) ||
-                handleMath(command) ||
-                evaluateExpression(command) ||
-                preferenceCheck(command) ||
-                manualTestCheck(command) ||
-                unitTestCheck(command)) {
-                //one of the above was handled and logged
-        } else unknownInput();
+        } else ret = false;
 
-        //clean up routines --------------------------------------
+         if (ret)
+             SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
 
-        //just to be safe...
-        ConsoleFrame.getConsoleFrame().getInputField().setText("");
+         return ret;
     }
 
-    //todo respective methods should handle their own logging, add a tag for that as well
     //sub-handle methods in the order they appear above --------------------------
 
     /**
@@ -1375,7 +1433,7 @@ public class InputHandler {
      * @param command the command to attempt to open as a URL
      * @return whether or not the command was indeed a valid URL
      */
-    public boolean isURLCheck(String command) {
+    private boolean isURLCheck(String command) {
         boolean ret = false;
 
         try {
@@ -1388,7 +1446,8 @@ public class InputHandler {
         }
 
         //log before returning
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE URL FUNCTION HANDLED");
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
         return ret;
     }
 
@@ -1475,7 +1534,8 @@ public class InputHandler {
         }
 
         //log before returning
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH FUNCTION HANDLED");
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE MATH FUNCTION HANDLED");
         return ret;
     }
 
@@ -1493,7 +1553,8 @@ public class InputHandler {
             ret = true;
         } catch (Exception ignored) {}
 
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MATH HANDLED");
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
         return ret;
     }
 
@@ -1526,7 +1587,8 @@ public class InputHandler {
             }
         }
 
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE PREFERENCE TOGGLE HANDLED");
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE PREFERENCE TOGGLE HANDLED");
         return ret;
     }
 
@@ -1536,7 +1598,7 @@ public class InputHandler {
      * @param command the command to attempt to recognize as a manual test
      * @return whether or not the command was handled as a manual test call
      */
-    public boolean manualTestCheck(String command) {
+    private boolean manualTestCheck(String command) {
         boolean ret = false;
 
         command = command.toLowerCase();
@@ -1558,7 +1620,8 @@ public class InputHandler {
             }
         }
 
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
         return ret;
     }
 
@@ -1568,7 +1631,7 @@ public class InputHandler {
      * @param command the unit test to invoke if recognized from unit tests
      * @return whether or not the command was recognized as a unit test call
      */
-    public boolean unitTestCheck(String command) {
+    private boolean unitTestCheck(String command) {
         boolean ret = false;
 
         command = command.toLowerCase();
@@ -1590,7 +1653,8 @@ public class InputHandler {
             }
         }
 
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
+        if (ret)
+            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
         return ret;
     }
 

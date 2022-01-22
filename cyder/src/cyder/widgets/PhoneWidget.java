@@ -13,7 +13,7 @@ import cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class PhoneWidget {
+public class PhoneWidget implements WidgetBase {
     private static JLabel numberLabel;
     private static String phoneNum;
 

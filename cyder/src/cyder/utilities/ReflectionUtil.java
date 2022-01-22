@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.objects.MultiString;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -152,7 +153,7 @@ public class ReflectionUtil {
         for (Class classer : findAllClassesUsingClassLoader("cyder.widgets")) {
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
-                    String trigger = m.getAnnotation(Widget.class).description();
+                    String trigger = m.getAnnotation(Widget.class).trigger();
                     String desc = m.getAnnotation(Widget.class).description();
                     ret.add(new MultiString(2,new String[] {trigger, desc}));
                 }
@@ -160,6 +161,35 @@ public class ReflectionUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Opens a widget with the same trigger as the one provided.
+     *
+     * @param trigger the trigger for the widget to open
+     * @return whether or not a widget was opened
+     */
+    public static boolean openWidget(String trigger) {
+        for (Class classer : findAllClassesUsingClassLoader("cyder.widgets")) {
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(Widget.class)) {
+                    String widgetTrigger = m.getAnnotation(Widget.class).trigger();
+
+                    if (widgetTrigger.equalsIgnoreCase(trigger)) {
+                        ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
+                                + classer.getName());
+                        try {
+                            m.invoke(classer);
+                            return true;
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private static Set<Class> findAllClassesUsingClassLoader(String packageName) {

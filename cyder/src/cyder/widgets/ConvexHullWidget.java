@@ -14,7 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-public class ConvexHullWidget {
+public class ConvexHullWidget implements WidgetBase {
     private static JLabel hullLabel;
     private static Vector<Point> boardPoints;
     private static Vector<Point> hullPoints;

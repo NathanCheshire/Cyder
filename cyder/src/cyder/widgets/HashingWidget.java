@@ -17,7 +17,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 
-public class HashingWidget {
+public class HashingWidget implements WidgetBase {
     private CyderButton hashButton;
     private CyderPasswordField hashField;
     private int algorithmIndex = 0;

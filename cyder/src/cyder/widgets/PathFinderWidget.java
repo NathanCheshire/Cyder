@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-public class PathFinderWidget {
+public class PathFinderWidget implements WidgetBase {
     private static int squareLen = 30;
     private static int numSquares;
     private static JLabel gridLabel;

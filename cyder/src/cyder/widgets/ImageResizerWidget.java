@@ -22,7 +22,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ImageResizerWidget {
+public class ImageResizerWidget implements WidgetBase {
 
     private static CyderTextField xdim;
     private static CyderTextField ydim;

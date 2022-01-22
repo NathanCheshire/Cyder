@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class ClockWidget {
+public class ClockWidget implements WidgetBase {
     private ClockWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

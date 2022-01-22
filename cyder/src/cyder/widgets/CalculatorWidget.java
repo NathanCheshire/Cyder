@@ -16,7 +16,7 @@ import cyder.ui.CyderTextField;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class CalculatorWidget {
+public class CalculatorWidget implements WidgetBase {
     private static String calculatorExpression = "";
 
     private CalculatorWidget() {

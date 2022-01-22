@@ -43,6 +43,7 @@ public class SessionHandler {
         PRIVATE_MESSAGE_SENT, //sending a message through the chat view
         PRIVATE_MESSAGE_RECEIVED, //received a message through the chat view
         DEBUG_PRINT, //used for debug printing and debug window stuff
+        HANDLE_METHOD, //used for boolean returning handle methods within InputHandler
     }
 
     /**

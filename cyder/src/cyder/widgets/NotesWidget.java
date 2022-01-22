@@ -22,7 +22,7 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NotesWidget {
+public class NotesWidget implements WidgetBase {
     //main frame
     private static CyderFrame noteFrame;
     private static CyderScrollList cyderScrollList;

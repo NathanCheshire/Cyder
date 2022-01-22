@@ -52,7 +52,6 @@ public class ExceptionHandler {
             if (write != null && write.trim().length() > 0)
                 SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
         } catch (Exception ex) {
-            System.out.println("here");
             silentHandleWithoutLogging(ex);
         }
     }

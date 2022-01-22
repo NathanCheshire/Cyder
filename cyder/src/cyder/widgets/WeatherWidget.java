@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.TimeZone;
 
-public class WeatherWidget {
+public class WeatherWidget implements WidgetBase {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;
     private JLabel changeLocationLabel;
