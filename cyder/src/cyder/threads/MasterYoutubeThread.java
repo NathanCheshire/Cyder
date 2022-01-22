@@ -43,7 +43,7 @@ public class MasterYoutubeThread {
             youtubeThreads.add(current);
         }
 
-        ConsoleFrame.getConsoleFrame().notify("Type \"stop scripts\" or press ctrl + c to stop the YouTube thread.");
+        ConsoleFrame.getConsoleFrame().notify("Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
         active = true;
     }
 

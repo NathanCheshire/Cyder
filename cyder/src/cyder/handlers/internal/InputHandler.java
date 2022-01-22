@@ -135,6 +135,8 @@ public class InputHandler {
     //todo widgets that allow multiple instances should have their method set to not dispose the current one
     // for simplicity sake, how to do this
 
+    //todo goal here is to eliminate usage of hasWord and has since we're going command based
+
     /**
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
      * Also sets the ops array to the found command and arguments
@@ -249,25 +251,22 @@ public class InputHandler {
         if (!handlePreliminaries(op, userTriggered))
             return;
         //pure handling resulting in simple print statements
-        if (hasWord("shakespeare")) {
+        if (commandIs("shakespeare")) {
             if (NumberUtil.randInt(1, 2) == 1) {
                 println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
             } else {
                 println("To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer the slings and arrows of "
                         + "outrageous fortune, or to take arms against a sea of troubles and by opposing end them.");
             }
-        } else if (hasWord("asdf")) {
+        } else if (commandIs("asdf")) {
             println("Who is the spiciest meme lord?");
-        } else if (hasWord("qwerty")) {
-            println("I prefer Dvorak, but I also like Colemak, Maltron, and JCUKEN.");
-        } else if (hasWord("thor")) {
+        } else if (commandIs("thor")) {
             println("Piss off, ghost.");
-        }  else if (hasWord("alex") && hasWord("trebek")) {
+        }  else if (commandIs("alextrebek")) {
             println("Do you mean who is alex trebek?");
         } else if (StringUtil.isPalindrome(command.replace(" ", "")) && command.length() > 3) {
             println("Nice palindrome.");
-        } else if ((hasWord("flip") && hasWord("coin")) ||
-                (hasWord("heads") && hasWord("tails"))) {
+        } else if (commandIs("coinflip")) {
             if (Math.random() <= 0.0001) {
                 println("You're not going to beleive this, but it landed on its side.");
             } else if (Math.random() <= 0.5) {
@@ -275,9 +274,7 @@ public class InputHandler {
             } else {
                 println("It's Tails!");
             }
-        } else if ((eic("hello") || has("whats up") || hasWord("hi"))
-                && (!hasWord("print") && !hasWord("bletchy") && !hasWord("echo")
-                && !hasWord("wikipedia") && !hasWord("synonym") && !hasWord("define"))) {
+        } else if (commandMatches("^hello") || commandMatches("^hi")) {
             int choice = NumberUtil.randInt(1, 7);
 
             switch (choice) {
@@ -308,248 +305,227 @@ public class InputHandler {
                     println("Go ahead...");
                     break;
             }
-        } else if (hasWord("bye") || (hasWord("james") && hasWord("arthur"))) {
+        } else if (commandIs("bye")) {
             println("Just say you won't let go.");
-        } else if (hasWord("time") && hasWord("what")) {
+        } else if (commandIs("time")) {
             println(TimeUtil.weatherTime());
-        } else if (eic("die") || (hasWord("roll") && hasWord("die"))) {
-            int Roll = ThreadLocalRandom.current().nextInt(1, 7);
-            println("You rolled a " + Roll + ".");
-        } else if (eic("lol")) {
+        } else if (commandIs("lol")) {
             println("My memes are better.");
-        } else if ((hasWord("thank") && hasWord("you")) || hasWord("thanks")) {
+        } else if (commandMatches("thanks?")) {
             println("You're welcome.");
-        } else if (hasWord("you") && hasWord("cool")) {
-            println("I know.");
-        } else if (((hasWord("who") || hasWord("what")) && has("you"))) {
+        }  else if (commandIs("name")) {
             println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
-        } else if (hasWord("helpful") && hasWord("you")) {
-            println("I will always do my best to serve you.");
-        } else if (eic("k")) {
+        } else if (commandIs("k")) {
             println("Fun Fact: the letter \"K\" comes from the Greek letter kappa, which was taken "
                     + "from the Semitic kap, the symbol for an open hand. It is this very hand which "
                     + "will be slapping you in the face for saying \"k\" to me.");
-        } else if (eic("no")) {
+        } else if (commandIs("no")) {
             println("Yes");
-        } else if (eic("nope")) {
+        } else if (commandIs("nope")) {
             println("yep");
-        } else if (eic("yes")) {
+        } else if (commandIs("yes")) {
             println("no");
-        } else if (eic("yep")) {
+        } else if (commandIs("yep")) {
             println("nope");
-        } else if (has("how can I help")) {
-            println("That's my line :P");
-        } else if (hasWord("siri") || hasWord("jarvis") || hasWord("alexa")) {
+        } else if (commandIs("jarvis")) {
             println("*scoffs in Java* primitive loser AI");
-        } else if (hasWord("when") && hasWord("thanksgiving")) {
+        } else if (commandIs("thanksgiving")) {
             int year = Calendar.getInstance().get(Calendar.YEAR);
             LocalDate RealTG = LocalDate.of(year, 11, 1)
                     .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
             println("Thanksgiving this year is on the " + RealTG.getDayOfMonth() + " of November.");
-        } else if (hasWord("location") || (hasWord("where") && hasWord("am") && hasWord("i"))) {
+        } else if (commandIs("location") || commandIs("whereami")) {
             println("You are currently in " + IPUtil.getIpdata().getCity() + ", " +
                     IPUtil.getIpdata().getRegion() + " and your Internet Service Provider is "
                     + IPUtil.getIpdata().getAsn().getName());
-        } else if (hasWord("fibonacci")) {
+        } else if (commandIs("fibonacci")) {
             for (long i : NumberUtil.fib(0, 1, 100))
                 println(i);
-        } else if ((hasWord("how") && hasWord("are") &&
-                hasWord("you")) && !hasWord("age") && !hasWord("old")) {
-            println("I am feeling like a programmed response. Thank you for asking.");
-        } else if (hasWord("how") && hasWord("day")) {
-            println("I was having fun until you started asking me questions.");
-        } else if (eic("break;")) {
+        } else if (commandIs("break;")) {
             println("Thankfully my pure console based infinite while loop days are over. <3 Nathan");
-        } else if (hasWord("why")) {
+        } else if (commandIs("why")) {
             println("Why not?");
-        } else if (hasWord("why not")) {
+        } else if (commandIs("why not")) {
             println("Why?");
-        } else if (hasWord("groovy")) {
+        } else if (commandIs("groovy")) {
             println("Kotlin is the best JVM lang.... I mean, Java is obviously the best!");
-        } else if (hasWord("luck")) {
+        } else if (commandIs("luck")) {
             if (Math.random() * 100 <= 0.001) {
                 println("YOU WON!!");
             } else {
                 println("You are not lucky today.");
             }
-        } else if (has("are you sure") || has("are you certain")) {
-            if (Math.random() <= 0.5) {
-                println("No");
-            } else {
-                println("Yes");
-            }
-        } else if (eic("&&")) {
+        } else if (commandIs("&&")) {
             println("||");
-        } else if (eic("||")) {
+        } else if (commandIs("||")) {
             println("&&");
-        } else if (eic("&")) {
+        } else if (commandIs("&")) {
             println("|");
-        } else if (eic("|")) {
+        } else if (commandIs("|")) {
             println("&");
-        } else if (hasWord("espanol")) {
+        } else if (commandIs("espanol")) {
             println("Tu Hablo Espanol? Yo estudio Espanol.");
-        } else if (eic("look")) {
+        } else if (commandIs("look")) {
             println("L()()K ---->> !FREE STUFF! <<---- L()()K");
-        } else if (eic("Cyder?")) {
+        } else if (commandIs("Cyder?")) {
             println("Yes?");
-        } else if (hasWord("home")) {
+        } else if (commandIs("home")) {
             println("There's no place like localhost/127.0.0.1");
-        } else if (hasWord("I") && hasWord("love")) {
+        } else if (commandIs("love")) {
             println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't understand human emotions or affections.");
-        } else if (eic("loop")) {
+        } else if (commandIs("loop")) {
             println("InputHandler.handle(\"loop\", true);");
-        } else if (hasWord("story") && hasWord("tell")) {
+        } else if (commandIs("story")) {
             println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getConsoleFrame().getUsername() + " started talking to Cyder."
                     + " It was at this moment that Cyder knew its day had been ruined.");
-        } else if (hasWord("there") && hasWord("no") && hasWord("internet")) {
-            println("Sucks to be you.");
-        } else if (eic("i hate you")) {
+        } else if (commandIs("i hate you")) {
             println("That's not very nice.");
         }
         //printing imageicons -------------------------------------
-        else if (eic("java")) {
+        else if (commandIs("java")) {
             printlnImage("static/pictures/print/Duke.png");
-        } else if ((hasWord("mississippi") && hasWord("state") && hasWord("university")) || eic("msu")) {
+        } else if (commandIs("msu")) {
             printlnImage("static/pictures/print/msu.png");
-        } else if (eic("nathan")) {
+        } else if (commandIs("nathan")) {
             printlnImage("static/pictures/print/me.png");
-        } else if (hasWord("html") || hasWord("html5")) {
+        } else if (commandIs("html")) {
             printlnImage("static/pictures/print/html5.png");
-        } else if (hasWord("css")) {
+        } else if (commandIs("css")) {
             printlnImage("static/pictures/print/css.png");
         }
         //calls that will result in threads being spun off or thread operations
-        else if (hasWord("random") && hasWord("youtube")) {
+        else if (commandIs("randomyoutube")) {
             masterYoutubeThread = new MasterYoutubeThread(outputArea);
             masterYoutubeThread.start(1);
-        } else if (hasWord("scrub")) {
+        } else if (commandIs("scrub")) {
             bletchyThread.bletchy("No you!", false, 50, true);
-        } else if (hasWord("bletchy")) {
+        } else if (commandIs("bletchy")) {
             bletchyThread.bletchy(command, false, 50, true);
-        } else if (hasWord("threads") && !hasWord("daemon")) {
+        } else if (commandIs("daemon")) {
             ThreadUtil.printThreads();
-        } else if (hasWord("threads") && hasWord("daemon")) {
+        } else if (commandIs("daemonthreads")) {
             ThreadUtil.printDaemonThreads();
-        } else if (has("How old are you") || (hasWord("what") && hasWord("age"))) {
+        } else if (commandIs("age")) {
             bletchyThread.bletchy("As old as my tongue and a little bit older than my teeth, wait...",
                     false, 50, true);
         }
         //calls that will result in opening widgets
         //todo move handling of widgets opening to their showGUI methods and add a tag for that in logger
-        else if (hasWord("clock")) {
+        //todo we'll have a method for this that checks the trigger provided in the annotation
+        else if (commandIs("clock")) {
             ClockWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CLOCK");
-        } else if ((hasWord("youtube") && hasWord("thumbnail"))) {
+        } else if ((commandIs("youtube") && commandIs ("thumbnail"))) {
             YoutubeUtil.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "YOUTUBE THUMBNAIL STEALER");
-        } else if (hasWord("minecraft")) {
+        } else if (commandIs("minecraft")) {
             MinecraftWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "MINECRAFT");
-        } else if ((hasWord("edit") && hasWord("user")) || eic("prefs")) {
+        } else if ((commandIs("edit") && commandIs("user")) || commandIs("prefs")) {
             UserEditor.showGUI(0);
             SessionHandler.log(SessionHandler.Tag.ACTION, "USER EDITOR");
-        } else if (hasWord("hash") || hasWord("hashser")) {
+        } else if (commandIs("hash") || commandIs("hashser")) {
             new HashingWidget().showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "SHA256 HASHER");
-        }  else if (eic("search") || eic("dir") || (hasWord("file") && hasWord("search")) || eic("directory") || eic("ls")) {
+        }  else if (commandIs("search") || commandIs("dir") || (commandIs("file") && commandIs("search")) || commandIs("directory") || commandIs("ls")) {
             DirectoryViewer.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "DIR SEARCH");
-        } else if (hasWord("weather")) {
+        } else if (commandIs("weather")) {
             new WeatherWidget().showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "WEATHER");
-        } else if (eic("pin") || eic("login")) {
+        } else if (commandIs("pin") || commandIs("login")) {
             LoginHandler.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "LOGIN WIDGET");
-        } else if ((hasWord("create") || hasWord("new")) && hasWord("user")) {
+        } else if ((commandIs("create") || commandIs("new")) && commandIs("user")) {
             UserCreator.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "USER CREATOR");
-        } else if ((hasWord("resize") && (hasWord("image")) ||
-                (hasWord("picture") && hasWord("resize")))) {
+        } else if ((commandIs("resize") && (commandIs("image")) ||
+                (commandIs("picture") && commandIs("resize")))) {
             ImageResizerWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE RESIZER");
-        } else if (hasWord("temperature") || eic("temp")) {
+        } else if (commandIs("temperature") || commandIs("temp")) {
             new TemperatureWidget().showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "TEMPERATURE CONVERTER");
-        } else if (has("click me")) {
+        } else if (commandIs("click me")) {
             ClickWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CLICK ME");
-        } else if (has("Father") && hasWord("day") && has("2021")) {
+        } else if (commandIs("Father") && commandIs("day") && commandIs("2021")) {
             CardWidget.FathersDay2021();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (hasWord("christmas") && hasWord("card") && hasWord("2020")) {
+        } else if (commandIs("christmas") && commandIs("card") && commandIs("2020")) {
             CardWidget.Christmas2020();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (hasWord("christmas") && hasWord("card") && hasWord("2021")) {
+        } else if (commandIs("christmas") && commandIs("card") && commandIs("2021")) {
             CardWidget.Christmas2021();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CARD");
-        } else if (hasWord("hangman")) {
+        } else if (commandIs("hangman")) {
             HangmanGame.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "HANGMAN");
-        } else if (hasWord("rgb") || hasWord("hex") || (hasWord("color") && hasWord("converter"))) {
+        } else if (commandIs("rgb") || commandIs("hex") || (commandIs("color") && commandIs("converter"))) {
             ColorConverterWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "COLOR CONVERTER");
-        } else if (hasWord("pizza")) {
+        } else if (commandIs("pizza")) {
             PizzaWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "PIZZA");
-        } else if ((hasWord("pixelate") || hasWord("distort")) &&
-                (hasWord("image") || hasWord("picture"))) {
+        } else if ((commandIs("pixelate") || commandIs("distort")) &&
+                (commandIs("image") || commandIs("picture"))) {
             ImagePixelatorWidget.showGUI(null);
             SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE PIXELATOR");
-        } else if (hasWord("file") && hasWord("signature")) {
+        } else if (commandIs("file") && commandIs("signature")) {
             FileSignatureWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "FILE SIGNATURE");
-        } else if ((has("tic") && has("tac") && has("toe")) || eic("TTT")) {
+        } else if ((commandIs("tic") && commandIs("tac") && commandIs("toe")) || commandIs("TTT")) {
             TTTGame.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "TIC TAC TOE");
-        } else if (hasWord("note") || hasWord("notes")) {
+        } else if (commandIs("note") || commandIs("notes")) {
             NotesWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "NOTE EDITOR");
-        } else if ((hasWord("mp3") || hasWord("music")) && !hasWord("stop")) {
+        } else if ((commandIs("mp3") || commandIs("music")) && !commandIs("stop")) {
             AudioPlayer.showGUI(null);
             SessionHandler.log(SessionHandler.Tag.ACTION, "AUDIO PLAYER");
-        } else if (hasWord("phone") || hasWord("dialer") || hasWord("call")) {
+        } else if (commandIs("phone") || commandIs("dialer") || commandIs("call")) {
             PhoneWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "PHONE");
-        } else if ((hasWord("calculator") || hasWord("calc")) && !has("graphing")) {
+        } else if ((commandIs("calculator") || commandIs("calc")) && !commandIs("graphing")) {
             CalculatorWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CALCULATOR");
-        } else if (eic("spotlight") || (has("spotlight") && has("steal") && !has("wipe"))) {
+        } else if (commandIs("spotlight") || (commandIs("spotlight") && commandIs("steal") && !commandIs("wipe"))) {
             File saveDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
             SpotlightUtil.saveSpotlights(saveDir);
             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
             println("Spotlight images saved to your user's background/ directory");
-        } else if (has("spotlight") && hasWord("wipe")) {
+        } else if (commandIs("spotlight") && commandIs("wipe")) {
             SpotlightUtil.wipe();
-        } else if (hasWord("convex") && hasWord("hull")) {
+        } else if (commandIs("convex") && commandIs("hull")) {
             ConvexHullWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CONVEX HULL");
-        } else if (has("average") && (has("image") || hasWord("picture"))) {
+        } else if (commandIs("average") && (commandIs("image") || commandIs("picture"))) {
             ImageAveragerWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "IMAGE AVERAGER");
-        } else if (hasWord("conway") || hasWord("conways")) {
+        } else if (commandIs("conway") || commandIs("conways")) {
             GameOfLifeWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "CONWAYS");
-        } else if (hasWord("birthday") && hasWord("card") && hasWord("2021")) {
+        } else if (commandIs("birthday") && commandIs("card") && commandIs("2021")) {
             CardWidget.Birthday2021();
-        } else if (hasWord("pathfinder") || hasWord("path")) {
+        } else if (commandIs("pathfinder") || commandIs("path")) {
             PathFinderWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "PATHFINDER");
-        } else if (hasWord("perlin")) {
+        } else if (commandIs("perlin")) {
             PerlinWidget.showGUI();
             SessionHandler.log(SessionHandler.Tag.ACTION, "PERLIN");
         }
         //calls that will move CyderFrames around
-        else if (eic("top left")) {
+        else if (commandIs("top left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
-        } else if (eic("top right")) {
+        } else if (commandIs("top right")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_RIGHT);
-        } else if (eic("bottom left")) {
+        } else if (commandIs("bottom left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
-        } else if (eic("bottom right")) {
+        } else if (commandIs("bottom right")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
-        } else if (eic("middle") || eic("center")) {
+        } else if (commandIs("middle") || commandIs("center")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.CENTER);
-        } else if (hasWord("frame") && has("title")) {
+        } else if (commandIs("frametitles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)
                 if (f instanceof CyderFrame) {
@@ -557,81 +533,77 @@ public class InputHandler {
                 } else {
                     println(f.getTitle());
                 }
-        } else if (hasWord("consolidate") && (hasWord("windows") || hasWord("frames"))) {
-            if (hasWord("top") && hasWord("right")) {
-                for (Frame f : Frame.getFrames()) {
-                    if (f.getState() == Frame.ICONIFIED) {
-                        f.setState(Frame.NORMAL);
+        } else if (commandIs("consolidatewindows")) {
+            if (checkArgsLength(1)) {
+                if (getArg(0).equalsIgnoreCase("topright")) {
+                    for (Frame f : Frame.getFrames()) {
+                        if (f.getState() == Frame.ICONIFIED) {
+                            f.setState(Frame.NORMAL);
 
-                        if (f instanceof CyderFrame) {
-                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
-                                + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
-                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                            if (f instanceof CyderFrame) {
+                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
+                                        + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
+                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                            }
                         }
+
+                        f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
+                                - f.getWidth(), ConsoleFrame.getConsoleFrame().getY());
                     }
+                } else if (getArg(0).equalsIgnoreCase("bottomright")) {
+                    for (Frame f : Frame.getFrames()) {
+                        if (f.getState() == Frame.ICONIFIED) {
+                            f.setState(Frame.NORMAL);
 
-                    f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
-                            - f.getWidth(), ConsoleFrame.getConsoleFrame().getY());
-                }
-            } else if (hasWord("bottom") && hasWord("right")) {
-                for (Frame f : Frame.getFrames()) {
-                    if (f.getState() == Frame.ICONIFIED) {
-                        f.setState(Frame.NORMAL);
-
-                        if (f instanceof CyderFrame) {
-                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
-                                    + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
-                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
-                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                            if (f instanceof CyderFrame) {
+                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
+                                        + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
+                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
+                                        + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                            }
                         }
+
+                        f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
+                                - f.getWidth(), ConsoleFrame.getConsoleFrame().getY() +
+                                ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
                     }
+                } else if (getArg(0).equalsIgnoreCase("bottomleft")) {
+                    for (Frame f : Frame.getFrames()) {
+                        if (f.getState() == Frame.ICONIFIED) {
+                            f.setState(Frame.NORMAL);
 
-                    f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
-                            - f.getWidth(), ConsoleFrame.getConsoleFrame().getY() +
-                            ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
-                }
-            } else if (hasWord("bottom") && hasWord("left")) {
-                for (Frame f : Frame.getFrames()) {
-                    if (f.getState() == Frame.ICONIFIED) {
-                        f.setState(Frame.NORMAL);
-
-                        if (f instanceof CyderFrame) {
-                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
-                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                            if (f instanceof CyderFrame) {
+                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
+                                        + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                            }
                         }
-                    }
 
-                    f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY() +
-                            ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                        f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY() +
+                                ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                    }
+                } else {
+                    for (Frame f : Frame.getFrames()) {
+                        if (f.getState() == Frame.ICONIFIED) {
+                            f.setState(Frame.NORMAL);
+
+                            if (f instanceof CyderFrame) {
+                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                            }
+                        }
+
+                        f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
+                    }
                 }
             } else {
-                for (Frame f : Frame.getFrames()) {
-                    if (f.getState() == Frame.ICONIFIED) {
-                        f.setState(Frame.NORMAL);
-
-                        if (f instanceof CyderFrame) {
-                            ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                            ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
-                        }
-                    }
-
-                    f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
-                }
+                println("Command usage: consolidatewindows topleft");
             }
-        } else if (eic("dance")) {
+        } else if (commandIs("dance")) {
             ConsoleFrame.getConsoleFrame().dance();
         }
         //calls that will cause other programs to run/execute other than Cyder/Cyder components
-        else if (hasWord("cyder") && has("dir")) {
-            if (SecurityUtil.nathanLenovo()) {
-                String CurrentDir = System.getProperty("user.dir");
-                IOUtil.openFile(CurrentDir);
-            } else {
-                println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
-                        ", but you don't have permission to do that.");
-            }
-        } else if (eic("YoutubeWordSearch")) {
+        else if (commandIs("YoutubeWordSearch")) {
             if (checkArgsLength(1)) {
                 String input = getArg(0);
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
@@ -640,7 +612,7 @@ public class InputHandler {
             } else {
                 println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");
             }
-        } else if (eic("echo") || eic("print") || eic("println")) {
+        } else if (commandIs("echo") || commandIs("print") || commandIs("println")) {
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0 ; i < args.size() ; i++) {
@@ -650,101 +622,99 @@ public class InputHandler {
 
             //ending new line
             println(sb.toString());
-        } else if (eic("cmd") || (hasWord("command") && hasWord("prompt"))) {
+        } else if (commandIs("cmd")) {
             Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
-        } else if ((has("graphing") && has("calculator")) || has("desmos") || has("graphing")) {
+        } else if (commandIs("desmos")) {
             NetworkUtil.internetConnect("https://www.desmos.com/calculator");
-        } else if (has("airHeads xtremes") || eic("candy")) {
-            NetworkUtil.internetConnect("http://airheads.com/candy#xtremes");
-        } else if (eic("404")) {
+        } else if (commandIs("404")) {
             NetworkUtil.internetConnect("http://google.com/=");
-        } else if (hasWord("coffee")) {
+        } else if (commandIs("coffee")) {
             NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
-        } else if (hasWord("Quake") && (hasWord("three") || hasWord("3"))) {
+        } else if (commandIs("quake3")) {
             NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
-        } else if (hasWord("triangle")) {
+        } else if (commandIs("triangle")) {
             NetworkUtil.internetConnect("https://www.triangle-calculator.com/");
-        } else if (hasWord("board")) {
+        } else if (commandIs("board")) {
             NetworkUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
-        }else if (hasWord("arduino")) {
+        }else if (commandIs("arduino")) {
             NetworkUtil.internetConnect("https://www.arduino.cc/");
-        } else if (has("rasberry pi")) {
+        } else if (commandIs("rasberrypi")) {
             NetworkUtil.internetConnect("https://www.raspberrypi.org/");
-        }else if (eic("vexento")) {
+        }else if (commandIs("vexento")) {
             NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
-        }else if (hasWord("papers") && hasWord("please")) {
+        }else if (commandIs("papersplease")) {
             NetworkUtil.internetConnect("http://papersplea.se/");
-        }else if (hasWord("donuts")) {
+        }else if (commandIs("donut")) {
             NetworkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
-        }else if (hasWord("bai")) {
+        }else if (commandIs("bai")) {
             NetworkUtil.internetConnect("http://www.drinkbai.com");
-        } else if (has("occam") && hasWord("razor")) {
+        } else if (commandIs("occamrazor")) {
             NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
-        } else if (eic("netsh")) {
+        } else if (commandIs("netsh")) {
             Desktop.getDesktop().open(new File("C:/Windows/system32/netsh.exe"));
-        } else if (hasWord("paint")) {
+        } else if (commandIs("paint")) {
+            //todo soon our own custom painter
             String param = "C:/Windows/system32/mspaint.exe";
             Runtime.getRuntime().exec(param);
-        } else if (hasWord("rick") && hasWord("morty")) {
+        } else if (commandIs("rickandmorty")) {
             println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
             NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
-        } else if (eic("about:blank")) {
+        } else if (commandIs("about:blank")) {
             NetworkUtil.internetConnect("about:blank");
         }
         //playing audio -------------------------------------------
-        else if (eic("hey")) {
+        else if (commandIs("hey")) {
             IOUtil.playAudio("static/audio/heyya.mp3");
-        }  else if (eic("windows")) {
+        }  else if (commandIs("windows")) {
             IOUtil.playAudio("static/audio/windows.mp3");
-        }  else if (hasWord("light") && hasWord("saber")) {
+        }  else if (commandIs("lightsaber")) {
             IOUtil.playAudio("static/audio/Lightsaber.mp3");
-        } else if (hasWord("xbox")) {
+        } else if (commandIs("xbox")) {
             IOUtil.playAudio("static/audio/xbox.mp3");
-        } else if (has("star") && has("trek")) {
+        } else if (commandIs("startrek")) {
             IOUtil.playAudio("static/audio/StarTrek.mp3");
-        } else if (has("toy") && has("story")) {
+        } else if (commandIs("toystory")) {
             IOUtil.playAudio("static/audio/TheClaw.mp3");
-        } else if (has("stop") && has("music")) {
+        } else if (commandIs("stopmusic")) {
             IOUtil.stopAudio();
-        } else if (eic("logic")) {
+        } else if (commandIs("logic")) {
             IOUtil.playAudio("static/audio/commando.mp3");
-        } else if (eic("1-800-273-8255") || eic("18002738255")) {
+        } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
         }
-        //general Cyder console commands
-        //todo offship logic to methods such as this
-        // such be in color util witha good method name
-        else if (hasWord("background") && hasWord("color")) {
-            String colorInput = command.replaceAll("(?i)background","")
-                    .replaceAll("(?i)color","").replace("#","")
-                    .replace(" ", "");
-            try {
-                Color color = Color.decode("#" + colorInput);
-                int w = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth();
-                int h = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight();
+        //general Cyder console commands ------------------------------------
+        else if (commandIs("backgroundcolor")) {
+            if (checkArgsLength(1)) {
+                try {
+                    Color color = Color.decode("#" + getArg(0));
+                    int w = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth();
+                    int h = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight();
 
-                if (UserUtil.extractUser().getFullscreen().equals("1")) {
-                    w = SystemUtil.getScreenWidth();
-                    h = SystemUtil.getScreenHeight();
+                    if (UserUtil.extractUser().getFullscreen().equals("1")) {
+                        w = SystemUtil.getScreenWidth();
+                        h = SystemUtil.getScreenHeight();
+                    }
+
+                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, color);
+
+                    String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
+
+                    File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                            "/Backgrounds/" + saveName);
+
+                    ImageIO.write(saveImage, "png", saveFile);
+
+                    ConsoleFrame.getConsoleFrame().revalidateBackgroundIndex();
+
+                    println("Background generated, set, and saved as a separate background file.");
+                } catch (Exception e) {
+                    println("Background color command usage: backgroundcolor EC407A");
+                    ExceptionHandler.silentHandle(e);
                 }
-
-                BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, color);
-
-                String saveName = "Solid_" + colorInput + "Generated_Background.png";
-
-                File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
-                        "/Backgrounds/" + saveName);
-
-                ImageIO.write(saveImage, "png", saveFile);
-
-                ConsoleFrame.getConsoleFrame().revalidateBackgroundIndex();
-
-                println("Background generated, set, and saved as a separate background file.");
-            } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
-                println("Background color command usage: background color #EC407A");
+            } else {
+                println("Background color command usage: backgroundcolor EC407A");
             }
-        } else if (hasWord("fix") && hasWord("foreground")) {
+        } else if (commandIs("fixforeground")) {
             Color backgroundDom = ImageUtil.getDominantColor(ImageIO.read(
                     ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
@@ -766,37 +736,37 @@ public class InputHandler {
             println("Foreground fixed");
 
             ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
-        } else if (eic("repaint")) {
+        } else if (commandIs("repaint")) {
             ConsoleFrame.getConsoleFrame().repaint();
             println("ConsoleFrame repainted");
-        } else if (hasWord("disco")) {
+        } else if (commandIs("disco")) {
             println("I hope you're not the only one at this party.");
             SystemUtil.disco(10);
-        } else if (hasWord("java") && hasWord("properties")) {
+        } else if (commandIs("javaproperties")) {
             StatUtil.javaProperties();
-        } else if (eic("panic")) {
+        } else if (commandIs("panic")) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
                 GenesisShare.exit(25);
             }
-        } else if (hasWord("open cd")) {
+        } else if (commandIs("opendrive")) {
             SystemUtil.openCD("D:\\");
-        } else if (hasWord("close cd")) {
+        } else if (commandIs("closedrive")) {
             SystemUtil.closeCD("D:\\");
-        } else if (eic("define")) {
+        } else if (commandIs("define")) {
             if (args.size() > 0) {
                 println(StringUtil.define(argsToString()));
             } else {
                 println("define usage: define YOUR_WORD/expression");
             }
-        } else if (eic("wikisum")) {
+        } else if (commandIs("wikisum")) {
             if (args.size() > 0) {
                 println(StringUtil.wikiSummary(argsToString()));
             } else {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
-        } else if (hasWord("pixelate") && hasWord("background")) {
+        } else if (commandIs("pixelate")) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
                 println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
                         "is a solid color :P");
@@ -836,9 +806,9 @@ public class InputHandler {
                     }
                 },"Image Pixelator Getter thread").start();
             }
-        } else if (eic("hide")) {
+        } else if (commandIs("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
-        } else if (hasWord("analyze") && hasWord("code")) {
+        } else if (commandIs("analyzecode")) {
            new Thread(() -> {
                File startDir = new File("src");
 
@@ -857,80 +827,71 @@ public class InputHandler {
                double ratio = ((double) codeLines / (double) commentLines);
                println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
            }, "Code Analyzer").start();
-        } else if (hasWord("press") && (hasWord("F17") || hasWord("f17"))) {
+        } else if (commandIs("f17")) {
             new Robot().keyPress(KeyEvent.VK_F17);
-        }  else if (hasWord("debug") && !eic("debug")) {
+        }  else if (commandIs("debugstats")) {
             StatUtil.allStats();
-        } else if (eic("debug")) {
+        } else if (commandIs("debug")) {
             Debug.print("");
-        } else if (hasWord("binary") && !has("dump")) {
-            new Thread(() -> {
-                String input = new GetterUtil().getString("Enter an Interger","Enter any iteger to be converted to binary", "Submit");
+        } else if (commandIs("binary")) {
+            if (checkArgsLength(1) && getArg(0).matches("[0-9]+")) {
+                new Thread(() -> {
+                    try {
+                        println(getArg(0) + " converted to binary equals: "
+                                + Integer.toBinaryString(Integer.parseInt(getArg(0))));
+                    } catch (Exception ignored) {}
+                },"Binary Converter Getter Thread").start();
 
-                try {
-                    if (input.matches("[0-9]+") && !StringUtil.empytStr(input)) {
-                        println(input + " converted to binary equals: " + Integer.toBinaryString(Integer.parseInt(input)));
-                    } else {
-                        println("Your value must only contain numbers.");
-                    }
-                } catch (Exception ignored) {}
-            },"Binary Converter Getter Thread").start();
-        } else if (hasWord("prime")) {
-            try {
-                String[] parts = command.split(" ");
-
-                if (parts.length == 2) {
-                    int num = Integer.parseInt(parts[1]);
-
-                    if (NumberUtil.isPrime(num)) {
-                        println(num + " is a prime");
-                    } else {
-                        println(num + " is not a prime because it is divisible by: " + NumberUtil.primeFactors(num));
-                    }
-                } else {
-                    println("Prime usage: prime number");
-                }
-            } catch (Exception e) {
-                println("Prime usage: prime number");
-                ExceptionHandler.silentHandle(e);
+            } else {
+                println("Your value must only contain numbers.");
             }
-        } else if ((eic("quit") || eic("exit") || eic("leave") || eic("close")) &&
-                (!has("music") && !has("dance") && !has("script"))) {
+        } else if (commandIs("prime")) {
+            if (checkArgsLength(1)) {
+                int num = Integer.parseInt(getArg(0));
+
+                if (NumberUtil.isPrime(num)) {
+                    println(num + " is a prime");
+                } else {
+                    println(num + " is not a prime because it is divisible by: " + NumberUtil.primeFactors(num));
+                }
+            } else {
+                println("Prime usage: prime NUMBER");
+            }
+        } else if (commandIs("quit") ||
+                    commandIs("exit") ||
+                    commandIs("leave") ||
+                    commandIs("close")) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
                 GenesisShare.exit(25);
             }
-        } else if (has("monitor")) {
+        } else if (commandIs("monitors")) {
             println(NetworkUtil.getMonitorStatsString());
-        } else if (hasWord("network") && hasWord("devices")) {
+        } else if (commandIs("networkdevices")) {
             println(NetworkUtil.getNetworkDevicesString());
-        } else if (hasWord("bindump")) {
-            if (has("-f")) {
-                String[] parts = command.split("-f");
-
-                if (parts.length != 2) {
-                    println("Too much/too little args");
+        } else if (commandIs("bindump")) {
+            if (checkArgsLength(2)) {
+                if (!getArg(0).equals("-f")) {
+                    println("Bindump usage: bindump -f /path/to/binary/file");
                 } else {
-                    File f = new File(parts[1].trim());
+                    File f = new File(getArg(1).trim());
 
                     if (f.exists()) {
                         printlnPriority("0b" + IOUtil.getBinaryString(f));
                     } else {
-                        println("File: " + parts[1].trim() + " does not exist.");
+                        println("File: " + getArg(0).trim() + " does not exist.");
                     }
                 }
             } else {
                 println("Bindump usage: bindump -f /path/to/binary/file");
             }
-        } else if (hasWord("hexdump")) {
-            if (has("-f")) {
-                String[] parts = command.split("-f");
-
-                if (parts.length != 2) {
-                    println("Too much/too little args");
+        } else if (commandIs("hexdump")) {
+            if (checkArgsLength(2)) {
+                if (!getArg(0).equals("-f")) {
+                    println("Hexdump usage: hexdump -f /path/to/binary/file");
                 } else {
-                    File f = new File(parts[1].trim());
+                    File f = new File(getArg(1).trim());
 
                     if (!f.exists())
                         throw new IllegalArgumentException("File does not exist");
@@ -939,7 +900,7 @@ public class InputHandler {
                         if (f.exists()) {
                             printlnPriority("0x" + IOUtil.getHexString(f).toUpperCase());
                         } else {
-                            println("File: " + parts[1].trim() + " does not exist.");
+                            println("File: " + getArg(1).trim() + " does not exist.");
                         }
                     } else {
                         InputStream inputStream = new FileInputStream(f);
@@ -962,23 +923,22 @@ public class InputHandler {
             } else {
                 println("Hexdump usage: hexdump -f /path/to/binary/file");
             }
-        } else if (hasWord("barrel") && hasWord("roll")) {
+        } else if (commandIs("barrelroll")) {
             ConsoleFrame.getConsoleFrame().barrelRoll();
-        } else if (eic("askew")) {
+        } else if (commandIs("askew")) {
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
-        } else if (hasWord("logout")) {
+        } else if (commandIs("logout")) {
            ConsoleFrame.getConsoleFrame().logout();
-        } else if (hasWord("throw")) {
+        } else if (commandIs("throw")) {
             ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
-        } else if (hasWord("clear") && (hasWord("operation") ||
-                hasWord("command")) && hasWord("list")) {
+        } else if (commandIs("clearops")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
             SessionHandler.log(SessionHandler.Tag.ACTION, "User cleared command history");
             println("Command history reset");
-        } else if (hasWord("stop") && has("script")) {
+        } else if (commandIs("stopscript")) {
             masterYoutubeThread.killAllYoutube();
             println("YouTube scripts have been killed.");
-        } else if (hasWord("long") && hasWord("word")) {
+        } else if (commandIs("longword")) {
             int count = 0;
 
             String[] words = command.split(" ");
@@ -994,41 +954,45 @@ public class InputHandler {
             }
 
             println("");
-        } else if (eic("ip")) {
+        } else if (commandIs("ip")) {
             println(InetAddress.getLocalHost().getHostAddress());
-        }  else if (hasWord("computer") && hasWord("properties")) {
+        }  else if (commandIs("computerproperties")) {
             println("This may take a second, since this feature counts your PC's free memory");
             StatUtil.computerProperties();
-        } else if (hasWord("system") && hasWord("properties")) {
+        } else if (commandIs("systemproperties")) {
             StatUtil.systemProperties();
-        } else if (hasWord("anagram")) {
-            String[] parts = command.split(" ");
-
-            if (parts.length != 3) {
-                println("Anagram usage: anagram word1 word2");
-            } else if (parts[0].trim().length() == 0 || parts[1].trim().length() == 0 || parts[2].trim().length() == 0) {
-                println("Anagram usage: anagram word1 word2");
-            } else {
-                if (StringUtil.areAnagrams(parts[1], parts[2])) {
-                    println(parts[1] + " and " + parts[2] + " are anagrams of each other");
+        } else if (commandIs("anagram")) {
+            if (checkArgsLength(2)) {
+                if (StringUtil.areAnagrams(getArg(0), getArg(1))) {
+                    println(getArg(0) + " and " + getArg(1) + " are anagrams of each other");
                 } else {
-                    println(parts[1] + " and " + parts[2] + " are not anagrams of each other");
+                    println(getArg(0) + " and " + getArg(1) + " are not anagrams of each other");
                 }
+            } else {
+                println("Anagram usage: anagram word1 word2");
             }
-        } else if (hasWord("reset") && hasWord("mouse")) {
+        } else if (commandIs("resetmouse")) {
             SystemUtil.resetMouse();
-        } else if (eic("clc") || eic("cls") || eic("clear") || (hasWord("clear") && hasWord("screen"))) {
+        } else if (commandIs("clc") ||
+                   commandIs("cls") ||
+                   commandIs("clear")) {
             clc();
-        }  else if (hasWord("reset") && hasWord("clipboard")) {
+        } else if (commandIs("mouse")) {
+            if (checkArgsLength(2)) {
+                SystemUtil.setMouseLoc(Integer.parseInt(getArg(0)), Integer.parseInt(getArg(1)));
+            } else {
+                println("Mouse command usage: mouse X_PIXEL, Y_PIXEL");
+            }
+        } else if (commandIs("clearclip")) {
             StringSelection selection = new StringSelection(null);
             java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(selection, selection);
             println("Clipboard has been reset.");
-        } else if (eic("help")) {
+        } else if (commandIs("help")) {
             help();
-        } else if (eic("controlc") && !outputArea.isFocusOwner()) {
+        } else if (commandIs("controlc") && !outputArea.isFocusOwner()) {
             escapeThreads();
-        } else if (hasWord("todo") || hasWord("todos")) {
+        } else if (commandIs("todos")) {
             int total = StatUtil.totalTodos(new File("src"));
 
             if (total > 0) {
@@ -1039,7 +1003,7 @@ public class InputHandler {
             } else {
                 println("No todos found, good job");
             }
-        } else if ((hasWord("wipe") || hasWord("clear")) && hasWord("logs")) {
+        } else if (commandIs("wipelogs")) {
             if (SecurityUtil.nathanLenovo()) {
                 File[] logDirs = new File("logs").listFiles();
                 int count = 0;
@@ -1059,7 +1023,7 @@ public class InputHandler {
                 println("Sorry, " + UserUtil.getUserData("name") + ", " +
                         "but you do not have permission to perform that operation.");
             }
-        } else if (hasWord("count") && hasWord("logs")) {
+        } else if (commandIs("countlogs")) {
             if (SecurityUtil.nathanLenovo()) {
                 File[] logDirs = new File("logs").listFiles();
                 int count = 0;
@@ -1081,14 +1045,14 @@ public class InputHandler {
                 println("Sorry, " + UserUtil.getUserData("name") + ", " +
                         "but you do not have permission to perform that operation.");
             }
-        } else if (hasWord("open") && hasWord("current") && hasWord("log")) {
+        } else if (commandIs("opencurrentlog")) {
             if (SecurityUtil.nathanLenovo()) {
                 IOUtil.openFileOutsideProgram(SessionHandler.getCurrentLog().getAbsolutePath());
             } else {
                 println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
-        } else if (hasWord("open") && hasWord("last") && hasWord("log")) {
+        } else if (commandIs("openlastlog")) {
             if (SecurityUtil.nathanLenovo()) {
                 File[] logs = SessionHandler.getCurrentLog().getParentFile().listFiles();
 
@@ -1101,7 +1065,7 @@ public class InputHandler {
                 println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
-        } else if (eic("play")) {
+        } else if (commandIs("play")) {
             boolean isURL = true;
 
             String input = argsToString();
@@ -1192,7 +1156,7 @@ public class InputHandler {
                     }
                 }, "Youtube Audio Download Waiter").start();
             }
-        }  else if (eic("pastebin")) {
+        }  else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
                 String urlString = "";
                 if (getArg(0).contains("pastebin.com")) {
@@ -1217,7 +1181,7 @@ public class InputHandler {
             } else {
                 println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
-        } else if (eic("Demo mode")) {
+        } else if (commandIs("demomode")) {
             CyderFrame background = new CyderFrame(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight(),
                     CyderColors.navyComplementary);
             background.setTitle(StringUtil.capsFirst(IOUtil.getSystemData().getVersion()) + " Demo");
@@ -1285,12 +1249,12 @@ public class InputHandler {
             background.setFrameResizing(false);
             background.setVisible(true);
             background.setLocationRelativeTo(null);
-        } else if (hasWord("xxx") || hasWord("tentacion") || has("rip x")) {
+        } else if (commandIs("xxx")) {
             SystemUtil.setCurrentCyderIcon(SystemUtil.xxxIcon);
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playAudio("static/audio/x.mp3");
-        } else if (hasWord("issue") || hasWord("issues")) {
+        } else if (commandIs("issues")) {
             new Thread(() -> {
                 GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
                 println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
@@ -1303,11 +1267,11 @@ public class InputHandler {
                     println("----------------------------------------");
                 }
             }, "GitHub issue printer").start();
-        } else if ((hasWord("code") || hasWord("codes")) && hasWord("exit")) {
+        } else if (commandIs("exitcodes")) {
             for (IOUtil.SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
                println(exitCondition.getCode() + ": " + exitCondition.getDescription());
             }
-        } else if ((has("black") && has("panther")) || (hasWord("chadwick") && hasWord("boseman"))) {
+        } else if (commandIs("blackpanther")|| commandIs("chadwickboseman")) {
             new Thread(() -> {
                 clc();
 
@@ -1325,7 +1289,7 @@ public class InputHandler {
 
                 outputArea.setFont(oldFont);
             },"Chadwick Boseman Thread").start();
-        } else if (eic("dst") || has("daylight") && has("savings") && has("time")) {
+        } else if (commandIs("dst")) {
             new Thread(() -> {
                 String location = IPUtil.getIpdata().getCity() + ", "
                         + IPUtil.getIpdata().getRegion() + ", "
@@ -1337,13 +1301,13 @@ public class InputHandler {
                     println("No, DST is not underway in " + location + ".");
                 }
             }, "DST Checker").start();
-        } else if (eic("test")) {
+        } else if (commandIs("test")) {
             Debug.launchTests();
-        } else if (eic("tests")) {
+        } else if (commandIs("tests")) {
             println("Valid tests to call:\n");
             printUnitTests();
             printManualTests();
-        } else if (has("network") && has("addresses")) {
+        } else if (commandIs("networkaddresses")) {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
             for (NetworkInterface netint : Collections.list(nets)) {
@@ -1355,17 +1319,17 @@ public class InputHandler {
                     println("InetAddress: " + inetAddress);
                 }
             }
-        } else if (hasWord("file") && hasWord("sizes")) {
+        } else if (commandIs("filesizes")) {
             StatUtil.fileSizes();
-        } else if (hasWord("bad") && hasWord("words")) {
+        } else if (commandIs("badwords") ) {
             new Thread(() -> {
                 println("Finding bad words:");
                 StatUtil.findBadWords();
                 println("Concluded");
             }, "Bad Word Code Searcher").start();
-        } else if (hasWord("usb")) {
+        } else if (commandIs("usb")) {
             PyExecutor.executeUSBq();
-        } else if (eic("number2string") || eic("number2word")) {
+        } else if (commandIs("number2string") || commandIs("number2word")) {
             if (checkArgsLength(1)) {
                 if (getArg(0).matches("[0-9]+")) {
                     println(NumberUtil.toWords(getArg(0)));
@@ -1375,7 +1339,7 @@ public class InputHandler {
             } else {
                 println("Command usage: number2string YOUR_INTEGER");
             }
-        } else if (eic("widgets")) {
+        } else if (commandIs("widgets")) {
             ArrayList<MultiString> widgets = ReflectionUtil.findWidgets();
             println("Found " + widgets.size() + " widgets:");
             println("-------------------------------------");
@@ -2476,28 +2440,18 @@ public class InputHandler {
      * @param compare the string to check for case insensitive equalty to command
      * @return if the current command equals the provided text ignoring case
      */
-    private boolean eic(String compare) {
+    private boolean commandIs(String compare) {
         return command.equalsIgnoreCase(compare);
     }
 
     /**
-     * Determines if the current command has the provided text ignoring case.
+     * Determines if the current command matches the provided regex.
      *
-     * @param compare the substring to check command for
-     * @return if the current command has the provided word
+     * @param regex the regex to match the current command to
+     * @return whether the current command matches the provided regex.
      */
-    private boolean has(String compare) {
-        return command.toLowerCase().contains(compare.toLowerCase());
-    }
-
-    /**
-     * Determines if the current command has the provided word.
-     *
-     * @param compare the word to check command for
-     * @return if the current command has the provided word
-     */
-    private boolean hasWord(String compare) {
-        return StringUtil.hasWord(command, compare, false);
+    private boolean commandMatches(String regex) {
+        return command.matches(regex);
     }
 
     /**

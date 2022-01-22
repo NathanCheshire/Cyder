@@ -90,12 +90,13 @@ public class SystemUtil {
     }
 
     public static void resetMouse() {
+       setMouseLoc(getScreenWidth() / 2, getScreenHeight() / 2);
+    }
+
+    public static void setMouseLoc(int x, int y) {
         try {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int centerX = screenSize.width / 2;
-            int centerY = screenSize.height / 2;
             Robot Rob = new Robot();
-            Rob.mouseMove(centerX, centerY);
+            Rob.mouseMove(x, y);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
