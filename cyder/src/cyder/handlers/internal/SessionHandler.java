@@ -178,6 +178,7 @@ public class SessionHandler {
                 break;
         }
 
+        //write to log file
         writeLine(logBuilder.toString());
     }
 

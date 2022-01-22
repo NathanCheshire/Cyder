@@ -1,0 +1,214 @@
+[18-32-41] [ENTRY]: [Nathan]
+[18-32-41] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-32-42] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-32-44] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-32-44] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-32-44] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-32-44] [SYSTEM_IO]: Userdata requested: Name
+[18-32-44] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-32-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-32-45] [SYSTEM_IO]: Userdata requested: Name
+[18-32-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-32-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-32-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-32-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-32-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-32-45] [SYSTEM_IO]: Userdata requested: Font
+[18-32-45] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-32-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-32-45] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-32-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-32-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-32-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-32-45] [SYSTEM_IO]: Userdata requested: Font
+[18-32-45] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-32-45] [SYSTEM_IO]: Userdata requested: InputFill
+[18-32-45] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [79814892], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-32-45] [ACTION]: Console loaded in 4132ms
+[18-32-45] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-32-45] [ENTRY]: [TESTING MODE]
+[18-32-45] [SYSTEM_IO]: Userdata requested: laststart
+[18-32-45] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-32-45] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4132ms
+[18-32-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-32-59] [CLIENT]: throw
+[18-32-59] [SYSTEM_IO]: Userdata requested: filterchat
+[18-32-59] [EXCEPTION]: 
+Error thrown on Friday, 01/21/2022 06:32PM CST
+Thrown from:
+cyder.handlers.internal.InputHandler.handle(InputHandler.java:973)
+StackTrace:
+java.lang.Exception: Error thrown on Friday, 01/21/2022 06:32PM CST
+	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:973)
+	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:516)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[18-32-59] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-32-59] [DEBUG]: Error thrown on Friday, 01/21/2022 06:32PM CST
+java.lang.Exception: Error thrown on Friday, 01/21/2022 06:32PM CST
+	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:973)
+	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:516)
+	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[18-33-57] [CLIENT]: rpefs
+[18-33-57] [SYSTEM_IO]: Userdata requested: filterchat
+[18-33-58] [CONSOLE_OUT]: [STRING] Unknown command
+[18-33-58] [CLIENT]: prefs
+[18-33-58] [SYSTEM_IO]: Userdata requested: filterchat
+[18-33-58] [ACTION]: USER EDITOR
+[18-33-59] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-59] [SYSTEM_IO]: Userdata requested: Foreground
+[18-33-59] [SYSTEM_IO]: Userdata requested: Background
+[18-33-59] [SYSTEM_IO]: Userdata requested: Background
+[18-33-59] [SYSTEM_IO]: Userdata requested: Font
+[18-34-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1854439269], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-00] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[18-34-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-34-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1854439269], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-01] [SYSTEM_IO]: Userdata requested: randombackground
+[18-34-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-01] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-01] [SYSTEM_IO]: Userdata requested: randombackground
+[18-34-01] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-01] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-02] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-02] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-34-03] [SYSTEM_IO]: Userdata requested: intromusic
+[18-34-03] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[18-34-03] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[18-34-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1854439269], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [1796792467], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [1796792467], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-54] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 140, 38)], hash = [1796792467], parentFrame = [Edit User], associated text = [   Validate   ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-57] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [2068988233], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-34-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(420, 436, 900, 580)], hash = [1077308426], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[18-34-57] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-34-57] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-34-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-34-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-34-57] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[18-34-57] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-34-57] [SYSTEM_IO]: Userdata requested: InputFill
+[18-34-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

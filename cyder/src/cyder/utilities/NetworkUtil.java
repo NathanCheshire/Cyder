@@ -201,12 +201,12 @@ public class NetworkUtil {
                 ret = responseBody.substring(responseBody.indexOf("<title>") + 7, responseBody.indexOf("</title>"));
 
             } catch (IOException ex) {
-                ex.printStackTrace();
+                ErrorHandler.handle(ex);
             } finally {
                 try {
                     response.close();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    ErrorHandler.handle(ex);
                 }
             }
         } catch (Exception e) {

@@ -9,7 +9,6 @@ import cyder.cyderuser.UserEditor;
 import cyder.enums.ScreenPosition;
 import cyder.games.HangmanGame;
 import cyder.games.TTTGame;
-import cyder.genesis.Cyder;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
@@ -969,9 +968,8 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
         } else if (hasWord("logout")) {
            ConsoleFrame.getConsoleFrame().logout();
-        } else if (hasWord("throw") && (hasWord("error") || hasWord("exception"))) {
-            ConsoleFrame.getConsoleFrame().getInputField().setText("");
-            throw new Exception("Error thrown on " + TimeUtil.userTime());
+        } else if (hasWord("throw")) {
+            ErrorHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (hasWord("clear") && (hasWord("operation") ||
                 hasWord("command")) && hasWord("list")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
@@ -1408,6 +1406,11 @@ public class InputHandler {
                 unknownInput();
             }
         }
+
+        //clean up routines --------------------------------------
+
+        //just to be safe...
+        ConsoleFrame.getConsoleFrame().getInputField().setText("");
     }
 
     //sub-handle methods in the order they appear above --------------------------
@@ -1849,7 +1852,7 @@ public class InputHandler {
             try {
                 makePrintingThreadsafeAgain.acquire();
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+                ErrorHandler.handle(ex);
             }
             boolean ret = super.add(e);
             makePrintingThreadsafeAgain.release();
@@ -1869,7 +1872,7 @@ public class InputHandler {
             try {
                 makePrintingThreadsafeAgain.acquire();
             } catch (InterruptedException ex) {
-                ex.printStackTrace();
+                ErrorHandler.handle(ex);
             }
             boolean ret = super.add(e);
             makePrintingThreadsafeAgain.release();

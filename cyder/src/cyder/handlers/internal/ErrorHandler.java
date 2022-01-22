@@ -7,6 +7,7 @@ import cyder.utilities.UserUtil;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 public class ErrorHandler {
     private ErrorHandler() {
@@ -19,24 +20,9 @@ public class ErrorHandler {
      * @param e the exception we are handling and possibly informing the user of
      */
     public static void handle(Exception e) {
-        //always print to the IDE console, this saves time in the long run
-        e.printStackTrace();
-
         try {
-            //obtain a String object of the error and the line number
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-
-            String stackTrack = sw.toString();
-            int lineNumber = e.getStackTrace()[0].getLineNumber();
-            Class c = e.getClass();
-
-            //get our master string and write it to the
-            String message = e.getMessage();
-            String write = e.getMessage() == null ? "" :
-                    "\n" + e.getMessage() + "\nThrown from:\n" + stackTrack.split("\\s+at\\s+")[1] + "\n"
-                            + "StackTrace:\n" + stackTrack;
+            String write = getPrintableException(e).get();
+            System.out.println(write);
 
             if (write.trim().length() > 0)
                 SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
@@ -65,7 +51,9 @@ public class ErrorHandler {
             //obtain a String object of the error and the line number
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
+
+            //print to the writer
+            //todo e.printStackTrace(pw);
 
             String stackTrack = sw.toString();
             int lineNumber = e.getStackTrace()[0].getLineNumber();
@@ -79,6 +67,7 @@ public class ErrorHandler {
             if (write.trim().length() > 0)
                 SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
         } catch (Exception ex) {
+            System.out.println("here");
             silentHandleWithoutLogging(ex);
         }
     }
@@ -92,11 +81,64 @@ public class ErrorHandler {
         String title = e.getMessage();
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
+
+        //print to writer
+        //e.printStackTrace(pw);
+
         String stackTrack = sw.toString();
 
         if (title != null && title.length() != 0 && stackTrack != null || stackTrack.length() != 0) {
             Debug.println(title + "\n" + stackTrack);
         }
+    }
+
+    /**
+     * Generates a printable version of the exception.
+     *
+     * @param e the exception to return a printable version of
+     * @return Optional String possibly containing exception details and trace
+     */
+    public static Optional<String> getPrintableException(Exception e) {
+        //should be highly unlikely if not impossible
+        if (e == null)
+            return Optional.empty();
+
+        Optional<String> ret;
+
+        //init streams to get information from the Exception
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+
+        //print to the stream
+        e.printStackTrace(pw);
+
+        //full stack trace
+        int lineNumber = e.getStackTrace()[0].getLineNumber();
+        String stackTrace = sw.toString();
+
+        //one or more white space, "at" literal, one or more white space
+        String[] stackSplit = stackTrace.split("\\s+at\\s+");
+
+        StringBuilder exceptionPrintBuilder = new StringBuilder();
+
+        if (stackSplit.length > 1) {
+            exceptionPrintBuilder.append("\nException origin: ").append(stackSplit[1]);
+        } else {
+            exceptionPrintBuilder.append("\nException origin not found");
+        }
+
+        //line number
+        if (lineNumber != 0)
+            exceptionPrintBuilder.append("\nFrom line: ").append(lineNumber);
+        else
+            exceptionPrintBuilder.append("\nThrowing line not found");
+
+        //trace
+        if (stackTrace != null)
+            exceptionPrintBuilder.append("\nTrace: ").append(stackTrace.replace(e.getMessage(), ""));
+        else
+            exceptionPrintBuilder.append("\nStack trace not found; what are you some kind of Eurpoean toy maker?");
+
+        return Optional.of(exceptionPrintBuilder.toString());
     }
 }

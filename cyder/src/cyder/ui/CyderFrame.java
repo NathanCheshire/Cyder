@@ -801,6 +801,8 @@ public class CyderFrame extends JFrame {
         notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection,
                 onKillAction, container, notificationBackground, TimeUtil.notificationTime()));
 
+        //todo if length of tagged strings with TEXT tag is less than 2, throw and return
+
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
 

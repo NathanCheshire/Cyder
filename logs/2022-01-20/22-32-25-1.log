@@ -31,3 +31,10 @@
 [22-32-29] [SYSTEM_IO]: Userdata requested: IntroMusic
 [22-32-29] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3870ms
 [22-32-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-34-18] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-34-18] [SYSTEM_IO]: Userdata requested: Name
+[22-34-18] [LOGOUT]: [Nathan]
+[22-34-18] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(360, 263, 1029, 675)], hash = [159290353], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-34-18] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-34-18] [EXIT]: [RUNTIME] 1m 53s
+[22-34-18] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
