@@ -365,7 +365,7 @@ public final class ConsoleFrame {
                     //escaping
                     if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
                         try {
-                            inputHandler.handle("controlc", true);
+                            inputHandler.escapeThreads();
                         } catch (Exception exception) {
                             ExceptionHandler.handle(exception);
                         }

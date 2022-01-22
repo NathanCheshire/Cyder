@@ -108,6 +108,10 @@ public class InputHandler {
     //todo if command is not found attempt to find most similar one and if threshhold is 80% or above
     // then print that command as a suggestion
 
+    //todo hwo would this even be matched? what can you parameterize?
+    // if you can do indivial lines then maybe a python script to extract string args
+    // from all commandIs("COMMAND EXTRACT HERE") and the paste in a json is the way to go
+
     /**
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
      * Also sets the ops array to the found command and arguments
@@ -423,9 +427,6 @@ public class InputHandler {
             SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
         return ret;
     }
-
-    //todo handling ctrlc shouldn't be a thing, make a function for it
-    //todo size flag to output size of returned text
 
     private boolean cyderFrameMovementCheck() {
         boolean ret = true;
@@ -929,8 +930,6 @@ public class InputHandler {
             println("Clipboard has been reset.");
         } else if (commandIs("help")) {
             help();
-        } else if (commandIs("controlc") && !outputArea.isFocusOwner()) {
-            escapeThreads();
         } else if (commandIs("todos")) {
             int total = StatUtil.totalTodos(new File("src"));
 
@@ -2515,7 +2514,7 @@ public class InputHandler {
      * Stops all threads invoked, sets the userInputMode to false,
      * stops any audio playing, and finishes printing anything in the printing lists.
      */
-    private void escapeThreads() {
+    public void escapeThreads() {
         //exit user input mode if in it
         setUserInputMode(false);
 
