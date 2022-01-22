@@ -10,7 +10,7 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.objects.MultiString;
-import cyder.py.PyExecutor;
+import cyder.helperscripts.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;

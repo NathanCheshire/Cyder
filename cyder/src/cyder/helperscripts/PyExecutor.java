@@ -1,4 +1,4 @@
-package cyder.py;
+package cyder.helperscripts;
 
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
@@ -12,7 +12,7 @@ public class PyExecutor {
      * Executes the USBq.py script.
      */
     public static void executeUSBq() {
-        executePy("src/cyder/py/USBQ.py");
+        executePy("cyder/src/cyder/helperscripts/usbq.py");
     }
 
     /**
@@ -40,6 +40,7 @@ public class PyExecutor {
                         //print outputs to the console frame
                         while ((deviceString = inputReader.readLine()) != null) {
                             ConsoleFrame.getConsoleFrame().getInputHandler().println(deviceString);
+                            System.out.println(deviceString);
                         }
                     }
                     catch (Exception e) {
