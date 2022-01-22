@@ -191,7 +191,6 @@ public class ReflectionUtil {
                     if (m.isAnnotationPresent(Widget.class)) {
                         String widgetTrigger = m.getAnnotation(Widget.class).trigger();
 
-                        System.out.println("on current widget trigger: " + widgetTrigger);
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
                             ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
                                     + classer.getName());

@@ -5,17 +5,18 @@ import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 public class MasterYoutubeThread {
     private JTextPane outputArea;
-    private static boolean active = false;
+    private static boolean isActive = false;
 
     //this class still exists in the event we want to allow multithreading once again with random youtube
     // that will be hard to figure out due to the nature of threads, context switching, and just the general way
     // processors and operating systems work D:
 
     //should be associated with an input handler
-    public MasterYoutubeThread(JTextPane outputArea) {
+    public MasterYoutubeThread(JTextPane outputArea, Semaphore semaphore) {
         this.outputArea = outputArea;
     }
 
@@ -26,13 +27,13 @@ public class MasterYoutubeThread {
         for (YoutubeThread ytt : youtubeThreads)
             ytt.kill();
 
-        active = false;
+        isActive = false;
     }
 
     //this will always be 1 as of right now
     public void start(int number) {
         if (ConsoleFrame.getConsoleFrame().getInputHandler().getBletchyThread().isActive() ||
-            ConsoleFrame.getConsoleFrame().getInputHandler().getMasterYoutube().isActive()) {
+            ConsoleFrame.getConsoleFrame().getInputHandler().getMasterYoutube().isIsActive()) {
             ConsoleFrame.getConsoleFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
@@ -44,11 +45,11 @@ public class MasterYoutubeThread {
         }
 
         ConsoleFrame.getConsoleFrame().notify("Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
-        active = true;
+        isActive = true;
     }
 
-    public static boolean isActive() {
-        return active;
+    public static boolean isIsActive() {
+        return isActive;
     }
 
     @Override

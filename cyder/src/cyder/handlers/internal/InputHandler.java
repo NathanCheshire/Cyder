@@ -102,24 +102,18 @@ public class InputHandler {
     /**
      * Default constructor with required JTextPane.
      *
-     * @param outputArea the JTextPane to output pictures/components/text/etc. to if needed
+     * @param outputArea the JTextPane to output pictures/components/text/etc. to
      */
     public InputHandler(JTextPane outputArea) {
-        //set output area
+        //link JTextPane
         this.outputArea = outputArea;
 
-        //init other JTextPane custom objects such as Threads
+        //init other JTextPane objects such as Threads
 
-        //todo perhaps these should be inside of a custom
-        // linked pane object since they need a JTextPane to work?
-        masterYoutubeThread = new MasterYoutubeThread(outputArea);
-        bletchyThread = new BletchyThread(outputArea);
+        //printing threads -------------------
+        masterYoutubeThread = new MasterYoutubeThread(outputArea, makePrintingThreadsafeAgain);
+        bletchyThread = new BletchyThread(outputArea, makePrintingThreadsafeAgain);
     }
-
-    //todo OutputPane object:
-    // will have threads inside of it such as materyoutube and bletchy and have wrapper methods
-    // will have the printing thread and printing lists
-    // print methods here will redirect to methods in the linked outputPane
 
     //todo if command is not found attempt to find most similar one and if threshhold is 80% or above
     // then print that command as a suggestion
@@ -128,7 +122,7 @@ public class InputHandler {
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
      * Also sets the ops array to the found command and arguments
      *
-     * @param command the command that is being handled
+     * @param command the command to handle preliminaries on before behind handled
      * @param userTriggered whether or not the provided operation was produced via a user
      * @return whether or not the process may proceed
      */
@@ -421,13 +415,12 @@ public class InputHandler {
         }
         //calls that will result in threads being spun off or thread operations
         else if (commandIs("randomyoutube")) {
-            masterYoutubeThread = new MasterYoutubeThread(outputArea);
             masterYoutubeThread.start(1);
         } else if (commandIs("scrub")) {
             bletchyThread.bletchy("No you!", false, 50, true);
         } else if (commandIs("bletchy")) {
-            bletchyThread.bletchy(command, false, 50, true);
-        } else if (commandIs("daemon")) {
+            bletchyThread.bletchy(argsToString(), false, 50, true);
+        } else if (commandIs("threads")) {
             ThreadUtil.printThreads();
         } else if (commandIs("daemonthreads")) {
             ThreadUtil.printDaemonThreads();
@@ -440,6 +433,9 @@ public class InputHandler {
             SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
         return ret;
     }
+
+    //todo handling ctrlc shouldn't be a thing, make a function for it
+    //todo size flag to output size of returned text
 
     private boolean cyderFrameMovementCheck() {
         boolean ret = true;
@@ -1231,10 +1227,10 @@ public class InputHandler {
                 IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
                 Font oldFont = outputArea.getFont();
                 outputArea.setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
-
-                new BletchyThread(outputArea).bletchy("RIP CHADWICK BOSEMAN",false, 15, false);
+                bletchyThread.bletchy("RIP CHADWICK BOSEMAN",false, 15, false);
 
                 try {
+                    //wait to reset font to original font
                     Thread.sleep(4000);
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
@@ -1998,7 +1994,7 @@ public class InputHandler {
      * @param usage the string to print to the JTextPane
      */
     public void print(String usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
             consolePrintingList.add(usage);
@@ -2010,7 +2006,7 @@ public class InputHandler {
      * @param usage the int to print to the JTextPane
      */
     public void print(int usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
             consolePrintingList.add(Integer.toString(usage));
@@ -2022,7 +2018,7 @@ public class InputHandler {
      * @param usage the double to print to the JTextPane
      */
     public void print(double usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(Double.toString(usage));
         else
             consolePrintingList.add(Double.toString(usage));
@@ -2034,7 +2030,7 @@ public class InputHandler {
      * @param usage the boolean to print to the JTextxPane
      */
     public void print(boolean usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
             consolePrintingList.add(Boolean.toString(usage));
@@ -2046,7 +2042,7 @@ public class InputHandler {
      * @param usage the float to print to the JTextPane
      */
     public void print(float usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(Float.toString(usage));
         else
             consolePrintingList.add(Float.toString(usage));
@@ -2058,7 +2054,7 @@ public class InputHandler {
      * @param usage the long to print to the JTextPane
      */
     public void print(long usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(Long.toString(usage));
         else
             consolePrintingList.add(Long.toString(usage));
@@ -2071,7 +2067,7 @@ public class InputHandler {
      * @param usage the char to print to the JTextPane
      */
     public void print(char usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
             consolePrintingList.add(String.valueOf(usage));
@@ -2083,7 +2079,7 @@ public class InputHandler {
      * @param usage the object to print to the JTextPane
      */
     public void print(Object usage) {
-        if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
+        if (masterYoutubeThread.isIsActive() || bletchyThread.isActive())
             consolePriorityPrintingList.add(usage.toString());
         else
             consolePrintingList.add(usage.toString());

@@ -8,24 +8,49 @@ import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 public class BletchyThread {
-    private bletchyThread bletchThread;
-    private JTextPane outputArea;
-    private StringUtil su;
-    private static boolean isActive = false;
+    /**
+     * Inner animator class.
+     */
+    private BletchyAnimator bletchyAnimator;
 
     /**
-     * Class instantiation requires a JTextPane so that we may use a StringUtil to append to the profvided JTextPane
-     * @param outputArea the JTextPane belonging to a ConsoleFrame to print to
+     * Whether or not bletchyAnimator is active.
      */
-    public BletchyThread(JTextPane outputArea) {
+    private boolean isActive = false;
+
+    /**
+     * Linked JTextPane to perform the animation on.
+     */
+    private JTextPane outputArea;
+
+    /**
+     * Common printing methods Cyder uses for JTextPane access.
+     */
+    private StringUtil stringUtil;
+
+    /**
+     * Semaphore for the linked JTextPane to block other print calls during an animation.
+     */
+    private Semaphore printingSemaphore;
+
+    /**
+     * Printing utility thread that prints a decoding animation to the linked JTextPane, blocking any
+     * other print calls while underway.
+     *
+     * @param outputArea the JTextPane belonging to a ConsoleFrame to print to
+     * @param semaphore the semaphore to use to block other text being added to the linked JTextPane
+     */
+    public BletchyThread(JTextPane outputArea, Semaphore semaphore) {
         this.outputArea = outputArea;
-        this.su = new StringUtil(outputArea);
+        this.stringUtil = new StringUtil(outputArea);
+        this.printingSemaphore = semaphore;
     }
 
     /**
-     * Invoke the bletchy decode animtion with the following  parameters.
+     * Invoke the bletchy decode animtion with the following parameters on the linked JTextPane.
      *
      * @param decodeString the final string to decode and display after the bletchy animation has finished
      * @param useNumbers a boolean depicting whether or not to use numbers in the alphabetic characters for the animation
@@ -34,54 +59,67 @@ public class BletchyThread {
      */
     public void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
         if (ConsoleFrame.getConsoleFrame().getInputHandler().getBletchyThread().isActive() ||
-                ConsoleFrame.getConsoleFrame().getInputHandler().getMasterYoutube().isActive()) {
+                ConsoleFrame.getConsoleFrame().getInputHandler().getMasterYoutube().isIsActive()) {
             ConsoleFrame.getConsoleFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
         }
 
-        String[] print = getBletchyArray(decodeString, useNumbers, useUnicode);
-        bletchThread = new bletchyThread(print, miliDelay);
+        //invoke the thread with passed params
+        bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), miliDelay);
     }
 
-    private class bletchyThread  {
-        private boolean exit = false;
+    //todo this needs a sem for add then removing, we need to access the inputhandler's linked printinsem
 
-        bletchyThread(String[] print, int miliDelay) {
+    /**
+     * Inner class used to invoke the bletchy animation.
+     */
+    private class BletchyAnimator {
+        BletchyAnimator(String[] print, int miliDelay) {
             new Thread(() -> {
-                isActive = true;
+                try {
+                    isActive = true;
 
-                for (int i = 1 ; i < print.length ; i++) {
-                    if (exit) {
-                        return;
-                    }
+                    for (int i = 1 ; i < print.length ; i++) {
+                        //check exit condition
+                        if (!isActive)
+                            return;
 
-                    su.println(print[i]);
+                        //print iteration
+                        stringUtil.println(print[i]);
 
-                    try {
+                        //timeout
                         Thread.sleep(miliDelay);
+
+                        //remove iteration
+                        stringUtil.removeLastLine();
                     }
 
-                    catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    //since we removed the last line, add the final value back
+                    stringUtil.println(print[print.length - 1]);
 
-                    su.removeLastLine();
+                    this.kill();
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                    this.kill();
                 }
-
-                su.println(print[print.length - 1].toUpperCase());
-
-                this.kill();
-            },"bletchy printing thread").start();
+            },"bletchy printing thread: finalString = " + print[print.length - 1]).start();
         }
 
+        /**
+         * Kills this bletchy threaad
+         */
         public void kill() {
-            this.exit = true;
             isActive = false;
         }
     }
 
-    public static boolean isActive() {
+    /**
+     * Returns whether or not this BletchyThread has a BletchyAnimation thread underway.
+     *
+     * @return whether or not this BletchyThread has a BletchyAnimation thread underway
+     */
+    public boolean isActive() {
         return isActive;
     }
 
@@ -89,29 +127,38 @@ public class BletchyThread {
      * Kills any and all bletchy printing threads
      */
     public void killBletchy() {
-        if (bletchThread != null)
-            bletchThread.kill();
+        if (bletchyAnimator != null)
+            bletchyAnimator.kill();
     }
 
+
     /**
-     * Returns an array of strings abiding by the parameters for a bletchy thread to print out
+     * Character array of all lowercase latin chars.
+     */
+    private static Character[] alphas =
+            {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+
+    /**
+     * Character array of all lowercase latin chars and the base 10 numbers.
+     */
+    private static Character[] alphaNumeric =
+            {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+            '0','1','2','3','4','5','6','7','8','9'};
+
+    /**
+     * Returns an array of Strings abiding by the parameters for a bletchy thread to print.
+     *
      * @param decodeString the string to decode
      * @param useNumbers a boolean turning on number usage
      * @param useUnicode a boolean turning on random unicode chars
      * @return the string array to be used by a bletchy thread
      */
-    public static String[] getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
+    private static String[] getBletchyArray(final String decodeString, boolean useNumbers, boolean useUnicode) {
         LinkedList<String> retList = new LinkedList<>();
 
-        decodeString = decodeString.toLowerCase();
-        decodeString = decodeString.replaceFirst("(?:bletchy)+", "").trim();
-        final String s = decodeString;
+        final String decodeUsage = decodeString.toLowerCase().trim();
 
-        int len = s.length();
-
-        Character[] alphas = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-        Character[] alphaNumeric = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-                '0','1','2','3','4','5','6','7','8','9'};
+        int len = decodeUsage.length();
 
         if (useNumbers)
             alphas = alphaNumeric;
@@ -140,11 +187,11 @@ public class BletchyThread {
                 for (int k = 0 ; k <= len ; k++)
                     current += alphas[NumberUtil.randInt(0,alphas.length - 1)];
 
-                retList.add((s.substring(0,i) + current.substring(i, len)).toUpperCase());
+                retList.add((decodeUsage.substring(0,i) + current.substring(i, len)).toUpperCase());
             }
         }
 
-        retList.add(s.toUpperCase());
+        retList.add(decodeUsage);
 
         return retList.toArray(new String[0]);
     }

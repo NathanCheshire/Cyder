@@ -1,0 +1,80 @@
+[15-48-16] [ENTRY]: [Nathan]
+[15-48-16] [SYSTEM_IO]: System data pared in IOUtil's static block
+[15-48-16] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[15-48-18] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[15-48-18] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[15-48-19] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[15-48-19] [SYSTEM_IO]: Userdata requested: Name
+[15-48-19] [SYSTEM_IO]: Userdata requested: RandomBackground
+[15-48-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[15-48-19] [SYSTEM_IO]: Userdata requested: Name
+[15-48-19] [SYSTEM_IO]: Userdata requested: Foreground
+[15-48-19] [SYSTEM_IO]: Userdata requested: Foreground
+[15-48-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[15-48-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[15-48-20] [SYSTEM_IO]: Userdata requested: Foreground
+[15-48-20] [SYSTEM_IO]: Userdata requested: Font
+[15-48-20] [SYSTEM_IO]: Userdata requested: OutputBorder
+[15-48-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[15-48-20] [SYSTEM_IO]: Userdata requested: InputBorder
+[15-48-20] [SYSTEM_IO]: Userdata requested: Foreground
+[15-48-20] [SYSTEM_IO]: Userdata requested: Foreground
+[15-48-20] [SYSTEM_IO]: Userdata requested: Foreground
+[15-48-20] [SYSTEM_IO]: Userdata requested: Font
+[15-48-20] [SYSTEM_IO]: Userdata requested: OutputFill
+[15-48-20] [SYSTEM_IO]: Userdata requested: InputFill
+[15-48-20] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1413, 341, 600, 600)], hash = [540948095], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[15-48-20] [ACTION]: Console loaded in 3901ms
+[15-48-20] [SYSTEM_IO]: Userdata requested: DebugWindows
+[15-48-20] [ENTRY]: [TESTING MODE]
+[15-48-20] [SYSTEM_IO]: Userdata requested: laststart
+[15-48-20] [SYSTEM_IO]: Userdata requested: IntroMusic
+[15-48-20] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3901ms
+[15-48-20] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[15-48-25] [CLIENT]: randomyoutube
+[15-48-25] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-25] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[15-48-25] [HANDLE]: PRIMARY HANDLE
+[15-48-25] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[15-48-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[15-48-27] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Time left: years: 11861332, months: 4, days: 6, hours: 16, minutes: 36, seconds: 31.06
+[15-48-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[15-48-29] [CLIENT]: controlc
+[15-48-29] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-29] [HANDLE]: GENERAL COMMAND HANDLED
+[15-48-29] [HANDLE]: PRIMARY HANDLE
+[15-48-29] [CONSOLE_OUT]: [STRING] Escaped
+[15-48-30] [CLIENT]: clear
+[15-48-30] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-30] [HANDLE]: GENERAL COMMAND HANDLED
+[15-48-30] [HANDLE]: PRIMARY HANDLE
+[15-48-32] [CLIENT]: hello
+[15-48-32] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-32] [SYSTEM_IO]: Userdata requested: Name
+[15-48-32] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[15-48-32] [HANDLE]: PRIMARY HANDLE
+[15-48-32] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[15-48-34] [CLIENT]: bletchy
+[15-48-34] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-34] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[15-48-34] [HANDLE]: PRIMARY HANDLE
+[15-48-37] [CLIENT]: bletchy
+[15-48-37] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-37] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[15-48-37] [HANDLE]: PRIMARY HANDLE
+[15-48-39] [CLIENT]: controlc
+[15-48-39] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-39] [HANDLE]: GENERAL COMMAND HANDLED
+[15-48-39] [HANDLE]: PRIMARY HANDLE
+[15-48-39] [CONSOLE_OUT]: [STRING] Escaped
+[15-48-40] [CLIENT]: clear
+[15-48-40] [SYSTEM_IO]: Userdata requested: filterchat
+[15-48-40] [HANDLE]: GENERAL COMMAND HANDLED
+[15-48-40] [HANDLE]: PRIMARY HANDLE
+[15-48-42] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[15-48-42] [SYSTEM_IO]: Userdata requested: Name
+[15-48-42] [LOGOUT]: [Nathan]
+[15-48-42] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1296, 288, 1029, 675)], hash = [454884231], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[15-48-42] [SYSTEM_IO]: Userdata requested: closeanimation
+[15-48-42] [EXIT]: [RUNTIME] 25s
+[15-48-42] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

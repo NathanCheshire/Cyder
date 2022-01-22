@@ -610,11 +610,11 @@ java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.test.java
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [00-04-19] [EXCEPTION]: 
-widgets.Cyder.out.production.classes.cyder.threads.BletchyThread$bletchyThread
+widgets.Cyder.out.production.classes.cyder.threads.BletchyThread$BletchyAnimator
 Thrown from:
 java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 StackTrace:
-java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.threads.BletchyThread$bletchyThread
+java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.threads.BletchyThread$BletchyAnimator
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)
