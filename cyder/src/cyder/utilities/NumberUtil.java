@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import static cyder.consts.CyderInts.INFINITY;
-import static cyder.consts.CyderInts.NEG_INFINITY;
+import static cyder.consts.CyderNums.INFINITY;
+import static cyder.consts.CyderNums.NEG_INFINITY;
 
 /**
  * A common Number methods class such as generating random

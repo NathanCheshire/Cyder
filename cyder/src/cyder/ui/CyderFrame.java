@@ -3,7 +3,7 @@ package cyder.ui;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
-import cyder.consts.CyderInts;
+import cyder.consts.CyderNums;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
@@ -238,7 +238,7 @@ public class CyderFrame extends JFrame {
      * This frame, however, can never exist as any other state,
      */
     public static CyderFrame getBorderlessFrame(int width, int height) {
-        return new CyderFrame(NumberUtil.randInt(0, CyderInts.INFINITY - 1), width, height);
+        return new CyderFrame(NumberUtil.randInt(0, CyderNums.INFINITY - 1), width, height);
     }
 
     /**

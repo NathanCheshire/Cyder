@@ -3,6 +3,7 @@ package cyder.handlers.internal;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
+import cyder.consts.CyderNums;
 import cyder.consts.CyderStrings;
 import cyder.cyderuser.UserCreator;
 import cyder.enums.ScreenPosition;
@@ -1545,7 +1546,7 @@ public class InputHandler {
                     SessionHandler.log(SessionHandler.Tag.ACTION, "Similar command to \""
                             + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
-                    if (tol > 0.85) {
+                    if (tol > CyderNums.SIMILAR_COMMAND_TOL) {
                         println("Most similar command: \"" + parts[0] + "\"");
                     }
                 }

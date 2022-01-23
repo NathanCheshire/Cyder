@@ -2,7 +2,7 @@ package cyder.genesis;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
-import cyder.consts.CyderInts;
+import cyder.consts.CyderNums;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -109,7 +109,7 @@ public class CyderSetup {
         new Thread(() -> {
             try {
                 //blocking method which also throws
-                new ServerSocket(CyderInts.INSTANCE_SOCKET_PORT).accept();
+                new ServerSocket(CyderNums.INSTANCE_SOCKET_PORT).accept();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 ret.set(false);
@@ -117,7 +117,7 @@ public class CyderSetup {
         }, "Singular Cyder Instance Ensurer Thread").start();
 
         try {
-            Thread.sleep(CyderInts.singleInstanceEnsurerTimeout);
+            Thread.sleep(CyderNums.singleInstanceEnsurerTimeout);
         } catch (InterruptedException e) {
             ExceptionHandler.handle(e);
         }
