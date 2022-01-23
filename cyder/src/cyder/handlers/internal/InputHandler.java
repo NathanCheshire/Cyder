@@ -121,28 +121,29 @@ public class InputHandler {
      * @param userTriggered whether or not the provided operation was produced via a user
      * @return whether or not the process may proceed
      */
-    private boolean handlePreliminaries(final String command, boolean userTriggered) {
+    private boolean handlePreliminaries(String command, boolean userTriggered) {
         //check for null link (should be impossible)
         if (outputArea == null)
             throw new IllegalStateException("Output area not set; what are you, some kind of European toy maker?");
 
-        if (StringUtil.empytStr(command)) return false;
+        //if empty string don't do anything
+        if (StringUtil.empytStr(command))
+            return false;
 
         //reset redirection now since we have a new command
         redirection = false;
         redirectionFile = null;
 
-        //set command and args[] vars
-        this.command = command.trim();
-
-        //from now on use operation and not command
+        //trim command
+        command = command.trim();
 
         //reset args
         args = new ArrayList<>();
 
         //set args ArrayList
-        if ((this.command + " " + argsToString()).contains(" ")) {
-            String[] arrArgs = (this.command + " " + argsToString()).split(" ");
+        if (command.contains(" ")) {
+            String[] arrArgs = command.split(" ");
+            this.command = arrArgs[0];
 
             //add all that have length greater than 0 after trimming
             // and that are not the first since that is "command"
@@ -160,47 +161,38 @@ public class InputHandler {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
 
-        //todo redirection is fucked, fix me
-
         //check for requested redirection
-        if (this.command.contains(" > ")) {
-            //if has proper syntax for redirection
-            String[] ops = (this.command + " " + argsToString()).split(" > ");
+        if (args.size() > 1 && getArg(0).equals(">")) {
+            String filename = getArg(1);
 
-            //if not 2 then it's some random String
-            if (ops.length == 2) {
-                //if both parts are greater than 0
-                if (ops.length == 2 && ops[0].trim().length() > 0 && ops[1].trim().length() > 0) {
-                    //check for validity of requested filename
-                    if (IOUtil.isValidFilenameWindows(ops[1])) {
-                        //set the operation to the actual operation without the redirection call
-                        this.command = ops[0];
-                        redirection = true;
+            if (filename.trim().length() > 0) {
+                //check for validity of requested filename
+                if (IOUtil.isValidFilenameWindows(filename)) { //todo make dynamic
+                    redirection = true;
 
-                        //acquire sem to ensure file is not being written to
-                        try {
-                            redirectionSem.acquire();
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-
-                        //create the file name
-                        redirectionFile = new File("dynamic/users/" +
-                                ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + ops[1]);
-
-                        //create file for current use
-                        try {
-                            if (redirectionFile.exists())
-                                redirectionFile.delete();
-                            redirectionFile.createNewFile();
-                        } catch (Exception ignored) {
-                            redirection = false;
-                            redirectionFile = null;
-                        }
-
-                        //release sem
-                        redirectionSem.release();
+                    //acquire sem to ensure file is not being written to
+                    try {
+                        redirectionSem.acquire();
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
                     }
+
+                    //create the file name
+                    redirectionFile = new File("dynamic/users/" +
+                            ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + filename);
+
+                    //create file for current use
+                    try {
+                        if (redirectionFile.exists())
+                            redirectionFile.delete();
+                        redirectionFile.createNewFile();
+                    } catch (Exception ignored) {
+                        redirection = false;
+                        redirectionFile = null;
+                    }
+
+                    //release sem
+                    redirectionSem.release();
                 }
             }
         }
@@ -1518,7 +1510,7 @@ public class InputHandler {
     }
 
     /**
-     * The final handle method for if all other handle methods failed
+     * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
         try {
