@@ -140,8 +140,8 @@ public class InputHandler {
         args = new ArrayList<>();
 
         //set args ArrayList
-        if (this.command.contains(" ")) {
-            String[] arrArgs = this.command.split(" ");
+        if ((this.command + " " + argsToString()).contains(" ")) {
+            String[] arrArgs = (this.command + " " + argsToString()).split(" ");
 
             //add all that have length greater than 0 after trimming
             // and that are not the first since that is "command"
@@ -150,9 +150,6 @@ public class InputHandler {
                     args.add(arrArgs[i].trim());
                 }
             }
-
-            //set command
-            this.command = arrArgs[0];
         }
 
         //log input as user triggered or simulated client input
@@ -162,10 +159,12 @@ public class InputHandler {
             SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
 
+        //todo redirection is fucked, fix me
+
         //check for requested redirection
         if (this.command.contains(" > ")) {
             //if has proper syntax for redirection
-            String[] ops = this.command.split(" > ");
+            String[] ops = (this.command + " " + argsToString()).split(" > ");
 
             //if not 2 then it's some random String
             if (ops.length == 2) {
@@ -1522,14 +1521,30 @@ public class InputHandler {
      */
     private void unknownInput() {
         println("Unknown command");
+        ConsoleFrame.getConsoleFrame().flashSuggestionButton();
 
         String mostSimilarCommand = "";
+        int correspondingLevenshtein = Integer.MAX_VALUE;
 
+        File commandsFile = new File("cyder/src/cyder/helperscripts/commands.txt");
 
+        if (commandsFile.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(commandsFile))) {
+                String line = "";
+
+                while ((line = br.readLine()) != null) {
+                    int currentLev = StringUtil.levenshteinDistance(line, command);
+                    if (currentLev < correspondingLevenshtein) {
+                        mostSimilarCommand = line;
+                        correspondingLevenshtein = currentLev;
+                    }
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
 
         println("Most similar command: " + mostSimilarCommand);
-
-        ConsoleFrame.getConsoleFrame().flashSuggestionButton();
     }
 
     //end handle methods --------------------------------

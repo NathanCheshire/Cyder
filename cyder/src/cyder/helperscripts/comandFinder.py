@@ -6,18 +6,24 @@
 import re
 import sys
 import os
+from difflib import SequenceMatcher as SM
 
 def main():
     args = sys.argv
 
     if (len(args) != 2):
-        print('Script usage: commandFinder.py path/to/output/txt')
+        print('Script usage: commandFinder.py COMMAND_TO_FIND_A_SIMILAR_ONE')
     else:
-        commands = []
+        similarCommand = ''
+        correspondingRatio = 0.0
 
+        #path to the file
         inputHandler = open(os.path.dirname(os.getcwd()) + "\\handlers\\internal\\InputHandler.java",'r')
+
+        #valid regexes to use, may need to add to this in the
         validRegs = [r'.*commandIs\("(.*)"\).*', r'.*commandMatches\("(.*)"\).*']
 
+        #get all lines of input handler
         lines = inputHandler.readlines()
 
         for part in lines:
@@ -25,18 +31,13 @@ def main():
                 for regex in validRegs:
                     comp = re.compile(regex)
                     for match in comp.findall(line):
-                        commands.append(match)
-  
-        print('Found', len(commands), 'commands')
+                        ratio = SM(None, match, args[1]).ratio()
 
-        save = open(args[1], 'w+')
-
-        commands.sort()
-
-        for line in commands:
-            save.write(line + '\n')
-
-        print('Saved as', args[1])
+                        if (ratio > correspondingRatio):
+                            correspondingRatio = ratio
+                            similarCommand = match
+        
+        print(similarCommand, ', ratio: ',correspondingRatio, sep ='')                
 
 if __name__ == "__main__":
     main()

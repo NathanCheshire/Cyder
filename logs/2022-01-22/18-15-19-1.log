@@ -32,3 +32,4 @@
 [18-15-23] [SYSTEM_IO]: Userdata requested: IntroMusic
 [18-15-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3292ms
 [18-15-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

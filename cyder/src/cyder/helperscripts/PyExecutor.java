@@ -19,8 +19,9 @@ public class PyExecutor {
      * Executes the provided python script.
      *
      * @param pythonScriptPath the path to the python script to execute
+     * @param args the arguments with the python script
      */
-    public static void executePy(String pythonScriptPath) {
+    public static void executePy(String pythonScriptPath, String... args) {
         //just to be safe, even though Runtime.getRuntime().exec() isn't safe to begin with
         if (!pythonScriptPath.endsWith(".py"))
             return;
@@ -31,8 +32,15 @@ public class PyExecutor {
                     String deviceString = null;
 
                     try {
+                        StringBuilder argBuilder = new StringBuilder();
+
+                        for (String arg : args) {
+                            argBuilder.append(arg).append(" ");
+                        }
+
                         //create and execute python script
-                        Process p = Runtime.getRuntime().exec("python " + pythonScriptPath);
+                        Process p = Runtime.getRuntime().exec(("python "
+                                + pythonScriptPath + " " + argBuilder).trim());
 
                         //get contents of output
                         BufferedReader inputReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
