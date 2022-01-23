@@ -35,6 +35,7 @@ public class TemperatureWidget implements WidgetBase {
         //multiple instances are allowed
     }
 
+    //todo allow multiple triggers, this should be backwards compatible now too
     @Widget(trigger = "temperature", description = "A temperature conversion widget for the three standard temperature units")
     public static void showGUI() {
         new TemperatureWidget().innerShowGUI();

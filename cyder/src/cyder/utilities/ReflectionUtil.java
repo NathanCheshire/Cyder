@@ -175,14 +175,12 @@ public class ReflectionUtil {
      * @return whether or not a widget was opened
      */
     public static boolean openWidget(String trigger) {
-        //todo make a json for this
+        //todo handle multiple triggers here too
 
         //todo expand sys.json to smaller components so that you don't parse all that shit at once
         // it'll be easier to read this way
 
-        //todo also make a devs script thing in python to find all classes that have the annotation
-        // with correct params and create a string array that you can copy over before compiling jars and such
-
+        //todo json for this, I guess we need a jsons package
         String[] packagesWithWidgetAnnotations = new String[]
                 {"cyder.widgets", "cyder.utilities", "cyder.handlers.external", "cyder.games","cyder.cyderuser"};
 

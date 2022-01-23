@@ -493,7 +493,7 @@ public class StatUtil {
     }
 
     public static void findBadWords() {
-        innerFindBadWords(new File("src"));
+        innerFindBadWords(new File("cyder"));
     }
 
     private static void innerFindBadWords(File startDir) {
@@ -502,12 +502,15 @@ public class StatUtil {
 
             for (File f : files)
                 innerFindBadWords(f);
-        } else if (startDir.getName().endsWith(".java")) {
+        } else if (startDir.isFile() && !StringUtil.getFilename(startDir.getName()).equals("v.txt")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line = "";
 
                 while ((line = lineReader.readLine()) != null) {
+                    if (StringUtil.getFilename(startDir.getName()).equals("ReflectionUtil.java"))
+                        System.out.println(line);
+
                     if (isComment(line) && StringUtil.filterLanguage(line,false)) {
                        ConsoleFrame.getConsoleFrame().getInputHandler().println(
                                StringUtil.getFilename(startDir.getName()) + ": " + line.trim());
