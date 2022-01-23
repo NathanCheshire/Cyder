@@ -236,6 +236,9 @@ public class ReflectionUtil {
         return null;
     }
 
+    /**
+     * Executor service used to find a similar command utilizing commandFinder.py
+     */
     private static ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Similar Command Finder"));
 
@@ -246,16 +249,22 @@ public class ReflectionUtil {
      * @return the most similar command to the one provided
      */
     public static Future<Optional<String>> getSimilarCommand(String command) {
-        //TODO log comand and corresponding input before returning command
         return executor.submit(() -> {
             Optional<String> ret = Optional.empty();
 
             try {
-                //create and execute python script
-                Process p = Runtime.getRuntime().exec(
-                        ("python cyder/src/cyder/helperscripts/commandFinder.py " + command).trim());
+                Runtime rt = Runtime.getRuntime();
+                String[] commands = {"python", "cyder/src/cyder/helperscripts/commandFinder.py", command};
+                Process proc = rt.exec(commands);
 
-                //todo get ret contents of p "command,tol"
+                BufferedReader stdInput = new BufferedReader(new
+                        InputStreamReader(proc.getInputStream()));
+
+                String s = null;
+                while ((s = stdInput.readLine()) != null) {
+                    ret = Optional.of(s);
+                    break;
+                }
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }

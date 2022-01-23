@@ -1535,8 +1535,20 @@ public class InputHandler {
             if (similarCommand.get().isPresent()) {
                 String simCom = similarCommand.get().get();
 
-                if (!StringUtil.isNull(simCom))
-                    println("Most similar command: " + simCom);
+                if (!StringUtil.isNull(simCom)) {
+                    assert simCom.contains(",");
+                    String[] parts = simCom.split(",");
+                    assert parts.length == 2;
+
+                    float tol = Float.parseFloat(parts[1]);
+
+                    SessionHandler.log(SessionHandler.Tag.ACTION, "Similar command to \""
+                            + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
+
+                    if (tol > 0.85) {
+                        println("Most similar command: \"" + parts[0] + "\"");
+                    }
+                }
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

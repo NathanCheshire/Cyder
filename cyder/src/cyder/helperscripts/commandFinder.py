@@ -17,10 +17,8 @@ def main():
         similarCommand = ''
         correspondingRatio = 0.0
 
-        print(os.listdir('..\\handlers\\internal'))
-
         #path to the file
-        inputHandler = open("..\\handlers\\internal\\InputHandler.java",'r')
+        inputHandler = open("cyder\\src\\cyder\\handlers\\internal\\InputHandler.java",'r')
 
         #valid regexes to use, may need to add to this in the
         validRegs = [r'.*commandIs\("(.*)"\).*']
@@ -43,4 +41,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    sys.exit(69) 
