@@ -13,6 +13,7 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
+import cyder.widgets.WidgetBase;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -37,7 +38,7 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class UserEditor {
+public class UserEditor implements WidgetBase {
     private static CyderFrame editUserFrame;
 
     private static CyderButton addMusicBackground;
@@ -61,11 +62,18 @@ public class UserEditor {
     private static JLabel switchingLabel;
     private static int prefsPanelIndex;
 
+    /**
+     * No instances of user editor are allowed
+     */
     private UserEditor() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
     @Widget(trigger = "prefs", description = "A widget to edit your user preferences and files")
+    public static void showGUI() {
+        showGUI(0);
+    }
+
     public static void showGUI(int startingIndex) {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "PREFS");
 

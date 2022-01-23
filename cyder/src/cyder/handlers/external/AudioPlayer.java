@@ -87,9 +87,6 @@ public class AudioPlayer implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    //todo make sure anything with an @Widget annotation follows this
-    // if it needs param have a default one that is the tagged one for the reflector to find
-
     /**
      * Method for widget finder to invoke by using reflection to find the Widget annotation
      */

@@ -106,13 +106,6 @@ public class InputHandler {
         BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
     }
 
-    //todo if command is not found attempt to find most similar one and if threshhold is 80% or above
-    // then print that command as a suggestion
-
-    //todo hwo would this even be matched? what can you parameterize?
-    // if you can do indivial lines then maybe a python script to extract string args
-    // from all commandIs("COMMAND EXTRACT HERE") and the paste in a json is the way to go
-
     /**
      * Handles preliminaries such as assumptions before passing input data to the subHandle methods.
      * Also sets the ops array to the found command and arguments
@@ -136,6 +129,7 @@ public class InputHandler {
 
         //trim command
         command = command.trim();
+        this.command = command;
 
         //reset args
         args = new ArrayList<>();
@@ -221,7 +215,7 @@ public class InputHandler {
         //primary checks
         else if (generalPrintsCheck() ||
                 printImageCheck() ||
-                ReflectionUtil.openWidget((command.trim() + " " + argsToString().trim()).trim()) ||
+                ReflectionUtil.openWidget((argsAndCommandToString()).trim()) ||
                 cyderFrameMovementCheck() ||
                 externalOpenerCheck() ||
                 audioCommandCheck() ||
@@ -698,13 +692,17 @@ public class InputHandler {
             } else {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
-        } else if (commandIs("pixelate")) {
+        } else if (commandIs("pixelate") && checkArgsLength(0)) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
                 println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
                         "is a solid color :P");
             } else {
                 new Thread(() -> {
-                    String input = new GetterUtil().getString("Pixel size","Enter any integer", "Pixelate");
+                    String input =
+                            new GetterUtil().getString("Pixel size","Enter any integer", "Pixelate");
+
+                    if (StringUtil.isNull(input))
+                        return;
 
                     try {
                         int pixelSize = Integer.parseInt(input);

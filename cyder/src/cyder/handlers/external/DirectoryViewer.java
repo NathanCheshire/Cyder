@@ -13,6 +13,7 @@ import cyder.ui.CyderScrollList;
 import cyder.ui.CyderTextField;
 import cyder.utilities.IOUtil;
 import cyder.utilities.SystemUtil;
+import cyder.widgets.WidgetBase;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -22,7 +23,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Stack;
 
-public class DirectoryViewer {
+public class DirectoryViewer implements WidgetBase {
     //all ui elements
     private static CyderFrame dirFrame;
     private static CyderTextField dirField;

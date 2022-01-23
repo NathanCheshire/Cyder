@@ -190,7 +190,7 @@ public class HangmanGame {
 
             if (!HangmanLabel.getText().contains("_")) {
                 HangmanLabel.setFont(CyderFonts.segoe20);
-                HangmanLabel.setText("<html>Good job! You guessed the word \"" + HangmanWord + "\" Would you like to startAudio again?</html>");
+                HangmanLabel.setText("<html>Good job! You guessed the word \"" + HangmanWord + "\" Would you like to start again?</html>");
                 letterField.setEnabled(false);
 
                 HangmanReset.setText("Play Again");
@@ -201,7 +201,7 @@ public class HangmanGame {
             if (HangmanWrongGuesses == 7) {
                 HangmanImageLabel.setIcon(new ImageIcon("static/pictures/hangman/hangman8.png"));
                 HangmanLabel.setFont(CyderFonts.segoe20);
-                HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + "\" Would you like to startAudio again?</html>");
+                HangmanLabel.setText("<html>Game over! You were unable to guess \"" + HangmanWord + "\" Would you like to start again?</html>");
 
                 HangmanReset.setText("Play Again");
 

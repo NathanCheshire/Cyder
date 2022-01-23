@@ -29,8 +29,13 @@ public class HashingWidget implements WidgetBase {
         //multiple widgets should be allowed
     }
 
-    @Widget(trigger = "hash", description = "A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1")
-    public void showGUI() {
+    @Widget(trigger = "hash", description =
+            "A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1")
+    public static void showGUI() {
+        new HashingWidget().innerShowGUI();
+    }
+
+    public void innerShowGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "HASH");
 
         algorithms.add("SHA-256");

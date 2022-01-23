@@ -39,7 +39,7 @@ public class ClickWidget implements WidgetBase {
             dismiss.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    clickMeFrame.dispose();
+                    clickMeFrame.dispose(true);
                     showGUI();
                 }
 

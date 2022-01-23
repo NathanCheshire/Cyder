@@ -13,6 +13,7 @@ import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
+import cyder.widgets.WidgetBase;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class UserCreator {
+public class UserCreator implements WidgetBase {
     private static CyderFrame createUserFrame;
     private static CyderPasswordField newUserPasswordconf;
     private static CyderPasswordField newUserPassword;
@@ -34,6 +35,9 @@ public class UserCreator {
     private static CyderButton chooseBackground;
     private static File createUserBackground;
 
+    /**
+     * No instances of user creator allowed.
+     */
     private UserCreator() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

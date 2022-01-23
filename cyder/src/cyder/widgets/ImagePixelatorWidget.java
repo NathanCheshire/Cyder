@@ -39,6 +39,10 @@ public class ImagePixelatorWidget implements WidgetBase {
 
     @Widget(trigger = "pixelate picture", description = "A simple image pixelator widget that transforms" +
             " the image into an image depicted of the specified number of pixels")
+    public static void showGUI() {
+        showGUI(null);
+    }
+
     public static void showGUI(File startPNG) {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "IMAGE PIXELATOR");
 

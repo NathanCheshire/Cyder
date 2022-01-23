@@ -94,11 +94,14 @@ public class WeatherWidget implements WidgetBase {
     public WeatherWidget() {
         //multiple widgets are allowed
     }
-
     //show gui method as per standard
     @Widget(trigger = "weather", description = "A widget that displays weather data for the current " +
             "city you are in. The location is also changeable")
-    public void showGUI() {
+    public static void showGUI() {
+        new WeatherWidget().innerShowGUI();
+    }
+
+    public void innerShowGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "WEATHER");
 
         if (GenesisShare.isQuesitonableInternet()) {
@@ -196,6 +199,9 @@ public class WeatherWidget implements WidgetBase {
             changeLocField.addActionListener(e1 -> changeLoc.doClick());
             changeLoc.addActionListener(e12 -> {
                 try {
+                    if (changeLocField.getText().trim().length() < 1)
+                        return;
+
                     oldLocation = locationString;
                     String[] parts = changeLocField.getText().split(",");
 

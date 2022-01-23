@@ -28,12 +28,19 @@ public class TemperatureWidget implements WidgetBase {
     private CyderCheckbox oldKelvin;
     private CyderCheckbox newKelvin;
 
+    /**
+     * Temperature converter widget to convert between kelvin, fahrenheit, and celsius
+     */
     public TemperatureWidget() {
         //multiple instances are allowed
     }
 
     @Widget(trigger = "temperature", description = "A temperature conversion widget for the three standard temperature units")
-    public void showGUI() {
+    public static void showGUI() {
+        new TemperatureWidget().innerShowGUI();
+    }
+
+    public void innerShowGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "TEMPERATURE");
 
         if (temperatureFrame != null)

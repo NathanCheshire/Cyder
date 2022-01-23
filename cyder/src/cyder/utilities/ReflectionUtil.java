@@ -175,10 +175,6 @@ public class ReflectionUtil {
      * @return whether or not a widget was opened
      */
     public static boolean openWidget(String trigger) {
-        //todo loop for all packages and subpackages
-        //todo some widgets can't be invoked due to multiple instances being allowed
-        // the showGUI method should always be static
-
         //todo make a json for this
 
         //todo expand sys.json to smaller components so that you don't parse all that shit at once
@@ -188,7 +184,7 @@ public class ReflectionUtil {
         // with correct params and create a string array that you can copy over before compiling jars and such
 
         String[] packagesWithWidgetAnnotations = new String[]
-                {"cyder.widgets", "cyder.utilities", "cyder.handlers.external"};
+                {"cyder.widgets", "cyder.utilities", "cyder.handlers.external", "cyder.games","cyder.cyderuser"};
 
         for (String pack: packagesWithWidgetAnnotations) {
             for (Class classer : findAllClassesUsingClassLoader(pack)) {
@@ -203,7 +199,8 @@ public class ReflectionUtil {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(classer);
                                     return true;
-                                } else throw new IllegalStateException("Found widget showGUI() method with parameters");
+                                } else throw new IllegalStateException("Found widget showGUI()" +
+                                        " method with parameters: " + m.getName() + ", class: " + classer);
                             } catch (Exception e) {
                                 ExceptionHandler.handle(e);
                             }
