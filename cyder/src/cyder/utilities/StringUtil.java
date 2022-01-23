@@ -939,4 +939,30 @@ public class StringUtil {
                 nullCheck.equalsIgnoreCase("NUL") ||
                 nullCheck.equalsIgnoreCase("NULL");
     }
+
+    /**
+     * Determines how closely string alpha is to string beta. Lower numbers mean a closer match
+     *
+     * @param alpha the base string
+     * @param beta the string to test for similarity against alpha
+     * @return how close beta is to alpha
+     */
+    public static int LevenshteinDistance(String alpha, String beta) {
+        if (alpha.isEmpty()) {
+            return beta.length();
+        }
+
+        if (beta.isEmpty()) {
+            return alpha.length();
+        }
+
+        int substitution = LevenshteinDistance(alpha.substring(1), beta.substring(1))
+                + alpha.charAt(0) == beta.charAt(0) ? 0 : 1;
+
+        int insertion = LevenshteinDistance(alpha, beta.substring(1)) + 1;
+        int deletion = LevenshteinDistance(alpha.substring(1), beta) + 1;
+
+        return Arrays.stream(
+                new int[] {substitution, insertion, deletion}).min().orElse(Integer.MAX_VALUE);
+    }
 }

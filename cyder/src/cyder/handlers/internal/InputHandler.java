@@ -1522,6 +1522,13 @@ public class InputHandler {
      */
     private void unknownInput() {
         println("Unknown command");
+
+        String mostSimilarCommand = "";
+
+
+
+        println("Most similar command: " + mostSimilarCommand);
+
         ConsoleFrame.getConsoleFrame().flashSuggestionButton();
     }
 
