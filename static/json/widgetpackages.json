@@ -1,0 +1,9 @@
+{
+  "pack": [
+    "cyder.widgets",
+    "cyder.utilities",
+    "cyder.handlers.external",
+    "cyder.games",
+    "cyder.cyderuser"
+  ]
+}

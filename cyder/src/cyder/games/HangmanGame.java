@@ -144,7 +144,7 @@ public class HangmanGame {
 
         chosenLetters = "";
 
-        try (BufferedReader br = new BufferedReader(new FileReader("static/text/hangman.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("static/csv/hangman.csv"))) {
             String[] doc = br.readLine().split(",");
             HangmanWord = doc[NumberUtil.randInt(0, doc.length - 1)].toLowerCase().trim();
 

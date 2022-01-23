@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
@@ -10,9 +11,7 @@ import cyder.ui.CyderFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -175,19 +174,20 @@ public class ReflectionUtil {
      * @return whether or not a widget was opened
      */
     public static boolean openWidget(String trigger) {
+        //todo autocyphering... label is not tall enough
+
         //todo handle multiple triggers here too
 
         //todo expand sys.json to smaller components so that you don't parse all that shit at once
         // it'll be easier to read this way
 
-        //todo json for this, I guess we need a jsons package
-        String[] packagesWithWidgetAnnotations = new String[]
-                {"cyder.widgets", "cyder.utilities", "cyder.handlers.external", "cyder.games","cyder.cyderuser"};
+        //todo perhaps parse jsons method
 
-        for (String pack: packagesWithWidgetAnnotations) {
-            for (Class classer : findAllClassesUsingClassLoader(pack)) {
+        for (String widget : widgets.getPack()) {
+            for (Class classer : findAllClassesUsingClassLoader(widget)) {
                 for (Method m : classer.getMethods()) {
                     if (m.isAnnotationPresent(Widget.class)) {
+                        //todo make this a list that you can iterate through
                         String widgetTrigger = m.getAnnotation(Widget.class).trigger();
 
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
@@ -266,5 +266,41 @@ public class ReflectionUtil {
 
             return ret;
         });
+    }
+
+    public static WidgetHolder widgets = null;
+
+    static {
+        loadWidgets();
+    }
+
+    public static void loadWidgets() {
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader("static/json/widgetpackages.json")) {
+            WidgetHolder ret = gson.fromJson(reader, WidgetHolder.class);
+
+            //if successful set as our suggestions object
+            widgets = ret;
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    //inner class
+    public static class WidgetHolder {
+        private ArrayList<String> pack;
+
+        public WidgetHolder(ArrayList<String> pack) {
+            this.pack = pack;
+        }
+
+        public ArrayList<String> getPack() {
+            return pack;
+        }
+
+        public void setPack(ArrayList<String> pack) {
+            this.pack = pack;
+        }
     }
 }

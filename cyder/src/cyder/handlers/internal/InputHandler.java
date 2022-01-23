@@ -2547,6 +2547,6 @@ public class InputHandler {
         finishPrinting = true;
 
         //inform user we escaped
-        consolePriorityPrintingList.add("Escaped\n");
+        consolePrintingList.add("Escaped\n");
     }
 }

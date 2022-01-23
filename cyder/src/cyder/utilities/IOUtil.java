@@ -263,7 +263,7 @@ public class IOUtil {
 
     private static LinkedList<Suggestion> suggestions = null;
 
-    private static String helpFilePath = "static/help.json";
+    private static String helpFilePath = "static/json/help.json";
 
     static {
         loadSuggestions();

@@ -679,7 +679,7 @@ public class StringUtil {
         if (filterLeet)
             input = filterLeet(input.toLowerCase());
 
-        try (BufferedReader vReader = new BufferedReader(new FileReader("static/text/v.txt"))) {
+        try (BufferedReader vReader = new BufferedReader(new FileReader("static/txt/v.txt"))) {
             String blockedWord;
 
             while ((blockedWord = vReader.readLine()) != null) {

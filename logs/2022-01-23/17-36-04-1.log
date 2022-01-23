@@ -1,0 +1,27 @@
+[17-36-04] [ENTRY]: [Nathan]
+[17-36-04] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-36-04] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-36-06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-36-06] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-36-07] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-36-07] [SYSTEM_IO]: Userdata requested: Name
+[17-36-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-36-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-36-07] [SYSTEM_IO]: Userdata requested: Name
+[17-36-07] [SYSTEM_IO]: Userdata requested: Foreground
+[17-36-07] [SYSTEM_IO]: Userdata requested: Foreground
+[17-36-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-36-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-36-07] [SYSTEM_IO]: Userdata requested: Foreground
+[17-36-07] [SYSTEM_IO]: Userdata requested: Font
+[17-36-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-36-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-36-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-36-07] [SYSTEM_IO]: Userdata requested: Foreground
+[17-36-07] [SYSTEM_IO]: Userdata requested: Foreground
+[17-36-07] [SYSTEM_IO]: Userdata requested: Foreground
+[17-36-07] [SYSTEM_IO]: Userdata requested: Font
+[17-36-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-36-07] [SYSTEM_IO]: Userdata requested: InputFill
+[17-36-15] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1553843510], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
