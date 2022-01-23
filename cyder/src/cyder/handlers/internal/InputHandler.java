@@ -9,8 +9,8 @@ import cyder.enums.ScreenPosition;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
-import cyder.objects.MultiString;
 import cyder.helperscripts.PyExecutor;
+import cyder.objects.MultiString;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
@@ -279,7 +279,7 @@ public class InputHandler {
             } else {
                 println("It's Tails!");
             }
-        } else if (commandMatches("^hello") || commandMatches("^hi")) {
+        } else if (commandIs("hello") || commandIs("hi")) {
             int choice = NumberUtil.randInt(1, 7);
 
             switch (choice) {
@@ -316,7 +316,7 @@ public class InputHandler {
             println(TimeUtil.weatherTime());
         } else if (commandIs("lol")) {
             println("My memes are better.");
-        } else if (commandMatches("thanks?")) {
+        } else if (commandIs("thanks")) {
             println("You're welcome.");
         }  else if (commandIs("name")) {
             println("My name is Cyder. I am a tool built by Nathan Cheshire for programmers/advanced users.");
@@ -1520,31 +1520,27 @@ public class InputHandler {
      * The final handle method for if all other handle methods failed
      */
     private void unknownInput() {
-        println("Unknown command");
-        ConsoleFrame.getConsoleFrame().flashSuggestionButton();
+        try {
+            println("Unknown command");
+            ConsoleFrame.getConsoleFrame().flashSuggestionButton();
 
-        String mostSimilarCommand = "";
-        int correspondingLevenshtein = Integer.MAX_VALUE;
+            Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
 
-        File commandsFile = new File("cyder/src/cyder/helperscripts/commands.txt");
-
-        if (commandsFile.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(commandsFile))) {
-                String line = "";
-
-                while ((line = br.readLine()) != null) {
-                    int currentLev = StringUtil.levenshteinDistance(line, command);
-                    if (currentLev < correspondingLevenshtein) {
-                        mostSimilarCommand = line;
-                        correspondingLevenshtein = currentLev;
-                    }
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            //wait for script to finish
+            while (!similarCommand.isDone()) {
+                Thread.onSpinWait();
             }
-        }
 
-        println("Most similar command: " + mostSimilarCommand);
+            //if future returned and not null/empty value
+            if (similarCommand.get().isPresent()) {
+                String simCom = similarCommand.get().get();
+
+                if (!StringUtil.isNull(simCom))
+                    println("Most similar command: " + simCom);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     //end handle methods --------------------------------
@@ -1588,6 +1584,22 @@ public class InputHandler {
      */
     public String argsToString() {
         StringBuilder sb = new StringBuilder();
+
+        for (int i = 0 ; i < args.size() ; i++) {
+            sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Returns the original user input, that of command followed by the arguments.
+     *
+     * @return the original user input, that of command followed by the arguments
+     */
+    public String argsAndCommandToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(command.trim()).append(" ");
 
         for (int i = 0 ; i < args.size() ; i++) {
             sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
@@ -2371,28 +2383,6 @@ public class InputHandler {
      */
     private boolean commandIs(String compare) {
         return command.equalsIgnoreCase(compare);
-    }
-
-    /**
-     * Determines if the current command matches the provided regex.
-     *
-     * @param regex the regex to match the current command to
-     * @return whether the current command matches the provided regex.
-     */
-    private boolean commandMatches(String regex) {
-        return command.matches(regex);
-    }
-
-    /**
-     * Determines if the current command matches the provided regex ignoreing case.
-     * Pass in the regex assuming values are lowercase as this method
-     * invokes toLowerCase() on command.
-     *
-     * @param regex the regex to match the current command to
-     * @return whether the current command matches the provided regex.
-     */
-    private boolean commandMatchesIgnorecase(String regex) {
-        return command.toLowerCase().matches(regex);
     }
 
     /**

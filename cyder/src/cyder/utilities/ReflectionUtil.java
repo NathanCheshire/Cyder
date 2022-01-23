@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.objects.MultiString;
+import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
@@ -14,7 +15,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class ReflectionUtil {
@@ -229,5 +234,33 @@ public class ReflectionUtil {
         }
 
         return null;
+    }
+
+    private static ExecutorService executor = Executors.newSingleThreadExecutor(
+            new CyderThreadFactory("Similar Command Finder"));
+
+    /**
+     * Finds the most similar command to the unrecognized one the user provided.
+     *
+     * @param command the command to find a similar one to
+     * @return the most similar command to the one provided
+     */
+    public static Future<Optional<String>> getSimilarCommand(String command) {
+        //TODO log comand and corresponding input before returning command
+        return executor.submit(() -> {
+            Optional<String> ret = Optional.empty();
+
+            try {
+                //create and execute python script
+                Process p = Runtime.getRuntime().exec(
+                        ("python cyder/src/cyder/helperscripts/commandFinder.py " + command).trim());
+
+                //todo get ret contents of p "command,tol"
+            } catch (Exception e) {
+                ExceptionHandler.silentHandle(e);
+            }
+
+            return ret;
+        });
     }
 }
