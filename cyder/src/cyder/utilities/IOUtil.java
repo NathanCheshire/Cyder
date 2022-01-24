@@ -27,15 +27,22 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class IOUtil {
+    /**
+     * No objects of util methods allowed.
+     */
     private IOUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } //private constructor to avoid object creation
+    }
 
+    /**
+     * Player used to play general audio files that may be user terminated.
+     */
     private static Player player;
 
     /**
      * Opens the provided file outside of the program regardless of whether or not a
-     * handler exists for the file type
+     * handler exists for the file (e.g.: TextHandler, AudioPlayer, etc.).
+     *
      * @param filePath the path to the file to open
      */
     public static void openFileOutsideProgram(String filePath) {
@@ -56,7 +63,8 @@ public class IOUtil {
     }
 
     /**
-     * Determines whether or not the provided string is a link or a file/directory path and then opens it
+     * Determines whether or not the provided string is a link or a file/directory path and then opens it.
+     *
      * @param fileOrLink the link/file to open
      */
     public static void openOutsideProgram(String fileOrLink) {
@@ -79,7 +87,8 @@ public class IOUtil {
     }
 
     /**
-     * Creates the provided temporary file in the temp directory and writes the given string lines to it
+     * Creates the provided temporary file in the temp directory and writes the given string lines to it.
+     *
      * @param filename the name of the file to create
      * @param extension the extension of the file to create
      * @param lines the Strings to write to the file
@@ -114,7 +123,7 @@ public class IOUtil {
     }
 
     /**
-     * Deletes the temperary directory if it exists
+     * Deletes the temperary directory if it exists.
      */
     public static void deleteTempDir() {
         try {
@@ -125,6 +134,9 @@ public class IOUtil {
         }
     }
 
+    /**
+     * The file path to the sys json file.
+     */
     private static String sysFilePath = "static/sys.json";
 
     //determines whether or not the sys.json file exists, is parsable, and contains non-null fields
@@ -175,19 +187,26 @@ public class IOUtil {
     }
 
     /**
-     * Returns the SystemData object representing all the system data located in sys.json
+     * Returns the SystemData object representing all the system data located in sys.json.
+     *
      * @return the SystemData object
      */
     public static SystemData getSystemData() {
         return sd;
     }
 
+    /**
+     * The SystemData object.
+     */
     private static SystemData sd = null;
 
     static {
         loadSystemData();
     }
 
+    /**
+     * Loads the system data.
+     */
     private static void loadSystemData() {
         SystemData ret = null;
         Gson gson = new Gson();
@@ -206,6 +225,7 @@ public class IOUtil {
 
     /**
      * Writes the provided SystemData object to sys.json, overriding whatever object is represented there.
+     *
      * @param sd the SystemData object to write
      */
     public static void setSystemData(SystemData sd) {
@@ -224,7 +244,8 @@ public class IOUtil {
 
     /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
-     * Appends JVM Command Line Arguments along with the start location to the log
+     * Appends JVM Command Line Arguments along with the start location to the log.
+     *
      * @param cyderArgs command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
@@ -262,14 +283,23 @@ public class IOUtil {
         return suggestions;
     }
 
+    /**
+     * Suggestions list of suggestions to prompt a user.
+     */
     private static LinkedList<Suggestion> suggestions = null;
 
+    /**
+     * The path to help.json
+     */
     private static String helpFilePath = "static/json/help.json";
 
     static {
         loadSuggestions();
     }
 
+    /**
+     * Loads the suggestions into memory.
+     */
     private static void loadSuggestions() {
         LinkedList<Suggestion> ret = null;
         Gson gson = new Gson();
@@ -319,7 +349,7 @@ public class IOUtil {
     }
 
     /**
-     * Clean the users/ dir of any possibly corrupted or invalid user folders
+     * Clean the users/ dir of any possibly corrupted or invalid user folders.
      */
     public static void cleanUsers() {
         File users = new File("dynamic/users");
@@ -340,17 +370,22 @@ public class IOUtil {
     }
 
     /**
-     * Attempts to fix any user files that may be outdated via preference injection
+     * Attempts to fix any user files that may be outdated via preference injection.
      */
     public static void fixUsers() {
+        //all users
         File users = new File("dynamic/users");
 
+        //for all files
         for (File user : users.listFiles()) {
+            //file userdata
             File json = new File(user + "/userdata.json");
 
             if (json.exists()) {
+                //attempt to update the json
                 boolean success = UserUtil.updateOldJson(json);
 
+                //if it fails then delete the json
                 if (!success) {
                     json.delete();
                     UserUtil.userJsonDeleted(StringUtil.getFilename(user));
@@ -360,7 +395,8 @@ public class IOUtil {
      }
 
     /**
-     * Opens the provided file, possibly inside of the program if a handler exists for it
+     * Opens the provided file, possibly inside of the program if a handler exists for it.
+     *
      * @param FilePath the path to the file to open
      */
     public static void openFile(String FilePath) {
@@ -396,8 +432,9 @@ public class IOUtil {
     }
 
     /**
-     * Plays the requested mp3 audio file using the general IOUtil JLayer player
-     * @param FilePath the path to the mp3 file to play
+     * Plays the requested audio file using the general IOUtil JLayer player which can be terminated by the user.
+     *
+     * @param FilePath the path to the audio file to play
      */
     public static void playAudio(String FilePath) {
         try {
@@ -422,13 +459,19 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Returns whether or not general audio is playing.
+     *
+     * @return whether or not general audio is playing
+     */
     public static boolean generalAudioPlaying() {
         return player != null && !player.isComplete();
     }
 
     /**
-     * Plays the requested system audio file using a new JLayer player
+     * Plays the requested audio file using a new JLayer Player object.
      *      (this cannot be stopped util the mpeg is finished)
+     *
      * @param FilePath the path to the mp3 file to play
      */
     public static void playSystemAudio(String FilePath) {
@@ -451,7 +494,7 @@ public class IOUtil {
     }
 
     /**
-     * Stops the audio currently playing that is absent of an AudioPlayer object
+     * Stops the audio currently playing. Note that this does not include any system audio or AudioPlayer widget audio.
      */
     public static void stopAudio() {
         try {
@@ -468,7 +511,7 @@ public class IOUtil {
     }
 
     /**
-     * Stops any and all audio playing either through flash player or the general IOUtil JLayer player
+     * Stops any and all audio playing either through the audio player or the general player.
      */
     public static void stopAllAudio() {
         if (IOUtil.generalAudioPlaying()) {
@@ -479,7 +522,7 @@ public class IOUtil {
     }
 
     /**
-     * Pause audio if playing via flash player
+     * Pause audio if playing via AudioPlayer.
      */
     public static void pauseAudio() {
         if (AudioPlayer.audioPlaying()) {
@@ -502,7 +545,8 @@ public class IOUtil {
     }
 
     /**
-     * Changes the current user from console frame's password to the provided password
+     * Changes the current user from console frame's password to the provided password.
+     *
      * @param newPassword the raw char[] new password to hash and store
      */
     public static void changePassword(char[] newPassword) {
@@ -515,7 +559,8 @@ public class IOUtil {
     }
 
     /**
-     * Gets DOS attributes of the provided file
+     * Gets DOS attributes of the provided file.
+     *
      * @param file the file to obtain the attributes of
      * @return the DOS attributes in the following order: isArchive, isHidden,
      *              isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
@@ -544,7 +589,8 @@ public class IOUtil {
     }
 
     /**
-     * Returns the size of the provided file in bytes
+     * Returns the size of the provided file in bytes.
+     *
      * @param f the file to calculate the size of
      * @return the size in bytes of the file
      */
@@ -560,7 +606,8 @@ public class IOUtil {
     }
 
     /**
-     * Returns a binary string from the provided binary file
+     * Returns a binary string for the provided binary file.
+     *
      * @param f the binary file of pure binary contents
      * @return the String of binary data from the file
      */
@@ -586,7 +633,8 @@ public class IOUtil {
     }
 
     /**
-     * Returns a hex string from the provided binary file
+     * Returns a hex string for the provided binary file.
+     *
      * @param f the binary file of pure binary contents
      * @return the String of hex data from the file
      */
@@ -617,7 +665,8 @@ public class IOUtil {
     }
 
     /**
-     * Handles the sandbox and it's files depending on the computer we are on
+     * Handles the sandbox and it's files depending on whether or not Cyder is in development
+     * or production mode.
      */
     public static void cleanSandbox() {
         if (!SecurityUtil.nathanLenovo()) {
@@ -643,7 +692,7 @@ public class IOUtil {
     }
 
     /**
-     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1 most likely)
+     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1)
      * as a result of an IDE stop or OS Task Manager Stop.
      */
     public static void fixLogs() {
@@ -680,13 +729,12 @@ public class IOUtil {
     }
 
     /**
-     * Used to test for Nathan being an idiot and having duplicate exit condition codes
+     * Used to test for Nathan being an idiot and having duplicate exit condition codes.
+     *
      * @return - boolean describing whether or not Nathan messed up
      */
     public static boolean checkForExitCollisions() {
         boolean ret = false;
-
-        //todo parse exit conditions here
 
         //if there are exit conditions with the same number exit and inform
         LinkedList<Integer> exitCodes = new LinkedList<>();
@@ -704,8 +752,16 @@ public class IOUtil {
         return ret;
     }
 
+    /**
+     * Exit conditions ArrayList.
+     */
     private static ArrayList<ExitCondition> exitConditions = null;
 
+    /**
+     * Returns the ArrayList of ExitCodes which contain the integer code and a description String.
+     *
+     * @return the ArrayList of ExitCodes which contain the integer code and a description String
+     */
     public static ArrayList<ExitCondition> getExitConditions() {
         return exitConditions;
     }
@@ -714,6 +770,9 @@ public class IOUtil {
         loadExitConditions();
     }
 
+    /**
+     * Loads the exit conditions ArrayList into memory.
+     */
     public static void loadExitConditions() {
         ArrayList<ExitCondition> ret = null;
         Gson gson = new Gson();
@@ -734,7 +793,8 @@ public class IOUtil {
 
     /**
      * Determines whether or not the provided String is a valid filename by
-     * comparing it to a regex for valid chars
+     * comparing it to a regex for valid chars.
+     *
      * @param fileName the filename to validate
      * @return whether or not fileName was a valid filename
      */
@@ -777,7 +837,9 @@ public class IOUtil {
         return ret;
     }
 
-    //system data class
+    /**
+     * SystemData class used by sys.json, no lists should be contained within SystemData.
+     */
     public static class SystemData {
         private boolean released;
         private String version;
@@ -885,7 +947,7 @@ public class IOUtil {
             return ReflectionUtil.commonCyderToString(this);
         }
 
-        //inner classes
+        //inner classes todo remove this
 
         public static class Hash {
             private String name;
@@ -914,6 +976,9 @@ public class IOUtil {
         }
     }
 
+    /**
+     * Suggestion class used to store and output command suggestions to the user.
+     */
     public static class Suggestion {
         private String command;
         private String result;
@@ -958,6 +1023,9 @@ public class IOUtil {
         }
     }
 
+    /**
+     * ExitCondition used for exiting Cyder in a controlled way.
+     */
     public static class ExitCondition {
         private int code;
         private String description;

@@ -740,7 +740,7 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (commandIs("analyzecode")) {
             new Thread(() -> {
-                File startDir = new File("src");
+                File startDir = new File("cyder");
 
                 int totalLines = StatUtil.totalLines(startDir);
                 int codeLines = StatUtil.totalJavaLines(startDir);
@@ -921,13 +921,13 @@ public class InputHandler {
         } else if (commandIs("help")) {
             help();
         } else if (commandIs("todos")) {
-            int total = StatUtil.totalTodos(new File("src"));
+            int total = StatUtil.totalTodos(new File("cyder"));
 
             if (total > 0) {
                 println("Total todos: " + total);
                 println("Todos:");
                 println("----------------------------------------");
-                println(StatUtil.getTodos(new File("src")));
+                println(StatUtil.getTodos(new File("cyder")));
             } else {
                 println("No todos found, good job");
             }
@@ -1196,7 +1196,7 @@ public class InputHandler {
                 }
             }, "GitHub issue printer").start();
         } else if (commandIs("exitcodes")) {
-            for (IOUtil.SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
+            for (IOUtil.ExitCondition exitCondition : IOUtil.getExitConditions()) {
                 println(exitCondition.getCode() + ": " + exitCondition.getDescription());
             }
         } else if (commandIs("blackpanther")|| commandIs("chadwickboseman")) {
