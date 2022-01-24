@@ -273,7 +273,7 @@ public class IOUtil {
     }
 
     /**
-     * Returns the linked list of suggestions loaded from help.json
+     * Returns the linked list of suggestions loaded from helps.json
      *
      * @return a linked list of Suggestion objects
      */
@@ -289,9 +289,9 @@ public class IOUtil {
     private static LinkedList<Suggestion> suggestions = null;
 
     /**
-     * The path to help.json
+     * The path to helps.json
      */
-    private static String helpFilePath = "static/json/help.json";
+    private static String helpFilePath = "static/json/helps.json";
 
     static {
         loadSuggestions();
@@ -319,10 +319,10 @@ public class IOUtil {
     }
 
     /**
-     * Adds a suggestion to the help.json file, should never be invoked by a user.
-     * Make this method public when needing to access to add suggestions.
+     * Adds a suggestion to the helps.json file, should never be invoked by a user.
+     * Make this method public when needing access to add suggestions.
      *
-     * @param suggestion the suggestion to add to help.json
+     * @param suggestion the suggestion to add to helps.json
      */
     private static void addSuggestion(Suggestion suggestion) {
         Gson gson = new Gson();
@@ -777,7 +777,7 @@ public class IOUtil {
         ArrayList<ExitCondition> ret = null;
         Gson gson = new Gson();
 
-        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
+        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Exit conditions pared in IOUtil's static block");
 
         try (Reader reader = new FileReader("static/json/exitconditions.json")) {
             Type exittype = new TypeToken<ArrayList<ExitCondition>>(){}.getType();
@@ -786,6 +786,47 @@ public class IOUtil {
 
             //if successful set as our suggestions object
             exitConditions = ret;
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * DebugHash ArrayList.
+     */
+    private static ArrayList<DebugHash> debugHashes = null;
+
+    /**
+     * Returns the ArrayList of DebugHashes.
+     *
+     * @return the ArrayList of DebugHashes
+     */
+    public static ArrayList<DebugHash> getDebugHashes() {
+        return debugHashes;
+    }
+
+    static {
+        loadDebugHashes();
+    }
+
+    //todo console position is not saved when we logout from program to log back in
+
+    /**
+     * Loads the exit conditions ArrayList into memory.
+     */
+    public static void loadDebugHashes() {
+        ArrayList<DebugHash> ret = null;
+        Gson gson = new Gson();
+
+        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "DebugHashes pared in IOUtil's static block");
+
+        try (Reader reader = new FileReader("static/json/debughashes.json")) {
+            Type debughash = new TypeToken<ArrayList<DebugHash>>(){}.getType();
+
+            ret = gson.fromJson(reader, debughash);
+
+            //if successful set as our suggestions object
+            debugHashes = ret;
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
@@ -849,7 +890,6 @@ public class IOUtil {
         private double uiscale;
         private boolean consoleresizable;
         private boolean autocypher;
-        private LinkedList<Hash> cypherhashes;
         private boolean testingmode;
         private LinkedList<ExitCondition> exitconditions;
         private LinkedList<String> ignorethreads;
@@ -918,14 +958,6 @@ public class IOUtil {
             this.autocypher = autocypher;
         }
 
-        public LinkedList<Hash> getCypherhashes() {
-            return cypherhashes;
-        }
-
-        public void setCypherhashes(LinkedList<Hash> cypherhashes) {
-            this.cypherhashes = cypherhashes;
-        }
-
         public boolean isTestingmode() {
             return testingmode;
         }
@@ -945,34 +977,6 @@ public class IOUtil {
         @Override
         public String toString() {
             return ReflectionUtil.commonCyderToString(this);
-        }
-
-        //inner classes todo remove this
-
-        public static class Hash {
-            private String name;
-            private String hashpass;
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getHashpass() {
-                return hashpass;
-            }
-
-            public void setHashpass(String hashpass) {
-                this.hashpass = hashpass;
-            }
-
-            @Override
-            public String toString() {
-                return "[name: " + this.name + ", pass: " + this.hashpass + "]";
-            }
         }
     }
 
@@ -1049,6 +1053,32 @@ public class IOUtil {
         @Override
         public String toString() {
             return "[code: " + this.code + ", desc: " + this.description + "]";
+        }
+    }
+
+    public static class DebugHash {
+        private String name;
+        private String hashpass;
+
+        public DebugHash(String name, String hashpass) {
+            this.name = name;
+            this.hashpass = hashpass;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getHashpass() {
+            return hashpass;
+        }
+
+        public void setHashpass(String hashpass) {
+            this.hashpass = hashpass;
         }
     }
 }

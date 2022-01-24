@@ -2,15 +2,14 @@ package cyder.handlers.internal;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
+import cyder.cyderuser.UserCreator;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.GenesisShare;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
-import cyder.cyderuser.UserCreator;
 import cyder.utilities.*;
-import cyder.utilities.IOUtil.SystemData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
@@ -465,17 +465,17 @@ public class LoginHandler {
 
     /**
      * Used for debugging, automatically logs the developer in if their account exists,
-     * otherwise the program continues as normal
+     * otherwise the program continues as normal.
      */
     public static boolean autoCypher() {
         boolean ret = false;
 
         try {
-            LinkedList<SystemData.Hash> cypherHashes = IOUtil.getSystemData().getCypherhashes();
+            ArrayList<IOUtil.DebugHash> cypherHashes = IOUtil.getDebugHashes();
             autoCypherAttempt = true;
 
             //for all cypher hashes, attempt to log in using one
-            for (SystemData.Hash hash : cypherHashes) {
+            for (IOUtil.DebugHash hash : cypherHashes) {
                 //if the login works, stop trying hashes
                 if (recognize(hash.getName(), hash.getHashpass())) {
                     ret = true;
