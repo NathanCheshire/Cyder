@@ -1,0 +1,64 @@
+[19-01-20] [ENTRY]: [Nathan]
+[19-01-20] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-01-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-01-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-01-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-01-22] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-01-22] [SYSTEM_IO]: Userdata requested: Name
+[19-01-23] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-01-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-01-23] [SYSTEM_IO]: Userdata requested: Name
+[19-01-23] [SYSTEM_IO]: Userdata requested: Foreground
+[19-01-23] [SYSTEM_IO]: Userdata requested: Foreground
+[19-01-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-01-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-01-23] [SYSTEM_IO]: Userdata requested: Foreground
+[19-01-23] [SYSTEM_IO]: Userdata requested: Font
+[19-01-23] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-01-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-01-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-01-23] [SYSTEM_IO]: Userdata requested: Foreground
+[19-01-23] [SYSTEM_IO]: Userdata requested: Foreground
+[19-01-23] [SYSTEM_IO]: Userdata requested: Foreground
+[19-01-23] [SYSTEM_IO]: Userdata requested: Font
+[19-01-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-01-23] [SYSTEM_IO]: Userdata requested: InputFill
+[19-01-23] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1684153143], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-01-23] [ACTION]: Console loaded in 3415ms
+[19-01-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-01-23] [ENTRY]: [TESTING MODE]
+[19-01-23] [SYSTEM_IO]: Userdata requested: laststart
+[19-01-23] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-01-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3415ms
+[19-01-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-01-39] [CLIENT]: weather
+[19-01-39] [SYSTEM_IO]: Userdata requested: filterchat
+[19-01-39] [WIDGET OPENED]: WEATHER
+[19-01-39] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.WeatherWidget
+[19-01-39] [HANDLE]: PRIMARY HANDLE
+[19-01-40] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[19-01-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-01-41] [ACTION]: Component name = [cyder.ui.Notification], bounds = [(2, 585, 148, 61)], hash = [438627286], parentFrame = [Starkville's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-01-44] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [1927998358], parentFrame = [Starkville's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-01-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.widgets.WeatherWidget], bounds = [(1691, 241, 480, 640)], hash = [1092330031], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather]
+[19-01-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-01-46] [CLIENT]: temp
+[19-01-46] [SYSTEM_IO]: Userdata requested: filterchat
+[19-01-46] [WIDGET OPENED]: TEMPERATURE
+[19-01-46] [HANDLE]: PRIMARY HANDLE
+[19-01-46] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.TemperatureWidget
+[19-01-52] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(370, 100, 50, 50)], hash = [1595759104], parentFrame = [Temperature Converter], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-01-52] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(80, 100, 50, 50)], hash = [569052720], parentFrame = [Temperature Converter], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-01-53] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(140, 280, 150, 40)], hash = [188080784], parentFrame = [Temperature Converter], associated text = [Calculate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-01-53] [ACTION]: [Temperature Converter] [NOTIFICATION] Get out of here with that. Your value is already in Fahrenheit.
+[19-01-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-01-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1934326069], parentFrame = [Temperature Converter], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-01-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1631, 391, 600, 340)], hash = [1859712813], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Temperature Converter]
+[19-01-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-01-57] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-01-57] [SYSTEM_IO]: Userdata requested: Name
+[19-01-57] [LOGOUT]: [Nathan]
+[19-01-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1331, 224, 1200, 675)], hash = [1783568981], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-01-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-01-58] [EXIT]: [RUNTIME] 37s
+[19-01-58] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

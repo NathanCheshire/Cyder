@@ -40,7 +40,7 @@ public class ImageAveragerWidget implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "average images", description = "A widget that adds multiple images " +
+    @Widget(trigger = {"average images", "average pictures"}, description = "A widget that adds multiple images " +
             "together and divides by the total to obtain an average base image")
     public static void showGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AVERAGE IMAGES");

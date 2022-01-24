@@ -227,7 +227,7 @@ public class YoutubeUtil {
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 
-    @Widget(trigger = "youtube", description = "A widget to steal youtube thumbnails")
+    @Widget(trigger = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "YOUTUBE");
 

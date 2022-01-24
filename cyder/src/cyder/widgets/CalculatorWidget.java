@@ -24,7 +24,7 @@ public class CalculatorWidget implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "calculator", description = "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
+    @Widget(trigger = {"calculator", "calc"}, description = "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CALCULATOR");
 

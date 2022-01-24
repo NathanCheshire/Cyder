@@ -160,7 +160,8 @@ public class InputHandler {
 
             if (filename.trim().length() > 0) {
                 //check for validity of requested filename
-                if (IOUtil.isValidFilenameWindows(filename)) { //todo make dynamic
+                //todo make dynamic, operating system dependency that is, same for python scripts
+                if (IOUtil.isValidFilenameWindows(filename)) {
                     redirection = true;
 
                     //acquire sem to ensure file is not being written to

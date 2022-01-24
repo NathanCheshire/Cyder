@@ -90,7 +90,7 @@ public class AudioPlayer implements WidgetBase {
     /**
      * Method for widget finder to invoke by using reflection to find the Widget annotation
      */
-    @Widget(trigger = "mp3", description = "An audio playing widget")
+    @Widget(trigger = {"mp3", "music"}, description = "An audio playing widget")
     public static void showGUI() {
         showGUI(null);
     }

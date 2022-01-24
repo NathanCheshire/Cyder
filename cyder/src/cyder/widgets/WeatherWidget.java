@@ -95,7 +95,7 @@ public class WeatherWidget implements WidgetBase {
         //multiple widgets are allowed
     }
     //show gui method as per standard
-    @Widget(trigger = "weather", description = "A widget that displays weather data for the current " +
+    @Widget(trigger = {"weather"}, description = "A widget that displays weather data for the current " +
             "city you are in. The location is also changeable")
     public static void showGUI() {
         new WeatherWidget().innerShowGUI();

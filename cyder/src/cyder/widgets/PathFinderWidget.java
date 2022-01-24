@@ -62,7 +62,7 @@ public class PathFinderWidget implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "path", description = "A pathfinding visualizer for A* and Dijkstras algorithms")
+    @Widget(trigger = {"path","pathfinder"}, description = "A pathfinding visualizer for A* and Dijkstras algorithms")
     public static void showGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "PATHFINDER");
 

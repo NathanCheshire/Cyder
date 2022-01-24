@@ -35,7 +35,7 @@ public class TemperatureWidget implements WidgetBase {
         //multiple instances are allowed
     }
 
-    @Widget(trigger = "temperature", description = "A temperature conversion widget for the three standard temperature units")
+    @Widget(trigger = {"temperature", "temp"}, description = "A temperature conversion widget for the three standard temperature units")
     public static void showGUI() {
         new TemperatureWidget().innerShowGUI();
     }

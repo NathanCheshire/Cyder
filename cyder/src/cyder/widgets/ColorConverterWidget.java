@@ -22,7 +22,7 @@ public class ColorConverterWidget implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "color converter", description = "A color converter widget to convert from rgb to hex and vice versa")
+    @Widget(trigger = {"color converter", "color"}, description = "A color converter widget to convert from rgb to hex and vice versa")
     public static void showGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "COLOR");
 

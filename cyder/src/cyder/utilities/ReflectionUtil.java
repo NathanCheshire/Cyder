@@ -148,7 +148,7 @@ public class ReflectionUtil {
     }
 
     /**
-     * Finds all classes annotated with the @Widget annotation within the widgets package
+     * Finds all classes annotated with the Widget annotation within the widgets package
      */
     public static ArrayList<WidgetInformation> findWidgets() {
         ArrayList<WidgetInformation> ret = new ArrayList<>();
