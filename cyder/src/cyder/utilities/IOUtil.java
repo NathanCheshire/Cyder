@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class IOUtil {
@@ -85,7 +86,7 @@ public class IOUtil {
      */
     public static void createAndOpenTmpFile(String filename, String extension, String[] lines) {
         try {
-            File tmpDir = new File("src/tmp");
+            File tmpDir = new File("cyder/src/cyder/tmp");
 
             if (!tmpDir.exists())
                 tmpDir.mkdir();
@@ -117,7 +118,7 @@ public class IOUtil {
      */
     public static void deleteTempDir() {
         try {
-            File tmpDir = new File("src/tmp");
+            File tmpDir = new File("cyder/src/cyder/tmp");
             SystemUtil.deleteFolder(tmpDir);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -685,10 +686,12 @@ public class IOUtil {
     public static boolean checkForExitCollisions() {
         boolean ret = false;
 
+        //todo parse exit conditions here
+
         //if there are exit conditions with the same number exit and inform
         LinkedList<Integer> exitCodes = new LinkedList<>();
 
-        for (SystemData.ExitCondition exitCondition : IOUtil.getSystemData().getExitconditions()) {
+        for (ExitCondition exitCondition : exitConditions) {
             if (!exitCodes.contains(exitCondition.getCode())) {
                 exitCodes.add(exitCondition.getCode());
             } else {
@@ -699,6 +702,34 @@ public class IOUtil {
         }
 
         return ret;
+    }
+
+    private static ArrayList<ExitCondition> exitConditions = null;
+
+    public static ArrayList<ExitCondition> getExitConditions() {
+        return exitConditions;
+    }
+
+    static {
+        loadExitConditions();
+    }
+
+    public static void loadExitConditions() {
+        ArrayList<ExitCondition> ret = null;
+        Gson gson = new Gson();
+
+        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
+
+        try (Reader reader = new FileReader("static/json/exitconditions.json")) {
+            Type exittype = new TypeToken<ArrayList<ExitCondition>>(){}.getType();
+
+            ret = gson.fromJson(reader, exittype);
+
+            //if successful set as our suggestions object
+            exitConditions = ret;
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
@@ -833,14 +864,6 @@ public class IOUtil {
             this.cypherhashes = cypherhashes;
         }
 
-        public LinkedList<ExitCondition> getExitconditions() {
-            return exitconditions;
-        }
-
-        public void setExitconditions(LinkedList<ExitCondition> exitconditions) {
-            this.exitconditions = exitconditions;
-        }
-
         public boolean isTestingmode() {
             return testingmode;
         }
@@ -889,32 +912,6 @@ public class IOUtil {
                 return "[name: " + this.name + ", pass: " + this.hashpass + "]";
             }
         }
-
-        public static class ExitCondition {
-            private int code;
-            private String description;
-
-            public int getCode() {
-                return code;
-            }
-
-            public void setCode(int code) {
-                this.code = code;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-
-            public void setDescription(String description) {
-                this.description = description;
-            }
-
-            @Override
-            public String toString() {
-                return "[code: " + this.code + ", desc: " + this.description + "]";
-            }
-        }
     }
 
     public static class Suggestion {
@@ -958,6 +955,32 @@ public class IOUtil {
 
             return sug.getResult().equals(this.getResult())
                     && sug.getCommand().equals(this.getCommand());
+        }
+    }
+
+    public static class ExitCondition {
+        private int code;
+        private String description;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        @Override
+        public String toString() {
+            return "[code: " + this.code + ", desc: " + this.description + "]";
         }
     }
 }

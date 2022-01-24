@@ -1,0 +1,54 @@
+[
+      {
+         "code":-600,
+         "description":"Not Released"
+      },
+      {
+         "code":-404,
+         "description":"Forced Immediate Exit"
+      },
+      {
+         "code":-56,
+         "description":"User Deleted"
+      },
+      {
+         "code":25,
+         "description":"Genesis Controlled Exit"
+      },
+      {
+         "code":66,
+         "description":"Scheduled Exit"
+      },
+      {
+         "code":-99,
+         "description":"Corrupted User"
+      },
+      {
+         "code":120,
+         "description":"Final Frame Disposed"
+      },
+      {
+         "code":178,
+         "description":"Improper OS"
+      },
+      {
+         "code":278,
+         "description":"Corrupted System File(s)"
+      },
+      {
+         "code":50,
+         "description":"Testing Mode Exit"
+      },
+      {
+         "code":-78,
+         "description":"Exit Code Collision"
+      },
+      {
+        "code":-100,
+         "description":"Fatal Timeout"
+      },
+      {
+        "code":-112,
+        "description":"Sys.json Exception"
+      }
+   ]

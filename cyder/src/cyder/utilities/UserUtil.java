@@ -133,6 +133,7 @@ public class UserUtil {
 
     /**
      * Writes the provided user after being converted to JSON format to the provided file.
+     *
      * @param f the file to write to
      * @param u the user object to write to the file
      */

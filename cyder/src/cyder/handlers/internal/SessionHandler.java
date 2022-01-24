@@ -3,7 +3,6 @@ package cyder.handlers.internal;
 import cyder.consts.CyderStrings;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.IOUtil;
-import cyder.utilities.IOUtil.SystemData;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
@@ -402,9 +401,9 @@ public class SessionHandler {
         String ret = "UNKNOWN EXIT CODE";
 
         try {
-            LinkedList<SystemData.ExitCondition> conditions = IOUtil.getSystemData().getExitconditions();
+            ArrayList<IOUtil.ExitCondition> conditions = IOUtil.getExitConditions();
 
-            for (SystemData.ExitCondition condition : conditions) {
+            for (IOUtil.ExitCondition condition : conditions) {
                 if (condition.getCode() == code) {
                     ret = condition.getDescription();
                     break;
