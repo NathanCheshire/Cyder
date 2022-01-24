@@ -149,7 +149,7 @@ public class CyderLabel extends JLabel {
                     //loop through all our tagged string
                     for (StringUtil.TaggedString ts : taggedStrings) {
                         //if it's html simply add it to the builder
-                        if (ts.getTag() == StringUtil.Tag.HTML) {
+                        if (ts.getType() == StringUtil.TaggedStringType.HTML) {
                             builder.append(ts.getText());
                         }
                         //otherwise we might need to ripple some  chars

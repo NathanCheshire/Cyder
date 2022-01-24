@@ -1,0 +1,75 @@
+[16-52-08] [ENTRY]: [Nathan]
+[16-52-08] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-52-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-52-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-52-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-52-10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-52-10] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-52-11] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-52-11] [SYSTEM_IO]: Userdata requested: Name
+[16-52-11] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-52-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-52-11] [SYSTEM_IO]: Userdata requested: Name
+[16-52-11] [SYSTEM_IO]: Userdata requested: Foreground
+[16-52-11] [SYSTEM_IO]: Userdata requested: Foreground
+[16-52-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-52-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-52-11] [SYSTEM_IO]: Userdata requested: Foreground
+[16-52-11] [SYSTEM_IO]: Userdata requested: Font
+[16-52-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-52-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-52-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-52-11] [SYSTEM_IO]: Userdata requested: Foreground
+[16-52-11] [SYSTEM_IO]: Userdata requested: Foreground
+[16-52-11] [SYSTEM_IO]: Userdata requested: Foreground
+[16-52-11] [SYSTEM_IO]: Userdata requested: Font
+[16-52-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-52-11] [SYSTEM_IO]: Userdata requested: InputFill
+[16-52-11] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [56607153], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-52-11] [ACTION]: Console loaded in 3688ms
+[16-52-11] [EXCEPTION]: 
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:805)
+From line: 805
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:805)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:782)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:766)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:744)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:703)
+	at cyder.ui.ConsoleFrame.notify(ConsoleFrame.java:2617)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:1104)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:433)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:480)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:366)
+	at cyder.genesis.Cyder.main(Cyder.java:87)
+[16-52-11] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[16-52-11] [DEBUG]: 
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:805)
+From line: 805
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:805)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:782)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:766)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:744)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:703)
+	at cyder.ui.ConsoleFrame.notify(ConsoleFrame.java:2617)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:1104)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:433)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:480)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:366)
+	at cyder.genesis.Cyder.main(Cyder.java:87)
+[16-52-11] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-52-11] [ENTRY]: [TESTING MODE]
+[16-52-11] [SYSTEM_IO]: Userdata requested: laststart
+[16-52-11] [SYSTEM_IO]: Userdata requested: IntroMusic
+[16-52-26] [CLIENT]: asdf
+[16-52-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-26] [HANDLE]: PRIMARY HANDLE
+[16-52-26] [CONSOLE_OUT]: [STRING] Who is the spiciest meme lord?
+[16-52-32] [CLIENT]: notificationtest
+[16-52-32] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-32] [HANDLE]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[16-52-32] [HANDLE]: FINAL HANDLE
+[16-52-32] [CONSOLE_OUT]: [STRING] Invoking manual test: notificationTest
+[16-52-36] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [132237440], parentFrame = [Notification Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]

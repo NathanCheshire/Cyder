@@ -10,6 +10,9 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.LinkedList;
 
+import static cyder.utilities.StringUtil.TaggedString;
+import static cyder.utilities.StringUtil.TaggedStringType;
+
 public class BoundsUtil {
     private BoundsUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -78,22 +81,22 @@ public class BoundsUtil {
                 String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
                 if (regularText.length() > 0)
-                    taggedStrings.add(new TaggedString(regularText, StringType.TEXT));
+                    taggedStrings.add(new TaggedString(regularText, TaggedStringType.TEXT));
                 if (firstHtml.length() > 0)
-                    taggedStrings.add(new TaggedString(firstHtml, StringType.HTML));
+                    taggedStrings.add(new TaggedString(firstHtml, TaggedStringType.HTML));
 
                 textCopy = textCopy.substring(firstClosingTag + 1);
             }
 
             //if there's remaining text, it's just non-html
             if (textCopy.length() > 0)
-                taggedStrings.add(new TaggedString(textCopy,StringType.TEXT));
+                taggedStrings.add(new TaggedString(textCopy, TaggedStringType.TEXT));
 
             //now add breaks into the lines that are needed
             for (TaggedString taggedString : taggedStrings) {
-                if (taggedString.type == StringType.TEXT) {
+                if (taggedString.getType() == TaggedStringType.TEXT) {
                     int fullLineWidth = (int) (font.getStringBounds(
-                            taggedString.getString(), frc).getWidth() + widthAddition);
+                            taggedString.getText(), frc).getWidth() + widthAddition);
 
                     //evluate if the line is too long
                     if (fullLineWidth > maxWidth) {
@@ -103,7 +106,7 @@ public class BoundsUtil {
 
                         //if only one line is the result somehow, ensure it's 2
                         neededLines = Math.max(2, neededLines);
-                        taggedString.setString(insertBreaks(taggedString.getString(), neededLines));
+                        taggedString.setText(insertBreaks(taggedString.getText(), neededLines));
                     }
                 }
             }
@@ -112,7 +115,7 @@ public class BoundsUtil {
             StringBuilder htmlBuilder = new StringBuilder();
 
             for (TaggedString tg : taggedStrings)
-                htmlBuilder.append(tg.getString());
+                htmlBuilder.append(tg.getText());
 
             //figure out height
             String[] lines = htmlBuilder.toString().split("<br/>");
@@ -122,10 +125,10 @@ public class BoundsUtil {
             int w = 0;
 
             for (TaggedString ts : taggedStrings) {
-                if (ts.getType() == StringType.HTML)
+                if (ts.getType() == TaggedStringType.HTML)
                     continue;
 
-                String[] tsLines = ts.getString().split("<br/>");
+                String[] tsLines = ts.getText().split("<br/>");
 
                 for (String line : tsLines) {
                     int lineWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
@@ -328,36 +331,6 @@ public class BoundsUtil {
         public String toString() {
             return "[" + this.width + "x" + this.height + "]\nText:\n" + this.text;
         }
-    }
-
-    public static class TaggedString {
-        private String string;
-        private StringType type;
-
-        public TaggedString(String string, StringType type) {
-            this.string = string;
-            this.type = type;
-        }
-
-        public String getString() {
-            return string;
-        }
-
-        public void setString(String string) {
-            this.string = string;
-        }
-
-        public StringType getType() {
-            return type;
-        }
-
-        public void setType(StringType type) {
-            this.type = type;
-        }
-    }
-
-    public enum StringType {
-        HTML, TEXT
     }
 
     private static class BreakPosition {

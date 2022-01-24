@@ -882,31 +882,31 @@ public class StringUtil {
             String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
             if (regularText.length() > 0)
-                taggedStrings.add(new TaggedString(regularText, Tag.TEXT));
+                taggedStrings.add(new TaggedString(regularText, TaggedStringType.TEXT));
             if (firstHtml.length() > 0)
-                taggedStrings.add(new TaggedString(firstHtml, Tag.HTML));
+                taggedStrings.add(new TaggedString(firstHtml, TaggedStringType.HTML));
 
             textCopy = textCopy.substring(firstClosingTag + 1);
         }
 
         //if there's remaining text, it's just non-html
         if (textCopy.length() > 0)
-            taggedStrings.add(new TaggedString(textCopy, Tag.TEXT));
+            taggedStrings.add(new TaggedString(textCopy, TaggedStringType.TEXT));
 
         return taggedStrings;
     }
 
-    public enum Tag {
+    public enum TaggedStringType {
         HTML,TEXT
     }
 
     public static class TaggedString {
         private String text;
-        private Tag tag;
+        private TaggedStringType type;
 
-        public TaggedString(String text, Tag tag) {
+        public TaggedString(String text, TaggedStringType type) {
             this.text = text;
-            this.tag = tag;
+            this.type = type;
         }
 
         public String getText() {
@@ -917,12 +917,12 @@ public class StringUtil {
             this.text = text;
         }
 
-        public Tag getTag() {
-            return tag;
+        public TaggedStringType getType() {
+            return type;
         }
 
-        public void setTag(Tag tag) {
-            this.tag = tag;
+        public void setType(TaggedStringType type) {
+            this.type = type;
         }
     }
 
@@ -964,5 +964,24 @@ public class StringUtil {
 
         return Arrays.stream(
                 new int[] {substitution, insertion, deletion}).min().orElse(Integer.MAX_VALUE);
+    }
+
+    /**
+     * Returns the length of the non-html text of the provided String.
+     *
+     * @param htmltext the text containing html tags and styling
+     * @return the length of the non-html text
+     */
+    public static int getRawTextLength(String htmltext) {
+        int ret = 0;
+
+        int length = 0;
+
+        for (TaggedString ts : getTaggedStrings(htmltext)) {
+            if (ts.getType() == TaggedStringType.TEXT)
+                length += ts.getText().length();
+        }
+
+        return ret;
     }
 }
