@@ -1,0 +1,129 @@
+[21-58-20] [ENTRY]: [Nathan]
+[21-58-20] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-58-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-58-20] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-58-20] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-58-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-58-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-58-22] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-58-22] [SYSTEM_IO]: Userdata requested: Name
+[21-58-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-58-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-23] [SYSTEM_IO]: Userdata requested: Name
+[21-58-23] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-23] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-23] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-23] [SYSTEM_IO]: Userdata requested: Font
+[21-58-23] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-58-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-58-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-58-23] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-23] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-23] [SYSTEM_IO]: Userdata requested: Foreground
+[21-58-23] [SYSTEM_IO]: Userdata requested: Font
+[21-58-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-58-23] [SYSTEM_IO]: Userdata requested: InputFill
+[21-58-23] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2144098511], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-58-23] [ACTION]: Console loaded in 3167ms
+[21-58-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-58-23] [ENTRY]: [TESTING MODE]
+[21-58-23] [SYSTEM_IO]: Userdata requested: laststart
+[21-58-23] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-58-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3167ms
+[21-58-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-58-29] [CLIENT]: clear
+[21-58-29] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-29] [HANDLE]: GENERAL COMMAND HANDLED
+[21-58-29] [HANDLE]: PRIMARY HANDLE
+[21-58-31] [CLIENT]: hello
+[21-58-31] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-31] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[21-58-31] [HANDLE]: PRIMARY HANDLE
+[21-58-31] [CONSOLE_OUT]: [STRING] Go ahead...
+[21-58-33] [CLIENT]: clear
+[21-58-33] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-33] [HANDLE]: GENERAL COMMAND HANDLED
+[21-58-33] [HANDLE]: PRIMARY HANDLE
+[21-58-35] [CLIENT]: threads
+[21-58-35] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-35] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-58-35] [HANDLE]: PRIMARY HANDLE
+[21-58-35] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-58-36] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-58-36] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-58-36] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-58-36] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-58-36] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-58-36] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-58-36] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-58-36] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-58-36] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-58-36] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-58-36] [CONSOLE_OUT]: [STRING] Escaped
+[21-58-40] [CLIENT]: asdff
+[21-58-40] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-40] [CONSOLE_OUT]: [STRING] Unknown command
+[21-58-40] [ACTION]: Similar command to "asdff" found with tol of 0.8888889, command = "asdf"
+[21-58-40] [CONSOLE_OUT]: [STRING] Most similar command: "asdf"
+[21-58-42] [CLIENT]: threads
+[21-58-42] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-42] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-58-42] [HANDLE]: PRIMARY HANDLE
+[21-58-43] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-58-43] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-58-43] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-58-43] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-58-43] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-58-43] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-58-43] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-58-43] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-58-43] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-58-43] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-58-43] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-58-43] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[21-58-43] [CONSOLE_OUT]: [STRING] Escaped
+[21-58-49] [CLIENT]: clear
+[21-58-49] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-49] [HANDLE]: GENERAL COMMAND HANDLED
+[21-58-49] [HANDLE]: PRIMARY HANDLE
+[21-58-50] [CLIENT]: asdff
+[21-58-50] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-50] [ACTION]: Similar command to "asdff" found with tol of 0.8888889, command = "asdf"
+[21-58-50] [CONSOLE_OUT]: [STRING] Unknown command
+[21-58-51] [CONSOLE_OUT]: [STRING] Most similar command: "asdf"
+[21-58-53] [CONSOLE_OUT]: [STRING] Escaped
+[21-58-53] [CLIENT]: clear
+[21-58-53] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-53] [HANDLE]: GENERAL COMMAND HANDLED
+[21-58-53] [HANDLE]: PRIMARY HANDLE
+[21-58-59] [CLIENT]: git
+[21-58-59] [SYSTEM_IO]: Userdata requested: filterchat
+[21-58-59] [ACTION]: Similar command to "git" found with tol of 0.5714286, command = "quit"
+[21-58-59] [CONSOLE_OUT]: [STRING] Unknown command
+[21-59-00] [CONSOLE_OUT]: [STRING] Escaped
+[21-59-02] [CLIENT]: adsfkj
+[21-59-02] [SYSTEM_IO]: Userdata requested: filterchat
+[21-59-02] [ACTION]: Similar command to "adsfkj" found with tol of 0.6, command = "asdf"
+[21-59-02] [CONSOLE_OUT]: [STRING] Unknown command
+[21-59-03] [CONSOLE_OUT]: [STRING] Escaped
+[21-59-04] [CLIENT]: clear
+[21-59-04] [SYSTEM_IO]: Userdata requested: filterchat
+[21-59-04] [HANDLE]: GENERAL COMMAND HANDLED
+[21-59-04] [HANDLE]: PRIMARY HANDLE
+[21-59-05] [CLIENT]: story
+[21-59-05] [SYSTEM_IO]: Userdata requested: filterchat
+[21-59-05] [SYSTEM_IO]: Userdata requested: Name
+[21-59-05] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[21-59-05] [HANDLE]: PRIMARY HANDLE
+[21-59-05] [CONSOLE_OUT]: [STRING] It was a lazy day. Cyder was enjoying a deep sleep when suddenly Nathan started talking to Cyder. It was at this moment that Cyder knew its day had been ruined.
+[21-59-17] [CLIENT]: clear
+[21-59-17] [SYSTEM_IO]: Userdata requested: filterchat
+[21-59-17] [HANDLE]: GENERAL COMMAND HANDLED
+[21-59-17] [HANDLE]: PRIMARY HANDLE
+[21-59-20] [CLIENT]: quit
+[21-59-20] [SYSTEM_IO]: Userdata requested: filterchat
+[21-59-20] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-59-20] [EXIT]: [RUNTIME] 59s
+[21-59-20] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

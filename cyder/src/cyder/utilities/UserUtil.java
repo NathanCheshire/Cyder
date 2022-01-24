@@ -2,19 +2,18 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
+import cyder.cyderuser.User;
 import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.cyderuser.User;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.zip.ZipEntry;
@@ -444,6 +443,7 @@ public class UserUtil {
      * This method exists purely for legacy calls such as extractUserData("font")
      * Ideally this method should be done away with if possible, perhaps adding a default function
      * o the {@code Preference} object could lead to a new path of thinking about user prefs/data.
+     *
      * @param u the initialized user containing the data we want to obtain
      * @param name the data id for which to return
      * @return the requested data
@@ -455,7 +455,7 @@ public class UserUtil {
         String ret = null;
 
         //log handler calls that aren't spammed
-        if (!ignoreLogData(name))
+        if (!IOUtil.ignoreLogData(name))
             SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Userdata requested: " + name);
 
         try {
@@ -473,34 +473,6 @@ public class UserUtil {
         } finally {
             return ret;
         }
-    }
-
-    //read once on compile time
-    private static IgnoreData ignoreDatas = null;
-
-    static {
-        loadIgnoreDatas();
-    }
-
-    public static void loadIgnoreDatas() {
-        Gson gson = new Gson();
-
-        try (Reader reader = new FileReader("static/json/ignoredatas.json")) {
-            IgnoreData ret = gson.fromJson(reader, IgnoreData.class);
-
-            //if successful set as our suggestions object
-            ignoreDatas = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * @param dataid the id of the data we wish to obtain from userdata.json
-     * @return boolean detemrining whether or not this data should be ignored by the SessionLogger
-     */
-    public static boolean ignoreLogData(String dataid) {
-       return ignoreDatas.getIgnoreData().contains(dataid);
     }
 
     /**
@@ -968,24 +940,6 @@ public class UserUtil {
             fis.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        }
-    }
-
-    //inner classes
-
-    private static class IgnoreData {
-        private ArrayList<String> ignorelogdata;
-
-        public IgnoreData(ArrayList<String> ignorelogdata) {
-            this.ignorelogdata = ignorelogdata;
-        }
-
-        public ArrayList<String> getIgnoreData() {
-            return ignorelogdata;
-        }
-
-        public void setIgnoreData(ArrayList<String> ignorelogdata) {
-            this.ignorelogdata = ignorelogdata;
         }
     }
 }

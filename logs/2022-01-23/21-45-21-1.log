@@ -1,0 +1,123 @@
+[21-45-21] [ENTRY]: [Nathan]
+[21-45-21] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-45-21] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-45-21] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-45-21] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-45-23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-45-23] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-45-24] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-45-24] [SYSTEM_IO]: Userdata requested: Name
+[21-45-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-45-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-24] [SYSTEM_IO]: Userdata requested: Name
+[21-45-24] [SYSTEM_IO]: Userdata requested: Foreground
+[21-45-24] [SYSTEM_IO]: Userdata requested: Foreground
+[21-45-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-24] [SYSTEM_IO]: Userdata requested: Foreground
+[21-45-24] [SYSTEM_IO]: Userdata requested: Font
+[21-45-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-45-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-45-24] [SYSTEM_IO]: Userdata requested: Foreground
+[21-45-24] [SYSTEM_IO]: Userdata requested: Foreground
+[21-45-24] [SYSTEM_IO]: Userdata requested: Foreground
+[21-45-24] [SYSTEM_IO]: Userdata requested: Font
+[21-45-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-45-24] [SYSTEM_IO]: Userdata requested: InputFill
+[21-45-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1500947235], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-45-24] [ACTION]: Console loaded in 3208ms
+[21-45-24] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-45-24] [ENTRY]: [TESTING MODE]
+[21-45-24] [SYSTEM_IO]: Userdata requested: laststart
+[21-45-24] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-45-24] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3208ms
+[21-45-24] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-45-35] [CLIENT]: showbusyicon
+[21-45-35] [SYSTEM_IO]: Userdata requested: filterchat
+[21-45-35] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-45-35] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-45-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-35] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-45-35] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-45-35] [SYSTEM_IO]: Userdata requested: InputFill
+[21-45-35] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-45-35] [HANDLE]: FINAL HANDLE
+[21-45-35] [CONSOLE_OUT]: [STRING] Show Cyder Busy Icon set to false
+[21-45-36] [CLIENT]: showbusyicon
+[21-45-36] [SYSTEM_IO]: Userdata requested: filterchat
+[21-45-36] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-45-36] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-45-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-45-36] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-45-36] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-45-36] [SYSTEM_IO]: Userdata requested: InputFill
+[21-45-36] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-45-36] [HANDLE]: FINAL HANDLE
+[21-45-36] [CONSOLE_OUT]: [STRING] Show Cyder Busy Icon set to true
+[21-45-39] [CLIENT]: threads
+[21-45-39] [SYSTEM_IO]: Userdata requested: filterchat
+[21-45-39] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-45-39] [HANDLE]: PRIMARY HANDLE
+[21-45-39] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-45-40] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-45-41] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-45-41] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-45-42] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-45-43] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-45-44] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-45-44] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-45-45] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-45-45] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-45-46] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-45-49] [CLIENT]: clear
+[21-45-49] [SYSTEM_IO]: Userdata requested: filterchat
+[21-45-49] [HANDLE]: GENERAL COMMAND HANDLED
+[21-45-49] [HANDLE]: PRIMARY HANDLE
+[21-45-51] [CLIENT]: hello
+[21-45-51] [SYSTEM_IO]: Userdata requested: filterchat
+[21-45-51] [SYSTEM_IO]: Userdata requested: Name
+[21-45-51] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[21-45-51] [HANDLE]: PRIMARY HANDLE
+[21-45-51] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[21-45-55] [CLIENT]: sakdjfskf
+[21-45-55] [SYSTEM_IO]: Userdata requested: filterchat
+[21-45-55] [CONSOLE_OUT]: [STRING] Unknown command
+[21-45-55] [ACTION]: Similar command to "sakdjfskf" found with tol of 0.46153846, command = "asdf"
+[21-45-55] [CONSOLE_OUT]: [STRING] Escaped
+[21-46-00] [CLIENT]: asdff
+[21-46-00] [SYSTEM_IO]: Userdata requested: filterchat
+[21-46-01] [ACTION]: Similar command to "asdff" found with tol of 0.8888889, command = "asdf"
+[21-46-01] [CONSOLE_OUT]: [STRING] Unknown command
+[21-46-01] [CONSOLE_OUT]: [STRING] Most similar command: "asdf"
+[21-46-01] [CONSOLE_OUT]: [STRING] Escaped
+[21-46-03] [CLIENT]: asdff
+[21-46-03] [SYSTEM_IO]: Userdata requested: filterchat
+[21-46-03] [ACTION]: Similar command to "asdff" found with tol of 0.8888889, command = "asdf"
+[21-46-03] [CONSOLE_OUT]: [STRING] Unknown command
+[21-46-04] [CONSOLE_OUT]: [STRING] Most similar command: "asdf"
+[21-46-04] [CLIENT]: thredads
+[21-46-04] [SYSTEM_IO]: Userdata requested: filterchat
+[21-46-04] [ACTION]: Similar command to "thredads" found with tol of 0.93333334, command = "threads"
+[21-46-04] [CONSOLE_OUT]: [STRING] Unknown command
+[21-46-05] [CONSOLE_OUT]: [STRING] Most similar command: "threads"
+[21-46-07] [CLIENT]: threads
+[21-46-07] [SYSTEM_IO]: Userdata requested: filterchat
+[21-46-07] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-46-07] [HANDLE]: PRIMARY HANDLE
+[21-46-07] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-46-08] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-46-08] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-46-09] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-46-09] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-46-09] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-46-09] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-46-09] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-46-09] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-46-09] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-46-09] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-46-09] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[21-46-09] [CONSOLE_OUT]: [STRING] Escaped
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

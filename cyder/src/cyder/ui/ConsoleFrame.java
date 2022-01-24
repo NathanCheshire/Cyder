@@ -13,9 +13,9 @@ import cyder.genesis.CyderSplash;
 import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
-import test.java.Debug;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
+import test.java.Debug;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -1214,12 +1214,21 @@ public final class ConsoleFrame {
                             Thread[] printThreads = new Thread[num];
                             threadGroup.enumerate(printThreads);
 
-                            LinkedList<String> ignoreNames = IOUtil.getSystemData().getIgnorethreads();
+                            ArrayList<String> ignoreThreads = IOUtil.getIgnoreThreads().getIgnorethreads();
 
                             int busyThreads = 0;
 
                             for (int i = 0; i < num; i++) {
-                                if (!printThreads[i].isDaemon() && !ignoreNames.contains(printThreads[i].getName())) {
+                                boolean contains = false;
+
+                                for (String ignoreThread : ignoreThreads) {
+                                    if (ignoreThread.equalsIgnoreCase(printThreads[i].getName())) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!printThreads[i].isDaemon() && !contains) {
                                     busyThreads++;
                                 }
                             }

@@ -49,6 +49,6 @@
       },
       {
         "code":-112,
-        "description":"Sys.json Exception"
+        "description":"JSON Parsing Exception"
       }
    ]

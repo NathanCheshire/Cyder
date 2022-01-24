@@ -137,7 +137,7 @@ public class IOUtil {
     /**
      * The file path to the sys json file.
      */
-    private static String sysFilePath = "static/sys.json";
+    private static String sysFilePath = "static/json/sys.json";
 
     //determines whether or not the sys.json file exists, is parsable, and contains non-null fields
     public static void checkSystemData() {
@@ -809,8 +809,6 @@ public class IOUtil {
         loadDebugHashes();
     }
 
-    //todo console position is not saved when we logout from program to log back in
-
     /**
      * Loads the exit conditions ArrayList into memory.
      */
@@ -891,8 +889,6 @@ public class IOUtil {
         private boolean consoleresizable;
         private boolean autocypher;
         private boolean testingmode;
-        private LinkedList<ExitCondition> exitconditions;
-        private LinkedList<String> ignorethreads;
 
         public boolean isReleased() {
             return released;
@@ -964,14 +960,6 @@ public class IOUtil {
 
         public void setTestingmode(boolean testingmode) {
             this.testingmode = testingmode;
-        }
-
-        public LinkedList<String> getIgnorethreads() {
-            return ignorethreads;
-        }
-
-        public void setIgnorethreads(LinkedList<String> ignorethreads) {
-            this.ignorethreads = ignorethreads;
         }
 
         @Override
@@ -1079,6 +1067,90 @@ public class IOUtil {
 
         public void setHashpass(String hashpass) {
             this.hashpass = hashpass;
+        }
+    }
+
+    //read once on compile time
+    private static IgnoreData ignoreDatas = null;
+
+    static {
+        loadIgnoreDatas();
+    }
+
+    public static void loadIgnoreDatas() {
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader("static/json/ignoredatas.json")) {
+            IgnoreData ret = gson.fromJson(reader, IgnoreData.class);
+
+            //if successful set as our suggestions object
+            ignoreDatas = ret;
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * @param dataid the id of the data we wish to obtain from userdata.json
+     * @return boolean detemrining whether or not this data should be ignored by the SessionLogger
+     */
+    public static boolean ignoreLogData(String dataid) {
+        return ignoreDatas.getIgnoreData().contains(dataid);
+    }
+
+    private static class IgnoreData {
+        private ArrayList<String> ignorelogdata;
+
+        public IgnoreData(ArrayList<String> ignorelogdata) {
+            this.ignorelogdata = ignorelogdata;
+        }
+
+        public ArrayList<String> getIgnoreData() {
+            return ignorelogdata;
+        }
+
+        public void setIgnoreData(ArrayList<String> ignorelogdata) {
+            this.ignorelogdata = ignorelogdata;
+        }
+    }
+
+    //read once on compile time
+    private static IgnoreThread ignoreThreads = null;
+
+    public static IgnoreThread getIgnoreThreads() {
+        return ignoreThreads;
+    }
+
+    static {
+        loadIgnoreThreads();
+    }
+
+    public static void loadIgnoreThreads() {
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader("static/json/ignorethreads.json")) {
+            IgnoreThread ret = gson.fromJson(reader, IgnoreThread.class);
+
+            //if successful set as our suggestions object
+            ignoreThreads = ret;
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    public static class IgnoreThread {
+        private ArrayList<String> ignorethreads;
+
+        public IgnoreThread(ArrayList<String> ignorethreads) {
+            this.ignorethreads = ignorethreads;
+        }
+
+        public ArrayList<String> getIgnorethreads() {
+            return ignorethreads;
+        }
+
+        public void setIgnorethreads(ArrayList<String> ignorethreads) {
+            this.ignorethreads = ignorethreads;
         }
     }
 }
