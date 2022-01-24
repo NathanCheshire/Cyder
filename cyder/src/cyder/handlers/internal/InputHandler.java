@@ -533,6 +533,7 @@ public class InputHandler {
             //ending new line
             println(sb.toString());
         } else if (commandIs("cmd")) {
+            //todo os dependent
             Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
         } else if (commandIs("desmos")) {
             NetworkUtil.internetConnect("https://www.desmos.com/calculator");
@@ -560,8 +561,6 @@ public class InputHandler {
             NetworkUtil.internetConnect("http://www.drinkbai.com");
         } else if (commandIs("occamrazor")) {
             NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
-        } else if (commandIs("netsh")) {
-            Desktop.getDesktop().open(new File("C:/Windows/system32/netsh.exe"));
         } else if (commandIs("paint")) {
             //todo soon our own custom painter
         } else if (commandIs("rickandmorty")) {
@@ -1141,6 +1140,7 @@ public class InputHandler {
                     Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
                     BufferedImage bufferedImage = null;
                     bufferedImage = new Robot().createScreenCapture(rectangle);
+                    //todo pass off to operating system handler
                     File file = new File("c:/users/"
                             + SystemUtil.getWindowsUsername() + "/downloads/CyderCapture_" + TimeUtil.logSubDirTime() + ".png");
                     boolean status = ImageIO.write(bufferedImage, "png", file);

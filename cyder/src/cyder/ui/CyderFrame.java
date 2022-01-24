@@ -797,10 +797,12 @@ public class CyderFrame extends JFrame {
     public void notify(String htmltext, int viewDuration, Direction arrowDir,
                        NotificationDirection notificationDirection, ClickAction onKillAction,
                        Container container, Color notificationBackground) {
-        //make a WaitingNotification and add to queue, queue will automatically process any notifications so no further actions needed
+        //make a WaitingNotification and add to queue,
+        // queue will automatically process any notifications so no further actions needed
         notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection,
                 onKillAction, container, notificationBackground, TimeUtil.notificationTime()));
 
+        //ensure length will not break the bounds of the notification calculations
         if (StringUtil.getRawTextLength(htmltext) < 3)
             throw new IllegalArgumentException("Raw text must be 3 characters or greater");
 
@@ -881,32 +883,32 @@ public class CyderFrame extends JFrame {
                                     break;
                                 case TOP_RIGHT:
                                     currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                        topDrag.getHeight());
+                                            topDrag.getHeight());
                                     break;
                                 case BOTTOM:
                                     currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                        getHeight() - 5);
+                                            getHeight() - 5);
                                     break;
                                 case CENTER_LEFT:
                                     currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                        getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                                            getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
                                     break;
                                 case CENTER_RIGHT:
                                     currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                        getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                                            getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
                                     break;
                                 case BOTTOM_LEFT:
                                     //parent.getHeight() - this.getHeight() + 10
                                     currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                        getHeight() - currentNotification.getHeight() + 5);
+                                            getHeight() - currentNotification.getHeight() + 5);
                                     break;
                                 case BOTTOM_RIGHT:
                                     currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
                                             getHeight() - currentNotification.getHeight() + 5);
                                     break;
                                 default:  //top
-                                        currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                                DragLabel.getDefaultHeight() - currentNotification.getHeight());
+                                    currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                            DragLabel.getDefaultHeight() - currentNotification.getHeight());
                             }
 
                             iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
