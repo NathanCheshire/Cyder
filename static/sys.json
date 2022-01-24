@@ -79,15 +79,5 @@
       "Console Input Caret Position Updater",
       "Console Printing Animation",
       "ConsoleFrame Position Saver"
-   ],
-   "ignorelogdata":[
-           "typinganimation",
-           "showseconds",
-           "roundedwindows",
-           "windowcolor",
-           "audiolength",
-           "capsmode",
-           "typingsound",
-           "showbusyicon"
-      ]
+   ]
 }

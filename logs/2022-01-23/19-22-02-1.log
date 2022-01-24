@@ -1,0 +1,11 @@
+[19-22-02] [ENTRY]: [Nathan]
+[19-22-02] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-22-02] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-22-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.IOUtil.checkSystemData(IOUtil.java:167)
+From line: 167
+Trace: java.lang.Exception: System data object attribute was serialized to null: getIgnoreLogData
+	at cyder.utilities.IOUtil.checkSystemData(IOUtil.java:167)
+	at cyder.genesis.Cyder.main(Cyder.java:66)
+[19-22-03] [EXIT]: [RUNTIME] 1s
+[19-22-03] [EOL]: Log completed, exiting Cyder with exit code: -112 [Sys.json Exception], exceptions thrown: 1

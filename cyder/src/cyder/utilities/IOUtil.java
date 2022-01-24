@@ -760,7 +760,6 @@ public class IOUtil {
         private boolean testingmode;
         private LinkedList<ExitCondition> exitconditions;
         private LinkedList<String> ignorethreads;
-        private LinkedList<String> ignorelogdata;
 
         public boolean isReleased() {
             return released;
@@ -856,14 +855,6 @@ public class IOUtil {
 
         public void setIgnorethreads(LinkedList<String> ignorethreads) {
             this.ignorethreads = ignorethreads;
-        }
-
-        public LinkedList<String> getIgnoreLogData() {
-            return ignorelogdata;
-        }
-
-        public void setIgnoreLogData(LinkedList<String> ignorelogdata) {
-            this.ignorelogdata = ignorelogdata;
         }
 
         @Override

@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.zip.ZipEntry;
@@ -474,14 +475,31 @@ public class UserUtil {
     }
 
     //read once on compile time
-    private static LinkedList<String> ignoreDatas = IOUtil.getSystemData().getIgnoreLogData();
+    private static IgnoreData ignoreDatas = null;
+
+    static {
+        loadIgnoreDatas();
+    }
+
+    public static void loadIgnoreDatas() {
+        Gson gson = new Gson();
+
+        try (Reader reader = new FileReader("static/json/ignoredatas.json")) {
+            IgnoreData ret = gson.fromJson(reader, IgnoreData.class);
+
+            //if successful set as our suggestions object
+            ignoreDatas = ret;
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+        }
+    }
 
     /**
      * @param dataid the id of the data we wish to obtain from userdata.json
      * @return boolean detemrining whether or not this data should be ignored by the SessionLogger
      */
     public static boolean ignoreLogData(String dataid) {
-       return ignoreDatas.contains(dataid);
+       return ignoreDatas.getIgnoreData().contains(dataid);
     }
 
     /**
@@ -949,6 +967,24 @@ public class UserUtil {
             fis.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        }
+    }
+
+    //inner classes
+
+    private static class IgnoreData {
+        private ArrayList<String> ignorelogdata;
+
+        public IgnoreData(ArrayList<String> ignorelogdata) {
+            this.ignorelogdata = ignorelogdata;
+        }
+
+        public ArrayList<String> getIgnoreData() {
+            return ignorelogdata;
+        }
+
+        public void setIgnoreData(ArrayList<String> ignorelogdata) {
+            this.ignorelogdata = ignorelogdata;
         }
     }
 }

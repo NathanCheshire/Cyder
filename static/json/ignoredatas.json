@@ -1,0 +1,12 @@
+{
+  "ignorelogdata": [
+    "typinganimation",
+    "showseconds",
+    "roundedwindows",
+    "windowcolor",
+    "audiolength",
+    "capsmode",
+    "typingsound",
+    "showbusyicon"
+  ]
+}

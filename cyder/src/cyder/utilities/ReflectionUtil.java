@@ -168,8 +168,6 @@ public class ReflectionUtil {
         return ret;
     }
 
-    //todo expand sys.json to smaller components so that you don't parse all that at once
-
     /**
      * Opens a widget with the same trigger as the one provided.
      *
