@@ -11,7 +11,6 @@ import cyder.genesis.GenesisShare;
 import cyder.genesis.GenesisShare.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.helperscripts.PyExecutor;
-import cyder.objects.MultiString;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
@@ -1268,15 +1267,22 @@ public class InputHandler {
                 println("Command usage: number2string YOUR_INTEGER");
             }
         } else if (commandIs("widgets")) {
-            ArrayList<MultiString> widgets = ReflectionUtil.findWidgets();
+            ArrayList<ReflectionUtil.WidgetInformation> widgets = ReflectionUtil.findWidgets();
             println("Found " + widgets.size() + " widgets:");
             println("-------------------------------------");
 
-            for (MultiString multiString : widgets) {
-                if (multiString.getSize() == 2) {
-                    println("Trigger: " + multiString.get(0) + "\nDescription: " + multiString.get(1));
-                    println("-------------------------------------");
-                } else throw new IllegalStateException("@Widget annotation found with param length not 2");
+            for (ReflectionUtil.WidgetInformation widget : widgets) {
+                StringBuilder triggers = new StringBuilder();
+
+                for (int i = 0 ; i < widget.getTriggers().length ; i++) {
+                    triggers.append(widget.getTriggers()[i]);
+
+                    if (i != widget.getTriggers().length - 1)
+                        triggers.append(", ");
+                }
+
+                println("Triggers: [" + triggers.toString().trim() + "]\nDescription: " + widget.getDescription());
+                println("-------------------------------------");
             }
         } else ret = false;
 

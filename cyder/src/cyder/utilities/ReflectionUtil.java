@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.objects.MultiString;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -151,21 +150,25 @@ public class ReflectionUtil {
     /**
      * Finds all classes annotated with the @Widget annotation within the widgets package
      */
-    public static ArrayList<MultiString> findWidgets() {
-        ArrayList<MultiString> ret = new ArrayList<>();
+    public static ArrayList<WidgetInformation> findWidgets() {
+        ArrayList<WidgetInformation> ret = new ArrayList<>();
 
-        for (Class classer : findAllClassesUsingClassLoader("cyder.widgets")) {
-            for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(Widget.class)) {
-                    String trigger = m.getAnnotation(Widget.class).trigger();
-                    String desc = m.getAnnotation(Widget.class).description();
-                    ret.add(new MultiString(2,new String[] {trigger, desc}));
+        for (String widget : widgets.getPack()) {
+            for (Class classer : findAllClassesUsingClassLoader(widget)) {
+                for (Method m : classer.getMethods()) {
+                    if (m.isAnnotationPresent(Widget.class)) {
+                        String description = m.getAnnotation(Widget.class).description();
+                        String[] widgetTriggers = m.getAnnotation(Widget.class).trigger();
+                        ret.add(new WidgetInformation(widgetTriggers, description));
+                    }
                 }
             }
         }
 
         return ret;
     }
+
+    //todo expand sys.json to smaller components so that you don't parse all that at once
 
     /**
      * Opens a widget with the same trigger as the one provided.
@@ -174,33 +177,25 @@ public class ReflectionUtil {
      * @return whether or not a widget was opened
      */
     public static boolean openWidget(String trigger) {
-        //todo autocyphering... label is not tall enough
-
-        //todo handle multiple triggers here too
-
-        //todo expand sys.json to smaller components so that you don't parse all that shit at once
-        // it'll be easier to read this way
-
-        //todo perhaps parse jsons method
-
         for (String widget : widgets.getPack()) {
             for (Class classer : findAllClassesUsingClassLoader(widget)) {
                 for (Method m : classer.getMethods()) {
                     if (m.isAnnotationPresent(Widget.class)) {
-                        //todo make this a list that you can iterate through
-                        String widgetTrigger = m.getAnnotation(Widget.class).trigger();
+                        String[] widgetTriggers = m.getAnnotation(Widget.class).trigger();
 
-                        if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                            ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
-                                    + classer.getName());
-                            try {
-                                if (m.getParameterCount() == 0) {
-                                    m.invoke(classer);
-                                    return true;
-                                } else throw new IllegalStateException("Found widget showGUI()" +
-                                        " method with parameters: " + m.getName() + ", class: " + classer);
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
+                        for (String widgetTrigger : widgetTriggers) {
+                            if (widgetTrigger.equalsIgnoreCase(trigger)) {
+                                ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
+                                        + classer.getName());
+                                try {
+                                    if (m.getParameterCount() == 0) {
+                                        m.invoke(classer);
+                                        return true;
+                                    } else throw new IllegalStateException("Found widget showGUI()" +
+                                            " method with parameters: " + m.getName() + ", class: " + classer);
+                                } catch (Exception e) {
+                                    ExceptionHandler.handle(e);
+                                }
                             }
                         }
                     }
@@ -287,7 +282,7 @@ public class ReflectionUtil {
         }
     }
 
-    //inner class
+    //inner classes ---------------------
     public static class WidgetHolder {
         private ArrayList<String> pack;
 
@@ -301,6 +296,32 @@ public class ReflectionUtil {
 
         public void setPack(ArrayList<String> pack) {
             this.pack = pack;
+        }
+    }
+
+    public static class WidgetInformation {
+        private String[] triggers;
+        private String description;
+
+        public WidgetInformation(String[] triggers, String description) {
+            this.triggers = triggers;
+            this.description = description;
+        }
+
+        public String[] getTriggers() {
+            return triggers;
+        }
+
+        public void setTriggers(String[] triggers) {
+            this.triggers = triggers;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
     }
 }

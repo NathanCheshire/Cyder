@@ -127,7 +127,8 @@ public class CyderSplash {
                         CyderLabel loadingLabel = new CyderLabel("By Nathan Cheshire");
                         loadingLabel.setFont(nathanFont);
                         loadingLabel.setForeground(CyderColors.vanila);
-                        loadingLabel.setBounds(0, 600, 600, CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
+                        loadingLabel.setBounds(0, 600, 600,
+                                CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
                         splashFrame.getContentPane().add(loadingLabel);
 
                         while (loadingLabel.getY() > 600 / 2 + 150 / 2 + loadingLabel.getHeight() + 30) {
@@ -139,7 +140,11 @@ public class CyderSplash {
 
                         String message = CyderSplash.loadingMessage;
                         int dotTimeout = 400;
-                        loadingLabel.setFont(new Font("Agency FB", Font.BOLD, 50));
+                        Font newFont = new Font("Agency FB", Font.BOLD, 50);
+
+                        loadingLabel.setFont(newFont);
+                        loadingLabel.setBounds(0, 600, 600,
+                                CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
 
                         for (int i = 0 ; i < 30 ; i++) {
                             loadingLabel.setText(message);
