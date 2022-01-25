@@ -7,6 +7,8 @@ import cyder.handlers.internal.ExceptionHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ColorUtil {
     private ColorUtil() {
@@ -46,7 +48,7 @@ public class ColorUtil {
         Color ret = null;
 
         try {
-            Color backgroundDom = ImageUtil.getDominantColor(bi);
+            Color backgroundDom = getDominantColor(bi);
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
@@ -65,7 +67,7 @@ public class ColorUtil {
         Color ret = null;
 
         try {
-            Color backgroundDom = ImageUtil.getDominantColor(ImageUtil.getBi(ico));
+            Color backgroundDom = getDominantColor(ImageUtil.getBi(ico));
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
@@ -78,5 +80,58 @@ public class ColorUtil {
         } finally {
             return ret;
         }
+    }
+
+    public static Color getDominantColor(BufferedImage image) {
+        Map<Integer, Integer> colorCounter = new HashMap<>(100);
+
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                int currentRGB = image.getRGB(x, y);
+                int count = colorCounter.getOrDefault(currentRGB, 0);
+                colorCounter.put(currentRGB, count + 1);
+            }
+        }
+
+        return getDominantColor(colorCounter);
+    }
+
+    public static Color getDominantColor(ImageIcon imageIcon) {
+        BufferedImage bi = ImageUtil.getBi(imageIcon);
+
+        Map<Integer, Integer> colorCounter = new HashMap<>(100);
+
+        for (int x = 0; x < bi.getWidth(); x++) {
+            for (int y = 0; y < bi.getHeight(); y++) {
+                int currentRGB = bi.getRGB(x, y);
+                int count = colorCounter.getOrDefault(currentRGB, 0);
+                colorCounter.put(currentRGB, count + 1);
+            }
+        }
+
+        return getDominantColor(colorCounter);
+    }
+
+    public static Color getDominantColorOpposite(BufferedImage image) {
+        Color c = getDominantColor(image);
+        return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
+    }
+
+    public static Color getDominantColorOpposite(ImageIcon image) {
+        Color c = getDominantColor(image);
+        return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
+    }
+
+    public static Color getDominantColor(Map<Integer, Integer> colorCounter) {
+        int dominantRGB = colorCounter.entrySet().stream()
+                .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
+                .get()
+                .getKey();
+
+        return new Color(dominantRGB);
+    }
+
+    public static Color getOppositeColor(Color c) {
+        return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
     }
 }

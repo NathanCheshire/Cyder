@@ -637,7 +637,7 @@ public class InputHandler {
                 println("Background color command usage: backgroundcolor EC407A");
             }
         } else if (commandIs("fixforeground")) {
-            Color backgroundDom = ImageUtil.getDominantColor(ImageIO.read(
+            Color backgroundDom = ColorUtil.getDominantColor(ImageIO.read(
                     ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()

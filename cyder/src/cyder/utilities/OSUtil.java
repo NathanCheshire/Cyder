@@ -202,9 +202,7 @@ public class OSUtil {
 
     //todo component util for things such as rendering a component or getting a screenshot?
 
-    //todo fix debug lines for consoleFrame
-
-    //todo compact mode for console frame menu
+    //todo compact mode for console frame menu, basically just copy the text that the icon would be and install a listener there
 
     //todo changing the consoleframe background to something needs it's own method and param
     // to change/not change the size

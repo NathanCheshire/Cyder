@@ -92,9 +92,6 @@ public final class ConsoleFrame {
     private int fontMetric = Font.BOLD;
     private int fontSize = 30;
 
-    //debug vars
-    private Color lineColor = Color.white;
-
     //command scrolling
     public static ArrayList<String> operationList = new ArrayList<>();
     private static int scrollingIndex;
@@ -122,9 +119,6 @@ public final class ConsoleFrame {
         try {
             //set bashstring based on cyder username
             consoleBashString = getUsername() + "@Cyder:~$ ";
-
-            //line color depends on the current image
-            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
             //init slide and dir directions
             lastSlideDirection = Direction.LEFT;
@@ -409,49 +403,7 @@ public final class ConsoleFrame {
             inputField.getActionMap().put("debuglines", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (!consoleLinesDrawn) {
-                        BufferedImage img = null;
-                        int w = 0;
-                        int h = 0;
-
-                        try {
-                            img = ImageUtil.resizeImage(25,25,ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile());
-                            w = img.getWidth(null);
-                            h = img.getHeight(null);
-
-                        } catch (Exception ex) {
-                            ExceptionHandler.handle(ex);
-                        }
-
-                        verticalDebugLine = new JLabel();
-                        verticalDebugLine.setBounds(getWidth() / 2 - 2, 0, 4, getHeight());
-                        verticalDebugLine.setOpaque(true);
-                        verticalDebugLine.setBackground(lineColor);
-                        consoleCyderFrame.getTrueContentPane().add(verticalDebugLine,9000);
-
-                        horizontalDebugLine = new JLabel();
-                        horizontalDebugLine.setBounds(0, getHeight() / 2 - 2, getWidth(), 4);
-                        horizontalDebugLine.setOpaque(true);
-                        horizontalDebugLine.setBackground(lineColor);
-                        consoleCyderFrame.getTrueContentPane().add(horizontalDebugLine,9000);
-
-                        if (img != null) {
-                            debugImageLabel = new JLabel();
-                            debugImageLabel.setIcon(new ImageIcon(img));
-                            debugImageLabel.setBounds(getWidth() / 2 - w / 2,getHeight() / 2 - h / 2, w, h);
-                            consoleCyderFrame.getTrueContentPane().add(debugImageLabel,9000);
-                        }
-
-                        consoleLinesDrawn = true;
-                    } else {
-                        consoleCyderFrame.getTrueContentPane().remove(verticalDebugLine);
-                        consoleCyderFrame.getTrueContentPane().remove(horizontalDebugLine);
-                        consoleCyderFrame.getTrueContentPane().remove(debugImageLabel);
-                        consoleCyderFrame.getTrueContentPane().revalidate();
-                        consoleCyderFrame.getTrueContentPane().repaint();
-
-                        consoleLinesDrawn = false;
-                    }
+                    consoleCyderFrame.drawDebugLines(!consoleCyderFrame.isDrawDebugLines());
                 }
             });
 
@@ -2250,9 +2202,6 @@ public final class ConsoleFrame {
             //change tooltip to new image name
             ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
-
-            //update line color
-            lineColor = ImageUtil.getDominantColorOpposite(ImageIO.read(getCurrentBackgroundFile()));
 
             //set input and output bounds
             outputScroll.setBounds(15, 62, width - 40, height - 204);

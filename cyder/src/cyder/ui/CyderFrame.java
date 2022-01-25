@@ -2049,6 +2049,68 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    //debug line logic --------------------------------------------
+
+    private boolean drawDebugLines;
+    private JLabel debugXLabel;
+    private JLabel debugYLabel;
+    private JLabel debugImageLabel;
+
+    /**
+     * Sets whether or not debug lines should be drawn for this frame.
+     *
+     * @param b whether or not debug lines should be drawn for this frame
+     */
+    public void drawDebugLines(boolean b) {
+        this.drawDebugLines = b;
+
+        if (b) {
+            Color lineColor = ColorUtil.getOppositeColor(this.backgroundColor);
+
+            if (this.background != null) {
+                lineColor = ColorUtil.getDominantColorOpposite(this.background);
+
+                ImageIcon img = new ImageIcon(ImageUtil.resizeImage(25,25, this.background));
+
+                debugImageLabel = new JLabel();
+                debugImageLabel.setIcon(this.background);
+                debugImageLabel.setBounds(
+                        getWidth() / 2 - img.getIconWidth() / 2,
+                        getHeight() / 2 - img.getIconHeight() / 2,
+                        img.getIconWidth(), img.getIconHeight());
+                this.add(debugImageLabel);
+            }
+
+            debugXLabel = new JLabel();
+            debugXLabel.setBounds(getWidth() / 2 - 2, 0, 4, getHeight());
+            debugXLabel.setOpaque(true);
+            debugXLabel.setBackground(lineColor);
+            this.add(debugXLabel);
+
+            debugYLabel = new JLabel();
+            debugYLabel.setBounds(0, getHeight() / 2 - 2, getWidth(), 4);
+            debugYLabel.setOpaque(true);
+            debugYLabel.setBackground(lineColor);
+            this.add(debugYLabel);
+        } else {
+            this.remove(debugXLabel);
+            this.remove(debugYLabel);
+            this.remove(debugImageLabel);
+        }
+
+        this.revalidate();
+        this.repaint();
+    }
+
+    /**
+     * Returns whether or not debug lines should be drawn for this frame.
+     *
+     * @return whether or not debug lines should be drawn for this frame
+     */
+    public boolean isDrawDebugLines() {
+        return this.drawDebugLines;
+    }
+
     private static class WaitingNotification {
         private String htmlText;
         private int duration;
