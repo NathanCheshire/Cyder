@@ -19,6 +19,7 @@ public class OSUtil {
      *         Cyder is currently running on
      */
     public static boolean isValidFilename(String filename) {
+        //todo
         return false;
     }
 
@@ -31,6 +32,7 @@ public class OSUtil {
      *      * Cyder is currently running on and whether or not the filename follows standard naming procedures
      */
     public static boolean isValidAndStandardFilename(String filename) {
+        //todo
         return false;
     }
 
@@ -201,4 +203,19 @@ public class OSUtil {
     //todo component util for things such as rendering a component or getting a screenshot?
 
     //todo fix debug lines for consoleFrame
+
+    //todo compact mode for console frame menu
+
+    //todo changing the consoleframe background to something needs it's own method and param
+    // to change/not change the size
+
+    //todo should be able to set consoleFrame to image regardless of if it's saved
+
+    //todo the way we resize a frame should affect what background is shown
+
+    //todo remember console orientation on exiting Cyder
+
+    //todo implement curl command
+
+    //todo display all files inside of user editor now too
 }

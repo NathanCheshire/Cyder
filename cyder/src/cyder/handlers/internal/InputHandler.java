@@ -865,17 +865,7 @@ public class InputHandler {
             MasterYoutubeThread.killAll();
             println("YouTube scripts have been killed.");
         } else if (commandIs("longword")) {
-            int count = 0;
-
-            String[] words = command.split(" ");
-
-            for (String word : words) {
-                if (word.equalsIgnoreCase("long")) {
-                    count++;
-                }
-            }
-
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < args.size(); i++) {
                 print("pneumonoultramicroscopicsilicovolcanoconiosis");
             }
 
@@ -1106,7 +1096,7 @@ public class InputHandler {
                 println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (commandIs("demomode")) {
-            //todo implement logic to simply screenshot all cyder frames?
+            //todo image util method to screenshot all cyderframes and save to user's files dir
 
             File refFile = OSUtil.createFileInUserSpace("ConsoleFrame_" + TimeUtil.logSubDirTime() + ".png");
 
@@ -1114,8 +1104,6 @@ public class InputHandler {
             boolean status = ImageIO.write(ImageUtil.getScreenShot(
                     ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()), "png", refFile);
 
-            //todo implement curl command
-            //todo display all files inside of user editor now too
             ConsoleFrame.getConsoleFrame().notify("Screen shots " +
                     (status ? "successfully" : "unsuccessfully") + " saved to your Files folder");
         } else if (commandIs("xxx")) {
