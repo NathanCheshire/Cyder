@@ -2,7 +2,6 @@ package cyder.handlers.internal;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
 import cyder.consts.CyderNums;
 import cyder.consts.CyderStrings;
 import cyder.cyderuser.UserCreator;
@@ -27,8 +26,6 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
@@ -1109,78 +1106,18 @@ public class InputHandler {
                 println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (commandIs("demomode")) {
-            CyderFrame background = new CyderFrame(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight(),
-                    CyderColors.navyComplementary);
-            background.setTitle(StringUtil.capsFirst(IOUtil.getSystemData().getVersion()) + " Demo");
+            //todo implement logic to simply screenshot all cyder frames?
 
-            JButton snapButton = new JButton("Center");
-            snapButton.setForeground(CyderColors.vanila);
-            snapButton.setFont(CyderFonts.defaultFontSmall);
-            snapButton.addActionListener(e -> {
-                background.setSize(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight());
-                background.setLocationRelativeTo(null);
-            });
-            snapButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    snapButton.setForeground(CyderColors.regularRed);
-                }
+            File refFile = OSUtil.createFileInUserSpace("ConsoleFrame_" + TimeUtil.logSubDirTime() + ".png");
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    snapButton.setForeground(CyderColors.vanila);
-                }
-            });
+            System.out.println(refFile.getAbsolutePath());
+            boolean status = ImageIO.write(ImageUtil.getScreenShot(
+                    ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()), "png", refFile);
 
-            JButton pictureButton = new JButton("Shoot");
-            pictureButton.setForeground(CyderColors.vanila);
-            pictureButton.setFont(CyderFonts.defaultFontSmall);
-            pictureButton.addActionListener(e -> {
-                try {
-                    Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-                    BufferedImage bufferedImage = null;
-                    bufferedImage = new Robot().createScreenCapture(rectangle);
-
-                    //todo test this lol
-                    File refFile = OSUtil.createFileInUserSpace("CyderCapture_" + TimeUtil.logSubDirTime() + ".png");
-
-                    System.out.println(refFile.getAbsolutePath());
-                    boolean status = ImageIO.write(bufferedImage, "png", refFile);
-
-                    //todo display all files inside of user editor now too
-                    ConsoleFrame.getConsoleFrame().notify("Screen shot " +
-                            (status ? "successfully" : "unsuccessfully") + " saved to your Files folder");
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            });
-            pictureButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    pictureButton.setForeground(CyderColors.regularRed);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    pictureButton.setForeground(CyderColors.vanila);
-                }
-            });
-
-            pictureButton.setContentAreaFilled(false);
-            pictureButton.setBorderPainted(false);
-            pictureButton.setFocusPainted(false);
-            background.getTopDragLabel().addButton(pictureButton, 0);
-
-            snapButton.setContentAreaFilled(false);
-            snapButton.setBorderPainted(false);
-            snapButton.setFocusPainted(false);
-            background.getTopDragLabel().addButton(snapButton, 0);
-
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setAlwaysOnTop(true);
-            background.initializeResizing();
-            background.setFrameResizing(false);
-            background.setVisible(true);
-            background.setLocationRelativeTo(null);
+            //todo implement curl command
+            //todo display all files inside of user editor now too
+            ConsoleFrame.getConsoleFrame().notify("Screen shots " +
+                    (status ? "successfully" : "unsuccessfully") + " saved to your Files folder");
         } else if (commandIs("xxx")) {
             SystemUtil.setCurrentCyderIcon(SystemUtil.xxxIcon);
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()

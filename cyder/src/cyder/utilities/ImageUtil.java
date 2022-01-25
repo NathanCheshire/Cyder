@@ -665,4 +665,22 @@ public class ImageUtil {
 
         return new Dimension((int) deltaWidth, (int) deltaHeight);
     }
+
+    /**
+     * Returns a buffered image object for the provided component.
+     *
+     * @param component the component to take a picture of
+     * @return the buffered image representing the provided component
+     */
+    public static BufferedImage getScreenShot(Component component) {
+        BufferedImage image = new BufferedImage(
+                component.getWidth(),
+                component.getHeight(),
+                BufferedImage.TYPE_INT_RGB
+        );
+
+        component.paint(image.getGraphics());
+
+        return image;
+    }
 }

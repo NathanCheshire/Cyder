@@ -1,0 +1,45 @@
+[18-53-08] [ENTRY]: [Nathan]
+[18-53-08] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-53-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-53-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-53-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-53-10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-53-10] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-53-11] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-53-11] [SYSTEM_IO]: Userdata requested: Name
+[18-53-11] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-53-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-53-11] [SYSTEM_IO]: Userdata requested: Name
+[18-53-11] [SYSTEM_IO]: Userdata requested: Foreground
+[18-53-11] [SYSTEM_IO]: Userdata requested: Foreground
+[18-53-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-53-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-53-11] [SYSTEM_IO]: Userdata requested: Foreground
+[18-53-11] [SYSTEM_IO]: Userdata requested: Font
+[18-53-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-53-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-53-12] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-53-12] [SYSTEM_IO]: Userdata requested: Foreground
+[18-53-12] [SYSTEM_IO]: Userdata requested: Foreground
+[18-53-12] [SYSTEM_IO]: Userdata requested: Foreground
+[18-53-12] [SYSTEM_IO]: Userdata requested: Font
+[18-53-12] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-53-12] [SYSTEM_IO]: Userdata requested: InputFill
+[18-53-12] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1901348104], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-53-12] [ACTION]: Console loaded in 3964ms
+[18-53-12] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-53-12] [ENTRY]: [TESTING MODE]
+[18-53-12] [SYSTEM_IO]: Userdata requested: laststart
+[18-53-12] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-53-12] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3964ms
+[18-53-12] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-53-26] [CLIENT]: demo
+[18-53-26] [SYSTEM_IO]: Userdata requested: filterchat
+[18-53-27] [ACTION]: Similar command to "demo" found with tol of 0.8, command = "desmos"
+[18-53-27] [CONSOLE_OUT]: [STRING] Unknown command
+[18-53-29] [CLIENT]: demomode
+[18-53-29] [SYSTEM_IO]: Userdata requested: filterchat
+[18-53-29] [HANDLE]: GENERAL COMMAND HANDLED
+[18-53-29] [HANDLE]: PRIMARY HANDLE
+[18-53-29] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Screen shots successfully saved to your Files folder
+[18-53-29] [SYSTEM_IO]: Userdata requested: persistentnotifications

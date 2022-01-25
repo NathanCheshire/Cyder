@@ -195,4 +195,10 @@ public class OSUtil {
 
         return null;
     }
+
+    //todo redo image resizer and put cropper inside of it
+
+    //todo component util for things such as rendering a component or getting a screenshot?
+
+    //todo fix debug lines for consoleFrame
 }
