@@ -1,0 +1,65 @@
+[18-02-11] [ENTRY]: [Nathan]
+[18-02-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-02-12] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-02-12] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-02-12] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-02-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-02-14] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-02-14] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-02-14] [SYSTEM_IO]: Userdata requested: Name
+[18-02-14] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-02-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-02-14] [SYSTEM_IO]: Userdata requested: Name
+[18-02-14] [SYSTEM_IO]: Userdata requested: Foreground
+[18-02-14] [SYSTEM_IO]: Userdata requested: Foreground
+[18-02-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-02-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-02-14] [SYSTEM_IO]: Userdata requested: Foreground
+[18-02-14] [SYSTEM_IO]: Userdata requested: Font
+[18-02-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-02-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-02-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-02-14] [SYSTEM_IO]: Userdata requested: Foreground
+[18-02-14] [SYSTEM_IO]: Userdata requested: Foreground
+[18-02-14] [SYSTEM_IO]: Userdata requested: Foreground
+[18-02-14] [SYSTEM_IO]: Userdata requested: Font
+[18-02-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-02-14] [SYSTEM_IO]: Userdata requested: InputFill
+[18-02-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [649983528], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-02-15] [ACTION]: Console loaded in 3784ms
+[18-02-44] [EXCEPTION]: 
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+From line: 807
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:782)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:766)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:744)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:703)
+	at cyder.ui.ConsoleFrame.notify(ConsoleFrame.java:2617)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:1104)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:433)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:480)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:366)
+	at cyder.genesis.Cyder.main(Cyder.java:87)
+[18-02-44] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-02-44] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-02-44] [DEBUG]: 
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+From line: 807
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:782)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:766)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:744)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:703)
+	at cyder.ui.ConsoleFrame.notify(ConsoleFrame.java:2617)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:1104)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:433)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:480)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:366)
+	at cyder.genesis.Cyder.main(Cyder.java:87)
+[18-02-44] [ENTRY]: [TESTING MODE]
+[18-02-44] [SYSTEM_IO]: Userdata requested: laststart
+[18-02-44] [SYSTEM_IO]: Userdata requested: IntroMusic
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

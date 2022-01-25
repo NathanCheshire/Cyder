@@ -48,7 +48,6 @@ public class PyExecutor {
                         //print outputs to the console frame
                         while ((deviceString = inputReader.readLine()) != null) {
                             ConsoleFrame.getConsoleFrame().getInputHandler().println(deviceString);
-                            System.out.println(deviceString);
                         }
                     }
                     catch (Exception e) {

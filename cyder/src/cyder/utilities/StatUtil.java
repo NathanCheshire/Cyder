@@ -508,9 +508,6 @@ public class StatUtil {
                 String line = "";
 
                 while ((line = lineReader.readLine()) != null) {
-                    if (StringUtil.getFilename(startDir.getName()).equals("ReflectionUtil.java"))
-                        System.out.println(line);
-
                     if (isComment(line) && StringUtil.filterLanguage(line,false)) {
                        ConsoleFrame.getConsoleFrame().getInputHandler().println(
                                StringUtil.getFilename(startDir.getName()) + ": " + line.trim());

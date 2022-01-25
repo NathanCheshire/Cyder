@@ -38,10 +38,6 @@ public final class CyderRegexPatterns {
 
     /**
      * Regex pattern to determine if a line is a comment.
-     * An interesting note, a line such as this will not be counted as a comment:
-     * System.out.println(""); BLOCK COMMENT
-     * System.out.println("" BLOCK COMMENT);
-     * Even though these are valid comments
      */
     public static final String commentPattern = "\\s*[/]{2}.*|\\s*[/][*].*|\\s*[*].*|\\s*.*[*][/]\\s*";
 

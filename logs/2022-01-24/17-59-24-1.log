@@ -1,0 +1,67 @@
+[17-59-24] [ENTRY]: [Nathan]
+[17-59-24] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-59-24] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-59-24] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-59-24] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-59-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-59-26] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-59-27] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-59-27] [SYSTEM_IO]: Userdata requested: Name
+[17-59-27] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-59-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-59-27] [SYSTEM_IO]: Userdata requested: Name
+[17-59-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-59-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-59-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-59-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-59-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-59-27] [SYSTEM_IO]: Userdata requested: Font
+[17-59-27] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-59-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-59-27] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-59-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-59-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-59-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-59-27] [SYSTEM_IO]: Userdata requested: Font
+[17-59-27] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-59-27] [SYSTEM_IO]: Userdata requested: InputFill
+[17-59-27] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [919448813], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-59-27] [ACTION]: Console loaded in 3962ms
+[17-59-27] [EXCEPTION]: 
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+From line: 807
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:782)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:766)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:744)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:703)
+	at cyder.ui.ConsoleFrame.notify(ConsoleFrame.java:2617)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:1104)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:433)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:480)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:366)
+	at cyder.genesis.Cyder.main(Cyder.java:87)
+[17-59-27] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[17-59-27] [DEBUG]: 
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+From line: 807
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:807)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:782)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:766)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:744)
+	at cyder.ui.CyderFrame.notify(CyderFrame.java:703)
+	at cyder.ui.ConsoleFrame.notify(ConsoleFrame.java:2617)
+	at cyder.ui.ConsoleFrame.start(ConsoleFrame.java:1104)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:433)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:480)
+	at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:366)
+	at cyder.genesis.Cyder.main(Cyder.java:87)
+[17-59-27] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-59-27] [ENTRY]: [TESTING MODE]
+[17-59-27] [SYSTEM_IO]: Userdata requested: laststart
+[17-59-27] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-00-09] [SYSTEM_IO]: Userdata requested: HourlyChimes
+[18-00-10] [ACTION]: [SYSTEM AUDIO] static/audio/chime.mp3
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

@@ -4,6 +4,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderIcons;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
+import cyder.utilities.StringUtil;
 import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
@@ -510,7 +511,8 @@ public class DragLabel extends JLabel {
 
     public void refreshPinButton() {
         for (JButton dragLabelButton : this.getButtonsList()) {
-            if (dragLabelButton.getToolTipText().equals(pinButton.getToolTipText())) {
+            String tooltipText = dragLabelButton.getToolTipText();
+            if (!StringUtil.empytStr(tooltipText) && tooltipText.equals(pinButton.getToolTipText())) {
                 if (this.effectFrame.isAlwaysOnTop()) {
                     pinButton.setIcon(CyderIcons.pinIconHover);
                     effectFrame.setConsolePinned(false);

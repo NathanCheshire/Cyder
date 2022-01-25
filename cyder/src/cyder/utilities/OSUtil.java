@@ -1,5 +1,10 @@
 package cyder.utilities;
 
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.ui.ConsoleFrame;
+
+import java.io.File;
+
 /**
  * Methods that depend on the Operating System Cyder is running on are placed in this class.
  */
@@ -106,5 +111,88 @@ public class OSUtil {
 
     //end base operating system name/type setup logic
 
+    /**
+     * Opens the command shell for the operating system.
+     */
+    public static void openShell() {
+        try {
+            switch (OPERATING_SYSTEM) {
+                case WINDOWS:
+                    Runtime.getRuntime().exec("cmd");
+                    break;
+                case UNIX:
+                    //fall through
+                case OSX:
+                    String[] args = new String[] {"/bin/bash", "-c", "your_command", "with", "args"};
+                    Process proc = new ProcessBuilder(args).start();
+                    break;
+                case UNKNOWN:
+                    throw new RuntimeException("UNKNOWN OPERATING SYSTEM");
+                default:
+                    throw new IllegalStateException("Unknown operating system type: " + OPERATING_SYSTEM);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
 
+    /**
+     * The file separator character used for this operating system.
+     */
+    public static final String FILE_SEP = System.getProperty("file.separator");
+
+    /**
+     * Saves the provided file in the current user's files/ dir.
+     *
+     * @param name the filename to create
+     * @return a File object representing the file that was created
+     */
+    public static File createFileInUserSpace(String name) {
+        if (!StringUtil.empytStr(ConsoleFrame.getConsoleFrame().getUUID())) {
+            File saveDir = new File("dynamic" + FILE_SEP
+                    + "users" + FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID()
+                    + FILE_SEP + "Files");
+            File createFile = new File(saveDir, name);
+
+            if (createFile.exists())
+                throw new IllegalStateException("Provided file already exists");
+
+            try {
+                if (!saveDir.exists())
+                    saveDir.mkdir();
+
+                createFile.createNewFile();
+                return createFile;
+            } catch (Exception ignored) {}
+            //impossible to throw due to check, or is it?
+        }
+
+        return null;
+    }
+
+    /**
+     * Creates the provided file in the tmp/ directory.
+     *
+     * @param name the filename to create
+     * @return a File object representing the file that was created
+     */
+    public static File createFileInSystemSpace(String name) {
+        File saveDir = new File("cyder" + FILE_SEP + "src"
+                + FILE_SEP + "cyder" + FILE_SEP + "tmp");
+        File createFile = new File(saveDir, name);
+
+        if (!saveDir.exists())
+            saveDir.mkdir();
+
+        if (createFile.exists())
+            throw new IllegalStateException("Provided file already exists");
+
+        try {
+            createFile.createNewFile();
+            return createFile;
+        } catch (Exception ignored) {}
+        //impossible to throw due to check, or is it?
+
+        return null;
+    }
 }

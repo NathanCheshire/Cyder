@@ -450,12 +450,13 @@ public class StringUtil {
         }
     }
     /**
-     * Determines if the given string is empty
+     * Determines if the given string is empty.
+     *
      * @param s the string to compare for emptiness (self.Soul() usually returns true)
      * @return the boolean result of the comparison
      */
     public static boolean empytStr(String s) {
-        return (s == null ? null: (s == null) || (s.trim().length() == 0));
+        return (s == null || (s.trim().length() == 0));
     }
 
     /**
@@ -973,15 +974,19 @@ public class StringUtil {
      * @return the length of the non-html text
      */
     public static int getRawTextLength(String htmltext) {
-        int ret = 0;
-
         int length = 0;
 
-        for (TaggedString ts : getTaggedStrings(htmltext)) {
-            if (ts.getType() == TaggedStringType.TEXT)
-                length += ts.getText().length();
+        LinkedList<TaggedString> taggedStrings = getTaggedStrings(htmltext);
+
+        if (taggedStrings == null || taggedStrings.isEmpty()) {
+            length = htmltext.length();
+        } else {
+            for (TaggedString ts : taggedStrings) {
+                if (ts.getType() == TaggedStringType.TEXT)
+                    length += ts.getText().length();
+            }
         }
 
-        return ret;
+        return length;
     }
 }
