@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -88,7 +89,9 @@ public class CyderScrollList {
         StringUtil printingUtil = new StringUtil(listPane);
 
         //item alignment is 0?
-        printingUtil.setItemAlignment(itemAlignemnt);
+        SimpleAttributeSet attribs = new SimpleAttributeSet();
+        StyleConstants.setAlignment(attribs, itemAlignemnt);
+        listPane.setParagraphAttributes(attribs, true);
 
         for (int i = 0 ; i < elements.size() ; i++) {
             printingUtil.printlnComponent(elements.get(i));

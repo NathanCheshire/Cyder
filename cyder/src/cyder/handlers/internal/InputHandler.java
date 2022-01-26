@@ -1801,15 +1801,14 @@ public class InputHandler {
                                         document.insertString(document.getLength(), (String) line, null);
                                         outputArea.setCaretPosition(outputArea.getDocument().getLength());
                                     } else {
-                                        //todo we need a custom object to link a sem to a JTextPane for thread safety
-                                        CyderCommon.getPrintingSem().acquire();
+                                        CyderCommon.getPrintingSem().acquire(); //todo linked soon
                                         for (char c : ((String) line).toCharArray()) {
                                             innerConsolePrint(c);
 
                                             if (!finishPrinting)
                                                 Thread.sleep(charTimeout);
                                         }
-                                        CyderCommon.getPrintingSem().release();
+                                        CyderCommon.getPrintingSem().release(); //todo linked soon
                                     }
                                 } else {
                                     StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -2374,7 +2373,7 @@ public class InputHandler {
                 }
             }
 
-            CyderCommon.getPrintingSem().acquire();
+            CyderCommon.getPrintingSem().acquire(); //todo linked soon
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -2382,7 +2381,7 @@ public class InputHandler {
 
             removeLastLine();
 
-            CyderCommon.getPrintingSem().release();
+            CyderCommon.getPrintingSem().release(); //todo linked soon
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

@@ -25,12 +25,6 @@ import java.util.regex.Pattern;
 public class StringUtil {
     private JTextPane linkedJTextPane = null;
 
-    public void setItemAlignment(int styleConstantsAlignment) {
-        SimpleAttributeSet attribs = new SimpleAttributeSet();
-        StyleConstants.setAlignment(attribs, styleConstantsAlignment);
-        linkedJTextPane.setParagraphAttributes(attribs, true);
-    }
-
     private StringUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     } //no instantiation without jtextpane object
@@ -52,21 +46,23 @@ public class StringUtil {
      * Sets the output area for this instance of StringUtil.
      * @param jTextPane the JTextPane which we will append to when needed
      */
-    public void setLinkedJTextPane(JTextPane jTextPane) {
+    public void setLinkedCyderOutputPane(JTextPane jTextPane) {
         this.linkedJTextPane = jTextPane;
     }
+    //todo link a CyderOutputPane
 
     /**
      * Removes the first object from the linked pane, this could be anything from a Component to a String
      */
     public void removeFirst() {
         try {
-            CyderCommon.getPrintingSem().acquire();
+            CyderCommon.getPrintingSem().acquire(); //todo linked soon
+
             Element root = linkedJTextPane.getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
             linkedJTextPane.getDocument().remove(first.getStartOffset(), first.getEndOffset());
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
-            CyderCommon.getPrintingSem().release();
+            CyderCommon.getPrintingSem().release(); //todo linked soon
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -110,7 +106,7 @@ public class StringUtil {
                 }
             }
 
-            CyderCommon.getPrintingSem().acquire();
+            CyderCommon.getPrintingSem().acquire(); //todo linked soon
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -118,7 +114,7 @@ public class StringUtil {
 
             removeLastLine();
 
-            CyderCommon.getPrintingSem().release();
+            CyderCommon.getPrintingSem().release(); //todo linked soon
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

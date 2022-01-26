@@ -114,11 +114,13 @@ public class Preferences {
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
 
-        //adding future prefs: you'll need to add the preference here and also the data in user.java
+        // Adding future prefs:
+        // you'll need to add the preference here and also the data in user.java
         // since gson parses the userdata.json into a user object.
 
-        //some rare cases might require deeper manipulation such as the case for executables
+        // Some rare cases might require deeper manipulation such as the case for executables
         // where we don't add it here but add it for the user object and for user creation
+        // this also requires more handling where we want to use the non-string data
 
         return ret;
     }
@@ -176,6 +178,9 @@ public class Preferences {
             return ReflectionUtil.commonCyderToString(this);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public boolean equals(Object o) {
             if (this == o)
@@ -184,6 +189,18 @@ public class Preferences {
                 return false;
 
             return ((Preference) o).getID().equals(this.getID());
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            int result = ID.hashCode();
+            result = 31 * result + displayName.hashCode();
+            result = 31 * result + tooltip.hashCode();
+            result = 31 * result + defaultValue.hashCode();
+            return result;
         }
     }
 }
