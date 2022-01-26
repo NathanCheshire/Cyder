@@ -193,4 +193,14 @@ public class CyderTextField extends JTextField {
             }
         });
     }
+
+    /**
+     * Returns the TextField text but trimmed and with multiple occurences
+     * of whitespace in the String replaced with one whitespace char.
+     *
+     * @return the TextField text with trimming performed
+     */
+    public String getTrimmedText() {
+        return this.getText().trim().replaceAll("\\s+"," ");
+    }
 }

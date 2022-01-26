@@ -198,26 +198,35 @@ public class OSUtil {
         return null;
     }
 
+    //todo command finder needs to be able to execute on it's own and take into a file which should be
+    // generated before jar compilation,
+
     //todo redo image resizer and put cropper inside of it
 
     //todo component util for things such as rendering a component or getting a screenshot?
+    //todo maybe this goes in frame util with demo mode functions
 
-    //todo compact mode for console frame menu, basically just copy the text that the icon would be and install a listener there
+    //todo compact mode for console frame menu,
+    // basically just copy the text that the icon would be and install a listener there
+
+    //todo be able to drag the height of the console menu and
+    // remember the relative percentage of the height in userdata
 
     //todo changing the consoleframe background to something needs it's own method and param
     // to change/not change the size
 
-    //todo should be able to set consoleFrame to image regardless of if it's saved
+    //todo fix weird bug with setting console orientation when it originally loads
+    // and you can do ctrl + up and it refreshes a little
 
-    //todo the way we resize a frame should affect what background is shown
+    //todo should be able to set consoleFrame to image regardless of if it's a saved file or not
+
+    //todo the way we resize a frame should affect what way the background recedes
 
     //todo remember console orientation on exiting Cyder
 
     //todo display all files inside of user editor now too
 
     //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
-
-    //todo similar command broken?
 
     //todo trim any multiple spaces out of console clock format input field
 

@@ -1026,4 +1026,15 @@ public class StringUtil {
 
         return length;
     }
+
+    /**
+     * Returns the provided text trimmed and with all occurences
+     * of whitespace replaced with one whitespace char.
+     *
+     * @param text the text to trim
+     * @return the text after trimming operations have been performed
+     */
+    public static String getTrimmedText(String text) {
+        return text.trim().replaceAll("\\s+", " ");
+    }
 }

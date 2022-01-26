@@ -1122,7 +1122,7 @@ public class UserEditor implements WidgetBase {
         printingUtil.print("\n");
 
         validateDatePatternButton.addActionListener(e -> {
-            String fieldText = consoleDatePatternField.getText().trim();
+            String fieldText = StringUtil.getTrimmedText(consoleDatePatternField.getText());
 
             try {
                 Date Time = new Date();
@@ -1130,8 +1130,9 @@ public class UserEditor implements WidgetBase {
                 String formatted =  dateFormatter.format(Time);
 
                 //valid so write and refresh consoleclock
-                UserUtil.setUserData("consoleclockformat",fieldText);
+                UserUtil.setUserData("consoleclockformat", fieldText);
                 ConsoleFrame.getConsoleFrame().refreshClockText();
+                consoleDatePatternField.setText(fieldText);
             } catch (Exception ex) {
                 ExceptionHandler.silentHandle(ex);
             }
