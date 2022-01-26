@@ -157,9 +157,8 @@ public class SessionHandler {
                 //write
                 writeLine(logBuilder.toString());
 
-                //exit using the exit code right after logging it
-                System.exit(Integer.parseInt(String.valueOf(representation)));
-                break;
+                //return to caller to exit immediately
+                return;
             case CORRUPTION:
                 //before user corruption method is called
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip

@@ -178,10 +178,11 @@ public class CyderCommon {
             //ensures IO finishes and is not invoked again
             UserUtil.blockFutureIO();
 
-            //log exit, todo move the system.exit call back here
+            //log exit
             SessionHandler.log(SessionHandler.Tag.EXIT, code);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        } finally {
             System.exit(code);
         }
     }
