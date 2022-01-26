@@ -4,6 +4,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderOutputPane;
 import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
@@ -56,7 +57,7 @@ public class YoutubeThread {
      * @param threadNumber the number this thread is in the youtube thread list
      */
     public YoutubeThread(JTextPane jTextPane, int threadNumber) {
-        this.stringUtil = new StringUtil(jTextPane);
+        this.stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
 
         new Thread(() -> {
             //init as user's stored value

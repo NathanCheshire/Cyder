@@ -3,7 +3,6 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.utilities.ReflectionUtil;
-import cyder.utilities.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -85,20 +84,17 @@ public class CyderScrollList {
         listPane.setOpaque(false);
         listPane.setBackground(CyderColors.vanila);
 
-        //used to add the CyderScrollListLabels
-        //todo need an object for ConsoleFrame's JTextPane now
-        StringUtil printingUtil = new StringUtil(listPane);
-
-        //item alignment is 0?
         SimpleAttributeSet attribs = new SimpleAttributeSet();
         StyleConstants.setAlignment(attribs, itemAlignemnt);
         listPane.setParagraphAttributes(attribs, true);
 
+        CyderOutputPane cop = new CyderOutputPane(listPane);
+
         for (int i = 0 ; i < elements.size() ; i++) {
-            printingUtil.printlnComponent(elements.get(i));
+            cop.getStringUtil().printlnComponent(elements.get(i));
 
             if (i != elements.size() - 1)
-                printingUtil.printlnComponent(getSepLabel());
+                cop.getStringUtil().printlnComponent(getSepLabel());
         }
 
         scrollPane = new CyderScrollPane(listPane);

@@ -13,6 +13,7 @@ import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderOutputPane;
 import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.utilities.*;
@@ -40,9 +41,9 @@ import java.util.concurrent.Semaphore;
 
 public class InputHandler {
     /**
-     * The linked JTextPane.
+     * The linked CyderOutputPane.
      */
-    private JTextPane outputArea;
+    private CyderOutputPane outputArea;
 
     /**
      * boolean describing whether or not input should be passed to handle() or handleSecond().
@@ -89,11 +90,11 @@ public class InputHandler {
     /**
      * Default constructor with required JTextPane.
      *
-     * @param outputArea the JTextPane to output pictures/components/text/etc. to
+     * @param outputArea the JTextPane to output pictures/components/text/etc to
      */
     public InputHandler(JTextPane outputArea) {
         //link JTextPane
-        this.outputArea = outputArea;
+        this.outputArea = new CyderOutputPane(outputArea);
 
         //init other JTextPane objects such as Threads
 
@@ -1133,8 +1134,8 @@ public class InputHandler {
                 clc();
 
                 IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
-                Font oldFont = outputArea.getFont();
-                outputArea.setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
+                Font oldFont = outputArea.getJTextPane().getFont();
+                outputArea.getJTextPane().setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
                 BletchyThread.bletchy("RIP CHADWICK BOSEMAN",false, 15, false);
 
                 try {
@@ -1144,7 +1145,7 @@ public class InputHandler {
                     ExceptionHandler.silentHandle(e);
                 }
 
-                outputArea.setFont(oldFont);
+                outputArea.getJTextPane().setFont(oldFont);
             },"Chadwick Boseman Thread").start();
         } else if (commandIs("dst")) {
             new Thread(() -> {
@@ -1224,6 +1225,15 @@ public class InputHandler {
 
          return ret;
     }
+
+    //todo printing a line is broken for CyderScrollList?
+
+    //todo similar command broken?
+
+    //todo trim any multiple spaces out of console clock format input field
+
+    //todo make a method in cydertextfield to get trimmed text that consolidates any whitespace down to
+    // one space and then trims the string too
 
     //sub-handle methods in the order they appear above --------------------------
 
@@ -1608,21 +1618,12 @@ public class InputHandler {
     }
 
     /**
-     * Links a different JTextPane as this input handler's outputArea.
-     *
-     * @param outputArea the JTextPane to link
-     */
-    public void setOutputArea(JTextPane outputArea) {
-        this.outputArea = outputArea;
-    }
-
-    /**
      * Standard getter for the currently linked JTextPane.
      *
      * @return the linked JTextPane
      */
     public JTextPane getOutputArea() {
-        return this.outputArea;
+        return this.outputArea.getJTextPane();
     }
 
     /**
@@ -1769,16 +1770,17 @@ public class InputHandler {
                             redirectionWrite(line);
                         } else {
                             if (line instanceof String) {
-                                StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                 document.insertString(document.getLength(), (String) line, null);
-                                outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                             } else if (line instanceof JComponent) {
                                 String componentUUID = SecurityUtil.generateUUID();
-                                Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                                Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
                                 StyleConstants.setComponent(cs, (Component) line);
-                                outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+                                outputArea.getJTextPane().getStyledDocument().insertString(outputArea.getJTextPane()
+                                        .getStyledDocument().getLength(), componentUUID, cs);
                             } else if (line instanceof ImageIcon) {
-                                outputArea.insertIcon((ImageIcon) line);
+                                outputArea.getJTextPane().insertIcon((ImageIcon) line);
                             } else {
                                 println("[UNKNOWN OBJECT]: " + line);
                             }
@@ -1797,31 +1799,33 @@ public class InputHandler {
                             if (line instanceof String) {
                                 if (typingAnimationLocal) {
                                     if (finishPrinting) {
-                                        StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                        StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                         document.insertString(document.getLength(), (String) line, null);
-                                        outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                                        outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane()
+                                                .getDocument().getLength());
                                     } else {
-                                        CyderCommon.getPrintingSem().acquire(); //todo linked soon
+                                        outputArea.getSemaphore().acquire();
                                         for (char c : ((String) line).toCharArray()) {
                                             innerConsolePrint(c);
 
                                             if (!finishPrinting)
                                                 Thread.sleep(charTimeout);
                                         }
-                                        CyderCommon.getPrintingSem().release(); //todo linked soon
+                                        outputArea.getSemaphore().release();
                                     }
                                 } else {
-                                    StyledDocument document = (StyledDocument) outputArea.getDocument();
+                                    StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
                                     document.insertString(document.getLength(), (String) line, null);
-                                    outputArea.setCaretPosition(outputArea.getDocument().getLength());
+                                    outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                                 }
                             } else if (line instanceof JComponent) {
                                 String componentUUID = SecurityUtil.generateUUID();
-                                Style cs = outputArea.getStyledDocument().addStyle(componentUUID, null);
+                                Style cs = outputArea.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
                                 StyleConstants.setComponent(cs, (Component) line);
-                                outputArea.getStyledDocument().insertString(outputArea.getStyledDocument().getLength(), componentUUID, cs);
+                                outputArea.getJTextPane().getStyledDocument().insertString(
+                                        outputArea.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
                             } else if (line instanceof ImageIcon) {
-                                outputArea.insertIcon((ImageIcon) line);
+                                outputArea.getJTextPane().insertIcon((ImageIcon) line);
                             } else {
                                 println("[UNKNOWN OBJECT]: " + line);
                             }
@@ -1859,11 +1863,11 @@ public class InputHandler {
      */
     private void innerConsolePrint(char c) {
         try {
-            StyledDocument document = (StyledDocument) outputArea.getDocument();
+            StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
             document.insertString(document.getLength(),
                     UserUtil.extractUser().getCapsmode().equals("1")
                             ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
-            outputArea.setCaretPosition(outputArea.getDocument().getLength());
+            outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
 
             if (playInc == playRate - 1) {
                 if (!finishPrinting && UserUtil.extractUser().getTypingsound().equals("1")) {
@@ -2331,7 +2335,7 @@ public class InputHandler {
      * Removes all components from the linked JTextPane.
      */
     private void clc() {
-        outputArea.setText("");
+        outputArea.getJTextPane().setText("");
     }
 
     /**
@@ -2346,7 +2350,7 @@ public class InputHandler {
             boolean removeTwoLines = false;
 
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
+            ElementIterator iterator = new ElementIterator(outputArea.getJTextPane().getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
                 elements.add(element);
@@ -2373,7 +2377,7 @@ public class InputHandler {
                 }
             }
 
-            CyderCommon.getPrintingSem().acquire(); //todo linked soon
+            outputArea.getSemaphore().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -2381,7 +2385,7 @@ public class InputHandler {
 
             removeLastLine();
 
-            CyderCommon.getPrintingSem().release(); //todo linked soon
+            outputArea.getSemaphore().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -2394,9 +2398,7 @@ public class InputHandler {
      * @return the last line of text on the linked JTextPane
      */
     public String getLastTextLine() {
-        String text = outputArea.getText();
-        String[] lines = text.split("\n");
-        return lines[lines.length - 1];
+        return outputArea.getStringUtil().getLastTextLine();
     }
 
     /**
@@ -2404,37 +2406,7 @@ public class InputHandler {
      *  but really be removing just a newline (line break) character.
      */
     public void removeLastLine() {
-        try {
-            LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(outputArea.getStyledDocument());
-            Element element;
-            while ((element = iterator.next()) != null) {
-                elements.add(element);
-            }
-
-            int leafs = 0;
-
-            for (Element value : elements)
-                if (value.getElementCount() == 0)
-                    leafs++;
-
-            int passedLeafs = 0;
-
-            for (Element value : elements) {
-                if (value.getElementCount() == 0) {
-                    if (passedLeafs + 2 != leafs) {
-                        passedLeafs++;
-                        continue;
-                    }
-
-                    outputArea.getStyledDocument().remove(value.getStartOffset(),
-                            value.getEndOffset() - value.getStartOffset());
-                }
-            }
-        } catch (BadLocationException ignored) {}
-        catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+       outputArea.getStringUtil().removeLastLine();
     }
 
     //redirection logic ---------------------------------------

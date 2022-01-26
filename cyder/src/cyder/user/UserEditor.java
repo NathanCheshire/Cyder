@@ -834,7 +834,7 @@ public class UserEditor implements WidgetBase {
         preferencePane.setBackground(Color.white);
 
         //adding components
-        StringUtil printingUtil = new StringUtil(preferencePane);
+        StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
         //print pairs here
         CyderLabel prefsTitle = new CyderLabel("Preferences");
@@ -981,7 +981,7 @@ public class UserEditor implements WidgetBase {
         fieldInputsPane.setBackground(Color.white);
 
         //adding components
-        StringUtil printingUtil = new StringUtil(fieldInputsPane);
+        StringUtil printingUtil = new StringUtil(new CyderOutputPane(fieldInputsPane));
 
         //print pairs here
         CyderLabel prefsTitle = new CyderLabel("Field Inputs");

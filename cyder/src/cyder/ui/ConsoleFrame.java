@@ -1404,7 +1404,7 @@ public final class ConsoleFrame {
 
     private void installMenuTaskbarIcons() {
         //adding components
-        StringUtil printingUtil = new StringUtil(menuPane);
+        StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
         if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {

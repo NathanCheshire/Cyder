@@ -6,6 +6,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
+import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -15,7 +16,6 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
 
 import static java.lang.System.out;
 
@@ -25,9 +25,11 @@ public class Debug {
     }
 
     private static boolean open = false;
+
     private static JTextPane printArea = new JTextPane();
-    private static CyderScrollPane printScroll;
-    private static StringUtil printingUtil = new StringUtil(printArea);
+    private static CyderOutputPane cyderOutputPane = new CyderOutputPane(printArea);
+    private static StringUtil printingUtil = cyderOutputPane.getStringUtil();
+
     private static CyderFrame debugFrame;
 
     //here incase we close the window so we can open it back up and be in the same place
@@ -82,12 +84,8 @@ public class Debug {
         }
     }
 
-    public static Semaphore debugWindowOpeningSem = new Semaphore(1);
-
-    private static void initDebugWindow() {
+    private static synchronized void initDebugWindow() {
         try {
-            debugWindowOpeningSem.acquire();
-
             //just acquired sem so make sure that it isn't already open again
             if (!open) {
                 if (debugFrame != null)
@@ -107,7 +105,7 @@ public class Debug {
                 printArea.setForeground(new Color(85,181,219));
                 printArea.setCaretColor(printArea.getForeground());
 
-                printScroll = new CyderScrollPane(printArea,
+                CyderScrollPane printScroll = new CyderScrollPane(printArea,
                         JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
                         JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
                 printScroll.setThumbColor(CyderColors.regularPink);
@@ -140,13 +138,7 @@ public class Debug {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            debugWindowOpeningSem.release();
         }
-    }
-
-    public static void here() {
-        println("here",false);
     }
 
     public static void launchTests() {

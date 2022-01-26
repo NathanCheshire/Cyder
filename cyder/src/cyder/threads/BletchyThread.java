@@ -2,6 +2,7 @@ package cyder.threads;
 
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderOutputPane;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
@@ -39,7 +40,7 @@ public class BletchyThread {
      * @param semaphore the semaphore to use to block other text being added to the linked JTextPane
      */
     public static void initialize(JTextPane outputArea, Semaphore semaphore) {
-        stringUtil = new StringUtil(outputArea);
+        stringUtil = new StringUtil(new CyderOutputPane(outputArea));
         printingSemaphore = semaphore;
     }
 

@@ -2,13 +2,10 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.ui.*;
 import cyder.user.UserCreator;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderScrollPane;
 import cyder.utilities.*;
 
 import javax.swing.*;
@@ -63,7 +60,7 @@ public class LoginHandler {
         final int lineTimeout = 400;
 
         new Thread(() -> {
-            StringUtil su = new StringUtil(refArea);
+            StringUtil su = new StringUtil(new CyderOutputPane(refArea));
 
             try {
                 while (doLoginAnimations && loginFrame != null)  {

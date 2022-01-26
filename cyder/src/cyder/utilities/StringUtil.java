@@ -1,6 +1,5 @@
 package cyder.utilities;
 
-import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import org.jsoup.Jsoup;
@@ -403,7 +402,16 @@ public class StringUtil {
         }
     }
 
-    //end generic print methods
+    /**
+     * Prints the object array to {@link this} object's connected output area
+     * @param arr the array of objects to print
+     */
+    public void printArr(Object[] arr) {
+        for (Object o : arr)
+            println(o);
+    }
+
+    //end methods which require instantiation
 
     /**
      * Reverses the given array
@@ -413,15 +421,6 @@ public class StringUtil {
     public static char[] reverseArray(char[] Array) {
         String reverse = new StringBuilder(new String(Array)).reverse().toString();
         return reverse.toCharArray();
-    }
-
-    /**
-     * Prints the object array to {@link this} object's connected output area
-     * @param arr the array of objects to print
-     */
-    public void printArr(Object[] arr) {
-        for (Object o : arr)
-            println(o);
     }
 
     /**
@@ -462,7 +461,8 @@ public class StringUtil {
     }
 
     /**
-     * Fills a string with the provided character to result in a string of the specified length
+     * Fills a string with the provided character to result in a string of the specified length.
+     *
      * @param count the length of the resultant string
      * @param c the character to fill the string with
      * @return the resultant filled array
@@ -479,6 +479,7 @@ public class StringUtil {
 
     /**
      * Finds the first word in a given string.
+     *
      * @param sentence the string to search for
      * @return the resultant first word found
      */
@@ -489,6 +490,7 @@ public class StringUtil {
 
     /**
      * Determines if a word is palindrome (spelled the same forward and backwards like ogopogo and racecar).
+     *
      * @param word the word to check
      * @return the result of the comparison
      */
@@ -498,6 +500,7 @@ public class StringUtil {
 
     /**
      * Uses a regex to find the first occurence of a digit and follows until no more digits.
+     *
      * @param search the string to search for digits in
      * @return the reusltant number found, if any
      */
@@ -509,6 +512,7 @@ public class StringUtil {
 
     /**
      * Matches a given string with the provided regex and returns the result.
+     *
      * @param search the string to use the regex on
      * @param regex the regex to compare to the given string
      * @return the resultant match of the string to the regex
@@ -521,6 +525,7 @@ public class StringUtil {
 
     /**
      * Concatinates two arrays together.
+     *
      * @param a the first array
      * @param b the second array
      * @return the resultant array
@@ -534,7 +539,8 @@ public class StringUtil {
     }
 
     /**
-     * Converts the first character in a string to the capital version of it if it is a standard latin letter
+     * Converts the first character in a string to the capital version of it if it is a standard latin letter.
+     *
      * @param word the word to capitalize the first letter of
      * @return the resultant wtring
      */
@@ -555,6 +561,7 @@ public class StringUtil {
 
     /**
      * Filters out simple leet speech from the provided string.
+     *
      * @param filter the word to filter leet out of
      * @return the resultant string after filtering
      */
@@ -579,6 +586,7 @@ public class StringUtil {
 
     /**
      * Inner filtering of leet speach for words specifically, this is the main driver method that does the magic.
+     *
      * @param word the word to filter leet out of.
      * @return the word having leet removed to the best of our abilities
      */
@@ -635,6 +643,7 @@ public class StringUtil {
 
     /**
      * Tests whether or not the provided string has the provided word inside of it.
+     *
      * @param userInput the master string to search through
      * @param findWord the word to search the master string for
      * @return a boolean depicting whether or not the given string contains the test word
@@ -645,6 +654,7 @@ public class StringUtil {
 
     /**
      * Tests whether or not the provided string has the provided word inside of it.
+     *
      * @param userInput the master string to search through
      * @param findWord the word to search the master string for
      * @param removeComments whether or not to remove comment tags from the input
@@ -671,7 +681,8 @@ public class StringUtil {
     }
 
     /**
-     * Tests a given string to see if it contains any blocked words contained in the v.txt system file
+     * Tests a given string to see if it contains any blocked words contained in the v.txt system file.
+     *
      * @param input the provided string to test against
      * @param filterLeet whether or not to filter out possible leet from the string
      * @return a boolean describing whether or not the filter was triggered by the input
@@ -700,6 +711,7 @@ public class StringUtil {
 
     /**
      * Provides the exact string object but with the first character converted to lowercase.
+     *
      * @param str the string to convert the first character to lowercase
      * @return the resultant string
      */
@@ -714,6 +726,7 @@ public class StringUtil {
 
     /**
      * Count the number of words of the provided string.
+     *
      * @param str the string ot count the words of
      * @return the word count of the requested string
      */
@@ -723,6 +736,7 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file name of the provided file, does not return the period.
+     *
      * @param file the file of which to return the name of (this does not include the
      *             extension; use {@link File#getName()} )} to get the full filename + extension)
      * @return the file name requested
@@ -733,6 +747,7 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file extension of the provided file, returns the period too.
+     *
      * @param file the name of the file of which to return the extension of
      * @return the file extension requested
      */
@@ -742,6 +757,7 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file name of the provided file, does not return the period.
+     *
      * @param file the name of the file of which to return the name of (this does not include the
      *             extension; use {@link File#getName()})} to get the full filename + extension)
      * @return the file name requested
@@ -752,6 +768,7 @@ public class StringUtil {
 
     /**
      * Uses a regex to get the file extension of the provided file, returns the period too.
+     *
      * @param file the file of which to return the extension of
      * @return the file extension requested
      */
@@ -760,7 +777,8 @@ public class StringUtil {
     }
 
     /**
-     * Determines if a string is confirming a question or denying it
+     * Determines if a string is confirming a question or denying it.
+     *
      * @param input the input string to check for verifcation key words
      * @return the boolean result of the confirmation
      */
@@ -780,6 +798,7 @@ public class StringUtil {
 
     /**
      * Ensures that there is a space after every comma within the input.
+     *
      * @param input the potentially wrongly formatted string
      * @return the corrected string
      */
@@ -799,6 +818,7 @@ public class StringUtil {
 
     /**
      * Searches Dictionary.com for the provided word.
+     *
      * @param word the word to find a definition for
      * @return the definition of the requested word if found
      */
@@ -822,6 +842,7 @@ public class StringUtil {
 
     /**
      * Web scrapes Wikipedia for the appropriate article and returns the body of the wiki article.
+     *
      * @param query the query to search wikipedia for
      * @return the wiki body result
      */
@@ -846,7 +867,8 @@ public class StringUtil {
     }
 
     /**
-     * Determines whether the given words are anagrams of each other
+     * Determines whether the given words are anagrams of each other.
+     *
      * @param wordOne the first word
      * @param wordTwo the second word
      * @return a boolean describing whether or not these words are anagrams
@@ -863,7 +885,8 @@ public class StringUtil {
     //tagged strings for HTML methods
 
     /**
-     * Finds the rawtext and html tags of a string and returns a linked list representing the parts
+     * Finds the rawtext and html tags of a string and returns a linked list representing the parts.
+     *
      * @param htmlText the text containing html tags
      * @return a linked list where each object represents either a complete tag or raw text
      */
@@ -899,10 +922,16 @@ public class StringUtil {
         return taggedStrings;
     }
 
+    /**
+     * The type a given String is: HTML or TEXT
+     */
     public enum TaggedStringType {
         HTML,TEXT
     }
 
+    /**
+     * Class representing a segment of text as either being raw text or an html tag
+     */
     public static class TaggedString {
         private String text;
         private TaggedStringType type;
@@ -931,7 +960,8 @@ public class StringUtil {
 
     /**
      * Determines if the provided String is null meaning literally null,
-     * empty (length 0), equal to NULL, or equal to NUL
+     * empty (length 0), equal to NULL, or equal to NUL.
+     *
      * @param nullCheck the String to test for
      * @return whether or not the provided String was null
      */
@@ -944,7 +974,7 @@ public class StringUtil {
     }
 
     /**
-     * Determines how closely string alpha is to string beta. Lower numbers mean a closer match
+     * Determines how closely string alpha is to string beta. Lower numbers mean a closer match.
      *
      * @param alpha the base string
      * @param beta the string to test for similarity against alpha

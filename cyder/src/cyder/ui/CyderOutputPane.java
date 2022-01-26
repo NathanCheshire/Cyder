@@ -18,7 +18,6 @@ public class CyderOutputPane {
      */
     private JTextPane jTextPane;
 
-    //todo perhaps this can be consolidated into this class?
     /**
      * The StringUtil object to perform common operations on the JTextPane.
      */
@@ -36,6 +35,13 @@ public class CyderOutputPane {
         throw new IllegalStateException("Instances of CyderOutputPane are not allowed unless all parameters are given at once");
     }
 
+    /**
+     * Constructor for CyderOutputPane that takes in the JTextpane and StringUtil and
+     * creates its own Semahore.
+     *
+     * @param jTextPane the JTextPane to link
+     * @param stringUtil the StringUtil to use for the JTextPane
+     */
     public CyderOutputPane(JTextPane jTextPane, StringUtil stringUtil) {
         if (jTextPane == null)
             throw new IllegalArgumentException("Provided JTextPane is null");
@@ -44,6 +50,23 @@ public class CyderOutputPane {
 
         this.jTextPane = jTextPane;
         this.stringUtil = stringUtil;
+
+        //ensure only one permit is granted at a time
+        this.semaphore = new Semaphore(1);
+    }
+
+    /**
+     * Constructor for CyderOutputPane that takes in the JTextPane and creates its own
+     * StringUtil and Semaphore.
+     *
+     * @param jTextPane the JTextPane to link to this instance of CyderOutputPane
+     */
+    public CyderOutputPane(JTextPane jTextPane) {
+        if (jTextPane == null)
+            throw new IllegalArgumentException("Provided JTextPane is null");
+
+        this.jTextPane = jTextPane;
+        this.stringUtil = new StringUtil(this);
 
         //ensure only one permit is granted at a time
         this.semaphore = new Semaphore(1);
