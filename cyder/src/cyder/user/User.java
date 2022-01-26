@@ -5,7 +5,6 @@ import cyder.utilities.ReflectionUtil;
 import java.util.LinkedList;
 
 public class User {
-    //primitives (stick to Strings, specific types are a headache to deal with)
     private String name;
     private String pass;
     private String font;
@@ -30,8 +29,6 @@ public class User {
     private String showbusyicon; 
     private String ffmpegpath;
     private String youtubedlpath;
-    private String windowlocx;
-    private String windowlocy;
     private String roundedwindows; 
     private String windowColor;
     private String consoleclockformat;
@@ -45,6 +42,7 @@ public class User {
     private String persistentnotifications;
     private String closeAnimation;
     private String minimizeAnimation;
+    private String compactTextMode;
 
     //non primitive types
     private ScreenStat screenStat;
@@ -248,22 +246,6 @@ public class User {
         this.youtubedlpath = youtubedlpath;
     }
 
-    public String getWindowlocx() {
-        return windowlocx;
-    }
-
-    public void setWindowlocx(String windowlocx) {
-        this.windowlocx = windowlocx;
-    }
-
-    public String getWindowlocy() {
-        return windowlocy;
-    }
-
-    public void setWindowlocy(String windowlocy) {
-        this.windowlocy = windowlocy;
-    }
-
     public String getRoundedwindows() {
         return roundedwindows;
     }
@@ -388,15 +370,25 @@ public class User {
         this.screenStat = screenStat;
     }
 
-    //toString
+    public String getCompactTextMode() {
+        return compactTextMode;
+    }
 
+    public void setCompactTextMode(String compactTextMode) {
+        this.compactTextMode = compactTextMode;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);
     }
 
-    //inner classes
-
+    /**
+     * Class representing a name and a path to an executable/link to open.
+     */
     public static class MappedExecutable {
         private String name;
         private String filepath;
@@ -426,7 +418,7 @@ public class User {
         public boolean equals(Object o) {
             if (o instanceof MappedExecutable) {
                 return ((MappedExecutable) o).getName().equals(this.getName())
-                        && ((MappedExecutable) o).getFilepath().equals(this.getFilepath());
+                        || ((MappedExecutable) o).getFilepath().equals(this.getFilepath());
             } else {
                 return false;
             }
@@ -438,6 +430,9 @@ public class User {
         }
     }
 
+    /**
+     * Object to store statistics about the ConsoleFrame and where it is.
+     */
     public static class ScreenStat {
         private int consoleX;
         private int consoleY;

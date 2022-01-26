@@ -11,14 +11,27 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class FrameUtil {
+    /**
+     * Instantiation of frame util not allowed.
+     */
     private FrameUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    /**
+     * Returns a list of frames currently opened by this instance.
+     *
+     * @return a list of frames currently opened by this instance
+     */
     public static LinkedList<Frame> getFrames() {
         return new LinkedList<>(Arrays.asList(Frame.getFrames()));
     }
 
+    /**
+     * Returns a list of CyderFrames currently opened by this instance.
+     *
+     * @return a list of CyderFrames currently opened by this instance
+     */
     public static LinkedList<CyderFrame> getCyderFrames() {
         LinkedList<CyderFrame> ret = new LinkedList<>();
 
@@ -29,6 +42,11 @@ public class FrameUtil {
         return ret;
     }
 
+    /**
+     * Returns a list of non CyderFrame frame objects opened by this instance.
+     *
+     * @return a list of non CyderFrame frame objects opened by this instance
+     */
     public static LinkedList<Frame> getNonCyderFrames() {
         LinkedList<Frame> ret = new LinkedList<>();
 
@@ -77,6 +95,11 @@ public class FrameUtil {
     }
 
     /**
+     * The max allowable length when including a frame's title in a filename.
+     */
+    public static final int MAX_FRAME_TITLE_FILE_LENGTH = 15;
+
+    /**
      * Saves a screenshot of the CyderFrame with the provided name to the user's Files/ directory.
      *
      * @param cyderFrame the CyderFrame to screenshot
@@ -86,7 +109,8 @@ public class FrameUtil {
         if (cyderFrame == null)
             throw new IllegalArgumentException("Valid CyderFrame with provided name does not exist");
 
-        String saveName = cyderFrame.getTitle().substring(0, Math.min(15, cyderFrame.getTitle().length()));
+        String saveName = cyderFrame.getTitle().substring(0,
+                Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length()));
         File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime() + ".png");
         return screenshotCyderFrame(cyderFrame, refFile);
     }

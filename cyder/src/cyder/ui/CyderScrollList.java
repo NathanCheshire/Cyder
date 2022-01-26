@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.utilities.ReflectionUtil;
+import cyder.utilities.UserUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -88,7 +89,7 @@ public class CyderScrollList {
         StyleConstants.setAlignment(attribs, itemAlignemnt);
         listPane.setParagraphAttributes(attribs, true);
 
-        boolean compactMode = true; //todo read from user pref
+        boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
 
         CyderOutputPane cop = new CyderOutputPane(listPane);
 

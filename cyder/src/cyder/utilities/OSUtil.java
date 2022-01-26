@@ -218,12 +218,10 @@ public class OSUtil {
 
     //todo redo image resizer and put cropper inside of it
 
-    //todo component util for things such as rendering a component or getting a screenshot?
-    //todo maybe this goes in frame util with demo mode functions
+    //todo map adding folders doesn't work
 
-    //todo compact mode for console frame menu,
-    // basically just copy the text that the icon would be and install a listener there
-    // this will also make all outputpanes draw without line seps, how to refresh this?
+    //todo flash player should have music title as frame title
+    // cut off painted title at certain legnth and add ...? maybe it already does that I think
 
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata

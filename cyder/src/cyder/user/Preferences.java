@@ -109,7 +109,10 @@ public class Preferences {
                 "Notifications stay on screen until manually dismissed","0"));
         ret.add(new Preference("minimizeanimation","Minimize Animation",
                 "Animate the window away for minimizations","1"));
-        ret.add(new Preference("closeanimation","Close Animation","Animate the window away for close requests","1"));
+        ret.add(new Preference("closeanimation","Close Animation",
+                "Animate the window away for close requests","1"));
+        ret.add(new Preference("compacttextmode", "Compact Text",
+                "Compact the text/components in supported text panes","0"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set

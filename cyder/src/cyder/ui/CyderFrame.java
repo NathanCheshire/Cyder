@@ -1929,6 +1929,16 @@ public class CyderFrame extends JFrame {
     public static final int taskbarIconLength = 75;
     public static final int taskbarBorderLength = 5;
 
+    public JLabel getComapctTaskbarButton() {
+       return generateDefaultCompactTaskbarComponent(this.getTitle(), () -> {
+           if (getState() == 0) {
+               minimizeAnimation();
+           } else {
+               setState(Frame.NORMAL);
+           }
+       });
+    }
+
     public JLabel getTaskbarButton() {
         if (this.getTitle() == null || this.getTitle().length() == 0)
             throw new IllegalArgumentException("Title not set or long enough");
@@ -1946,6 +1956,33 @@ public class CyderFrame extends JFrame {
                 setState(Frame.NORMAL);
             }
         }, borderColor);
+    }
+
+    public static final int MAX_COMPACT_MENU_CHARS = 12; //"Flash Player" is 12 chars
+
+    public static JLabel generateDefaultCompactTaskbarComponent(String title, ClickAction clickAction) {
+        JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));
+        ret.setForeground(CyderColors.vanila);
+        ret.setFont(CyderFonts.defaultFontSmall);
+        ret.setVerticalAlignment(JLabel.CENTER);
+        ret.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clickAction.fire();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ret.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ret.setForeground(CyderColors.vanila);
+            }
+        });
+
+        return ret;
     }
 
     public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction, Color borderColor) {

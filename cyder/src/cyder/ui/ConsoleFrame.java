@@ -1399,9 +1399,20 @@ public final class ConsoleFrame {
         }
     }
 
-    private JTextPane menuPane;
-
     private void installMenuTaskbarIcons() {
+        boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
+
+        StyledDocument doc = menuPane.getStyledDocument();
+        SimpleAttributeSet alignment = new SimpleAttributeSet();
+
+        if (compactMode) {
+            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
+        } else {
+            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
+        }
+
+        doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
+
         //adding components
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
@@ -1410,50 +1421,84 @@ public final class ConsoleFrame {
             for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
                 CyderFrame currentFrame = menuTaskbarFrames.get(i);
 
-                if (currentFrame.isUseCustomTaskbarIcon()) {
-                    printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
+                if (compactMode) {
+                    printingUtil.printlnComponent(currentFrame.getComapctTaskbarButton());
                 } else {
-                    printingUtil.printlnComponent(currentFrame.getTaskbarButton());
-                }
+                    if (currentFrame.isUseCustomTaskbarIcon()) {
+                        printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
+                    } else {
+                        printingUtil.printlnComponent(currentFrame.getTaskbarButton());
+                    }
 
-                printingUtil.println("");
+                    printingUtil.println("");
+                }
             }
         }
 
+        LinkedList<User.MappedExecutable> exes = null;
+
         //mapped executables
-        LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+        try {
+           exes = UserUtil.extractUser().getExecutables();
+        } catch (Exception e) {
+            installMenuTaskbarIcons();
+        }
 
         if (exes != null && !exes.isEmpty()) {
             if (!menuTaskbarFrames.isEmpty()) {
                 printingUtil.printlnComponent(generateMenuSep());
-                printingUtil.println("");
+
+                if (!compactMode)
+                    printingUtil.println("");
             }
 
             for (User.MappedExecutable exe : exes) {
-                printingUtil.printlnComponent(
-                        CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
-                            IOUtil.openOutsideProgram(exe.getFilepath());
-                            consoleCyderFrame.notify("Opening: " + exe.getName());
-                        }, CyderColors.vanila));
-                printingUtil.println("");
+                if (compactMode) {
+                    printingUtil.printlnComponent(
+                            CyderFrame.generateDefaultCompactTaskbarComponent(exe.getName(), () -> {
+                                IOUtil.openOutsideProgram(exe.getFilepath());
+                                consoleCyderFrame.notify("Opening: " + exe.getName());
+                            }));
+                } else {
+                    printingUtil.printlnComponent(
+                            CyderFrame.generateDefaultTaskbarComponent(exe.getName(), () -> {
+                                IOUtil.openOutsideProgram(exe.getFilepath());
+                                consoleCyderFrame.notify("Opening: " + exe.getName());
+                            }, CyderColors.vanila));
+
+                    printingUtil.println("");
+                }
             }
 
             printingUtil.printlnComponent(generateMenuSep());
-            printingUtil.println("");
+
+            if (!compactMode) {
+                printingUtil.println("");
+            }
         }
 
-        if (exes != null && exes.isEmpty() && !menuTaskbarFrames.isEmpty()) {
+        if (exes != null && exes.isEmpty() && !menuTaskbarFrames.isEmpty() && !compactMode) {
             printingUtil.printlnComponent(generateMenuSep());
             printingUtil.println("");
         }
 
         //default menu items
-        printingUtil.printlnComponent(
-                CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
-        printingUtil.println("");
+        if (compactMode) {
+            printingUtil.printlnComponent(
+                    CyderFrame.generateDefaultCompactTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
 
-        printingUtil.printlnComponent(
-                CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
+            printingUtil.printlnComponent(
+                    CyderFrame.generateDefaultCompactTaskbarComponent("Logout", this::logout));
+        } else {
+            printingUtil.printlnComponent(
+                    CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
+            printingUtil.println("");
+
+            printingUtil.printlnComponent(
+                    CyderFrame.generateDefaultTaskbarComponent("Logout", this::logout));
+        }
+
+        //extracted common part from above if statement
         printingUtil.println("");
 
         //set menu location to top
@@ -1461,6 +1506,11 @@ public final class ConsoleFrame {
 
         consoleMenuGenerated = true;
     }
+
+    /**
+     * The JTextPane used for the console menu.
+     */
+    private JTextPane menuPane;
 
     private void generateConsoleMenu() {
         Font menuFont = CyderFonts.defaultFontSmall;
@@ -1491,11 +1541,6 @@ public final class ConsoleFrame {
         menuPane.setFocusable(true);
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.guiThemeColor);
-
-        StyledDocument doc = menuPane.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
