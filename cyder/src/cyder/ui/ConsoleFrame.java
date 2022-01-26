@@ -4,15 +4,14 @@ import cyder.algorithoms.GeometryAlgorithms;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.user.User;
-import cyder.user.UserEditor;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.CyderCommon;
-import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
+import cyder.user.User;
+import cyder.user.UserEditor;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 import test.java.Debug;
@@ -968,11 +967,11 @@ public final class ConsoleFrame {
 
             //close all frames just before showing console
             for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                if (f == consoleCyderFrame) {}
-                else if (f == CyderSplash.getSplashFrame() || f == LoginHandler.getLoginFrame())
+                if (f == consoleCyderFrame) {
+                    //we're trying to open this right now so don't close it
+                } else {
                     f.dispose(true);
-                else
-                    f.dispose();
+                }
             }
 
             int requestedWidth = UserUtil.extractUser().getScreenStat().getConsoleWidth();

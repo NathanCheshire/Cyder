@@ -10,14 +10,35 @@ import cyder.ui.CyderLabel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The splash screen for Cyder when it is originally first launched.
+ */
 public class CyderSplash {
+    /**
+     * Whether or not the splash screen has been shown.
+     */
     private static boolean splashShown = false;
+
+    /**
+     * The splash screen CyderFrame.
+     */
     private static CyderFrame splashFrame;
 
+    /**
+     * The label used to display what Cyder is currently doing in the startup routine.
+     */
+    private static CyderLabel loadingLabel;
+
+    /**
+     * Instantiation of CyderSplash is not allowed
+     */
     private CyderSplash() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    /**
+     * Shows the splash screen as long as it has not already been shown.
+     */
     public static void showSplash() {
         if (splashShown)
             throw new IllegalStateException("Program has already been loaded");
@@ -124,7 +145,8 @@ public class CyderSplash {
                         }
 
                         Font nathanFont = new Font("Darling In Paris", Font.BOLD, 40);
-                        CyderLabel loadingLabel = new CyderLabel("By Nathan Cheshire");
+
+                        loadingLabel = new CyderLabel("By Nathan Cheshire");
                         loadingLabel.setFont(nathanFont);
                         loadingLabel.setForeground(CyderColors.vanila);
                         loadingLabel.setBounds(0, 600, 600,
@@ -169,8 +191,9 @@ public class CyderSplash {
 
                             //this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
-                            PopupHandler.inform("idk what happened but you screwed something up", "Startup Exception",
-                                    null, null, () -> CyderCommon.exit(-100));
+                            PopupHandler.inform("idk what happened but you screwed something up",
+                                    "Startup Exception", null,
+                                    null, () -> CyderCommon.exit(-100));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -185,14 +208,38 @@ public class CyderSplash {
         },"Splash Loader").start();
     }
 
-    public static CyderFrame getSplashFrame() {
-        return splashFrame;
+    /**
+     * Disposes the splashFrame using fast close.
+     */
+    public static void fastDispose() {
+        splashFrame.dispose(true);
     }
 
+    /**
+     * Disposes the splashFrame conventionally.
+     */
+    public static void dispose() {
+        splashFrame.dispose();
+    }
+
+    /**
+     * The loading message to display on the loading label.
+     */
     private static String loadingMessage = "Loading Components";
 
+    /**
+     * Sets the loading label and updates the splash frame.
+     *
+     * @param loadingMessage the message to set to the loading label
+     */
     public static void setLoadingMessage(String loadingMessage) {
+        if (splashFrame.isDisposed())
+            return;
+
         if (loadingMessage.trim().length() > 0)
             CyderSplash.loadingMessage = loadingMessage.trim();
+
+        loadingLabel.revalidate();
+        loadingLabel.repaint();
     }
 }

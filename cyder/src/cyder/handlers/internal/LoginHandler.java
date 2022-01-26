@@ -314,7 +314,7 @@ public class LoginHandler {
 
         loginFrame.setVisible(true);
         loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame ? null : CyderCommon.getDominantFrame());
-        CyderSplash.getSplashFrame().dispose(true);
+        CyderSplash.fastDispose();
 
         LinkedList<File> userJsons = new LinkedList<>();
 

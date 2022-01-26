@@ -1226,8 +1226,6 @@ public class InputHandler {
          return ret;
     }
 
-    //todo printing a line is broken for CyderScrollList?
-
     //todo similar command broken?
 
     //todo trim any multiple spaces out of console clock format input field
