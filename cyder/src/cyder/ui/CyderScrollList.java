@@ -86,6 +86,7 @@ public class CyderScrollList {
         listPane.setBackground(CyderColors.vanila);
 
         //used to add the CyderScrollListLabels
+        //todo need an object for ConsoleFrame's JTextPane now
         StringUtil printingUtil = new StringUtil(listPane);
 
         //item alignment is 0?
@@ -99,7 +100,6 @@ public class CyderScrollList {
             if (i != elements.size() - 1)
                 printingUtil.printlnComponent(getSepLabel());
         }
-
 
         scrollPane = new CyderScrollPane(listPane);
         scrollPane.setThumbSize(5);

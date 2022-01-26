@@ -11,7 +11,6 @@ import cyder.utilities.FrameUtil;
 import cyder.utilities.UserUtil;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -24,14 +23,6 @@ public class CyderCommon {
      */
     private CyderCommon() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    }
-
-    //todo move away since this will be associated with a JTextPane/StringUtil custom object
-    //CyderPane? CyderOutputPane?
-    private static Semaphore printingSem = new Semaphore(1);
-
-    public static Semaphore getPrintingSem() {
-        return printingSem;
     }
 
     /**

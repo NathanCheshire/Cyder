@@ -1,13 +1,12 @@
 package cyder.utilities;
 
-import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.ui.CyderOutputPane;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -19,50 +18,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Simple general String util methods along with some JTextPane appending methods
- * Note: these methods are not thread safe and you should take that into account when using these utils
+ * Simple general String utility methods along with some JTextPane utility methods
+ * Note: these methods are not thread safe and thus this class should be externally synchronized
+ * to achieve thread safety.
  */
 public class StringUtil {
-    private JTextPane linkedJTextPane = null;
+    private CyderOutputPane linkedCyderPane = null;
 
+    /**
+     * StringUtil instantiation not allowed unless a valid CyderOutputPane is provided.
+     */
     private StringUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } //no instantiation without jtextpane object
-
-    //StringUtil can only be instantiated if a valid JTextPane is provided
-    public StringUtil(JTextPane linkedJTextPane) {
-        this.linkedJTextPane = linkedJTextPane;
+        throw new IllegalStateException("Instanitation of StringUtil is not permitted without a CyderOutputPane");
     }
 
     /**
-     * Standard getter for this object's possible JTextPane
-     * @return The resultant output area if one is connected
+     * Constructs a StringUtil object with a linked CyderOutputPane.
+     *
+     * @param cyderOutputPane the CyderOutputPane to link
      */
-    public JTextPane getLinkedJTextPane() {
-        return linkedJTextPane;
+    public StringUtil(CyderOutputPane cyderOutputPane) {
+        if (cyderOutputPane == null)
+            throw new IllegalArgumentException("Provided output pane is null");
+
+        this.linkedCyderPane = cyderOutputPane;
     }
 
     /**
-     * Sets the output area for this instance of StringUtil.
-     * @param jTextPane the JTextPane which we will append to when needed
+     * Returns the Linked CyderOutputPane.
+     *
+     * @return the Linked CyderOutputPane
      */
-    public void setLinkedCyderOutputPane(JTextPane jTextPane) {
-        this.linkedJTextPane = jTextPane;
+    public CyderOutputPane getLinkedJTextPane() {
+        return linkedCyderPane;
     }
-    //todo link a CyderOutputPane
+
+    //begin util methods --------------------------------------
 
     /**
      * Removes the first object from the linked pane, this could be anything from a Component to a String
      */
     public void removeFirst() {
         try {
-            CyderCommon.getPrintingSem().acquire(); //todo linked soon
+            linkedCyderPane.getSemaphore().acquire();
 
-            Element root = linkedJTextPane.getDocument().getDefaultRootElement();
+            Element root = linkedCyderPane.getJTextPane().getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
-            linkedJTextPane.getDocument().remove(first.getStartOffset(), first.getEndOffset());
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
-            CyderCommon.getPrintingSem().release(); //todo linked soon
+            linkedCyderPane.getJTextPane().getDocument().remove(first.getStartOffset(), first.getEndOffset());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
+            linkedCyderPane.getSemaphore().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -79,7 +83,7 @@ public class StringUtil {
             boolean removeTwoLines = false;
 
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(linkedJTextPane.getStyledDocument());
+            ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
                 elements.add(element);
@@ -106,7 +110,7 @@ public class StringUtil {
                 }
             }
 
-            CyderCommon.getPrintingSem().acquire(); //todo linked soon
+            linkedCyderPane.getSemaphore().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -114,7 +118,7 @@ public class StringUtil {
 
             removeLastLine();
 
-            CyderCommon.getPrintingSem().release(); //todo linked soon
+            linkedCyderPane.getSemaphore().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -125,7 +129,7 @@ public class StringUtil {
      * @return the last line of raw ASCII text
      */
     public String getLastTextLine() {
-        String text = linkedJTextPane.getText();
+        String text = linkedCyderPane.getJTextPane().getText();
         String[] lines = text.split("\n");
         return lines[lines.length - 1];
     }
@@ -137,7 +141,7 @@ public class StringUtil {
     public void removeLastLine() {
         try {
             LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(linkedJTextPane.getStyledDocument());
+            ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
             Element element;
             while ((element = iterator.next()) != null) {
                 elements.add(element);
@@ -158,7 +162,7 @@ public class StringUtil {
                         continue;
                     }
 
-                    linkedJTextPane.getStyledDocument().remove(value.getStartOffset(),
+                    linkedCyderPane.getJTextPane().getStyledDocument().remove(value.getStartOffset(),
                             value.getEndOffset() - value.getStartOffset());
                 }
             }
@@ -180,9 +184,10 @@ public class StringUtil {
      */
     public void printComponent(Component c, String nm, String str) {
         try {
-            Style cs = linkedJTextPane.getStyledDocument().addStyle(nm, null);
+            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(nm, null);
             StyleConstants.setComponent(cs, c);
-            linkedJTextPane.getStyledDocument().insertString(linkedJTextPane.getStyledDocument().getLength(), str, cs);
+            linkedCyderPane.getJTextPane().getStyledDocument()
+                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), str, cs);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -196,9 +201,10 @@ public class StringUtil {
     public void printComponent(Component c) {
         try {
             String componentUUID = SecurityUtil.generateUUID();
-            Style cs = linkedJTextPane.getStyledDocument().addStyle(componentUUID, null);
+            Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
             StyleConstants.setComponent(cs, c);
-            linkedJTextPane.getStyledDocument().insertString(linkedJTextPane.getStyledDocument().getLength(), componentUUID, cs);
+            linkedCyderPane.getJTextPane().getStyledDocument()
+                    .insertString(linkedCyderPane.getJTextPane().getStyledDocument().getLength(), componentUUID, cs);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -239,9 +245,9 @@ public class StringUtil {
 
     public void print(String Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage, null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -249,9 +255,9 @@ public class StringUtil {
 
     public void print(int Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Integer.toString(Usage), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -259,9 +265,9 @@ public class StringUtil {
 
     public void print(double Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Double.toString(Usage), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -269,9 +275,9 @@ public class StringUtil {
 
     public void print(boolean Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Boolean.toString(Usage), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -279,9 +285,9 @@ public class StringUtil {
 
     public void print(float Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Float.toString(Usage), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -289,9 +295,9 @@ public class StringUtil {
 
     public void print(long Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Long.toString(Usage), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -299,9 +305,9 @@ public class StringUtil {
 
     public void print(char Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), String.valueOf(Usage), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -309,9 +315,9 @@ public class StringUtil {
 
     public void print(Object Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage.toString(), null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -319,9 +325,9 @@ public class StringUtil {
 
     public void println(String Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -329,9 +335,9 @@ public class StringUtil {
 
     public void println(int Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -339,9 +345,9 @@ public class StringUtil {
 
     public void println(double Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -349,9 +355,9 @@ public class StringUtil {
 
     public void println(boolean Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -359,9 +365,9 @@ public class StringUtil {
 
     public void println(float Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -369,9 +375,9 @@ public class StringUtil {
 
     public void println(long Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -379,9 +385,9 @@ public class StringUtil {
 
     public void println(char Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -389,9 +395,9 @@ public class StringUtil {
 
     public void println(Object Usage) {
         try {
-            StyledDocument document = (StyledDocument) linkedJTextPane.getDocument();
+            StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage.toString() + "\n", null);
-            linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
+            linkedCyderPane.getJTextPane().setCaretPosition(linkedCyderPane.getJTextPane().getDocument().getLength());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
