@@ -560,7 +560,7 @@ public class InputHandler {
         } else if (commandIs("occamrazor")) {
             NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
         } else if (commandIs("paint")) {
-            //todo soon our own custom painter
+            throw new IllegalCallerException("Unimplemented yet; custom paint program coming soon");
         } else if (commandIs("rickandmorty")) {
             println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
             NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
@@ -1096,17 +1096,16 @@ public class InputHandler {
             } else {
                 println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
-        } else if (commandIs("demomode")) {
-            //todo image util method to screenshot all cyderframes and save to user's files dir
-
-            File refFile = OSUtil.createFileInUserSpace("ConsoleFrame_" + TimeUtil.logSubDirTime() + ".png");
-
-            System.out.println(refFile.getAbsolutePath());
-            boolean status = ImageIO.write(ImageUtil.getScreenShot(
-                    ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()), "png", refFile);
-
-            ConsoleFrame.getConsoleFrame().notify("Screen shots " +
-                    (status ? "successfully" : "unsuccessfully") + " saved to your Files folder");
+        } else if (commandIs("screenshot")) {
+            if (checkArgsLength(1)) {
+               if (getArg(0).equalsIgnoreCase("frames")) {
+                   FrameUtil.screenshotCyderFrames();
+               } else {
+                   FrameUtil.screenshotCyderFrame(getArg(0));
+               }
+            } else {
+                println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
+            }
         } else if (commandIs("xxx")) {
             SystemUtil.setCurrentCyderIcon(SystemUtil.xxxIcon);
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()

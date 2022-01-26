@@ -20,6 +20,21 @@ public class OSUtil {
      */
     public static boolean isValidFilename(String filename) {
         //todo system independent
+
+        switch (OPERATING_SYSTEM) {
+            case OSX:
+                //todo method
+                break;
+            case WINDOWS:
+                //todo copy over and fix issues
+                break;
+            case UNIX:
+                //todo method
+                break;
+            case UNKNOWN:
+                throw new IllegalStateException("Unknown operating system: " + OPERATING_SYSTEM_NAME);
+        }
+
         return false;
     }
 
@@ -208,6 +223,7 @@ public class OSUtil {
 
     //todo compact mode for console frame menu,
     // basically just copy the text that the icon would be and install a listener there
+    // this will also make all outputpanes draw without line seps, how to refresh this?
 
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata
@@ -232,4 +248,6 @@ public class OSUtil {
 
     //todo make a method in cydertextfield to get trimmed text that consolidates any whitespace down to
     // one space and then trims the string too
+
+    //todo logic to fix log with exit code that it wasn't found should also consolidate duplicate lines
 }

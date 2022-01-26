@@ -1287,24 +1287,26 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Overriden setSize method to ensure the bounds are never less than 100x100
+     * Overriden setSize method to ensure the bounds are never less than min_width x min_height
+     *
      * @param width width of frame
      * @param height height of frame
      */
     @Override
     public void setSize(int width, int height) {
-        width = Math.max(100, width);
-        height = Math.max(100, height);
+        width = Math.max(MINIMUM_WIDTH, width);
+        height = Math.max(MINIMUM_HEIGHT, height);
         super.setSize(width, height);
     }
 
     /**
-     * Sets the frame bounds and also changes the underlying drag label's bounds which is why this method is overridden.
+     * Sets the frame bounds and also changes the underlying drag
+     * label's bounds which is why this method is overridden.
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        width = Math.max(100, width);
-        height = Math.max(100, height);
+        width = Math.max(MINIMUM_WIDTH, width);
+        height = Math.max(MINIMUM_HEIGHT, height);
         super.setBounds(x, y, width, height);
 
         this.width = width;
@@ -1366,7 +1368,10 @@ public class CyderFrame extends JFrame {
             refreshBackground();
     }
 
-    private Dimension minimumSize = new Dimension(100, 100);
+    public static final int MINIMUM_WIDTH = 100;
+    public static final int MINIMUM_HEIGHT = 100;
+
+    private Dimension minimumSize = new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT);
     private Dimension maximumSize = new Dimension(800, 800);
     private Dimension snapSize = new Dimension(1, 1);
 

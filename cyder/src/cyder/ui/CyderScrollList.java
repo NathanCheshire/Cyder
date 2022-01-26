@@ -88,12 +88,14 @@ public class CyderScrollList {
         StyleConstants.setAlignment(attribs, itemAlignemnt);
         listPane.setParagraphAttributes(attribs, true);
 
+        boolean compactMode = true; //todo read from user pref
+
         CyderOutputPane cop = new CyderOutputPane(listPane);
 
         for (int i = 0 ; i < elements.size() ; i++) {
             cop.getStringUtil().printlnComponent(elements.get(i));
 
-            if (i != elements.size() - 1)
+            if (i != elements.size() - 1 && !compactMode)
                 cop.getStringUtil().printlnComponent(getSepLabel());
         }
 
