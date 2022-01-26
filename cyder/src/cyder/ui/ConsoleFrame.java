@@ -9,8 +9,8 @@ import cyder.cyderuser.UserEditor;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
+import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
-import cyder.genesis.GenesisShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.utilities.*;
@@ -208,7 +208,7 @@ public final class ConsoleFrame {
             };
 
             //after closing the frame exit the program is typical function
-            consoleCyderFrame.addPostCloseAction(() -> GenesisShare.exit(25));
+            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
 
             //set background to non-navy color
             consoleCyderFrame.setBackground(Color.black);
@@ -413,7 +413,7 @@ public final class ConsoleFrame {
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    GenesisShare.exit(-404);
+                    CyderCommon.exit(-404);
                 }
             });
 
@@ -1048,15 +1048,15 @@ public final class ConsoleFrame {
             consoleCyderFrame.setVisible(true);
 
             //inform and log how long it took to load Console from program start
-            GenesisShare.setConsoleStartTime(System.currentTimeMillis());
+            CyderCommon.setConsoleStartTime(System.currentTimeMillis());
 
             String logString = "Console loaded in " +
-                    (GenesisShare.getConsoleStartTime() - GenesisShare.getAbsoluteStartTime()) + "ms";
+                    (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
             SessionHandler.log(SessionHandler.Tag.ACTION, logString);
             notify(logString);
 
             //resume frame checker
-            GenesisShare.resumeFrameChecker();
+            CyderCommon.resumeFrameChecker();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1073,9 +1073,9 @@ public final class ConsoleFrame {
                                     ", but I had trouble connecting to the internet.\n" +
                                     "As a result, some features have been restricted until a " +
                                     "stable connection can be established.");
-                            GenesisShare.setQuesitonableInternet(true);
+                            CyderCommon.setQuesitonableInternet(true);
                         } else {
-                            GenesisShare.setQuesitonableInternet(false);
+                            CyderCommon.setQuesitonableInternet(false);
                         }
 
                         //sleep 5 minutes
@@ -3007,7 +3007,7 @@ public final class ConsoleFrame {
 
         //dispose and set closed var as true
         if (exit) {
-            consoleCyderFrame.addPostCloseAction(() -> GenesisShare.exit(25));
+            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
         }
 
         closed = true;
@@ -3015,7 +3015,7 @@ public final class ConsoleFrame {
     }
 
     public void logout() {
-        GenesisShare.suspendFrameChecker();
+        CyderCommon.suspendFrameChecker();
 
         //close the consoleframe if it's still open
         closeConsoleFrame(false);

@@ -3,7 +3,7 @@ package cyder.handlers.external;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -109,7 +109,7 @@ public class TextViewer {
 
         textEditorFrame.setVisible(true);
         textEditArea.requestFocus();
-        textEditorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        textEditorFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     @Override

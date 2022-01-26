@@ -7,7 +7,7 @@ import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
@@ -453,7 +453,7 @@ public class AudioPlayer implements WidgetBase {
         audioProgress.repaint();
         audioFrame.getContentPane().add(audioProgress);
 
-        audioFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        audioFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 

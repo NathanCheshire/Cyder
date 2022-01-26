@@ -40,10 +40,10 @@ As a result, some features have been restired until a stable connection can be e
 [22-29-31] [EXCEPTION]: 
 Absolute Start Time already set
 Thrown from:
-cyder.genesis.GenesisShare.setAbsoluteStartTime(GenesisShare.java:229)
+cyder.genesis.CyderCommon.setAbsoluteStartTime(GenesisShare.java:229)
 StackTrace:
 java.lang.IllegalArgumentException: Absolute Start Time already set
-	at cyder.genesis.GenesisShare.setAbsoluteStartTime(GenesisShare.java:229)
+	at cyder.genesis.CyderCommon.setAbsoluteStartTime(GenesisShare.java:229)
 	at cyder.genesis.Cyder.main(Cyder.java:19)
 	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:1392)
 	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:516)
@@ -89,7 +89,7 @@ java.lang.IllegalArgumentException: Absolute Start Time already set
 [22-29-31] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [22-29-31] [DEBUG]: Absolute Start Time already set
 java.lang.IllegalArgumentException: Absolute Start Time already set
-	at cyder.genesis.GenesisShare.setAbsoluteStartTime(GenesisShare.java:229)
+	at cyder.genesis.CyderCommon.setAbsoluteStartTime(GenesisShare.java:229)
 	at cyder.genesis.Cyder.main(Cyder.java:19)
 	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:1392)
 	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:516)

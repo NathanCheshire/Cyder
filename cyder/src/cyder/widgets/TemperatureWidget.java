@@ -4,7 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
@@ -311,6 +311,6 @@ public class TemperatureWidget implements WidgetBase {
         temperatureFrame.getContentPane().add(calculate);
         temperatureFrame.getContentPane().add(resetValues);
         temperatureFrame.setVisible(true);
-        temperatureFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        temperatureFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 }

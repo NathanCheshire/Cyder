@@ -4,7 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
@@ -112,7 +112,7 @@ public class ImageAveragerWidget implements WidgetBase {
         average.addActionListener(e -> compute());
 
         cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     private static void revalidateScroll() {

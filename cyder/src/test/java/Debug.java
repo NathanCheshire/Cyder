@@ -2,9 +2,10 @@ package test.java;
 
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
@@ -132,7 +133,7 @@ public class Debug {
                 });
 
                 debugFrame.setVisible(true);
-                debugFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+                debugFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
                 open = true;
             } else {
@@ -151,7 +152,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-
+            ConsoleFrame.getConsoleFrame().getInputHandler().println(CyderCommon.JAR_MODE);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

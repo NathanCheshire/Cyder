@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.consts.CyderRegexPatterns;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
@@ -97,7 +97,7 @@ public class StatUtil {
     public static void debugMenu() {
         new Thread(() -> {
             try {
-                if (GenesisShare.isQuesitonableInternet()) {
+                if (CyderCommon.isQuesitonableInternet()) {
                     throw new RuntimeException("Stable connection not established");
                 }
 

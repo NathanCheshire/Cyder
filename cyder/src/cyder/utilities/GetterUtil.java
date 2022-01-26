@@ -3,7 +3,7 @@ package cyder.utilities;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
 
@@ -83,7 +83,7 @@ public class GetterUtil {
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+                inputFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -134,7 +134,7 @@ public class GetterUtil {
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+                inputFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -383,7 +383,7 @@ public class GetterUtil {
                 dirFrame.getContentPane().add(dirScrollLabel);
 
                 //final frame setup
-                dirFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+                dirFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
                 dirFrame.setVisible(true);
                 dirField.requestFocus();
             } catch (Exception e) {

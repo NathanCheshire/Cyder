@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
@@ -257,7 +257,7 @@ public class GameOfLifeWidget implements WidgetBase {
         conwayFrame.getContentPane().add(speedSlider);
 
         conwayFrame.setVisible(true);
-        conwayFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        conwayFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         conwayFrame.addPreCloseAction(() -> simulationRunning = false);
     }
 

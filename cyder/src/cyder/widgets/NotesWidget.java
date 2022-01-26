@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
@@ -174,7 +174,7 @@ public class NotesWidget implements WidgetBase {
         noteFrame.getContentPane().add(deleteNote);
 
         noteFrame.setVisible(true);
-        noteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        noteFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     private static void addNote() {
@@ -262,7 +262,7 @@ public class NotesWidget implements WidgetBase {
         submitNewNote.setBounds(50,570,600 - 50 - 50,40);
         newNoteFrame.getContentPane().add(submitNewNote);
 
-        newNoteFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        newNoteFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         newNoteFrame.setVisible(true);
         newNoteField.requestFocus();
     }
@@ -429,7 +429,7 @@ public class NotesWidget implements WidgetBase {
 
         noteEditorFrame.setVisible(true);
         noteEditArea.requestFocus();
-        noteEditorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        noteEditorFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
         noteFrames.add(noteEditorFrame);
         noteEditorFrame.addWindowListener(new WindowAdapter() {

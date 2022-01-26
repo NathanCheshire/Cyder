@@ -6,7 +6,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
@@ -125,7 +125,7 @@ public class UserEditor implements WidgetBase {
         editUserFrame.getContentPane().add(forwardButton);
 
         editUserFrame.setVisible(true);
-        editUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        editUserFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     private static void initMusicBackgroundList() {
@@ -841,13 +841,13 @@ public class UserEditor implements WidgetBase {
         prefsTitle.setFont(CyderFonts.segoe30);
         printingUtil.printlnComponent(prefsTitle);
 
-        for (int i = 0 ; i < GenesisShare.getPrefs().size() ; i++) {
-            if (GenesisShare.getPrefs().get(i).getDisplayName().equals("IGNORE"))
+        for (int i = 0; i < CyderCommon.getPrefs().size() ; i++) {
+            if (CyderCommon.getPrefs().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 
             int localIndex = i;
 
-            CyderLabel preferenceLabel = new CyderLabel(GenesisShare.getPrefs().get(i).getDisplayName());
+            CyderLabel preferenceLabel = new CyderLabel(CyderCommon.getPrefs().get(i).getDisplayName());
             preferenceLabel.setForeground(CyderColors.navy);
             preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
             preferenceLabel.setFont(CyderFonts.defaultFontSmall);
@@ -861,7 +861,7 @@ public class UserEditor implements WidgetBase {
                 @Override
                 public void paintComponent(Graphics g) {
                     boolean setSelected = UserUtil.getUserData((
-                            GenesisShare.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                            CyderCommon.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
 
                     int xOffset = switchingLabel.getWidth() / 2 - 35;
                     Color background = CyderColors.navy;
@@ -934,7 +934,7 @@ public class UserEditor implements WidgetBase {
                 public void mouseClicked(MouseEvent e) {
                     //clicks make it here, but not toggled properly and not updated in menu
 
-                    String localID = GenesisShare.getPrefs().get(localIndex).getID();
+                    String localID = CyderCommon.getPrefs().get(localIndex).getID();
 
                     boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
@@ -943,7 +943,7 @@ public class UserEditor implements WidgetBase {
                     togglePrefLabel.repaint();
                 }
             });
-            togglePrefLabel.setToolTipText(GenesisShare.getPrefs().get(localIndex).getTooltip());
+            togglePrefLabel.setToolTipText(CyderCommon.getPrefs().get(localIndex).getTooltip());
             printingUtil.printlnComponent(togglePrefLabel);
         }
 
@@ -1408,7 +1408,7 @@ public class UserEditor implements WidgetBase {
                        for (Frame f : frames)
                            f.dispose();
 
-                       GenesisShare.exit(-56);
+                       CyderCommon.exit(-56);
                    } else {
                        deletePasswordField.setText("");
                        editUserFrame.notify("Account not deleted");

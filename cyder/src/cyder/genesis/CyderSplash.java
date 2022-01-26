@@ -170,7 +170,7 @@ public class CyderSplash {
                             //this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
                             PopupHandler.inform("idk what happened but you screwed something up", "Startup Exception",
-                                    null, null, () -> GenesisShare.exit(-100));
+                                    null, null, () -> CyderCommon.exit(-100));
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -178,7 +178,7 @@ public class CyderSplash {
                 },"Splash Animation").start();
 
                 splashFrame.setVisible(true);
-                splashFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+                splashFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 
@@ -343,6 +343,6 @@ public class PizzaWidget implements WidgetBase {
         pizzaFrame.getContentPane().add(resetPizza);
 
         pizzaFrame.setVisible(true);
-        pizzaFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        pizzaFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 }

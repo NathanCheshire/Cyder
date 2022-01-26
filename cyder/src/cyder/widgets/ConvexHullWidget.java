@@ -4,7 +4,7 @@ import cyder.algorithoms.GrahamScanAlgorithms;
 import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderComboBox;
@@ -114,7 +114,7 @@ public class ConvexHullWidget implements WidgetBase {
         hullFrame.getContentPane().add(computeButton);
 
         hullFrame.setVisible(true);
-        hullFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        hullFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     private static void solveAndUpdate() {

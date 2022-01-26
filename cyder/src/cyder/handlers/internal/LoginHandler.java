@@ -3,8 +3,8 @@ package cyder.handlers.internal;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.cyderuser.UserCreator;
+import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
-import cyder.genesis.GenesisShare;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
@@ -161,7 +161,7 @@ public class LoginHandler {
 
         //exiting handler if console frame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
-            loginFrame.addPostCloseAction(() -> GenesisShare.exit(25));
+            loginFrame.addPostCloseAction(() -> CyderCommon.exit(25));
         }
 
         JTextPane loginArea = new JTextPane();
@@ -239,7 +239,7 @@ public class LoginHandler {
                                 } else if (Arrays.equals(lowerCased,"quit".toCharArray())) {
                                     loginFrame.dispose();
                                     if (ConsoleFrame.getConsoleFrame().isClosed())
-                                        GenesisShare.exit(25);
+                                        CyderCommon.exit(25);
 
                                 } else if (Arrays.equals(lowerCased,"h".toCharArray()) || Arrays.equals(lowerCased,"help".toCharArray())) {
                                     loginField.setText(bashString);
@@ -316,7 +316,7 @@ public class LoginHandler {
         });
 
         loginFrame.setVisible(true);
-        loginFrame.setLocationRelativeTo(GenesisShare.getDominantFrame() == loginFrame ? null : GenesisShare.getDominantFrame());
+        loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame ? null : CyderCommon.getDominantFrame());
         CyderSplash.getSplashFrame().dispose(true);
 
         LinkedList<File> userJsons = new LinkedList<>();
@@ -336,7 +336,7 @@ public class LoginHandler {
         loginTypingAnimation(loginArea);
 
         //in case this is after a corruption or logout, start frame checker again
-        GenesisShare.resumeFrameChecker();
+        CyderCommon.resumeFrameChecker();
     }
 
     public static boolean isClosed() {
@@ -371,7 +371,7 @@ public class LoginHandler {
         } else if (IOUtil.getSystemData().isReleased()) {
             SessionHandler.log(SessionHandler.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
             showGUI();
-        } else GenesisShare.exit(-600);
+        } else CyderCommon.exit(-600);
     }
 
     /**

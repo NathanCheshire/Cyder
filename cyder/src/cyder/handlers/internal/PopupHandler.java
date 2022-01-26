@@ -2,7 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
@@ -19,7 +19,7 @@ public class PopupHandler {
     }
 
     public static void inform(String text, String title) {
-        inform(text, title, GenesisShare.getDominantFrame());
+        inform(text, title, CyderCommon.getDominantFrame());
     }
 
     public static void inform(String text, String title, Component relativeTo) {

@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -61,12 +61,12 @@ public class StringUtil {
      */
     public void removeFirst() {
         try {
-            GenesisShare.getPrintingSem().acquire();
+            CyderCommon.getPrintingSem().acquire();
             Element root = linkedJTextPane.getDocument().getDefaultRootElement();
             Element first = root.getElement(0);
             linkedJTextPane.getDocument().remove(first.getStartOffset(), first.getEndOffset());
             linkedJTextPane.setCaretPosition(linkedJTextPane.getDocument().getLength());
-            GenesisShare.getPrintingSem().release();
+            CyderCommon.getPrintingSem().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -110,7 +110,7 @@ public class StringUtil {
                 }
             }
 
-            GenesisShare.getPrintingSem().acquire();
+            CyderCommon.getPrintingSem().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -118,7 +118,7 @@ public class StringUtil {
 
             removeLastLine();
 
-            GenesisShare.getPrintingSem().release();
+            CyderCommon.getPrintingSem().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

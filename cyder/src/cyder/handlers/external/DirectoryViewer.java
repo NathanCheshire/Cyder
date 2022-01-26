@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -162,7 +162,7 @@ public class DirectoryViewer implements WidgetBase {
         dirFrame.getContentPane().add(dirScrollLabel);
 
         //final frame setup
-        dirFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        dirFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         dirFrame.setVisible(true);
         dirField.requestFocus();
     }

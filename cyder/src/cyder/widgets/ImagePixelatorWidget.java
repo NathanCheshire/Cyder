@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
@@ -159,7 +159,7 @@ public class ImagePixelatorWidget implements WidgetBase {
         pixelFrame.getContentPane().add(previewLabel);
 
         pixelFrame.setVisible(true);
-        pixelFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        pixelFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
         if (startPNG != null && StringUtil.getExtension(startPNG).equalsIgnoreCase(".png")) {
             try {

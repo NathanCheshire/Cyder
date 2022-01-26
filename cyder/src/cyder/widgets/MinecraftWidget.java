@@ -4,7 +4,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.consts.CyderStrings;
 import cyder.cyderuser.User;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -134,7 +134,7 @@ public class MinecraftWidget implements WidgetBase {
         minecraftFrame.getContentPane().add(hamLabel);
 
         minecraftFrame.setVisible(true);
-        minecraftFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        minecraftFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         minecraftFrame.setIconImage(new ImageIcon("static/pictures/minecraft/Block.png").getImage());
 
         //open minecraft if map exists

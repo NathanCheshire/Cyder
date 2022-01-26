@@ -3,7 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
@@ -145,7 +145,7 @@ public class IOUtil {
             File sysFile = new File(sysFilePath);
 
             if (!sysFile.exists())
-                GenesisShare.exit(-112);
+                CyderCommon.exit(-112);
 
             //gson obj
             Gson gson = new Gson();
@@ -182,7 +182,7 @@ public class IOUtil {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-            GenesisShare.exit(-112);
+            CyderCommon.exit(-112);
         }
     }
 
@@ -876,6 +876,8 @@ public class IOUtil {
         return ret;
     }
 
+    //todo I feel like this and all jsons loaded from the jsons should be inside of CyderCommon OR
+    // it's own system data class loader
     /**
      * SystemData class used by sys.json, no lists should be contained within SystemData.
      */

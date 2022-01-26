@@ -5,7 +5,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
@@ -104,7 +104,7 @@ public class WeatherWidget implements WidgetBase {
     public void innerShowGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "WEATHER");
 
-        if (GenesisShare.isQuesitonableInternet()) {
+        if (CyderCommon.isQuesitonableInternet()) {
             ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +
                     " this feature is suspended until a stable internet connection can be established");
             return;
@@ -341,7 +341,7 @@ public class WeatherWidget implements WidgetBase {
         weatherFrame.getContentPane().add(timezoneLabel);
 
         weatherFrame.setVisible(true);
-        weatherFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        weatherFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
         update = true;
 

@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
@@ -61,7 +61,7 @@ public class CardWidget implements WidgetBase {
         cardLabel.setBounds(498 + 40,40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
-        christmas2020Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        christmas2020Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         christmas2020Frame.setVisible(true);
     }
 
@@ -87,7 +87,7 @@ public class CardWidget implements WidgetBase {
         cardLabel.setBounds(5,40, fathersDay2021Frame.getWidth() - 40, 240);
         fathersDay2021Frame.getContentPane().add(cardLabel);
 
-        fathersDay2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        fathersDay2021Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         fathersDay2021Frame.setVisible(true);
     }
 
@@ -113,7 +113,7 @@ public class CardWidget implements WidgetBase {
         cardLabel.setBounds(5,40, birthday2021Frame.getWidth() - 40, 240);
         birthday2021Frame.getContentPane().add(cardLabel);
 
-        birthday2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        birthday2021Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         birthday2021Frame.setVisible(true);
 
         try {
@@ -163,7 +163,7 @@ public class CardWidget implements WidgetBase {
 
         christmas2021Frame.addPreCloseAction(() -> cardLabel.setRippling(false));
 
-        christmas2021Frame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        christmas2021Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         christmas2021Frame.setVisible(true);
     }
 }

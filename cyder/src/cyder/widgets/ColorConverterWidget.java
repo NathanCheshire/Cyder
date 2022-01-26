@@ -4,7 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -96,6 +96,6 @@ public class ColorConverterWidget implements WidgetBase {
         colorFrame.getContentPane().add(rgbField);
 
         colorFrame.setVisible(true);
-        colorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        colorFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 }

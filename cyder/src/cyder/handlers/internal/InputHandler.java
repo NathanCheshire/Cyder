@@ -6,8 +6,8 @@ import cyder.consts.CyderNums;
 import cyder.consts.CyderStrings;
 import cyder.cyderuser.UserCreator;
 import cyder.enums.ScreenPosition;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.GenesisShare.Preference;
+import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderCommon.Preference;
 import cyder.handlers.external.AudioPlayer;
 import cyder.helperscripts.PyExecutor;
 import cyder.threads.BletchyThread;
@@ -670,7 +670,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
-                GenesisShare.exit(25);
+                CyderCommon.exit(25);
             }
         } else if (commandIs("opendrive")) {
             SystemUtil.openCD("D:\\");
@@ -790,7 +790,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
-                GenesisShare.exit(25);
+                CyderCommon.exit(25);
             }
         } else if (commandIs("monitors")) {
             println(NetworkUtil.getMonitorStatsString());
@@ -1353,7 +1353,7 @@ public class InputHandler {
     private boolean preferenceCheck(String targetedPreference) {
         boolean ret = false;
 
-        for (Preference pref : GenesisShare.getPrefs()) {
+        for (Preference pref : CyderCommon.getPrefs()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID()) && !pref.getDisplayName().equals("IGNORE")) {
                 if (targetedPreference.contains("1") || targetedPreference.toLowerCase().contains("true")) {
                     UserUtil.setUserData(pref.getID(), "1");
@@ -1798,14 +1798,14 @@ public class InputHandler {
                                         document.insertString(document.getLength(), (String) line, null);
                                         outputArea.setCaretPosition(outputArea.getDocument().getLength());
                                     } else {
-                                        GenesisShare.getPrintingSem().acquire();
+                                        CyderCommon.getPrintingSem().acquire();
                                         for (char c : ((String) line).toCharArray()) {
                                             innerConsolePrint(c);
 
                                             if (!finishPrinting)
                                                 Thread.sleep(charTimeout);
                                         }
-                                        GenesisShare.getPrintingSem().release();
+                                        CyderCommon.getPrintingSem().release();
                                     }
                                 } else {
                                     StyledDocument document = (StyledDocument) outputArea.getDocument();
@@ -2370,7 +2370,7 @@ public class InputHandler {
                 }
             }
 
-            GenesisShare.getPrintingSem().acquire();
+            CyderCommon.getPrintingSem().acquire();
 
             if (removeTwoLines) {
                 removeLastLine();
@@ -2378,7 +2378,7 @@ public class InputHandler {
 
             removeLastLine();
 
-            GenesisShare.getPrintingSem().release();
+            CyderCommon.getPrintingSem().release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

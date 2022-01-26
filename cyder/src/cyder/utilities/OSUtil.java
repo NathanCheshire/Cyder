@@ -216,4 +216,7 @@ public class OSUtil {
     //todo implement curl command
 
     //todo display all files inside of user editor now too
+
+    //todo code analyzing and reflection and such needs to be disabled if compiled
+    // add a method to tell if we're compiled or via an IDE
 }

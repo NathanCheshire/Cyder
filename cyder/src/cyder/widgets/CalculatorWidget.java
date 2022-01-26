@@ -7,7 +7,7 @@ import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
@@ -317,6 +317,6 @@ public class CalculatorWidget implements WidgetBase {
         });
 
         calculatorFrame.setVisible(true);
-        calculatorFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        calculatorFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 }

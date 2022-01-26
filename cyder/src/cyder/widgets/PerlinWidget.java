@@ -5,7 +5,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderStrings;
 import cyder.enums.SliderShape;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
 import cyder.utilities.ImageUtil;
@@ -300,7 +300,7 @@ public class PerlinWidget implements WidgetBase {
         perlinFrame.getContentPane().add(featureSlider);
 
         perlinFrame.setVisible(true);
-        perlinFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        perlinFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     //generates new noise based on a new random seed

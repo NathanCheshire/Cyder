@@ -5,8 +5,8 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.GenesisShare.Preference;
+import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderCommon.Preference;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -314,7 +314,7 @@ public class UserCreator implements WidgetBase {
                         user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
                                 SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
 
-                        for (Preference pref : GenesisShare.getPrefs()) {
+                        for (Preference pref : CyderCommon.getPrefs()) {
                             //as per convention, IGNORE for tooltip means ignore when creating user
                             // whilst IGNORE for default value means ignore for edit user
                             if (!pref.getTooltip().equals("IGNORE"))
@@ -332,7 +332,7 @@ public class UserCreator implements WidgetBase {
                         UserUtil.setUserData(dataFile, user);
 
                         createUserFrame.dispose();
-                        PopupHandler.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", GenesisShare.getDominantFrame());
+                        PopupHandler.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", CyderCommon.getDominantFrame());
                         createUserFrame.dispose();
 
                         //attempt to log in new user if it's the only user
@@ -359,7 +359,7 @@ public class UserCreator implements WidgetBase {
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        createUserFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        createUserFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
         createUserFrame.setVisible(true);
         newUserName.requestFocus();

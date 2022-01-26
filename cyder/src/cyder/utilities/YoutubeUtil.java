@@ -8,7 +8,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -296,7 +296,7 @@ public class YoutubeUtil {
         });
 
         uuidFrame.setVisible(true);
-        uuidFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        uuidFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static BufferedImage getSquareThumbnail(String videoURL) {

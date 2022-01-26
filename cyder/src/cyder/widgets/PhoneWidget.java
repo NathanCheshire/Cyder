@@ -5,7 +5,7 @@ import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
 import cyder.consts.CyderStrings;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -236,7 +236,7 @@ public class PhoneWidget implements WidgetBase {
             }
         });
 
-        phoneFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        phoneFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         phoneFrame.setVisible(true);
     }
 

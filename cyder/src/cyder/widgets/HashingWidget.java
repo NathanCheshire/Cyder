@@ -4,7 +4,7 @@ import cyder.annotations.Widget;
 import cyder.consts.CyderColors;
 import cyder.consts.CyderFonts;
 import cyder.consts.CyderIcons;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderButton;
@@ -107,7 +107,7 @@ public class HashingWidget implements WidgetBase {
             hashAlgorithmField.setText(algorithms.get(algorithmIndex));
         });
 
-        hashFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        hashFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         hashFrame.setVisible(true);
     }
 }

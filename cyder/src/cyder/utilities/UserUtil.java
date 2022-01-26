@@ -3,8 +3,8 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.consts.CyderStrings;
 import cyder.cyderuser.User;
-import cyder.genesis.GenesisShare;
-import cyder.genesis.GenesisShare.Preference;
+import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderCommon.Preference;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
@@ -20,16 +20,36 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class UserUtil {
+    /**
+     * Instantiation of util method not allowed.
+     */
     private UserUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    //the semaphore to use when reading or writing from/to a JSON file
-    private static Semaphore jsonIOSem = new Semaphore(1);
+    //the semaphore to use when reading or writing userdata
+    private static Semaphore userIOSemaphore = new Semaphore(1);
 
     //getter so exiting method can make sure jsonIOSem is not locked
-    public static Semaphore getJsonIOSem() {
-        return jsonIOSem;
+    public static Semaphore getUserIOSemaphore() {
+        return userIOSemaphore;
+    }
+
+    /**
+     * Blocks any future user IO by acquiring the semaphore and never releasing it.
+     * This method blocks until the Io semaphore can be acquired.
+     *
+     * @return whether or not the semaphore was acquired.
+     */
+    public static boolean blockFutureIO() {
+        try {
+            userIOSemaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -85,13 +105,13 @@ public class UserUtil {
 
         try  {
             FileWriter writer = new FileWriter(f);
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             gson.toJson(user, writer);
             writer.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
         }
     }
 
@@ -120,13 +140,13 @@ public class UserUtil {
 
         try  {
             FileWriter writer = new FileWriter(f);
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             gson.toJson(user, writer);
             writer.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
         }
     }
 
@@ -146,13 +166,13 @@ public class UserUtil {
 
         try  {
             FileWriter writer = new FileWriter(f);
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             gson.toJson(u, writer);
             writer.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
         }
     }
 
@@ -172,13 +192,13 @@ public class UserUtil {
 
         try  {
             FileWriter writer = new FileWriter(f);
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             gson.toJson(u, writer);
             writer.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
         }
     }
 
@@ -235,7 +255,7 @@ public class UserUtil {
                                     Object defaultValue = null;
 
                                     //find corresponding default vaule
-                                    for (Preference pref : GenesisShare.getPrefs()) {
+                                    for (Preference pref : CyderCommon.getPrefs()) {
                                         if (pref.getID().toLowerCase().contains(getterMethod.getName()
                                                 .toLowerCase().replace("get",""))) {
                                             defaultValue = pref.getDefaultValue();
@@ -271,11 +291,12 @@ public class UserUtil {
 
     /**
      * Attempts to read backgrounds that Cyder would use for a user.
-     * If it fails, the image is corrupted so we delete it in the calling function.
+     * If failure, the image is corrupted so we delete it in the calling function.
      */
     public static void fixBackgrounds() {
         try {
-            GenesisShare.getExitingSem().acquire();
+            //acquire sem so that any user requested exit will not corrupt the background
+            getUserIOSemaphore().acquire();
 
             for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
                 boolean valid = true;
@@ -296,7 +317,7 @@ public class UserUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            GenesisShare.getExitingSem().release();
+            getUserIOSemaphore().release();
         }
     }
 
@@ -315,14 +336,14 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try {
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
             return ret;
         }
     }
@@ -342,14 +363,14 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try {
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
             return ret;
         }
     }
@@ -368,14 +389,14 @@ public class UserUtil {
         Gson gson = new Gson();
 
         try {
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
             return ret;
         }
     }
@@ -408,7 +429,7 @@ public class UserUtil {
 
         try {
             //find default value as a fail safe
-            for (Preference pref : GenesisShare.getPrefs()) {
+            for (Preference pref : CyderCommon.getPrefs()) {
                 if (pref.getID().equalsIgnoreCase(name)) {
                     defaultValue = pref.getDefaultValue();
                     break;
@@ -621,7 +642,7 @@ public class UserUtil {
         User ret = new User();
 
         //for all the preferences
-        for (Preference pref : GenesisShare.getPrefs()) {
+        for (Preference pref : CyderCommon.getPrefs()) {
             //get all methods of user
             for (Method m : ret.getClass().getMethods()) {
                 //make sure it's a setter with one parameter
@@ -671,7 +692,7 @@ public class UserUtil {
 
         try {
             //aquire sem
-            jsonIOSem.acquire();
+            userIOSemaphore.acquire();
 
             //init IO for json
             Reader reader = null;
@@ -690,7 +711,7 @@ public class UserUtil {
                 userObj = gson.fromJson(reader, User.class);
             } catch (Exception ignored) {
                 //couldn't be parsed so delete it
-                jsonIOSem.release();
+                userIOSemaphore.release();
                 reader.close();
                 writer.close();
                 jsonReader.close();
@@ -705,7 +726,7 @@ public class UserUtil {
             // if so, we're fucked so delete the file
 
             if (userObj == null) {
-                jsonIOSem.release();
+                userIOSemaphore.release();
                 reader.close();
                 writer.close();
                 jsonReader.close();
@@ -725,7 +746,7 @@ public class UserUtil {
 
                         if (value == null || value.trim().length() == 0 || value.equalsIgnoreCase("null")) {
                             //this thing doesn't exist so return false where the IOUtil method will delete the file
-                            jsonIOSem.release();
+                            userIOSemaphore.release();
                             reader.close();
                             writer.close();
                             jsonReader.close();
@@ -748,7 +769,7 @@ public class UserUtil {
 
             //make sure contents are not null-like
             if (masterJson == null || masterJson.trim().length() == 0 || masterJson.equalsIgnoreCase("null")) {
-                jsonIOSem.release();
+                userIOSemaphore.release();
                 reader.close();
                 writer.close();
                 jsonReader.close();
@@ -763,7 +784,7 @@ public class UserUtil {
             LinkedList<String> injections = new LinkedList<>();
 
             //loop through default perferences
-            for (Preference pref : GenesisShare.getPrefs()) {
+            for (Preference pref : CyderCommon.getPrefs()) {
                 //old json detected and we found a pref that doesn't exist
                 if (!masterJson.toLowerCase().contains(pref.getID().toLowerCase())) {
                     //inject into json
@@ -806,7 +827,7 @@ public class UserUtil {
             ExceptionHandler.handle(e);
             ret = false;
         } finally {
-            jsonIOSem.release();
+            userIOSemaphore.release();
         }
 
         return ret;

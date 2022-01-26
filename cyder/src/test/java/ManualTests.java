@@ -7,7 +7,7 @@ import cyder.consts.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
-import cyder.genesis.GenesisShare;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
@@ -50,7 +50,7 @@ public class ManualTests {
         testFrame.getContentPane().add(addPinFirst);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void buttonAndTitlePosTest() {
@@ -86,7 +86,7 @@ public class ManualTests {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void notificationTest() {
@@ -142,7 +142,7 @@ public class ManualTests {
         testFrame.initializeResizing();
         testFrame.setResizable(true);
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void askewTest() {
@@ -159,7 +159,7 @@ public class ManualTests {
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void iconLabelSlidingTest() {
@@ -247,7 +247,7 @@ public class ManualTests {
         testFrame.getContentPane().add(slideRight);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void checkboxTest() {
@@ -265,7 +265,7 @@ public class ManualTests {
         testFrame.getContentPane().add(cb1);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void informTest() {
@@ -282,7 +282,7 @@ public class ManualTests {
         informButton.addActionListener(e -> testFrame.inform(textField.getText(),"Inform"));
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void progressBarTest() {
@@ -300,7 +300,7 @@ public class ManualTests {
         jpb.setValue(50);
         cf.getContentPane().add(jpb);
         cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
         new Thread( () -> {
             for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
@@ -351,7 +351,7 @@ public class ManualTests {
         testFrame.getContentPane().add(audioVolumeSlider);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void frameTitleLengthTest() {
@@ -370,7 +370,7 @@ public class ManualTests {
         cb.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
         cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void stackTest() {
@@ -413,7 +413,7 @@ public class ManualTests {
         cf.getContentPane().add(printButton);
 
         cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void switchTest() {
@@ -426,7 +426,7 @@ public class ManualTests {
         testFrame.getContentPane().add(cs);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void queueTest() {
@@ -494,7 +494,7 @@ public class ManualTests {
         cf.getContentPane().add(containsField);
 
         cf.setVisible(true);
-        cf.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void comboBoxTest() {
@@ -511,7 +511,7 @@ public class ManualTests {
         printbutton.addActionListener(e -> testFrame.notify(ccb.getValue()));
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void rippleLabelTest() {
@@ -536,7 +536,7 @@ public class ManualTests {
         //enable rippling
         ripplingLabel.setRippling(true);
 
-        rippleTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        rippleTestFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         rippleTestFrame.setVisible(true);
     }
 
@@ -557,7 +557,7 @@ public class ManualTests {
                 cbg.addCheckbox(cb);
         }
 
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         testFrame.setVisible(true);
     }
 
@@ -577,7 +577,7 @@ public class ManualTests {
         cg.addNode(new CyderGrid.GridNode(CyderColors.regularPink, 20,21));
         cg.addNode(new CyderGrid.GridNode(CyderColors.regularBlue, 21,20));
 
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         testFrame.setVisible(true);
     }
 
@@ -629,7 +629,7 @@ public class ManualTests {
         gridTestFrame.setBackgroundResizing(true);
 
         //regular final frame calls
-        gridTestFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        gridTestFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         gridTestFrame.setVisible(true);
     }
 
@@ -661,6 +661,6 @@ public class ManualTests {
         testFrame.setBackgroundResizing(true);
 
         testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(GenesisShare.getDominantFrame());
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 }
