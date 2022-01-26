@@ -218,8 +218,6 @@ public class OSUtil {
 
     //todo redo image resizer and put cropper inside of it
 
-    //todo map adding folders doesn't work
-
     //todo flash player should have music title as frame title
     // cut off painted title at certain legnth and add ...? maybe it already does that I think
 

@@ -1187,7 +1187,7 @@ public class UserEditor implements WidgetBase {
                             validLink = false;
                         }
 
-                        if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink) {
+                        if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink && !pointerFile.isDirectory()) {
                             editUserFrame.notify("File does not exist or link is invalid");
                         } else {
                             if (name.length() > 0) {
