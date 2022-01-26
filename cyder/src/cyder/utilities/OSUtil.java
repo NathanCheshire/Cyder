@@ -19,7 +19,7 @@ public class OSUtil {
      *         Cyder is currently running on
      */
     public static boolean isValidFilename(String filename) {
-        //todo
+        //todo system independent
         return false;
     }
 
@@ -32,7 +32,7 @@ public class OSUtil {
      *      * Cyder is currently running on and whether or not the filename follows standard naming procedures
      */
     public static boolean isValidAndStandardFilename(String filename) {
-        //todo
+        //todo system independent
         return false;
     }
 
@@ -215,6 +215,12 @@ public class OSUtil {
 
     //todo display all files inside of user editor now too
 
-    //todo code analyzing and reflection and such needs to be disabled if compiled
-    // add a method to tell if we're compiled or via an IDE
+    //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
+
+    //todo similar command broken?
+
+    //todo trim any multiple spaces out of console clock format input field
+
+    //todo make a method in cydertextfield to get trimmed text that consolidates any whitespace down to
+    // one space and then trims the string too
 }

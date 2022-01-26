@@ -12,7 +12,7 @@ public class PyExecutor {
      * Executes the USBq.py script.
      */
     public static void executeUSBq() {
-        executePy("cyder/src/cyder/helperscripts/usbq.py");
+        executePy("cyder/src/cyder/scripts/usbq.py");
     }
 
     /**

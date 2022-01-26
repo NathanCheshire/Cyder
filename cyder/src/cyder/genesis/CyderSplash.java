@@ -233,13 +233,15 @@ public class CyderSplash {
      * @param loadingMessage the message to set to the loading label
      */
     public static void setLoadingMessage(String loadingMessage) {
-        if (splashFrame.isDisposed())
+        if (splashFrame == null || splashFrame.isDisposed())
             return;
 
         if (loadingMessage.trim().length() > 0)
             CyderSplash.loadingMessage = loadingMessage.trim();
 
-        loadingLabel.revalidate();
-        loadingLabel.repaint();
+        if (loadingLabel != null) {
+            loadingLabel.revalidate();
+            loadingLabel.repaint();
+        }
     }
 }

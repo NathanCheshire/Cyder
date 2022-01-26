@@ -242,7 +242,7 @@ public class ReflectionUtil {
 
             try {
                 Runtime rt = Runtime.getRuntime();
-                String[] commands = {"python", "cyder/src/cyder/helperscripts/commandFinder.py", command};
+                String[] commands = {"python", "cyder/src/cyder/scripts/commandFinder.py", command};
                 Process proc = rt.exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new

@@ -1226,15 +1226,6 @@ public class InputHandler {
          return ret;
     }
 
-    //todo similar command broken?
-
-    //todo trim any multiple spaces out of console clock format input field
-
-    //todo make a method in cydertextfield to get trimmed text that consolidates any whitespace down to
-    // one space and then trims the string too
-
-    //todo string util needs to use the linked semaphore
-
     //sub-handle methods in the order they appear above --------------------------
 
     /**
