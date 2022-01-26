@@ -1097,11 +1097,16 @@ public class InputHandler {
                 println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (commandIs("screenshot")) {
-            if (checkArgsLength(1)) {
+            if (args.size() > 0) {
                if (getArg(0).equalsIgnoreCase("frames")) {
                    FrameUtil.screenshotCyderFrames();
+                   println("Successfully saved to yoru Files directory");
                } else {
-                   FrameUtil.screenshotCyderFrame(getArg(0));
+                   if (!FrameUtil.screenshotCyderFrame(argsToString())) {
+                       println("CyderFrame not found");
+                   } else {
+                       println("Successfully saved to your Files directory");
+                   }
                }
             } else {
                 println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");

@@ -47,7 +47,7 @@ public class FrameUtil {
             if (frame.isVisible()
                     && frame.getWidth() >= CyderFrame.MINIMUM_WIDTH
                     && frame.getHeight() >= CyderFrame.MINIMUM_HEIGHT)  {
-
+                screenshotCyderFrame(frame);
             }
         }
     }
@@ -62,18 +62,33 @@ public class FrameUtil {
         CyderFrame refFrame = null;
 
         for (CyderFrame frame : getCyderFrames()) {
-            if (frame.getName().equalsIgnoreCase(cyderFrameName)) {
+            if (frame.getTitle().equalsIgnoreCase(cyderFrameName)) {
                 refFrame = frame;
                 break;
             }
         }
 
         if (refFrame == null)
+            return false;
+
+        String saveName = refFrame.getTitle().substring(0, Math.min(15, refFrame.getTitle().length()));
+        File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime() + ".png");
+        return screenshotCyderFrame(refFrame, refFile);
+    }
+
+    /**
+     * Saves a screenshot of the CyderFrame with the provided name to the user's Files/ directory.
+     *
+     * @param cyderFrame the CyderFrame to screenshot
+     * @return whether or not the screenshot was successfully saved
+     */
+    public static boolean screenshotCyderFrame(CyderFrame cyderFrame) {
+        if (cyderFrame == null)
             throw new IllegalArgumentException("Valid CyderFrame with provided name does not exist");
 
-        //todo substring the title to 10 chars
-        File refFile = OSUtil.createFileInUserSpace(refFrame.getName() + TimeUtil.logSubDirTime() + ".png");
-        return screenshotCyderFrame(refFrame, refFile);
+        String saveName = cyderFrame.getTitle().substring(0, Math.min(15, cyderFrame.getTitle().length()));
+        File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime() + ".png");
+        return screenshotCyderFrame(cyderFrame, refFile);
     }
 
     /**
