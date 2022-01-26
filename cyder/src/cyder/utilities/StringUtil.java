@@ -52,12 +52,12 @@ public class StringUtil {
         return linkedCyderPane;
     }
 
-    //begin util methods --------------------------------------
+    //begin util methods for an instance which require synchronization --------------------------------------
 
     /**
-     * Removes the first object from the linked pane, this could be anything from a Component to a String
+     * Removes the first object from the linked pane, this could be anything from a Component to a String.
      */
-    public void removeFirst() {
+    public synchronized void removeFirst() {
         try {
             linkedCyderPane.getSemaphore().acquire();
 
@@ -73,11 +73,11 @@ public class StringUtil {
 
     /**
      * Removes the last "thing" addeed to the JTextPane whether it's a component,
-     *  icon, or string of multi-llined text.
-     *  In more detail, this method figures out what it'll be removing and then determines how many calls
-     *   are needed to {@link StringUtil#removeLastLine()}
+     * icon, or string of multi-llined text.
+     * In more detail, this method figures out what it'll be removing and then determines how many calls
+     * are needed to {@link StringUtil#removeLastLine()}
      */
-    public void removeLast() {
+    public synchronized void removeLast() {
         try {
             boolean removeTwoLines = false;
 
@@ -124,10 +124,11 @@ public class StringUtil {
     }
 
     /**
-     * Finds the last line of text from the linked output area
+     * Finds the last line of text from the linked output area.
+     *
      * @return the last line of raw ASCII text
      */
-    public String getLastTextLine() {
+    public synchronized String getLastTextLine() {
         String text = linkedCyderPane.getJTextPane().getText();
         String[] lines = text.split("\n");
         return lines[lines.length - 1];
@@ -137,7 +138,7 @@ public class StringUtil {
      * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
      *  but really be removing just a newline (line break) character.
      */
-    public void removeLastLine() {
+    public synchronized void removeLastLine() {
         try {
             LinkedList<Element> elements = new LinkedList<>();
             ElementIterator iterator = new ElementIterator(linkedCyderPane.getJTextPane().getStyledDocument());
@@ -181,7 +182,7 @@ public class StringUtil {
      * @param nm the name identifier for the style
      * @param str the string identifier for the underlying insert string call
      */
-    public void printComponent(Component c, String nm, String str) {
+    public synchronized void printComponent(Component c, String nm, String str) {
         try {
             Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(nm, null);
             StyleConstants.setComponent(cs, c);
@@ -197,7 +198,7 @@ public class StringUtil {
      *  modifiers, etc. have been set before printing the component.
      * @param c the component to append to the pane
      */
-    public void printComponent(Component c) {
+    public synchronized void printComponent(Component c) {
         try {
             String componentUUID = SecurityUtil.generateUUID();
             Style cs = linkedCyderPane.getJTextPane().getStyledDocument().addStyle(componentUUID, null);
@@ -215,7 +216,7 @@ public class StringUtil {
      *  a new line is appended to the pane.
      * @param c the component to append to the pane
      */
-    public void printlnComponent(Component c) {
+    public synchronized void printlnComponent(Component c) {
         try {
             String componentUUID = SecurityUtil.generateUUID();
             printComponent(c, componentUUID, componentUUID);
@@ -233,7 +234,7 @@ public class StringUtil {
      * @param nm the name identifier for the style
      * @param str the string identifier for the underlying insert string call
      */
-    public void printlnComponent(Component c, String nm, String str) {
+    public synchronized void printlnComponent(Component c, String nm, String str) {
         try {
             printComponent(c, nm, str);
             println("");
@@ -242,7 +243,7 @@ public class StringUtil {
         }
     }
 
-    public void print(String Usage) {
+    public synchronized void print(String Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage, null);
@@ -252,7 +253,7 @@ public class StringUtil {
         }
     }
 
-    public void print(int Usage) {
+    public synchronized void print(int Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Integer.toString(Usage), null);
@@ -262,7 +263,7 @@ public class StringUtil {
         }
     }
 
-    public void print(double Usage) {
+    public synchronized void print(double Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Double.toString(Usage), null);
@@ -272,7 +273,7 @@ public class StringUtil {
         }
     }
 
-    public void print(boolean Usage) {
+    public synchronized void print(boolean Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Boolean.toString(Usage), null);
@@ -282,7 +283,7 @@ public class StringUtil {
         }
     }
 
-    public void print(float Usage) {
+    public synchronized void print(float Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Float.toString(Usage), null);
@@ -292,7 +293,7 @@ public class StringUtil {
         }
     }
 
-    public void print(long Usage) {
+    public synchronized void print(long Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Long.toString(Usage), null);
@@ -302,7 +303,7 @@ public class StringUtil {
         }
     }
 
-    public void print(char Usage) {
+    public synchronized void print(char Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), String.valueOf(Usage), null);
@@ -312,7 +313,7 @@ public class StringUtil {
         }
     }
 
-    public void print(Object Usage) {
+    public synchronized void print(Object Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage.toString(), null);
@@ -322,7 +323,7 @@ public class StringUtil {
         }
     }
 
-    public void println(String Usage) {
+    public synchronized  void println(String Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -332,7 +333,7 @@ public class StringUtil {
         }
     }
 
-    public void println(int Usage) {
+    public synchronized void println(int Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -342,7 +343,7 @@ public class StringUtil {
         }
     }
 
-    public void println(double Usage) {
+    public synchronized void println(double Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -352,7 +353,7 @@ public class StringUtil {
         }
     }
 
-    public void println(boolean Usage) {
+    public synchronized void println(boolean Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -362,7 +363,7 @@ public class StringUtil {
         }
     }
 
-    public void println(float Usage) {
+    public synchronized void println(float Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -372,7 +373,7 @@ public class StringUtil {
         }
     }
 
-    public void println(long Usage) {
+    public synchronized void println(long Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -382,7 +383,7 @@ public class StringUtil {
         }
     }
 
-    public void println(char Usage) {
+    public synchronized void println(char Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage + "\n", null);
@@ -392,7 +393,7 @@ public class StringUtil {
         }
     }
 
-    public void println(Object Usage) {
+    public synchronized void println(Object Usage) {
         try {
             StyledDocument document = (StyledDocument) linkedCyderPane.getJTextPane().getDocument();
             document.insertString(document.getLength(), Usage.toString() + "\n", null);
@@ -406,12 +407,16 @@ public class StringUtil {
      * Prints the object array to {@link this} object's connected output area
      * @param arr the array of objects to print
      */
-    public void printArr(Object[] arr) {
-        for (Object o : arr)
-            println(o);
+    public synchronized void printArr(Object[] arr) {
+        try {
+            for (Object o : arr)
+                println(o);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
-    //end methods which require instantiation
+    //end methods which require instantiation/synchronization
 
     /**
      * Reverses the given array
