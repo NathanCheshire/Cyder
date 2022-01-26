@@ -41,7 +41,7 @@ public class UserUtil {
      *
      * @return whether or not the semaphore was acquired.
      */
-    public static boolean blockFutureIO() {
+    public static synchronized boolean blockFutureIO() {
         try {
             userIOSemaphore.acquire();
         } catch (Exception e) {

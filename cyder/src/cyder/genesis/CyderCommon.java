@@ -171,12 +171,12 @@ public class CyderCommon {
      */
     public static void exit(int code) {
         try {
-            //ensures IO finishes and is not invoked again
-            UserUtil.blockFutureIO();
-
             //sign the user out
             if (ConsoleFrame.getConsoleFrame().getUUID() != null)
                 UserUtil.setUserData("loggedin","0");
+
+            //ensures IO finishes and is not invoked again
+            UserUtil.blockFutureIO();
 
             //log exit, todo move the system.exit call back here
             SessionHandler.log(SessionHandler.Tag.EXIT, code);

@@ -39,3 +39,4 @@
 [18-21-37] [LOGOUT]: [Nathan]
 [18-21-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(315, 381, 1211, 720)], hash = [1293203138], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [18-21-37] [SYSTEM_IO]: Userdata requested: closeanimation
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager
