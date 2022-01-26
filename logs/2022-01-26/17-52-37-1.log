@@ -1,0 +1,57 @@
+[17-52-38] [ENTRY]: [Nathan]
+[17-52-38] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-52-38] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-52-38] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-52-38] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-52-40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-52-40] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-52-40] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-52-40] [SYSTEM_IO]: Userdata requested: Name
+[17-52-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-52-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-52-41] [SYSTEM_IO]: Userdata requested: Name
+[17-52-41] [SYSTEM_IO]: Userdata requested: Foreground
+[17-52-41] [SYSTEM_IO]: Userdata requested: Foreground
+[17-52-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-52-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-52-41] [SYSTEM_IO]: Userdata requested: Foreground
+[17-52-41] [SYSTEM_IO]: Userdata requested: Font
+[17-52-41] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-52-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-52-41] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-52-41] [SYSTEM_IO]: Userdata requested: Foreground
+[17-52-41] [SYSTEM_IO]: Userdata requested: Foreground
+[17-52-41] [SYSTEM_IO]: Userdata requested: Foreground
+[17-52-41] [SYSTEM_IO]: Userdata requested: Font
+[17-52-41] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-52-41] [SYSTEM_IO]: Userdata requested: InputFill
+[17-52-41] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1624022184], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-52-41] [ACTION]: Console loaded in 3865ms
+[17-52-41] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-52-41] [ENTRY]: [TESTING MODE]
+[17-52-41] [SYSTEM_IO]: Userdata requested: laststart
+[17-52-41] [SYSTEM_IO]: Userdata requested: IntroMusic
+[17-52-41] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3865ms
+[17-52-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-52-42] [CLIENT]: mp3
+[17-52-42] [SYSTEM_IO]: Userdata requested: filterchat
+[17-52-42] [WIDGET OPENED]: AUDIO PLAYER
+[17-52-42] [HANDLE]: PRIMARY HANDLE
+[17-52-42] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[17-52-43] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[17-52-46] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[17-52-48] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[17-52-49] [ACTION]: [AUDIO PLAYER] Future - Solitaires ft. Travis Scott.mp3
+[17-52-58] [ACTION]: [AUDIO PLAYER] Girl You Got It (feat. Nightxime).mp3
+[17-53-02] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[17-53-04] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[17-53-09] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[17-53-10] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[17-53-11] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[17-53-14] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[17-53-17] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[17-53-18] [ACTION]: [AUDIO PLAYER] Future - Solitaires ft. Travis Scott.mp3
+[17-53-21] [ACTION]: [AUDIO PLAYER] Girl You Got It (feat. Nightxime).mp3
+[17-53-22] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[17-53-24] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

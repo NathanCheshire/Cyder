@@ -82,6 +82,8 @@ public class AudioPlayer implements WidgetBase {
     private static long pauseLocation;
     private static long totalLength;
 
+    private static final String DEFAULT_TITLE = "Flash Player";
+
     //private constructor since only one player per Cyder instance
     private AudioPlayer() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -122,7 +124,7 @@ public class AudioPlayer implements WidgetBase {
         audioFrame = new CyderFrame(500,225,
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225, backgroundColor)));
         audioFrame.setBackground(backgroundColor);
-        audioFrame.setTitle("Flash Player");
+        audioFrame.setTitle(DEFAULT_TITLE);
         audioFrame.addWindowListener(
             new WindowAdapter() {
                  //to be safe, upon the window closing and the window closed events
@@ -674,6 +676,9 @@ public class AudioPlayer implements WidgetBase {
 
             //refresh the audio volume
             refreshAudio();
+
+            //refresh the title
+            audioFrame.setTitle(DEFAULT_TITLE);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -802,6 +807,8 @@ public class AudioPlayer implements WidgetBase {
                 fis = new FileInputStream(audioFiles.get(audioIndex));
                 bis = new BufferedInputStream(fis);
 
+                refreshFrameTitle();
+
                 if (player != null)
                     player.close();
                 player = null;
@@ -897,7 +904,7 @@ public class AudioPlayer implements WidgetBase {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+        },DEFAULT_TITLE + " Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
     }
 
     /**
@@ -925,6 +932,8 @@ public class AudioPlayer implements WidgetBase {
                     //in case for some weird reason startPosition is before the file then we set startPosition to 0
                     fis.skip(startPosition < 0 ? 0 : startPosition);
                     bis = new BufferedInputStream(fis);
+
+                    refreshFrameTitle();
 
                     if (player != null)
                         player.close();
@@ -996,7 +1005,7 @@ public class AudioPlayer implements WidgetBase {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },"Flash Player Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+            },DEFAULT_TITLE + " Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
         }
     }
 
@@ -1047,7 +1056,7 @@ public class AudioPlayer implements WidgetBase {
                             ExceptionHandler.silentHandle(e);
                         }
                     }
-                },"Flash Player Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+                },DEFAULT_TITLE + " Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1121,7 +1130,7 @@ public class AudioPlayer implements WidgetBase {
                         catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    },"Flash Player scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+                    },DEFAULT_TITLE + " scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
                 } else {
                     audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                 }
@@ -1305,5 +1314,13 @@ public class AudioPlayer implements WidgetBase {
 
         currentAlbumArt = null;
         return false;
+    }
+
+    /**
+     * Refreshes the frame's painted title, super title, and console frame menu name.
+     */
+    public static void refreshFrameTitle() {
+        audioFrame.setTitle(StringUtil.getFilename(audioFiles.get(audioIndex).getName()));
+        ConsoleFrame.getConsoleFrame().revaliateMenu();
     }
 }
