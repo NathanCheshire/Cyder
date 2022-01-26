@@ -1,7 +1,7 @@
 package cyder.ui;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderIcons;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderIcons;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;

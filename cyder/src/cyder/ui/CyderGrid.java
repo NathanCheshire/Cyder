@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.consts.CyderColors;
+import cyder.constants.CyderColors;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;

@@ -1,12 +1,11 @@
-package cyder.cyderuser;
+package cyder.user;
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.genesis.CyderCommon.Preference;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -314,7 +313,7 @@ public class UserCreator implements WidgetBase {
                         user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
                                 SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
 
-                        for (Preference pref : CyderCommon.getPrefs()) {
+                        for (Preferences.Preference pref : Preferences.getPreferences()) {
                             //as per convention, IGNORE for tooltip means ignore when creating user
                             // whilst IGNORE for default value means ignore for edit user
                             if (!pref.getTooltip().equals("IGNORE"))

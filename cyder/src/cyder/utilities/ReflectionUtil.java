@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import cyder.annotations.Widget;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;

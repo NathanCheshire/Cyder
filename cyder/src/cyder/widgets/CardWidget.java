@@ -1,9 +1,9 @@
 package cyder.widgets;
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;

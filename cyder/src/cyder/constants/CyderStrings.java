@@ -1,4 +1,4 @@
-package cyder.consts;
+package cyder.constants;
 
 import javax.swing.*;
 

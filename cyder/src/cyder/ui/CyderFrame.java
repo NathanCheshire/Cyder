@@ -1,9 +1,9 @@
 package cyder.ui;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
-import cyder.consts.CyderNums;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderNums;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;

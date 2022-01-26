@@ -2,8 +2,8 @@ package cyder.widgets;
 
 import com.google.gson.Gson;
 import cyder.annotations.Widget;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
@@ -104,7 +104,7 @@ public class WeatherWidget implements WidgetBase {
     public void innerShowGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "WEATHER");
 
-        if (CyderCommon.isQuesitonableInternet()) {
+        if (CyderCommon.isHighLatency()) {
             ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +
                     " this feature is suspended until a stable internet connection can be established");
             return;

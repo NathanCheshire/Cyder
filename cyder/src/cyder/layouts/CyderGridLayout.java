@@ -1,6 +1,6 @@
 package cyder.layouts;
 
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 

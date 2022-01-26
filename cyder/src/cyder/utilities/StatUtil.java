@@ -1,7 +1,7 @@
 package cyder.utilities;
 
-import cyder.consts.CyderRegexPatterns;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
@@ -97,7 +97,7 @@ public class StatUtil {
     public static void debugMenu() {
         new Thread(() -> {
             try {
-                if (CyderCommon.isQuesitonableInternet()) {
+                if (CyderCommon.isHighLatency()) {
                     throw new RuntimeException("Stable connection not established");
                 }
 

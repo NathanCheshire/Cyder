@@ -1,10 +1,10 @@
 package cyder.handlers.external;
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;

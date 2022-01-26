@@ -1,20 +1,20 @@
 package cyder.handlers.internal;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderNums;
-import cyder.consts.CyderStrings;
-import cyder.cyderuser.UserCreator;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderNums;
+import cyder.constants.CyderStrings;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.CyderCommon;
-import cyder.genesis.CyderCommon.Preference;
 import cyder.handlers.external.AudioPlayer;
-import cyder.helperscripts.PyExecutor;
+import cyder.scripts.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderCaret;
 import cyder.ui.CyderFrame;
+import cyder.user.Preferences;
+import cyder.user.UserCreator;
 import cyder.utilities.*;
 import test.java.Debug;
 import test.java.ManualTests;
@@ -1214,6 +1214,9 @@ public class InputHandler {
                 println("Triggers: [" + triggers.toString().trim() + "]\nDescription: " + widget.getDescription());
                 println("-------------------------------------");
             }
+        } else if (commandIs("jarmode")) {
+            println(CyderCommon.JAR_MODE ? "Cyder is currently running from a JAR"
+                    : "Cyder is currently running from a non-JAR source");
         } else ret = false;
 
          if (ret)
@@ -1353,7 +1356,7 @@ public class InputHandler {
     private boolean preferenceCheck(String targetedPreference) {
         boolean ret = false;
 
-        for (Preference pref : CyderCommon.getPrefs()) {
+        for (Preferences.Preference pref : Preferences.getPreferences()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID()) && !pref.getDisplayName().equals("IGNORE")) {
                 if (targetedPreference.contains("1") || targetedPreference.toLowerCase().contains("true")) {
                     UserUtil.setUserData(pref.getID(), "1");
@@ -1798,6 +1801,7 @@ public class InputHandler {
                                         document.insertString(document.getLength(), (String) line, null);
                                         outputArea.setCaretPosition(outputArea.getDocument().getLength());
                                     } else {
+                                        //todo we need a custom object to link a sem to a JTextPane for thread safety
                                         CyderCommon.getPrintingSem().acquire();
                                         for (char c : ((String) line).toCharArray()) {
                                             innerConsolePrint(c);

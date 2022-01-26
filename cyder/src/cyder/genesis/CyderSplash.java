@@ -1,7 +1,7 @@
 package cyder.genesis;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.CyderFrame;

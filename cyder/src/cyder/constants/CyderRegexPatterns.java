@@ -1,4 +1,4 @@
-package cyder.consts;
+package cyder.constants;
 
 public final class CyderRegexPatterns {
     /**

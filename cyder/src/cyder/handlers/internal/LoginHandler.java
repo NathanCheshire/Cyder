@@ -1,8 +1,8 @@
 package cyder.handlers.internal;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderStrings;
-import cyder.cyderuser.UserCreator;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
+import cyder.user.UserCreator;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
 import cyder.ui.ConsoleFrame;

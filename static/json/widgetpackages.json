@@ -4,6 +4,6 @@
     "cyder.utilities",
     "cyder.handlers.external",
     "cyder.games",
-    "cyder.cyderuser"
+    "cyder.user"
   ]
 }

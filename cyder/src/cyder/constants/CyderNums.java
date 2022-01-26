@@ -1,4 +1,4 @@
-package cyder.consts;
+package cyder.constants;
 
 /**
  * A class of commonly used integers throughout Cyder

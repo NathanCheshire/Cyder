@@ -1,6 +1,6 @@
 package cyder.handlers.internal;
 
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;

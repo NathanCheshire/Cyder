@@ -1,10 +1,10 @@
-package cyder.cyderuser;
+package cyder.user;
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
@@ -841,13 +841,13 @@ public class UserEditor implements WidgetBase {
         prefsTitle.setFont(CyderFonts.segoe30);
         printingUtil.printlnComponent(prefsTitle);
 
-        for (int i = 0; i < CyderCommon.getPrefs().size() ; i++) {
-            if (CyderCommon.getPrefs().get(i).getDisplayName().equals("IGNORE"))
+        for (int i = 0; i < Preferences.getPreferences().size() ; i++) {
+            if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 
             int localIndex = i;
 
-            CyderLabel preferenceLabel = new CyderLabel(CyderCommon.getPrefs().get(i).getDisplayName());
+            CyderLabel preferenceLabel = new CyderLabel(Preferences.getPreferences().get(i).getDisplayName());
             preferenceLabel.setForeground(CyderColors.navy);
             preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
             preferenceLabel.setFont(CyderFonts.defaultFontSmall);
@@ -861,7 +861,7 @@ public class UserEditor implements WidgetBase {
                 @Override
                 public void paintComponent(Graphics g) {
                     boolean setSelected = UserUtil.getUserData((
-                            CyderCommon.getPrefs().get(localIndex).getID())).equalsIgnoreCase("1");
+                            Preferences.getPreferences().get(localIndex).getID())).equalsIgnoreCase("1");
 
                     int xOffset = switchingLabel.getWidth() / 2 - 35;
                     Color background = CyderColors.navy;
@@ -934,7 +934,7 @@ public class UserEditor implements WidgetBase {
                 public void mouseClicked(MouseEvent e) {
                     //clicks make it here, but not toggled properly and not updated in menu
 
-                    String localID = CyderCommon.getPrefs().get(localIndex).getID();
+                    String localID = Preferences.getPreferences().get(localIndex).getID();
 
                     boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
@@ -943,7 +943,7 @@ public class UserEditor implements WidgetBase {
                     togglePrefLabel.repaint();
                 }
             });
-            togglePrefLabel.setToolTipText(CyderCommon.getPrefs().get(localIndex).getTooltip());
+            togglePrefLabel.setToolTipText(Preferences.getPreferences().get(localIndex).getTooltip());
             printingUtil.printlnComponent(togglePrefLabel);
         }
 

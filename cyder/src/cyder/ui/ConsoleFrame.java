@@ -1,11 +1,11 @@
 package cyder.ui;
 
 import cyder.algorithoms.GeometryAlgorithms;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
-import cyder.cyderuser.User;
-import cyder.cyderuser.UserEditor;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.user.User;
+import cyder.user.UserEditor;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
@@ -1073,9 +1073,9 @@ public final class ConsoleFrame {
                                     ", but I had trouble connecting to the internet.\n" +
                                     "As a result, some features have been restricted until a " +
                                     "stable connection can be established.");
-                            CyderCommon.setQuesitonableInternet(true);
+                            CyderCommon.setHighLatency(true);
                         } else {
-                            CyderCommon.setQuesitonableInternet(false);
+                            CyderCommon.setHighLatency(false);
                         }
 
                         //sleep 5 minutes

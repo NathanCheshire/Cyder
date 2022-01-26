@@ -1,4 +1,4 @@
-package cyder.helperscripts;
+package cyder.scripts;
 
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;

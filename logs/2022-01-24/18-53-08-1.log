@@ -98,7 +98,7 @@
 [18-56-24] [SYSTEM_IO]: Userdata requested: filterchat
 [18-56-24] [WIDGET OPENED]: PREFS
 [18-56-24] [HANDLE]: PRIMARY HANDLE
-[18-56-24] [CONSOLE_OUT]: [STRING] Opening widget: cyder.cyderuser.UserEditor
+[18-56-24] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
 [18-56-29] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [2093465015], parentFrame = [Edit User], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-56-29] [CONSOLE_OUT]: [STRING] Background: Lantern_Pixelated_Pixel_Size_40 successfully deleted.
 [18-56-35] [CLIENT]: pixelatebackground
@@ -182,7 +182,7 @@
 [18-58-42] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-58-42] [SYSTEM_IO]: Userdata requested: InputFill
 [18-58-42] [HANDLE]: PRIMARY HANDLE
-[18-58-42] [CONSOLE_OUT]: [STRING] Opening widget: cyder.cyderuser.UserEditor
+[18-58-42] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
 [18-58-44] [SYSTEM_IO]: Userdata requested: Foreground
 [18-58-44] [SYSTEM_IO]: Userdata requested: Foreground
 [18-58-44] [SYSTEM_IO]: Userdata requested: Background

@@ -36,7 +36,7 @@
 [16-45-05] [EXCEPTION]: 
 Exception origin: cyder.utilities.ReflectionUtil.openWidget(ReflectionUtil.java:207)
 From line: 207
-Trace: java.lang.IllegalStateException: Found widget showGUI() method with parameters: showGUI, class: class cyder.cyderuser.UserEditor
+Trace: java.lang.IllegalStateException: Found widget showGUI() method with parameters: showGUI, class: class cyder.user.UserEditor
 	at cyder.utilities.ReflectionUtil.openWidget(ReflectionUtil.java:207)
 	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:218)
 	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:516)
@@ -83,7 +83,7 @@ Trace: java.lang.IllegalStateException: Found widget showGUI() method with param
 [16-45-05] [DEBUG]: 
 Exception origin: cyder.utilities.ReflectionUtil.openWidget(ReflectionUtil.java:207)
 From line: 207
-Trace: java.lang.IllegalStateException: Found widget showGUI() method with parameters: showGUI, class: class cyder.cyderuser.UserEditor
+Trace: java.lang.IllegalStateException: Found widget showGUI() method with parameters: showGUI, class: class cyder.user.UserEditor
 	at cyder.utilities.ReflectionUtil.openWidget(ReflectionUtil.java:207)
 	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:218)
 	at cyder.ui.ConsoleFrame.lambda$start$2(ConsoleFrame.java:516)
@@ -127,6 +127,6 @@ Trace: java.lang.IllegalStateException: Found widget showGUI() method with param
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [16-45-05] [ACTION]: Similar command to "prefs" found with tol of 0.6, command = "prime"
-[16-45-05] [CONSOLE_OUT]: [STRING] Opening widget: cyder.cyderuser.UserEditor
+[16-45-05] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
 [16-45-06] [CONSOLE_OUT]: [STRING] Unknown command
 [EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

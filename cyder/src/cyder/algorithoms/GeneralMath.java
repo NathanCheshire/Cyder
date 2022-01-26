@@ -1,6 +1,6 @@
 package cyder.algorithoms;
 
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 
 /**
  * General math methods

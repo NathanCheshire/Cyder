@@ -128,11 +128,11 @@ java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.ann
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [00-04-19] [EXCEPTION]: 
-widgets.Cyder.out.production.classes.cyder.consts.CyderColors
+widgets.Cyder.out.production.classes.cyder.constants.CyderColors
 Thrown from:
 java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 StackTrace:
-java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.consts.CyderColors
+java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.constants.CyderColors
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)
@@ -176,11 +176,11 @@ java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.con
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [00-04-19] [EXCEPTION]: 
-widgets.Cyder.out.production.classes.cyder.cyderuser.User$MappedExecutable
+widgets.Cyder.out.production.classes.cyder.user.User$MappedExecutable
 Thrown from:
 java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 StackTrace:
-java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.cyderuser.User$MappedExecutable
+java.lang.ClassNotFoundException: widgets.Cyder.out.production.classes.cyder.user.User$MappedExecutable
 	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:582)
 	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:185)
 	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:496)

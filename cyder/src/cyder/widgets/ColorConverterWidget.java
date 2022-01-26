@@ -1,9 +1,9 @@
 package cyder.widgets;
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 
-import static cyder.consts.CyderColors.navy;
+import static cyder.constants.CyderColors.navy;
 
 public class ColorConverterWidget implements WidgetBase {
     private ColorConverterWidget() {

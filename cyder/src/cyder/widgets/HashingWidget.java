@@ -1,9 +1,9 @@
 package cyder.widgets;
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderIcons;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;

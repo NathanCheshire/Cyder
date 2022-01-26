@@ -1,4 +1,4 @@
-package cyder.consts;
+package cyder.constants;
 
 import cyder.utilities.ImageUtil;
 import cyder.utilities.SystemUtil;

@@ -1,4 +1,4 @@
-package cyder.cyderuser;
+package cyder.user;
 
 import cyder.utilities.ReflectionUtil;
 

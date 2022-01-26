@@ -1,7 +1,7 @@
 package cyder.handlers.internal;
 
-import cyder.consts.CyderIcons;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;

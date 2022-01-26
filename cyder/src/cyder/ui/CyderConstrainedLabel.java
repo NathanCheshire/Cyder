@@ -1,7 +1,7 @@
 package cyder.ui;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderFonts;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
 import org.jsoup.Jsoup;

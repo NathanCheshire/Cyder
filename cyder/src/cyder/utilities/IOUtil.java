@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;

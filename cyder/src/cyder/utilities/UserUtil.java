@@ -1,14 +1,13 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
-import cyder.consts.CyderStrings;
-import cyder.cyderuser.User;
-import cyder.genesis.CyderCommon;
-import cyder.genesis.CyderCommon.Preference;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
+import cyder.user.Preferences;
+import cyder.user.User;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -53,7 +52,8 @@ public class UserUtil {
     }
 
     /**
-     * Sets the given user's data using the provided name and data value
+     * Sets the given user's data using the provided name and data value.
+     *
      * @param user the user object to call the setter on
      * @param name the name of the data to change
      * @param value the data value to set it to
@@ -255,7 +255,7 @@ public class UserUtil {
                                     Object defaultValue = null;
 
                                     //find corresponding default vaule
-                                    for (Preference pref : CyderCommon.getPrefs()) {
+                                    for (Preferences.Preference pref : Preferences.getPreferences()) {
                                         if (pref.getID().toLowerCase().contains(getterMethod.getName()
                                                 .toLowerCase().replace("get",""))) {
                                             defaultValue = pref.getDefaultValue();
@@ -429,7 +429,7 @@ public class UserUtil {
 
         try {
             //find default value as a fail safe
-            for (Preference pref : CyderCommon.getPrefs()) {
+            for (Preferences.Preference pref : Preferences.getPreferences()) {
                 if (pref.getID().equalsIgnoreCase(name)) {
                     defaultValue = pref.getDefaultValue();
                     break;
@@ -642,7 +642,7 @@ public class UserUtil {
         User ret = new User();
 
         //for all the preferences
-        for (Preference pref : CyderCommon.getPrefs()) {
+        for (Preferences.Preference pref : Preferences.getPreferences()) {
             //get all methods of user
             for (Method m : ret.getClass().getMethods()) {
                 //make sure it's a setter with one parameter
@@ -784,7 +784,7 @@ public class UserUtil {
             LinkedList<String> injections = new LinkedList<>();
 
             //loop through default perferences
-            for (Preference pref : CyderCommon.getPrefs()) {
+            for (Preferences.Preference pref : Preferences.getPreferences()) {
                 //old json detected and we found a pref that doesn't exist
                 if (!masterJson.toLowerCase().contains(pref.getID().toLowerCase())) {
                     //inject into json

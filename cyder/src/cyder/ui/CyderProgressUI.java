@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.consts.CyderColors;
+import cyder.constants.CyderColors;
 import cyder.enums.AnimationDirection;
 import cyder.utilities.ReflectionUtil;
 

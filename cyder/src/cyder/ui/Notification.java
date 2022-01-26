@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.consts.CyderColors;
+import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;

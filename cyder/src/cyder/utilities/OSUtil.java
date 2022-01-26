@@ -213,8 +213,6 @@ public class OSUtil {
 
     //todo remember console orientation on exiting Cyder
 
-    //todo implement curl command
-
     //todo display all files inside of user editor now too
 
     //todo code analyzing and reflection and such needs to be disabled if compiled

@@ -1,14 +1,14 @@
 package cyder.utilities;
 
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import static cyder.consts.CyderNums.INFINITY;
-import static cyder.consts.CyderNums.NEG_INFINITY;
+import static cyder.constants.CyderNums.INFINITY;
+import static cyder.constants.CyderNums.NEG_INFINITY;
 
 /**
  * A common Number methods class such as generating random

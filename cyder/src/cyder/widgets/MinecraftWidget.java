@@ -2,8 +2,8 @@ package cyder.widgets;
 
 
 import cyder.annotations.Widget;
-import cyder.consts.CyderStrings;
-import cyder.cyderuser.User;
+import cyder.constants.CyderStrings;
+import cyder.user.User;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;

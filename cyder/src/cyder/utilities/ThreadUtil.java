@@ -1,6 +1,6 @@
 package cyder.utilities;
 
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderStrings;
 import cyder.ui.ConsoleFrame;
 
 public class ThreadUtil {

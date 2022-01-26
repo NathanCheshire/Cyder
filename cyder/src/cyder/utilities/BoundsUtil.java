@@ -1,7 +1,7 @@
 package cyder.utilities;
 
-import cyder.consts.CyderFonts;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 

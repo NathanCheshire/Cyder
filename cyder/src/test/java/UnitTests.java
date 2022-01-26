@@ -1,6 +1,6 @@
 package test.java;
 
-import cyder.consts.CyderRegexPatterns;
+import cyder.constants.CyderRegexPatterns;
 import cyder.utilities.BoundsUtil;
 import cyder.utilities.StatUtil;
 import cyder.utilities.StringUtil;

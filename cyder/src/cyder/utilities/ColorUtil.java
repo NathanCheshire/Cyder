@@ -1,7 +1,7 @@
 package cyder.utilities;
 
-import cyder.consts.CyderColors;
-import cyder.consts.CyderStrings;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 
 import javax.swing.*;

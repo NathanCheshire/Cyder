@@ -34,7 +34,7 @@
 [16-46-09] [CLIENT]: prefs
 [16-46-09] [SYSTEM_IO]: Userdata requested: filterchat
 [16-46-09] [WIDGET OPENED]: PREFS
-[16-46-09] [CONSOLE_OUT]: [STRING] Opening widget: cyder.cyderuser.UserEditor
+[16-46-09] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
 [16-46-09] [HANDLE]: PRIMARY HANDLE
 [16-46-11] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1996363795], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-46-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(225, 691, 900, 580)], hash = [2118458819], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
