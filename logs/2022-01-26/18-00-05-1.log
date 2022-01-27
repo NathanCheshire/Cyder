@@ -1,0 +1,62 @@
+[18-00-05] [ENTRY]: [Nathan]
+[18-00-05] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-00-05] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-00-05] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-00-05] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-00-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-00-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-00-07] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-00-07] [SYSTEM_IO]: Userdata requested: Name
+[18-00-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-00-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-00-08] [SYSTEM_IO]: Userdata requested: Name
+[18-00-08] [SYSTEM_IO]: Userdata requested: Foreground
+[18-00-08] [SYSTEM_IO]: Userdata requested: Foreground
+[18-00-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-00-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-00-08] [SYSTEM_IO]: Userdata requested: Foreground
+[18-00-08] [SYSTEM_IO]: Userdata requested: Font
+[18-00-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-00-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-00-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-00-08] [SYSTEM_IO]: Userdata requested: Foreground
+[18-00-08] [SYSTEM_IO]: Userdata requested: Foreground
+[18-00-08] [SYSTEM_IO]: Userdata requested: Foreground
+[18-00-08] [SYSTEM_IO]: Userdata requested: Font
+[18-00-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-00-08] [SYSTEM_IO]: Userdata requested: InputFill
+[18-00-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [37806768], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-00-08] [ACTION]: Console loaded in 3360ms
+[18-00-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-00-08] [ENTRY]: [TESTING MODE]
+[18-00-08] [SYSTEM_IO]: Userdata requested: laststart
+[18-00-08] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-00-08] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3360ms
+[18-00-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-00-13] [CLIENT]: mp3
+[18-00-13] [SYSTEM_IO]: Userdata requested: filterchat
+[18-00-13] [WIDGET OPENED]: AUDIO PLAYER
+[18-00-13] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[18-00-13] [HANDLE]: PRIMARY HANDLE
+[18-00-13] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[18-00-15] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-00-17] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-00-18] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[18-00-19] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-00-20] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[18-00-21] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[18-00-22] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-01-09] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-01-11] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[18-01-12] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-01-13] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[18-01-14] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[18-01-14] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[18-01-16] [ACTION]: [AUDIO PLAYER] Future - Solitaires ft. Travis Scott.mp3
+[18-01-18] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-01-18] [SYSTEM_IO]: Userdata requested: Name
+[18-01-18] [LOGOUT]: [Nathan]
+[18-01-18] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(406, 332, 743, 708)], hash = [105579928], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-01-18] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-01-18] [EXIT]: [RUNTIME] 1m 13s
+[18-01-18] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

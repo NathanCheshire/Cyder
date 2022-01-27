@@ -678,7 +678,7 @@ public class AudioPlayer implements WidgetBase {
             refreshAudio();
 
             //refresh the title
-            audioFrame.setTitle(DEFAULT_TITLE);
+            refreshFrameTitle();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -807,8 +807,6 @@ public class AudioPlayer implements WidgetBase {
                 fis = new FileInputStream(audioFiles.get(audioIndex));
                 bis = new BufferedInputStream(fis);
 
-                refreshFrameTitle();
-
                 if (player != null)
                     player.close();
                 player = null;
@@ -850,6 +848,8 @@ public class AudioPlayer implements WidgetBase {
                 }
 
                 lastAction = LastAction.PLAY;
+
+                refreshFrameTitle();
 
                 SessionHandler.log(SessionHandler.Tag.ACTION,
                         "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
@@ -933,8 +933,6 @@ public class AudioPlayer implements WidgetBase {
                     fis.skip(startPosition < 0 ? 0 : startPosition);
                     bis = new BufferedInputStream(fis);
 
-                    refreshFrameTitle();
-
                     if (player != null)
                         player.close();
                     player = null;
@@ -957,6 +955,8 @@ public class AudioPlayer implements WidgetBase {
                     ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
 
                     lastAction = LastAction.PLAY;
+
+                    refreshFrameTitle();
 
                     SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
                     player.play();
@@ -1320,7 +1320,10 @@ public class AudioPlayer implements WidgetBase {
      * Refreshes the frame's painted title, super title, and console frame menu name.
      */
     public static void refreshFrameTitle() {
-        audioFrame.setTitle(StringUtil.getFilename(audioFiles.get(audioIndex).getName()));
+        if (lastAction == LastAction.STOP)
+            audioFrame.setTitle(DEFAULT_TITLE);
+        else
+            audioFrame.setTitle(StringUtil.getFilename(audioFiles.get(audioIndex).getName()));
         ConsoleFrame.getConsoleFrame().revaliateMenu();
     }
 }
