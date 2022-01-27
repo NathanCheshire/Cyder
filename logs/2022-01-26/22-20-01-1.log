@@ -1,0 +1,10 @@
+[22-20-01] [ENTRY]: [Nathan]
+[22-20-01] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-20-01] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-20-01] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-20-01] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-20-03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-20-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-22-53] [LOGIN]: [AUTOCYPHER FAIL]
+[22-22-53] [WIDGET OPENED]: LOGIN
+[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

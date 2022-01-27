@@ -220,8 +220,6 @@ public class OSUtil {
 
     //todo compact text mode needs to refresh panes when toggled
 
-    //todo new scrolling label for audioplayer that just sets bounds back and forth of a full title label
-
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata
 

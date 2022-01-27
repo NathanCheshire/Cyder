@@ -1,0 +1,15 @@
+[22-18-52] [ENTRY]: [Nathan]
+[22-18-52] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-18-52] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-18-52] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-18-52] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-18-54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-18-54] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-18-54] [LOGIN]: [AUTOCYPHER FAIL]
+[22-18-54] [LOGIN]: [AUTOCYPHER FAIL]
+[22-18-54] [WIDGET OPENED]: LOGIN
+[22-18-54] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1054122449], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-18-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1922930974], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-18-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1802066694], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[22-18-56] [EXIT]: [RUNTIME] 4s
+[22-18-56] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

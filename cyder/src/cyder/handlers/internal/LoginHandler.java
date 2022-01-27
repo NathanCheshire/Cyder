@@ -389,22 +389,11 @@ public class LoginHandler {
 
             //check password will set the console frame uuid if it finds a userdata.json that matches the provided name and hash
             if (UserUtil.checkPassword(name, hashedPass)) {
-                //if they're already logged in
-                if (UserUtil.isLoggedIn(ConsoleFrame.getConsoleFrame().getUUID())) {
-                    loginFrame.notify("Sorry, but that user is already logged in");
+                //log out all people as a precaution
+                UserUtil.logoutAllUsers();
 
-                    //idk how this would be possible but sure
-                    if (ConsoleFrame.getConsoleFrame().isClosed())
-                        ConsoleFrame.getConsoleFrame().setUUID(null);
-
-                    return false;
-                } else {
-                    //log out all people as a precaution
-                    UserUtil.logoutAllUsers();
-
-                    //this is the only time loggedin is EVER set to 1
-                    UserUtil.setUserData("loggedin","1");
-                }
+                //this is the only time loggedin is EVER set to 1
+                UserUtil.setUserData("loggedin","1");
 
                 //set ret var
                 ret = true;
