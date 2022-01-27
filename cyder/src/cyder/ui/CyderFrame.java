@@ -1860,7 +1860,7 @@ public class CyderFrame extends JFrame {
         if (!useCustomTaskbarIcon)
             customTaskbarIcon = null;
 
-        ConsoleFrame.getConsoleFrame().revaliateMenu();
+        ConsoleFrame.getConsoleFrame().revalidateMenu();
     }
 
     public JLabel getCustomTaskbarIcon() {
@@ -1905,6 +1905,7 @@ public class CyderFrame extends JFrame {
             }
         });
 
+        customLabel.setToolTipText(this.getTitle());
         customLabel.setIcon(new ImageIcon(resizedImage));
 
         //click action, and a hover action
@@ -1993,6 +1994,10 @@ public class CyderFrame extends JFrame {
                 ret.setForeground(CyderColors.vanila);
             }
         });
+
+        //if the label was too long even for compact text mode, set the tooltip to show the full name
+        if (!ret.getText().equalsIgnoreCase(title))
+            ret.setToolTipText(title);
 
         return ret;
     }

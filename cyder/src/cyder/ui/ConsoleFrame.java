@@ -194,7 +194,7 @@ public final class ConsoleFrame {
                                 audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
 
-                    revaliateMenu();
+                    revalidateMenu();
                     refreshClockText();
                 }
 
@@ -1561,7 +1561,7 @@ public final class ConsoleFrame {
         if (menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.remove(associatedFrame);
             consoleMenuGenerated = false;
-            revaliateMenu();
+            revalidateMenu();
         }
     }
 
@@ -1569,7 +1569,7 @@ public final class ConsoleFrame {
         if (!menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.add(associatedFrame);
             consoleMenuGenerated = false;
-            revaliateMenu();
+            revalidateMenu();
         }
     }
 
@@ -2262,7 +2262,7 @@ public final class ConsoleFrame {
             inputField.requestFocus();
 
             //fix menu
-            revaliateMenu();
+            revalidateMenu();
 
             //fix foreground if needed
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
@@ -2416,7 +2416,7 @@ public final class ConsoleFrame {
                 consoleMenuGenerated = false;
             }
 
-            revaliateMenu();
+            revalidateMenu();
 
             if (fullscreen) {
                 consoleCyderFrame.setLocationRelativeTo(null);
@@ -2480,6 +2480,9 @@ public final class ConsoleFrame {
         for (Frame f : Frame.getFrames()) {
             f.repaint();
         }
+
+        //always revalidate menu
+        revalidateMenu();
 
         consoleCyderFrame.repaint();
     }
@@ -2659,7 +2662,7 @@ public final class ConsoleFrame {
     /**
      * Revalidates the console menu and places it where it was depending on if it was visible or not
      */
-    public void revaliateMenu() {
+    public void revalidateMenu() {
         //if the frame is closed or the label simply doesn't exis
         if (closed || menuLabel == null)
             return;

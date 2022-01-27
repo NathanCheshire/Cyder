@@ -1329,6 +1329,6 @@ public class AudioPlayer implements WidgetBase {
             audioFrame.setTitle(DEFAULT_TITLE);
         else
             audioFrame.setTitle(StringUtil.getFilename(audioFiles.get(audioIndex).getName()));
-        ConsoleFrame.getConsoleFrame().revaliateMenu();
+        ConsoleFrame.getConsoleFrame().revalidateMenu();
     }
 }

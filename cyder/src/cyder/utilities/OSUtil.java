@@ -262,8 +262,6 @@ public class OSUtil {
 
     //todo redo image resizer and put cropper inside of it
 
-    //todo compact text mode needs to refresh panes when toggled
-
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata
 

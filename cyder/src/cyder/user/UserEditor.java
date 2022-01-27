@@ -1211,7 +1211,7 @@ public class UserEditor implements WidgetBase {
                                     user.setExecutables(currentExes);
                                     UserUtil.setUserData(user);
                                     editUserFrame.notify("Mapped exe successfully added");
-                                    ConsoleFrame.getConsoleFrame().revaliateMenu();
+                                    ConsoleFrame.getConsoleFrame().revalidateMenu();
                                 }
                             } else {
                                 editUserFrame.notify("Invalid map name");
@@ -1268,7 +1268,7 @@ public class UserEditor implements WidgetBase {
                     user.setExecutables(exes);
                     UserUtil.setUserData(user);
                     editUserFrame.notify("Map successfully removed");
-                    ConsoleFrame.getConsoleFrame().revaliateMenu();
+                    ConsoleFrame.getConsoleFrame().revalidateMenu();
                 } else {
                     editUserFrame.notify("Could not locate specified map");
                 }
