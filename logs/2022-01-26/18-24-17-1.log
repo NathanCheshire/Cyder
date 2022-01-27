@@ -1,0 +1,52 @@
+[18-24-17] [ENTRY]: [Nathan]
+[18-24-17] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-24-17] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-24-17] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-24-17] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-24-19] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-24-19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-24-19] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-24-19] [SYSTEM_IO]: Userdata requested: Name
+[18-24-19] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-24-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-24-19] [SYSTEM_IO]: Userdata requested: Name
+[18-24-20] [SYSTEM_IO]: Userdata requested: Foreground
+[18-24-20] [SYSTEM_IO]: Userdata requested: Foreground
+[18-24-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-24-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-24-20] [SYSTEM_IO]: Userdata requested: Foreground
+[18-24-20] [SYSTEM_IO]: Userdata requested: Font
+[18-24-20] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-24-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-24-20] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-24-20] [SYSTEM_IO]: Userdata requested: Foreground
+[18-24-20] [SYSTEM_IO]: Userdata requested: Foreground
+[18-24-20] [SYSTEM_IO]: Userdata requested: Foreground
+[18-24-20] [SYSTEM_IO]: Userdata requested: Font
+[18-24-20] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-24-20] [SYSTEM_IO]: Userdata requested: InputFill
+[18-24-20] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1602056295], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-24-20] [ACTION]: Console loaded in 2994ms
+[18-24-20] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-24-20] [ENTRY]: [TESTING MODE]
+[18-24-20] [SYSTEM_IO]: Userdata requested: laststart
+[18-24-20] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-24-20] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2994ms
+[18-24-20] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-24-21] [CLIENT]: mp3
+[18-24-21] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-21] [WIDGET OPENED]: AUDIO PLAYER
+[18-24-21] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[18-24-21] [HANDLE]: PRIMARY HANDLE
+[18-24-22] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[18-24-23] [ACTION]: [AUDIO PLAYER] Girl You Got It (feat. Nightxime) ft. some long title.mp3
+[18-24-25] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [459578682], parentFrame = [Girl You Got It (feat. Nightxime) ft. some long title], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-24-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(527, 573, 500, 225)], hash = [1827051414], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Girl You Got It (feat. Nightxime) ft. some long title]
+[18-24-25] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-24-26] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-24-26] [SYSTEM_IO]: Userdata requested: Name
+[18-24-26] [LOGOUT]: [Nathan]
+[18-24-26] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(406, 332, 743, 708)], hash = [418958713], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-24-26] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-24-26] [EXIT]: [RUNTIME] 9s
+[18-24-26] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

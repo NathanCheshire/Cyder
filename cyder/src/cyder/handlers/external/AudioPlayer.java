@@ -44,7 +44,7 @@ public class AudioPlayer implements WidgetBase {
     private static LastAction lastAction;
 
     //ui components
-    private static ScrollLabel audioScroll;
+    private static ImprovedScrollLabel audioScroll;
     private static AudioLocation audioLocation;
     private static JLabel audioTitleLabel;
     private static CyderFrame audioFrame;
@@ -171,13 +171,16 @@ public class AudioPlayer implements WidgetBase {
         changeSize.setFocusPainted(false);
         audioFrame.getTopDragLabel().addButton(changeSize, 2);
 
-        audioTitleLabel = new JLabel("", SwingConstants.CENTER);
-        audioTitleLabel.setBounds(50, 40, 400, 30);
+        JLabel audioTitleLabelContainer = new JLabel();
+        audioTitleLabelContainer.setBounds(100, 40, 300, 30);
+        audioFrame.getContentPane().add(audioTitleLabelContainer);
+
+        audioTitleLabel = new JLabel();
         audioTitleLabel.setToolTipText("Currently Playing");
         audioTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
         audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabel.setText("No Audio Playing");
-        audioFrame.getContentPane().add(audioTitleLabel);
+        audioTitleLabelContainer.add(audioTitleLabel);
 
         selectAudioDirButton = new JButton("");
         selectAudioDirButton.setFocusPainted(false);
@@ -829,7 +832,7 @@ public class AudioPlayer implements WidgetBase {
 
                 if (!miniPlayer) {
                     audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
-                    audioScroll = new ScrollLabel(audioTitleLabel);
+                    audioScroll = new ImprovedScrollLabel(audioTitleLabel);
                     audioLocation = new AudioLocation(audioProgress);
                 }
 
@@ -1067,72 +1070,61 @@ public class AudioPlayer implements WidgetBase {
         }
     }
 
-    /**
-     * private inner class for the scrolling song label
-     */
-    private static class ScrollLabel {
+    private static class ImprovedScrollLabel {
         private JLabel effectLabel;
         boolean scroll;
 
-        ScrollLabel(JLabel effectLabel) {
+        ImprovedScrollLabel(JLabel effectLabel) {
             scroll = true;
             this.effectLabel = effectLabel;
 
             try {
-                int maxLen = 30;
-                int charScrollDelay = 200;
+                String localTitle = StringUtil.getFilename(audioFiles.get(audioIndex).getName());
+                effectLabel.setText(localTitle);
 
-                String localTitle = StringUtil.getFilename(audioFiles.get(audioIndex));
+                int parentX = effectLabel.getParent().getX();
+                int parentY = effectLabel.getParent().getY();
 
-                if (localTitle.length() > maxLen) {
+                int parentWidth = effectLabel.getParent().getWidth();
+                int parentHeight = effectLabel.getParent().getHeight();
+
+                int minWidth = CyderFrame.getMinWidth(localTitle, effectLabel.getFont());
+                effectLabel.setSize(minWidth, parentHeight);
+
+                if (minWidth > parentWidth) {
                     scroll = true;
+                    int miliTimeout = 8;
+                    int milipause = 5000;
 
                     new Thread(() -> {
                         try {
-                            OUTER:
                             while (scroll) {
-                                int localLen = localTitle.length();
-                                audioTitleLabel.setText(localTitle.substring(0,26));
+                                int goBack = 0;
 
-                                if (!scroll)
-                                    break;
-
-                                Thread.sleep(2000);
-
-                                for (int i = 0 ; i <= localLen - 26; i++) {
-                                    if (!scroll)
-                                        break OUTER;
-
-                                    audioTitleLabel.setText(localTitle.substring(i, i + 26));
-
-                                    if (!scroll)
-                                        break OUTER;
-
-                                    Thread.sleep(charScrollDelay);
+                                while (goBack < minWidth - parentWidth) {
+                                    effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
+                                    Thread.sleep(miliTimeout);
+                                    goBack++;
                                 }
 
-                                Thread.sleep(2000);
+                                Thread.sleep(milipause);
 
-                                for (int i = localLen - 26 ; i >= 0 ; i--) {
-                                    if (!scroll)
-                                        break OUTER;
-
-                                    audioTitleLabel.setText(localTitle.substring(i, i + 26));
-
-                                    if (!scroll)
-                                        break OUTER;
-
-                                    Thread.sleep(charScrollDelay);
+                                while (goBack > 0) {
+                                    effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
+                                    Thread.sleep(miliTimeout);
+                                    goBack--;
                                 }
+
+                                Thread.sleep(milipause);
                             }
-                        }
 
-                        catch (Exception e) {
+                            effectLabel.setText("todo");
+                        } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
                     },DEFAULT_TITLE + " scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
                 } else {
-                    audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
+                    effectLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -1194,7 +1186,7 @@ public class AudioPlayer implements WidgetBase {
      */
     public static void exitMiniPlayer() {
         audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
-        audioScroll = new ScrollLabel(audioTitleLabel);
+        audioScroll = new ImprovedScrollLabel(audioTitleLabel);
         audioLocation = new AudioLocation(audioProgress);
 
         audioProgress.setVisible(true);
