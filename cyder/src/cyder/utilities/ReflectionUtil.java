@@ -242,7 +242,8 @@ public class ReflectionUtil {
 
             try {
                 Runtime rt = Runtime.getRuntime();
-                String[] commands = {"python", "cyder/src/cyder/scripts/commandFinder.py", command};
+                String[] commands = {"python",
+                        OSUtil.buildPath("cyder","src","cyder","scripts","commandFinder.py"), command};
                 Process proc = rt.exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new
@@ -253,12 +254,20 @@ public class ReflectionUtil {
                     ret = Optional.of(s);
                     break;
                 }
+
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
 
             return ret;
         });
+    }
+
+    /**
+     * Tells the similar command executor factory to terminate gracefully.
+     */
+    public static void shutdownSimilarCommandExecutor() {
+        executor.shutdown();
     }
 
     public static WidgetHolder widgets = null;

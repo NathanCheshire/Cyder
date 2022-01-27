@@ -1456,35 +1456,44 @@ public class InputHandler {
      */
     private void unknownInput() {
         try {
-            println("Unknown command");
-            ConsoleFrame.getConsoleFrame().flashSuggestionButton();
+            new Thread(() -> {
+                try {
+                    println("Unknown command");
+                    ConsoleFrame.getConsoleFrame().flashSuggestionButton();
 
-            Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
+                    Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
 
-            //wait for script to finish
-            while (!similarCommand.isDone()) {
-                Thread.onSpinWait();
-            }
-
-            //if future returned and not null/empty value
-            if (similarCommand.get().isPresent()) {
-                String simCom = similarCommand.get().get();
-
-                if (!StringUtil.isNull(simCom)) {
-                    assert simCom.contains(",");
-                    String[] parts = simCom.split(",");
-                    assert parts.length == 2;
-
-                    float tol = Float.parseFloat(parts[1]);
-
-                    SessionHandler.log(SessionHandler.Tag.ACTION, "Similar command to \""
-                            + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
-
-                    if (tol > CyderNums.SIMILAR_COMMAND_TOL) {
-                        println("Most similar command: \"" + parts[0] + "\"");
+                    //wait for script to finish
+                    while (!similarCommand.isDone()) {
+                        Thread.onSpinWait();
                     }
+
+                    //tell executor that found a similar command possibly to terminate
+                    ReflectionUtil.shutdownSimilarCommandExecutor();
+
+                    //if future returned and not null/empty value
+                    if (similarCommand.get().isPresent()) {
+                        String simCom = similarCommand.get().get();
+
+                        if (!StringUtil.isNull(simCom)) {
+                            assert simCom.contains(",");
+                            String[] parts = simCom.split(",");
+                            assert parts.length == 2;
+
+                            float tol = Float.parseFloat(parts[1]);
+
+                            SessionHandler.log(SessionHandler.Tag.ACTION, "Similar command to \""
+                                    + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
+
+                            if (tol > CyderNums.SIMILAR_COMMAND_TOL) {
+                                println("Most similar command: \"" + parts[0] + "\"");
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
                 }
-            }
+            },"Unknown Input Thread").start();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

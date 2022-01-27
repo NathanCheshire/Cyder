@@ -207,10 +207,38 @@ public class OSUtil {
         try {
             createFile.createNewFile();
             return createFile;
-        } catch (Exception ignored) {}
-        //impossible to throw due to check, or is it?
+        } catch (Exception e) {
+            //this shouldn't happen typically
+            ExceptionHandler.handle(e);
+        }
 
         return null;
+    }
+
+    /**
+     * Builds the provided strings into a filepath by inserting the OS' path separators.
+     * Example: ["alpha","beta","gamma","delta.txt"] on Windows would return
+     * alpha\beta\gamma\delta.txt
+     *
+     * @param directories the names of directories to add one after the other
+     * @return the formatted path
+     */
+    public static String buildPath(String... directories) {
+        if (directories == null)
+            throw new IllegalArgumentException("Directories is null");
+        if (directories.length == 0)
+            throw new IllegalArgumentException("Directories length is null");
+
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0 ; i < directories.length ; i++) {
+            ret.append(directories[i]);
+
+            if (i != directories.length - 1)
+                ret.append(FILE_SEP);
+        }
+
+        return ret.toString();
     }
 
     //todo command finder needs to be able to execute on it's own and take into a file which should be
