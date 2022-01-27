@@ -1,0 +1,44 @@
+[17-23-07] [ENTRY]: [Nathan]
+[17-23-07] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-23-07] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-23-07] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-23-07] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-23-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-23-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-23-10] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-23-10] [SYSTEM_IO]: Userdata requested: Name
+[17-23-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-23-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-23-10] [SYSTEM_IO]: Userdata requested: Name
+[17-23-10] [SYSTEM_IO]: Userdata requested: Foreground
+[17-23-10] [SYSTEM_IO]: Userdata requested: Foreground
+[17-23-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-23-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-23-10] [SYSTEM_IO]: Userdata requested: Foreground
+[17-23-10] [SYSTEM_IO]: Userdata requested: Font
+[17-23-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-23-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-23-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-23-10] [SYSTEM_IO]: Userdata requested: Foreground
+[17-23-10] [SYSTEM_IO]: Userdata requested: Foreground
+[17-23-10] [SYSTEM_IO]: Userdata requested: Foreground
+[17-23-10] [SYSTEM_IO]: Userdata requested: Font
+[17-23-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-23-10] [SYSTEM_IO]: Userdata requested: InputFill
+[17-23-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2139894275], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-23-10] [ACTION]: Console loaded in 3592ms
+[17-23-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-23-10] [ENTRY]: [TESTING MODE]
+[17-23-10] [SYSTEM_IO]: Userdata requested: laststart
+[17-23-10] [SYSTEM_IO]: Userdata requested: IntroMusic
+[17-23-11] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3592ms
+[17-23-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-23-13] [CLIENT]: convex
+[17-23-13] [SYSTEM_IO]: Userdata requested: filterchat
+[17-23-13] [WIDGET OPENED]: CONVEX HULL
+[17-23-13] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.ConvexHullWidget
+[17-23-13] [HANDLE]: PRIMARY HANDLE
+[17-24-25] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1048595349], parentFrame = [Convex hull], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-24-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(328, 472, 800, 850)], hash = [641256185], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Convex hull]
+[17-24-25] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-25-11] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

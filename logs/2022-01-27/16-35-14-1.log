@@ -1,0 +1,41 @@
+[16-35-14] [ENTRY]: [Nathan]
+[16-35-14] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-35-15] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-35-15] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-35-15] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-35-17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-35-17] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-35-17] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-35-17] [SYSTEM_IO]: Userdata requested: Name
+[16-35-17] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-35-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-35-17] [SYSTEM_IO]: Userdata requested: Name
+[16-35-17] [SYSTEM_IO]: Userdata requested: Foreground
+[16-35-17] [SYSTEM_IO]: Userdata requested: Foreground
+[16-35-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-35-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-35-17] [SYSTEM_IO]: Userdata requested: Foreground
+[16-35-17] [SYSTEM_IO]: Userdata requested: Font
+[16-35-17] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-35-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-35-17] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-35-17] [SYSTEM_IO]: Userdata requested: Foreground
+[16-35-17] [SYSTEM_IO]: Userdata requested: Foreground
+[16-35-17] [SYSTEM_IO]: Userdata requested: Foreground
+[16-35-17] [SYSTEM_IO]: Userdata requested: Font
+[16-35-17] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-35-17] [SYSTEM_IO]: Userdata requested: InputFill
+[16-35-18] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1602056295], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-35-18] [ACTION]: Console loaded in 3598ms
+[16-35-18] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-35-18] [ENTRY]: [TESTING MODE]
+[16-35-18] [SYSTEM_IO]: Userdata requested: laststart
+[16-35-18] [SYSTEM_IO]: Userdata requested: IntroMusic
+[16-35-18] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3598ms
+[16-35-18] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-35-22] [CLIENT]: convex
+[16-35-22] [SYSTEM_IO]: Userdata requested: filterchat
+[16-35-22] [WIDGET OPENED]: CONVEX HULL
+[16-35-22] [HANDLE]: PRIMARY HANDLE
+[16-35-22] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.ConvexHullWidget
+[16-37-38] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

@@ -20,14 +20,14 @@ public class OSUtil {
      *
      * @param filename the desired filename
      * @return whether or not the provided filename is valid for the operating system
-     *         Cyder is currently running on
+     * Cyder is currently running on
      */
     public static boolean isValidFilename(String filename) {
         filename = filename.trim();
 
         switch (OPERATING_SYSTEM) {
             case OSX:
-                 return filename.contains("/") || filename.contains("\0");
+                return filename.contains("/") || filename.contains("\0");
             case WINDOWS:
                 //invalid chars for Windows in a filename
                 if (filename.matches("[*?|/\":<>\\\\']+"))
@@ -156,7 +156,7 @@ public class OSUtil {
                 case UNIX:
                     //fall through
                 case OSX:
-                    String[] args = new String[] {"/bin/bash", "-c", "your_command", "with", "args"};
+                    String[] args = new String[]{"/bin/bash", "-c", "your_command", "with", "args"};
                     Process proc = new ProcessBuilder(args).start();
                     break;
                 case UNKNOWN:
@@ -196,7 +196,8 @@ public class OSUtil {
 
                 createFile.createNewFile();
                 return createFile;
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             //impossible to throw due to check, or is it?
         }
 
@@ -247,7 +248,7 @@ public class OSUtil {
 
         StringBuilder ret = new StringBuilder();
 
-        for (int i = 0 ; i < directories.length ; i++) {
+        for (int i = 0; i < directories.length; i++) {
             ret.append(directories[i]);
 
             if (i != directories.length - 1)
