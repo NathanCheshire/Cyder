@@ -1,0 +1,35 @@
+[23-15-09] [ENTRY]: [Nathan]
+[23-15-09] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-15-09] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-15-09] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-15-09] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-15-11] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-15-11] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-15-12] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-15-12] [SYSTEM_IO]: Userdata requested: Name
+[23-15-12] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-15-12] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-15-12] [SYSTEM_IO]: Userdata requested: Name
+[23-15-13] [SYSTEM_IO]: Userdata requested: Foreground
+[23-15-13] [SYSTEM_IO]: Userdata requested: Foreground
+[23-15-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-15-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-15-13] [SYSTEM_IO]: Userdata requested: Foreground
+[23-15-13] [SYSTEM_IO]: Userdata requested: Font
+[23-15-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-15-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-15-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-15-13] [SYSTEM_IO]: Userdata requested: Foreground
+[23-15-13] [SYSTEM_IO]: Userdata requested: Foreground
+[23-15-13] [SYSTEM_IO]: Userdata requested: Foreground
+[23-15-13] [SYSTEM_IO]: Userdata requested: Font
+[23-15-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-15-13] [SYSTEM_IO]: Userdata requested: InputFill
+[23-15-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [171435575], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-15-13] [ACTION]: Console loaded in 4144ms
+[23-15-13] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-15-13] [ENTRY]: [TESTING MODE]
+[23-15-13] [SYSTEM_IO]: Userdata requested: laststart
+[23-15-13] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-15-13] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4144ms
+[23-15-13] [SYSTEM_IO]: Userdata requested: persistentnotifications

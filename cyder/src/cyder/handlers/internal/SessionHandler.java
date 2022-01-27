@@ -343,6 +343,7 @@ public class SessionHandler {
     /**
      * Counts the exceptions in the current log folder. This is used when closing the log to provide
      *  an exceptions summary.
+     *
      * @return the int number of exceptions thrown in this Cyder session
      */
     private static int countExceptions() {

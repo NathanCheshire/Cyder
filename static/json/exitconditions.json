@@ -50,5 +50,9 @@
       {
         "code":-112,
         "description":"JSON Parsing Exception"
+      },
+      {
+        "code":-200,
+        "description":"External Stop"
       }
    ]

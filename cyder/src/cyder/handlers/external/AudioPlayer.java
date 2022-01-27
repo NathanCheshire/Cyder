@@ -1092,7 +1092,6 @@ public class AudioPlayer implements WidgetBase {
                 effectLabel.setSize(minWidth, parentHeight);
 
                 if (minWidth - 12 > parentWidth) {
-                    System.out.println("scrolling");
                     effectLabel.setLocation(0,0);
 
                     scroll = true;

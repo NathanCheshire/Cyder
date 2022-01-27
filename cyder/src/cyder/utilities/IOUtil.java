@@ -705,17 +705,24 @@ public class IOUtil {
                         String line;
                         boolean containsEOL = false;
 
+                        int exceptions = 0;
+
                         while ((line = br.readLine()) != null) {
                             if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
                                 containsEOL = true;
                                 break;
+                            } else if (line.contains("[EXCEPTION]")) {
+                                exceptions++;
                             }
                         }
 
                         if (!containsEOL) {
+                            String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
+                                    "Log completed, Cyder was force closed by an external entity: " +
+                                    "exit code: -200 [External Stop], exceptions thrown: " + exceptions;
+
                             Files.write(Paths.get(log.getAbsolutePath()),
-                                    ("[EXTERNAL STOP] Cyder was force closed by an external entity such " +
-                                            "as an IDE stop or the OS' Task Manager\n").getBytes(), StandardOpenOption.APPEND);
+                                    (logBuilder).getBytes(), StandardOpenOption.APPEND);
                         }
                     }
                 }

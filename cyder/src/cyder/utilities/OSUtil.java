@@ -259,6 +259,8 @@ public class OSUtil {
 
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
+    //todo make this a command to regenerate the list of valid commands
+    // from InputHandler which the script will then look through
 
     //todo redo image resizer and put cropper inside of it
 
@@ -281,12 +283,7 @@ public class OSUtil {
 
     //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
 
-    //todo trim any multiple spaces out of console clock format input field
-
-    //todo make a method in cydertextfield to get trimmed text that consolidates any whitespace down to
-    // one space and then trims the string too
-
-    //todo logic to fix log with exit code that it wasn't found should also consolidate duplicate lines
+    //todo fixlogs function should consolidate duplicate lines
 
     //todo i've never liked the convex hull widget, get rid or make it better? maybe do a grid approach
 }
