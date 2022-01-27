@@ -10,6 +10,10 @@ import java.io.File;
  */
 public class OSUtil {
 
+    public static final String[] invalidWindowsFilenames = new String[]{"CON", "PRN", "AUX", "NUL",
+            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
+            "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
+
     /**
      * Returns whether or not the provided filename is valid for the operating system
      * Cyder is currently running on.
@@ -19,35 +23,47 @@ public class OSUtil {
      *         Cyder is currently running on
      */
     public static boolean isValidFilename(String filename) {
-        //todo system independent
+        filename = filename.trim();
 
         switch (OPERATING_SYSTEM) {
             case OSX:
-                //todo method
-                break;
+                 return filename.contains("/") || filename.contains("\0");
             case WINDOWS:
-                //todo copy over and fix issues
-                break;
+                //invalid chars for Windows in a filename
+                if (filename.matches("[*?|/\":<>\\\\']+"))
+                    return false;
+
+                //invalid filenames for windows, reserved names for backwards compatibility reasons
+                for (String invalidName : invalidWindowsFilenames) {
+                    if (filename.equalsIgnoreCase(invalidName)) {
+                        return false;
+                    }
+                }
+
+                if (filename.contains(".")) {
+                    String[] parts = filename.split("\\.");
+
+                    for (String part : parts) {
+                        for (String invalidName : invalidWindowsFilenames) {
+                            if (part.equalsIgnoreCase(invalidName)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                return !filename.endsWith(".");
             case UNIX:
-                //todo method
+                //root dir
+                if (filename.contains("/") || filename.contains(">") || filename.contains("<")
+                        || filename.contains("|") || filename.contains(":") || filename.contains("&"))
+                    return false;
+
                 break;
             case UNKNOWN:
                 throw new IllegalStateException("Unknown operating system: " + OPERATING_SYSTEM_NAME);
         }
 
-        return false;
-    }
-
-    /**
-     * Returns whether or not the provided filename is valid for the operating system
-     * Cyder is currently running on and whether or not the filename follows standard naming procedures.
-     *
-     * @param filename the desired filename
-     * @return Returns whether or not the provided filename is valid for the operating system
-     *      * Cyder is currently running on and whether or not the filename follows standard naming procedures
-     */
-    public static boolean isValidAndStandardFilename(String filename) {
-        //todo system independent
         return false;
     }
 
@@ -273,4 +289,6 @@ public class OSUtil {
     // one space and then trims the string too
 
     //todo logic to fix log with exit code that it wasn't found should also consolidate duplicate lines
+
+    //todo i've never liked the convex hull widget, get rid or make it better? maybe do a grid approach
 }

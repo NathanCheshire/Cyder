@@ -1692,12 +1692,18 @@ public final class ConsoleFrame {
         return UUID;
     }
 
+    /**
+     * Returns the username associated with the user currently logged into Cyder.
+     *
+     * @return the username associated with the user currently logged into Cyder
+     */
     public String getUsername() {
         String name = UserUtil.getUserData("Name");
+
         if (name == null || name.trim().length() < 1)
-            return "Name Not Found";
-        else
-            return name;
+            throw new RuntimeException("Username not found");
+
+        return name;
     }
 
     public File getUserJson() {

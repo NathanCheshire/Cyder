@@ -830,54 +830,8 @@ public class IOUtil {
         }
     }
 
-    /**
-     * Determines whether or not the provided String is a valid filename by
-     * comparing it to a regex for valid chars.
-     *
-     * @param fileName the filename to validate
-     * @return whether or not fileName was a valid filename
-     */
-    public static boolean isValidFilenameWindows(String fileName) {
-        //immediately trim
-        fileName = fileName.trim();
-
-        String[] invalidFileNamesWindows = new String[]{"CON", "PRN", "AUX", "NUL",
-                "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
-                "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
-
-        boolean ret = !fileName.matches("[*?|/\":<>\\\\']+");
-
-        for (String invalidName : invalidFileNamesWindows) {
-            if (fileName.equalsIgnoreCase(invalidName)) {
-                ret = false;
-                break;
-            }
-        }
-
-        //split at periods and search all for an invalid file name from the above array
-        if (fileName.contains(".")) {
-            String[] parts = fileName.split("\\.");
-
-            for (String part : parts) {
-                for (String invalidName : invalidFileNamesWindows) {
-                    if (part.equalsIgnoreCase(invalidName)) {
-                        ret = false;
-                        break;
-                    }
-                }
-            }
-        }
-
-        //typically filenames shouldn't end with a period,
-        // they can, however, start with one
-        if (fileName.endsWith("."))
-            ret = false;
-
-        return ret;
-    }
-
     //todo I feel like this and all jsons loaded from the jsons should be inside of CyderCommon OR
-    // it's own system data class loader
+    // it's own system data class loader thing, like a util to load system jsons
     /**
      * SystemData class used by sys.json, no lists should be contained within SystemData.
      */
