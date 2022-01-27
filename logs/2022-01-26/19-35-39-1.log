@@ -1,0 +1,67 @@
+[19-35-39] [ENTRY]: [Nathan]
+[19-35-39] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-35-39] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-35-39] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-35-39] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-35-41] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-35-41] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-35-42] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-35-42] [SYSTEM_IO]: Userdata requested: Name
+[19-35-42] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-35-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-35-42] [SYSTEM_IO]: Userdata requested: Name
+[19-35-42] [SYSTEM_IO]: Userdata requested: Foreground
+[19-35-42] [SYSTEM_IO]: Userdata requested: Foreground
+[19-35-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-35-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-35-42] [SYSTEM_IO]: Userdata requested: Foreground
+[19-35-42] [SYSTEM_IO]: Userdata requested: Font
+[19-35-42] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-35-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-35-42] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-35-42] [SYSTEM_IO]: Userdata requested: Foreground
+[19-35-42] [SYSTEM_IO]: Userdata requested: Foreground
+[19-35-42] [SYSTEM_IO]: Userdata requested: Foreground
+[19-35-42] [SYSTEM_IO]: Userdata requested: Font
+[19-35-42] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-35-42] [SYSTEM_IO]: Userdata requested: InputFill
+[19-35-42] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [446614562], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-35-42] [ACTION]: Console loaded in 3341ms
+[19-35-42] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-35-42] [ENTRY]: [TESTING MODE]
+[19-35-42] [SYSTEM_IO]: Userdata requested: laststart
+[19-35-42] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-35-42] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3341ms
+[19-35-42] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-44] [CLIENT]: mp3
+[19-35-44] [SYSTEM_IO]: Userdata requested: filterchat
+[19-35-44] [WIDGET OPENED]: AUDIO PLAYER
+[19-35-44] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[19-35-44] [HANDLE]: PRIMARY HANDLE
+[19-35-44] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[19-35-46] [ACTION]: [AUDIO PLAYER] Girl You Got It (feat. Nightxime) ft. some long title.mp3
+[19-35-47] [ACTION]: [AUDIO PLAYER] Future - Solitaires ft. Travis Scott.mp3
+[19-35-52] [ACTION]: [AUDIO PLAYER] Girl You Got It (feat. Nightxime) ft. some long title.mp3
+[19-35-58] [ACTION]: [AUDIO PLAYER] Jake Hill - Stay.mp3
+[19-35-59] [ACTION]: [AUDIO PLAYER] Euphoria - Sacred.mp3
+[19-36-06] [ACTION]: [AUDIO PLAYER] Fabled - Spirit.mp3
+[19-36-06] [ACTION]: [AUDIO PLAYER] Future - Solitaires ft. Travis Scott.mp3
+[19-36-08] [ACTION]: [AUDIO PLAYER] Girl You Got It (feat. Nightxime) ft. some long title.mp3
+[19-36-18] [ACTION]: [AUDIO PLAYER] Future - Solitaires ft. Travis Scott.mp3
+[19-36-20] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-36-20] [SYSTEM_IO]: Userdata requested: Name
+[19-36-20] [LOGOUT]: [Nathan]
+[19-36-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(406, 332, 743, 708)], hash = [795321555], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-36-20] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-36-20] [EXIT]: [RUNTIME] 41s
+[19-36-20] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
+[19-36-20] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUserData(UserUtil.java:474)
+From line: 474
+Trace: java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: audiolength
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:474)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:451)
+	at cyder.handlers.external.AudioPlayer$AudioLocation.lambda$new$0(AudioPlayer.java:1049)
+	at java.base/java.lang.Thread.run(Thread.java:844)

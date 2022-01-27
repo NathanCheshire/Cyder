@@ -1091,9 +1091,9 @@ public class AudioPlayer implements WidgetBase {
                 int minWidth = CyderFrame.getMinWidth(localTitle, effectLabel.getFont());
                 effectLabel.setSize(minWidth, parentHeight);
 
-                //todo condition to not make labels move that don't need to
-                if (minWidth > parentWidth) {
-                    effectLabel.setHorizontalAlignment(SwingConstants.LEFT);
+                if (minWidth - 12 > parentWidth) {
+                    System.out.println("scrolling");
+                    effectLabel.setLocation(0,0);
 
                     scroll = true;
                     int miliTimeout = 8;
@@ -1108,6 +1108,9 @@ public class AudioPlayer implements WidgetBase {
                                 int goBack = 0;
 
                                 while (goBack < minWidth - parentWidth) {
+                                    if (!scroll)
+                                        break;
+
                                     effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
                                     Thread.sleep(miliTimeout);
                                     goBack++;
@@ -1116,6 +1119,9 @@ public class AudioPlayer implements WidgetBase {
                                 Thread.sleep(milipause);
 
                                 while (goBack > 0) {
+                                    if (!scroll)
+                                        break;
+
                                     effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
                                     Thread.sleep(miliTimeout);
                                     goBack--;
@@ -1128,8 +1134,10 @@ public class AudioPlayer implements WidgetBase {
                         }
                     },DEFAULT_TITLE + " scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
                 } else {
-                    effectLabel.setHorizontalAlignment(SwingConstants.CENTER);
-                    effectLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
+                    String text = StringUtil.getFilename(audioFiles.get(audioIndex));
+                    effectLabel.setText(text);
+                    effectLabel.setLocation(effectLabel.getParent().getWidth() / 2
+                            - CyderFrame.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

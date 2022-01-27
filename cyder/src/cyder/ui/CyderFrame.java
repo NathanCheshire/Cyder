@@ -663,6 +663,18 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns the minimum width required for the given String using the given font.
+     * @param title the text you want to determine the width of
+     * @param f the font for the text
+     * @return an interger value determining the minimum width of a string of text
+     */
+    public static int getAbsoluteMinWidth(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getWidth();
+    }
+
+    /**
      * Returns the minimum width required for the given String using the given font without adding 10 to the result.
      * @param title the text you want to determine the width of
      * @return an interger value determining the minimum width of a string of text
