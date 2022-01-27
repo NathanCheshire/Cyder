@@ -1091,13 +1091,19 @@ public class AudioPlayer implements WidgetBase {
                 int minWidth = CyderFrame.getMinWidth(localTitle, effectLabel.getFont());
                 effectLabel.setSize(minWidth, parentHeight);
 
+                //todo condition to not make labels move that don't need to
                 if (minWidth > parentWidth) {
+                    effectLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
                     scroll = true;
                     int miliTimeout = 8;
                     int milipause = 5000;
+                    int initialMiliPause = 3000;
 
                     new Thread(() -> {
                         try {
+                            Thread.sleep(initialMiliPause);
+
                             while (scroll) {
                                 int goBack = 0;
 
@@ -1117,13 +1123,12 @@ public class AudioPlayer implements WidgetBase {
 
                                 Thread.sleep(milipause);
                             }
-
-                            effectLabel.setText("todo");
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
                     },DEFAULT_TITLE + " scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
                 } else {
+                    effectLabel.setHorizontalAlignment(SwingConstants.CENTER);
                     effectLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                 }
             } catch (Exception e) {
