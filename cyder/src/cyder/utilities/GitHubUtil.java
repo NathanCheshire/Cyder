@@ -162,7 +162,9 @@ public class GitHubUtil {
      * @param directory the directory to save the repo to
      * @return whether or not the repo was successfully cloned and saved
      */
-    public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
+    public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, final File directory) {
+        //todo make it so it can be ran again since right now it throws about not wanting to do another job
+
         return cloningExecutor.submit(() -> {
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);
 
@@ -171,8 +173,26 @@ public class GitHubUtil {
                 return Optional.of(Boolean.FALSE);
             }
 
-            if (directory.exists())
-                directory.mkdir();
+            //this shouldn't be possible
+            if (!githubRepo.contains("/"))
+                return Optional.of(Boolean.FALSE);
+
+            String[] parts = githubRepo.split("/");
+
+            String repoName = parts[parts.length - 1];
+
+            //shouldn't be possible
+            if (!repoName.endsWith(".git"))
+                return Optional.of(Boolean.FALSE);
+
+            repoName = repoName.replace(".git","");
+
+            //folder name is index of last / to the .git
+            File saveDir = new File(directory.getAbsolutePath()
+                    + OSUtil.FILE_SEP + repoName);
+
+            if (saveDir.exists())
+                saveDir.mkdir();
 
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Checking for git");
             boolean git = true;
@@ -193,11 +213,11 @@ public class GitHubUtil {
             }
 
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
-                    + "\" to \"" + directory.getName() + OSUtil.FILE_SEP + "\"");
+                    + "\" to \"" + saveDir.getName() + OSUtil.FILE_SEP + "\"");
 
             try {
                 Runtime rt = Runtime.getRuntime();
-                Process proc = rt.exec("git clone " + githubRepo + " " + directory.getAbsolutePath());
+                Process proc = rt.exec("git clone " + githubRepo + " " + saveDir.getAbsolutePath());
 
                 proc.waitFor();
 

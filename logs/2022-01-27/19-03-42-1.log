@@ -1,0 +1,58 @@
+[19-03-43] [ENTRY]: [Nathan]
+[19-03-43] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-03-43] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-03-43] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-03-43] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-03-45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-03-45] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-03-45] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-03-45] [SYSTEM_IO]: Userdata requested: Name
+[19-03-45] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-03-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-03-46] [SYSTEM_IO]: Userdata requested: Name
+[19-03-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-03-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-03-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-03-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-03-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-03-46] [SYSTEM_IO]: Userdata requested: Font
+[19-03-46] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-03-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-03-46] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-03-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-03-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-03-46] [SYSTEM_IO]: Userdata requested: Foreground
+[19-03-46] [SYSTEM_IO]: Userdata requested: Font
+[19-03-46] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-03-46] [SYSTEM_IO]: Userdata requested: InputFill
+[19-03-46] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1081160582], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-03-46] [ACTION]: Console loaded in 3629ms
+[19-03-46] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-03-46] [ENTRY]: [TESTING MODE]
+[19-03-46] [SYSTEM_IO]: Userdata requested: laststart
+[19-03-46] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-03-46] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3629ms
+[19-03-46] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-03-53] [CLIENT]: git
+[19-03-53] [SYSTEM_IO]: Userdata requested: filterchat
+[19-03-54] [HANDLE]: GENERAL COMMAND HANDLED
+[19-03-54] [HANDLE]: PRIMARY HANDLE
+[19-03-54] [CONSOLE_OUT]: [STRING] Supported git commands: clone
+[19-03-55] [CLIENT]: git
+[19-03-55] [SYSTEM_IO]: Userdata requested: filterchat
+[19-03-55] [ACTION]: Similar command to "git" found with tol of 1.0, command = "git"
+[19-03-56] [CONSOLE_OUT]: [STRING] Unknown command
+[19-03-56] [CONSOLE_OUT]: [STRING] Most similar command: "git"
+[19-03-59] [CLIENT]: git
+[19-03-59] [SYSTEM_IO]: Userdata requested: filterchat
+[19-03-59] [HANDLE]: GENERAL COMMAND HANDLED
+[19-03-59] [HANDLE]: PRIMARY HANDLE
+[19-03-59] [CONSOLE_OUT]: [STRING] Supported git commands: clone
+[19-04-04] [CLIENT]: git
+[19-04-04] [SYSTEM_IO]: Userdata requested: filterchat
+[19-04-04] [HANDLE]: GENERAL COMMAND HANDLED
+[19-04-04] [HANDLE]: PRIMARY HANDLE
+[19-04-04] [CONSOLE_OUT]: [STRING] Validating github link: wat
+[19-04-04] [CONSOLE_OUT]: [STRING] Provided repo link is invalid
+[19-04-05] [CONSOLE_OUT]: [STRING] Clone finished
+[19-04-54] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0
