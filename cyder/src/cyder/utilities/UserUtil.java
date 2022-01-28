@@ -963,4 +963,20 @@ public class UserUtil {
             ExceptionHandler.handle(e);
         }
     }
+
+    /**
+     * Returns the file directory associated with this user: Files/
+     * If it does not exist, it is created before returning.
+     *
+     * @return the file directory assocaited with this user
+     */
+    public static File getUserFileDir() {
+        File filesDir = new File("dynamic" + OSUtil.FILE_SEP
+                + "users" + OSUtil.FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID() + OSUtil.FILE_SEP + "Files");
+
+        if (filesDir.exists())
+            filesDir.mkdir();
+
+        return filesDir;
+    }
 }

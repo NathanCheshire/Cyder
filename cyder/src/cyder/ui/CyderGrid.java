@@ -248,8 +248,6 @@ public class CyderGrid extends JLabel {
         this.resizable = resizable;
     }
 
-    //todo methods for dragging/removing just don't remove the last node added if that's the last node you were in
-
     public void installClickPlacer() {
         this.addMouseListener(clickPlacer);
     }
@@ -267,6 +265,13 @@ public class CyderGrid extends JLabel {
 
             System.out.println(x + "," + y);
             addNode(x, y);
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            //todo add node if not in list
+
+            //todo if in the list, remove it as long as this is not the cell we were in last
         }
     };
 

@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.LinkedList;
@@ -108,5 +109,51 @@ public class GitHubUtil {
             public int rocket;
             public int eyes;
         }
+    }
+
+    /**
+     * Determines if the provided url is a valid and public github clonable repository.
+     * Example: https://github.com/NathanCheshire/Cyder.git returns true
+     *
+     * @param url the url to clone locally
+     * @return whether or not the url is a valid, public, and cloneable repository
+     */
+    public static boolean validateGitHubURL(String url) {
+        if (!url.contains("://"))
+            return false;
+
+        String parts[] = url.split("://");
+
+        if (parts.length != 2)
+            return false;
+
+        if (!parts[1].startsWith("github.com") && !parts[1].startsWith("www.github.com"))
+            return false;
+
+        if (!parts[1].endsWith(".git"))
+            return false;
+
+        return NetworkUtil.isURL(url);
+    }
+
+    /**
+     * Clones the provided github repo to the provided directory.
+     *
+     * @param githubRepo the URL of the github repository to clone
+     * @param directory the directory to save the repo to
+     * @return whether or not the repo was successfully cloned and saved
+     */
+    public static boolean cloneRepoToDirectory(String githubRepo, File directory) {
+        if (!validateGitHubURL(githubRepo))
+            throw new IllegalArgumentException("provided repo link is invalid");
+        else if (directory.exists())
+            directory.mkdir();
+
+        System.out.println("Cloning: " + NetworkUtil.getURLTitle(githubRepo)
+                + " to " + directory.getName() + OSUtil.FILE_SEP);
+
+        
+
+        return false;
     }
 }

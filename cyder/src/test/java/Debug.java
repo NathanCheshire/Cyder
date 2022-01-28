@@ -8,8 +8,10 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
+import cyder.utilities.GitHubUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -143,7 +145,7 @@ public class Debug {
 
     public static void launchTests() {
         try {
-
+            GitHubUtil.cloneRepoToDirectory("https://github.com/NathanCheshire/Cyder.git", UserUtil.getUserFileDir());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
