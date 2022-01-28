@@ -41,3 +41,4 @@
 [19-25-35] [CONSOLE_OUT]: [STRING] Checking for git
 [19-25-36] [CONSOLE_OUT]: [STRING] Cloning: "GitHub - alferov/is-github-url: Check if a provided string is a valid GitHub URL" to "is-github-url\"
 [19-25-38] [CONSOLE_OUT]: [STRING] Clone finished
+[19-29-33] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

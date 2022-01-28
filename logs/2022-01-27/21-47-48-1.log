@@ -1,0 +1,68 @@
+[21-47-48] [ENTRY]: [Nathan]
+[21-47-48] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-47-48] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-47-49] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-47-49] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-47-51] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-47-51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-47-51] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-47-51] [SYSTEM_IO]: Userdata requested: Name
+[21-47-51] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-47-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-47-51] [SYSTEM_IO]: Userdata requested: Name
+[21-47-51] [SYSTEM_IO]: Userdata requested: Foreground
+[21-47-51] [SYSTEM_IO]: Userdata requested: Foreground
+[21-47-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-47-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-47-51] [SYSTEM_IO]: Userdata requested: Foreground
+[21-47-51] [SYSTEM_IO]: Userdata requested: Font
+[21-47-51] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-47-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-47-51] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-47-51] [SYSTEM_IO]: Userdata requested: Foreground
+[21-47-51] [SYSTEM_IO]: Userdata requested: Foreground
+[21-47-51] [SYSTEM_IO]: Userdata requested: Foreground
+[21-47-51] [SYSTEM_IO]: Userdata requested: Font
+[21-47-51] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-47-51] [SYSTEM_IO]: Userdata requested: InputFill
+[21-47-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2139894275], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-47-52] [ACTION]: Console loaded in 3647ms
+[21-47-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-47-52] [ENTRY]: [TESTING MODE]
+[21-47-52] [SYSTEM_IO]: Userdata requested: laststart
+[21-47-52] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-47-52] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3647ms
+[21-47-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-47-53] [CLIENT]: hallo
+[21-47-53] [SYSTEM_IO]: Userdata requested: filterchat
+[21-47-54] [CONSOLE_OUT]: [STRING] Unknown command
+[21-47-54] [ACTION]: Similar command to "hallo" found with tol of 0.8, command = "hello"
+[21-47-56] [CLIENT]: helloo
+[21-47-56] [SYSTEM_IO]: Userdata requested: filterchat
+[21-47-56] [EXCEPTION]: 
+Exception origin: java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+From line: 2104
+Trace: java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.FutureTask@5a561828 rejected from java.util.concurrent.ThreadPoolExecutor@5e6997ba[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:848)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1397)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at java.base/java.util.concurrent.Executors$DelegatedExecutorService.submit(Executors.java:686)
+	at cyder.utilities.ReflectionUtil.getSimilarCommand(ReflectionUtil.java:240)
+	at cyder.handlers.internal.InputHandler.lambda$unknownInput$10(InputHandler.java:1493)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-47-56] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[21-47-56] [DEBUG]: 
+Exception origin: java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+From line: 2104
+Trace: java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.FutureTask@5a561828 rejected from java.util.concurrent.ThreadPoolExecutor@5e6997ba[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:848)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1397)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at java.base/java.util.concurrent.Executors$DelegatedExecutorService.submit(Executors.java:686)
+	at cyder.utilities.ReflectionUtil.getSimilarCommand(ReflectionUtil.java:240)
+	at cyder.handlers.internal.InputHandler.lambda$unknownInput$10(InputHandler.java:1493)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-47-56] [CONSOLE_OUT]: [STRING] Unknown command
+[21-48-36] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1

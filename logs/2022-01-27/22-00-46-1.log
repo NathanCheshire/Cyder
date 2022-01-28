@@ -1,0 +1,83 @@
+[22-00-46] [ENTRY]: [Nathan]
+[22-00-46] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-00-46] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-00-46] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-00-46] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-00-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-00-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-00-49] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-00-49] [SYSTEM_IO]: Userdata requested: Name
+[22-00-49] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-00-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-00-49] [SYSTEM_IO]: Userdata requested: Name
+[22-00-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-00-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-00-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-00-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-00-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-00-49] [SYSTEM_IO]: Userdata requested: Font
+[22-00-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-00-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-00-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-00-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-00-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-00-49] [SYSTEM_IO]: Userdata requested: Foreground
+[22-00-49] [SYSTEM_IO]: Userdata requested: Font
+[22-00-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-00-49] [SYSTEM_IO]: Userdata requested: InputFill
+[22-00-49] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1154490278], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-00-49] [ACTION]: Console loaded in 3470ms
+[22-00-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-00-49] [ENTRY]: [TESTING MODE]
+[22-00-49] [SYSTEM_IO]: Userdata requested: laststart
+[22-00-49] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-00-49] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3470ms
+[22-00-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-00-52] [CLIENT]: play
+[22-00-52] [SYSTEM_IO]: Userdata requested: filterchat
+[22-00-53] [HANDLE]: GENERAL COMMAND HANDLED
+[22-00-53] [HANDLE]: PRIMARY HANDLE
+[22-00-53] [CONSOLE_OUT]: [STRING] Invalid youtube UUID: https://www.youtube.com/watch?v=bOfcJ0COb1
+[22-00-54] [CONSOLE_OUT]: [STRING] Starting download of:
+[22-00-56] [EXCEPTION]: 
+Exception origin: com.sapher.youtubedl.YoutubeDL.execute(YoutubeDL.java:90)
+From line: 90
+Trace: com.sapher.youtubedl.YoutubeDLException: ERROR: Incomplete YouTube ID bOfcJ0COb1. URL https://www.youtube.com/watch?v=bOfcJ0COb1 looks truncated.
+
+	at com.sapher.youtubedl.YoutubeDL.execute(YoutubeDL.java:90)
+	at cyder.utilities.YoutubeUtil.lambda$download$1(YoutubeUtil.java:109)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[22-00-56] [EXCEPTION]: 
+Exception origin: java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+From line: 122
+Trace: java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at cyder.handlers.internal.InputHandler.lambda$generalCommandCheck$3(InputHandler.java:1044)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+Caused by: java.lang.NullPointerException
+	at cyder.utilities.YoutubeUtil.lambda$download$1(YoutubeUtil.java:132)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	... 1 more
+[22-00-56] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-00-56] [DEBUG]: 
+Exception origin: java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+From line: 122
+Trace: java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191)
+	at cyder.handlers.internal.InputHandler.lambda$generalCommandCheck$3(InputHandler.java:1044)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+Caused by: java.lang.NullPointerException
+	at cyder.utilities.YoutubeUtil.lambda$download$1(YoutubeUtil.java:132)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	... 1 more
+[22-00-56] [CONSOLE_OUT]: [STRING] Could not download video's audio at this time
+[22-02-00] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 2

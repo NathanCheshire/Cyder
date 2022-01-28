@@ -1,0 +1,121 @@
+[19-31-01] [ENTRY]: [Nathan]
+[19-31-01] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-31-01] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-31-01] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-31-01] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-31-03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-31-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-31-04] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-31-04] [SYSTEM_IO]: Userdata requested: Name
+[19-31-04] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-31-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-31-04] [SYSTEM_IO]: Userdata requested: Name
+[19-31-04] [SYSTEM_IO]: Userdata requested: Foreground
+[19-31-04] [SYSTEM_IO]: Userdata requested: Foreground
+[19-31-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-31-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-31-04] [SYSTEM_IO]: Userdata requested: Foreground
+[19-31-04] [SYSTEM_IO]: Userdata requested: Font
+[19-31-04] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-31-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-31-04] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-31-04] [SYSTEM_IO]: Userdata requested: Foreground
+[19-31-04] [SYSTEM_IO]: Userdata requested: Foreground
+[19-31-04] [SYSTEM_IO]: Userdata requested: Foreground
+[19-31-04] [SYSTEM_IO]: Userdata requested: Font
+[19-31-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-31-04] [SYSTEM_IO]: Userdata requested: InputFill
+[19-31-04] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(467, 372, 600, 600)], hash = [727728235], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-31-04] [ACTION]: Console loaded in 3929ms
+[19-31-04] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-31-04] [ENTRY]: [TESTING MODE]
+[19-31-04] [SYSTEM_IO]: Userdata requested: laststart
+[19-31-04] [SYSTEM_IO]: Userdata requested: IntroMusic
+[19-31-05] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3929ms
+[19-31-05] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-31-09] [CLIENT]: git
+[19-31-09] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-09] [HANDLE]: GENERAL COMMAND HANDLED
+[19-31-09] [HANDLE]: PRIMARY HANDLE
+[19-31-09] [CONSOLE_OUT]: [STRING] Validating github link: https://github.com/NathanCheshire/StudentScraper.git
+[19-31-11] [CONSOLE_OUT]: [STRING] Checking for git
+[19-31-11] [CONSOLE_OUT]: [STRING] Cloning: "GitHub - NathanCheshire/StudentScraper: Web Crawler/POST Requestor and data visualizations for the MSU student/faculty directory" to "StudentScraper\"
+[19-31-14] [CONSOLE_OUT]: [STRING] Clone finished
+[19-31-22] [CLIENT]: git
+[19-31-22] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-22] [HANDLE]: GENERAL COMMAND HANDLED
+[19-31-22] [HANDLE]: PRIMARY HANDLE
+[19-31-22] [CONSOLE_OUT]: [STRING] Validating github link: https://github.com/NathanCheshire/StudentScraper.git
+[19-31-23] [CONSOLE_OUT]: [STRING] Checking for git
+[19-31-24] [CONSOLE_OUT]: [STRING] Cloning: "GitHub - NathanCheshire/StudentScraper: Web Crawler/POST Requestor and data visualizations for the MSU student/faculty directory" to "StudentScraper\"
+[19-31-27] [CONSOLE_OUT]: [STRING] Clone finished
+[19-31-35] [CLIENT]: clear
+[19-31-35] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-35] [HANDLE]: GENERAL COMMAND HANDLED
+[19-31-35] [HANDLE]: PRIMARY HANDLE
+[19-31-37] [CLIENT]: threads
+[19-31-37] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-37] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[19-31-37] [HANDLE]: PRIMARY HANDLE
+[19-31-37] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[19-31-38] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[19-31-38] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[19-31-38] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[19-31-38] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[19-31-38] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[19-31-38] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[19-31-38] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[19-31-38] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[19-31-38] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[19-31-38] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[19-31-38] [CONSOLE_OUT]: [STRING] Git Cloner
+[19-31-38] [CONSOLE_OUT]: [STRING] Escaped
+[19-31-40] [CLIENT]: clear
+[19-31-40] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-40] [HANDLE]: GENERAL COMMAND HANDLED
+[19-31-40] [HANDLE]: PRIMARY HANDLE
+[19-31-42] [CLIENT]: jff
+[19-31-42] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-42] [CONSOLE_OUT]: [STRING] Unknown command
+[19-31-42] [ACTION]: Similar command to "jff" found with tol of 0.44444445, command = "coffee"
+[19-31-43] [CONSOLE_OUT]: [STRING] Escaped
+[19-31-43] [CLIENT]: clear
+[19-31-43] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-43] [HANDLE]: GENERAL COMMAND HANDLED
+[19-31-43] [HANDLE]: PRIMARY HANDLE
+[19-31-45] [CLIENT]: helpp
+[19-31-45] [SYSTEM_IO]: Userdata requested: filterchat
+[19-31-45] [EXCEPTION]: 
+Exception origin: java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+From line: 2104
+Trace: java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.FutureTask@74f435f rejected from java.util.concurrent.ThreadPoolExecutor@370c76e[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:848)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1397)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at java.base/java.util.concurrent.Executors$DelegatedExecutorService.submit(Executors.java:686)
+	at cyder.utilities.ReflectionUtil.getSimilarCommand(ReflectionUtil.java:240)
+	at cyder.handlers.internal.InputHandler.lambda$unknownInput$10(InputHandler.java:1493)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[19-31-45] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[19-31-45] [DEBUG]: 
+Exception origin: java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+From line: 2104
+Trace: java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.FutureTask@74f435f rejected from java.util.concurrent.ThreadPoolExecutor@370c76e[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 1]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2104)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:848)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1397)
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:140)
+	at java.base/java.util.concurrent.Executors$DelegatedExecutorService.submit(Executors.java:686)
+	at cyder.utilities.ReflectionUtil.getSimilarCommand(ReflectionUtil.java:240)
+	at cyder.handlers.internal.InputHandler.lambda$unknownInput$10(InputHandler.java:1493)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[19-31-45] [CONSOLE_OUT]: [STRING] Unknown command
+[19-32-00] [SYSTEM_IO]: Userdata requested: Background
+[19-32-00] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-32-00] [SYSTEM_IO]: Userdata requested: Name
+[19-32-00] [LOGOUT]: [Nathan]
+[19-32-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(559, 504, 743, 708)], hash = [859654796], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-32-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-32-00] [EXIT]: [RUNTIME] 59s
+[19-32-00] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

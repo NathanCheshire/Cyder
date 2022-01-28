@@ -263,13 +263,6 @@ public class ReflectionUtil {
         });
     }
 
-    /**
-     * Tells the similar command executor factory to terminate gracefully.
-     */
-    public static void shutdownSimilarCommandExecutor() {
-        executor.shutdown();
-    }
-
     public static WidgetHolder widgets = null;
 
     static {

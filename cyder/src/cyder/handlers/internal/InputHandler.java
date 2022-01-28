@@ -1018,6 +1018,25 @@ public class InputHandler {
                                 }
                             }
                         } else {
+                            if (!input.contains("youtube.com/watch?v=")) {
+                                println("Invalid youtube video URL");
+                                return;
+                            }
+
+                            String[] parts = input.split("watch\\?v=");
+
+                            if (parts.length != 2) {
+                                println("Invalid youtube video URL");
+                                return;
+                            }
+
+                            String uuid = parts[parts.length - 1];
+
+                            if (uuid.length() != 11) {
+                                println("Invalid youtube UUID: " + uuid);
+                                return;
+                            }
+
                             String videoURL = input;
                             Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
                                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
@@ -1221,33 +1240,35 @@ public class InputHandler {
         } else if (commandIs("jarmode")) {
             println(CyderCommon.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");
-        } else if (commandIs("git") && checkArgsLength(2)) {
-            if (getArg(0).equalsIgnoreCase("clone")) {
-                new Thread(() -> {
-                    try {
-                        Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
-                                getArg(1), UserUtil.getUserFileDir());
-
-                        while (!cloned.isDone()) {
-                            Thread.onSpinWait();
-                        }
-
-                        GitHubUtil.shutdownCloner();
-
-                        if (cloned.get().isPresent()) {
-                            if (cloned.get().get() == Boolean.TRUE)
-                                println("Clone finished");
-                            else
-                                print("Clone failed");
-                        } else {
-                            println("Clone failed");
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "Git clone waiter, repo: " + getArg(1)).start();
-            } else {
+        } else if (commandIs("git")) {
+            if (!checkArgsLength(2)) {
                 println("Supported git commands: clone");
+            } else {
+                if (getArg(0).equalsIgnoreCase("clone")) {
+                    new Thread(() -> {
+                        try {
+                            Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
+                                    getArg(1), UserUtil.getUserFileDir());
+
+                            while (!cloned.isDone()) {
+                                Thread.onSpinWait();
+                            }
+
+                            if (cloned.get().isPresent()) {
+                                if (cloned.get().get() == Boolean.TRUE)
+                                    println("Clone finished");
+                                else
+                                    print("Clone failed");
+                            } else {
+                                println("Clone failed");
+                            }
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }, "Git clone waiter, repo: " + getArg(1)).start();
+                } else {
+                    println("Supported git commands: clone");
+                }
             }
         }
 
@@ -1496,9 +1517,6 @@ public class InputHandler {
                     while (!similarCommand.isDone()) {
                         Thread.onSpinWait();
                     }
-
-                    //tell executor that found a similar command possibly to terminate
-                    ReflectionUtil.shutdownSimilarCommandExecutor();
 
                     //if future returned and not null/empty value
                     if (similarCommand.get().isPresent()) {

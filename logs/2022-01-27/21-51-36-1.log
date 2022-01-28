@@ -1,0 +1,67 @@
+[21-51-36] [ENTRY]: [Nathan]
+[21-51-36] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-51-36] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-51-36] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-51-36] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-51-39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-51-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-51-39] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-51-39] [SYSTEM_IO]: Userdata requested: Name
+[21-51-39] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-51-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-51-39] [SYSTEM_IO]: Userdata requested: Name
+[21-51-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-51-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-51-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-51-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-51-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-51-39] [SYSTEM_IO]: Userdata requested: Font
+[21-51-39] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-51-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-51-39] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-51-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-51-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-51-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-51-39] [SYSTEM_IO]: Userdata requested: Font
+[21-51-39] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-51-39] [SYSTEM_IO]: Userdata requested: InputFill
+[21-51-39] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [427221128], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-51-40] [ACTION]: Console loaded in 3814ms
+[21-51-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-51-40] [ENTRY]: [TESTING MODE]
+[21-51-40] [SYSTEM_IO]: Userdata requested: laststart
+[21-51-40] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-51-40] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3814ms
+[21-51-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-51-49] [CLIENT]: git
+[21-51-49] [SYSTEM_IO]: Userdata requested: filterchat
+[21-51-49] [CONSOLE_OUT]: [STRING] Unknown command
+[21-51-49] [ACTION]: Similar command to "git" found with tol of 1.0, command = "git"
+[21-51-50] [CONSOLE_OUT]: [STRING] Most similar command: "git"
+[21-51-51] [CLIENT]: git
+[21-51-51] [SYSTEM_IO]: Userdata requested: filterchat
+[21-51-51] [ACTION]: Similar command to "git" found with tol of 1.0, command = "git"
+[21-51-51] [CONSOLE_OUT]: [STRING] Unknown command
+[21-51-52] [CONSOLE_OUT]: [STRING] Most similar command: "git"
+[21-51-55] [CLIENT]: git
+[21-51-55] [SYSTEM_IO]: Userdata requested: filterchat
+[21-51-55] [CONSOLE_OUT]: [STRING] Unknown command
+[21-51-55] [ACTION]: Similar command to "git" found with tol of 1.0, command = "git"
+[21-51-56] [CONSOLE_OUT]: [STRING] Most similar command: "git"
+[21-52-35] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUserData(UserUtil.java:474)
+From line: 474
+Trace: java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+	at cyder.utilities.UserUtil.extractUserData(UserUtil.java:474)
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:451)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1790)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[21-52-38] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-52-38] [SYSTEM_IO]: Userdata requested: Name
+[21-52-38] [LOGOUT]: [Nathan]
+[21-52-38] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(713, 455, 743, 708)], hash = [2129442232], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[21-52-38] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-52-38] [EXIT]: [RUNTIME] 1m 2s
+[21-52-38] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

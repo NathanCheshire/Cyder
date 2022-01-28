@@ -1,0 +1,362 @@
+[22-02-45] [ENTRY]: [Nathan]
+[22-02-45] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-02-45] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-02-45] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-02-45] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-02-47] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-02-47] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-02-47] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-02-47] [SYSTEM_IO]: Userdata requested: Name
+[22-02-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-02-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-48] [SYSTEM_IO]: Userdata requested: Name
+[22-02-48] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-48] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-48] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-48] [SYSTEM_IO]: Userdata requested: Font
+[22-02-48] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-02-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-48] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-02-48] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-48] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-48] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-48] [SYSTEM_IO]: Userdata requested: Font
+[22-02-48] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-02-48] [SYSTEM_IO]: Userdata requested: InputFill
+[22-02-48] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1937041819], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-02-48] [ACTION]: Console loaded in 3740ms
+[22-02-48] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-02-48] [ENTRY]: [TESTING MODE]
+[22-02-48] [SYSTEM_IO]: Userdata requested: laststart
+[22-02-48] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-02-48] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3740ms
+[22-02-48] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-02-50] [CLIENT]: play
+[22-02-50] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-51] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-51] [HANDLE]: PRIMARY HANDLE
+[22-02-51] [CONSOLE_OUT]: [STRING] Starting download of: Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)
+[22-02-57] [CLIENT]: threads
+[22-02-57] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-57] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[22-02-57] [HANDLE]: PRIMARY HANDLE
+[22-02-57] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[22-02-58] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[22-02-58] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[22-02-59] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[22-03-00] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[22-03-01] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[22-03-01] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[22-03-02] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[22-03-03] [WIDGET OPENED]: AUDIO PLAYER
+[22-03-03] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[22-03-03] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[22-03-03] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[22-03-04] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[22-03-04] [CONSOLE_OUT]: [STRING] Youtube Audio Download Waiter
+[22-03-05] [CONSOLE_OUT]: [STRING] Youtube Audio Extractor
+[22-03-06] [CONSOLE_OUT]: [STRING] Thread-0
+[22-03-06] [CONSOLE_OUT]: [STRING] Thread-1
+[22-03-06] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[22-03-09] [CLIENT]: compacttextmode
+[22-03-09] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-09] [SYSTEM_IO]: Userdata requested: compacttextmode
+[22-03-09] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-03-09] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-03-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-09] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[22-03-09] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-03-09] [SYSTEM_IO]: Userdata requested: InputFill
+[22-03-09] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-03-09] [HANDLE]: FINAL HANDLE
+[22-03-09] [CONSOLE_OUT]: [STRING] Compact Text set to true
+[22-03-10] [CLIENT]: compacttextmode
+[22-03-10] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[22-03-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-03-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-03-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-10] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[22-03-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-03-10] [SYSTEM_IO]: Userdata requested: InputFill
+[22-03-10] [CONSOLE_OUT]: [STRING] Compact Text set to false
+[22-03-10] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-03-10] [HANDLE]: FINAL HANDLE
+[22-03-11] [CLIENT]: compacttextmode
+[22-03-11] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-11] [SYSTEM_IO]: Userdata requested: compacttextmode
+[22-03-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-03-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-03-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-11] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[22-03-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-03-11] [SYSTEM_IO]: Userdata requested: InputFill
+[22-03-11] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-03-11] [HANDLE]: FINAL HANDLE
+[22-03-11] [CONSOLE_OUT]: [STRING] Compact Text set to true
+[22-03-14] [CLIENT]: compacttextmode
+[22-03-14] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-14] [SYSTEM_IO]: Userdata requested: compacttextmode
+[22-03-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-03-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-03-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-14] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[22-03-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-03-14] [SYSTEM_IO]: Userdata requested: InputFill
+[22-03-14] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-03-14] [HANDLE]: FINAL HANDLE
+[22-03-14] [CONSOLE_OUT]: [STRING] Compact Text set to false
+[22-03-16] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[22-03-17] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[22-03-22] [CLIENT]: clear
+[22-03-22] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-22] [HANDLE]: GENERAL COMMAND HANDLED
+[22-03-22] [HANDLE]: PRIMARY HANDLE
+[22-03-23] [CLIENT]: threads
+[22-03-23] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-23] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[22-03-23] [HANDLE]: PRIMARY HANDLE
+[22-03-24] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[22-03-24] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[22-03-24] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[22-03-24] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[22-03-24] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[22-03-24] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[22-03-24] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[22-03-24] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[22-03-24] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[22-03-24] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[22-03-24] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[22-03-24] [CONSOLE_OUT]: [STRING] Youtube Audio Extractor
+[22-03-24] [CONSOLE_OUT]: [STRING] Flash Player Audio Thread[Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)]
+[22-03-24] [CONSOLE_OUT]: [STRING] Flash Player scrolling title thread[Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)]
+[22-03-24] [CONSOLE_OUT]: [STRING] Flash Player Progress Thread[Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)]
+[22-03-24] [CONSOLE_OUT]: [STRING] Escaped
+[22-03-27] [SYSTEM_IO]: Userdata requested: Background
+[22-03-37] [SYSTEM_IO]: Userdata requested: Background
+[22-03-37] [SYSTEM_IO]: Userdata requested: Background
+[22-03-38] [SYSTEM_IO]: Userdata requested: Background
+[22-03-41] [CLIENT]: clear
+[22-03-41] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-41] [HANDLE]: GENERAL COMMAND HANDLED
+[22-03-41] [HANDLE]: PRIMARY HANDLE
+[22-03-42] [CLIENT]: play
+[22-03-42] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-43] [HANDLE]: GENERAL COMMAND HANDLED
+[22-03-43] [HANDLE]: PRIMARY HANDLE
+[22-03-43] [CONSOLE_OUT]: [STRING] Starting download of: Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)
+[22-03-47] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [910622655], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-03-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1195, 467, 500, 225)], hash = [1485843456], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)]
+[22-03-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-03-48] [SYSTEM_IO]: Userdata requested: Background
+[22-03-52] [CLIENT]: prefs
+[22-03-52] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-52] [WIDGET OPENED]: PREFS
+[22-03-52] [HANDLE]: PRIMARY HANDLE
+[22-03-52] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[22-03-53] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[22-03-53] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[22-03-53] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [1344391478], parentFrame = [Edit User], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-03-54] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [1344391478], parentFrame = [Edit User], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-03-54] [SYSTEM_IO]: Userdata requested: randombackground
+[22-03-54] [SYSTEM_IO]: Userdata requested: debugwindows
+[22-03-54] [SYSTEM_IO]: Userdata requested: intromusic
+[22-03-54] [SYSTEM_IO]: Userdata requested: randombackground
+[22-03-54] [SYSTEM_IO]: Userdata requested: debugwindows
+[22-03-54] [SYSTEM_IO]: Userdata requested: intromusic
+[22-03-55] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-55] [SYSTEM_IO]: Userdata requested: Foreground
+[22-03-55] [SYSTEM_IO]: Userdata requested: Background
+[22-03-55] [SYSTEM_IO]: Userdata requested: Background
+[22-03-55] [SYSTEM_IO]: Userdata requested: Font
+[22-03-55] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [1344391478], parentFrame = [Edit User], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-03-55] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[22-03-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-03-56] [ACTION]: [Edit User] [NOTIFICATION] Fonts loaded
+[22-03-56] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-04-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-02] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-02] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-03] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-04] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-05] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-05] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-06] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-06] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-08] [SYSTEM_IO]: Userdata requested: Background
+[22-04-09] [SYSTEM_IO]: Userdata requested: Background
+[22-04-11] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(440, 390, 220, 50)], hash = [739490242], parentFrame = [Edit User], associated text = [f0f0f0], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-04-12] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-12] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-13] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-14] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-16] [SYSTEM_IO]: Userdata requested: Background
+[22-04-16] [SYSTEM_IO]: Userdata requested: Background
+[22-04-16] [SYSTEM_IO]: Userdata requested: Background
+[22-04-18] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-18] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-19] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-20] [SYSTEM_IO]: Userdata requested: Background
+[22-04-20] [SYSTEM_IO]: Userdata requested: Background
+[22-04-22] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(440, 390, 220, 50)], hash = [739490242], parentFrame = [Edit User], associated text = [9000ff], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-04-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-27] [SYSTEM_IO]: Userdata requested: Background
+[22-04-27] [SYSTEM_IO]: Userdata requested: Background
+[22-04-27] [SYSTEM_IO]: Userdata requested: Background
+[22-04-29] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [213845613], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-04-29] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1262, 419, 900, 580)], hash = [1003832139], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[22-04-29] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-04-29] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-04-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-04-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-04-29] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[22-04-29] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-04-29] [SYSTEM_IO]: Userdata requested: InputFill
+[22-04-29] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-04-29] [SYSTEM_IO]: Userdata requested: Background
+[22-04-33] [CLIENT]: clear
+[22-04-33] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-33] [HANDLE]: GENERAL COMMAND HANDLED
+[22-04-33] [HANDLE]: PRIMARY HANDLE
+[22-04-36] [CLIENT]: open
+[22-04-36] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-36] [ACTION]: Similar command to "open" found with tol of 0.75, command = "nope"
+[22-04-36] [CONSOLE_OUT]: [STRING] Unknown command
+[22-04-37] [CLIENT]: clkear
+[22-04-37] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-37] [CONSOLE_OUT]: [STRING] Unknown command
+[22-04-37] [ACTION]: Similar command to "clkear" found with tol of 0.90909094, command = "clear"
+[22-04-38] [CONSOLE_OUT]: [STRING] Most similar command: "clear"
+[22-04-38] [CLIENT]: clear
+[22-04-38] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-38] [HANDLE]: GENERAL COMMAND HANDLED
+[22-04-38] [HANDLE]: PRIMARY HANDLE
+[22-04-40] [CLIENT]: clear
+[22-04-40] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-40] [HANDLE]: GENERAL COMMAND HANDLED
+[22-04-40] [HANDLE]: PRIMARY HANDLE
+[22-04-41] [CLIENT]: threads
+[22-04-41] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-41] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[22-04-41] [HANDLE]: PRIMARY HANDLE
+[22-04-41] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[22-04-42] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[22-04-43] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[22-04-43] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[22-04-44] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[22-04-44] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[22-04-44] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[22-04-44] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[22-04-44] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[22-04-44] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[22-04-44] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[22-04-44] [CONSOLE_OUT]: [STRING] Youtube Audio Extractor
+[22-04-44] [CONSOLE_OUT]: [STRING] Youtube Audio Download Waiter
+[22-04-44] [CONSOLE_OUT]: [STRING] Thread-2
+[22-04-44] [CONSOLE_OUT]: [STRING] Thread-3
+[22-04-44] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[22-04-44] [CONSOLE_OUT]: [STRING] Escaped
+[22-04-45] [CLIENT]: clear
+[22-04-45] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-45] [HANDLE]: GENERAL COMMAND HANDLED
+[22-04-45] [HANDLE]: PRIMARY HANDLE
+[22-04-57] [CONSOLE_OUT]: [STRING] Manual tests:
+[22-04-58] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[22-04-58] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[22-04-59] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[22-04-59] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[22-04-59] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[22-04-59] [CONSOLE_OUT]: [STRING] notificationTest
+[22-04-59] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[22-04-59] [CONSOLE_OUT]: [STRING] cyderGridTest
+[22-04-59] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[22-04-59] [CONSOLE_OUT]: [STRING] checkboxTest
+[22-04-59] [CONSOLE_OUT]: [STRING] progressBarTest
+[22-04-59] [CONSOLE_OUT]: [STRING] switchTest
+[22-04-59] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[22-04-59] [CONSOLE_OUT]: [STRING] askewTest
+[22-04-59] [CONSOLE_OUT]: [STRING] queueTest
+[22-04-59] [CONSOLE_OUT]: [STRING] stackTest
+[22-04-59] [CONSOLE_OUT]: [STRING] comboBoxTest
+[22-04-59] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[22-04-59] [CONSOLE_OUT]: [STRING] informTest
+[22-04-59] [CONSOLE_OUT]: [STRING] Unit Tests:
+[22-04-59] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[22-04-59] [CONSOLE_OUT]: [STRING] testPluralConversion
+[22-04-59] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[22-04-59] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[22-04-59] [CONSOLE_OUT]: [STRING] testIsComment
+[22-04-59] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[22-04-59] [CONSOLE_OUT]: [JCOMPONENT] Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 0, 0)], hash = [1696019276], parentFrame = [No associated frame], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-04-59] [CONSOLE_OUT]: [STRING]
+[22-04-59] [CONSOLE_OUT]: [STRING] Escaped
+[22-04-59] [CLIENT]: clear
+[22-04-59] [SYSTEM_IO]: Userdata requested: filterchat
+[22-04-59] [HANDLE]: GENERAL COMMAND HANDLED
+[22-04-59] [HANDLE]: PRIMARY HANDLE
+[22-05-20] [WIDGET OPENED]: AUDIO PLAYER
+[22-05-20] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[22-05-20] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[22-05-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [146714163], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-05-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1494, 489, 500, 225)], hash = [888935238], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)]
+[22-05-24] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-05-25] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-05-25] [SYSTEM_IO]: Userdata requested: Name
+[22-05-25] [LOGOUT]: [Nathan]
+[22-05-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1373, 248, 743, 708)], hash = [925973605], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-05-25] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-05-25] [EXIT]: [RUNTIME] 2m 40s
+[22-05-25] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

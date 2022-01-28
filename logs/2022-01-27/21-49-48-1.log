@@ -1,0 +1,135 @@
+[21-49-48] [ENTRY]: [Nathan]
+[21-49-48] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-49-48] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-49-48] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-49-48] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-49-51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-49-51] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-49-51] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-49-51] [SYSTEM_IO]: Userdata requested: Name
+[21-49-52] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-49-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-49-52] [SYSTEM_IO]: Userdata requested: Name
+[21-49-52] [SYSTEM_IO]: Userdata requested: Foreground
+[21-49-52] [SYSTEM_IO]: Userdata requested: Foreground
+[21-49-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-49-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-49-52] [SYSTEM_IO]: Userdata requested: Foreground
+[21-49-52] [SYSTEM_IO]: Userdata requested: Font
+[21-49-52] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-49-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-49-52] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-49-52] [SYSTEM_IO]: Userdata requested: Foreground
+[21-49-52] [SYSTEM_IO]: Userdata requested: Foreground
+[21-49-52] [SYSTEM_IO]: Userdata requested: Foreground
+[21-49-52] [SYSTEM_IO]: Userdata requested: Font
+[21-49-52] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-49-52] [SYSTEM_IO]: Userdata requested: InputFill
+[21-49-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1224871919], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-49-52] [ACTION]: Console loaded in 4385ms
+[21-49-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-49-52] [ENTRY]: [TESTING MODE]
+[21-49-52] [SYSTEM_IO]: Userdata requested: laststart
+[21-49-52] [SYSTEM_IO]: Userdata requested: IntroMusic
+[21-49-52] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4385ms
+[21-49-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-49-58] [CLIENT]: clear
+[21-49-58] [SYSTEM_IO]: Userdata requested: filterchat
+[21-49-58] [HANDLE]: GENERAL COMMAND HANDLED
+[21-49-58] [HANDLE]: PRIMARY HANDLE
+[21-49-59] [CLIENT]: threads
+[21-49-59] [SYSTEM_IO]: Userdata requested: filterchat
+[21-49-59] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-49-59] [HANDLE]: PRIMARY HANDLE
+[21-49-59] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-50-00] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-50-00] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-50-01] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-50-01] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-50-01] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-50-01] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-50-01] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-50-01] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-50-01] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-50-01] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-50-01] [CONSOLE_OUT]: [STRING] Escaped
+[21-50-04] [CLIENT]: clear
+[21-50-04] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-04] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-04] [HANDLE]: PRIMARY HANDLE
+[21-50-06] [CLIENT]: git
+[21-50-06] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-06] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-06] [HANDLE]: PRIMARY HANDLE
+[21-50-06] [CONSOLE_OUT]: [STRING] Validating github link: jd
+[21-50-07] [CONSOLE_OUT]: [STRING] Provided repo link is invalid
+[21-50-08] [CONSOLE_OUT]: [STRING] Clone failed
+[21-50-13] [CLIENT]: git
+[21-50-13] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-13] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-13] [HANDLE]: PRIMARY HANDLE
+[21-50-13] [CONSOLE_OUT]: [STRING] Validating github link: https://github.com/NathanCheshire/StudentScraper.git
+[21-50-15] [CONSOLE_OUT]: [STRING] Checking for git
+[21-50-15] [CONSOLE_OUT]: [STRING] Cloning: "GitHub - NathanCheshire/StudentScraper: Web Crawler/POST Requestor and data visualizations for the MSU student/faculty directory" to "StudentScraper\"
+[21-50-18] [CONSOLE_OUT]: [STRING] Clone finished
+[21-50-22] [CLIENT]: clear
+[21-50-22] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-22] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-22] [HANDLE]: PRIMARY HANDLE
+[21-50-23] [CLIENT]: threads
+[21-50-23] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-23] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-50-23] [HANDLE]: PRIMARY HANDLE
+[21-50-23] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-50-24] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-50-24] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-50-24] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-50-24] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-50-24] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-50-24] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-50-24] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-50-24] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-50-24] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-50-24] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-50-24] [CONSOLE_OUT]: [STRING] Git Cloner
+[21-50-24] [CONSOLE_OUT]: [STRING] Escaped
+[21-50-27] [CLIENT]: clear
+[21-50-27] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-27] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-27] [HANDLE]: PRIMARY HANDLE
+[21-50-31] [CLIENT]: hallo
+[21-50-31] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-31] [ACTION]: Similar command to "hallo" found with tol of 0.8, command = "hello"
+[21-50-31] [CONSOLE_OUT]: [STRING] Unknown command
+[21-50-33] [CLIENT]: helloo
+[21-50-33] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-33] [CONSOLE_OUT]: [STRING] Unknown command
+[21-50-33] [ACTION]: Similar command to "helloo" found with tol of 0.90909094, command = "hello"
+[21-50-33] [CONSOLE_OUT]: [STRING] Most similar command: "hello"
+[21-50-35] [CLIENT]: clear
+[21-50-35] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-35] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-35] [HANDLE]: PRIMARY HANDLE
+[21-50-36] [CLIENT]: threads
+[21-50-36] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-36] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[21-50-36] [HANDLE]: PRIMARY HANDLE
+[21-50-36] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[21-50-37] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[21-50-37] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[21-50-38] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[21-50-38] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[21-50-38] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[21-50-38] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[21-50-38] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[21-50-38] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[21-50-38] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[21-50-38] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[21-50-38] [CONSOLE_OUT]: [STRING] Git Cloner
+[21-50-38] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[21-50-38] [CONSOLE_OUT]: [STRING] Escaped
+[21-50-39] [CLIENT]: clear
+[21-50-39] [SYSTEM_IO]: Userdata requested: filterchat
+[21-50-39] [HANDLE]: GENERAL COMMAND HANDLED
+[21-50-39] [HANDLE]: PRIMARY HANDLE
+[21-51-38] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

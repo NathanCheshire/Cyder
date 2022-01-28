@@ -146,14 +146,7 @@ public class GitHubUtil {
      * Executor service used to clone github repos.
      */
     private static final ExecutorService cloningExecutor =
-            Executors.newSingleThreadExecutor(new CyderThreadFactory("Git Cloner"));
-
-    /**
-     * Invokes shutdown() on the cloning executor service.
-     */
-    public static void shutdownCloner() {
-        cloningExecutor.shutdown();
-    }
+            Executors.newSingleThreadScheduledExecutor(new CyderThreadFactory("Git Repo Cloner"));
 
     /**
      * Clones the provided github repo to the provided directory.
@@ -164,6 +157,13 @@ public class GitHubUtil {
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, final File directory) {
         //todo make it so it can be ran again since right now it throws about not wanting to do another job
+        //todo okay so in general executor services like this that we terminate throw when trying to submit a job again
+
+        //todo now we can run a code analyzer on this directory
+
+        //todo make a python script for this as well that downloads the dir
+        // should be able to define your own funtions for determining if something
+        // is a comment or a valid code line, well maybe not
 
         return cloningExecutor.submit(() -> {
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);

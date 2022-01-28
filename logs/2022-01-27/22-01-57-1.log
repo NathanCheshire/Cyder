@@ -1,0 +1,100 @@
+[22-01-58] [ENTRY]: [Nathan]
+[22-01-58] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-01-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-01-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-01-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-02-00] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-02-00] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-02-01] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-02-01] [SYSTEM_IO]: Userdata requested: Name
+[22-02-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-02-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-01] [SYSTEM_IO]: Userdata requested: Name
+[22-02-01] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-01] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-01] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-01] [SYSTEM_IO]: Userdata requested: Font
+[22-02-01] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-02-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-02-01] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-02-01] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-01] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-01] [SYSTEM_IO]: Userdata requested: Foreground
+[22-02-01] [SYSTEM_IO]: Userdata requested: Font
+[22-02-01] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-02-01] [SYSTEM_IO]: Userdata requested: InputFill
+[22-02-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2139894275], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-02-02] [ACTION]: Console loaded in 4293ms
+[22-02-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-02-02] [ENTRY]: [TESTING MODE]
+[22-02-02] [SYSTEM_IO]: Userdata requested: laststart
+[22-02-02] [SYSTEM_IO]: Userdata requested: IntroMusic
+[22-02-02] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4293ms
+[22-02-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-02-03] [CLIENT]: threads
+[22-02-04] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-04] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[22-02-04] [HANDLE]: PRIMARY HANDLE
+[22-02-04] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[22-02-04] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[22-02-04] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[22-02-04] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[22-02-04] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[22-02-04] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[22-02-04] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[22-02-04] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[22-02-04] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[22-02-04] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[22-02-04] [CONSOLE_OUT]: [STRING] Component name = [cyder.ui.ConsoleFrame], bounds = [(679, 393, 743, 708)], hash = [125994398], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]] notification queue checker
+[22-02-04] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[22-02-04] [CONSOLE_OUT]: [STRING] notification vanish animater
+[22-02-04] [CONSOLE_OUT]: [STRING] Escaped
+[22-02-05] [CLIENT]: clear
+[22-02-05] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-05] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-05] [HANDLE]: PRIMARY HANDLE
+[22-02-07] [CLIENT]: play
+[22-02-07] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-07] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-07] [HANDLE]: PRIMARY HANDLE
+[22-02-07] [CONSOLE_OUT]: [STRING] Invalid youtube video URL
+[22-02-09] [CONSOLE_OUT]: [STRING] Escaped
+[22-02-10] [CLIENT]: clear
+[22-02-10] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-10] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-10] [HANDLE]: PRIMARY HANDLE
+[22-02-12] [CLIENT]: threads
+[22-02-12] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-12] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[22-02-12] [HANDLE]: PRIMARY HANDLE
+[22-02-12] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[22-02-13] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[22-02-13] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[22-02-13] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[22-02-13] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[22-02-13] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[22-02-13] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[22-02-13] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[22-02-13] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[22-02-13] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[22-02-13] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[22-02-13] [CONSOLE_OUT]: [STRING] Escaped
+[22-02-13] [CONSOLE_OUT]: [STRING] Escaped
+[22-02-13] [CONSOLE_OUT]: [STRING] Escaped
+[22-02-15] [CLIENT]: clear
+[22-02-15] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-15] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-15] [HANDLE]: PRIMARY HANDLE
+[22-02-16] [CLIENT]: play
+[22-02-16] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-16] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-16] [HANDLE]: PRIMARY HANDLE
+[22-02-16] [CONSOLE_OUT]: [STRING] Invalid youtube video URL
+[22-02-23] [CLIENT]: play
+[22-02-23] [SYSTEM_IO]: Userdata requested: filterchat
+[22-02-23] [HANDLE]: GENERAL COMMAND HANDLED
+[22-02-23] [HANDLE]: PRIMARY HANDLE
+[22-02-23] [CONSOLE_OUT]: [STRING] Invalid youtube video URL
+[22-02-47] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0
