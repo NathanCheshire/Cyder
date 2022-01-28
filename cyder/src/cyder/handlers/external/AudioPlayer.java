@@ -11,6 +11,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.widgets.WidgetBase;
 import javazoom.jl.decoder.Bitstream;
@@ -719,7 +720,7 @@ public class AudioPlayer implements WidgetBase {
             //if no audio files to refresh on
             if (audioFiles.size() == 0) {
                 //get the music directory of the user
-                File[] userMusicFiles = UserUtil.getUserMusicDir().listFiles();
+                File[] userMusicFiles = UserUtil.getUserFile(UserFile.MUSIC.getName()).listFiles();
 
                 if (userMusicFiles.length > 0) {
                     refreshOnFile = userMusicFiles[0];

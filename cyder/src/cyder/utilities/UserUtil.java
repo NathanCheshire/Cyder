@@ -8,6 +8,7 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
+import cyder.user.UserFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -965,37 +966,63 @@ public class UserUtil {
     }
 
     /**
-     * Returns the file directory associated with this user: Files/
-     * If it does not exist, it is created before returning.
+     * Returns all files/directories that should exist within the user directory.
      *
-     * @return the file directory assocaited with this user
+     * @return all files/directories that should exist within the user directory
      */
-    public static File getUserFileDir() {
-        File filesDir = new File("dynamic" + OSUtil.FILE_SEP
-                + "users" + OSUtil.FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID() + OSUtil.FILE_SEP + "Files");
-
-        if (filesDir.exists())
-            filesDir.mkdir();
-
-        return filesDir;
+    public static UserFile[] getUserFiles() {
+        return UserFile.class.getEnumConstants();
     }
 
-    //todo code smell fix, add this for all base files,
-    // todo make a list for the default files and folders created when a user is made
+    /**
+     * Ensure all user files from {@link UserFile} are created.
+     */
+    public void createUserFiles() {
+        for (UserFile userFile : getUserFiles()) {
+            getUserFile(userFile.getName());
+        }
+    }
 
     /**
-     * Returns the music directory associated with this user: Music/
-     * If it does not exist, it is created before returning.
+     * Returns the provided user file after creating it if it did not exist.
      *
-     * @return the file directory associated with this user
+     * @param userFile the user file to return a reference to
+     * @return the provided user file
      */
-    public static File getUserMusicDir() {
-        File filesDir = new File("dynamic" + OSUtil.FILE_SEP
-                + "users" + OSUtil.FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID() + OSUtil.FILE_SEP + "Music");
+    public File getUserFile(UserFile userFile) {
+        return getUserFile(userFile.getName());
+    }
 
-        if (filesDir.exists())
-            filesDir.mkdir();
+    /**
+     * Returns the provided user file after creating it if it did not exist.
+     *
+     * @param fileName the file name of the user file to return a reference to
+     * @return the provided user file
+     * @throws IllegalArgumentException if the filename is not a standard enum
+     */
+    public static File getUserFile(String fileName) {
+        boolean valid = false;
 
-        return filesDir;
+        for (UserFile userFile : getUserFiles()) {
+            if (fileName.equalsIgnoreCase(userFile.getName())) {
+                valid = true;
+                break;
+            }
+        }
+
+        if (!valid)
+            throw new IllegalArgumentException("Provided userfile does not exists as standard enum type");
+
+        File ret = new File("dynamic" + OSUtil.FILE_SEP
+                + "users" + OSUtil.FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID()
+                + OSUtil.FILE_SEP + fileName);
+
+        if (!ret.exists()) {
+            if (ret.mkdir()) {
+                return ret;
+            } else throw new RuntimeException("Directory could not be created");
+        }
+
+        return ret;
     }
 }

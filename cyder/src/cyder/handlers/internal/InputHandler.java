@@ -16,6 +16,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.user.Preferences;
 import cyder.user.UserCreator;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 import test.java.Debug;
 import test.java.ManualTests;
@@ -1266,7 +1267,7 @@ public class InputHandler {
                     new Thread(() -> {
                         try {
                             Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
-                                    getArg(1), UserUtil.getUserFileDir());
+                                    getArg(1), UserUtil.getUserFile(UserFile.FILES.getName()));
 
                             while (!cloned.isDone()) {
                                 Thread.onSpinWait();
