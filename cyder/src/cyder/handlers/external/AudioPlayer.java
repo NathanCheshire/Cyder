@@ -35,6 +35,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+//todo java doc this class before closing <3
+
+//todo throwing results from refreshing on files, limit the rate at which a user can press to say 100ms or so?
+
 public class AudioPlayer implements WidgetBase {
     //last actions needed for logic
     private enum LastAction {
@@ -84,6 +88,12 @@ public class AudioPlayer implements WidgetBase {
     private static long totalLength;
 
     private static final String DEFAULT_TITLE = "Flash Player";
+    //todo variable for default label text too
+
+    /**
+     * The time the user last pressed a button.
+     */
+    private static long lastActionTime; //todo utilize me
 
     //private constructor since only one player per Cyder instance
     private AudioPlayer() {
@@ -186,7 +196,6 @@ public class AudioPlayer implements WidgetBase {
         audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabel.setText("No Audio Playing");
         audioTitleLabelContainer.add(audioTitleLabel);
-        //todo throwing results from refreshing on files, limit the rate at which a user can press to say 100ms or so?
 
         audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
                 - CyderFrame.getAbsoluteMinWidth(audioTitleLabel.getText(),

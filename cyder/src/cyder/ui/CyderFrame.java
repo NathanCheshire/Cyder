@@ -1908,8 +1908,6 @@ public class CyderFrame extends JFrame {
         customLabel.setToolTipText(this.getTitle());
         customLabel.setIcon(new ImageIcon(resizedImage));
 
-        //click action, and a hover action
-
         return customLabel;
     }
 
@@ -1960,9 +1958,7 @@ public class CyderFrame extends JFrame {
     }
 
     public JLabel getTaskbarButton(Color borderColor) {
-        String title = this.getTitle().substring(0, Math.min(4, this.getTitle().length()));
-
-        return generateDefaultTaskbarComponent(title, () -> {
+        return generateDefaultTaskbarComponent(this.getTitle(), () -> {
             if (getState() == 0) {
                 minimizeAnimation();
             } else {
@@ -2024,7 +2020,7 @@ public class CyderFrame extends JFrame {
         g.setFont(labelFont);
         g.setColor(CyderColors.vanila);
 
-        String iconTitle = title.substring(0, Math.min(4, title.length()));
+        String iconTitle = title.substring(0, Math.min(4, title.length())).trim();
         FontMetrics fm = g.getFontMetrics();
         int x = (taskbarIconLength - fm.stringWidth(iconTitle)) / 2;
         int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
