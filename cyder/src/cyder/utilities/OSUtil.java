@@ -258,6 +258,8 @@ public class OSUtil {
         return ret.toString();
     }
 
+    //todo tool tip for music for non-compact mode needs to be fullname of frame still
+
     //todo audio player new scrolling label doesn't exit fast enough,
     // use while loop to check more often but not continue on
 

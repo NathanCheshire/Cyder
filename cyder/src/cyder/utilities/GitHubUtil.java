@@ -156,12 +156,6 @@ public class GitHubUtil {
      * @return whether or not the repo was successfully cloned and saved
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, final File directory) {
-        //todo now we can run a code analyzer on this directory
-
-        //todo make a python script for this as well that downloads the dir
-        // should be able to define your own funtions for determining if something
-        // is a comment or a valid code line, well maybe not
-
         return cloningExecutor.submit(() -> {
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);
 

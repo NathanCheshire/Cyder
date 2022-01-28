@@ -979,4 +979,23 @@ public class UserUtil {
 
         return filesDir;
     }
+
+    //todo code smell fix, add this for all base files,
+    // todo make a list for the default files and folders created when a user is made
+
+    /**
+     * Returns the music directory associated with this user: Music/
+     * If it does not exist, it is created before returning.
+     *
+     * @return the file directory associated with this user
+     */
+    public static File getUserMusicDir() {
+        File filesDir = new File("dynamic" + OSUtil.FILE_SEP
+                + "users" + OSUtil.FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID() + OSUtil.FILE_SEP + "Music");
+
+        if (filesDir.exists())
+            filesDir.mkdir();
+
+        return filesDir;
+    }
 }

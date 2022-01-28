@@ -32,6 +32,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AudioPlayer implements WidgetBase {
@@ -66,7 +67,7 @@ public class AudioPlayer implements WidgetBase {
 
     //current audio
     private static int audioIndex;
-    private static LinkedList<File> audioFiles;
+    private static ArrayList<File> audioFiles;
 
     private static final int pauseAudioReactionOffset = 10000;
 
@@ -115,6 +116,10 @@ public class AudioPlayer implements WidgetBase {
                 startAudio();
 
             return;
+        }
+
+        if (startPlaying == null) {
+            refreshAudioFiles(startPlaying);
         }
 
         if (IOUtil.generalAudioPlaying())
@@ -181,6 +186,13 @@ public class AudioPlayer implements WidgetBase {
         audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabel.setText("No Audio Playing");
         audioTitleLabelContainer.add(audioTitleLabel);
+        //todo throwing results from refreshing on files, limit the rate at which a user can press to say 100ms or so?
+
+        audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
+                - CyderFrame.getAbsoluteMinWidth(audioTitleLabel.getText(),
+                audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
+                CyderFrame.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
+                audioTitleLabel.getParent().getHeight());
 
         selectAudioDirButton = new JButton("");
         selectAudioDirButton.setFocusPainted(false);
@@ -573,16 +585,34 @@ public class AudioPlayer implements WidgetBase {
      * If null is passed without any valid audio files, an IllegalArgumentException will be thrown.
      */
     public static void refreshAudioFiles(File refreshOnFile) {
+        //if audio files have not been created, create it
         if (audioFiles == null)
-            audioFiles = new LinkedList<>();
+            audioFiles = new ArrayList<>();
 
+        //if provided file is null
         if (refreshOnFile == null) {
-            if (audioFiles == null || audioFiles.size() == 0)
-                throw new IllegalArgumentException("No music files were found to refresh on");
+            //if no audio files to refresh on
+            if (audioFiles.size() == 0) {
+                //get the music directory of the user
+                File[] userMusicFiles = UserUtil.getUserMusicDir().listFiles();
 
-            refreshOnFile = audioFiles.get(audioIndex);
+                if (userMusicFiles.length > 0) {
+                    refreshOnFile = userMusicFiles[0];
+                } else {
+                    refreshOnFile = null;
+                    return;
+                }
+            } else {
+                if (audioIndex > audioFiles.size() - 1) {
+                    refreshOnFile = null;
+                } else {
+                    //audio files exists
+                    refreshOnFile = audioFiles.get(audioIndex);
+                }
+            }
         }
 
+        //wipe the audio files since we're refreshing based on refreshOnFile now
         audioFiles.clear();
 
         for (File file : refreshOnFile.getParentFile().listFiles())
@@ -603,6 +633,9 @@ public class AudioPlayer implements WidgetBase {
      * in preparation to resume at the current location.
      */
     public static void pauseAudio() {
+        if (audioFiles.size() == 0)
+            return;
+
         //set last action
         lastAction = LastAction.PAUSE;
 
@@ -630,6 +663,9 @@ public class AudioPlayer implements WidgetBase {
      * Stops the audio and all visual indication threads.
      */
     public static void stopAudio() {
+        if (audioFiles.size() == 0)
+            return;
+
         //set last action
         lastAction = LastAction.STOP;
 
@@ -640,8 +676,14 @@ public class AudioPlayer implements WidgetBase {
             audioScroll = null;
 
             //reset audio title now that scrolling has ended
-            if (audioTitleLabel != null)
+            if (audioTitleLabel != null) {
                 audioTitleLabel.setText("No Audio Playing");
+                audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
+                                - CyderFrame.getAbsoluteMinWidth(audioTitleLabel.getText(),
+                                audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
+                        CyderFrame.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
+                        audioTitleLabel.getParent().getHeight());
+            }
 
             //end audio location progress bar
             if (audioLocation != null)
@@ -691,6 +733,9 @@ public class AudioPlayer implements WidgetBase {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public static void previousAudio() {
+        if (audioFiles.size() == 0)
+            return;
+
         //refresh files just to be safe
         refreshAudioFiles(null);
 
@@ -728,6 +773,9 @@ public class AudioPlayer implements WidgetBase {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public static void nextAudio() {
+        if (audioFiles.size() == 0)
+            return;
+
         //just to be safe
         refreshAudioFiles(null);
 
@@ -922,6 +970,9 @@ public class AudioPlayer implements WidgetBase {
      * @param startPosition the byte value to skip to when starting the audio
      */
     public static void resumeAudio(long startPosition) {
+        if (audioFiles.size() == 0)
+            return;
+
         if (lastAction == LastAction.STOP) {
             startAudio();
         } else if (lastAction == LastAction.PAUSE) {
@@ -1101,7 +1152,7 @@ public class AudioPlayer implements WidgetBase {
 
                     new Thread(() -> {
                         try {
-                            Thread.sleep(initialMiliPause);
+                            sleepWithChecks(initialMiliPause);
 
                             while (scroll) {
                                 int goBack = 0;
@@ -1115,7 +1166,7 @@ public class AudioPlayer implements WidgetBase {
                                     goBack++;
                                 }
 
-                                Thread.sleep(milipause);
+                                sleepWithChecks(milipause);
 
                                 while (goBack > 0) {
                                     if (!scroll)
@@ -1126,7 +1177,7 @@ public class AudioPlayer implements WidgetBase {
                                     goBack--;
                                 }
 
-                                Thread.sleep(milipause);
+                                sleepWithChecks(milipause);
                             }
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
@@ -1137,6 +1188,27 @@ public class AudioPlayer implements WidgetBase {
                     effectLabel.setText(text);
                     effectLabel.setLocation(effectLabel.getParent().getWidth() / 2
                             - CyderFrame.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
+
+        /**
+         * Sleeps for the designated amount of time, breaking every 50ms to check for a stop call.
+         *
+         * @param sleepTime the total length to sleep for
+         */
+        public void sleepWithChecks(long sleepTime) {
+            try {
+                long acc = 0;
+
+                while (acc < sleepTime) {
+                    Thread.sleep(50);
+                    acc += 50;
+
+                    if (!scroll)
+                        break;
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -1295,7 +1367,8 @@ public class AudioPlayer implements WidgetBase {
 
     /**
      * Refreshes the currentAlbumArt ImageIcon based on the current audio at audioIndex if
-     * an album art file exists with the same name as the audio file
+     * an album art file exists with the same name as the audio file.
+     *
      * @return boolean describing whether or not album art exists
      */
     public static boolean refreshAlbumArt() {
@@ -1305,8 +1378,16 @@ public class AudioPlayer implements WidgetBase {
 
             String currentName = StringUtil.getFilename(audioFiles.get(audioIndex));
 
+            File albumArtDir = new File("dynamic/users/"
+                    + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
+
+            if (!albumArtDir.exists() || !albumArtDir.isDirectory()) {
+                currentAlbumArt = null;
+                return false;
+            }
+
             //for all the album arts
-            for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
+            for (File f : albumArtDir.listFiles()) {
                 if (StringUtil.getFilename(f).equals(currentName)) {
                     currentAlbumArt = new ImageIcon(ImageIO.read(f));
                     return true;
