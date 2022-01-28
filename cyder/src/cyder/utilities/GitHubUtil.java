@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.ui.ConsoleFrame;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -163,17 +164,17 @@ public class GitHubUtil {
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
         return cloningExecutor.submit(() -> {
-            System.out.println("Validating github link: " + githubRepo);
+            ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);
 
             if (!validateGitHubURL(githubRepo)) {
-                System.out.println("Provided repo link is invalid");
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("Provided repo link is invalid");
                 return Optional.of(Boolean.FALSE);
             }
 
             if (directory.exists())
                 directory.mkdir();
 
-            System.out.println("Checking for git");
+            ConsoleFrame.getConsoleFrame().getInputHandler().println("Checking for git");
             boolean git = true;
 
             try {
@@ -186,22 +187,22 @@ public class GitHubUtil {
             }
 
             if (!git) {
-                System.out.println("Git not installed. Please install it at: https://git-scm.com/downloads");
+                ConsoleFrame.getConsoleFrame().getInputHandler()
+                        .println("Git not installed. Please install it at: https://git-scm.com/downloads");
                 return Optional.of(Boolean.FALSE);
             }
 
-            System.out.println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
-                    + "\" to \"" + directory.getName() + "\"" + OSUtil.FILE_SEP);
+            ConsoleFrame.getConsoleFrame().getInputHandler().println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
+                    + "\" to \"" + directory.getName() + OSUtil.FILE_SEP + "\"");
 
             try {
                 Runtime rt = Runtime.getRuntime();
                 Process proc = rt.exec("git clone " + githubRepo + " " + directory.getAbsolutePath());
 
                 proc.waitFor();
-                System.out.println("Finished cloning");
 
             } catch (Exception e) {
-                ExceptionHandler.silentHandle(e);
+                ExceptionHandler.handle(e);
                 return Optional.of(Boolean.FALSE);
             }
 

@@ -1221,7 +1221,37 @@ public class InputHandler {
         } else if (commandIs("jarmode")) {
             println(CyderCommon.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");
-        } else ret = false;
+        } else if (commandIs("git") && checkArgsLength(2)) {
+            if (getArg(0).equalsIgnoreCase("clone")) {
+                new Thread(() -> {
+                    try {
+                        Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
+                                getArg(1), UserUtil.getUserFileDir());
+
+                        while (!cloned.isDone()) {
+                            Thread.onSpinWait();
+                        }
+
+                        GitHubUtil.shutdownCloner();
+
+                        if (cloned.get().isPresent()) {
+                            if (cloned.get().get() == Boolean.TRUE)
+                                println("Clone finished");
+                            else
+                                print("Clone failed");
+                        } else {
+                            println("Clone failed");
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }, "Git clone waiter, repo: " + getArg(1)).start();
+            } else {
+                println("Supported git commands: clone");
+            }
+        }
+
+        else ret = false;
 
          if (ret)
              SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
