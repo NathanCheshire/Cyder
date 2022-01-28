@@ -35,67 +35,177 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-//todo java doc this class before closing <3
-
-//todo throwing results from refreshing on files, limit the rate at which a user can press to say 100ms or so?
-
+/**
+ * An audio playing widget that only supports mp3 files at the moment.
+ */
 public class AudioPlayer implements WidgetBase {
-    //last actions needed for logic
+    /**
+     * An enum dictating the last button the user pressed.
+     */
     private enum LastAction {
         SKIP,PAUSE,STOP,RESUME,PLAY
     }
 
-    //current last action
+    /**
+     * The last action the user invoked.
+     */
     private static LastAction lastAction;
 
-    //ui components
+    /**
+     * The audio title scrolling label.
+     */
     private static ImprovedScrollLabel audioScroll;
+
+    /**
+     * The audio location progress bar class which controls/updates the audio progress bar.
+     */
     private static AudioLocation audioLocation;
+
+    /**
+     * The audio title text label.
+     */
     private static JLabel audioTitleLabel;
+
+    /**
+     * The master audio frame.
+     */
     private static CyderFrame audioFrame;
+
+    /**
+     * The audio volume slider.
+     */
     private static JSlider audioVolumeSlider;
+
+    /**
+     * The progress bar for the audio progress.
+     */
     private static CyderProgressBar audioProgress;
+
+    /**
+     * Button to skip to the last audio if it exists.
+     */
     private static JButton previousAudioButton;
+
+    /**
+     * Button to skip to the enxt audio if it exists.
+     */
     private static JButton nextAudioButton;
+
+    /**
+     * Button to stop the audio.
+     */
     private static JButton stopAudioButton;
+
+    /**
+     * Button to toggle whether the current audio will repeat when it concludes.
+     */
     private static JButton loopAudioButton;
+
+    /**
+     * Button allowing user to select an mp3 file from any directory
+     * and skip around to the neighboring files from that directory.
+     */
     private static JButton selectAudioDirButton;
+
+    /**
+     * Button allowing a user to play/pause the currently playing audio.
+     */
     private static JButton playPauseAudioButton;
+
+    /**
+     * Button to shuffle the audio files when the current audio file concludes.
+     */
     private static JButton shuffleAudioButton;
+
+    /**
+     * The audio progress text which is placed over the audio location progress bar.
+     */
     private static JLabel audioProgressLabel;
 
-    //audio booleans
+    /**
+     * Whether to shuffle the audio files.
+     */
     private static boolean shuffleAudio;
+
+    /**
+     * Whether to repeat the current audio file/
+     */
     private static boolean repeatAudio;
+
+    /**
+     * Whether AudioPlayer is in mini player mode.
+     */
     private static boolean miniPlayer;
 
-    //current audio
+    /**
+     * The index of the current audio file within audioFiles.
+     */
     private static int audioIndex;
+
+    /**
+     * The currently available audio files.
+     */
     private static ArrayList<File> audioFiles;
 
+    /**
+     * The average reaction time of a user between when they
+     * press pause and where the pause location should be.
+     */
     private static final int pauseAudioReactionOffset = 10000;
 
-    //album art
+    /**
+     * The album art associated with the current audio file to use for the taskbar icon.
+     */
     private static ImageIcon currentAlbumArt;
 
-    //JLayer objects
+    /**
+     * The JLayer player object for actually playing the audio files.
+     */
     private static Player player;
+
+    /**
+     * The buffered input stream for the player.
+     */
     private static BufferedInputStream bis;
+
+    /**
+     * The file input stream for the player.
+     */
     private static FileInputStream fis;
 
-    //audio location vars
+    /**
+     * The location the current audio file is paused at.
+     */
     private static long pauseLocation;
+
+    /**
+     * The total length of the current audio file.
+     */
     private static long totalLength;
 
+    /**
+     * The default text for the AudioFrame.
+     */
     private static final String DEFAULT_TITLE = "Flash Player";
-    //todo variable for default label text too
+
+    /**
+     * The default text for the audio title label.
+     */
+    private static final String DEFAULT_LABEL_TEXT = "No Audio Playing";
 
     /**
      * The time the user last pressed a button.
      */
-    private static long lastActionTime; //todo utilize me
+    private static long lastActionTime;
 
-    //private constructor since only one player per Cyder instance
+    /**
+     * The time in between button clicks to disable any action from being invoked.
+     */
+    private static final long actionTimeoutMS = 250;
+
+    /**
+     * Instantiation of AudioPlayer not allowed.
+     */
     private AudioPlayer() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
@@ -109,9 +219,10 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Constructor that launches the AudioPlayer
+     * Constructor that launches the AudioPlayer.
+     *
      * @param startPlaying the audio file to start playing upon successful launch of the AudioPlayer.
-     * Pass {@code null} to avoid starting audio upon launch.
+     * Pass {@code null} to attempt to find valid audio files from the user's Music/ directory.
      */
     public static void showGUI(File startPlaying) {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AUDIO PLAYER");
@@ -194,7 +305,7 @@ public class AudioPlayer implements WidgetBase {
         audioTitleLabel.setToolTipText("Currently Playing");
         audioTitleLabel.setFont(new Font("tahoma", Font.BOLD, 18));
         audioTitleLabel.setForeground(CyderColors.vanila);
-        audioTitleLabel.setText("No Audio Playing");
+        audioTitleLabel.setText(DEFAULT_LABEL_TEXT);
         audioTitleLabelContainer.add(audioTitleLabel);
 
         audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
@@ -686,7 +797,7 @@ public class AudioPlayer implements WidgetBase {
 
             //reset audio title now that scrolling has ended
             if (audioTitleLabel != null) {
-                audioTitleLabel.setText("No Audio Playing");
+                audioTitleLabel.setText(DEFAULT_LABEL_TEXT);
                 audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
                                 - CyderFrame.getAbsoluteMinWidth(audioTitleLabel.getText(),
                                 audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
@@ -742,7 +853,7 @@ public class AudioPlayer implements WidgetBase {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public static void previousAudio() {
-        if (audioFiles.size() == 0)
+        if (audioFiles.size() == 0 || !allowButtonClick())
             return;
 
         //refresh files just to be safe
@@ -782,7 +893,7 @@ public class AudioPlayer implements WidgetBase {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public static void nextAudio() {
-        if (audioFiles.size() == 0)
+        if (audioFiles.size() == 0 || !allowButtonClick())
             return;
 
         //just to be safe
@@ -1419,5 +1530,12 @@ public class AudioPlayer implements WidgetBase {
         else
             audioFrame.setTitle(StringUtil.getFilename(audioFiles.get(audioIndex).getName()));
         ConsoleFrame.getConsoleFrame().revalidateMenu();
+    }
+
+    private static boolean allowButtonClick() {
+        if (System.currentTimeMillis() - lastActionTime > actionTimeoutMS) {
+            lastActionTime = System.currentTimeMillis();
+            return true;
+        } else return false;
     }
 }

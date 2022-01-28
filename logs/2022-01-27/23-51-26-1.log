@@ -1,0 +1,168 @@
+[23-51-27] [ENTRY]: [Nathan]
+[23-51-27] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-51-27] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-51-27] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-51-27] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-51-29] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-51-29] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-51-29] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-51-29] [SYSTEM_IO]: Userdata requested: Name
+[23-51-29] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-51-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-51-29] [SYSTEM_IO]: Userdata requested: Name
+[23-51-29] [SYSTEM_IO]: Userdata requested: Foreground
+[23-51-29] [SYSTEM_IO]: Userdata requested: Foreground
+[23-51-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-51-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-51-30] [SYSTEM_IO]: Userdata requested: Foreground
+[23-51-30] [SYSTEM_IO]: Userdata requested: Font
+[23-51-30] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-51-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-51-30] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-51-30] [SYSTEM_IO]: Userdata requested: Foreground
+[23-51-30] [SYSTEM_IO]: Userdata requested: Foreground
+[23-51-30] [SYSTEM_IO]: Userdata requested: Foreground
+[23-51-30] [SYSTEM_IO]: Userdata requested: Font
+[23-51-30] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-51-30] [SYSTEM_IO]: Userdata requested: InputFill
+[23-51-30] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1937041819], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-51-30] [ACTION]: Console loaded in 3526ms
+[23-51-30] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-51-30] [ENTRY]: [TESTING MODE]
+[23-51-30] [SYSTEM_IO]: Userdata requested: laststart
+[23-51-30] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-51-30] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3526ms
+[23-51-30] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-51-30] [CLIENT]: mp3
+[23-51-30] [SYSTEM_IO]: Userdata requested: filterchat
+[23-51-30] [WIDGET OPENED]: AUDIO PLAYER
+[23-51-31] [HANDLE]: PRIMARY HANDLE
+[23-51-31] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[23-51-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(638, 349, 630, 510)], hash = [1494040232], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [music]
+[23-51-37] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-51-38] [ACTION]: [AUDIO PLAYER] Abstract - Neverland.mp3
+[23-51-38] [ACTION]: [AUDIO PLAYER] Ariana Grande vs. Post Malone ft. Ozzy Osbourne, Travis Scott - Take 7 Rings From Me (Mashup).mp3
+[23-51-38] [ACTION]: [AUDIO PLAYER] BadApple.mp3
+[23-51-38] [EXCEPTION]: 
+Exception origin: cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1029)
+From line: 1029
+Trace: java.lang.NullPointerException
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1029)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-38] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-51-38] [DEBUG]: 
+Exception origin: cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1029)
+From line: 1029
+Trace: java.lang.NullPointerException
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1029)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-38] [ACTION]: [AUDIO PLAYER] BeetleJuice.mp3
+[23-51-39] [ACTION]: [AUDIO PLAYER] Calvin Harris ft. Dua Lipa - This Is What New Rules Are For (Mashup).mp3
+[23-51-39] [EXCEPTION]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 5 out-of-bounds for length 1
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1002)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-39] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-51-39] [DEBUG]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 5 out-of-bounds for length 1
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1002)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-39] [ACTION]: [AUDIO PLAYER] Dr. Dre - The Next Episode (San Holo Remix).mp3
+[23-51-39] [EXCEPTION]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 7 out-of-bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:978)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-39] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-51-39] [DEBUG]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 7 out-of-bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:978)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-39] [ACTION]: [AUDIO PLAYER] Fall Out Boy vs. P!nk - Just Like Fire For Centuries (Mashup).mp3
+[23-51-39] [ACTION]: [AUDIO PLAYER] Fetty Wap - Trap Queen (Crankdat Remix).mp3
+[23-51-39] [EXCEPTION]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 10 out-of-bounds for length 5
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1002)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-39] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-51-39] [DEBUG]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 10 out-of-bounds for length 5
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1002)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-39] [ACTION]: [AUDIO PLAYER] Gryffin - Digital Mirage (Official Full DJ Set).mp3
+[23-51-40] [ACTION]: [AUDIO PLAYER] Happier & Sunflower Mashup.mp3
+[23-51-40] [EXCEPTION]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 13 out-of-bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1002)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-40] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-51-40] [DEBUG]: 
+Exception origin: java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+From line: 64
+Trace: java.lang.IndexOutOfBoundsException: Index 13 out-of-bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:440)
+	at cyder.handlers.external.AudioPlayer.lambda$startAudio$10(AudioPlayer.java:1002)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-51-40] [ACTION]: [AUDIO PLAYER] Hotshot 2 - Niklas Ahlström [Electro Music].mp3
+[23-51-40] [ACTION]: [AUDIO PLAYER] Imagine Dragons - Demons (Dzeko & Torres Remix).mp3
+[23-51-40] [ACTION]: [AUDIO PLAYER] Imagine Dragons - Radioactive (Synchronice Remix).mp3
+[23-51-40] [ACTION]: [AUDIO PLAYER] it's different - Pokemon Ü (feat. Broderick Jones).mp3
+[23-51-57] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-51-57] [SYSTEM_IO]: Userdata requested: Name
+[23-51-57] [LOGOUT]: [Nathan]
+[23-51-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(582, 258, 743, 692)], hash = [959629210], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-51-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-51-57] [EXIT]: [RUNTIME] 30s
+[23-51-57] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 5
