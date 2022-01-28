@@ -141,11 +141,27 @@ public class Debug {
         }
     }
 
+    /**
+     * Runs the tests within the method.
+     * This method is used purely for testing purposes.
+     */
     public static void launchTests() {
         try {
 
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * Launches the tests without invoking any Cyder setup.
+     * WARNING: this could have unintended consequences. Before
+     * utilizing this entry point, ensure what you are testing does
+     * not require Cyder subroutines prior to executing.
+     *
+     * @param args the JVM command line arguments to ignore
+     */
+    public static void main(String[] args) {
+        launchTests();
     }
 }
