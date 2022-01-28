@@ -966,19 +966,10 @@ public class UserUtil {
     }
 
     /**
-     * Returns all files/directories that should exist within the user directory.
-     *
-     * @return all files/directories that should exist within the user directory
-     */
-    public static UserFile[] getUserFiles() {
-        return UserFile.class.getEnumConstants();
-    }
-
-    /**
      * Ensure all user files from {@link UserFile} are created.
      */
     public void createUserFiles() {
-        for (UserFile userFile : getUserFiles()) {
+        for (UserFile userFile : UserFile.getFiles()) {
             getUserFile(userFile.getName());
         }
     }
@@ -1003,7 +994,7 @@ public class UserUtil {
     public static File getUserFile(String fileName) {
         boolean valid = false;
 
-        for (UserFile userFile : getUserFiles()) {
+        for (UserFile userFile : UserFile.getFiles()) {
             if (fileName.equalsIgnoreCase(userFile.getName())) {
                 valid = true;
                 break;
