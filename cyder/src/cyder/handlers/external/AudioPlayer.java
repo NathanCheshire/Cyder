@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * An audio playing widget that only supports mp3 files at the moment.
@@ -215,6 +214,7 @@ public class AudioPlayer implements WidgetBase {
      */
     @Widget(trigger = {"mp3", "music"}, description = "An audio playing widget")
     public static void showGUI() {
+        //show the gui and attempmt to find audio files
         showGUI(null);
     }
 
@@ -227,7 +227,7 @@ public class AudioPlayer implements WidgetBase {
     public static void showGUI(File startPlaying) {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AUDIO PLAYER");
 
-        queue = new LinkedList<>();
+        queue = new ArrayList<>();
 
         if (audioFrame != null) {
             stopAudio();
@@ -627,13 +627,15 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Adds the given file to the queue. If the player is not open, then it plays the requested audio.
+     * Adds the given file to the queue.
+     * If the player is not open, the Player is started and begins playing the audioFile.
+     *
      * @param audioFile the audio to play
      */
-    public static void addToMp3Queue(File audioFile) {
+    public static synchronized void addToMp3Queue(File audioFile) {
         if (audioPlaying()) {
-            addToQueue(audioFile);
-        } else if (windowOpen()){
+            queue.add(audioFile);
+        } else if (windowOpen()) {
             refreshAudioFiles(audioFile);
             startAudio();
         } else {
@@ -642,7 +644,7 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Returns the associated JLayer player
+     * Returns the associated JLayer player.
      */
     public static Player getPlayer() {
         return player;
@@ -651,6 +653,7 @@ public class AudioPlayer implements WidgetBase {
     /**
      * Determines whether or not the audio widget is currently playing audio.
      * If player is closed, then player is set to null so this will always work.
+     *
      * @return whether or not audio is playing via the AudioPlayer
      */
     public static boolean audioPlaying() {
@@ -661,6 +664,7 @@ public class AudioPlayer implements WidgetBase {
      * Returns whether or not any audio has been paused. This is indicated via
      * a value other than 0 for pauseLocaiton. This method is used for ConsoleFrame's
      * audio menu currently.
+     *
      * @return whether or not any audio is paused
      */
     public static boolean isPaused() {
@@ -668,7 +672,8 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Returns whether or not the audioplayer widget is currently open
+     * Returns whether or not the audioplayer widget is currently open.
+     *
      * @return whether or not the AudioPlayer frame is open
      */
     public static boolean windowOpen() {
@@ -931,7 +936,7 @@ public class AudioPlayer implements WidgetBase {
 
     /**
      * Kills all threads and resets all variables to their defaults
-     * before invoking dispose on the audio frame
+     * before invoking dispose on the audio frame.
      */
     public static void killWidget() {
         stopAudio();
@@ -1043,7 +1048,7 @@ public class AudioPlayer implements WidgetBase {
                     refreshAudio();
 
                     if (!queue.isEmpty()) {
-                        String playPath = queue.pop().getAbsolutePath();
+                        String playPath = queue.remove(0).getAbsolutePath();
 
                         for (int i = 0 ; i < audioFiles.size() ; i++) {
                             if (audioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
@@ -1085,8 +1090,13 @@ public class AudioPlayer implements WidgetBase {
         resumeAudio(pauseLocation);
     }
 
+    //todo duplicate code smell from play/pause
+
+    //todo what to do if an exception is thrown from inside the play/resume method?
+
     /**
      * Resumes audio at the current audio file at the passed in byte value.
+     *
      * @param startPosition the byte value to skip to when starting the audio
      */
     public static void resumeAudio(long startPosition) {
@@ -1147,7 +1157,7 @@ public class AudioPlayer implements WidgetBase {
                         refreshAudio();
 
                         if (!queue.isEmpty()) {
-                            String playPath = queue.pop().getAbsolutePath();
+                            String playPath = queue.remove(0).getAbsolutePath();
 
                             for (int i = 0 ; i < audioFiles.size() ; i++) {
                                 if (audioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
@@ -1184,7 +1194,7 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * private inner class for the audio location slider
+     * Priver inner class for the audio location progress bar and label.
      */
     private static class AudioLocation {
         private CyderProgressBar effectBar;
@@ -1241,6 +1251,9 @@ public class AudioPlayer implements WidgetBase {
         }
     }
 
+    /**
+     * Private inner class for the scrolling audio label.
+     */
     private static class ImprovedScrollLabel {
         private JLabel effectLabel;
         boolean scroll;
@@ -1341,7 +1354,9 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Sets the value of miniPlayer, the boolean determining whether the player is in smaller view or not.
+     * Sets the value of miniPlayer, the boolean determining
+     * whether the player is in smaller view or not.
+     *
      * @param b the boolean value of miniPlayer
      */
     public void setMiniPlayer(boolean b) {
@@ -1350,6 +1365,7 @@ public class AudioPlayer implements WidgetBase {
 
     /**
      * Standard getter for miniPlayer value.
+     *
      * @return miniPlayer value
      */
     public boolean getMiniPlayer() {
@@ -1410,6 +1426,11 @@ public class AudioPlayer implements WidgetBase {
         shuffleAudioButton.setLocation(shuffleAudioButton.getX(), 105);
     }
 
+    /**
+     * Returns the current audio file at the current audio index if found, null else.
+     *
+     * @return the current audio file at the current audio index if found, null else
+     */
     public static File getCurrentAudio() {
         if (audioFiles == null || lastAction == LastAction.STOP)
             return null;
@@ -1417,7 +1438,8 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Get's the total duration of an audio file
+     * Get's the total duration of an audio file.
+     *
      * @param audioFile the provided audio file
      * @return the time in ms that it takes to comlete the audio file
      */
@@ -1446,6 +1468,13 @@ public class AudioPlayer implements WidgetBase {
         }
     }
 
+    /**
+     * Formats the provided number of seconds into an a String representation
+     * in the format: 3h 2m 14s (thge final second value is rounded up).
+     *
+     * @param seconds the amount of seconds to convert to String
+     * @return the provided seconds amount formatted to String
+     */
     public static String formatSeconds(double seconds) {
         StringBuilder sb = new StringBuilder();
 
@@ -1475,15 +1504,7 @@ public class AudioPlayer implements WidgetBase {
         return sb.toString();
     }
 
-    private static LinkedList<File> queue;
-
-    /**
-     * Adds the provided audio file to the queue
-     * @param f the audio file to play when all the other songs in the queue are finished
-     */
-    public static void addToQueue(File f) {
-        queue.push(f);
-    }
+    private static ArrayList<File> queue;
 
     /**
      * Refreshes the currentAlbumArt ImageIcon based on the current audio at audioIndex if
@@ -1532,6 +1553,12 @@ public class AudioPlayer implements WidgetBase {
         ConsoleFrame.getConsoleFrame().revalidateMenu();
     }
 
+    /**
+     * Determines whether or not the button click should be a
+     * llowed based on how long ago the last click was.
+     *
+     * @return whether the button click should be allowed to to pass
+     */
     private static boolean allowButtonClick() {
         if (System.currentTimeMillis() - lastActionTime > actionTimeoutMS) {
             lastActionTime = System.currentTimeMillis();
