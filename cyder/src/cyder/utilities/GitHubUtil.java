@@ -4,12 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class GitHubUtil {
     private GitHubUtil() {
@@ -137,23 +142,70 @@ public class GitHubUtil {
     }
 
     /**
+     * Executor service used to clone github repos.
+     */
+    private static final ExecutorService cloningExecutor =
+            Executors.newSingleThreadExecutor(new CyderThreadFactory("Git Cloner"));
+
+    /**
+     * Invokes shutdown() on the cloning executor service.
+     */
+    public static void shutdownCloner() {
+        cloningExecutor.shutdown();
+    }
+
+    /**
      * Clones the provided github repo to the provided directory.
      *
      * @param githubRepo the URL of the github repository to clone
      * @param directory the directory to save the repo to
      * @return whether or not the repo was successfully cloned and saved
      */
-    public static boolean cloneRepoToDirectory(String githubRepo, File directory) {
-        if (!validateGitHubURL(githubRepo))
-            throw new IllegalArgumentException("provided repo link is invalid");
-        else if (directory.exists())
-            directory.mkdir();
+    public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
+        return cloningExecutor.submit(() -> {
+            System.out.println("Validating github link: " + githubRepo);
 
-        System.out.println("Cloning: " + NetworkUtil.getURLTitle(githubRepo)
-                + " to " + directory.getName() + OSUtil.FILE_SEP);
+            if (!validateGitHubURL(githubRepo)) {
+                System.out.println("Provided repo link is invalid");
+                return Optional.of(Boolean.FALSE);
+            }
 
-        
+            if (directory.exists())
+                directory.mkdir();
 
-        return false;
+            System.out.println("Checking for git");
+            boolean git = true;
+
+            try {
+                Runtime rt = Runtime.getRuntime();
+                String command = "git";
+                Process proc = rt.exec(command);
+            } catch (Exception e) {
+                git = false;
+                ExceptionHandler.silentHandle(e);
+            }
+
+            if (!git) {
+                System.out.println("Git not installed. Please install it at: https://git-scm.com/downloads");
+                return Optional.of(Boolean.FALSE);
+            }
+
+            System.out.println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
+                    + "\" to \"" + directory.getName() + "\"" + OSUtil.FILE_SEP);
+
+            try {
+                Runtime rt = Runtime.getRuntime();
+                Process proc = rt.exec("git clone " + githubRepo + " " + directory.getAbsolutePath());
+
+                proc.waitFor();
+                System.out.println("Finished cloning");
+
+            } catch (Exception e) {
+                ExceptionHandler.silentHandle(e);
+                return Optional.of(Boolean.FALSE);
+            }
+
+            return Optional.of(Boolean.TRUE);
+        });
     }
 }

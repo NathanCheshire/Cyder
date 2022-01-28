@@ -1,0 +1,61 @@
+[18-13-45] [ENTRY]: [Nathan]
+[18-13-45] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-13-45] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-13-45] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-13-45] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-13-46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-13-46] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-13-47] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-13-47] [SYSTEM_IO]: Userdata requested: Name
+[18-13-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-13-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-13-47] [SYSTEM_IO]: Userdata requested: Name
+[18-13-47] [SYSTEM_IO]: Userdata requested: Foreground
+[18-13-47] [SYSTEM_IO]: Userdata requested: Foreground
+[18-13-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-13-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-13-47] [SYSTEM_IO]: Userdata requested: Foreground
+[18-13-47] [SYSTEM_IO]: Userdata requested: Font
+[18-13-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-13-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-13-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-13-47] [SYSTEM_IO]: Userdata requested: Foreground
+[18-13-47] [SYSTEM_IO]: Userdata requested: Foreground
+[18-13-47] [SYSTEM_IO]: Userdata requested: Foreground
+[18-13-47] [SYSTEM_IO]: Userdata requested: Font
+[18-13-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-13-47] [SYSTEM_IO]: Userdata requested: InputFill
+[18-13-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(455, 401, 600, 600)], hash = [880028430], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-13-47] [ACTION]: Console loaded in 3123ms
+[18-13-47] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-13-47] [ENTRY]: [TESTING MODE]
+[18-13-48] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3123ms
+[18-13-48] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-13-49] [SYSTEM_IO]: Userdata requested: laststart
+[18-13-49] [SYSTEM_IO]: Userdata requested: IntroMusic
+[18-14-00] [CLIENT]: threads
+[18-14-00] [SYSTEM_IO]: Userdata requested: filterchat
+[18-14-00] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[18-14-00] [HANDLE]: PRIMARY HANDLE
+[18-14-00] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[18-14-01] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[18-14-01] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[18-14-02] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[18-14-02] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[18-14-03] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[18-14-04] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[18-14-04] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[18-14-04] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[18-14-04] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[18-14-04] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[18-14-04] [CONSOLE_OUT]: [STRING] Escaped
+[18-14-05] [CLIENT]: Fclear
+[18-14-05] [SYSTEM_IO]: Userdata requested: filterchat
+[18-14-06] [CONSOLE_OUT]: [STRING] Unknown command
+[18-14-06] [ACTION]: Similar command to "Fclear" found with tol of 0.90909094, command = "clear"
+[18-14-06] [CONSOLE_OUT]: [STRING] Most similar command: "clear"
+[18-14-07] [CLIENT]: clear
+[18-14-07] [SYSTEM_IO]: Userdata requested: filterchat
+[18-14-07] [HANDLE]: GENERAL COMMAND HANDLED
+[18-14-07] [HANDLE]: PRIMARY HANDLE
+[18-15-09] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

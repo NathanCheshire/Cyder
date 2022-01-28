@@ -8,16 +8,15 @@ import cyder.handlers.internal.SessionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
-import cyder.utilities.GitHubUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
+import java.util.Optional;
+import java.util.concurrent.Future;
 
 import static java.lang.System.out;
 
@@ -145,7 +144,26 @@ public class Debug {
 
     public static void launchTests() {
         try {
-            GitHubUtil.cloneRepoToDirectory("https://github.com/NathanCheshire/Cyder.git", UserUtil.getUserFileDir());
+            new Thread(() -> {
+               try {
+                   Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
+                           "https://github.com/NathanCheshire/Cyder.git", UserUtil.getUserFileDir());
+
+                   while (!cloned.isDone()) {
+                       Thread.onSpinWait();
+                   }
+
+                   GitHubUtil.shutdownCloner();
+
+                   if (cloned.get().isPresent()) {
+                       System.out.println("Clone succeeded");
+                   } else {
+                       System.out.println("Clone failed");
+                   }
+               } catch (Exception e) {
+                   ExceptionHandler.handle(e);
+               }
+            }, "test spinner").start();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
