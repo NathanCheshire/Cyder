@@ -288,6 +288,4 @@ public class OSUtil {
     //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
 
     //todo fixlogs function should consolidate duplicate lines
-
-    //todo i've never liked the convex hull widget, get rid or make it better? maybe do a grid approach
 }

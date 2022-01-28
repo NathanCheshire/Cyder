@@ -156,9 +156,6 @@ public class GitHubUtil {
      * @return whether or not the repo was successfully cloned and saved
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, final File directory) {
-        //todo make it so it can be ran again since right now it throws about not wanting to do another job
-        //todo okay so in general executor services like this that we terminate throw when trying to submit a job again
-
         //todo now we can run a code analyzer on this directory
 
         //todo make a python script for this as well that downloads the dir

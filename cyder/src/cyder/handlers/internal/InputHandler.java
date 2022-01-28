@@ -735,24 +735,42 @@ public class InputHandler {
         } else if (commandIs("hide")) {
             ConsoleFrame.getConsoleFrame().minimize();
         } else if (commandIs("analyzecode")) {
-            new Thread(() -> {
+            if (checkArgsLength(0) || checkArgsLength(1)) {
                 File startDir = new File("cyder");
 
-                int totalLines = StatUtil.totalLines(startDir);
-                int codeLines = StatUtil.totalJavaLines(startDir);
-                int blankLines = StatUtil.totalBlankLines(startDir);
-                int commentLines = StatUtil.totalComments(startDir);
-                int javaFiles = StatUtil.totalJavaFiles(startDir);
+                if (checkArgsLength(1)) {
+                    startDir = new File(getArg(0));
 
-                println("Total lines: " + totalLines);
-                println("Code lines: " + codeLines);
-                println("Blank lines: " + blankLines);
-                println("Comment lines: " + commentLines);
-                println("Java Files: " + javaFiles);
+                    if (!startDir.exists()) {
+                        println("Invalid root directory");
+                        startDir = null;
+                    }
+                }
 
-                double ratio = ((double) codeLines / (double) commentLines);
-                println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
-            }, "Code Analyzer").start();
+                File finalStartDir = startDir;
+
+                new Thread(() -> {
+                    if (finalStartDir != null) {
+                        int totalLines = StatUtil.totalLines(finalStartDir);
+                        int codeLines = StatUtil.totalJavaLines(finalStartDir);
+                        int blankLines = StatUtil.totalBlankLines(finalStartDir);
+                        int commentLines = StatUtil.totalComments(finalStartDir);
+                        int javaFiles = StatUtil.totalJavaFiles(finalStartDir);
+
+                        println("Total lines: " + totalLines);
+                        println("Code lines: " + codeLines);
+                        println("Blank lines: " + blankLines);
+                        println("Comment lines: " + commentLines);
+                        println("Java Files: " + javaFiles);
+
+                        double ratio = ((double) codeLines / (double) commentLines);
+                        println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
+                    }
+                }, "Code Analyzer").start();
+            } else {
+                println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
+                        "(leave path blank to analyze Cyder)");
+            }
         } else if (commandIs("f17")) {
             new Robot().keyPress(KeyEvent.VK_F17);
         }  else if (commandIs("debugstats")) {
