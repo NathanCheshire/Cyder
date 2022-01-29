@@ -166,22 +166,7 @@ public class UserCreator implements WidgetBase {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    new Thread(() -> {
-                        try {
-                            File temp = new GetterUtil().getFile("Choose new user's background file");
-                            if (temp != null) {
-                                createUserBackground = temp;
-                                chooseBackground.setText(createUserBackground.getName());
-                            }
-
-                            if (temp == null || !Files.probeContentType(Paths.get(
-                                    createUserBackground.getAbsolutePath())).endsWith("png")) {
-                                createUserBackground = null;
-                            }
-                        } catch (Exception ex) {
-                            ExceptionHandler.handle(ex);
-                        }
-                    }, "wait thread for GetterUtil().getFile()").start();
+                    chooseBackground(chooseBackground);
                 } catch (Exception exc) {
                     ExceptionHandler.handle(exc);
                 }
@@ -260,6 +245,31 @@ public class UserCreator implements WidgetBase {
     }
 
     /**
+     * Initializes the new user's background.
+     *
+     * @param referenceButton the button to set to the tooltip
+     *                       of the chosen background if a valid one is chosen
+     */
+    private static void chooseBackground(CyderButton referenceButton) {
+        new Thread(() -> {
+            try {
+                File temp = new GetterUtil().getFile("Choose new user's background file");
+                if (temp != null) {
+                    createUserBackground = temp;
+                    referenceButton.setText(createUserBackground.getName());
+                }
+
+                if (temp == null || !Files.probeContentType(Paths.get(
+                        createUserBackground.getAbsolutePath())).endsWith("png")) {
+                    createUserBackground = null;
+                }
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }, "wait thread for GetterUtil().getFile()").start();
+    }
+
+    /**
      * Closes the create user frame if open.
      */
     public static void close() {
@@ -291,11 +301,36 @@ public class UserCreator implements WidgetBase {
 
         if (!Arrays.equals(password, passwordConf)) {
             createUserFrame.notify("Passwords are not equal");
+            newUserPassword.setText("");
+            newUserPasswordconf.setText("");
             return false;
         }
 
         if (password.length < 5 || passwordConf.length < 5) {
             createUserFrame.notify("Password length must be at least 5 characters");
+            newUserPassword.setText("");
+            newUserPasswordconf.setText("");
+            return false;
+        }
+
+        boolean alphabet = false;
+        boolean number = false;
+
+        for (char c : password) {
+            if (Character.isDigit(c))
+                number = true;
+            else if (Character.isAlphabetic(c))
+                alphabet = true;
+
+            if (number && alphabet)
+                break;
+        }
+
+        if (!number || !alphabet) {
+            createUserFrame.notify("Password must contain at least one number," +
+                    " one letter, and be 5 characters long");
+            newUserPassword.setText("");
+            newUserPasswordconf.setText("");
             return false;
         }
 
@@ -314,14 +349,13 @@ public class UserCreator implements WidgetBase {
         //ensure that the username doesn't already exist
         boolean userNameExists = false;
 
-        //todo why fail here?
         for (File f : folder.getParentFile().listFiles()) {
-            File jsonFile = new File(f.getAbsolutePath() + OSUtil.FILE_SEP + "userdata.json");
+            File jsonFile = new File(OSUtil.buildPath(f.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (!jsonFile.exists())
                 continue;
 
-            String currentName = UserUtil.extractUserData(f, "name");
+            String currentName = UserUtil.extractUserData(jsonFile, "name");
 
             if (currentName.equalsIgnoreCase(newUserName.getText())) {
                 userNameExists = true;
@@ -364,23 +398,23 @@ public class UserCreator implements WidgetBase {
         if (createUserBackground == null) {
             Image img = CyderIcons.defaultBackground.getImage();
 
-            BufferedImage bi = new BufferedImage(img.getWidth(null),
-                    img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+            BufferedImage bi = null;
 
             //try to get default image that isn't bundled with Cyder
             try {
                 bi = ImageIO.read(new URL("https://i.imgur.com/kniH8y9.png"));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-            }
 
-            Graphics2D g2 = bi.createGraphics();
-            g2.drawImage(img, 0, 0, null);
-            g2.dispose();
+                bi = new BufferedImage(img.getWidth(null),
+                        img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+                Graphics2D g2 = bi.createGraphics();
+                g2.drawImage(img, 0, 0, null);
+                g2.dispose();
+            }
 
             File backgroundFile = new File(OSUtil.buildPath("dynamic","users",uuid,
                     UserFile.BACKGROUNDS.getName(),"Default.png"));
-            backgroundFile.mkdirs();
 
             try {
                 ImageIO.write(bi, "png", backgroundFile);
@@ -428,10 +462,13 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
+        //todo if a frame is active, get the monitor the dominate one is on
+
+        //todo not sure this works...
         user.setScreenStat(new User.ScreenStat(
                 (SystemUtil.getScreenWidth() - background.getWidth() / 2),
                 (SystemUtil.getScreenHeight() - background.getHeight() / 2),
-                background.getWidth(), background.getHeight(), 0, false));
+                background.getWidth(), background.getHeight(), 0, true));
 
         //executables
         user.setExecutables(null);

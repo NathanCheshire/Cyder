@@ -204,7 +204,13 @@ public class ReflectionUtil {
         return false;
     }
 
+    //todo case for if package doesn't exist?, todo this will go away using guava
     private static Set<Class> findAllClassesUsingClassLoader(String packageName) {
+//        ClassPath classpath = ClassPath.from(classloader); // scans the class path used by classloader
+//        for (ClassPath.ClassInfo classInfo : classpath.getTopLevelClasses("com.mycomp.mypackage")) {
+//
+//        }
+
         InputStream stream = ClassLoader.getSystemClassLoader()
                 .getResourceAsStream(packageName.replaceAll("[.]", "/"));
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));

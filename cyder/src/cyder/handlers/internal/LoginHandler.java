@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.ui.*;
@@ -121,6 +122,7 @@ public class LoginHandler {
         },"Login Input Caret Position Updater").start();
     }
 
+    @Widget(trigger = {"login","pin"}, description = "A widget to switch between Cyder users")
     public static void showGUI() {
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "LOGIN");
 

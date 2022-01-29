@@ -258,6 +258,10 @@ public class OSUtil {
         return ret.toString();
     }
 
+    //todo if intro music is on, don't play the black and white easter egg thing
+
+    //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
+
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
     //todo make this a command to regenerate the list of valid commands
@@ -277,6 +281,7 @@ public class OSUtil {
     //todo should be able to set consoleFrame to image regardless of if it's a saved file or not
 
     //todo the way we resize a frame should affect what way the background recedes
+    //todo test resizing the background of consoleframe?
 
     //todo remember console orientation on exiting Cyder
 

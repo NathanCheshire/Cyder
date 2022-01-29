@@ -46,7 +46,7 @@ public class CyderIcons {
     /**
      * A default image with dimensions 1000x1000
      */
-    public static final ImageIcon defaultBackground = generateDefaultBackground(800,800);
+    public static final ImageIcon defaultBackground = generateDefaultBackground(1000,1000);
 
     /**
      * A default image that spans the size of the primar display

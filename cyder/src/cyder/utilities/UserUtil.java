@@ -378,10 +378,11 @@ public class UserUtil {
 
     /**
      * Extracts the user from the the currently logged in user.
+     *
      * @return the resulting user object
      */
     public static User extractUser() {
-        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.json");
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
