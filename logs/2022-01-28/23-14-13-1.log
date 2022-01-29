@@ -1,0 +1,635 @@
+[23-14-13] [ENTRY]: [Nathan]
+[23-14-14] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-14-14] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-14-14] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-14-14] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-14-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-14-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-14-16] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-14-16] [SYSTEM_IO]: Userdata requested: Name
+[23-14-16] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-14-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-14-16] [SYSTEM_IO]: Userdata requested: Name
+[23-14-16] [SYSTEM_IO]: Userdata requested: Foreground
+[23-14-16] [SYSTEM_IO]: Userdata requested: Foreground
+[23-14-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-14-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-14-16] [SYSTEM_IO]: Userdata requested: Foreground
+[23-14-16] [SYSTEM_IO]: Userdata requested: Font
+[23-14-16] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-14-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-14-16] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-14-16] [SYSTEM_IO]: Userdata requested: Foreground
+[23-14-16] [SYSTEM_IO]: Userdata requested: Foreground
+[23-14-16] [SYSTEM_IO]: Userdata requested: Foreground
+[23-14-16] [SYSTEM_IO]: Userdata requested: Font
+[23-14-16] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-14-16] [SYSTEM_IO]: Userdata requested: InputFill
+[23-14-16] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1081160582], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-14-16] [ACTION]: Console loaded in 3114ms
+[23-14-16] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-14-16] [ENTRY]: [TESTING MODE]
+[23-14-16] [SYSTEM_IO]: Userdata requested: laststart
+[23-14-16] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-14-16] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3114ms
+[23-14-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-14-19] [CLIENT]: prefs
+[23-14-19] [SYSTEM_IO]: Userdata requested: filterchat
+[23-14-20] [WIDGET OPENED]: PREFS
+[23-14-20] [HANDLE]: PRIMARY HANDLE
+[23-14-20] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[23-14-21] [WIDGET OPENED]: AUDIO PLAYER
+[23-14-22] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-14-23] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Juice WRLD -  Lean Wit Me (Official Music Video)], associated text = [<html><div style='text-align: center;'>1s played, 4m 2s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-23] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-14-24] [WIDGET OPENED]: AUDIO PLAYER
+[23-14-24] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-14-25] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>0s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-25] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-14-26] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>2m 55s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-26] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-14-26] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>4m 18s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-27] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-14-27] [WIDGET OPENED]: AUDIO PLAYER
+[23-14-27] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-14-28] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Cold World [Official Video]], associated text = [<html><div style='text-align: center;'>0s played, 3m 1s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-28] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-14-30] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Cold World [Official Video]], associated text = [<html><div style='text-align: center;'>2m 16s played, 3m 1s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-30] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-14-42] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Cold World [Official Video]], associated text = [<html><div style='text-align: center;'>1m 12s played, 3m 1s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-14-42] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-14-56] [CLIENT]: play
+[23-14-56] [SYSTEM_IO]: Userdata requested: filterchat
+[23-14-56] [HANDLE]: GENERAL COMMAND HANDLED
+[23-14-56] [HANDLE]: PRIMARY HANDLE
+[23-14-56] [CONSOLE_OUT]: [STRING] Searching youtube for: june blues eric reprid
+[23-14-58] [CONSOLE_OUT]: [STRING] Starting download of: Eric Reprid - June Blues (Audio)
+[23-15-03] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-03] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>0s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-15-03] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-06] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-15-07] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-07] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-15-08] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-15-11] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-15-12] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-12] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-15-13] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-14] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-15-19] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-15-20] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-22] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>1s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-15-22] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-29] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [1673934755], parentFrame = [Nathan], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-15-29] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1542, 363, 630, 510)], hash = [322141419], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Nathan]
+[23-15-29] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-15-33] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-36] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>2s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-15-36] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-37] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Eric Reprid - Lukewarm (feat. alexa) (Official Music Video)], associated text = [<html><div style='text-align: center;'>4m 53s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-15-37] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-15-45] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-15-49] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
+[23-16-01] [CLIENT]: compacttext
+[23-16-01] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-01] [CONSOLE_OUT]: [STRING] Unknown command
+[23-16-01] [ACTION]: Similar command to "compacttext" found with tol of 0.4827586, command = "computerproperties"
+[23-16-05] [CLIENT]: prefs
+[23-16-05] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-05] [WIDGET OPENED]: PREFS
+[23-16-05] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(64, 507, 900, 580)], hash = [1699632114], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[23-16-05] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-16-05] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-16-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-05] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[23-16-05] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-16-05] [SYSTEM_IO]: Userdata requested: InputFill
+[23-16-05] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[23-16-05] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-05] [HANDLE]: PRIMARY HANDLE
+[23-16-06] [SYSTEM_IO]: Userdata requested: Foreground
+[23-16-06] [SYSTEM_IO]: Userdata requested: Foreground
+[23-16-06] [SYSTEM_IO]: Userdata requested: Background
+[23-16-06] [SYSTEM_IO]: Userdata requested: Background
+[23-16-06] [SYSTEM_IO]: Userdata requested: Font
+[23-16-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1354020584], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-16-06] [ACTION]: [Edit User] [NOTIFICATION] Loading fonts...
+[23-16-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1354020584], parentFrame = [Edit User], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-16-07] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-07] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-07] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: intromusic
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: hourlychimes
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: randombackground
+[23-16-08] [SYSTEM_IO]: Userdata requested: hourlychimes
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: silenceerrors
+[23-16-08] [SYSTEM_IO]: Userdata requested: hourlychimes
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: silenceerrors
+[23-16-08] [SYSTEM_IO]: Userdata requested: hourlychimes
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputborder
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: silenceerrors
+[23-16-08] [SYSTEM_IO]: Userdata requested: hourlychimes
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: silenceerrors
+[23-16-08] [SYSTEM_IO]: Userdata requested: hourlychimes
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: silenceerrors
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: silenceerrors
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: outputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: inputfill
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: clockonconsole
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-09] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-10] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-11] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-16-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-16-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-11] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[23-16-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-16-11] [SYSTEM_IO]: Userdata requested: InputFill
+[23-16-11] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-11] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-11] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-11] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-21] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [712105312], parentFrame = [Juice WRLD -  Lean Wit Me (Official Music Video)], associated text = [<html><div style='text-align: center;'>33s played, 4m 2s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-16-21] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-16-23] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-23] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-16-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-16-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-23] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[23-16-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-16-23] [SYSTEM_IO]: Userdata requested: InputFill
+[23-16-23] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-23] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-23] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-23] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-23] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-23] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-16-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-16-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-23] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[23-16-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-16-23] [SYSTEM_IO]: Userdata requested: InputFill
+[23-16-23] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-23] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-23] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-23] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [940242984], parentFrame = [Edit User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-16-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(506, 676, 900, 580)], hash = [371164073], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[23-16-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-16-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-16-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-24] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[23-16-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-16-24] [SYSTEM_IO]: Userdata requested: InputFill
+[23-16-25] [SYSTEM_IO]: Userdata requested: compacttextmode
+[23-16-25] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-25] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[23-16-25] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-26] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [1332888576], parentFrame = [Juice WRLD -  Lean Wit Me (Official Music Video)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-16-26] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(688, 369, 500, 225)], hash = [168226350], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Juice WRLD -  Lean Wit Me (Official Music Video)]
+[23-16-26] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-16-31] [CLIENT]: prefs
+[23-16-31] [SYSTEM_IO]: Userdata requested: filterchat
+[23-16-31] [WIDGET OPENED]: PREFS
+[23-16-31] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(506, 676, 900, 580)], hash = [371164073], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Edit User]
+[23-16-31] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-16-31] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-16-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-31] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[23-16-31] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[23-16-31] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-16-31] [SYSTEM_IO]: Userdata requested: InputFill
+[23-16-31] [HANDLE]: PRIMARY HANDLE
+[23-16-36] [WIDGET OPENED]: AUDIO PLAYER
+[23-16-36] [ACTION]: [AUDIO PLAYER] Eric Reprid - June Blues (Audio).mp3
+[23-16-54] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-16-55] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-16-59] [ACTION]: [AUDIO PLAYER] Eric Reprid - Cold World [Official Video].mp3
+[23-17-00] [ACTION]: [AUDIO PLAYER] Eric Reprid - June Blues (Audio).mp3
+[23-17-00] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa) (Official Music Video).mp3
+[23-17-02] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[23-17-55] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

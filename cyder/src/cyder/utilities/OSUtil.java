@@ -258,11 +258,6 @@ public class OSUtil {
         return ret.toString();
     }
 
-    //todo tool tip for music for non-compact mode needs to be fullname of frame still
-
-    //todo audio player new scrolling label doesn't exit fast enough,
-    // use while loop to check more often but not continue on
-
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
     //todo make this a command to regenerate the list of valid commands

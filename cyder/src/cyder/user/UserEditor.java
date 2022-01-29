@@ -82,7 +82,7 @@ public class UserEditor implements WidgetBase {
 
         editUserFrame = new CyderFrame(900, 580, CyderIcons.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        editUserFrame.setTitle("Edit User");
+        editUserFrame.setTitle("Preferences");
         editUserFrame.addPreCloseAction(() -> ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs());
 
         switchingLabel = new JLabel();

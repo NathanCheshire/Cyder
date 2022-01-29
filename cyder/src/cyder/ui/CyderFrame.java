@@ -1967,7 +1967,7 @@ public class CyderFrame extends JFrame {
         }, borderColor);
     }
 
-    public static final int MAX_COMPACT_MENU_CHARS = 12; //"Flash Player" is 12 chars
+    public static final int MAX_COMPACT_MENU_CHARS = 11;
 
     public static JLabel generateDefaultCompactTaskbarComponent(String title, ClickAction clickAction) {
         JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));

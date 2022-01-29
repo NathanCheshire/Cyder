@@ -16,6 +16,7 @@ import cyder.utilities.*;
 import cyder.widgets.WidgetBase;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
+import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
@@ -977,39 +978,55 @@ public class AudioPlayer implements WidgetBase {
      * Starts playing audio from the current index.
      */
     public static void startAudio() {
+        //invoke thread since we are starting playing from the beginning of the current audio index
         new Thread(() -> {
             try {
+                //make sure files are in order
                 refreshAudioFiles(null);
+
+                //refresh the audio levels
                 refreshAudio();
+
+                //initialize file input stream and buffered input stream
                 fis = new FileInputStream(audioFiles.get(audioIndex));
                 bis = new BufferedInputStream(fis);
 
-                if (player != null)
+                //close player if it isn't null and it is playing
+                if (player != null && !player.isComplete())
                     player.close();
-                player = null;
 
+                //kill the audio scroll label if running
                 if (audioScroll != null)
                     audioScroll.kill();
-                audioScroll = null;
 
+                //kill audio location progress bar if running
                 if (audioLocation != null)
                     audioLocation.kill();
-                audioLocation = null;
 
                 //these occasionally throw NullPtrExep if the user spams buttons so we'll ignore that
                 try {
+                    //initialize player
                     player = new Player(bis);
-                    totalLength = fis.available();
-                } catch (Exception ignored) {}
 
+                    //get the length
+                    totalLength = fis.available();
+                } catch (Exception e) {
+                    if (!(e instanceof  NullPointerException)) {
+                        ExceptionHandler.handle(e);
+                    }
+                }
+
+                //reset pause location
                 pauseLocation = 0;
 
+                //if not in mini player mode, initalize these views
                 if (!miniPlayer) {
                     audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
                     audioScroll = new ImprovedScrollLabel(audioTitleLabel);
                     audioLocation = new AudioLocation(audioProgress);
                 }
 
+                //set the play/pause icons
                 playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                 playPauseAudioButton.setToolTipText("Pause");
                 ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
@@ -1024,31 +1041,48 @@ public class AudioPlayer implements WidgetBase {
                     audioFrame.setUseCustomTaskbarIcon(false);
                 }
 
+                //set last action so we know how to handle future actions
                 lastAction = LastAction.PLAY;
 
+                //refresh the frame title based on the new audio that's playing
                 refreshFrameTitle();
 
+                //log the audio we're playing
                 SessionHandler.log(SessionHandler.Tag.ACTION,
                         "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
-                //on spam of skip button, music player hangs for about 10 seconds
-                // and throws an error then catches up eventually
-                player.play();
 
-                //after player concludes the following lines of code are executed
+                //playing blocks until the audio finishes
+                try {
+                    player.play();
+                } catch (JavaLayerException jle) {
+                    //this occasionally throws so if it does, invoke method again
+                    startAudio();
+                }
+
+                //player has concluded at this point
 
                 if (audioLocation != null)
                     audioLocation.kill();
-                audioLocation = null;
 
-                //we end up here if player is ended
+                //based on the last action, determine if to play next audio
                 if (lastAction == LastAction.PAUSE || lastAction == LastAction.STOP) {
-                    //paused/stopped for a reason so do nothing as of now
+                    //ended up here due to a pause or stop so no further action required
                 } else {
+                    //close resources as if stop had been called
                     stopAudio();
+
+                    //ensure audio files are up to date
                     refreshAudioFiles(null);
+
+                    //update audio levels
                     refreshAudio();
 
-                    if (!queue.isEmpty()) {
+
+                    if (repeatAudio) {
+                        startAudio();
+                    }
+                    //if there's stuff in the queue then we need to play it
+                    else if (!queue.isEmpty()) {
                         String playPath = queue.remove(0).getAbsolutePath();
 
                         for (int i = 0 ; i < audioFiles.size() ; i++) {
@@ -1059,19 +1093,23 @@ public class AudioPlayer implements WidgetBase {
                         }
 
                         startAudio();
-                    } else if (repeatAudio) {
-                        startAudio();
-                    } else if (shuffleAudio) {
+                    }
+                    //shuffle audio if needed
+                    else if (shuffleAudio) {
                         int newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
                         while (newIndex == audioIndex)
                             newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
 
                         audioIndex = newIndex;
                         startAudio();
-                    } else if (audioIndex + 1 < audioFiles.size()) {
+                    }
+                    //increment audio if available
+                    else if (audioIndex + 1 < audioFiles.size()) {
                         audioIndex++;
                         startAudio();
-                    } else if (audioFiles.size() > 1) {
+                    }
+                    //if out of range, loop back around to beginning
+                    else if (audioFiles.size() > 1) {
                         //loop back around to the beginning as long as more than one song
                         audioIndex = 0;
                         startAudio();
@@ -1085,15 +1123,15 @@ public class AudioPlayer implements WidgetBase {
     }
 
     /**
-     * Resumes audio at the current audio file at the previously paused position.
+     * Resumes audio at of current audio file
+     * at the previously paused position.
      */
     public static void resumeAudio() {
+        if (audioFiles == null || audioFiles.size() == 0)
+            return;
+
         resumeAudio(pauseLocation);
     }
-
-    //todo duplicate code smell from play/pause
-
-    //todo what to do if an exception is thrown from inside the play/resume method?
 
     /**
      * Resumes audio at the current audio file at the passed in byte value.
@@ -1144,7 +1182,12 @@ public class AudioPlayer implements WidgetBase {
                     refreshFrameTitle();
 
                     SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
-                    player.play();
+
+                    try {
+                        player.play();
+                    } catch (Exception ignored) {
+                        resumeAudio(pauseLocation);
+                    }
 
                     if (audioLocation != null)
                         audioLocation.kill();

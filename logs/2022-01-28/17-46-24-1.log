@@ -1,0 +1,46 @@
+[17-46-24] [ENTRY]: [Nathan]
+[17-46-24] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-46-24] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-46-24] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-46-24] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-46-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-46-26] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-46-26] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-46-26] [SYSTEM_IO]: Userdata requested: Name
+[17-46-26] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-46-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-46-26] [SYSTEM_IO]: Userdata requested: Name
+[17-46-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-46-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-46-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-46-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-46-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-46-27] [SYSTEM_IO]: Userdata requested: Font
+[17-46-27] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-46-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-46-27] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-46-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-46-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-46-27] [SYSTEM_IO]: Userdata requested: Foreground
+[17-46-27] [SYSTEM_IO]: Userdata requested: Font
+[17-46-27] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-46-27] [SYSTEM_IO]: Userdata requested: InputFill
+[17-46-27] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1393, 407, 600, 600)], hash = [2139894275], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-46-27] [ACTION]: Console loaded in 3444ms
+[17-46-27] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-46-27] [ENTRY]: [TESTING MODE]
+[17-46-27] [SYSTEM_IO]: Userdata requested: laststart
+[17-46-27] [SYSTEM_IO]: Userdata requested: IntroMusic
+[17-46-27] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3444ms
+[17-46-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-46-30] [CLIENT]: mp3
+[17-46-30] [SYSTEM_IO]: Userdata requested: filterchat
+[17-46-30] [WIDGET OPENED]: AUDIO PLAYER
+[17-46-30] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[17-46-30] [HANDLE]: PRIMARY HANDLE
+[17-46-30] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[17-46-32] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [665957328], parentFrame = [Juice WRLD -  Lean Wit Me (Official Music Video)], associated text = [<html><div style='text-align: center;'>1s played, 4m 0s left</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-46-32] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[17-46-43] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[17-46-45] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me (Official Music Video).mp3
+[17-47-23] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0
