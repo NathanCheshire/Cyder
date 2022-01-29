@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -235,7 +236,7 @@ public class UserCreator implements WidgetBase {
                                 + "\" has been created successfully.", "", CyderCommon.getDominantFrame());
 
                         //attempt to log in new user if it's the only user
-                        if (new File("dynamic/users/").listFiles().length == 1) {
+                        if (new File(OSUtil.buildPath("dynamic","users")).listFiles().length == 1) {
                             LoginHandler.getLoginFrame().dispose();
                             LoginHandler.recognize(newUserName.getText().trim(),
                                     SecurityUtil.toHexString(SecurityUtil.getSHA256(newUserPassword.getPassword())));
@@ -298,20 +299,24 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
+        //trim data
+        name = name.trim();
+
         //generate the user uuid and ensure it is unique
         String uuid = SecurityUtil.generateUUID();
-        File folder = new File("dynamic/users/" + uuid);
+        File folder = new File(OSUtil.buildPath("dynamic", "users",uuid));
 
         while (folder.exists()) {
             uuid = SecurityUtil.generateUUID();
-            folder = new File("dynamic/users/" + uuid);
+            folder = new File(OSUtil.buildPath("dynamic", "users",uuid));
         }
 
         //ensure that the username doesn't already exist
         boolean userNameExists = false;
 
+        //todo why fail here?
         for (File f : folder.getParentFile().listFiles()) {
-            File jsonFile = new File(f.getAbsolutePath() + "/userdata.json");
+            File jsonFile = new File(f.getAbsolutePath() + OSUtil.FILE_SEP + "userdata.json");
 
             if (!jsonFile.exists())
                 continue;
@@ -362,11 +367,19 @@ public class UserCreator implements WidgetBase {
             BufferedImage bi = new BufferedImage(img.getWidth(null),
                     img.getHeight(null),BufferedImage.TYPE_INT_RGB);
 
+            //try to get default image that isn't bundled with Cyder
+            try {
+                bi = ImageIO.read(new URL("https://i.imgur.com/kniH8y9.png"));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
             Graphics2D g2 = bi.createGraphics();
             g2.drawImage(img, 0, 0, null);
             g2.dispose();
 
-            File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
+            File backgroundFile = new File(OSUtil.buildPath("dynamic","users",uuid,
+                    UserFile.BACKGROUNDS.getName(),"Default.png"));
             backgroundFile.mkdirs();
 
             try {
@@ -415,10 +428,10 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
-        int x = (SystemUtil.getScreenWidth() - background.getWidth() / 2);
-        int y = (SystemUtil.getScreenHeight() - background.getHeight() / 2);
-        user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
-                background.getHeight(), 0, false));
+        user.setScreenStat(new User.ScreenStat(
+                (SystemUtil.getScreenWidth() - background.getWidth() / 2),
+                (SystemUtil.getScreenHeight() - background.getHeight() / 2),
+                background.getWidth(), background.getHeight(), 0, false));
 
         //executables
         user.setExecutables(null);

@@ -72,8 +72,8 @@ public class CyderIcons {
      */
     public static ImageIcon generateDefaultBackground(int width, int height) {
         return new ImageIcon(ImageUtil.getImageGradient(width, height,
-                Color.decode("#C6FFDD"),
-                Color.decode("#FBD786"),
-                Color.decode("#f7797d")));
+                new Color(252,245,255),
+                new Color(164,154,187),
+                new Color(249, 233, 241)));
     }
 }
