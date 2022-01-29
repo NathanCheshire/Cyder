@@ -41,16 +41,16 @@ import java.util.concurrent.atomic.AtomicReference;
 public class UserEditor implements WidgetBase {
     private static CyderFrame editUserFrame;
 
-    private static CyderButton addMusicBackground;
-    private static CyderButton openMusicBackground;
-    private static CyderButton deleteMusicBackground;
-    private static CyderButton renameMusicBackground;
+    private static CyderButton addFile;
+    private static CyderButton openFile;
+    private static CyderButton deleteFile;
+    private static CyderButton renameFile;
 
-    private static List<String> musicBackgroundNameList;
-    private static List<File> musicBackgroundList;
+    private static List<String> filesNameList;
+    private static List<File> filesList;
 
-    private static JLabel musicBackgroundLabel;
-    private static CyderScrollList musicBackgroundScroll;
+    private static JLabel filesLabel;
+    private static CyderScrollList filesScroll;
 
     private static LinkedList<String> fontList = new LinkedList<>();
 
@@ -69,7 +69,7 @@ public class UserEditor implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "prefs", description = "A widget to edit your user preferences and files")
+    @Widget(trigger = {"prefs", "edit user"}, description = "A widget to edit your user preferences and files")
     public static void showGUI() {
         showGUI(0);
     }
@@ -97,7 +97,7 @@ public class UserEditor implements WidgetBase {
 
         switch (prefsPanelIndex) {
             case 0:
-                switchToMusicAndBackgrounds();
+                switchToUserFiles();
                 break;
             case 1:
                 switchToFontAndColor();
@@ -128,29 +128,35 @@ public class UserEditor implements WidgetBase {
         editUserFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    private static void initMusicBackgroundList() {
-        File backgroundDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds");
-        File musicDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
+    private static void initFilesList() {
+        File backgroundDir = UserUtil.getUserFile(UserFile.BACKGROUNDS.getName());
+        File musicDir = UserUtil.getUserFile(UserFile.MUSIC.getName());
+        File filesDir = UserUtil.getUserFile(UserFile.FILES.getName());
 
-        musicBackgroundList = new LinkedList<>();
-        musicBackgroundNameList = new LinkedList<>();
+        filesList = new LinkedList<>();
+        filesNameList = new LinkedList<>();
 
         for (File file : backgroundDir.listFiles()) {
             if (file.getName().endsWith((".png"))) {
-                musicBackgroundList.add(file.getAbsoluteFile());
-                musicBackgroundNameList.add("Backgrounds/" + StringUtil.getFilename(file));
+                filesList.add(file.getAbsoluteFile());
+                filesNameList.add("Backgrounds/" + StringUtil.getFilename(file));
             }
         }
 
         for (File file : musicDir.listFiles()) {
             if (file.getName().endsWith((".mp3"))) {
-                musicBackgroundList.add(file.getAbsoluteFile());
-                musicBackgroundNameList.add("Music/" + StringUtil.getFilename(file));
+                filesList.add(file.getAbsoluteFile());
+                filesNameList.add("Music/" + StringUtil.getFilename(file));
             }
         }
 
-        String[] BackgroundsArray = new String[musicBackgroundNameList.size()];
-        BackgroundsArray = musicBackgroundNameList.toArray(BackgroundsArray);
+        for (File file : filesDir.listFiles()) {
+            filesList.add(file.getAbsoluteFile());
+            filesNameList.add("Files/" + StringUtil.getFilename(file));
+        }
+
+        String[] BackgroundsArray = new String[filesNameList.size()];
+        BackgroundsArray = filesNameList.toArray(BackgroundsArray);
     }
 
     private static void nextEditUser() {
@@ -167,7 +173,7 @@ public class UserEditor implements WidgetBase {
 
         switch (prefsPanelIndex) {
             case 0:
-                switchToMusicAndBackgrounds();
+                switchToUserFiles();
                 break;
             case 1:
                 switchToFontAndColor();
@@ -195,7 +201,7 @@ public class UserEditor implements WidgetBase {
 
         switch (prefsPanelIndex) {
             case 0:
-                switchToMusicAndBackgrounds();
+                switchToUserFiles();
                 break;
             case 1:
                 switchToFontAndColor();
@@ -209,40 +215,40 @@ public class UserEditor implements WidgetBase {
         }
     }
 
-    private static void switchToMusicAndBackgrounds() {
-        JLabel BackgroundLabel = new JLabel("Music & Backgrounds", SwingConstants.CENTER);
-        BackgroundLabel.setFont(CyderFonts.segoe30);
-        BackgroundLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
-        switchingLabel.add(BackgroundLabel);
+    private static void switchToUserFiles() {
+        JLabel titleLabel = new JLabel("Files", SwingConstants.CENTER);
+        titleLabel.setFont(CyderFonts.segoe30);
+        titleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
+        switchingLabel.add(titleLabel);
 
-        initMusicBackgroundList();
+        initFilesList();
 
-        musicBackgroundScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
-        musicBackgroundScroll.setBorder(null);
+        filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
+        filesScroll.setBorder(null);
 
-        for (int i = 0 ; i < musicBackgroundNameList.size() ; i++) {
+        for (int i = 0; i < filesNameList.size() ; i++) {
             int finalI = i;
             class thisAction implements CyderScrollList.ScrollAction {
                 @Override
                 public void fire() {
-                   IOUtil.openFile(musicBackgroundList.get(finalI).getAbsolutePath());
+                   IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
                 }
             }
 
             thisAction action = new thisAction();
-            musicBackgroundScroll.addElement(musicBackgroundNameList.get(i), action);
+            filesScroll.addElement(filesNameList.get(i), action);
         }
 
-        musicBackgroundLabel = musicBackgroundScroll.generateScrollList();
-        musicBackgroundLabel.setBounds(20, 60, 680, 360);
-        editUserFrame.getContentPane().add(musicBackgroundLabel);
-        switchingLabel.add(musicBackgroundLabel);
+        filesLabel = filesScroll.generateScrollList();
+        filesLabel.setBounds(20, 60, 680, 360);
+        editUserFrame.getContentPane().add(filesLabel);
+        switchingLabel.add(filesLabel);
 
-        addMusicBackground = new CyderButton("Add");
-        addMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        addMusicBackground.setFocusPainted(false);
-        addMusicBackground.setBackground(CyderColors.regularRed);
-        addMusicBackground.addActionListener(e -> {
+        addFile = new CyderButton("Add");
+        addFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        addFile.setFocusPainted(false);
+        addFile.setBackground(CyderColors.regularRed);
+        addFile.addActionListener(e -> {
             try {
                 new Thread(() -> {
                     try {
@@ -260,20 +266,24 @@ public class UserEditor implements WidgetBase {
                         }
 
                         Path copyPath = new File(addFile.getAbsolutePath()).toPath();
+                        String folderName = null;
 
-                        if (addFile != null && addFile.getName().endsWith(".png")) {
-                            File Destination = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds/" + addFile.getName());
-                            Files.copy(copyPath, Destination.toPath());
-                            revalidateMusicBackgroundScroll();
-                        } else if (addFile != null && addFile.getName().endsWith(".mp3")) {
-                            File Destination = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" + addFile.getName());
-                            Files.copy(copyPath, Destination.toPath());
-                            revalidateMusicBackgroundScroll();
+                        if (addFile.getName().endsWith(".png")) {
+                            folderName = UserFile.BACKGROUNDS.getName();
+                        } else if (addFile.getName().endsWith(".mp3")) {
+                            folderName = UserFile.MUSIC.getName();
                         } else {
-                            editUserFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you can only add PNGs and MP3s");
+                            folderName = UserFile.FILES.getName();
                         }
 
-                        ConsoleFrame.getConsoleFrame().resizeBackgrounds();
+                        File destination = new File(UserUtil.getUserFile(
+                                folderName).getAbsolutePath() + OSUtil.FILE_SEP + addFile.getName());
+                        Files.copy(copyPath, destination.toPath());
+
+                        revalidateFilesScroll();
+
+                        if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName()))
+                            ConsoleFrame.getConsoleFrame().resizeBackgrounds();
 
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
@@ -283,46 +293,48 @@ public class UserEditor implements WidgetBase {
                 ExceptionHandler.handle(exc);
             }
         });
-        addMusicBackground.setFont(CyderFonts.segoe20);
-        addMusicBackground.setBounds(20, 440, 155, 40);
-        switchingLabel.add(addMusicBackground);
+        addFile.setFont(CyderFonts.segoe20);
+        addFile.setBounds(20, 440, 155, 40);
+        switchingLabel.add(addFile);
 
-        openMusicBackground = new CyderButton("Open");
-        openMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        openMusicBackground.setFocusPainted(false);
-        openMusicBackground.setBackground(CyderColors.regularRed);
-        openMusicBackground.setFont(CyderFonts.segoe20);
-        openMusicBackground.addActionListener(e -> {
-            String element = musicBackgroundScroll.getSelectedElement();
+        openFile = new CyderButton("Open");
+        openFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        openFile.setFocusPainted(false);
+        openFile.setBackground(CyderColors.regularRed);
+        openFile.setFont(CyderFonts.segoe20);
+        openFile.addActionListener(e -> {
+            String element = filesScroll.getSelectedElement();
 
-            for (int i = 0 ; i < musicBackgroundNameList.size() ; i++) {
-                if (element.equalsIgnoreCase(musicBackgroundNameList.get(i))) {
-                    IOUtil.openFile(musicBackgroundList.get(i).getAbsolutePath());
+            for (int i = 0; i < filesNameList.size() ; i++) {
+                if (element.equalsIgnoreCase(filesNameList.get(i))) {
+                    IOUtil.openFile(filesList.get(i).getAbsolutePath());
                     break;
                 }
             }
         });
-        openMusicBackground.setBounds(20 + 155 + 20, 440, 155, 40);
-        switchingLabel.add(openMusicBackground);
+        openFile.setBounds(20 + 155 + 20, 440, 155, 40);
+        switchingLabel.add(openFile);
 
-        renameMusicBackground = new CyderButton("Rename");
-        renameMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        renameMusicBackground.addActionListener(e -> new Thread(() -> {
+        renameFile = new CyderButton("Rename");
+        renameFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        renameFile.addActionListener(e -> new Thread(() -> {
             try {
-                if (!musicBackgroundScroll.getSelectedElements().isEmpty()) {
-                    String clickedSelection = musicBackgroundScroll.getSelectedElements().get(0);
+                if (!filesScroll.getSelectedElements().isEmpty()) {
+                    String clickedSelection = filesScroll.getSelectedElements().get(0);
                     File selectedFile = null;
 
-                    for (int i = 0; i < musicBackgroundNameList.size(); i++) {
-                        if (clickedSelection.equals(musicBackgroundNameList.get(i))) {
-                            selectedFile = musicBackgroundList.get(i);
+                    for (int i = 0; i < filesNameList.size(); i++) {
+                        if (clickedSelection.equals(filesNameList.get(i))) {
+                            selectedFile = filesList.get(i);
                             break;
                         }
                     }
 
                     if ((AudioPlayer.getCurrentAudio() != null
-                            && selectedFile.getAbsoluteFile().toString().equals(AudioPlayer.getCurrentAudio().getAbsoluteFile().toString())) ||
-                            selectedFile.getAbsoluteFile().toString().equals(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile().toString())) {
+                            && selectedFile.getAbsoluteFile().toString().equals(
+                               AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
+                            || selectedFile.getAbsoluteFile().toString().equals(
+                               ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldname = StringUtil.getFilename(selectedFile);
@@ -351,7 +363,8 @@ public class UserEditor implements WidgetBase {
 
                             //was it a music file?
                             if (extension.equals(".mp3")) {
-                                File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
+                                File albumArtDir = new File("dynamic/users/"
+                                        + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
 
                                 if (albumArtDir.exists()) {
                                     //try to find a file with the same name as oldname
@@ -382,7 +395,7 @@ public class UserEditor implements WidgetBase {
                             }
                         }
 
-                        revalidateMusicBackgroundScroll();
+                        revalidateFilesScroll();
                     }
                 }
             } catch (Exception ex) {
@@ -390,21 +403,21 @@ public class UserEditor implements WidgetBase {
             }
         }, "Wait thread for getterUtil").start());
 
-        renameMusicBackground.setBackground(CyderColors.regularRed);
-        renameMusicBackground.setFont(CyderFonts.segoe20);
-        renameMusicBackground.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
-        switchingLabel.add(renameMusicBackground);
+        renameFile.setBackground(CyderColors.regularRed);
+        renameFile.setFont(CyderFonts.segoe20);
+        renameFile.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
+        switchingLabel.add(renameFile);
 
-        deleteMusicBackground = new CyderButton("Delete");
-        deleteMusicBackground.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        deleteMusicBackground.addActionListener(e -> {
-            if (!musicBackgroundScroll.getSelectedElements().isEmpty()) {
-                String clickedSelection = musicBackgroundScroll.getSelectedElements().get(0);
+        deleteFile = new CyderButton("Delete");
+        deleteFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        deleteFile.addActionListener(e -> {
+            if (!filesScroll.getSelectedElements().isEmpty()) {
+                String clickedSelection = filesScroll.getSelectedElements().get(0);
                 File selectedFile = null;
 
-                for (int i = 0; i < musicBackgroundNameList.size(); i++) {
-                    if (clickedSelection.equals(musicBackgroundNameList.get(i))) {
-                        selectedFile = musicBackgroundList.get(i);
+                for (int i = 0; i < filesNameList.size(); i++) {
+                    if (clickedSelection.equals(filesNameList.get(i))) {
+                        selectedFile = filesList.get(i);
                         break;
                     }
                 }
@@ -419,7 +432,7 @@ public class UserEditor implements WidgetBase {
                     boolean deleted = selectedFile.delete();
 
                     if (deleted) {
-                        revalidateMusicBackgroundScroll();
+                        revalidateFilesScroll();
 
                         if (StringUtil.getExtension(selectedFile).equals(".mp3"))
                             ConsoleFrame.getConsoleFrame().getInputHandler()
@@ -427,6 +440,9 @@ public class UserEditor implements WidgetBase {
                         else if (StringUtil.getExtension(selectedFile).equals(".png")) {
                             ConsoleFrame.getConsoleFrame().getInputHandler()
                                     .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                        } else {
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("File: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
                         }
 
                         if (StringUtil.getExtension(selectedFile.getName()).equals(".mp3")) {
@@ -434,7 +450,8 @@ public class UserEditor implements WidgetBase {
                             String name = StringUtil.getFilename(selectedFile.getName());
 
                             //find corresponding album art and delete
-                            for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
+                            for (File f : new File("dynamic/users/"
+                                    + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
                                 if (StringUtil.getFilename(f).equals(name)) {
                                     f.delete();
                                     break;
@@ -446,36 +463,36 @@ public class UserEditor implements WidgetBase {
             }
         });
 
-        deleteMusicBackground.setBackground(CyderColors.regularRed);
-        deleteMusicBackground.setFont(CyderFonts.segoe20);
-        deleteMusicBackground.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
-        switchingLabel.add(deleteMusicBackground);
+        deleteFile.setBackground(CyderColors.regularRed);
+        deleteFile.setFont(CyderFonts.segoe20);
+        deleteFile.setBounds(20 + 155 + 20 + 155 + 20 + 155 + 20, 440, 155, 40);
+        switchingLabel.add(deleteFile);
 
         switchingLabel.revalidate();
     }
 
-    private static void revalidateMusicBackgroundScroll() {
-        initMusicBackgroundList();
+    private static void revalidateFilesScroll() {
+        initFilesList();
 
-        musicBackgroundScroll.removeAllElements();
-        switchingLabel.remove(musicBackgroundLabel);
+        filesScroll.removeAllElements();
+        switchingLabel.remove(filesLabel);
 
-        for (int j = 0 ; j < musicBackgroundNameList.size() ; j++) {
+        for (int j = 0; j < filesNameList.size() ; j++) {
             int finalJ = j;
             class thisAction implements CyderScrollList.ScrollAction {
                 @Override
                 public void fire() {
-                    IOUtil.openFile(musicBackgroundList.get(finalJ).getAbsolutePath());
+                    IOUtil.openFile(filesList.get(finalJ).getAbsolutePath());
                 }
             }
 
             thisAction action = new thisAction();
-            musicBackgroundScroll.addElement(musicBackgroundNameList.get(j), action);
+            filesScroll.addElement(filesNameList.get(j), action);
         }
 
-        musicBackgroundLabel = musicBackgroundScroll.generateScrollList();
-        musicBackgroundLabel.setBounds(20, 60, 680, 360);
-        switchingLabel.add(musicBackgroundLabel);
+        filesLabel = filesScroll.generateScrollList();
+        filesLabel.setBounds(20, 60, 680, 360);
+        switchingLabel.add(filesLabel);
 
         switchingLabel.revalidate();
         ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();

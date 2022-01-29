@@ -1,0 +1,60 @@
+[23-36-58] [ENTRY]: [Nathan]
+[23-36-58] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-36-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-36-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-36-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-37-00] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-37-00] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-37-01] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-37-01] [SYSTEM_IO]: Userdata requested: Name
+[23-37-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-37-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-37-01] [SYSTEM_IO]: Userdata requested: Name
+[23-37-01] [SYSTEM_IO]: Userdata requested: Foreground
+[23-37-01] [SYSTEM_IO]: Userdata requested: Foreground
+[23-37-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-37-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-37-01] [SYSTEM_IO]: Userdata requested: Foreground
+[23-37-01] [SYSTEM_IO]: Userdata requested: Font
+[23-37-01] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-37-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-37-01] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-37-01] [SYSTEM_IO]: Userdata requested: Foreground
+[23-37-01] [SYSTEM_IO]: Userdata requested: Foreground
+[23-37-01] [SYSTEM_IO]: Userdata requested: Foreground
+[23-37-01] [SYSTEM_IO]: Userdata requested: Font
+[23-37-01] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-37-01] [SYSTEM_IO]: Userdata requested: InputFill
+[23-37-01] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [482834960], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-37-01] [ACTION]: Console loaded in 3497ms
+[23-37-01] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-37-01] [ENTRY]: [TESTING MODE]
+[23-37-01] [SYSTEM_IO]: Userdata requested: laststart
+[23-37-01] [SYSTEM_IO]: Userdata requested: IntroMusic
+[23-37-01] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3497ms
+[23-37-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-37-05] [CLIENT]: prefs
+[23-37-05] [SYSTEM_IO]: Userdata requested: filterchat
+[23-37-06] [WIDGET OPENED]: PREFS
+[23-37-06] [HANDLE]: PRIMARY HANDLE
+[23-37-06] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[23-37-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 440, 155, 40)], hash = [1926671004], parentFrame = [Preferences], associated text = [Add], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-37-32] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(10, 40, 40, 40)], hash = [645585141], parentFrame = [Nathan], associated text = [ < ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-37-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1444, 436, 630, 510)], hash = [1446057715], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Camgian]
+[23-37-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-38-10] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.getUserFile(UserUtil.java:998)
+From line: 998
+Trace: java.lang.NullPointerException
+	at cyder.utilities.UserUtil.getUserFile(UserUtil.java:998)
+	at cyder.user.UserEditor.lambda$switchToUserFiles$3(UserEditor.java:279)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-38-10] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-38-10] [DEBUG]: 
+Exception origin: cyder.utilities.UserUtil.getUserFile(UserUtil.java:998)
+From line: 998
+Trace: java.lang.NullPointerException
+	at cyder.utilities.UserUtil.getUserFile(UserUtil.java:998)
+	at cyder.user.UserEditor.lambda$switchToUserFiles$3(UserEditor.java:279)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[23-38-36] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1
