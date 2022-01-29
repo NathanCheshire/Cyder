@@ -152,6 +152,7 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon usage = null;
 
+            //todo this needs to be basd off of the monitor the frame is on
             if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
@@ -974,8 +975,18 @@ public final class ConsoleFrame {
                 }
             }
 
-            int requestedWidth = UserUtil.extractUser().getScreenStat().getConsoleWidth();
-            int requestedHeight = UserUtil.extractUser().getScreenStat().getConsoleHeight();
+            //todo this isn't saved or loaded proprely or something
+            // tests: 2 users, logging in and out while changing monitor positions shouldn't effect each other
+            // users shouldn't be corrupted if there's no reason to be, fuck you java
+            // createing a user on either monitor should place it in hte middle of that,
+            // regardless of the background chosen or how many useres there are
+
+            User.ScreenStat screen = UserUtil.extractUser().getScreenStat();
+
+            int requestedWidth = screen.getConsoleWidth();
+            int requestedHeight = screen.getConsoleHeight();
+            int consoleX = screen.getConsoleX();
+            int consoleY = screen.getConsoleY();
 
             //width and height for frame if the current image can work with that
             if (requestedWidth <= consoleCyderFrame.getWidth() &&
@@ -986,11 +997,8 @@ public final class ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
-            int consoleX = UserUtil.extractUser().getScreenStat().getConsoleX();
-            int consoleY = UserUtil.extractUser().getScreenStat().getConsoleY();
-
             //show on correct monitor if it exists
-            int requestedMonitor = UserUtil.extractUser().getScreenStat().getMonitor();
+            int requestedMonitor = screen.getMonitor();
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
 

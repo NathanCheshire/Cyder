@@ -213,7 +213,13 @@ public class UserCreator implements WidgetBase {
                             newUserPasswordconf.getPassword(), createUserBackground)) {
                         createUserFrame.notify("Failed to create user");
 
-                        //todo ensure that the user's folder with the uuid is deleted if it exists here
+                        if (lastGeneratedUUID != null) {
+                            File deleteMe = new File(OSUtil.buildPath("dynamic","users",lastGeneratedUUID));
+
+                            if (deleteMe.exists() && !deleteMe.delete()) {
+                                throw new RuntimeException("Failed to delete failed user creation folder");
+                            }
+                        }
                     } else {
                         createUserFrame.dispose();
 
@@ -243,6 +249,11 @@ public class UserCreator implements WidgetBase {
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
     }
+
+    /**
+     * The last generated UUID.
+     */
+    private static String lastGeneratedUUID = null;
 
     /**
      * Initializes the new user's background.
@@ -345,6 +356,9 @@ public class UserCreator implements WidgetBase {
             uuid = SecurityUtil.generateUUID();
             folder = new File(OSUtil.buildPath("dynamic", "users",uuid));
         }
+
+        //set the uuid so that we can delete the folder if something fails later
+        lastGeneratedUUID = uuid;
 
         //ensure that the username doesn't already exist
         boolean userNameExists = false;
@@ -483,14 +497,8 @@ public class UserCreator implements WidgetBase {
             }
         }
 
-        System.out.println(monitorNum);
-        System.out.println(width);
-        System.out.println(height);
-
         int x = (width - background.getWidth())  / 2;
         int y = (height - background.getHeight())  / 2;
-
-        System.out.println(x + "," + y);
 
         user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
                 background.getHeight(), monitorNum, true));

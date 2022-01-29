@@ -376,6 +376,8 @@ public class UserUtil {
         }
     }
 
+    //todo this throws for some reason and corrupts us?
+
     /**
      * Extracts the user from the the currently logged in user.
      *
