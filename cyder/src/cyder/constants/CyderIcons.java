@@ -46,7 +46,7 @@ public class CyderIcons {
     /**
      * A default image with dimensions 1000x1000
      */
-    public static final ImageIcon defaultBackground = generateDefaultBackground(1000,1000);
+    public static final ImageIcon defaultBackground = generateDefaultBackground(800,800);
 
     /**
      * A default image that spans the size of the primar display
@@ -72,8 +72,8 @@ public class CyderIcons {
      */
     public static ImageIcon generateDefaultBackground(int width, int height) {
         return new ImageIcon(ImageUtil.getImageGradient(width, height,
-                new Color(252,245,255),
-                new Color(164,154,187),
-                new Color(249, 233, 241)));
+                Color.decode("#C6FFDD"),
+                Color.decode("#FBD786"),
+                Color.decode("#f7797d")));
     }
 }

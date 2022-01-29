@@ -26,12 +26,27 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class UserCreator implements WidgetBase {
+    /**
+     * The user creator frame.
+     */
     private static CyderFrame createUserFrame;
+
+    /**
+     * The password field to confirm the new user's password.
+     */
     private static CyderPasswordField newUserPasswordconf;
+
+    /**
+     * The password field for the user's password.
+     */
     private static CyderPasswordField newUserPassword;
+
+    /**
+     * The field for the new user's name.
+     */
     private static CyderTextField newUserName;
-    private static CyderButton createNewUser;
-    private static CyderButton chooseBackground;
+
+
     private static File createUserBackground;
 
     /**
@@ -43,59 +58,44 @@ public class UserCreator implements WidgetBase {
 
     @Widget(trigger = "createuser", description = "A user creating widget")
     public static void showGUI() {
+        if (createUserFrame != null)
+            createUserFrame.dispose();
+
         SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "USER CREATED");
 
         createUserBackground = null;
 
-        if (createUserFrame != null)
-            createUserFrame.dispose();
-
         createUserFrame = new CyderFrame(356, 473, CyderIcons.defaultBackground);
         createUserFrame.setTitle("Create User");
 
-        JLabel NameLabel = new JLabel("Username: ", SwingConstants.CENTER);
-        NameLabel.setFont(CyderFonts.segoe20);
-        NameLabel.setBounds(120, 30, 121, 30);
-        createUserFrame.getContentPane().add(NameLabel);
+
+        JLabel namelabel = new JLabel("Username: ", SwingConstants.CENTER);
+        namelabel.setFont(CyderFonts.segoe20);
+        namelabel.setForeground(CyderColors.navy);
+        namelabel.setBounds(120, 30, 121, 30);
+        createUserFrame.getContentPane().add(namelabel);
+
+        //initialize here since we need to update its tooltip
+        CyderButton createNewUser = new CyderButton("Create User");
 
         newUserName = new CyderTextField(0);
         newUserName.setBackground(Color.white);
         newUserName.setFont(CyderFonts.segoe20);
-        newUserName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                if (newUserName.getText().length() > 15) {
-                    evt.consume();
-                }
-            }
-        });
-
         newUserName.setBorder(new LineBorder(new Color(0, 0, 0)));
         newUserName.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
                 createNewUser.setToolTipText("Finalize the user \"" + newUserName.getText() + "\"");
-
-                if (newUserName.getText().length() == 1) {
-                    newUserName.setText(newUserName.getText().toUpperCase());
-                }
             }
 
             @Override
             public void keyReleased(java.awt.event.KeyEvent e) {
                 createNewUser.setToolTipText("Finalize the user \"" + newUserName.getText() + "\"");
-
-                if (newUserName.getText().length() == 1) {
-                    newUserName.setText(newUserName.getText().toUpperCase());
-                }
             }
 
             @Override
             public void keyTyped(java.awt.event.KeyEvent e) {
                 createNewUser.setToolTipText("Finalize the user \"" + newUserName.getText() + "\"");
-
-                if (newUserName.getText().length() == 1) {
-                    newUserName.setText(newUserName.getText().toUpperCase());
-                }
             }
         });
 
@@ -109,6 +109,7 @@ public class UserCreator implements WidgetBase {
         passwordLabel.setBounds(60, 120, 240, 30);
         createUserFrame.getContentPane().add(passwordLabel);
 
+        //initialize here since we need to update it for both fields
         JLabel matchPasswords = new JLabel("Passwords match", SwingConstants.CENTER);
 
         newUserPassword = new CyderPasswordField();
@@ -156,7 +157,7 @@ public class UserCreator implements WidgetBase {
         matchPasswords.setBounds(32, 300, 300, 30);
         createUserFrame.getContentPane().add(matchPasswords);
 
-        chooseBackground = new CyderButton("Choose background");
+        CyderButton chooseBackground = new CyderButton("Choose background");
         chooseBackground.setToolTipText("ClickMe me to choose a background");
         chooseBackground.setFont(CyderFonts.segoe20);
         chooseBackground.setBackground(CyderColors.regularRed);
@@ -172,8 +173,8 @@ public class UserCreator implements WidgetBase {
                                 chooseBackground.setText(createUserBackground.getName());
                             }
 
-                            if (temp == null ||
-                                    !Files.probeContentType(Paths.get(createUserBackground.getAbsolutePath())).endsWith("png")) {
+                            if (temp == null || !Files.probeContentType(Paths.get(
+                                    createUserBackground.getAbsolutePath())).endsWith("png")) {
                                 createUserBackground = null;
                             }
                         } catch (Exception ex) {
@@ -216,139 +217,32 @@ public class UserCreator implements WidgetBase {
         chooseBackground.setBounds(60, 340, 240, 40);
         createUserFrame.getContentPane().add(chooseBackground);
 
-        createNewUser = new CyderButton("Create User");
         createNewUser.setFont(CyderFonts.segoe20);
         createNewUser.setBackground(CyderColors.regularRed);
         createNewUser.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 try {
-                    String uuid = SecurityUtil.generateUUID();
-                    File folder = new File("dynamic/users/" + uuid);
+                    if (!createUser(newUserName.getText(), newUserPassword.getPassword(),
+                            newUserPasswordconf.getPassword(), createUserBackground)) {
+                        createUserFrame.notify("Failed to create user");
 
-                    while (folder.exists()) {
-                        uuid = SecurityUtil.generateUUID();
-                        folder = new File("dynamic/users/" + uuid);
-                    }
-
-                    char[] pass = newUserPassword.getPassword();
-                    char[] passconf = newUserPasswordconf.getPassword();
-
-                    boolean userNameExists = false;
-
-                    for (File f : folder.getParentFile().listFiles()) {
-                        File jsonFile = new File(f.getAbsolutePath() + "/userdata.json");
-
-                        if (!jsonFile.exists())
-                            continue;
-
-                        String currentName = UserUtil.extractUserData(f, "name");
-
-                        if (currentName.equalsIgnoreCase(newUserName.getText())) {
-                            userNameExists = true;
-                            break;
-                        }
-                    }
-
-                    if (userNameExists) {
-                        createUserFrame.inform("Sorry, but that username is already in use." +
-                                "\nPlease choose a different one.", "");
-                        newUserName.setText("");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (StringUtil.empytStr(newUserName.getText()) || pass == null || passconf == null
-                            || uuid.equals("") || pass.equals("") || passconf.equals("") || uuid.length() == 0) {
-                        createUserFrame.inform("Sorry, but one of the required fields was left blank.\nPlease try again.", "");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (!Arrays.equals(pass, passconf) && pass.length > 0) {
-                        createUserFrame.inform("Sorry, but your passwords did not match. Please try again.", "");
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
-                    } else if (pass.length < 5) {
-                        createUserFrame.inform("Sorry, but your password length should be greater than\n"
-                                + "four characters for security reasons. Please add more characters.", "");
-
-                        newUserPassword.setText("");
-                        newUserPasswordconf.setText("");
+                        //todo ensure that the user's folder with the uuid is deleted if it exists here
                     } else {
-                        if (createUserBackground == null) {
-                            Image img = CyderIcons.defaultBackground.getImage();
-
-                            BufferedImage bi = new BufferedImage(img.getWidth(null),
-                                    img.getHeight(null),BufferedImage.TYPE_INT_RGB);
-
-                            Graphics2D g2 = bi.createGraphics();
-                            g2.drawImage(img, 0, 0, null);
-                            g2.dispose();
-                            File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
-                            backgroundFile.mkdirs();
-                            ImageIO.write(bi, "png", backgroundFile);
-                            createUserBackground = backgroundFile;
-                        }
-
-                        File NewUserFolder = new File("dynamic/users/" + uuid);
-                        File backgrounds = new File("dynamic/users/" + uuid + "/Backgrounds");
-                        File music = new File("dynamic/users/" + uuid + "/Music");
-                        File notes = new File("dynamic/users/" + uuid + "/Notes");
-                        File files = new File("dynamic/users/" + uuid + "/Files");
-
-                        NewUserFolder.mkdirs();
-                        backgrounds.mkdir();
-                        music.mkdir();
-                        notes.mkdir();
-                        files.mkdir();
-
-                        if (createUserBackground != null) {
-                            ImageIO.write(ImageIO.read(createUserBackground), "png",
-                                    new File("dynamic/users/" + uuid + "/Backgrounds/" + createUserBackground.getName()));
-                        }
-
-                        File dataFile = new File("dynamic/users/" + uuid + "/userdata.json");
-                        dataFile.createNewFile();
-
-                        User user = new User();
-
-                        user.setName(newUserName.getText().trim());
-                        user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                                SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)).toCharArray())));
-
-                        for (Preferences.Preference pref : Preferences.getPreferences()) {
-                            //as per convention, IGNORE for tooltip means ignore when creating user
-                            // whilst IGNORE for default value means ignore for edit user
-                            if (!pref.getTooltip().equals("IGNORE"))
-                                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
-                        }
-
-                        //screen stat initializing
-                        BufferedImage background = ImageIO.read(createUserBackground);
-                        int x = (SystemUtil.getScreenWidth() - background.getWidth() / 2);
-                        int y = (SystemUtil.getScreenHeight() - background.getHeight() / 2);
-                        user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
-                                background.getHeight(), 0, false));
-
-                        user.setExecutables(null);
-                        UserUtil.setUserData(dataFile, user);
-
                         createUserFrame.dispose();
-                        PopupHandler.inform("The new user \"" + newUserName.getText().trim() + "\" has been created successfully.", "", CyderCommon.getDominantFrame());
-                        createUserFrame.dispose();
+
+                        PopupHandler.inform("The new user \"" + newUserName.getText().trim()
+                                + "\" has been created successfully.", "", CyderCommon.getDominantFrame());
 
                         //attempt to log in new user if it's the only user
                         if (new File("dynamic/users/").listFiles().length == 1) {
                             LoginHandler.getLoginFrame().dispose();
-                            LoginHandler.recognize(newUserName.getText().trim(), SecurityUtil.toHexString(SecurityUtil.getSHA256(pass)));
+                            LoginHandler.recognize(newUserName.getText().trim(),
+                                    SecurityUtil.toHexString(SecurityUtil.getSHA256(newUserPassword.getPassword())));
                         }
                     }
-
-                    for (char c : pass)
-                        c = '\0';
-
-                    for (char c : passconf)
-                        c = '\0';
-
                 } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
+                    ExceptionHandler.silentHandle(ex);
                 }
             }
         });
@@ -364,8 +258,180 @@ public class UserCreator implements WidgetBase {
         newUserName.requestFocus();
     }
 
+    /**
+     * Closes the create user frame if open.
+     */
     public static void close() {
         if (createUserFrame != null)
             createUserFrame.dispose();
+    }
+
+    /**
+     * Attempts to create a user based off of the provided necessary initial data.
+     *
+     * @param name the requested name of the new user
+     * @param password the password of the new user
+     * @param passwordConf the password confirmation of the new user
+     * @param chosenBackground the background file of the new user
+     *
+     * @return whether the user was created
+     */
+    public static boolean createUser(String name, char[] password,
+                                     char[] passwordConf, File chosenBackground) {
+
+        //validate data for basic correctness
+        if (StringUtil.empytStr(name) ) {
+            return false;
+        }
+
+        if (password == null || passwordConf == null) {
+            return false;
+        }
+
+        if (!Arrays.equals(password, passwordConf)) {
+            createUserFrame.notify("Passwords are not equal");
+            return false;
+        }
+
+        if (password.length < 5 || passwordConf.length < 5) {
+            createUserFrame.notify("Password length must be at least 5 characters");
+            return false;
+        }
+
+        //generate the user uuid and ensure it is unique
+        String uuid = SecurityUtil.generateUUID();
+        File folder = new File("dynamic/users/" + uuid);
+
+        while (folder.exists()) {
+            uuid = SecurityUtil.generateUUID();
+            folder = new File("dynamic/users/" + uuid);
+        }
+
+        //ensure that the username doesn't already exist
+        boolean userNameExists = false;
+
+        for (File f : folder.getParentFile().listFiles()) {
+            File jsonFile = new File(f.getAbsolutePath() + "/userdata.json");
+
+            if (!jsonFile.exists())
+                continue;
+
+            String currentName = UserUtil.extractUserData(f, "name");
+
+            if (currentName.equalsIgnoreCase(newUserName.getText())) {
+                userNameExists = true;
+                break;
+            }
+        }
+
+        if (userNameExists) {
+            createUserFrame.inform("Sorry, but that username is already in use. " +
+                    "Please choose a different one.", "");
+            newUserName.setText("");
+            return false;
+        }
+
+        //create the user folder
+        File userFolder = new File(OSUtil.buildPath("dynamic","users",uuid));
+
+        if (!userFolder.mkdir())
+            return false;
+
+        //create the default user files
+        for (UserFile f : UserFile.getFiles()) {
+            File makeMe = new File(OSUtil.buildPath("dynamic","users",uuid,f.getName()));
+
+            if (f.isFile()) {
+                try {
+                   if (!makeMe.createNewFile())
+                       return false;
+               } catch (Exception e) {
+                   ExceptionHandler.handle(e);
+                   return false;
+               }
+            } else {
+                if (!makeMe.mkdir())
+                    return false;
+            }
+        }
+
+        //if the background was not chosen, create a random gradient one
+        if (createUserBackground == null) {
+            Image img = CyderIcons.defaultBackground.getImage();
+
+            BufferedImage bi = new BufferedImage(img.getWidth(null),
+                    img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+
+            Graphics2D g2 = bi.createGraphics();
+            g2.drawImage(img, 0, 0, null);
+            g2.dispose();
+
+            File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
+            backgroundFile.mkdirs();
+
+            try {
+                ImageIO.write(bi, "png", backgroundFile);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                return false;
+            }
+
+            createUserBackground = backgroundFile;
+        }
+
+        //create the user background in the directory
+        try {
+            File destination = new File(OSUtil.buildPath("dynamic", "users", uuid,
+                    UserFile.BACKGROUNDS.getName(), createUserBackground.getName()));
+            Files.copy(Paths.get(createUserBackground.getAbsolutePath()), destination.toPath());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
+
+        //build the user
+        User user = new User();
+
+        //name and password
+        user.setName(newUserName.getText().trim());
+        user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                SecurityUtil.toHexString(SecurityUtil.getSHA256(password)).toCharArray())));
+
+        //default perferences
+        for (Preferences.Preference pref : Preferences.getPreferences()) {
+            //as per convention, IGNORE for tooltip means ignore when creating user
+            // whilst IGNORE for default value means ignore for edit user
+            if (!pref.getTooltip().equals("IGNORE"))
+                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
+        }
+
+        BufferedImage background = null;
+
+        //screen stat initializing
+        try {
+            background = ImageIO.read(createUserBackground);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
+
+        int x = (SystemUtil.getScreenWidth() - background.getWidth() / 2);
+        int y = (SystemUtil.getScreenHeight() - background.getHeight() / 2);
+        user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
+                background.getHeight(), 0, false));
+
+        //executables
+        user.setExecutables(null);
+        UserUtil.setUserData(new File(OSUtil.buildPath(
+                "dynamic","users",uuid,UserFile.USERDATA.getName())), user);
+
+        //password security
+        for (char c : password)
+            c = '\0';
+
+        for (char c : passwordConf)
+            c = '\0';
+
+        return true;
     }
 }
