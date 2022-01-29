@@ -1,0 +1,1874 @@
+[13-54-33] [ENTRY]: [Nathan]
+[13-54-33] [SYSTEM_IO]: System data pared in IOUtil's static block
+[13-54-33] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[13-54-33] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[13-54-33] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[13-54-35] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-54-35] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-54-35] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-54-35] [SYSTEM_IO]: Userdata requested: Name
+[13-54-35] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-54-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-35] [SYSTEM_IO]: Userdata requested: Name
+[13-54-35] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-35] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-36] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-36] [SYSTEM_IO]: Userdata requested: Font
+[13-54-36] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-54-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-36] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-54-36] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-36] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-36] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-36] [SYSTEM_IO]: Userdata requested: Font
+[13-54-36] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-54-36] [SYSTEM_IO]: Userdata requested: InputFill
+[13-54-36] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [714982630], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-54-36] [ACTION]: Console loaded in 3177ms
+[13-54-36] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-54-36] [ENTRY]: [TESTING MODE]
+[13-54-36] [SYSTEM_IO]: Userdata requested: laststart
+[13-54-36] [SYSTEM_IO]: Userdata requested: IntroMusic
+[13-54-36] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3177ms
+[13-54-36] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-54-39] [CLIENT]: logout
+[13-54-39] [SYSTEM_IO]: Userdata requested: filterchat
+[13-54-39] [SYSTEM_IO]: Userdata requested: Name
+[13-54-39] [LOGOUT]: [Nathan]
+[13-54-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(693, 534, 600, 600)], hash = [2038522556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[13-54-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [714982630], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-54-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(693, 534, 600, 600)], hash = [2038522556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[13-54-39] [WIDGET OPENED]: LOGIN
+[13-54-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-54-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-54-39] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [714982630], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-54-39] [HANDLE]: GENERAL COMMAND HANDLED
+[13-54-39] [HANDLE]: PRIMARY HANDLE
+[13-54-40] [CLIENT_IO]: [LOGIN FRAME] create
+[13-54-40] [WIDGET OPENED]: USER CREATED
+[13-54-44] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(60, 160, 240, 40)], hash = [1598187966], parentFrame = [Create User], associated text = [13201320], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-54-45] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 390, 240, 40)], hash = [1656356197], parentFrame = [Create User], associated text = [Create User], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-54-45] [SYSTEM_IO]: Userdata requested: name
+[13-54-45] [EXCEPTION]: 
+Exception origin: cyder.user.UserCreator.createUser(UserCreator.java:476)
+From line: 476
+Trace: java.lang.NullPointerException
+	at cyder.user.UserCreator.createUser(UserCreator.java:476)
+	at cyder.user.UserCreator$5.mouseReleased(UserCreator.java:212)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:298)
+	at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:297)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6578)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3343)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6343)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4539)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4480)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2303)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-54-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-54-45] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-54-46] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 392, 28)], hash = [133730538], parentFrame = [], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-54-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1082, 646, 396, 100)], hash = [1138647797], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-54-46] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-54-48] [CLIENT_IO]: [LOGIN FRAME] login
+[13-54-48] [CLIENT_IO]: [LOGIN FRAME] kk
+[13-54-50] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.fixUser(UserUtil.java:280)
+From line: 280
+Trace: java.lang.NullPointerException
+	at cyder.utilities.UserUtil.fixUser(UserUtil.java:280)
+	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1685)
+	at cyder.utilities.UserUtil.checkPassword(UserUtil.java:627)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:393)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:268)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-54-50] [LOGIN]: [STD LOGIN, 58d13353-03da-3086-a140-c71f22c67983]
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(693, 534, 600, 600)], hash = [2038522556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[13-54-50] [SYSTEM_IO]: Userdata requested: Name
+[13-54-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-54-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-50] [SYSTEM_IO]: Userdata requested: Name
+[13-54-50] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-50] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-50] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-50] [SYSTEM_IO]: Userdata requested: Font
+[13-54-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-54-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-54-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-54-50] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-50] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-50] [SYSTEM_IO]: Userdata requested: Foreground
+[13-54-50] [SYSTEM_IO]: Userdata requested: Font
+[13-54-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-54-50] [SYSTEM_IO]: Userdata requested: InputFill
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [714982630], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(693, 534, 600, 600)], hash = [2038522556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1205237114], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1082, 646, 396, 100)], hash = [1138647797], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-54-50] [ACTION]: Console loaded in 3177ms
+[13-54-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1205237114], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[13-54-50] [ACTION]: [Stellar Cyder [kk]] [NOTIFICATION] Console loaded in 3177ms
+[13-54-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-54-50] [ENTRY]: [TESTING MODE]
+[13-54-50] [SYSTEM_IO]: Userdata requested: laststart
+[13-54-50] [SYSTEM_IO]: Userdata requested: IntroMusic
+[13-54-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-55-22] [CLIENT]: logout
+[13-55-22] [SYSTEM_IO]: Userdata requested: filterchat
+[13-55-22] [SYSTEM_IO]: Userdata requested: Name
+[13-55-22] [LOGOUT]: [kk]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(430, 385, 1000, 1000)], hash = [2024231857], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [kk]]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [714982630], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(693, 534, 600, 600)], hash = [2038522556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[13-55-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1205237114], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1082, 646, 396, 100)], hash = [1138647797], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(430, 385, 1000, 1000)], hash = [2024231857], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [kk]]
+[13-55-22] [WIDGET OPENED]: LOGIN
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1205237114], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[13-55-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [714982630], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-55-22] [HANDLE]: GENERAL COMMAND HANDLED
+[13-55-22] [HANDLE]: PRIMARY HANDLE
+[13-55-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1909140705], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-55-25] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1909140705], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-55-43] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-43] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-43] [WIDGET OPENED]: USER CREATED
+[13-55-43] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-44] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-44] [WIDGET OPENED]: USER CREATED
+[13-55-44] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-45] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-45] [WIDGET OPENED]: USER CREATED
+[13-55-45] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-45] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-45] [WIDGET OPENED]: USER CREATED
+[13-55-45] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-45] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-45] [WIDGET OPENED]: USER CREATED
+[13-55-45] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-45] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-45] [WIDGET OPENED]: USER CREATED
+[13-55-45] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-45] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-45] [WIDGET OPENED]: USER CREATED
+[13-55-45] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-45] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-45] [WIDGET OPENED]: USER CREATED
+[13-55-45] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-46] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-46] [WIDGET OPENED]: USER CREATED
+[13-55-46] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-48] [CLIENT_IO]: [LOGIN FRAME] hello
+[13-55-50] [CLIENT_IO]: [LOGIN FRAME] login
+[13-55-52] [CLIENT_IO]: [LOGIN FRAME] nathan
+[13-55-53] [LOGIN]: [LOGIN FAIL]
+[13-55-55] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-55] [WIDGET OPENED]: USER CREATED
+[13-55-55] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-56] [CLIENT_IO]: [LOGIN FRAME] create'
+[13-55-56] [CLIENT_IO]: [LOGIN FRAME]
+[13-55-57] [CLIENT_IO]: [LOGIN FRAME]
+[13-55-57] [CLIENT_IO]: [LOGIN FRAME]
+[13-55-57] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-57] [WIDGET OPENED]: USER CREATED
+[13-55-57] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-58] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-58] [WIDGET OPENED]: USER CREATED
+[13-55-58] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-55-59] [CLIENT_IO]: [LOGIN FRAME] create
+[13-55-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-55-59] [WIDGET OPENED]: USER CREATED
+[13-55-59] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-56-00] [CLIENT_IO]: [LOGIN FRAME] create
+[13-56-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-56-00] [WIDGET OPENED]: USER CREATED
+[13-56-00] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-56-00] [CLIENT_IO]: [LOGIN FRAME] create
+[13-56-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-56-00] [WIDGET OPENED]: USER CREATED
+[13-56-00] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-56-00] [CLIENT_IO]: [LOGIN FRAME] create
+[13-56-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-56-00] [WIDGET OPENED]: USER CREATED
+[13-56-00] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-56-00] [CLIENT_IO]: [LOGIN FRAME] create
+[13-56-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-56-00] [WIDGET OPENED]: USER CREATED
+[13-56-00] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-56-00] [CLIENT_IO]: [LOGIN FRAME] create
+[13-56-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-56-00] [WIDGET OPENED]: USER CREATED
+[13-56-00] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.<init>(CyderFrame.java:119)
+	at cyder.user.UserCreator.showGUI(UserCreator.java:69)
+	at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:231)
+	at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[13-56-03] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1909140705], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-56-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(512, 500, 600, 400)], hash = [1944501037], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[13-56-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1432832558], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.getUserData(UserUtil.java:450)
+From line: 450
+Trace: java.lang.IllegalArgumentException: userdata.json does not exist
+	at cyder.utilities.UserUtil.getUserData(UserUtil.java:450)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1113)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+From line: 388
+Trace: java.lang.IllegalArgumentException: Provided file does not exist
+	at cyder.utilities.UserUtil.extractUser(UserUtil.java:388)
+	at cyder.ui.CyderFrame.repaint(CyderFrame.java:1642)
+	at cyder.ui.CyderFrame.refreshBackground(CyderFrame.java:1498)
+	at cyder.ui.CyderFrame.setBounds(CyderFrame.java:1380)
+	at java.desktop/java.awt.Component.move(Component.java:2111)
+	at java.desktop/java.awt.Component.setLocation(Component.java:2093)
+	at java.desktop/java.awt.Window.setLocation(Window.java:924)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1125)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-03] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.setUserData(UserUtil.java:123)
+From line: 123
+Trace: java.lang.IllegalArgumentException: File does not exist
+	at cyder.utilities.UserUtil.setUserData(UserUtil.java:123)
+	at cyder.genesis.CyderCommon.exit(CyderCommon.java:86)
+	at cyder.handlers.internal.LoginHandler.lambda$showGUI$3(LoginHandler.java:163)
+	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1136)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[13-56-08] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 52

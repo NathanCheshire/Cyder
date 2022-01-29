@@ -382,7 +382,11 @@ public class UserUtil {
      * @return the resulting user object
      */
     public static User extractUser() {
-        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Userdata.json");
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            throw new IllegalArgumentException("ConsoleFrame's UUID is not set");
+
+        File f = new File(OSUtil.buildPath("dynamic","users",
+                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");

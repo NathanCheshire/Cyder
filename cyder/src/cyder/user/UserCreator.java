@@ -462,13 +462,38 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
-        //todo if a frame is active, get the monitor the dominate one is on
+        int monitorNum = 0;
+        int width = SystemUtil.getScreenWidth();
+        int height = SystemUtil.getScreenHeight();
 
-        //todo not sure this works...
-        user.setScreenStat(new User.ScreenStat(
-                (SystemUtil.getScreenWidth() - background.getWidth() / 2),
-                (SystemUtil.getScreenHeight() - background.getHeight() / 2),
-                background.getWidth(), background.getHeight(), 0, true));
+        //figure out the monitor we should be using for the user's screen stats
+        if (CyderCommon.getDominantFrame() != null) {
+            GraphicsConfiguration gc = CyderCommon.getDominantFrame().getGraphicsConfiguration();
+            GraphicsDevice gd = gc.getDevice();
+            String monitorID = gd.getIDstring().replaceAll("[^0-9]","");
+
+            try {
+                monitorNum = Integer.parseInt(monitorID);
+                width = (int) gc.getBounds().getWidth();
+                height = (int) gc.getBounds().getHeight();
+            } catch (Exception e) {
+                e.printStackTrace();
+                ExceptionHandler.silentHandle(e);
+                monitorNum = 0;
+            }
+        }
+
+        System.out.println(monitorNum);
+        System.out.println(width);
+        System.out.println(height);
+
+        int x = (width - background.getWidth())  / 2;
+        int y = (height - background.getHeight())  / 2;
+
+        System.out.println(x + "," + y);
+
+        user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
+                background.getHeight(), monitorNum, true));
 
         //executables
         user.setExecutables(null);
