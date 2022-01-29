@@ -384,11 +384,24 @@ public class UserUtil {
      * @return the resulting user object
      */
     public static User extractUser() {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+        String uuid = ConsoleFrame.getConsoleFrame().getUUID();
+
+        if (uuid == null)
             throw new IllegalArgumentException("ConsoleFrame's UUID is not set");
 
         File f = new File(OSUtil.buildPath("dynamic","users",
-                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
+                uuid, UserFile.USERDATA.getName()));
+
+        //todo how does the other user's get set to the UUID??? and furthermore how does it get corrupted?
+
+        //todo the monitor position initial saving works, loading is somehow fucked
+
+        //todo when two users, this somehow fucks program, maybe autocypher fucks it idk
+        // uuid passing is bad
+        // a user should be loaded in the program and you should pull from that and not read the file every second
+        // that seems bad
+
+        System.out.println("UUID: " + uuid);
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
