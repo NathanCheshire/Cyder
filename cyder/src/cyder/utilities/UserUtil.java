@@ -623,6 +623,7 @@ public class UserUtil {
         boolean ret = false;
 
         try {
+            //todo it's corrupted before getting here?
             hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
 
             //get all users
@@ -643,6 +644,7 @@ public class UserUtil {
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
+                    //THIS IS THE ONLY PLACE UUID IS EVER SET
                     ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     ret = true;
                 }
@@ -705,7 +707,7 @@ public class UserUtil {
     public static boolean updateOldJson(File f) {
         if (!StringUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
-        } else if (!StringUtil.getFilename(f).equals("userdata")) {
+        } else if (!StringUtil.getFilename(f).equalsIgnoreCase(StringUtil.getFilename(UserFile.USERDATA.getName()))) {
             throw new IllegalArgumentException("Provided file is not a userdata file");
         }
 

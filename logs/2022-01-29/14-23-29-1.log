@@ -33,3 +33,4 @@ Trace: java.lang.IllegalArgumentException: Provided file does not exist
 	at cyder.genesis.Cyder.main(Cyder.java:112)
 [14-23-58] [CORRUPTION]: userdir saved to: [Resulting Popup]
 Unfortunately a user's data file was corrupted and had to be deleted. The following files still exists and are associated with the user at the following path:<br/>Cyder/dynamic/7b142adf-c1fb-379c-898e-5242d3a9e595<br/>Files:<br/>Default
+[14-44-44] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 2

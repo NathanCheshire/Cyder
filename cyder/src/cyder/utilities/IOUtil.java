@@ -10,6 +10,7 @@ import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.ConsoleFrame;
+import cyder.user.UserFile;
 import javazoom.jl.player.Player;
 
 import java.awt.*;
@@ -374,15 +375,18 @@ public class IOUtil {
      */
     public static void fixUsers() {
         //all users
-        File users = new File("dynamic/users");
+        File users = new File(OSUtil.buildPath("dynamic","users"));
 
         //for all files
         for (File user : users.listFiles()) {
             //file userdata
-            File json = new File(user + "/userdata.json");
+            File json = new File(OSUtil.buildPath(
+                    user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (json.exists()) {
                 //attempt to update the json
+
+                //todo this fails for some reason? maybe new users don't actually have all needed data?
                 boolean success = UserUtil.updateOldJson(json);
 
                 //if it fails then delete the json
