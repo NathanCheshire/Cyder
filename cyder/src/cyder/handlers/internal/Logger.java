@@ -443,7 +443,11 @@ public class Logger {
         for (File subLogDir : topLevelLogsDir.listFiles()) {
             if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())
                     && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
-                //todo before zipping a folder, consolidate lines in files that are duplicates next to each other
+
+                for (File logFile : subLogDir.listFiles()) {
+                    consolidateLines(logFile);
+                }
+
                 OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
             }
         }
@@ -456,7 +460,9 @@ public class Logger {
      */
     public static void consolidateLines(File file) {
         if (!file.exists())
-            throw new IllegalArgumentException("Provided fine does not exist: " + file);
+            throw new IllegalArgumentException("Provided file does not exist: " + file);
+        else if (!StringUtil.getExtension(file).equalsIgnoreCase(".log"))
+            throw new IllegalArgumentException("Provided file is not a log file: " + file);
 
         ArrayList<String> lines = new ArrayList<>();
 
@@ -501,7 +507,14 @@ public class Logger {
             writeLines.add(lines.get(lines.size() - 1));
         }
 
-        //todo logic working, now write lines to file and overwrite old one
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,false))) {
+            for (String line : writeLines) {
+                bw.write(line.trim());
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
