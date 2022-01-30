@@ -840,8 +840,6 @@ public class IOUtil {
         }
     }
 
-    //todo I feel like this and all jsons loaded from the jsons should be inside of CyderCommon OR
-    // it's own system data class loader thing, like a util to load system jsons
     /**
      * SystemData class used by sys.json, no lists should be contained within SystemData.
      */

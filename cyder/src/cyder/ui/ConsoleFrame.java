@@ -153,7 +153,7 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon usage = null;
 
-            //todo this needs to be basd off of the monitor the frame is on
+            //todo this needs to be based off of the monitor the frame is currently on, need method helps for that
             if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
@@ -249,8 +249,18 @@ public final class ConsoleFrame {
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
             if (IOUtil.getSystemData().isConsoleresizable()) {
+                //set resizing on
                 consoleCyderFrame.initializeResizing();
                 consoleCyderFrame.setResizable(true);
+
+                consoleCyderFrame.setBackgroundResizing(true);
+
+
+
+                //todo static final public vars for these
+
+                //minimum size is a randomly chosen value,
+                // max size depends on the monitor the frame is on
                 consoleCyderFrame.setMinimumSize(new Dimension(600,600));
                 consoleCyderFrame.setMaximumSize(new Dimension(w, h));
             }
@@ -1383,8 +1393,8 @@ public final class ConsoleFrame {
                 IOUtil.playAudio(OSUtil.buildPath("static","audio","Ride.mp3"));
             }
         }
-        //otherwise no intro music so check for gray scale image
-        else {
+        //otherwise no intro music so check for gray scale image/play startup sound if released
+        else if (IOUtil.getSystemData().isReleased()) {
             //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
             try {
                 new Thread(() -> {

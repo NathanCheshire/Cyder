@@ -262,19 +262,10 @@ public class OSUtil {
 
     //todo update README before weekend is over?
 
-    //TODO how the FUCK does the program think a user is corrupted? one user that isn't nathan does it
-
-    //todo program breaks if a user folder exists with no user.json?
-    // add checks for this I guess
-
     //todo creating a user on monitor 0 puts the frame all the way to the right on the x-axis?
-
-    //todo login frame spawns with pin on?
 
     //todo user logging out and loggin in as another effects the previous user's screen save stats
     //todo I think this means saving the stats doesn't work properly wherever they are saved
-
-    //todo if intro music is on, don't play the black and white easter egg thing
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 
@@ -293,11 +284,6 @@ public class OSUtil {
 
     //todo fix weird bug with setting console orientation when it originally loads
     // and you can do ctrl + up and it refreshes a little
-
-    //todo should be able to set consoleFrame to image regardless of if it's a saved file or not
-
-    //todo the way we resize a frame should affect what way the background recedes
-    //todo test resizing the background of consoleframe?
 
     //todo remember console orientation on exiting Cyder
 

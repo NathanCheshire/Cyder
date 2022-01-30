@@ -1375,9 +1375,6 @@ public class CyderFrame extends JFrame {
                         currentNotification.getY());
                     break;
             }
-
-        if (isVisible())
-            refreshBackground();
     }
 
     public static final int MINIMUM_WIDTH = 100;
@@ -1486,13 +1483,17 @@ public class CyderFrame extends JFrame {
             if (iconLabel == null)
                 return;
 
+            iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,
+                    height - 2 * frameResizingLen);
+            iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen,
+                    height - 2 * frameResizingLen);
+
             if (cr != null && cr.getBackgroundRefreshOnResize()) {
+                System.out.println(currentOrigIcon.getIconWidth() + "," + currentOrigIcon.getIconHeight());
+
                 iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }
-
-            iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,height - 2 * frameResizingLen);
-            iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen, height - 2 * frameResizingLen);
 
             revalidate();
             repaint();
