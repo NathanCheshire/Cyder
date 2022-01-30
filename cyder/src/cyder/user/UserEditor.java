@@ -1408,7 +1408,7 @@ public class UserEditor implements WidgetBase {
 
                    if (delete) {
                        ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
-                       SystemUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+                       OSUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                        String dep = SecurityUtil.getDeprecatedUUID();
 

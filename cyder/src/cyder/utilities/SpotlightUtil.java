@@ -28,7 +28,9 @@ public class SpotlightUtil {
 
         String ret = "";
 
-        File spotlightsParentDir = new File("C:/Users/" + SystemUtil.getWindowsUsername() + "/AppData/Local/Packages");
+        //todo check if on windows
+        
+        File spotlightsParentDir = new File("C:/Users/" + OSUtil.getSystemUsername() + "/AppData/Local/Packages");
 
         for (File possibleSpotlightDir : spotlightsParentDir.listFiles()) {
             if (possibleSpotlightDir.getName().contains("Microsoft.Windows.ContentDeliveryManager_")) {
@@ -49,7 +51,7 @@ public class SpotlightUtil {
         }
 
         File spotlightsDir = new File("C:/Users/" +
-                SystemUtil.getWindowsUsername() + "/AppData/Local/Packages/" +
+                OSUtil.getSystemUsername() + "/AppData/Local/Packages/" +
                 getWindowsContentDeliveryManagerDir() + "/LocalState/Assets");
 
         try {
@@ -85,7 +87,7 @@ public class SpotlightUtil {
 
         try {
             File spotlightsDir = new File("C:/Users/" +
-                    SystemUtil.getWindowsUsername() + "/AppData/Local/Packages/" +
+                    OSUtil.getSystemUsername() + "/AppData/Local/Packages/" +
                     getWindowsContentDeliveryManagerDir() + "/LocalState/Assets");
 
             File[] spotlights = spotlightsDir.listFiles();

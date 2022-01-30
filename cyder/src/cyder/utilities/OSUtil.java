@@ -3,7 +3,10 @@ package cyder.utilities;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
+import java.awt.*;
 import java.io.File;
+import java.net.InetAddress;
+import java.util.ArrayList;
 
 /**
  * Methods that depend on the Operating System Cyder is running on are placed in this class.
@@ -257,6 +260,107 @@ public class OSUtil {
 
         return ret.toString();
     }
+
+    /**
+     * Returns the username of the operating system user.
+     *
+     * @return the username of the operating system user
+     */
+    public static String getSystemUsername() {
+        return System.getProperty("user.name");
+    }
+
+    /**
+     * Returns the name of the computer Cyder is currently running on.
+     *
+     * @return the name of the computer Cyder is currently running on
+     */
+    public static String getComputerName() {
+        String name = "N/A";
+
+        try {
+            InetAddress address = InetAddress.getLocalHost();
+            name = address.getHostName();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+        return name;
+    }
+
+    /**
+     * Sets the location of the mouse on screen.
+     *
+     * @param x the x value to set the mouse to
+     * @param y the y value to set the mouse to
+     */
+    public static void setMouseLoc(int x, int y) {
+        try {
+            Robot Rob = new Robot();
+            Rob.mouseMove(x, y);
+        } catch (Exception ex) {
+            ExceptionHandler.handle(ex);
+        }
+    }
+
+    /**
+     * Deletes the provided file/folder recursively.
+     *
+     * @param folder the folder/file to delete
+     */
+    public static void deleteFolder(File folder) {
+        File[] files = folder.listFiles();
+
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    deleteFolder(f);
+                }
+
+                else {
+                    f.delete();
+                }
+            }
+        }
+
+        folder.delete();
+    }
+
+    /**
+     * Returns a list of all files contained within the startDir and sub directories
+     * that have the specified extension.
+     *
+     * @param startDir the starting directory
+     * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
+     * @return an ArrayList of all files with the given extension found within the startDir and
+     * sub directories
+     */
+    public static ArrayList<File> getFiles(File startDir, String extension) {
+        if (startDir == null)
+            throw new IllegalArgumentException("Start directory is null");
+
+        //init return set
+        ArrayList<File> ret = new ArrayList<>();
+
+        //should be directory but test anyway
+        if (startDir.isDirectory()) {
+            File[] files = startDir.listFiles();
+
+            for (File f : files)
+                ret.addAll(getFiles(f, extension));
+
+        }
+        else if (extension == null) {
+            ret.add(startDir);
+        }
+
+        else if (StringUtil.getExtension(startDir).equals(extension)) {
+            ret.add(startDir);
+        }
+
+        return ret;
+    }
+
+    //todo zip logs if the sub-log dir is in the past
 
     //todo minimizing needs to remember other monitor
 

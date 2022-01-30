@@ -12,7 +12,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.ui.CyderTextField;
 import cyder.utilities.IOUtil;
-import cyder.utilities.SystemUtil;
+import cyder.utilities.OSUtil;
 import cyder.widgets.WidgetBase;
 
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class DirectoryViewer implements WidgetBase {
 
     //where we currently are
     private static File currentDirectory = new File("c:\\users\\"
-            + SystemUtil.getWindowsUsername() + "\\Downloads");
+            + OSUtil.getSystemUsername() + "\\Downloads");
 
     //private constructor since static
     private DirectoryViewer() {
@@ -125,7 +125,7 @@ public class DirectoryViewer implements WidgetBase {
         dirFrame.getContentPane().add(next);
 
         File chosenDir = new File("c:/users/"
-                + SystemUtil.getWindowsUsername() + "/");
+                + OSUtil.getSystemUsername() + "/");
         File[] startDir = chosenDir.listFiles();
 
         Collections.addAll(directoryFileList, startDir);

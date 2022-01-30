@@ -894,7 +894,7 @@ public class UserUtil {
 
             //if there's nothing left in the dir, delete the whole folder
             if (userDir.listFiles().length == 0)
-                SystemUtil.deleteFolder(userDir);
+                OSUtil.deleteFolder(userDir);
             else {
                 //otherwise we need to figure out all the file names in each sub-dir, not recursive, and inform the user
                 // that a json was deleted and tell them which files are remaining

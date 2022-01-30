@@ -9,8 +9,8 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.ui.*;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -139,7 +139,7 @@ public class NotesWidget implements WidgetBase {
                         }
                     }
 
-                    SystemUtil.deleteFolder(noteList.get(i));
+                    OSUtil.deleteFolder(noteList.get(i));
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();

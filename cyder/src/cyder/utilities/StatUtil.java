@@ -128,11 +128,11 @@ public class StatUtil {
                         "YouTube Reachable: " + NetworkUtil.siteReachable("https://www.youtube.com"),
                         "Apple Reachable: " + NetworkUtil.siteReachable("https://www.apple.com"),
                         "Microsoft Reachable: " + NetworkUtil.siteReachable("https://www.microsoft.com//en-us//"),
-                        "User Name: " + SystemUtil.getWindowsUsername(),
-                        "Computer Name: " + SystemUtil.getComputerName(),
+                        "User Name: " + OSUtil.getSystemUsername(),
+                        "Computer Name: " + OSUtil.getComputerName(),
                         "Available Cores: " + Runtime.getRuntime().availableProcessors(),
                         "Available Memory: " + gBytes + " GigaBytes",
-                        "Operating System: " + SystemUtil.getOS(),
+                        "Operating System: " + OSUtil.OPERATING_SYSTEM_NAME,
                         "Java Version: " + System.getProperty("java.version"),
                         "Network Interface Name: " + netIn.getName(),
                         "Network Interface Display Name: " + netIn.getDisplayName(),
@@ -157,7 +157,7 @@ public class StatUtil {
     public static String fileByFileAnalyze(File startDir) {
         String ret = "Numbers in order represent: code lines, comment lines, and blank lines respectively\n";
 
-        ArrayList<File> javaFiles = SystemUtil.getFiles(startDir, ".java");
+        ArrayList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
 
         for (File f : javaFiles) {
             ret += f.getName().replace(".java","")+ ": " + totalLines(f) + ","

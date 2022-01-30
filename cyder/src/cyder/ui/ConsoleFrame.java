@@ -156,8 +156,8 @@ public final class ConsoleFrame {
             ImageIcon usage = null;
 
             if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                w = (int) SystemUtil.getScreenSize().getWidth();
-                h = (int) SystemUtil.getScreenSize().getHeight();
+                w = ScreenUtil.getScreenWidth();
+                h = ScreenUtil.getScreenHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
                 fullscreen = true;
             } else {
@@ -1031,8 +1031,8 @@ public final class ConsoleFrame {
                 //otherwise show it on the display we're given but shifted into bounds if out
                 int minX = 0;
                 int minY = 0;
-                int maxX = SystemUtil.getScreenWidth();
-                int maxY = SystemUtil.getScreenHeight();
+                int maxX = ScreenUtil.getScreenWidth();
+                int maxY = ScreenUtil.getScreenHeight();
 
                 if (consoleX != -80000 && consoleY != -80000) {
                     if (consoleX < minX)
@@ -1191,16 +1191,16 @@ public final class ConsoleFrame {
                                 }
                             }
 
-                            if (busyThreads == 0 && SystemUtil.getCurrentCyderIcon() != SystemUtil.xxxIcon) {
-                                SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
-                            } else if (SystemUtil.getCurrentCyderIcon() != SystemUtil.xxxIcon){
-                               SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIconBlink());
+                            if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                                CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
+                            } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon){
+                                CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON_BLINK);
                             }
-                        } else if (SystemUtil.getCurrentCyderIcon() != SystemUtil.xxxIcon) {
-                            SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
+                        } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                            CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
                         }
 
-                        consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                        consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
 
                         //sleep 3 seconds
                         int i = 0;
@@ -1215,8 +1215,8 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             } finally {
-                SystemUtil.setCurrentCyderIcon(SystemUtil.getCyderIcon());
-                consoleCyderFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
+                consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
             }
         }, "Cyder Busy Checker");
         busyCheckerThread.start();
@@ -1812,8 +1812,8 @@ public final class ConsoleFrame {
 
             int minWidth = 400;
             int minHeight = 400;
-            int maxWidth = SystemUtil.getScreenWidth();
-            int maxHeight = SystemUtil.getScreenHeight();
+            int maxWidth = ScreenUtil.getScreenWidth();
+            int maxHeight = ScreenUtil.getScreenHeight();
 
             for (File currentFile : backgrounds) {
                 BufferedImage currentImage = ImageIO.read(currentFile);
@@ -1990,8 +1990,8 @@ public final class ConsoleFrame {
 
             //if full screen then get full screen images
             if (fullscreen) {
-                width = SystemUtil.getScreenWidth();
-                height = SystemUtil.getScreenHeight();
+                width = ScreenUtil.getScreenWidth();
+                height = ScreenUtil.getScreenHeight();
 
                 oldBack = ImageUtil.resizeImage(oldBack, width, height);
                 newBack = ImageUtil.resizeImage(newBack, width, height);
@@ -2297,16 +2297,16 @@ public final class ConsoleFrame {
             }
 
             //fix frame out of bounds if needed
-            if (consoleCyderFrame.getX() + consoleCyderFrame.getWidth() > SystemUtil.getScreenWidth()) {
-                consoleCyderFrame.setLocation(SystemUtil.getScreenWidth() - consoleCyderFrame.getWidth(),
+            if (consoleCyderFrame.getX() + consoleCyderFrame.getWidth() > ScreenUtil.getScreenWidth()) {
+                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - consoleCyderFrame.getWidth(),
                         consoleCyderFrame.getY());
             }
             if (consoleCyderFrame.getX() < 0) {
                 consoleCyderFrame.setLocation(0, consoleCyderFrame.getY());
             }
-            if (consoleCyderFrame.getY() + consoleCyderFrame.getHeight() > SystemUtil.getScreenHeight()) {
+            if (consoleCyderFrame.getY() + consoleCyderFrame.getHeight() > ScreenUtil.getScreenHeight()) {
                 consoleCyderFrame.setLocation(consoleCyderFrame.getX(),
-                        SystemUtil.getScreenHeight() - consoleCyderFrame.getHeight());
+                        ScreenUtil.getScreenHeight() - consoleCyderFrame.getHeight());
             }
             if (consoleCyderFrame.getY() < 0) {
                 consoleCyderFrame.setLocation(consoleCyderFrame.getX(), 0);
@@ -2321,7 +2321,7 @@ public final class ConsoleFrame {
      */
     public int getBackgroundWidth() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
-            return (int) SystemUtil.getScreenSize().getWidth();
+            return ScreenUtil.getScreenHeight();
         else
             return getCurrentBackgroundImageIcon().getIconWidth();
     }
@@ -2331,7 +2331,7 @@ public final class ConsoleFrame {
      */
     public int getBackgroundHeight() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
-            return (int) SystemUtil.getScreenSize().getHeight();
+            return (int) ScreenUtil.getScreenHeight();
         else
             return getCurrentBackgroundImageIcon().getIconHeight();
     }
@@ -2949,14 +2949,14 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setLocation(0, 0);
                 break;
             case TOP_RIGHT:
-                consoleCyderFrame.setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(), 0);
+                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(), 0);
                 break;
             case BOTTOM_LEFT:
-                consoleCyderFrame.setLocation(0, SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+                consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
                 break;
             case BOTTOM_RIGHT:
-                consoleCyderFrame.setLocation(SystemUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
-                        SystemUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
+                        ScreenUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
                 break;
         }
 

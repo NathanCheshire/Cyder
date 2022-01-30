@@ -14,8 +14,8 @@ import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -135,7 +135,8 @@ public class ImagePixelatorWidget implements WidgetBase {
                         String saveName = StringUtil.getFilename(currentFile) +
                                  "_Pixelated_Pixel_Size_" + pixel + ".png";
                         File saveFile = new File("c:/users/"
-                                + SystemUtil.getWindowsUsername() + "/downloads/" + saveName);
+                                +
+                                OSUtil.getSystemUsername() + "/downloads/" + saveName);
 
                         ImageIO.write(saveImage, "png", saveFile);
 

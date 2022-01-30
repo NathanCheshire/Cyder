@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
+import cyder.constants.CyderIcons;
 import cyder.constants.CyderNums;
 import cyder.constants.CyderStrings;
 import cyder.enums.ScreenPosition;
@@ -614,8 +615,8 @@ public class InputHandler {
                     int h = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight();
 
                     if (UserUtil.extractUser().getFullscreen().equals("1")) {
-                        w = SystemUtil.getScreenWidth();
-                        h = SystemUtil.getScreenHeight();
+                        w = ScreenUtil.getScreenWidth();
+                        h = ScreenUtil.getScreenHeight();
                     }
 
                     BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, color);
@@ -662,9 +663,6 @@ public class InputHandler {
         } else if (commandIs("repaint")) {
             ConsoleFrame.getConsoleFrame().repaint();
             println("ConsoleFrame repainted");
-        } else if (commandIs("disco")) {
-            println("I hope you're not the only one at this party.");
-            SystemUtil.disco(10);
         } else if (commandIs("javaproperties")) {
             StatUtil.javaProperties();
         } else if (commandIs("panic")) {
@@ -673,10 +671,6 @@ public class InputHandler {
             } else {
                 CyderCommon.exit(25);
             }
-        } else if (commandIs("opendrive")) {
-            SystemUtil.openCD("D:\\");
-        } else if (commandIs("closedrive")) {
-            SystemUtil.closeCD("D:\\");
         } else if (commandIs("define")) {
             if (args.size() > 0) {
                 println(StringUtil.define(argsToString()));
@@ -906,15 +900,13 @@ public class InputHandler {
             } else {
                 println("Anagram usage: anagram word1 word2");
             }
-        } else if (commandIs("resetmouse")) {
-            SystemUtil.resetMouse();
         } else if (commandIs("clc") ||
                 commandIs("cls") ||
                 commandIs("clear")) {
             clc();
         } else if (commandIs("mouse")) {
             if (checkArgsLength(2)) {
-                SystemUtil.setMouseLoc(Integer.parseInt(getArg(0)), Integer.parseInt(getArg(1)));
+                OSUtil.setMouseLoc(Integer.parseInt(getArg(0)), Integer.parseInt(getArg(1)));
             } else {
                 println("Mouse command usage: mouse X_PIXEL, Y_PIXEL");
             }
@@ -1149,7 +1141,7 @@ public class InputHandler {
                 println("Screenshot command usage: screenshot [FRAMES or FRAME_NAME]");
             }
         } else if (commandIs("xxx")) {
-            SystemUtil.setCurrentCyderIcon(SystemUtil.xxxIcon);
+            CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playAudio("static/audio/x.mp3");
@@ -2516,7 +2508,6 @@ public class InputHandler {
 
         //kill threads
         killThreads();
-        SystemUtil.killThreads();
 
         //stop music
         IOUtil.stopAudio();

@@ -477,8 +477,8 @@ public class UserCreator implements WidgetBase {
         }
 
         int monitorNum = 0;
-        int width = SystemUtil.getScreenWidth();
-        int height = SystemUtil.getScreenHeight();
+        int width = ScreenUtil.getScreenWidth();
+        int height = ScreenUtil.getScreenHeight();
 
         //figure out the monitor we should be using for the user's screen stats
         if (CyderCommon.getDominantFrame() != null) {

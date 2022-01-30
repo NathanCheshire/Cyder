@@ -129,7 +129,7 @@ public class IOUtil {
     public static void deleteTempDir() {
         try {
             File tmpDir = new File("cyder/src/cyder/tmp");
-            SystemUtil.deleteFolder(tmpDir);
+            OSUtil.deleteFolder(tmpDir);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -364,7 +364,7 @@ public class IOUtil {
                 if (!user.isDirectory())
                     continue;
                 if (user.isDirectory() && (user.getName().contains("VoidUser") || user.listFiles().length < 2)) {
-                    SystemUtil.deleteFolder(user);
+                    OSUtil.deleteFolder(user);
                 }
             }
         }
@@ -690,7 +690,7 @@ public class IOUtil {
         File sandbox = new File("static/sandbox");
 
         if (sandbox.exists()) {
-            SystemUtil.deleteFolder(sandbox);
+            OSUtil.deleteFolder(sandbox);
         }
     }
 

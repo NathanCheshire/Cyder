@@ -13,7 +13,7 @@ import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
-import cyder.utilities.SystemUtil;
+import cyder.utilities.ScreenUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -243,9 +243,8 @@ public class ImageResizerWidget implements WidgetBase {
 
     private static ImageIcon checkImage(File im) {
         try {
-            Dimension dim = SystemUtil.getScreenSize();
-            double screenX = dim.getWidth();
-            double screenY = dim.getHeight();
+            double screenX = ScreenUtil.getScreenWidth();
+            double screenY = ScreenUtil.getScreenHeight();
 
             aspectRatio = getAspectRatio(new ImageIcon(ImageIO.read(im)));
 

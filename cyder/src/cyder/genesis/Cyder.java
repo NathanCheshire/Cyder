@@ -9,12 +9,11 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.IOUtil;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
-
 import java.awt.*;
 import java.io.File;
 import java.net.ServerSocket;
@@ -48,7 +47,7 @@ public class Cyder {
 
         //start session logger
         SessionHandler.SessionLogger();
-        SessionHandler.log(SessionHandler.Tag.ENTRY, SystemUtil.getWindowsUsername());
+        SessionHandler.log(SessionHandler.Tag.ENTRY, OSUtil.getSystemUsername());
 
         //subroutines
         initSystemKeys();
@@ -79,7 +78,7 @@ public class Cyder {
             return;
         }
 
-        if (SystemUtil.osxSystem()) {
+        if (OSUtil.isOSX()) {
             SessionHandler.log(SessionHandler.Tag.EXCEPTION, "IMPROPER OS");
             exceptionExit("System OS not intended for Cyder use. You should" +
                     " install a dual boot or a VM or something.","OS Exception");

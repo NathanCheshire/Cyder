@@ -4,8 +4,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
+import cyder.utilities.ScreenUtil;
 import cyder.utilities.StringUtil;
-import cyder.utilities.SystemUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,13 +72,13 @@ public class DragLabel extends JLabel {
                 int restoreX = effectFrame.getRestoreX();
                 int restoreY = effectFrame.getRestoreY();
 
-                if (restoreX > SystemUtil.getScreenWidth())
-                    restoreX = SystemUtil.getScreenWidth() - effectFrame.getWidth();
+                if (restoreX > ScreenUtil.getScreenWidth())
+                    restoreX = ScreenUtil.getScreenWidth() - effectFrame.getWidth();
                 if (restoreX < - effectFrame.getWidth())
                     restoreX = 0;
 
-                if (restoreY > SystemUtil.getScreenHeight())
-                    restoreY = SystemUtil.getScreenHeight() - effectFrame.getHeight();
+                if (restoreY > ScreenUtil.getScreenHeight())
+                    restoreY = ScreenUtil.getScreenHeight() - effectFrame.getHeight();
                 if (restoreY < - effectFrame.getHeight())
                     restoreY = 0;
 

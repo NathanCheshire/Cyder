@@ -118,7 +118,7 @@ public class CyderFrame extends JFrame {
         setResizable(false);
         setUndecorated(true);
         setBackground(CyderColors.vanila);
-        setIconImage(SystemUtil.getCyderIcon().getImage());
+        setIconImage(CyderIcons.CYDER_ICON.getImage());
 
         //try and get preference for frame shape
         if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
@@ -287,7 +287,7 @@ public class CyderFrame extends JFrame {
         setResizable(false);
         setUndecorated(true);
         setBackground(CyderColors.navy);
-        setIconImage(SystemUtil.getCyderIcon().getImage());
+        setIconImage(CyderIcons.CYDER_ICON.getImage());
 
         //listener to ensure the close button was always pressed which ensures
         // things like closeAnimation are always performed
@@ -1065,11 +1065,11 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(true);
 
                 //figure out increment for frame num
-                int distanceToTravel = SystemUtil.getScreenHeight() - this.getY();
+                int distanceToTravel = ScreenUtil.getScreenHeight() - this.getY();
                 //25 frames to animate
                 int animationInc = (int) ((double ) distanceToTravel / animationFrames);
 
-                for (int i = this.getY(); i <= SystemUtil.getScreenHeight(); i += animationInc) {
+                for (int i = this.getY(); i <= ScreenUtil.getScreenHeight(); i += animationInc) {
                     Thread.sleep(1);
                     setLocation(this.getX(), i);
                 }
@@ -1235,16 +1235,16 @@ public class CyderFrame extends JFrame {
             case DOWN:
                 this.setLocation(this.getX(), this.getY() + 10);
 
-                if (this.getY() > SystemUtil.getScreenHeight() - this.getHeight()) {
-                    this.setLocation(this.getX(), SystemUtil.getScreenHeight() - this.getHeight());
+                if (this.getY() > ScreenUtil.getScreenHeight() - this.getHeight()) {
+                    this.setLocation(this.getX(), ScreenUtil.getScreenHeight() - this.getHeight());
                     dancingDirection = DancingDirection.RIGHT;
                 }
                 break;
             case RIGHT:
                 this.setLocation(this.getX() + 10, this.getY());
 
-                if (this.getX() > SystemUtil.getScreenWidth() - this.getWidth()) {
-                    this.setLocation(SystemUtil.getScreenWidth() - this.getWidth(), this.getY());
+                if (this.getX() > ScreenUtil.getScreenWidth() - this.getWidth()) {
+                    this.setLocation(ScreenUtil.getScreenWidth() - this.getWidth(), this.getY());
                     dancingDirection = DancingDirection.UP;
                 }
                 break;

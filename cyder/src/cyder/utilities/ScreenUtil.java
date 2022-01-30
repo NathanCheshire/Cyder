@@ -7,6 +7,24 @@ import java.awt.*;
  */
 public class ScreenUtil {
     /**
+     * Returns the width of the primary display.
+     *
+     * @return the width of the primary display
+     */
+    public static int getScreenWidth() {
+        return (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    }
+
+    /**
+     * Returns the height of the primary display.
+     *
+     * @return the height of the primary display
+     */
+    public static int getScreenHeight() {
+        return (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    }
+
+    /**
      * Returns the device that the provided frame is on.
      *
      * @param frame the frame to find the monitor of

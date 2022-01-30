@@ -1,7 +1,7 @@
 package cyder.constants;
 
 import cyder.utilities.ImageUtil;
-import cyder.utilities.SystemUtil;
+import cyder.utilities.ScreenUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +10,26 @@ import java.awt.*;
  * Common ImageIcons used throughout Cyder for buttons
  */
 public class CyderIcons {
+    /**
+     * The Cyder logo.
+     */
+    public static final ImageIcon CYDER_ICON = new ImageIcon("static/pictures/CyderIcon.png");
+
+    /**
+     * The Cyder logo used to indicate a background process is running.
+     */
+    public static final ImageIcon CYDER_ICON_BLINK = new ImageIcon("static/pictures/CyderIconBlink.png");
+
+    /**
+     * The x easter egg icon.
+     */
+    public static final ImageIcon xxxIcon = new ImageIcon("static/pictures/print/x.png");
+
+    /**
+     * The current icon to be used for CyderFrames.
+     */
+    private static ImageIcon currentCyderIcon = CYDER_ICON;
+
     /**
      * Minimize icons used for CyderFrame DragLabels
      */
@@ -52,8 +72,8 @@ public class CyderIcons {
      * A default image that spans the size of the primar display
      */
     public static final ImageIcon defaultBackgroundLarge = generateDefaultBackground(
-            Math.max(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight()),
-            Math.max(SystemUtil.getScreenWidth(), SystemUtil.getScreenHeight()));
+            Math.max(ScreenUtil.getScreenWidth(), ScreenUtil.getScreenHeight()),
+            Math.max(ScreenUtil.getScreenWidth(), ScreenUtil.getScreenHeight()));
 
     /**
      * Instantiation of images class not allowed
@@ -75,5 +95,13 @@ public class CyderIcons {
                 new Color(252,245,255),
                 new Color(164,154,187),
                 new Color(249, 233, 241)));
+    }
+
+    public static ImageIcon getCurrentCyderIcon() {
+        return currentCyderIcon;
+    }
+
+    public static void setCurrentCyderIcon(ImageIcon currentCyderIcon) {
+        CyderIcons.currentCyderIcon = currentCyderIcon;
     }
 }

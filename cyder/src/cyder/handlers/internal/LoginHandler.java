@@ -34,7 +34,7 @@ public class LoginHandler {
     private static boolean doLoginAnimations;
     private static int loginMode;
     private static String username;
-    private static final String bashString = SystemUtil.getWindowsUsername() + "@" + SystemUtil.getComputerName() + ":~$ ";
+    private static final String bashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
     private static String consoleBashString;
     private static boolean closed = true;
 

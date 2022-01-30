@@ -25,11 +25,11 @@ public class BoundsUtil {
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
-        return widthHeightCalculation(text, SystemUtil.getScreenWidth() / 2, CyderFonts.defaultFontSmall);
+        return widthHeightCalculation(text, ScreenUtil.getScreenWidth() / 2, CyderFonts.defaultFontSmall);
     }
 
     public static BoundsString widthHeightCalculation(String text, Font font) {
-        return widthHeightCalculation(text, SystemUtil.getScreenWidth() / 2, font);
+        return widthHeightCalculation(text, ScreenUtil.getScreenWidth() / 2, font);
     }
 
     /**

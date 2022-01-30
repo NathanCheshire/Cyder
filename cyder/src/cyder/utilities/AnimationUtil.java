@@ -61,7 +61,7 @@ public class AnimationUtil {
         int y = (int) point.getY();
 
         try {
-            for (int i = y; i <= SystemUtil.getScreenHeight(); i += 15) {
+            for (int i = y; i <= ScreenUtil.getScreenHeight(); i += 15) {
                 Thread.sleep(0, 250);
                 frame.setLocation(x, i);
             }

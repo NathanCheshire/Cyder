@@ -2,7 +2,7 @@ package cyder.scripts;
 
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
-import cyder.utilities.SystemUtil;
+import cyder.utilities.OSUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,7 +28,7 @@ public class PyExecutor {
 
         new Thread(() -> {
             try {
-                if (SystemUtil.getOS().toLowerCase().contains("windows")) {
+                if (OSUtil.isWindows()) {
                     String deviceString = null;
 
                     try {

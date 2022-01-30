@@ -842,7 +842,7 @@ public class AudioPlayer implements WidgetBase {
 
             //take away the custom icon since no audio is playing nor paused
             if (audioFrame != null) {
-                audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                audioFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
                 audioFrame.setUseCustomTaskbarIcon(false);
             }
 
@@ -1037,7 +1037,7 @@ public class AudioPlayer implements WidgetBase {
                     audioFrame.setCustomTaskbarIcon(currentAlbumArt);
                     audioFrame.setUseCustomTaskbarIcon(true);
                 } else {
-                    audioFrame.setIconImage(SystemUtil.getCurrentCyderIcon().getImage());
+                    audioFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
                     audioFrame.setUseCustomTaskbarIcon(false);
                 }
 

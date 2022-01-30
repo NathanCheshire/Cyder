@@ -273,7 +273,7 @@ public class GetterUtil {
                 directoryFileList.clear();
                 directoryNameList.clear();
                 currentDirectory = new File("c:\\users\\"
-                        + SystemUtil.getWindowsUsername() + "\\");
+                        + OSUtil.getSystemUsername() + "\\");
 
                 //code copied from dir search widget
                 if (dirFrame != null)
@@ -346,7 +346,7 @@ public class GetterUtil {
                 dirFrame.getContentPane().add(next);
 
                 File chosenDir = new File("c:/users/"
-                        + SystemUtil.getWindowsUsername() + "/");
+                        + OSUtil.getSystemUsername() + "/");
                 File[] startDir = chosenDir.listFiles();
 
                 Collections.addAll(directoryFileList, startDir);
@@ -549,7 +549,7 @@ public class GetterUtil {
 
     //where we currently are
     private static File currentDirectory = new File("c:\\users\\"
-            + SystemUtil.getWindowsUsername() + "\\Downloads");
+            + OSUtil.getSystemUsername() + "\\Downloads");
 
     /*
      * Confirmation getter
