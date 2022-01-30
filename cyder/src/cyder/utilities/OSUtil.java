@@ -423,8 +423,6 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo zip logs if the sub-log dir is in the past
-
     //todo minimizing needs to remember other monitor
 
     //todo update README before weekend is over?

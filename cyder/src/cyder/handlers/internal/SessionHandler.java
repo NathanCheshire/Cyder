@@ -432,7 +432,8 @@ public class SessionHandler {
         }
 
         for (File subLogDir : topLevelLogsDir.listFiles()) {
-            if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())) {
+            if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())
+                    && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
                 OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
             }
         }

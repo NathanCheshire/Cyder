@@ -1,6 +1,0 @@
-[19-24-58] [ENTRY]: [Nathan]
-[19-24-58] [SYSTEM_IO]: System data pared in IOUtil's static block
-[19-24-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
-[19-24-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
-[19-24-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
-[EXTERNAL STOP] Cyder was force closed by an external entity such as an IDE stop or the OS' Task Manager

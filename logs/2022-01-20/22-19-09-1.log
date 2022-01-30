@@ -1,8 +1,0 @@
-[22-19-09] [ENTRY]: [Nathan]
-[22-19-10] [SYSTEM_IO]: System data pared in IOUtil's static block
-[22-19-10] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
-[22-19-10] [EXCEPTION]: ATTEMPTED MULTIPLE CYDER INSTANCES
-[22-19-21] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 762, 28)], hash = [1550228904], parentFrame = [Instance Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-19-21] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(897, 646, 766, 100)], hash = [1356840024], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Instance Exception]
-[22-19-21] [EXIT]: [RUNTIME] 12s
-[22-19-21] [EOL]: Log completed, exiting Cyder with exit code: 278 [Corrupted System File(s)], exceptions thrown: 1

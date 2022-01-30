@@ -1,9 +1,0 @@
-[22-15-17] [ENTRY]: [Nathan]
-[22-15-17] [SYSTEM_IO]: System data pared in IOUtil's static block
-[22-15-18] [LOGIN]: [AUTOCYPHER ATTEMPT]
-[22-15-18] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
-[22-15-19] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
-[22-15-19] [SYSTEM_IO]: Userdata requested: Name
-[22-16-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Name: Cyder Splash (title position: LEFT), (980,378,600x600)
-[22-16-10] [EXIT]: [RUNTIME] 53s
-[22-16-10] [EOL]: Log completed, exiting program with code: -600 [Not Released], exceptions thrown: 0
