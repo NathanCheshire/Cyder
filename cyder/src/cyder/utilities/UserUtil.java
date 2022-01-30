@@ -16,8 +16,6 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class UserUtil {
     /**
@@ -396,7 +394,6 @@ public class UserUtil {
 
         File f = new File(OSUtil.buildPath("dynamic","users",
                 uuid, UserFile.USERDATA.getName()));
-
 
         //todo the monitor position initial saving works, loading is somehow fucked
 
@@ -932,49 +929,6 @@ public class UserUtil {
 
                 }
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Zips the provided file with the given name using hte provided ZOS
-     * @param fileToZip the file/dir to zip
-     * @param fileName the name of the resulting file (path included)
-     * @param zipOut the Zip Output Stream
-     */
-    private static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
-        try {
-            if (fileToZip.isHidden())
-                return;
-
-            if (fileToZip.isDirectory()) {
-                if (fileName.endsWith("/")) {
-                    zipOut.putNextEntry(new ZipEntry(fileName));
-                } else {
-                    zipOut.putNextEntry(new ZipEntry(fileName + "/"));
-                }
-                zipOut.closeEntry();
-
-                File[] children = fileToZip.listFiles();
-                for (File childFile : children)
-                    zipFile(childFile, fileName + "/" + childFile.getName(), zipOut);
-
-                return;
-            }
-
-            FileInputStream fis = new FileInputStream(fileToZip);
-            ZipEntry zipEntry = new ZipEntry(fileName);
-
-            zipOut.putNextEntry(zipEntry);
-
-            byte[] bytes = new byte[1024];
-            int length;
-
-            while ((length = fis.read(bytes)) >= 0)
-                zipOut.write(bytes, 0, length);
-
-            fis.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

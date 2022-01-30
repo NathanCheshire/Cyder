@@ -5,8 +5,17 @@ import cyder.ui.ConsoleFrame;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Methods that depend on the Operating System Cyder is running on are placed in this class.
@@ -358,6 +367,68 @@ public class OSUtil {
         }
 
         return ret;
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        String sourcePath = OSUtil.buildPath("dynamic","delete");
+        String outputPath = OSUtil.buildPath("dynamic","delete.zip");
+        zip(sourcePath,outputPath,true);
+    }
+
+    /**
+     * Zips the provided file/folder and deletes the original if successful and requested.
+     *
+     * @param source the file/dir to zip
+     * @param destination the destination of the zip archive
+     * @param deleteOnSuccess whether to delete the original file/directory
+     * @return whether the zipping was successful
+     */
+    public static boolean zip(final String source, final String destination, boolean deleteOnSuccess)  {
+        boolean ret = zip(source,destination);
+
+        if (ret) {
+            deleteFolder(new File(source));
+        }
+
+        return ret;
+    }
+
+    /**
+     * Zips the provided file/folder.
+     *
+     * @param source the file/dir to zip
+     * @param destination the destination of the zip archive
+     * @return whether the zipping was successful
+     */
+    public static boolean zip(final String source, final String destination) {
+        AtomicBoolean ret = new AtomicBoolean(true);
+
+        try {
+            Path zipFile = Files.createFile(Paths.get(destination));
+            Path sourceDirPath = Paths.get(source);
+
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
+                 Stream<Path> paths = Files.walk(sourceDirPath)) {
+                paths.filter(path -> !Files.isDirectory(path)).forEach(path -> {
+                    ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
+                    try {
+                        zipOutputStream.putNextEntry(zipEntry);
+                        Files.copy(path, zipOutputStream);
+                        zipOutputStream.closeEntry();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            if (!(e instanceof NoSuchFileException))
+                ret.set(false);
+        }
+
+        return ret.get();
     }
 
     //todo zip logs if the sub-log dir is in the past

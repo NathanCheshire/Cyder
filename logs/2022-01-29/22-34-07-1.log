@@ -1,0 +1,118 @@
+[22-34-08] [ENTRY]: [Nathan]
+[22-34-08] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-34-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-34-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-34-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-34-10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-34-10] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-34-10] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-34-10] [SYSTEM_IO]: Userdata requested: Name
+[22-34-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-34-10] [SYSTEM_IO]: Userdata requested: Name
+[22-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[22-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[22-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[22-34-10] [SYSTEM_IO]: Userdata requested: Font
+[22-34-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-34-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-34-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[22-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[22-34-10] [SYSTEM_IO]: Userdata requested: Foreground
+[22-34-10] [SYSTEM_IO]: Userdata requested: Font
+[22-34-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-34-10] [SYSTEM_IO]: Userdata requested: InputFill
+[22-34-11] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1291061698], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-34-11] [ACTION]: Console loaded in 3189ms
+[22-34-11] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-34-11] [ENTRY]: [TESTING MODE]
+[22-34-11] [EXCEPTION]: 
+Exception origin: java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89)
+From line: 89
+Trace: java.nio.file.AccessDeniedException: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:369)
+	at java.base/java.nio.file.Files.createFile(Files.java:640)
+	at cyder.utilities.OSUtil.zipFile(OSUtil.java:376)
+	at test.java.Debug.launchTests(Debug.java:152)
+	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1313)
+	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
+	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:239)
+	at java.desktop/java.awt.AWTEventMulticaster.windowOpened(AWTEventMulticaster.java:348)
+	at java.desktop/java.awt.Window.processWindowEvent(Window.java:2061)
+	at java.desktop/javax.swing.JFrame.processWindowEvent(JFrame.java:298)
+	at java.desktop/java.awt.Window.processEvent(Window.java:2023)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-34-11] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-34-11] [DEBUG]: 
+Exception origin: java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89)
+From line: 89
+Trace: java.nio.file.AccessDeniedException: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users
+	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:89)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
+	at java.base/java.nio.file.Files.newByteChannel(Files.java:369)
+	at java.base/java.nio.file.Files.createFile(Files.java:640)
+	at cyder.utilities.OSUtil.zipFile(OSUtil.java:376)
+	at test.java.Debug.launchTests(Debug.java:152)
+	at cyder.ui.ConsoleFrame.onLaunch(ConsoleFrame.java:1313)
+	at cyder.ui.ConsoleFrame.access$400(ConsoleFrame.java:38)
+	at cyder.ui.ConsoleFrame$2.windowOpened(ConsoleFrame.java:239)
+	at java.desktop/java.awt.AWTEventMulticaster.windowOpened(AWTEventMulticaster.java:348)
+	at java.desktop/java.awt.Window.processWindowEvent(Window.java:2061)
+	at java.desktop/javax.swing.JFrame.processWindowEvent(JFrame.java:298)
+	at java.desktop/java.awt.Window.processEvent(Window.java:2023)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-34-11] [SYSTEM_IO]: Userdata requested: laststart
+[22-34-11] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3189ms
+[22-34-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-35-03] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1

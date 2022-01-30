@@ -2331,7 +2331,7 @@ public final class ConsoleFrame {
      */
     public int getBackgroundHeight() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
-            return (int) ScreenUtil.getScreenHeight();
+            return ScreenUtil.getScreenHeight();
         else
             return getCurrentBackgroundImageIcon().getIconHeight();
     }
