@@ -7,6 +7,7 @@ import cyder.ui.*;
 import cyder.user.UserCreator;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 
 import javax.swing.*;
@@ -322,7 +323,7 @@ public class LoginHandler {
 
         for (File user : new File("dynamic/users").listFiles()) {
             if (user.isDirectory()) {
-                File json = new File(user.getAbsolutePath() + "/userdata.json");
+                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists())
                     userJsons.add(json);
@@ -389,7 +390,7 @@ public class LoginHandler {
                 loginField.setText(bashString);
             }
 
-            //check password will set the console frame uuid if it finds a userdata.json that matches the provided name and hash
+            //check password will set the console frame uuid if it finds a userdata file that matches the provided name and hash
             if (UserUtil.checkPassword(name, hashedPass)) {
                 //log out all people as a precaution
                 UserUtil.logoutAllUsers();

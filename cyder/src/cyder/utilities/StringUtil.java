@@ -544,7 +544,8 @@ public class StringUtil {
     }
 
     /**
-     * Converts the first character in a string to the capital version of it if it is a standard latin letter.
+     * Converts the first character in a string to the
+     * capital version if the character is a standard latin character.
      *
      * @param word the word to capitalize the first letter of
      * @return the resultant wtring
@@ -553,14 +554,15 @@ public class StringUtil {
         if (word.length() == 0)
             return word;
 
-        StringBuilder SB = new StringBuilder(word.length());
-        String[] words = word.split(" ");
+        StringBuilder sb = new StringBuilder(word.length());
+        String[] words = word.split("\\s+");
 
         for (String wordy : words) {
-            SB.append(Character.toUpperCase(wordy.charAt(0))).append(wordy.substring(1)).append(" ");
+            sb.append(Character.toUpperCase(wordy.charAt(0)));
+            sb.append(wordy.substring(1).toLowerCase()).append(" ");
         }
 
-        return SB.toString();
+        return sb.toString().trim();
     }
 
 
@@ -1036,5 +1038,24 @@ public class StringUtil {
      */
     public static String getTrimmedText(String text) {
         return text.trim().replaceAll("\\s+", " ");
+    }
+
+    /**
+     * Returns the provided string with each word converted to l
+     * owercase except for the first char of each word.
+     *
+     * @param text the text to convert to standard caps form
+     * @return the converted text
+     */
+    public static String capsCheck(String text) {
+        String[] words = text.trim().split("\\s+");
+
+        StringBuilder sb = new StringBuilder();
+
+        for (String word : words) {
+            sb.append(capsFirst(word)).append(" ");
+        }
+
+        return sb.toString().trim();
     }
 }

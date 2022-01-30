@@ -327,7 +327,7 @@ public class InputHandler {
         } else if (commandIs("location") || commandIs("whereami")) {
             println("You are currently in " + IPUtil.getIpdata().getCity() + ", " +
                     IPUtil.getIpdata().getRegion() + " and your Internet Service Provider is "
-                    + IPUtil.getIpdata().getAsn().getName());
+                    + StringUtil.capsCheck(IPUtil.getIpdata().getAsn().getName()));
         } else if (commandIs("fibonacci")) {
             for (long i : NumberUtil.fib(0, 1, 100))
                 println(i);

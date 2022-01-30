@@ -10,3 +10,4 @@ Trace: java.lang.NullPointerException
 	at cyder.utilities.UserUtil.updateOldJson(UserUtil.java:775)
 	at cyder.utilities.IOUtil.fixUsers(IOUtil.java:390)
 	at cyder.genesis.Cyder.main(Cyder.java:93)
+[18-21-17] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1

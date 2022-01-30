@@ -46,3 +46,4 @@ Trace: java.lang.IllegalArgumentException: File does not exist
 	at cyder.genesis.Cyder.main(Cyder.java:112)
 [18-09-39] [LOGIN]: [AUTOCYPHER FAIL]
 [18-09-39] [WIDGET OPENED]: LOGIN
+[18-21-17] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 3

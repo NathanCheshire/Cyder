@@ -117,7 +117,8 @@ public class UserUtil {
     }
 
     public static void setUserData(String name, String value) {
-        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+        File f = new File(OSUtil.buildPath("dynamic","users",
+                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
 
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
@@ -182,7 +183,8 @@ public class UserUtil {
      * @param u the user to serialize and write to a file
      */
     public static void setUserData(User u) {
-        File f = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/userdata.json");
+        File f = new File(OSUtil.buildPath("dynamic","users",
+                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
 
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
@@ -213,9 +215,12 @@ public class UserUtil {
         if (UUID == null)
             return;
 
-        File userBackgroundsFile = new File("dynamic/users/" + UUID + "/Backgrounds");
-        File userMusicFile = new File("dynamic/users/" + UUID + "/Music");
-        File userJsonFile = new File("dynamic/users/" + UUID + "/userdata.json");
+        File userBackgroundsFile = new File(OSUtil.buildPath("dynamic","users",
+                UUID, UserFile.BACKGROUNDS.getName()));
+        File userMusicFile = new File(OSUtil.buildPath("dynamic","users",
+                UUID, UserFile.MUSIC.getName()));
+        File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
+                UUID, UserFile.USERDATA.getName()));
 
         if (!userBackgroundsFile.exists())
             userBackgroundsFile.mkdir();
@@ -350,12 +355,14 @@ public class UserUtil {
     }
 
     /**
-     * Extracts the user from the provided json file
+     * Extracts the user from the provided json file.
+     *
      * @param UUID the uuid if the user we want to obtain
      * @return the resulting user object
      */
     public static User extractUser(String UUID) {
-        File f = new File("dynamic/users/" + UUID + "/userdata.json");
+        File f = new File(OSUtil.buildPath("dynamic","users",
+                UUID, UserFile.USERDATA.getName()));
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
@@ -400,8 +407,6 @@ public class UserUtil {
         // uuid passing is bad
         // a user should be loaded in the program and you should pull from that and not read the file every second
         // that seems bad
-
-        System.out.println("UUID: " + uuid);
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
@@ -462,11 +467,11 @@ public class UserUtil {
                 return defaultValue;
             }
 
-            File userJsonFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                    + "/userdata.json");
+            File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
+                    ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
 
             if (!userJsonFile.exists())
-                throw new IllegalArgumentException("userdata.json does not exist");
+                throw new IllegalArgumentException("userdata file does not exist");
 
             User user = extractUser(userJsonFile);
             retData = extractUserData(user, name);
@@ -525,7 +530,8 @@ public class UserUtil {
     public static boolean isLoggedIn(String uuid) {
         boolean ret = false;
 
-        File userJsonFile = new File("dynamic/users/" + uuid + "/userdata.json");
+        File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
+                uuid, UserFile.USERDATA.getName()));
 
         //should be impossible to not exists but I'll still check it regardless
         if (userJsonFile.exists()) {
@@ -549,7 +555,8 @@ public class UserUtil {
 
                 if (users.length > 0) {
                     for (File userFile : users) {
-                        File userJsonFile = new File(userFile.getAbsolutePath() + "/userdata.json");
+                        File userJsonFile = new File(
+                                OSUtil.buildPath(userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                         if (!userJsonFile.exists()) {
                             continue;
@@ -631,7 +638,7 @@ public class UserUtil {
 
             //get all valid users
             for (File user : UUIDs) {
-                File json = new File(user.getAbsolutePath() + "/userdata.json");
+                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists())
                     userDataFiles.add(json);
@@ -828,7 +835,7 @@ public class UserUtil {
                 //log the injection
                 SessionHandler.log(SessionHandler.Tag.ACTION,
                         "User " + f.getParentFile().getName() +
-                        " was found to have an outdated userdata.json; preference injection " +
+                        " was found to have an outdated userdata file; preference injection " +
                         "was attempted on the following: [" + appendBuilder + "]");
             }
         } catch (Exception e) {
@@ -859,7 +866,7 @@ public class UserUtil {
             throw new IllegalArgumentException("No users were found");
 
         for (File user : users) {
-            File jsonFile = new File(user.getAbsolutePath() + "/userdata.json");
+            File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
                 setUserData(jsonFile, "loggedin","0");
@@ -871,15 +878,17 @@ public class UserUtil {
      * this method informs the user that a user was corrupted and attempts to tell the user
      * which user it was by listing the files associated with the corrupted user.
      *
-     * This method should be utilized anywhere a userdata.json is deleted.
+     * This method should be utilized anywhere a userdata file is deleted duriong Cyder runtime.
      *
      * @param UUID the uuid of the corrupted user
      */
     public static void userJsonDeleted(String UUID) {
         try {
             //create parent directory
-            File userDir = new File("dynamic/users/" + UUID);
-            File userJson = new File("dynamic/users/" + UUID + "/userdata.json");
+            File userDir = new File(OSUtil.buildPath("dynamic","users",
+                    UUID));
+            File userJson = new File(OSUtil.buildPath("dynamic","users",
+                    UUID, UserFile.USERDATA.getName()));
 
             //delete the json if it still exists for some reason
             if (userJson.exists())

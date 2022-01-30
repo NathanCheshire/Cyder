@@ -119,7 +119,7 @@ public class Preferences {
 
         // Adding future prefs:
         // you'll need to add the preference here and also the data in user.java
-        // since gson parses the userdata.json into a user object.
+        // since gson parses the userdata file into a user object.
 
         // Some rare cases might require deeper manipulation such as the case for executables
         // where we don't add it here but add it for the user object and for user creation

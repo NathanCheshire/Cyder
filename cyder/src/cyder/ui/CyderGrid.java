@@ -263,7 +263,6 @@ public class CyderGrid extends JLabel {
             x = (int) Math.floor((e.getX()) / squareLen);
             y = (int) Math.floor((e.getY()) / squareLen);
 
-            System.out.println(x + "," + y);
             addNode(x, y);
         }
 

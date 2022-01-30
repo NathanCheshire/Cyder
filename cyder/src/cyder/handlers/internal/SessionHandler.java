@@ -32,13 +32,13 @@ public class SessionHandler {
         UNKNOWN, // not sure
         SUGGESTION, // logging a suggestion
         SYSTEM_IO, // input or output to/from sys.json
-        CLIENT_IO, // input or output to/from userdata.json
+        CLIENT_IO, // input or output to/from userdata file
         LOGIN, // user is logged in
         LOGOUT, // user is logged out
         JAVA_ARGS, // java args upon JVM entry to main
         ENTRY, // entry of program
         EXIT, // exit of program
-        CORRUPTION, // corruption of userdata.json
+        CORRUPTION, // corruption of userdata file
         PRIVATE_MESSAGE_SENT, //sending a message through the chat view
         PRIVATE_MESSAGE_RECEIVED, //received a message through the chat view
         DEBUG_PRINT, //used for debug printing and debug window stuff

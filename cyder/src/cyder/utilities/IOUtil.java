@@ -1058,7 +1058,8 @@ public class IOUtil {
     }
 
     /**
-     * @param dataid the id of the data we wish to obtain from userdata.json
+     * @param dataid the id of the data we wish to obtain from userdata file
+     *
      * @return boolean detemrining whether or not this data should be ignored by the SessionLogger
      */
     public static boolean ignoreLogData(String dataid) {

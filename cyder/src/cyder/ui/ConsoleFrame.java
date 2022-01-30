@@ -12,6 +12,7 @@ import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.user.User;
 import cyder.user.UserEditor;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 import test.java.Debug;
@@ -1718,7 +1719,7 @@ public final class ConsoleFrame {
         if (UUID == null)
             throw new RuntimeException("UUID not set");
 
-        File userJson = new File("dynamic/users/" + UUID + "/userdata.json");
+        File userJson = new File(OSUtil.buildPath("dynamic","users",UUID, UserFile.USERDATA.getName()));
 
         if (!userJson.exists())
             throw new RuntimeException("User json does not exist");
