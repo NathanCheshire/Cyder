@@ -399,14 +399,14 @@ public class UserUtil {
         File f = new File(OSUtil.buildPath("dynamic","users",
                 uuid, UserFile.USERDATA.getName()));
 
-        //todo how does the other user's get set to the UUID??? and furthermore how does it get corrupted?
 
         //todo the monitor position initial saving works, loading is somehow fucked
 
         //todo when two users, this somehow fucks program, maybe autocypher fucks it idk
         // uuid passing is bad
-        // a user should be loaded in the program and you should pull from that and not read the file every second
-        // that seems bad
+
+        //todo a user should be loaded in the program and you should pull from that and not read the file every second
+        // that seems bad, try using redis soon since we're using jsons exclusively pretty much
 
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");

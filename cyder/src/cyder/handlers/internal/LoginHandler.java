@@ -316,12 +316,13 @@ public class LoginHandler {
         });
 
         loginFrame.setVisible(true);
-        loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame ? null : CyderCommon.getDominantFrame());
+        loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame
+                ? null : CyderCommon.getDominantFrame());
         CyderSplash.fastDispose();
 
-        LinkedList<File> userJsons = new LinkedList<>();
+        ArrayList<File> userJsons = new ArrayList<>();
 
-        for (File user : new File("dynamic/users").listFiles()) {
+        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
             if (user.isDirectory()) {
                 File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 

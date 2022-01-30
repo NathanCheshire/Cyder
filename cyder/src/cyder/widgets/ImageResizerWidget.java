@@ -125,7 +125,7 @@ public class ImageResizerWidget implements WidgetBase {
 
             else if (maintainAspectRatio){
                 if (xdim.getText().length() > 0) {
-                    ydim.setText(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio) + "");
+                    ydim.setText(String.valueOf(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio)));
                 }
 
                 else {
@@ -148,7 +148,7 @@ public class ImageResizerWidget implements WidgetBase {
                 if (maintainAspectRatio) {
                     if (leftLastEdited) {
                         if (xdim.getText().length() > 0) {
-                            ydim.setText(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio) + "");
+                            ydim.setText(String.valueOf(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio)));
                         }
 
                         else {
@@ -158,7 +158,7 @@ public class ImageResizerWidget implements WidgetBase {
 
                     else {
                         if (ydim.getText().length() > 0) {
-                            xdim.setText(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio) + "");
+                            xdim.setText(String.valueOf(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio)));
                         }
 
                         else {
@@ -186,7 +186,7 @@ public class ImageResizerWidget implements WidgetBase {
 
             else if (maintainAspectRatio){
                 if (ydim.getText().length() > 0) {
-                    xdim.setText(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio) + "");
+                    xdim.setText(String.valueOf(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio)));
                 }
 
                 else {

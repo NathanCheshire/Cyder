@@ -386,7 +386,6 @@ public class IOUtil {
             if (json.exists()) {
                 //attempt to update the json
 
-                //todo this fails for some reason? maybe new users don't actually have all needed data?
                 boolean success = UserUtil.updateOldJson(json);
 
                 //if it fails then delete the json

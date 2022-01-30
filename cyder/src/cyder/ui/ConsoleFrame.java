@@ -1317,46 +1317,9 @@ public final class ConsoleFrame {
             consoleCyderFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
         }
 
-        UserUtil.setUserData("laststart",System.currentTimeMillis() + "");
+        UserUtil.setUserData("laststart", String.valueOf(System.currentTimeMillis()));
 
         introMusicCheck();
-
-        //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
-        try {
-            new Thread(() -> {
-                try {
-                    Image icon = new ImageIcon(ImageIO.read(getCurrentBackgroundFile())).getImage();
-                    int w = icon.getWidth(null);
-                    int h = icon.getHeight(null);
-                    int[] pixels = new int[w * h];
-                    PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
-                    pg.grabPixels();
-                    boolean correct = true;
-                    for (int pixel : pixels) {
-                        Color color = new Color(pixel);
-                        if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
-                            correct = false;
-                            break;
-                        }
-                    }
-
-                    if (correct) {
-                        int rand = NumberUtil.randInt(0,2);
-                        if (rand == 0) {
-                            IOUtil.playAudio("static/audio/BadApple.mp3");
-                        } else if (rand == 1){
-                            IOUtil.playAudio("static/audio/BeetleJuice.mp3");
-                        } else {
-                            IOUtil.playAudio("static/audio/BlackOrWhite.mp3");
-                        }
-                    }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            },"Black or White Checker").start();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
     }
 
     /**
@@ -1373,7 +1336,8 @@ public final class ConsoleFrame {
             CardWidget cardWidget = new CardWidget();
 
             for (Method m : cardWidget.getClass().getMethods()) {
-                if (m.getName().toLowerCase().contains(holiday.toLowerCase()) && m.getName().toLowerCase().contains(year + "")) {
+                if (m.getName().toLowerCase().contains(holiday.toLowerCase())
+                        && m.getName().toLowerCase().contains(String.valueOf(year))) {
                     m.invoke(cardWidget);
                 }
             }
@@ -1382,11 +1346,17 @@ public final class ConsoleFrame {
         }
     }
 
-    //plays intro music if the user has the preference selected, otherwise, plays the default startup sound
+    /**
+     * Determines what audio to play at the beginning of the ConsoleFrame startup.
+     */
     private void introMusicCheck() {
-        if (UserUtil.getUserData("IntroMusic").equals("1")) {
-            LinkedList<String> musicList = new LinkedList<>();
-            File userMusicDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music");
+        //if the user wants some custom intro music
+        if (UserUtil.extractUser().getIntromusic().equalsIgnoreCase("1")) {
+            ArrayList<String> musicList = new ArrayList<>();
+
+            File userMusicDir = new File(OSUtil.buildPath("dynamic","users",
+                    ConsoleFrame.getConsoleFrame().getUUID(), UserFile.MUSIC.getName()));
+
             String[] fileNames = userMusicDir.list();
 
             if (fileNames != null) {
@@ -1397,14 +1367,60 @@ public final class ConsoleFrame {
                 }
             }
 
+            //if they have music then play their own
             if (!musicList.isEmpty()) {
-                IOUtil.playAudio("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" +
-                        (fileNames[NumberUtil.randInt(0, fileNames.length - 1)]));
-            } else {
-                IOUtil.playAudio("static/audio/Ride.mp3");
+                String audioName = fileNames[NumberUtil.randInt(0, fileNames.length - 1)];
+
+                IOUtil.playAudio(OSUtil.buildPath("dynamic","users",
+                        ConsoleFrame.getConsoleFrame().getUUID(), UserFile.MUSIC.getName(), audioName));
             }
-        } else if (IOUtil.getSystemData().isReleased()) {
-            IOUtil.playSystemAudio("static/audio/startup.mp3");
+            //otherwise play our own
+            else {
+                IOUtil.playAudio(OSUtil.buildPath("static","audio","Ride.mp3"));
+            }
+        }
+        //otherwise no intro music so check for gray scale image
+        else {
+            //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
+            try {
+                new Thread(() -> {
+                    try {
+                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackgroundFile())).getImage();
+                        int w = icon.getWidth(null);
+                        int h = icon.getHeight(null);
+                        int[] pixels = new int[w * h];
+                        PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
+                        pg.grabPixels();
+                        boolean correct = true;
+                        for (int pixel : pixels) {
+                            Color color = new Color(pixel);
+                            if (color.getRed() != color.getGreen() || color.getRed() != color.getBlue()) {
+                                correct = false;
+                                break;
+                            }
+                        }
+
+                        if (correct) {
+                            int rand = NumberUtil.randInt(0,2);
+                            if (rand == 0) {
+                                IOUtil.playAudio("static/audio/BadApple.mp3");
+                            } else if (rand == 1){
+                                IOUtil.playAudio("static/audio/BeetleJuice.mp3");
+                            } else {
+                                IOUtil.playAudio("static/audio/BlackOrWhite.mp3");
+                            }
+                        }
+                        //not grayscale so play the default startup sound
+                        else {
+                            IOUtil.playSystemAudio("static/audio/startup.mp3");
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                },"Black or White Checker").start();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         }
     }
 

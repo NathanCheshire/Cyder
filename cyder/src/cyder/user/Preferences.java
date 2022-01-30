@@ -83,7 +83,7 @@ public class Preferences {
                 "Filter Chat",
                 "Filter foul language","1"));
         ret.add(new Preference("laststart","IGNORE","",
-                System.currentTimeMillis() + ""));
+                String.valueOf(System.currentTimeMillis())));
         ret.add(new Preference("minimizeonclose","Minimize On Close",
                 "Minimize the application instead of exiting whenever a close action is requested","0"));
         ret.add(new Preference("typinganimation","Typing Animation",
