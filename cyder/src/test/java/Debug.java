@@ -4,7 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
@@ -45,7 +45,7 @@ public class Debug {
 
         //log the debug print (this is why you should debug print from here)
         if (log) {
-            SessionHandler.log(SessionHandler.Tag.DEBUG_PRINT, objMaybe);
+            Logger.log(Logger.Tag.DEBUG_PRINT, objMaybe);
         }
 
         //add new line to lines

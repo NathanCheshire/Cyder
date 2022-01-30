@@ -2,7 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
@@ -192,7 +192,7 @@ public class DragLabel extends JLabel {
         minimize = new JButton("");
         minimize.setToolTipText("Minimize");
         minimize.addActionListener(e -> {
-            SessionHandler.log(SessionHandler.Tag.ACTION, this);
+            Logger.log(Logger.Tag.ACTION, this);
             effectFrame.minimizeAnimation();
         });
 
@@ -229,7 +229,7 @@ public class DragLabel extends JLabel {
         pinButton = new JButton("");
         pinButton.setToolTipText("Pin Window/Pin to Console");
         pinButton.addActionListener(e -> {
-            SessionHandler.log(SessionHandler.Tag.ACTION, this);
+            Logger.log(Logger.Tag.ACTION, this);
 
             if (effectFrame.getPinned()) {
                 effectFrame.setPinned(false);
@@ -279,7 +279,7 @@ public class DragLabel extends JLabel {
         close = new JButton("");
         close.setToolTipText("Close");
         close.addActionListener(e -> {
-            SessionHandler.log(SessionHandler.Tag.ACTION, this);
+            Logger.log(Logger.Tag.ACTION, this);
             effectFrame.dispose();
         });
         close.addMouseListener(new MouseAdapter() {

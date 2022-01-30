@@ -149,9 +149,9 @@ public class InputHandler {
 
         //log input as user triggered or simulated client input
         if (userTriggered) {
-            SessionHandler.log(SessionHandler.Tag.CLIENT, this.command);
+            Logger.log(Logger.Tag.CLIENT, this.command);
         } else {
-            SessionHandler.log(SessionHandler.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
+            Logger.log(Logger.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
 
         //check for requested redirection
@@ -209,7 +209,7 @@ public class InputHandler {
      */
     public void handle(String op, boolean userTriggered) throws Exception {
         if (!handlePreliminaries(op, userTriggered)) {
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
         }
         //primary checks
         else if (generalPrintsCheck() ||
@@ -219,7 +219,7 @@ public class InputHandler {
                 externalOpenerCheck() ||
                 audioCommandCheck() ||
                 generalCommandCheck()) {
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "PRIMARY HANDLE");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "PRIMARY HANDLE");
         }
         //final checks
         else if (isURLCheck(command) ||
@@ -228,7 +228,7 @@ public class InputHandler {
                 preferenceCheck(command) ||
                 manualTestCheck(command) ||
                 unitTestCheck(command)) {
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "FINAL HANDLE");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
         } else unknownInput();
 
         //clean up routines --------------------------------------
@@ -374,7 +374,7 @@ public class InputHandler {
         } else ret = false;
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
         return ret;
     }
 
@@ -409,7 +409,7 @@ public class InputHandler {
         } else ret = false;
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
         return ret;
     }
 
@@ -505,7 +505,7 @@ public class InputHandler {
         } else ret = false;
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
         return ret;
     }
 
@@ -570,7 +570,7 @@ public class InputHandler {
         } else ret = false;
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
         return ret;
     }
 
@@ -598,7 +598,7 @@ public class InputHandler {
         } else ret = false;
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
         return ret;
     }
 
@@ -872,7 +872,7 @@ public class InputHandler {
             ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (commandIs("clearops")) {
             ConsoleFrame.getConsoleFrame().clearOperationList();
-            SessionHandler.log(SessionHandler.Tag.ACTION, "User cleared command history");
+            Logger.log(Logger.Tag.ACTION, "User cleared command history");
             println("Command history reset");
         } else if (commandIs("stopscript")) {
             MasterYoutubeThread.killAll();
@@ -936,7 +936,7 @@ public class InputHandler {
                 for (File logDir : logDirs) {
                     for (File log : logDir.listFiles()) {
                         if (StringUtil.getExtension(log).equals(".log")
-                                && !log.equals(SessionHandler.getCurrentLog())) {
+                                && !log.equals(Logger.getCurrentLog())) {
                             log.delete();
                             count++;
                         }
@@ -958,7 +958,7 @@ public class InputHandler {
                     days++;
                     for (File log : logDir.listFiles()) {
                         if (StringUtil.getExtension(log).equals(".log")
-                                && !logDir.equals(SessionHandler.getCurrentLog())) {
+                                && !logDir.equals(Logger.getCurrentLog())) {
                             count++;
                         }
                     }
@@ -972,14 +972,14 @@ public class InputHandler {
             }
         } else if (commandIs("opencurrentlog")) {
             if (SecurityUtil.nathanLenovo()) {
-                IOUtil.openFileOutsideProgram(SessionHandler.getCurrentLog().getAbsolutePath());
+                IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
             } else {
                 println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
                         "to perform that operation.");
             }
         } else if (commandIs("openlastlog")) {
             if (SecurityUtil.nathanLenovo()) {
-                File[] logs = SessionHandler.getCurrentLog().getParentFile().listFiles();
+                File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
 
                 if (logs.length == 1) {
                     println("No previous logs found");
@@ -1286,7 +1286,7 @@ public class InputHandler {
         else ret = false;
 
          if (ret)
-             SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
+             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
 
          return ret;
     }
@@ -1311,7 +1311,7 @@ public class InputHandler {
 
         //log before returning
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
         return ret;
     }
 
@@ -1389,7 +1389,7 @@ public class InputHandler {
 
         //log before returning
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE MATH FUNCTION HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH FUNCTION HANDLED");
         return ret;
     }
 
@@ -1408,7 +1408,7 @@ public class InputHandler {
         } catch (Exception ignored) {}
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
         return ret;
     }
 
@@ -1442,7 +1442,7 @@ public class InputHandler {
         }
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE PREFERENCE TOGGLE HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE PREFERENCE TOGGLE HANDLED");
         return ret;
     }
 
@@ -1475,7 +1475,7 @@ public class InputHandler {
         }
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
         return ret;
     }
 
@@ -1508,7 +1508,7 @@ public class InputHandler {
         }
 
         if (ret)
-            SessionHandler.log(SessionHandler.Tag.HANDLE_METHOD, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
         return ret;
     }
 
@@ -1540,7 +1540,7 @@ public class InputHandler {
 
                             float tol = Float.parseFloat(parts[1]);
 
-                            SessionHandler.log(SessionHandler.Tag.ACTION, "Similar command to \""
+                            Logger.log(Logger.Tag.ACTION, "Similar command to \""
                                     + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
                             if (tol > CyderNums.SIMILAR_COMMAND_TOL) {
@@ -1826,7 +1826,7 @@ public class InputHandler {
 
                     if (consolePriorityPrintingList.size() > 0) {
                         Object line = consolePriorityPrintingList.removeFirst();
-                        SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
+                        Logger.log(Logger.Tag.CONSOLE_OUT,line);
 
                         if (redirection) {
                             redirectionWrite(line);
@@ -1853,7 +1853,7 @@ public class InputHandler {
                     // concurrency issues
                     else if (consolePrintingList.size() > 0) {
                         Object line = consolePrintingList.removeFirst();
-                        SessionHandler.log(SessionHandler.Tag.CONSOLE_OUT,line);
+                        Logger.log(Logger.Tag.CONSOLE_OUT,line);
 
                         if (redirection) {
                             redirectionWrite(line);

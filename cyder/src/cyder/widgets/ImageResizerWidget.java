@@ -7,7 +7,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
@@ -47,7 +47,7 @@ public class ImageResizerWidget implements WidgetBase {
 
     @Widget(trigger = {"resize pictures", "resize images"}, description = "An image resizing widget to resize images")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "IMAGE RESIZER");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "IMAGE RESIZER");
 
         CyderFrame resizeFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
         resizeFrame.setTitle("Image Resizer");

@@ -3,7 +3,7 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
@@ -32,7 +32,7 @@ public class ConvexHullWidget implements WidgetBase {
 
     @Widget(trigger = "convex hull", description = "A convex hull algorithm visualizer")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CONVEX HULL");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "CONVEX HULL");
 
         if (hullFrame != null) {
             hullFrame.dispose();

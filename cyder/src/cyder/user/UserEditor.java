@@ -9,7 +9,7 @@ import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
@@ -75,7 +75,7 @@ public class UserEditor implements WidgetBase {
     }
 
     public static void showGUI(int startingIndex) {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "PREFS");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "PREFS");
 
         if (editUserFrame != null)
             editUserFrame.dispose();

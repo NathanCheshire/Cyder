@@ -7,7 +7,7 @@ import cyder.constants.CyderFonts;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -102,7 +102,7 @@ public class WeatherWidget implements WidgetBase {
     }
 
     public void innerShowGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "WEATHER");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "WEATHER");
 
         if (CyderCommon.isHighLatency()) {
             ConsoleFrame.getConsoleFrame().notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but" +

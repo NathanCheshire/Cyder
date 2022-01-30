@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
@@ -31,7 +31,7 @@ public class CardWidget implements WidgetBase {
 
     @Widget(trigger = "Christmas card 2020", description = "Christmas card for the year of 2020")
     public static void Christmas2020() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CHRISTMAS2020");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "CHRISTMAS2020");
 
         if (christmas2020Frame != null)
             christmas2020Frame.dispose();
@@ -67,7 +67,7 @@ public class CardWidget implements WidgetBase {
 
     @Widget(trigger = "FathersDay card 2021", description = "Fathers day card for the year of 2021")
     public static void FathersDay2021() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "FATHERSDAY2021");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "FATHERSDAY2021");
 
         if (fathersDay2021Frame != null)
             fathersDay2021Frame.dispose();
@@ -93,7 +93,7 @@ public class CardWidget implements WidgetBase {
 
     @Widget(trigger = "Birthday card 2021", description = "Birthday card for my dad for the year 2021")
     public static void Birthday2021() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "BIRTHDAY2021");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "BIRTHDAY2021");
 
         if (birthday2021Frame != null)
             birthday2021Frame.dispose();
@@ -136,7 +136,7 @@ public class CardWidget implements WidgetBase {
 
     @Widget(trigger = "Christmas card 2021", description = "Christmas card for the year of 2021")
     public static void Christmas2021() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "CHRISTMASCARD2021");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "CHRISTMASCARD2021");
 
         if (christmas2021Frame != null)
             christmas2021Frame.dispose();

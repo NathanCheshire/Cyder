@@ -6,7 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
@@ -52,7 +52,7 @@ public class DirectoryViewer implements WidgetBase {
     //as per standard, method
     @Widget(trigger = "dir", description = "A directory navigator widget")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "DIRECTORY SEARCH");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "DIRECTORY SEARCH");
 
         //if a frame is already open, close it
         if (dirFrame != null)

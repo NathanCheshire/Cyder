@@ -8,7 +8,7 @@ import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
 import cyder.user.UserFile;
 import javazoom.jl.player.Player;
@@ -56,7 +56,7 @@ public class IOUtil {
         } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-                SessionHandler.log(SessionHandler.Tag.LINK, filePath);
+                Logger.log(Logger.Tag.LINK, filePath);
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
@@ -116,7 +116,7 @@ public class IOUtil {
             tmpFileWriter.flush();
             tmpFileWriter.close();
 
-            SessionHandler.log(SessionHandler.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
+            Logger.log(Logger.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
             openFileOutsideProgram(tmpFile.getAbsolutePath());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -212,7 +212,7 @@ public class IOUtil {
         SystemData ret = null;
         Gson gson = new Gson();
 
-        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data pared in IOUtil's static block");
+        Logger.log(Logger.Tag.SYSTEM_IO, "System data pared in IOUtil's static block");
 
         try (Reader reader = new FileReader(sysFilePath)) {
             ret = gson.fromJson(reader, SystemData.class);
@@ -234,7 +234,7 @@ public class IOUtil {
 
         try (FileWriter writer = new FileWriter(sysFilePath)) {
             gson.toJson(sd, writer);
-            SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "System data set to sd: " + sd);
+            Logger.log(Logger.Tag.SYSTEM_IO, "System data set to sd: " + sd);
 
             //now update IOUtil's sd object
             loadSystemData();
@@ -267,7 +267,7 @@ public class IOUtil {
                 append += "; args: " + argsString;
             }
 
-            SessionHandler.log(SessionHandler.Tag.JAVA_ARGS, append);
+            Logger.log(Logger.Tag.JAVA_ARGS, append);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -305,7 +305,7 @@ public class IOUtil {
         LinkedList<Suggestion> ret = null;
         Gson gson = new Gson();
 
-        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
+        Logger.log(Logger.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
 
         try (Reader reader = new FileReader(helpFilePath)) {
             Type helpType = new TypeToken<LinkedList<Suggestion>>(){}.getType();
@@ -340,7 +340,7 @@ public class IOUtil {
 
         try (FileWriter writer = new FileWriter(helpFilePath)) {
             gson.toJson(suggestions, writer);
-            SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Suggestions had " + suggestion + " added.");
+            Logger.log(Logger.Tag.SYSTEM_IO, "Suggestions had " + suggestion + " added.");
 
             //now update suggestions
             loadSuggestions();
@@ -423,7 +423,7 @@ public class IOUtil {
                 File FileToOpen = new File(FilePath);
                 URI FileURI = FileToOpen.toURI();
                 OpenFile.browse(FileURI);
-                SessionHandler.log(SessionHandler.Tag.LINK, FileToOpen.getAbsoluteFile());
+                Logger.log(Logger.Tag.LINK, FileToOpen.getAbsoluteFile());
             } catch (Exception e) {
                 try {
                     Runtime.getRuntime().exec("explorer.exe /select," + FilePath);
@@ -444,7 +444,7 @@ public class IOUtil {
             stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
-            SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO] " + FilePath);
+            Logger.log(Logger.Tag.ACTION,"[AUDIO] " + FilePath);
 
             new Thread(() -> {
                 try {
@@ -483,7 +483,7 @@ public class IOUtil {
             Player systemPlayer = new Player(FileInputStream);
 
             if (!FilePath.equals("static/audio/Typing.mp3"))
-                SessionHandler.log(SessionHandler.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
+                Logger.log(Logger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
             new Thread(() -> {
                 try {
                     systemPlayer.play();
@@ -703,7 +703,7 @@ public class IOUtil {
             for (File logDir : new File("logs").listFiles()) {
                 //for all directories of days of logs
                 for (File log : logDir.listFiles()) {
-                    if (!log.equals(SessionHandler.getCurrentLog())) {
+                    if (!log.equals(Logger.getCurrentLog())) {
                         BufferedReader br = new BufferedReader(new FileReader(log));
                         String line;
                         boolean containsEOL = false;
@@ -787,7 +787,7 @@ public class IOUtil {
         ArrayList<ExitCondition> ret = null;
         Gson gson = new Gson();
 
-        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Exit conditions pared in IOUtil's static block");
+        Logger.log(Logger.Tag.SYSTEM_IO, "Exit conditions pared in IOUtil's static block");
 
         try (Reader reader = new FileReader("static/json/exitconditions.json")) {
             Type exittype = new TypeToken<ArrayList<ExitCondition>>(){}.getType();
@@ -826,7 +826,7 @@ public class IOUtil {
         ArrayList<DebugHash> ret = null;
         Gson gson = new Gson();
 
-        SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "DebugHashes pared in IOUtil's static block");
+        Logger.log(Logger.Tag.SYSTEM_IO, "DebugHashes pared in IOUtil's static block");
 
         try (Reader reader = new FileReader("static/json/debughashes.json")) {
             Type debughash = new TypeToken<ArrayList<DebugHash>>(){}.getType();

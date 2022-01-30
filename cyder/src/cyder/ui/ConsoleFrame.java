@@ -525,7 +525,7 @@ public final class ConsoleFrame {
                             "Cyder Suggestion", "Submit", CyderColors.regularPink);
 
                     if (!StringUtil.isNull(suggestion)) {
-                        SessionHandler.log(SessionHandler.Tag.SUGGESTION, suggestion.trim());
+                        Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
                         inputHandler.println("Suggestion logged");
                     }
                 }, "Suggestion Getter Waiter Thread").start());
@@ -1048,7 +1048,7 @@ public final class ConsoleFrame {
 
             String logString = "Console loaded in " +
                     (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
-            SessionHandler.log(SessionHandler.Tag.ACTION, logString);
+            Logger.log(Logger.Tag.ACTION, logString);
             notify(logString);
 
             //resume frame checker
@@ -1299,7 +1299,7 @@ public final class ConsoleFrame {
 
         //testing mode
         if (IOUtil.getSystemData().isTestingmode()) {
-            SessionHandler.log(SessionHandler.Tag.ENTRY, "TESTING MODE");
+            Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
             Debug.launchTests();
         }
 
@@ -3063,7 +3063,7 @@ public final class ConsoleFrame {
         inputHandler = null;
 
         //logs
-        SessionHandler.log(SessionHandler.Tag.LOGOUT, "[" + getUsername() + "]");
+        Logger.log(Logger.Tag.LOGOUT, "[" + getUsername() + "]");
         UserUtil.setUserData("loggedin","0");
 
         //remove closing actions

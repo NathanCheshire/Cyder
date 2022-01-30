@@ -14,23 +14,37 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class SessionHandler {
-    private SessionHandler() {
+/**
+ * Logger class used to log useful information about any Cyder instance from beginning at
+ * runtime to exit at JVM termination.
+ */
+public class Logger {
+    /**
+     * Instances of Logger not allowed.
+     */
+    private Logger() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    /**
+     * The file that is currently being written to on log calls.
+     */
     private static File currentLog;
 
-    //absolute start of Cyder, class loading
-    private static long start = System.currentTimeMillis();
+    /**
+     * The absolute start time of Cyder, initialized at runtime.
+     */
+    public static final long start = System.currentTimeMillis();
 
+    /**
+     * Supported tags for log entries
+     */
     public enum Tag {
-        CLIENT, //client typed something
-        CONSOLE_OUT, //printing something to the console frame
-        EXCEPTION, //an exception
+        CLIENT, // client typed something
+        CONSOLE_OUT, // printing something to the console frame
+        EXCEPTION, // an exception
         ACTION, // an action taken
         LINK, // a link in anyway is printed, represented, etc.
-        UNKNOWN, // not sure
         SUGGESTION, // logging a suggestion
         SYSTEM_IO, // input or output to/from sys.json
         CLIENT_IO, // input or output to/from userdata file
@@ -40,11 +54,10 @@ public class SessionHandler {
         ENTRY, // entry of program
         EXIT, // exit of program
         CORRUPTION, // corruption of userdata file
-        PRIVATE_MESSAGE_SENT, //sending a message through the chat view
-        PRIVATE_MESSAGE_RECEIVED, //received a message through the chat view
-        DEBUG_PRINT, //used for debug printing and debug window stuff
-        HANDLE_METHOD, //used for boolean returning handle methods within InputHandler
-        WIDGET_OPENED, //used if a widget from the widgets package was opened
+        DEBUG_PRINT, // used for debug printing and debug window stuff
+        HANDLE_METHOD, // used for boolean returning handle methods within InputHandler
+        WIDGET_OPENED, // used if a widget from the widgets package was opened
+        UNKNOWN, // not sure/all else failed
     }
 
     /**
@@ -165,16 +178,10 @@ public class SessionHandler {
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
                 logBuilder.append("[CORRUPTION]: userdir saved to: ").append(representation);
                 break;
-            case PRIVATE_MESSAGE_SENT:
-                //[PRIVATE MESSAGE]: [RECEIVED FROM SAM (UUID here)] Check discord.
-                logBuilder.append("[PRIVATE MESSAGE]: ");
-                break;
             case UNKNOWN:
                 //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above
                 logBuilder.append("[UNKNOWN]: ");
                 logBuilder.append(representation);
-                break;
-            case PRIVATE_MESSAGE_RECEIVED:
                 break;
             case DEBUG_PRINT:
                 logBuilder.append("[DEBUG]: ");
@@ -189,6 +196,8 @@ public class SessionHandler {
                 logBuilder.append(representation);
                 break;
             default:
+                //this is here and not UNKNOWN as the default so that we can detect if
+                // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
                         "idiot and added an enum type but forgot to implement it here");
         }
@@ -434,8 +443,93 @@ public class SessionHandler {
         for (File subLogDir : topLevelLogsDir.listFiles()) {
             if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())
                     && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
+                //todo before zipping a folder, consolidate lines in files that are duplicates next to each other
                 OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
             }
         }
+    }
+
+    /**
+     * Consolidates duplicate lines next to each other of the provided file.
+     *
+     * @param file the file to consolidate duplicate lines of
+     */
+    public static void consolidateLines(File file) {
+        if (!file.exists())
+            throw new IllegalArgumentException("Provided fine does not exist: " + file);
+
+        ArrayList<String> lines = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = null;
+
+            while ((line = br.readLine()) != null)
+                lines.add(line);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        if (lines.size() < 2)
+            return;
+
+        ArrayList<String> writeLines = new ArrayList<>();
+
+        String lastLine = lines.get(0);
+        String currentLine = lines.get(1);
+        int currentCount = 1;
+
+        for (int i = 0 ; i < lines.size() - 1; i++) {
+            lastLine = lines.get(i);
+            currentLine = lines.get(i + 1);
+
+            if (logLinesEquivalent(lastLine, currentLine)) {
+                currentCount++;
+            } else {
+                if (currentCount > 1) {
+                    writeLines.add(lastLine + " [" + currentCount + "x]");
+                } else{
+                    writeLines.add(lastLine);
+                }
+
+                currentCount = 1;
+            }
+        }
+
+        if (currentCount > 1) {
+            writeLines.add(lines.get(lines.size() - 1) + " [" + currentCount + "x]");
+        } else {
+            writeLines.add(lines.get(lines.size() - 1));
+        }
+
+        //todo logic working, now write lines to file and overwrite old one
+    }
+
+    /**
+     * Returns whether the two log lines are equivalent.
+     *
+     * @param logLine1 the first log line
+     * @param logLine2 the second log line
+     * @return whether the two log lines are equivalent
+     */
+    public static boolean logLinesEquivalent(String logLine1, String logLine2) {
+        logLine1 = logLine1.trim();
+        logLine2 = logLine2.trim();
+
+        if (!logLine1.startsWith("[") || !logLine1.contains("]"))
+            throw new IllegalArgumentException("Provided first log line is not a valid log line: " + logLine1);
+        if (!logLine2.startsWith("[") || !logLine2.contains("]"))
+            throw new IllegalArgumentException("Provided second log line is not a valid log line: " + logLine2);
+
+        String timeTag1 = logLine1.substring(logLine1.indexOf("["), logLine2.indexOf("]") + 1).trim();
+        String timeTag2 = logLine2.substring(logLine2.indexOf("["), logLine2.indexOf("]") + 1).trim();
+
+        logLine1 = logLine1.replace(timeTag1, "");
+        logLine2 = logLine2.replace(timeTag2, "");
+
+        return !StringUtil.empytStr(logLine1) && !StringUtil.empytStr(logLine2) && logLine1.equals(logLine2);
+    }
+
+    public static void main(String[] args) {
+        consolidateLines(new File(OSUtil.buildPath("dynamic","testconsolidation.txt")));
     }
 }

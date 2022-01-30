@@ -448,6 +448,4 @@ public class OSUtil {
     //todo remember console orientation on exiting Cyder
 
     //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
-
-    //todo fixlogs function should consolidate duplicate lines
 }

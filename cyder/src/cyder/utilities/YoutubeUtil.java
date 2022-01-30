@@ -10,7 +10,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.*;
 
@@ -229,7 +229,7 @@ public class YoutubeUtil {
 
     @Widget(trigger = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "YOUTUBE");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "YOUTUBE");
 
         CyderFrame uuidFrame = new CyderFrame(400,240, CyderIcons.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");

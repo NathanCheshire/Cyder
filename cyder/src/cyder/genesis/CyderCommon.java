@@ -3,7 +3,7 @@ package cyder.genesis;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -89,7 +89,7 @@ public class CyderCommon {
             UserUtil.blockFutureIO();
 
             //log exit
-            SessionHandler.log(SessionHandler.Tag.EXIT, code);
+            Logger.log(Logger.Tag.EXIT, code);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {

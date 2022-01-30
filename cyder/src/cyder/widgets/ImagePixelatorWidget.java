@@ -7,7 +7,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -44,7 +44,7 @@ public class ImagePixelatorWidget implements WidgetBase {
     }
 
     public static void showGUI(File startPNG) {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "IMAGE PIXELATOR");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "IMAGE PIXELATOR");
 
         CyderFrame pixelFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
         pixelFrame.setTitle("Image Pixelator");

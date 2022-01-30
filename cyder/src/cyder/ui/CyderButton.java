@@ -3,7 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -27,7 +27,7 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> SessionHandler.log(SessionHandler.Tag.ACTION, this));
+        addActionListener(e -> Logger.log(Logger.Tag.ACTION, this));
 
         setFont(CyderFonts.segoe20);
         setBackground(backgroundColor);

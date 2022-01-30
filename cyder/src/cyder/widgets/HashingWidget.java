@@ -6,7 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
@@ -36,7 +36,7 @@ public class HashingWidget implements WidgetBase {
     }
 
     public void innerShowGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "HASH");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "HASH");
 
         algorithms.add("SHA-256");
         algorithms.add("SHA-1");

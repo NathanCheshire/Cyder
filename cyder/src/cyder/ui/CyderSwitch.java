@@ -2,7 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.AnimationUtil;
 import cyder.utilities.ReflectionUtil;
 
@@ -55,7 +55,7 @@ public class CyderSwitch extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }

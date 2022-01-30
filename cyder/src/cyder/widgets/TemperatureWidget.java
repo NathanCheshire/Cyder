@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
@@ -41,7 +41,7 @@ public class TemperatureWidget implements WidgetBase {
     }
 
     public void innerShowGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "TEMPERATURE");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "TEMPERATURE");
 
         if (temperatureFrame != null)
             temperatureFrame.dispose();

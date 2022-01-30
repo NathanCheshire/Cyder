@@ -24,7 +24,7 @@ public class ExceptionHandler {
             String write = getPrintableException(e).get();
 
             if (write.trim().length() > 0)
-                SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
+                Logger.log(Logger.Tag.EXCEPTION, write);
 
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
@@ -50,7 +50,7 @@ public class ExceptionHandler {
             String write = getPrintableException(e).get();
 
             if (write != null && write.trim().length() > 0)
-                SessionHandler.log(SessionHandler.Tag.EXCEPTION, write);
+                Logger.log(Logger.Tag.EXCEPTION, write);
         } catch (Exception ex) {
             silentHandleWithoutLogging(ex);
         }

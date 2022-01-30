@@ -125,7 +125,7 @@ public class LoginHandler {
 
     @Widget(trigger = {"login","pin"}, description = "A widget to switch between Cyder users")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "LOGIN");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "LOGIN");
 
         priorityPrintingList.clear();
         printingList.clear();
@@ -220,7 +220,7 @@ public class LoginHandler {
                         }
 
                         input = newInput.clone();
-                        SessionHandler.log(SessionHandler.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
+                        Logger.log(Logger.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
                     }
 
                     switch (loginMode) {
@@ -361,16 +361,16 @@ public class LoginHandler {
             CyderSplash.setLoadingMessage("Checking for autocypher");
 
             if (IOUtil.getSystemData().isAutocypher()) {
-                SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+                Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 CyderSplash.setLoadingMessage("Autocyphering");
 
                 if (!autoCypher()) {
-                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
+                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                     showGUI();
                 }
             } else showGUI();
         } else if (IOUtil.getSystemData().isReleased()) {
-            SessionHandler.log(SessionHandler.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
+            Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
             showGUI();
         } else CyderCommon.exit(-600);
     }
@@ -407,10 +407,10 @@ public class LoginHandler {
 
                 //log the success login
                 if (autoCypherAttempt) {
-                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER PASS, " + ConsoleFrame.getConsoleFrame().getUUID());
+                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER PASS, " + ConsoleFrame.getConsoleFrame().getUUID());
                     autoCypherAttempt = false;
                 } else {
-                    SessionHandler.log(SessionHandler.Tag.LOGIN, "STD LOGIN, " + ConsoleFrame.getConsoleFrame().getUUID());
+                    Logger.log(Logger.Tag.LOGIN, "STD LOGIN, " + ConsoleFrame.getConsoleFrame().getUUID());
                 }
 
                 //reset console frame if it's already open
@@ -434,9 +434,9 @@ public class LoginHandler {
                 if (autoCypherAttempt) {
                     //rest autocypher
                     autoCypherAttempt = false;
-                    SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
+                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                 } else {
-                    SessionHandler.log(SessionHandler.Tag.LOGIN, "LOGIN FAIL");
+                    Logger.log(Logger.Tag.LOGIN, "LOGIN FAIL");
                 }
 
                 username = "";
@@ -444,7 +444,7 @@ public class LoginHandler {
                 loginField.requestFocusInWindow();
             } else if (autoCypherAttempt) {
                 autoCypherAttempt = false;
-                SessionHandler.log(SessionHandler.Tag.LOGIN, "AUTOCYPHER FAIL");
+                Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
             }
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);

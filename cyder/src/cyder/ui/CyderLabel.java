@@ -3,7 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 import org.jsoup.Jsoup;
@@ -30,7 +30,7 @@ public class CyderLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }
@@ -46,7 +46,7 @@ public class CyderLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }

@@ -9,7 +9,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.WidgetBase;
@@ -62,7 +62,7 @@ public class UserCreator implements WidgetBase {
         if (createUserFrame != null)
             createUserFrame.dispose();
 
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "USER CREATED");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "USER CREATED");
 
         createUserBackground = null;
 

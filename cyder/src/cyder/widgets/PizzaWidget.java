@@ -6,7 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -48,7 +48,7 @@ public class PizzaWidget implements WidgetBase {
 
     @Widget(trigger = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "PIZZA");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "PIZZA");
 
         if (pizzaFrame != null)
             pizzaFrame.dispose();

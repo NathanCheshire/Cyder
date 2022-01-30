@@ -5,7 +5,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.user.User;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
@@ -28,7 +28,7 @@ public class MinecraftWidget implements WidgetBase {
 
     @Widget(trigger = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
     public static void showGUI() {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "MINECRAFT");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "MINECRAFT");
 
         if (minecraftFrame != null)
             minecraftFrame.dispose();

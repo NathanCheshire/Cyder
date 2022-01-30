@@ -9,7 +9,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.*;
@@ -227,7 +227,7 @@ public class AudioPlayer implements WidgetBase {
      * Pass {@code null} to attempt to find valid audio files from the user's Music/ directory.
      */
     public static void showGUI(File startPlaying) {
-        SessionHandler.log(SessionHandler.Tag.WIDGET_OPENED, "AUDIO PLAYER");
+        Logger.log(Logger.Tag.WIDGET_OPENED, "AUDIO PLAYER");
 
         queue = new ArrayList<>();
 
@@ -1048,7 +1048,7 @@ public class AudioPlayer implements WidgetBase {
                 refreshFrameTitle();
 
                 //log the audio we're playing
-                SessionHandler.log(SessionHandler.Tag.ACTION,
+                Logger.log(Logger.Tag.ACTION,
                         "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
 
                 //playing blocks until the audio finishes
@@ -1181,7 +1181,7 @@ public class AudioPlayer implements WidgetBase {
 
                     refreshFrameTitle();
 
-                    SessionHandler.log(SessionHandler.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
+                    Logger.log(Logger.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
 
                     try {
                         player.play();

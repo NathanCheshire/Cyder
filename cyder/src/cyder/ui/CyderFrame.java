@@ -8,7 +8,7 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -958,7 +958,7 @@ public class CyderFrame extends JFrame {
                             getContentPane().repaint();
 
                             //log the notification
-                            SessionHandler.log(SessionHandler.Tag.ACTION, "[" +
+                            Logger.log(Logger.Tag.ACTION, "[" +
                                     this.getTitle() + "] [NOTIFICATION] " + currentWaitingNotification.getHtmlText());
 
                             //duration is always 300ms per word unless less than 5 seconds
@@ -1111,7 +1111,7 @@ public class CyderFrame extends JFrame {
      * @param fastClose boolean describing whether or not fast close should be invoked
      */
     public void dispose(boolean fastClose) {
-        SessionHandler.log(SessionHandler.Tag.ACTION, "CyderFrame disposed with fastclose: " + fastClose + ", CyderFrame: " + this);
+        Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: " + fastClose + ", CyderFrame: " + this);
 
         new Thread(() -> {
             try {

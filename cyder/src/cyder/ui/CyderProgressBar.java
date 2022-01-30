@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class CyderProgressBar extends JProgressBar {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }
@@ -23,7 +23,7 @@ public class CyderProgressBar extends JProgressBar {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }
@@ -33,7 +33,7 @@ public class CyderProgressBar extends JProgressBar {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }

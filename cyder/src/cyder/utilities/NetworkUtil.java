@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -23,7 +23,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
-            SessionHandler.log(SessionHandler.Tag.LINK, URL);
+            Logger.log(Logger.Tag.LINK, URL);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -77,7 +77,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(URI);
-            SessionHandler.log(SessionHandler.Tag.LINK, URI.getPath());
+            Logger.log(Logger.Tag.LINK, URI.getPath());
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }

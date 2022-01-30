@@ -4,7 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
@@ -35,7 +35,7 @@ public class Notification extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SessionHandler.log(SessionHandler.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.ACTION, e.getComponent());
             }
         });
     }

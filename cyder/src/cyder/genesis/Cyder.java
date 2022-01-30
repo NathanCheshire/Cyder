@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
@@ -46,8 +46,8 @@ public class Cyder {
         addExitHook();
 
         //start session logger
-        SessionHandler.initialize();
-        SessionHandler.log(SessionHandler.Tag.ENTRY, OSUtil.getSystemUsername());
+        Logger.initialize();
+        Logger.log(Logger.Tag.ENTRY, OSUtil.getSystemUsername());
 
         //subroutines
         initSystemKeys();
@@ -55,7 +55,7 @@ public class Cyder {
 
         //prevent multiple instances, fatal subroutine if failure
         if (!ensureCyderSingleInstance()) {
-            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
+            Logger.log(Logger.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             exceptionExit("Multiple instances of Cyder are not allowed. " +
                     "Terminate other instances before launching a new one.", "Instance Exception");
             return;
@@ -63,7 +63,7 @@ public class Cyder {
 
         //make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
-            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "SYSTEM FAILURE");
+            Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
             exceptionExit("Font required by system could not be loaded","Font failure");
             return;
         }
@@ -73,13 +73,13 @@ public class Cyder {
 
         setLoadingMessage("Checkinging for exit collisions");
         if (IOUtil.checkForExitCollisions()) {
-            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
+            Logger.log(Logger.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
             exceptionExit("You messed up exit codes :/","Exit Codes Exception");
             return;
         }
 
         if (OSUtil.isOSX()) {
-            SessionHandler.log(SessionHandler.Tag.EXCEPTION, "IMPROPER OS");
+            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
             exceptionExit("System OS not intended for Cyder use. You should" +
                     " install a dual boot or a VM or something.","OS Exception");
             return;

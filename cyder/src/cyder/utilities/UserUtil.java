@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.SessionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
@@ -490,7 +490,7 @@ public class UserUtil {
 
         //log handler calls that aren't spammed
         if (!IOUtil.ignoreLogData(name))
-            SessionHandler.log(SessionHandler.Tag.SYSTEM_IO, "Userdata requested: " + name);
+            Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + name);
 
         try {
             for (Method m : u.getClass().getMethods()) {
@@ -822,7 +822,7 @@ public class UserUtil {
                 }
 
                 //log the injection
-                SessionHandler.log(SessionHandler.Tag.ACTION,
+                Logger.log(Logger.Tag.ACTION,
                         "User " + f.getParentFile().getName() +
                         " was found to have an outdated userdata file; preference injection " +
                         "was attempted on the following: [" + appendBuilder + "]");
@@ -919,7 +919,7 @@ public class UserUtil {
 
                     PopupHandler.inform(informString, "Userdata Corruption");
                     //log the corruption
-                    SessionHandler.log(SessionHandler.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
+                    Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
 
                 }
             }
