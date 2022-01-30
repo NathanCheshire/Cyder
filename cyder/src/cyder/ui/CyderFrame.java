@@ -54,6 +54,11 @@ public class CyderFrame extends JFrame {
 
     private ImageIcon background;
 
+    private JLabel topDragCover;
+    private JLabel bottomDragCover;
+    private JLabel leftDragCover;
+    private JLabel rightDragCover;
+
     private DragLabel topDrag;
     private DragLabel bottomDrag;
     private DragLabel leftDrag;
@@ -64,6 +69,7 @@ public class CyderFrame extends JFrame {
 
     private JLabel titleLabel;
     private JLabel iconLabel;
+
     private JLayeredPane contentLabel;
     private JLayeredPane iconPane;
 
@@ -184,7 +190,7 @@ public class CyderFrame extends JFrame {
         contentLabel.setBorder(new LineBorder(CyderColors.guiThemeColor, 3, false));
         setContentPane(contentLabel);
 
-        //top frame drag
+        //top frame drag and cover
         topDrag = new DragLabel(width - 2 * frameResizingLen, DragLabel.getDefaultHeight() - 2, this);
         topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, DragLabel.getDefaultHeight() - 2);
         topDrag.setxOffset(frameResizingLen);
@@ -192,7 +198,13 @@ public class CyderFrame extends JFrame {
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
         topDrag.setFocusable(false);
 
-        //left frame drag
+        topDragCover = new JLabel();
+        topDragCover.setBounds(0, 0 , width, 2);
+        topDragCover.setBackground(CyderColors.guiThemeColor);
+        topDragCover.setOpaque(true);
+        contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
+
+        //left frame drag  and cover
         leftDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.getDefaultHeight(), this);
         leftDrag.setBounds(frameResizingLen, DragLabel.getDefaultHeight(), 5 - frameResizingLen, height - DragLabel.getDefaultHeight() - frameResizingLen);
         leftDrag.setxOffset(frameResizingLen);
@@ -201,7 +213,13 @@ public class CyderFrame extends JFrame {
         leftDrag.setFocusable(false);
         leftDrag.setButtonsList(null);
 
-        //right frame drag
+        leftDragCover = new JLabel();
+        leftDragCover.setBounds(0, 0 , 2, height);
+        leftDragCover.setBackground(CyderColors.guiThemeColor);
+        leftDragCover.setOpaque(true);
+        contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
+
+        //right frame drag and cover
         rightDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.getDefaultHeight(), this);
         rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 5 - frameResizingLen, height - DragLabel.getDefaultHeight() - frameResizingLen);
         rightDrag.setxOffset(width - 5);
@@ -210,7 +228,13 @@ public class CyderFrame extends JFrame {
         rightDrag.setFocusable(false);
         rightDrag.setButtonsList(null);
 
-        //bottom frame drag
+        rightDragCover = new JLabel();
+        rightDragCover.setBounds(width - 2, 0 , 2, height);
+        rightDragCover.setBackground(CyderColors.guiThemeColor);
+        rightDragCover.setOpaque(true);
+        contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
+
+        //bottom frame drag  and cover
         bottomDrag = new DragLabel(width - 2 * frameResizingLen, 5 - frameResizingLen, this);
         bottomDrag.setBounds(frameResizingLen, height - 5, width - 4, 5 - frameResizingLen);
         bottomDrag.setxOffset(frameResizingLen);
@@ -218,6 +242,12 @@ public class CyderFrame extends JFrame {
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
         bottomDrag.setButtonsList(null);
+
+        bottomDragCover = new JLabel();
+        bottomDragCover.setBounds(0, height - 2 , width, 2);
+        bottomDragCover.setBackground(CyderColors.guiThemeColor);
+        bottomDragCover.setOpaque(true);
+        contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
         //title label on drag label
         titleLabel = new JLabel("");
@@ -1327,12 +1357,27 @@ public class CyderFrame extends JFrame {
         if (getTopDragLabel() != null) {
             topDrag.setWidth(this.width - 2 * frameResizingLen);
             topDrag.setHeight(DragLabel.getDefaultHeight() - frameResizingLen);
+
+            topDragCover.setBounds(0, 0 , width, 2);
+            topDragCover.setBackground(CyderColors.guiThemeColor);
+
             leftDrag.setWidth(5 - frameResizingLen);
             leftDrag.setHeight(this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+
+            leftDragCover.setBounds(0, 0 , 2, height);
+            leftDragCover.setBackground(CyderColors.guiThemeColor);
+
             rightDrag.setWidth(5 - frameResizingLen);
             rightDrag.setHeight(this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+
+            rightDragCover.setBounds(width - 2, 0 , 2, height);
+            rightDragCover.setBackground(CyderColors.guiThemeColor);
+
             bottomDrag.setWidth(this.width - frameResizingLen * 2);
             bottomDrag.setHeight(5 - frameResizingLen);
+
+            bottomDragCover.setBounds(0, height - 2 , width, 2);
+            bottomDragCover.setBackground(CyderColors.guiThemeColor);
 
             refreshTitleAndButtonPosition();
 
@@ -1489,8 +1534,6 @@ public class CyderFrame extends JFrame {
                     height - 2 * frameResizingLen);
 
             if (cr != null && cr.getBackgroundRefreshOnResize()) {
-                System.out.println(currentOrigIcon.getIconWidth() + "," + currentOrigIcon.getIconHeight());
-
                 iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }

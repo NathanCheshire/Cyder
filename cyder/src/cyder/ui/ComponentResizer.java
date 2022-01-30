@@ -171,7 +171,7 @@ public class ComponentResizer extends MouseAdapter {
         SwingUtilities.convertPointToScreen(pressed, source);
         bounds = source.getBounds();
 
-        if (source instanceof JComponent) {
+        if (source instanceof JComponent && !(source instanceof CyderFrame)) {
             JComponent jc = (JComponent) source;
             autoscrolls = jc.getAutoscrolls();
             jc.setAutoscrolls(false);
@@ -185,8 +185,15 @@ public class ComponentResizer extends MouseAdapter {
         Component source = e.getComponent();
         source.setCursor( sourceCursor );
 
-        if (source instanceof JComponent) {
-            ((JComponent)source).setAutoscrolls(autoscrolls);
+        if (source instanceof JComponent  && !(source instanceof CyderFrame)) {
+            ((JComponent) source).setAutoscrolls(autoscrolls);
+        }
+
+        //if CyderFrame then revalidate background when dragging is done
+        if (source instanceof CyderFrame) {
+            if (backgroundRefreshOnResize) {
+                ((CyderFrame) source).refreshBackground();
+            }
         }
     }
 
@@ -243,12 +250,6 @@ public class ComponentResizer extends MouseAdapter {
             int maximum = Math.min(boundingSize.height - y, maximumSize.height);
             drag = getDragBounded(drag, snapSize.height, height, minimumSize.height, maximum);
             height += drag;
-        }
-
-        if (source instanceof CyderFrame ) {
-            if (backgroundRefreshOnResize) {
-                ((CyderFrame) source).refreshBackground();
-            }
         }
 
         source.setBounds(x, y, width, height);

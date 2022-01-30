@@ -109,6 +109,8 @@ public final class ConsoleFrame {
     //clickable menu items
     private LinkedList<CyderFrame> menuTaskbarFrames = new LinkedList<>();
 
+    public static final Dimension MINIMUM_SIZE = new Dimension(600,600);
+
     public void start() {
         if (consoleCyderFrame != null)
             consoleCyderFrame.dispose();
@@ -249,19 +251,12 @@ public final class ConsoleFrame {
                     " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
 
             if (IOUtil.getSystemData().isConsoleresizable()) {
-                //set resizing on
                 consoleCyderFrame.initializeResizing();
                 consoleCyderFrame.setResizable(true);
 
                 consoleCyderFrame.setBackgroundResizing(true);
 
-
-
-                //todo static final public vars for these
-
-                //minimum size is a randomly chosen value,
-                // max size depends on the monitor the frame is on
-                consoleCyderFrame.setMinimumSize(new Dimension(600,600));
+                consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
                 consoleCyderFrame.setMaximumSize(new Dimension(w, h));
             }
 
