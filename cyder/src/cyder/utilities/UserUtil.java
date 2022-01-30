@@ -560,6 +560,9 @@ public class UserUtil {
                             File[] logsDirs = masterLogs.listFiles();
 
                             for (File logsDir : logsDirs) {
+                                if (StringUtil.getExtension(logsDir).equalsIgnoreCase(".zip"))
+                                    continue;
+
                                 File[] logs = logsDir.listFiles();
 
                                 //we've started a Cyder instance already so there will always be one

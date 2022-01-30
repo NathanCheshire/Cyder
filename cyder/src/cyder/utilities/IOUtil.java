@@ -22,7 +22,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -695,53 +694,9 @@ public class IOUtil {
     }
 
     /**
-     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1)
-     * as a result of an IDE stop or OS Task Manager Stop.
-     */
-    public static void fixLogs() {
-        try {
-            for (File logDir : new File("logs").listFiles()) {
-                //for all directories of days of logs
-                for (File log : logDir.listFiles()) {
-                    if (!log.equals(Logger.getCurrentLog())) {
-                        BufferedReader br = new BufferedReader(new FileReader(log));
-                        String line;
-                        boolean containsEOL = false;
-
-                        int exceptions = 0;
-
-                        while ((line = br.readLine()) != null) {
-                            if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
-                                containsEOL = true;
-                                break;
-                            } else if (line.contains("[EXCEPTION]")) {
-                                exceptions++;
-                            }
-                        }
-
-                        if (!containsEOL) {
-                            String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
-                                    "Log completed, Cyder was force closed by an external entity: " +
-                                    "exit code: -200 [External Stop], exceptions thrown: " + exceptions;
-
-                            Files.write(Paths.get(log.getAbsolutePath()),
-                                    (logBuilder).getBytes(), StandardOpenOption.APPEND);
-                        }
-                    }
-                }
-            }
-
-            //now fix userdata associated with the logs
-            UserUtil.fixLoggedInValues();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Used to test for Nathan being an idiot and having duplicate exit condition codes.
-     *
-     * @return - boolean describing whether or not Nathan messed up
+    * Used to test for Nathan being an idiot and having duplicate exit condition codes.
+    *
+    * @return - boolean describing whether or not Nathan messed up
      */
     public static boolean checkForExitCollisions() {
         boolean ret = false;
@@ -749,7 +704,7 @@ public class IOUtil {
         //if there are exit conditions with the same number exit and inform
         LinkedList<Integer> exitCodes = new LinkedList<>();
 
-        for (ExitCondition exitCondition : exitConditions) {
+        for (IOUtil.ExitCondition exitCondition : IOUtil.getExitConditions()) {
             if (!exitCodes.contains(exitCondition.getCode())) {
                 exitCodes.add(exitCondition.getCode());
             } else {

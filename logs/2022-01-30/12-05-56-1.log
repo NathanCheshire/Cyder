@@ -247,3 +247,4 @@ Trace: java.lang.IllegalArgumentException: userdata file does not exist
 	at cyder.user.UserEditor.lambda$showGUI$0(UserEditor.java:86)
 	at cyder.ui.CyderFrame.lambda$dispose$4(CyderFrame.java:1132)
 	at java.base/java.lang.Thread.run(Thread.java:844)
+[14-06-59] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 12

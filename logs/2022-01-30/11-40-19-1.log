@@ -46,3 +46,4 @@ Trace: java.lang.NullPointerException
 [11-40-46] [SYSTEM_IO]: Userdata requested: Background
 [11-40-48] [SYSTEM_IO]: Userdata requested: minimizeanimation
 [11-40-48] [SYSTEM_IO]: Userdata requested: Background
+[14-06-59] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1

@@ -2,15 +2,15 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.ui.ConsoleFrame;
-import cyder.utilities.IOUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.TimeUtil;
+import cyder.utilities.*;
 
 import javax.swing.*;
 import javax.swing.text.Element;
 import javax.swing.text.ElementIterator;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -272,6 +272,12 @@ public class Logger {
         //create the log file
         generateAndSetLogFile();
 
+        //fix last line of log files
+        fixLogs();
+
+        //consolidate lines of log files
+        consolidateLines();
+
         //zip past log directories
         zipPastLogs();
     }
@@ -443,13 +449,21 @@ public class Logger {
         for (File subLogDir : topLevelLogsDir.listFiles()) {
             if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())
                     && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
-
-                for (File logFile : subLogDir.listFiles()) {
-                    consolidateLines(logFile);
-                }
-
                 OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
             }
+        }
+    }
+
+    /**
+     * Consolidates the lines of all non-zipped files within the logs directory.
+     */
+    public static void consolidateLines() {
+        for (File subLogDir : new File("logs").listFiles()) {
+            if (StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
+                continue;
+
+            for (File logFile : subLogDir.listFiles())
+                consolidateLines(logFile);
         }
     }
 
@@ -459,6 +473,8 @@ public class Logger {
      * @param file the file to consolidate duplicate lines of
      */
     public static void consolidateLines(File file) {
+        System.out.println("Consolidation called for file: " + file);
+
         if (!file.exists())
             throw new IllegalArgumentException("Provided file does not exist: " + file);
         else if (!StringUtil.getExtension(file).equalsIgnoreCase(".log"))
@@ -542,7 +558,50 @@ public class Logger {
         return !StringUtil.empytStr(logLine1) && !StringUtil.empytStr(logLine2) && logLine1.equals(logLine2);
     }
 
-    public static void main(String[] args) {
-        consolidateLines(new File(OSUtil.buildPath("dynamic","testconsolidation.txt")));
+    /**
+     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1)
+     * as a result of an IDE stop or OS Task Manager Stop.
+     */
+    public static void fixLogs() {
+        try {
+            for (File logDir : new File("logs").listFiles()) {
+                //for all directories of days of logs
+                if (StringUtil.getExtension(logDir).equalsIgnoreCase(".zip"))
+                    continue;
+
+                for (File log : logDir.listFiles()) {
+                    if (!log.equals(Logger.getCurrentLog())) {
+                        BufferedReader br = new BufferedReader(new FileReader(log));
+                        String line;
+                        boolean containsEOL = false;
+
+                        int exceptions = 0;
+
+                        while ((line = br.readLine()) != null) {
+                            if (line.contains("[EOL]") || line.contains("[EXTERNAL STOP]")) {
+                                containsEOL = true;
+                                break;
+                            } else if (line.contains("[EXCEPTION]")) {
+                                exceptions++;
+                            }
+                        }
+
+                        if (!containsEOL) {
+                            String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
+                                    "Log completed, Cyder was force closed by an external entity: " +
+                                    "exit code: -200 [External Stop], exceptions thrown: " + exceptions;
+
+                            Files.write(Paths.get(log.getAbsolutePath()),
+                                    (logBuilder).getBytes(), StandardOpenOption.APPEND);
+                        }
+                    }
+                }
+            }
+
+            //now fix userdata associated with the logs
+            UserUtil.fixLoggedInValues();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }

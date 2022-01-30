@@ -29,6 +29,13 @@ Trace: java.lang.NullPointerException
 [12-48-57] [SYSTEM_IO]: Userdata requested: Foreground
 [12-48-57] [SYSTEM_IO]: Userdata requested: Foreground
 [12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
+[12-48-57] [SYSTEM_IO]: Userdata requested: Font
 [12-48-57] [SYSTEM_IO]: Userdata requested: OutputFill
 [12-48-57] [SYSTEM_IO]: Userdata requested: InputFill
 [12-48-57] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1425251436], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]

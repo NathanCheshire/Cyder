@@ -1,0 +1,41 @@
+[14-03-50] [ENTRY]: [Nathan]
+[14-03-50] [SYSTEM_IO]: System data pared in IOUtil's static block
+[14-03-50] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[14-03-50] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[14-03-50] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[14-03-52] [EXCEPTION]: 
+Exception origin: cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
+From line: 705
+Trace: java.lang.NullPointerException
+	at cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
+	at cyder.genesis.Cyder.main(Cyder.java:94)
+[14-03-52] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14-03-52] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[14-03-52] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[14-03-52] [SYSTEM_IO]: Userdata requested: Name
+[14-03-53] [SYSTEM_IO]: Userdata requested: RandomBackground
+[14-03-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-03-53] [SYSTEM_IO]: Userdata requested: Name
+[14-03-53] [SYSTEM_IO]: Userdata requested: Foreground
+[14-03-53] [SYSTEM_IO]: Userdata requested: Foreground
+[14-03-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-03-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-03-53] [SYSTEM_IO]: Userdata requested: Foreground
+[14-03-53] [SYSTEM_IO]: Userdata requested: Font
+[14-03-53] [SYSTEM_IO]: Userdata requested: OutputBorder
+[14-03-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-03-53] [SYSTEM_IO]: Userdata requested: InputBorder
+[14-03-53] [SYSTEM_IO]: Userdata requested: Foreground
+[14-03-53] [SYSTEM_IO]: Userdata requested: Foreground
+[14-03-53] [SYSTEM_IO]: Userdata requested: Foreground
+[14-03-53] [SYSTEM_IO]: Userdata requested: Font
+[14-03-53] [SYSTEM_IO]: Userdata requested: OutputFill
+[14-03-53] [SYSTEM_IO]: Userdata requested: InputFill
+[14-03-53] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [361053150], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[14-03-53] [ACTION]: Console loaded in 3238ms
+[14-03-53] [SYSTEM_IO]: Userdata requested: DebugWindows
+[14-03-53] [ENTRY]: [TESTING MODE]
+[14-03-53] [SYSTEM_IO]: Userdata requested: laststart
+[14-03-53] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3238ms
+[14-03-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[14-06-59] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1

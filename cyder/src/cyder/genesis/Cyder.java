@@ -90,8 +90,6 @@ public class Cyder {
         IOUtil.checkSystemData();
         setLoadingMessage("Fixing users");
         IOUtil.fixUsers();
-        setLoadingMessage("Fixing logs");
-        IOUtil.fixLogs();
         setLoadingMessage("Cleaning users");
         IOUtil.cleanUsers();
 
