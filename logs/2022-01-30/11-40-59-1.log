@@ -1,0 +1,43 @@
+[11-40-59] [ENTRY]: [Nathan]
+[11-40-59] [SYSTEM_IO]: System data pared in IOUtil's static block
+[11-41-00] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[11-41-00] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[11-41-00] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[11-41-01] [EXCEPTION]: 
+Exception origin: cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
+From line: 705
+Trace: java.lang.NullPointerException
+	at cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
+	at cyder.genesis.Cyder.main(Cyder.java:94)
+[11-41-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-41-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[11-41-02] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[11-41-02] [SYSTEM_IO]: Userdata requested: Name
+[11-41-02] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-41-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-41-02] [SYSTEM_IO]: Userdata requested: Name
+[11-41-02] [SYSTEM_IO]: Userdata requested: Foreground
+[11-41-02] [SYSTEM_IO]: Userdata requested: Foreground
+[11-41-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-41-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-41-02] [SYSTEM_IO]: Userdata requested: Foreground
+[11-41-02] [SYSTEM_IO]: Userdata requested: Font
+[11-41-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-41-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-41-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-41-02] [SYSTEM_IO]: Userdata requested: Foreground
+[11-41-02] [SYSTEM_IO]: Userdata requested: Foreground
+[11-41-02] [SYSTEM_IO]: Userdata requested: Foreground
+[11-41-02] [SYSTEM_IO]: Userdata requested: Font
+[11-41-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-41-02] [SYSTEM_IO]: Userdata requested: InputFill
+[11-41-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1509024761], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-41-02] [ACTION]: Console loaded in 2967ms
+[11-41-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-41-02] [ENTRY]: [TESTING MODE]
+[11-41-02] [SYSTEM_IO]: Userdata requested: laststart
+[11-41-02] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2967ms
+[11-41-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-41-06] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[11-41-06] [SYSTEM_IO]: Userdata requested: Background
+[11-41-12] [SYSTEM_IO]: Userdata requested: Background

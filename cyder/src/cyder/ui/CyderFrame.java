@@ -66,6 +66,7 @@ public class CyderFrame extends JFrame {
 
     private int restoreX = Integer.MAX_VALUE;
     private int restoreY = Integer.MIN_VALUE;
+    private Rectangle restoreBounds = null;
 
     private JLabel titleLabel;
     private JLabel iconLabel;
@@ -1057,6 +1058,8 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
+            this.restoreBounds = ScreenUtil.getMonitorBounds(this);
+
             //set restore vars here
             setRestoreX(getX());
             setRestoreY(getY());
@@ -1639,6 +1642,15 @@ public class CyderFrame extends JFrame {
 
     public void setRestoreY(int y) {
         this.restoreY = y;
+    }
+
+    /**
+     * Returns the bounds of the monitor the frame was iconified on.
+     *
+     * @return the bounds of the monitor the frame was iconified on
+     */
+    public Rectangle getRestoreBounds() {
+        return this.restoreBounds;
     }
 
     public boolean draggingEnabled() {

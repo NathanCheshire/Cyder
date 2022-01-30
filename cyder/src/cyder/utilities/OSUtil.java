@@ -423,12 +423,6 @@ public class OSUtil {
         return ret.get();
     }
 
-    //test commit
-
-    //todo minimizing needs to remember other monitor
-
-    //todo update README before weekend is over?
-
     //todo creating a user on monitor 0 puts the frame all the way to the right on the x-axis?
 
     //todo user logging out and loggin in as another effects the previous user's screen save stats
