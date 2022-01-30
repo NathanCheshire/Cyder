@@ -4,7 +4,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.SessionHandler;
 import cyder.utilities.ReflectionUtil;
-import cyder.utilities.ScreenUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -69,20 +68,34 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
+                Rectangle frameBounds = effectFrame.getBounds();
+                Rectangle restoreBounds = effectFrame.getRestoreBounds();
+
+                int width = effectFrame.getWidth();
+                int height = effectFrame.getHeight();
+
+                if (frameBounds.getWidth() > restoreBounds.getWidth()) {
+                    width = (int) (width - restoreBounds.getWidth());
+                }
+
+                if (frameBounds.getHeight() > restoreBounds.getHeight()) {
+                    height = (int) (height - restoreBounds.getHeight());
+                }
+
                 int restoreX = effectFrame.getRestoreX();
                 int restoreY = effectFrame.getRestoreY();
 
-                if (restoreX > ScreenUtil.getScreenWidth())
-                    restoreX = ScreenUtil.getScreenWidth() - effectFrame.getWidth();
-                if (restoreX < - effectFrame.getWidth())
-                    restoreX = 0;
+                if (restoreX > restoreBounds.getX() + restoreBounds.getWidth())
+                    restoreX = (int) (restoreBounds.getX() + restoreBounds.getWidth() - effectFrame.getWidth());
+                if (restoreX < restoreBounds.getX() - effectFrame.getWidth())
+                    restoreX = (int) restoreBounds.getX();
 
-                if (restoreY > ScreenUtil.getScreenHeight())
-                    restoreY = ScreenUtil.getScreenHeight() - effectFrame.getHeight();
-                if (restoreY < - effectFrame.getHeight())
-                    restoreY = 0;
+                if (restoreY > restoreBounds.getY() + restoreBounds.getHeight())
+                    restoreY = (int) (restoreBounds.getY() + restoreBounds.getHeight() - effectFrame.getHeight());
+                if (restoreY < restoreBounds.getY() - effectFrame.getHeight())
+                    restoreY = (int) restoreBounds.getY();
 
-                effectFrame.setLocation(restoreX, restoreY);
+                effectFrame.setBounds(restoreX, restoreY, width, height);
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
             }
@@ -97,12 +110,6 @@ public class DragLabel extends JLabel {
                 }
             }
         });
-    }
-
-    //override so we can change the background color if needed
-    @Override
-    public void repaint() {
-        super.repaint();
     }
 
     public void setWidth(int width) {
