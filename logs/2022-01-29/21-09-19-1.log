@@ -1,0 +1,116 @@
+[21-09-19] [ENTRY]: [Nathan]
+[21-09-19] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-09-19] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-09-19] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-09-19] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-09-21] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-09-21] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-09-22] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-09-22] [SYSTEM_IO]: Userdata requested: Name
+[21-09-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-09-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-22] [SYSTEM_IO]: Userdata requested: Name
+[21-09-22] [SYSTEM_IO]: Userdata requested: Foreground
+[21-09-22] [SYSTEM_IO]: Userdata requested: Foreground
+[21-09-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-22] [SYSTEM_IO]: Userdata requested: Foreground
+[21-09-22] [SYSTEM_IO]: Userdata requested: Font
+[21-09-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-09-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-22] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-09-22] [SYSTEM_IO]: Userdata requested: Foreground
+[21-09-22] [SYSTEM_IO]: Userdata requested: Foreground
+[21-09-22] [SYSTEM_IO]: Userdata requested: Foreground
+[21-09-22] [SYSTEM_IO]: Userdata requested: Font
+[21-09-22] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-09-22] [SYSTEM_IO]: Userdata requested: InputFill
+[21-09-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [171435575], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-09-22] [ACTION]: Console loaded in 3686ms
+[21-09-22] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-09-22] [ENTRY]: [TESTING MODE]
+[21-09-22] [SYSTEM_IO]: Userdata requested: laststart
+[21-09-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3686ms
+[21-09-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-09-30] [CLIENT]: fullscreen
+[21-09-30] [SYSTEM_IO]: Userdata requested: filterchat
+[21-09-31] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-09-31] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-09-31] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-09-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-31] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[21-09-31] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-09-31] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-09-31] [SYSTEM_IO]: Userdata requested: InputFill
+[21-09-31] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-09-31] [HANDLE]: FINAL HANDLE
+[21-09-32] [CLIENT]: fullscreen
+[21-09-32] [SYSTEM_IO]: Userdata requested: filterchat
+[21-09-32] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-09-32] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-09-32] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-09-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-09-32] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[21-09-32] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-09-32] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-09-32] [SYSTEM_IO]: Userdata requested: InputFill
+[21-09-32] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-09-32] [HANDLE]: FINAL HANDLE
+[21-10-02] [CLIENT]: fullscreen
+[21-10-02] [SYSTEM_IO]: Userdata requested: filterchat
+[21-10-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-10-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-10-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-10-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-10-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-10-02] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[21-10-02] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-10-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-10-02] [SYSTEM_IO]: Userdata requested: InputFill
+[21-10-02] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-10-02] [HANDLE]: FINAL HANDLE
+[21-10-03] [CLIENT]: fullscreen
+[21-10-03] [SYSTEM_IO]: Userdata requested: filterchat
+[21-10-03] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-10-03] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-10-03] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-10-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-10-03] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[21-10-03] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-10-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-10-03] [SYSTEM_IO]: Userdata requested: InputFill
+[21-10-03] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-10-03] [HANDLE]: FINAL HANDLE
+[21-10-07] [CLIENT]: fullscreen
+[21-10-07] [SYSTEM_IO]: Userdata requested: filterchat
+[21-10-07] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-10-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-10-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-10-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-10-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-10-07] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[21-10-08] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-10-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-10-08] [SYSTEM_IO]: Userdata requested: InputFill
+[21-10-08] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-10-08] [HANDLE]: FINAL HANDLE
+[21-10-10] [CLIENT]: fullscreen
+[21-10-10] [SYSTEM_IO]: Userdata requested: filterchat
+[21-10-10] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-10-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-10-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-10-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-10-10] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[21-10-10] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[21-10-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-10-10] [SYSTEM_IO]: Userdata requested: InputFill
+[21-10-10] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[21-10-10] [HANDLE]: FINAL HANDLE
+[21-10-12] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-10-12] [SYSTEM_IO]: Userdata requested: Name
+[21-10-12] [LOGOUT]: [Nathan]
+[21-10-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(0, 0, 743, 708)], hash = [1440621772], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[21-10-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-10-12] [EXIT]: [RUNTIME] 53s
+[21-10-12] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

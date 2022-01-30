@@ -155,7 +155,6 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon usage = null;
 
-            //todo this needs to be based off of the monitor the frame is currently on, need method helps for that
             if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 w = (int) SystemUtil.getScreenSize().getWidth();
                 h = (int) SystemUtil.getScreenSize().getHeight();
@@ -980,12 +979,6 @@ public final class ConsoleFrame {
                     f.dispose(true);
                 }
             }
-
-            //todo this isn't saved or loaded proprely or something
-            // tests: 2 users, logging in and out while changing monitor positions shouldn't effect each other
-            // users shouldn't be corrupted if there's no reason to be, fuck you java
-            // createing a user on either monitor should place it in hte middle of that,
-            // regardless of the background chosen or how many useres there are
 
             User.ScreenStat screen = UserUtil.extractUser().getScreenStat();
 
@@ -2399,9 +2392,11 @@ public final class ConsoleFrame {
             int h = 0;
             ImageIcon rotatedIcon = null;
 
+            //determine the background
             if (fullscreen) {
-                w = SystemUtil.getScreenWidth();
-                h = SystemUtil.getScreenHeight();
+                w = (int) ScreenUtil.getMonitorWidth(consoleCyderFrame);
+                h = (int) ScreenUtil.getMonitorHeight(consoleCyderFrame);
+
                 consoleDir = Direction.TOP;
                 rotatedIcon = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
             } else {
@@ -2432,13 +2427,18 @@ public final class ConsoleFrame {
                 }
             }
 
-            int relativeX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
-            int relativeY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
-
             consoleCyderFrame.setSize(w, h);
             consoleCyderFrame.setBackground(rotatedIcon);
 
-            consoleCyderFrame.setLocation(relativeX - w / 2, relativeY - h / 2);
+            int addX = (int) ScreenUtil.getMonitorXOffset(consoleCyderFrame);
+            int addY = (int) ScreenUtil.getMonitorYOffset(consoleCyderFrame);
+
+            int width = (int) ScreenUtil.getMonitorWidth(consoleCyderFrame);
+            int height = (int) ScreenUtil.getMonitorHeight(consoleCyderFrame);
+
+            consoleCyderFrame.setLocation(
+                    addX - w / 2 + width / 2,
+                    addY - h / 2 + height / 2);
 
             outputScroll.setBounds(15, 62, w - 40, h - 204);
             inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,w - 40,
@@ -2453,11 +2453,12 @@ public final class ConsoleFrame {
             revalidateMenu();
 
             if (fullscreen) {
-                consoleCyderFrame.setLocationRelativeTo(null);
                 consoleCyderFrame.disableDragging();
             } else {
                 consoleCyderFrame.enableDragging();
             }
+
+            consoleCyderFrame.refreshBackground();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
