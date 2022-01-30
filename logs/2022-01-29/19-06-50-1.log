@@ -80,3 +80,4 @@
 [19-07-00] [ENTRY]: [TESTING MODE]
 [19-07-00] [SYSTEM_IO]: Userdata requested: laststart
 [19-07-00] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-11-07] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

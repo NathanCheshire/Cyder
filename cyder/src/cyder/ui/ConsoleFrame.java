@@ -1297,6 +1297,10 @@ public final class ConsoleFrame {
             cardReflector("AprilFools", TimeUtil.getYear());
         }
 
+        if (TimeUtil.isValentinesDay()) {
+            consoleCyderFrame.notify("Happy Valentines Day!");
+        }
+
         //preference handlers here
         if (UserUtil.getUserData("DebugWindows").equals("1")) {
             StatUtil.systemProperties();
