@@ -46,7 +46,7 @@ public class Cyder {
         addExitHook();
 
         //start session logger
-        SessionHandler.SessionLogger();
+        SessionHandler.initialize();
         SessionHandler.log(SessionHandler.Tag.ENTRY, OSUtil.getSystemUsername());
 
         //subroutines

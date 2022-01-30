@@ -5,7 +5,6 @@ import cyder.ui.ConsoleFrame;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -367,13 +366,6 @@ public class OSUtil {
         }
 
         return ret;
-    }
-
-
-    public static void main(String[] args) throws IOException {
-        String sourcePath = OSUtil.buildPath("dynamic","delete");
-        String outputPath = OSUtil.buildPath("dynamic","delete.zip");
-        zip(sourcePath,outputPath,true);
     }
 
     /**

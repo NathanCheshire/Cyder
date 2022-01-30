@@ -3,6 +3,7 @@ package cyder.handlers.internal;
 import cyder.constants.CyderStrings;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.IOUtil;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
@@ -244,7 +245,7 @@ public class SessionHandler {
      * Constructor that accepts a file in case we want to use a different file.
      * @param outputFile the file to write the log to
      */
-    public static void SessionLogger(File outputFile) {
+    public static void initialize(File outputFile) {
         try {
             if (!outputFile.exists())
                 outputFile.createNewFile();
@@ -258,9 +259,12 @@ public class SessionHandler {
     /**
      * Constructor for the logger to create a file and write to for the current session.
      */
-    public static void SessionLogger() {
+    public static void initialize() {
         //create the log file
         generateAndSetLogFile();
+
+        //zip past log directories
+        zipPastLogs();
     }
 
     /**
@@ -414,5 +418,23 @@ public class SessionHandler {
         }
 
         return ret;
+    }
+
+    /**
+     * Zips the log files of the past.
+     */
+    public static void zipPastLogs() {
+        File topLevelLogsDir = new File("logs");
+
+        if (!topLevelLogsDir.exists()) {
+            topLevelLogsDir.mkdir();
+            return;
+        }
+
+        for (File subLogDir : topLevelLogsDir.listFiles()) {
+            if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())) {
+                OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
+            }
+        }
     }
 }
