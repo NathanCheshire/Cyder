@@ -258,6 +258,8 @@ public class OSUtil {
         return ret.toString();
     }
 
+    //todo update README before weekend is over?
+
     //TODO how the FUCK does the program think a user is corrupted? one user that isn't nathan does it
 
     //todo program breaks if a user folder exists with no user.json?

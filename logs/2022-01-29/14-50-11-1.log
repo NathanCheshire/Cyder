@@ -1,0 +1,6 @@
+[14-50-11] [ENTRY]: [Nathan]
+[14-50-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[14-50-11] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[14-50-11] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[14-50-11] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[14-51-15] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 0

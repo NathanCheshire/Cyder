@@ -623,7 +623,6 @@ public class UserUtil {
         boolean ret = false;
 
         try {
-            //todo it's corrupted before getting here?
             hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
 
             //get all users
@@ -701,7 +700,8 @@ public class UserUtil {
     }
 
     /**
-     * Injects new preferences and their default values into an old json if it is found to not contain all the required user data.
+     * Injects new preferences and their default values into an old json
+     * if it is found to not contain all the required user data.
      * @param f the file to check for corrections
      */
     public static boolean updateOldJson(File f) {
@@ -717,17 +717,11 @@ public class UserUtil {
             //aquire sem
             userIOSemaphore.acquire();
 
-            //init IO for json
-            Reader reader = null;
-            Writer writer = null;
-            BufferedReader jsonReader = null;
-            BufferedWriter jsonWriter = null;
-
             //gson obj
             Gson gson = new Gson();
 
             //read into the object if parsable
-            reader = new FileReader(f);
+            Reader reader = new FileReader(f);
             User userObj = null;
 
             try {
@@ -736,9 +730,6 @@ public class UserUtil {
                 //couldn't be parsed so delete it
                 userIOSemaphore.release();
                 reader.close();
-                writer.close();
-                jsonReader.close();
-                jsonWriter.close();
                 return false;
             }
 
@@ -751,9 +742,6 @@ public class UserUtil {
             if (userObj == null) {
                 userIOSemaphore.release();
                 reader.close();
-                writer.close();
-                jsonReader.close();
-                jsonWriter.close();
                 return false;
             }
 
@@ -767,13 +755,10 @@ public class UserUtil {
                     if (object instanceof String) {
                         String value = (String) object;
 
-                        if (value == null || value.trim().length() == 0 || value.equalsIgnoreCase("null")) {
+                        if (value == null || value.equalsIgnoreCase("null")) {
                             //this thing doesn't exist so return false where the IOUtil method will delete the file
                             userIOSemaphore.release();
                             reader.close();
-                            writer.close();
-                            jsonReader.close();
-                            jsonWriter.close();
                             return false;
                         }
                     }
@@ -781,12 +766,12 @@ public class UserUtil {
             }
 
             //write back so that it's a singular line to prepare for pref injection
-            writer = new FileWriter(f);
+            Writer writer = new FileWriter(f);
             gson.toJson(userObj, writer);
             writer.close();
 
             //read contents into master String
-            jsonReader = new BufferedReader(new FileReader(f));
+            BufferedReader jsonReader = new BufferedReader(new FileReader(f));
             String masterJson = jsonReader.readLine();
             jsonReader.close();
 
@@ -796,7 +781,6 @@ public class UserUtil {
                 reader.close();
                 writer.close();
                 jsonReader.close();
-                jsonWriter.close();
                 return false;
             }
 
@@ -827,7 +811,7 @@ public class UserUtil {
             masterJson += "}";
 
             //write back to file
-            jsonWriter = new BufferedWriter(new FileWriter(f,false));
+            BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson);
             jsonWriter.close();
 
@@ -842,11 +826,13 @@ public class UserUtil {
                 }
 
                 //log the injection
-                SessionHandler.log(SessionHandler.Tag.ACTION, "User " + f.getParentFile().getName() +
+                SessionHandler.log(SessionHandler.Tag.ACTION,
+                        "User " + f.getParentFile().getName() +
                         " was found to have an outdated userdata.json; preference injection " +
                         "was attempted on the following: [" + appendBuilder + "]");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ExceptionHandler.handle(e);
             ret = false;
         } finally {

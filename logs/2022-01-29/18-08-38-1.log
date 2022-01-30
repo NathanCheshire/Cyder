@@ -1,0 +1,13 @@
+[18-08-38] [ENTRY]: [Nathan]
+[18-08-38] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-08-38] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-08-38] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-08-38] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-08-43] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.updateOldJson(UserUtil.java:775)
+From line: 775
+Trace: java.lang.NullPointerException
+	at cyder.utilities.UserUtil.updateOldJson(UserUtil.java:775)
+	at cyder.utilities.IOUtil.fixUsers(IOUtil.java:390)
+	at cyder.genesis.Cyder.main(Cyder.java:93)
+[18-08-59] [EOL]: Log completed, Cyder was force closed by an external entity: exit code: -200 [External Stop], exceptions thrown: 1
