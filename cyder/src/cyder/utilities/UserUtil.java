@@ -395,14 +395,6 @@ public class UserUtil {
         File f = new File(OSUtil.buildPath("dynamic","users",
                 uuid, UserFile.USERDATA.getName()));
 
-        //todo the monitor position initial saving works, loading is somehow fucked
-
-        //todo switching from one user to another sets the other's
-        // screen stats to the old user that just was switched out
-
-        //todo a user should be loaded in the program and you should pull from that and not read the file every second
-        // that seems bad, try using redis soon since we're using jsons exclusively pretty much
-
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
 
@@ -645,6 +637,8 @@ public class UserUtil {
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
+                    ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
+
                     //THIS IS THE ONLY PLACE UUID IS EVER SET
                     ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     ret = true;

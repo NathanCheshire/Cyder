@@ -432,6 +432,8 @@ public class OSUtil {
     //todo make this a command to regenerate the list of valid commands
     // from InputHandler which the script will then look through
 
+    //todo user redis for storing user statistics in memory instead of constant IO to/from files
+
     //todo redo image resizer and put cropper inside of it
 
     //todo be able to drag the height of the console menu and
