@@ -6,13 +6,15 @@
 <img  src="https://img.shields.io/github/issues/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
 </a>
 <a>
+<img  src="https://img.shields.io/tokei/lines/github/nathancheshire/cyder?color=26A8FF&label=Code%20lines&style=for-the-badge"/>
+</a>
+<a>
 <img  src="https://img.shields.io/github/issues-closed/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
 </a>
 <a>
 <img  src="https://img.shields.io/github/repo-size/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
 </a>
 </p>
-
 # Cyder - A Programmers Swiss Army Knife
 
 ## Definition
