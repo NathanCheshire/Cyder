@@ -425,9 +425,6 @@ public class OSUtil {
 
     //todo creating a user on monitor 0 puts the frame all the way to the right on the x-axis?
 
-    //todo user logging out and loggin in as another effects the previous user's screen save stats
-    //todo I think this means saving the stats doesn't work properly wherever they are saved
-
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 
     //todo command finder needs to be able to execute on it's own and take into a file which should be

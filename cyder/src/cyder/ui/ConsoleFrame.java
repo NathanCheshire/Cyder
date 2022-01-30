@@ -3059,26 +3059,12 @@ public final class ConsoleFrame {
        //sometimes extracting user throws so we will ignore exceptions thrown from this method
     }
 
+    /**
+     * Simply closes the console frame due to a user logout.
+     *
+     * @param exit whether or not to exit Cyder upon closing the ConsoleFrame
+     */
     public void closeConsoleFrame(boolean exit) {
-        //save window location
-        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
-
-        //just to be safe
-        if (consoleCyderFrame != null) {
-            screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
-            screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
-            screenStat.setConsoleX(consoleCyderFrame.getX());
-            screenStat.setConsoleY(consoleCyderFrame.getY());
-            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
-            int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
-                    .getIDstring().replaceAll("[^0-9]", ""));
-            screenStat.setMonitor(monitor);
-        }
-
-        User user = UserUtil.extractUser();
-        user.setScreenStat(screenStat);
-        UserUtil.setUserData(user);
-
         //stop any audio
         IOUtil.stopAudio();
 

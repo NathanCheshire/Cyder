@@ -397,8 +397,8 @@ public class UserUtil {
 
         //todo the monitor position initial saving works, loading is somehow fucked
 
-        //todo when two users, this somehow fucks program, maybe autocypher fucks it idk
-        // uuid passing is bad
+        //todo switching from one user to another sets the other's
+        // screen stats to the old user that just was switched out
 
         //todo a user should be loaded in the program and you should pull from that and not read the file every second
         // that seems bad, try using redis soon since we're using jsons exclusively pretty much
