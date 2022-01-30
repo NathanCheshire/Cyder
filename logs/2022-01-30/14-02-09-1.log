@@ -3,12 +3,12 @@
 [14-02-09] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
 [14-02-09] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
 [14-02-09] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
-[14-02-11] [EXCEPTION]: 
+[14-02-11] [EXCEPTION]:
 Exception origin: cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
 From line: 705
 Trace: java.lang.NullPointerException
-	at cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
-	at cyder.genesis.Cyder.main(Cyder.java:94)
+at cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
+at cyder.genesis.Cyder.main(Cyder.java:94)
 [14-02-11] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [14-02-11] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [14-02-11] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
@@ -16,18 +16,14 @@ Trace: java.lang.NullPointerException
 [14-02-11] [SYSTEM_IO]: Userdata requested: RandomBackground
 [14-02-11] [SYSTEM_IO]: Userdata requested: FullScreen
 [14-02-11] [SYSTEM_IO]: Userdata requested: Name
-[14-02-11] [SYSTEM_IO]: Userdata requested: Foreground
-[14-02-11] [SYSTEM_IO]: Userdata requested: Foreground
-[14-02-11] [SYSTEM_IO]: Userdata requested: FullScreen
-[14-02-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-02-11] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[14-02-11] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [14-02-12] [SYSTEM_IO]: Userdata requested: Foreground
 [14-02-12] [SYSTEM_IO]: Userdata requested: Font
 [14-02-12] [SYSTEM_IO]: Userdata requested: OutputBorder
 [14-02-12] [SYSTEM_IO]: Userdata requested: FullScreen
 [14-02-12] [SYSTEM_IO]: Userdata requested: InputBorder
-[14-02-12] [SYSTEM_IO]: Userdata requested: Foreground
-[14-02-12] [SYSTEM_IO]: Userdata requested: Foreground
-[14-02-12] [SYSTEM_IO]: Userdata requested: Foreground
+[14-02-12] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [14-02-12] [SYSTEM_IO]: Userdata requested: Font
 [14-02-12] [SYSTEM_IO]: Userdata requested: OutputFill
 [14-02-12] [SYSTEM_IO]: Userdata requested: InputFill

@@ -3,12 +3,12 @@
 [11-26-57] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
 [11-26-57] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
 [11-26-57] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
-[11-26-58] [EXCEPTION]: 
+[11-26-58] [EXCEPTION]:
 Exception origin: cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
 From line: 705
 Trace: java.lang.NullPointerException
-	at cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
-	at cyder.genesis.Cyder.main(Cyder.java:94)
+at cyder.utilities.IOUtil.fixLogs(IOUtil.java:705)
+at cyder.genesis.Cyder.main(Cyder.java:94)
 [11-26-59] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [11-26-59] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [11-26-59] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
@@ -16,18 +16,14 @@ Trace: java.lang.NullPointerException
 [11-26-59] [SYSTEM_IO]: Userdata requested: RandomBackground
 [11-26-59] [SYSTEM_IO]: Userdata requested: FullScreen
 [11-26-59] [SYSTEM_IO]: Userdata requested: Name
-[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground
-[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground
-[11-26-59] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-26-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[11-26-59] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [11-26-59] [SYSTEM_IO]: Userdata requested: Foreground
 [11-26-59] [SYSTEM_IO]: Userdata requested: Font
 [11-26-59] [SYSTEM_IO]: Userdata requested: OutputBorder
 [11-26-59] [SYSTEM_IO]: Userdata requested: FullScreen
 [11-26-59] [SYSTEM_IO]: Userdata requested: InputBorder
-[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground
-[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground
-[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground
+[11-26-59] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [11-26-59] [SYSTEM_IO]: Userdata requested: Font
 [11-26-59] [SYSTEM_IO]: Userdata requested: OutputFill
 [11-26-59] [SYSTEM_IO]: Userdata requested: InputFill
@@ -39,10 +35,7 @@ Trace: java.lang.NullPointerException
 [11-27-00] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2749ms
 [11-27-00] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [11-27-02] [SYSTEM_IO]: Userdata requested: minimizeanimation
-[11-27-02] [SYSTEM_IO]: Userdata requested: Background
-[11-27-04] [SYSTEM_IO]: Userdata requested: Background
-[11-27-07] [SYSTEM_IO]: Userdata requested: Background
-[11-27-10] [SYSTEM_IO]: Userdata requested: Background
+[11-27-10] [SYSTEM_IO]: Userdata requested: Background [4x]
 [11-27-13] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [11-27-13] [SYSTEM_IO]: Userdata requested: Name
 [11-27-13] [LOGOUT]: [Nathan]

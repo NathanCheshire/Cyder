@@ -544,10 +544,9 @@ public class Logger {
         logLine1 = logLine1.trim();
         logLine2 = logLine2.trim();
 
-        if (!logLine1.startsWith("[") || !logLine1.contains("]"))
-            throw new IllegalArgumentException("Provided first log line is not a valid log line: " + logLine1);
-        if (!logLine2.startsWith("[") || !logLine2.contains("]"))
-            throw new IllegalArgumentException("Provided second log line is not a valid log line: " + logLine2);
+        if (!logLine1.startsWith("[") || !logLine1.contains("]")
+            || !logLine2.startsWith("[") || !logLine2.contains("]"))
+            return logLine1.equals(logLine2);
 
         String timeTag1 = logLine1.substring(logLine1.indexOf("["), logLine2.indexOf("]") + 1).trim();
         String timeTag2 = logLine2.substring(logLine2.indexOf("["), logLine2.indexOf("]") + 1).trim();

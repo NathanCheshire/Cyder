@@ -10,18 +10,14 @@
 [14-09-06] [SYSTEM_IO]: Userdata requested: RandomBackground
 [14-09-06] [SYSTEM_IO]: Userdata requested: FullScreen
 [14-09-06] [SYSTEM_IO]: Userdata requested: Name
-[14-09-06] [SYSTEM_IO]: Userdata requested: Foreground
-[14-09-06] [SYSTEM_IO]: Userdata requested: Foreground
-[14-09-06] [SYSTEM_IO]: Userdata requested: FullScreen
-[14-09-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-09-06] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[14-09-06] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [14-09-06] [SYSTEM_IO]: Userdata requested: Foreground
 [14-09-06] [SYSTEM_IO]: Userdata requested: Font
 [14-09-06] [SYSTEM_IO]: Userdata requested: OutputBorder
 [14-09-06] [SYSTEM_IO]: Userdata requested: FullScreen
 [14-09-07] [SYSTEM_IO]: Userdata requested: InputBorder
-[14-09-07] [SYSTEM_IO]: Userdata requested: Foreground
-[14-09-07] [SYSTEM_IO]: Userdata requested: Foreground
-[14-09-07] [SYSTEM_IO]: Userdata requested: Foreground
+[14-09-07] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [14-09-07] [SYSTEM_IO]: Userdata requested: Font
 [14-09-07] [SYSTEM_IO]: Userdata requested: OutputFill
 [14-09-07] [SYSTEM_IO]: Userdata requested: InputFill
