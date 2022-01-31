@@ -609,6 +609,7 @@ public class UserUtil {
         }
     }
 
+    //todo shouldn't this be in login handler?
     /**
      * Checks whether or not the given name/pass combo is valid and if so, returns the UUID matched.
      * Otherwise, null is returned to represent that no user was found.
@@ -837,6 +838,7 @@ public class UserUtil {
         return ret;
     }
 
+    //todo login handler
     /**
      * Used to log out all users before logging in a new user
      */
@@ -927,6 +929,7 @@ public class UserUtil {
         }
     }
 
+    //todo utilize me on startup for all users
     /**
      * Ensure all user files from {@link UserFile} are created.
      */

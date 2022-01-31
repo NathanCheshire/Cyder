@@ -105,7 +105,7 @@ public class CyderCommon {
     public static CyderFrame getDominantFrame() {
         if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
-        } else if (!LoginHandler.isClosed() && LoginHandler.getLoginFrame() != null){
+        } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null){
             return LoginHandler.getLoginFrame();
         }
         //other possibly dominant/stand-alone frame checks here

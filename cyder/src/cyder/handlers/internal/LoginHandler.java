@@ -22,23 +22,51 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
+/**
+ * A widget to log into Cyder or any other way that the ConsoleFrame might be invoked.
+ */
 public class LoginHandler {
+    /**
+     * Instances of LoginHandler not permited.
+     */
     private LoginHandler() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    //Login widget --------------------------------------------------------------------
-
+    /**
+     * The frame used for loggin into Cyder
+     */
     private static CyderFrame loginFrame;
-    private static JPasswordField loginField;
-    private static boolean doLoginAnimations;
-    private static int loginMode;
-    private static String username;
-    private static final String bashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
-    private static String consoleBashString;
-    private static boolean closed = true;
 
-    private static boolean autoCypherAttempt;
+    /**
+     * The input field for the login frame.
+     */
+    private static JPasswordField loginField;
+
+    /**
+     * Whether to perform the login frame typing animation.
+     */
+    private static boolean doLoginAnimations;
+
+    /**
+     * The current login mode used to determine what stage the user is at such as username, password, etc.
+     */
+    private static int loginMode;
+
+    /**
+     * The username of the user trying to login.
+     */
+    private static String username;
+
+    /**
+     * The string at the beginning of the input field.
+     */
+    private static final String bashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
+
+    /**
+     * Whether the login frame is closed.
+     */
+    private static boolean loginFrameClosed = true;
 
     private static LinkedList<String> printingList = new LinkedList<>();
     private static LinkedList<String> priorityPrintingList = new LinkedList<>();
@@ -150,12 +178,12 @@ public class LoginHandler {
         loginFrame.setBackground(new Color(21,23,24));
 
         //close handling
-        closed = false;
-        loginFrame.addPreCloseAction(() -> closed = true);
+        loginFrameClosed = false;
+        loginFrame.addPreCloseAction(() -> loginFrameClosed = true);
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                closed = true;
+                loginFrameClosed = true;
             }
         });
 
@@ -266,7 +294,8 @@ public class LoginHandler {
                             loginField.setText("");
                             priorityPrintingList.add("Attempting validation\n");
 
-                            if (recognize(username, SecurityUtil.toHexString(SecurityUtil.getSHA256(input)))) {
+                            if (recognize(username, SecurityUtil.toHexString(
+                                    SecurityUtil.getSHA256(input)), false)) {
                                 doLoginAnimations = false;
                             } else {
                                 loginField.setText(bashString);
@@ -340,72 +369,91 @@ public class LoginHandler {
         CyderCommon.resumeFrameChecker();
     }
 
-    public static boolean isClosed() {
-        return closed;
+    /**
+     * Whether the login frame is closed.
+     *
+     * @return the login frame is closed
+     */
+    public static boolean isLoginFrameClosed() {
+        return loginFrameClosed;
     }
 
+    /**
+     * Returns the login frame.
+     *
+     * @return the login frame
+     */
     public static CyderFrame getLoginFrame() {
         return loginFrame;
     }
 
-    //login handling methods ------------------------------------------------------
-
     /**
-     * Begins the login sequence to figure out how to enter Cyder. Autocyphers all the autocyphers if enabled
-     * and autocyphers exist. Otherwise if the program is released show the login widget. Any failures will lead
-     * to the login widget showing up no matter what and the program will only exit
+     * Begins the login sequence to figure out how to enter Cyder.
      */
-    public static void beginLogin() {
-        //figure out how to enter program
+    public static void determinCyderEntry() {
+        //if on main development computer
         if (SecurityUtil.nathanLenovo()) {
             CyderSplash.setLoadingMessage("Checking for autocypher");
 
+            //if autocyphering is enabled, attempt all cyphers
             if (IOUtil.getSystemData().isAutocypher()) {
                 Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 CyderSplash.setLoadingMessage("Autocyphering");
+                boolean autoCypherPass = autoCypher();
 
-                if (!autoCypher()) {
+                //if autocyphering fails, show teh login gui
+                if (!autoCypherPass) {
                     Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                     showGUI();
                 }
-            } else showGUI();
-        } else if (IOUtil.getSystemData().isReleased()) {
+            }
+            // if main development computer but cyphering is disabled, show the login gui
+            else {
+                showGUI();
+            }
+        }
+        //otherwise if Cyder is released
+        else if (IOUtil.getSystemData().isReleased()) {
+            //log the start and show the login frame
             Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
             showGUI();
-        } else CyderCommon.exit(-600);
+        }
+        //otherwise exit
+        else {
+            CyderCommon.exit(-600);
+        }
     }
 
-    //todo redo methods like this, the whole entry process is still jank
-
     /**
-     * Attempts to log in a user based on the inputed name and already hashed password.
+     * Attempts to login a user based on the provided
+     * name and already hashed password.
      *
      * @param name the provided user account name
-     * @param hashedPass the password already having been hashed (we hash it again in checkPassword method)
+     * @param hashedPass the password already having been
+     *                   hashed (we hash it again in checkPassword method)
      * @return whether or not the name and pass combo was authenticated and logged in
      */
-    public static boolean recognize(String name, String hashedPass) {
+    public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
+        //initialize our return var
         boolean ret = false;
 
+        //master try block to ensure something is always returned
         try {
-            //fix login field if the frame is still open
+            //first, if the we came here from login frame,
+            // reset the echo char and text for security reasons
             if (loginFrame != null) {
                 loginField.setEchoChar((char)0);
                 loginField.setText(bashString);
             }
 
+            //attempt to validate the name and password
+            // and obtain the resulting uuid if checkPassword() succeeded
             String uuid = UserUtil.checkPassword(name, hashedPass);
 
-            //check password will set the console frame uuid if it finds a userdata file that matches the provided name and hash
+            //if a user was found
             if (uuid != null) {
-                //log out all people as a precaution
-                UserUtil.logoutAllUsers();
-
-                //only place set uuid is called
+                //set the UUID (This is the only place in all of Cyder that setUUID should ever be called)
                 ConsoleFrame.getConsoleFrame().setUUID(uuid);
-
-                //this is the only time loggedin is EVER set to 1
-                UserUtil.setUserData("loggedin","1");
 
                 //set ret var
                 ret = true;
@@ -457,6 +505,7 @@ public class LoginHandler {
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         } finally {
+            //lastly we always return either true or false
             return ret;
         }
     }
@@ -470,12 +519,11 @@ public class LoginHandler {
 
         try {
             ArrayList<IOUtil.DebugHash> cypherHashes = IOUtil.getDebugHashes();
-            autoCypherAttempt = true;
 
             //for all cypher hashes, attempt to log in using one
             for (IOUtil.DebugHash hash : cypherHashes) {
                 //if the login works, stop trying hashes
-                if (recognize(hash.getName(), hash.getHashpass())) {
+                if (recognize(hash.getName(), hash.getHashpass(), true)) {
                     ret = true;
                     break;
                 }

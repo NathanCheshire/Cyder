@@ -230,7 +230,8 @@ public class UserCreator implements WidgetBase {
                         if (new File(OSUtil.buildPath("dynamic","users")).listFiles().length == 1) {
                             LoginHandler.getLoginFrame().dispose();
                             LoginHandler.recognize(newUserName.getText().trim(),
-                                    SecurityUtil.toHexString(SecurityUtil.getSHA256(newUserPassword.getPassword())));
+                                    SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                                            newUserPassword.getPassword())), false);
                         }
                     }
                 } catch (Exception ex) {

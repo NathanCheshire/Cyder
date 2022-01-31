@@ -48,7 +48,7 @@ public final class ConsoleFrame {
     }
 
     //program driver
-    private String UUID = null;
+    private String uuid = null;
     private CyderFrame consoleCyderFrame;
     private InputHandler inputHandler;
 
@@ -113,7 +113,7 @@ public final class ConsoleFrame {
 
     public void start() {
         if (consoleCyderFrame != null)
-            consoleCyderFrame.dispose();
+            consoleCyderFrame.dispose(); //todo isn't this bad?
 
         resizeBackgrounds();
         initBackgrounds();
@@ -148,6 +148,9 @@ public final class ConsoleFrame {
                     backgroundIndex = NumberUtil.randInt(0,backgroundFiles.size() - 1);
                 }
             }
+
+            //figure out the theme color
+            CyderColors.setGuiThemeColor(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
 
             //get proper width, height, and background image icon,
             // we take into account console rotation and fullscreen here
@@ -1730,17 +1733,31 @@ public final class ConsoleFrame {
      *             information specific to this instance of the console frame
      */
     public void setUUID(String uuid) {
-        UUID = uuid;
+        if (uuid == null)
+            throw new IllegalArgumentException("Provided uuid is null");
 
-        if (uuid != null) {
-            UserUtil.fixUser();
-            UserUtil.fixBackgrounds();
-            CyderColors.setGuiThemeColor(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
-        }
+        this.uuid = uuid;
+
+        //perform preference injection
+        UserUtil.fixUser();
+
+        //log out all users that may have been left as logged in
+        UserUtil.logoutAllUsers();
+
+        //log the current user in
+        UserUtil.setUserData("loggedin","1");
+
+        //resize backgrounds
+        UserUtil.fixBackgrounds();
     }
 
+    /**
+     * Returns the uuid of the current user.
+     *
+     * @return the uuid of the current user
+     */
     public String getUUID() {
-        return UUID;
+        return uuid;
     }
 
     /**
@@ -1758,10 +1775,10 @@ public final class ConsoleFrame {
     }
 
     public File getUserJson() {
-        if (UUID == null)
+        if (uuid == null)
             throw new RuntimeException("UUID not set");
 
-        File userJson = new File(OSUtil.buildPath("dynamic","users",UUID, UserFile.USERDATA.getName()));
+        File userJson = new File(OSUtil.buildPath("dynamic","users", uuid, UserFile.USERDATA.getName()));
 
         if (!userJson.exists())
             throw new RuntimeException("User json does not exist");
@@ -1891,7 +1908,7 @@ public final class ConsoleFrame {
                 Graphics2D g2 = bi.createGraphics();
                 g2.drawImage(img, 0, 0, null);
                 g2.dispose();
-                File backgroundFile = new File("dynamic/users/" + UUID + "/Backgrounds/Default.png");
+                File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
                 backgroundFile.mkdirs();
                 ImageIO.write(bi, "png", backgroundFile);
 
