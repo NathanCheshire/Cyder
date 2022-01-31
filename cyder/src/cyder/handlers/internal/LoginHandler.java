@@ -500,7 +500,7 @@ public class LoginHandler {
                 }
 
                 //open the console frame
-                ConsoleFrame.getConsoleFrame().start();
+                ConsoleFrame.getConsoleFrame().launch();
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in
@@ -512,7 +512,7 @@ public class LoginHandler {
                 loginField.setText("");
 
                 if (autoCypherAttempt) {
-                    //rest autocypher
+                    //reset autocypher
                     autoCypherAttempt = false;
                     Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                 } else {

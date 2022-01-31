@@ -148,6 +148,11 @@ public class NetworkUtil {
         return Latency;
     }
 
+    /**
+     * Determines if the connection to the internet is usable by pinging google.com.
+     *
+     * @return if the connection to the internet is usable
+     */
     public static boolean decentPing() {
         Process Ping;
 

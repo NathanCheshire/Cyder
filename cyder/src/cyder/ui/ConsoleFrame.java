@@ -256,7 +256,7 @@ public final class ConsoleFrame {
      * Performs ConsoleFrame setup routines before constructing
      * the frame and setting its visibility, location, and size.
      */
-    public void start() {
+    public void launch() {
         //the ConsoleFrame should always be closed properly before start is invoked again
         if (consoleCyderFrame != null)
             throw new RuntimeException("ConsoleFrame left open");

@@ -5,10 +5,12 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.ScreenUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -147,10 +149,92 @@ public class Debug {
      */
     public static void launchTests() {
         try {
+            //todo right now this should be top right of secondary monitor
+            int requestedMonitor = 0;
+            int requestedX = -3000;
+            int requestedY = -2000;
+            int requestedWidth = 743;
+            int requestedHeight = 708;
+            boolean pinned = true;
 
+            loadMonitorStats(requestedMonitor, requestedX, requestedY, requestedWidth, requestedHeight);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    public static void loadMonitorStats(int requestedMonitor, int requestedConsoleX,
+                                        int requestedConsoleY, int consoleFrameBackgroundWidth,
+                                        int consoleFrameBackgroundHeight) {
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
+
+        //if the monitor is valid, use its bounds
+        if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
+            Rectangle requestedScreenBounds =
+                    screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
+
+            int monitorX = requestedScreenBounds.x;
+            int monitorY = requestedScreenBounds.y;
+            int monitorWidth = requestedScreenBounds.width;
+            int monitorHeight = requestedScreenBounds.height;
+
+
+            //todo we have bounds of the monitor and it's valid, WE MUST PUT IT ON THIS MONITOR!!!!
+
+            //if too far right, set to max x for this monitor
+            if (requestedConsoleX + consoleFrameBackgroundWidth > monitorX + monitorWidth) {
+                requestedConsoleX = monitorX  + monitorWidth - consoleFrameBackgroundWidth;
+            }
+
+            //if too far left, set to min x for this monitor
+            else if (requestedConsoleX < monitorX) {
+                requestedConsoleX = monitorX;
+            }
+
+            //if too far down, set to max y for this monitor
+            if (requestedConsoleY + consoleFrameBackgroundHeight > monitorY + monitorHeight) {
+                requestedConsoleY = monitorY + monitorHeight - consoleFrameBackgroundHeight;
+            }
+
+            //if too far up, set to min y
+            else if (requestedConsoleY < monitorY) {
+                requestedConsoleY = monitorY;
+            }
+        }
+        //todo remove duplicate code smell here by doing logic for monitor bounds first
+        //otherwise use the default monitor's bounds
+        else {
+            //primary monitor bounds
+            int minX = 0;
+            int minY = 0;
+            int maxX = ScreenUtil.getScreenWidth();
+            int maxY = ScreenUtil.getScreenHeight();
+
+            //if too far left, set to min x
+            if (requestedConsoleX < minX) {
+                requestedConsoleX = 0;
+            }
+
+            //if too far right, set to max x minus console width
+            if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
+                requestedConsoleX = maxX - consoleFrameBackgroundWidth;
+            }
+
+            //if too far up, set to min y
+            if (requestedConsoleY < minY) {
+                requestedConsoleY = 0;
+            }
+
+            //if too far down, set to max y minus console height
+            if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
+                requestedConsoleY = maxY - consoleFrameBackgroundHeight;
+            }
+
+        }
+
+        //set the location to the calculated location
+        ConsoleFrame.getConsoleFrame().setLocation(requestedConsoleX, requestedConsoleY);
     }
 
     /**

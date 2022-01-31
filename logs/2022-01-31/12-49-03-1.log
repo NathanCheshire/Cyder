@@ -1,0 +1,31 @@
+[12-49-03] [ENTRY]: [Nathan]
+[12-49-03] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-49-03] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-49-03] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[12-49-03] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-49-04] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-49-04] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-49-05] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-49-05] [SYSTEM_IO]: Userdata requested: Name
+[12-49-05] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-49-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-49-05] [SYSTEM_IO]: Userdata requested: Name
+[12-49-05] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[12-49-05] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-49-05] [SYSTEM_IO]: Userdata requested: Foreground
+[12-49-05] [SYSTEM_IO]: Userdata requested: Font
+[12-49-05] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-49-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-49-05] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-49-05] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[12-49-05] [SYSTEM_IO]: Userdata requested: Font
+[12-49-05] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-49-05] [SYSTEM_IO]: Userdata requested: InputFill
+[12-49-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2046229175], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-49-05] [ACTION]: Console loaded in 2951ms
+[12-49-05] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-49-05] [ENTRY]: [TESTING MODE]
+[12-49-05] [SYSTEM_IO]: Userdata requested: laststart
+[12-49-06] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2951ms
+[12-49-06] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-49-25] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
