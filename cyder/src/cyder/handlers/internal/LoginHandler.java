@@ -6,7 +6,9 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
 import cyder.ui.*;
+import cyder.user.User;
 import cyder.user.UserCreator;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 
 import javax.swing.*;
@@ -15,6 +17,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -469,7 +472,7 @@ public class LoginHandler {
 
             //attempt to validate the name and password
             // and obtain the resulting uuid if checkPassword() succeeded
-            String uuid = UserUtil.checkPassword(name, hashedPass);
+            String uuid = checkPassword(name, hashedPass);
 
             //if a user was found
             if (uuid != null) {
@@ -557,5 +560,73 @@ public class LoginHandler {
         } finally {
             return ret;
         }
+    }
+
+    /**
+     * Used to log out all users before logging in a new user
+     */
+    public static void logoutAllUsers() {
+        File usersDir = new File("dynamic/users");
+
+        if (!usersDir.exists()) {
+            usersDir.mkdir();
+            return;
+        }
+
+        File[] users = usersDir.listFiles();
+
+        if (users.length == 0)
+            throw new IllegalArgumentException("No users were found");
+
+        for (File user : users) {
+            File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+            if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
+                UserUtil.setUserData(jsonFile, "loggedin","0");
+        }
+    }
+
+    /**
+     * Checks whether or not the given name/pass combo is valid and if so, returns the UUID matched.
+     * Otherwise, null is returned to represent that no user was found.
+     *
+     * @param name the username given
+     * @param hashedPass the already once SHA256 hashed password
+     * @return the uuid found associated with the name, password combo
+     */
+    public static String checkPassword(String name, String hashedPass) {
+        String ret = null;
+
+        try {
+            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
+
+            //get all users
+            File[] UUIDs = new File("dynamic/users").listFiles();
+            LinkedList<File> userDataFiles = new LinkedList<>();
+
+            //get all valid users
+            for (File user : UUIDs) {
+                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+                if (json.exists())
+                    userDataFiles.add(json);
+            }
+
+            //loop through all users and extract the name and password fields
+            for (int i = 0 ; i < userDataFiles.size() ; i++) {
+                User user = UserUtil.extractUser(userDataFiles.get(i));
+
+                //if it's the one we're looking for, set consoel UUID, free resources, and return true
+                if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
+                    ret = UUIDs[i].getName();
+                }
+            }
+        }
+
+        catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ret;
     }
 }

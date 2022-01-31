@@ -1742,7 +1742,7 @@ public final class ConsoleFrame {
         UserUtil.fixUser();
 
         //log out all users that may have been left as logged in
-        UserUtil.logoutAllUsers();
+        LoginHandler.logoutAllUsers();
 
         //log the current user in
         UserUtil.setUserData("loggedin","1");

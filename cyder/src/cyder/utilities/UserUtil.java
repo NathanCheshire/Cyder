@@ -610,51 +610,6 @@ public class UserUtil {
         }
     }
 
-    //todo shouldn't this be in login handler?
-    /**
-     * Checks whether or not the given name/pass combo is valid and if so, returns the UUID matched.
-     * Otherwise, null is returned to represent that no user was found.
-     *
-     * @param name the username given
-     * @param hashedPass the already once SHA256 hashed password
-     * @return the uuid found associated with the name, password combo
-     */
-    public static String checkPassword(String name, String hashedPass) {
-        String ret = null;
-
-        try {
-            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
-
-            //get all users
-            File[] UUIDs = new File("dynamic/users").listFiles();
-            LinkedList<File> userDataFiles = new LinkedList<>();
-
-            //get all valid users
-            for (File user : UUIDs) {
-                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-                if (json.exists())
-                    userDataFiles.add(json);
-            }
-
-            //loop through all users and extract the name and password fields
-            for (int i = 0 ; i < userDataFiles.size() ; i++) {
-                User user = extractUser(userDataFiles.get(i));
-
-                //if it's the one we're looking for, set consoel UUID, free resources, and return true
-                if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
-                    ret = UUIDs[i].getName();
-                }
-            }
-        }
-
-        catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
-    }
-
     /**
      * @return a user object with all of the default values found in {@code GenesisShare}
      */
@@ -837,31 +792,6 @@ public class UserUtil {
         }
 
         return ret;
-    }
-
-    //todo login handler
-    /**
-     * Used to log out all users before logging in a new user
-     */
-    public static void logoutAllUsers() {
-        File usersDir = new File("dynamic/users");
-
-        if (!usersDir.exists()) {
-            usersDir.mkdir();
-            return;
-        }
-
-        File[] users = usersDir.listFiles();
-
-        if (users.length == 0)
-            throw new IllegalArgumentException("No users were found");
-
-        for (File user : users) {
-            File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-            if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
-                setUserData(jsonFile, "loggedin","0");
-        }
     }
 
     /**

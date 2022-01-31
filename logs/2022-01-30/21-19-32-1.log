@@ -10,18 +10,14 @@
 [21-19-34] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-19-34] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-19-35] [SYSTEM_IO]: Userdata requested: Name
-[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-35] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-19-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-19-35] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-19-35] [SYSTEM_IO]: Userdata requested: Foreground
 [21-19-35] [SYSTEM_IO]: Userdata requested: Font
 [21-19-35] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-19-35] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-19-35] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-35] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-19-35] [SYSTEM_IO]: Userdata requested: Font
 [21-19-35] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-19-35] [SYSTEM_IO]: Userdata requested: InputFill
@@ -39,8 +35,7 @@
 [21-19-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(922, 327, 743, 708)], hash = [105579928], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [21-19-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1172687335], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [21-19-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(922, 327, 743, 708)], hash = [105579928], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
-[21-19-39] [SYSTEM_IO]: Userdata requested: closeanimation
-[21-19-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-19-39] [SYSTEM_IO]: Userdata requested: closeanimation [2x]
 [21-19-39] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1172687335], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [21-19-39] [HANDLE]: GENERAL COMMAND HANDLED
 [21-19-39] [HANDLE]: PRIMARY HANDLE
@@ -53,18 +48,14 @@
 [21-19-42] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-19-42] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-19-42] [SYSTEM_IO]: Userdata requested: Name
-[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-42] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-19-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-19-42] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-19-42] [SYSTEM_IO]: Userdata requested: Foreground
 [21-19-42] [SYSTEM_IO]: Userdata requested: Font
 [21-19-42] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-19-42] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-19-42] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground
-[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground
+[21-19-42] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-19-42] [SYSTEM_IO]: Userdata requested: Font
 [21-19-42] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-19-42] [SYSTEM_IO]: Userdata requested: InputFill
