@@ -610,14 +610,15 @@ public class UserUtil {
     }
 
     /**
-     * Checks whether or not the given name/pass combo is valid and if so, sets the
-     * ConsoleFrame UUID to it
+     * Checks whether or not the given name/pass combo is valid and if so, returns the UUID matched.
+     * Otherwise, null is returned to represent that no user was found.
+     *
      * @param name the username given
      * @param hashedPass the already once SHA256 hashed password
-     * @return whether or not the name/pass combo was valid
+     * @return the uuid found associated with the name, password combo
      */
-    public static boolean checkPassword(String name, String hashedPass) {
-        boolean ret = false;
+    public static String checkPassword(String name, String hashedPass) {
+        String ret = null;
 
         try {
             hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
@@ -640,9 +641,7 @@ public class UserUtil {
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
-                   //THIS IS THE ONLY PLACE UUID IS EVER SET
-                    ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
-                    ret = true;
+                    ret = UUIDs[i].getName();
                 }
             }
         }

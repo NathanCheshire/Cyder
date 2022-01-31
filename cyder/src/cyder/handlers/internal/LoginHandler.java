@@ -375,8 +375,11 @@ public class LoginHandler {
         } else CyderCommon.exit(-600);
     }
 
+    //todo redo methods like this, the whole entry process is still jank
+
     /**
-     * Attempts to log in a user based on the inputed name and already hashed password
+     * Attempts to log in a user based on the inputed name and already hashed password.
+     *
      * @param name the provided user account name
      * @param hashedPass the password already having been hashed (we hash it again in checkPassword method)
      * @return whether or not the name and pass combo was authenticated and logged in
@@ -391,10 +394,15 @@ public class LoginHandler {
                 loginField.setText(bashString);
             }
 
+            String uuid = UserUtil.checkPassword(name, hashedPass);
+
             //check password will set the console frame uuid if it finds a userdata file that matches the provided name and hash
-            if (UserUtil.checkPassword(name, hashedPass)) {
+            if (uuid != null) {
                 //log out all people as a precaution
                 UserUtil.logoutAllUsers();
+
+                //only place set uuid is called
+                ConsoleFrame.getConsoleFrame().setUUID(uuid);
 
                 //this is the only time loggedin is EVER set to 1
                 UserUtil.setUserData("loggedin","1");
