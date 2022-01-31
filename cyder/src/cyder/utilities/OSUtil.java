@@ -423,6 +423,8 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo bugs from cyder frame position not saving fast enough?
+
     //todo make a push frame into bounds method so that if it works on time
     // IT WILL FUCKING WORK elsewhere
 

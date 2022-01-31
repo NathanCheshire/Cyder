@@ -3,11 +3,10 @@ package cyder.handlers.internal;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
-import cyder.ui.*;
-import cyder.user.UserCreator;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
-import cyder.user.UserFile;
+import cyder.ui.*;
+import cyder.user.UserCreator;
 import cyder.utilities.*;
 
 import javax.swing.*;
@@ -16,11 +15,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
 
 /**
  * A widget to log into Cyder or any other way that the ConsoleFrame might be invoked.
@@ -68,21 +65,34 @@ public class LoginHandler {
      */
     private static boolean loginFrameClosed = true;
 
+    /**
+     * The regular non-priority printing list for the login frame.
+     */
     private static LinkedList<String> printingList = new LinkedList<>();
+
+    /**
+     * The priority printing list for the login frame.
+     */
     private static LinkedList<String> priorityPrintingList = new LinkedList<>();
 
-    private static Semaphore printingSem = new Semaphore(1);
-
-    private static void loginTypingAnimation(JTextPane refArea) {
-        //apparently we need it a second time to fix a bug :/
+    /**
+     * Begins the login typing animation and printing thread.
+     *
+     * @param referencePane the CyderOutputPane to use for appending and concurrency
+     */
+    private static void startTypingAnimation(CyderOutputPane referencePane) {
+        //set the status of whether login animations are currently being performed
         doLoginAnimations = true;
 
+        //clear only the printing list
+        // (priority may have important things in it still)
         printingList.clear();
+
+        //add the standard login animation
         printingList.add("Cyder version: " + IOUtil.getSystemData().getReleasedate() + "\n");
         printingList.add("Type \"help\" for a list of valid commands\n");
         printingList.add("Build: " + IOUtil.getSystemData().getVersion() +"\n");
         printingList.add("Author: Nathan Cheshire\n");
-        printingList.add("Design OS: Windows 10+\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
 
@@ -90,12 +100,12 @@ public class LoginHandler {
         final int lineTimeout = 400;
 
         new Thread(() -> {
-            StringUtil su = new StringUtil(new CyderOutputPane(refArea));
+            StringUtil su = new StringUtil(referencePane);
 
             try {
                 while (doLoginAnimations && loginFrame != null)  {
                     if (priorityPrintingList.size() > 0) {
-                        printingSem.acquire();
+                        referencePane.getSemaphore().acquire();
 
                         String line = priorityPrintingList.removeFirst();
 
@@ -104,9 +114,9 @@ public class LoginHandler {
                             Thread.sleep(charTimeout);
                         }
 
-                        printingSem.release();
+                        referencePane.getSemaphore().release();
                     } else if (printingList.size() > 0) {
-                        printingSem.acquire();
+                        referencePane.getSemaphore().acquire();
 
                         String line = printingList.removeFirst();
 
@@ -115,7 +125,7 @@ public class LoginHandler {
                             Thread.sleep(charTimeout);
                         }
 
-                        printingSem.release();
+                        referencePane.getSemaphore().release();
                     }
 
                     Thread.sleep(lineTimeout);
@@ -153,45 +163,47 @@ public class LoginHandler {
 
     @Widget(trigger = {"login","pin"}, description = "A widget to switch between Cyder users")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "LOGIN");
-
+        //clear lists
         priorityPrintingList.clear();
         printingList.clear();
-        doLoginAnimations = true;
+
+        //reset login mode
         loginMode = 0;
 
+        //if the frame is still active, remove the program exit
+        // post close action and dispose the frame immediately
         if (loginFrame != null) {
             loginFrame.removePostCloseActions();
             loginFrame.dispose(true);
         }
 
+        //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(600, 400,
-                ImageUtil.imageIconFromColor(new Color(21,23,24))) {
-            @Override
-            public void dispose() {
-                doLoginAnimations = false;
-                super.dispose();
-            }
-        };
-        loginFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+                ImageUtil.imageIconFromColor(new Color(21,23,24)));
         loginFrame.setTitle("Cyder Login [" + IOUtil.getSystemData().getVersion() + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
 
-        //close handling
+        //whether or not the frame is open or closed handling
         loginFrameClosed = false;
-        loginFrame.addPreCloseAction(() -> loginFrameClosed = true);
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 loginFrameClosed = true;
+                doLoginAnimations = false;
+
+                //if the console frame isn't open, close the user creator if it's open
+                if (ConsoleFrame.getConsoleFrame().isClosed()) {
+                    UserCreator.close();
+                }
             }
         });
 
-        //exiting handler if console frame isn't active
+        //exit cyder frame on disposal call of login frame if ConsoleFrame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
             loginFrame.addPostCloseAction(() -> CyderCommon.exit(25));
         }
 
+        //printing animation output
         JTextPane loginArea = new JTextPane();
         loginArea.setBounds(20, 40, 560, 280);
         loginArea.setBackground(new Color(21,23,24));
@@ -201,7 +213,6 @@ public class LoginHandler {
         loginArea.setFont(new Font("Agency FB",Font.BOLD, 26));
         loginArea.setForeground(new Color(85,181,219));
         loginArea.setCaretColor(loginArea.getForeground());
-
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -211,9 +222,9 @@ public class LoginHandler {
         loginScroll.setOpaque(false);
         loginScroll.setBorder(null);
         loginArea.setAutoscrolls(true);
-
         loginFrame.getContentPane().add(loginScroll);
 
+        //field input
         loginField = new JPasswordField(20);
         loginField.setEchoChar((char)0);
         loginField.setText(bashString);
@@ -228,6 +239,7 @@ public class LoginHandler {
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
         loginField.addKeyListener(new KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
+                //todo extract logic to handle method
                 if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != 2) {
                     if (loginField.getPassword().length < bashString.toCharArray().length) {
                         evt.consume();
@@ -322,50 +334,40 @@ public class LoginHandler {
                 }
             }
 
+            //releasing shift sets the echo char back to the
+            // obfuscated one if we are expecting a password
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SHIFT && loginMode == 2) {
                     loginField.setEchoChar(CyderStrings.ECHO_CHAR);
                 }
             }
         });
-
         loginField.setCaretPosition(bashString.length());
         loginFrame.getContentPane().add(loginField);
 
+        //give focus to the login field
         loginFrame.addWindowListener(new WindowAdapter() {
             public void windowOpened(WindowEvent e) {
                 loginField.requestFocus();
             }
         });
 
-        loginFrame.addPreCloseAction(() -> {
-            if (ConsoleFrame.getConsoleFrame().isClosed()) {
-                UserCreator.close();
-            }
-        });
-
+        //set visibility and location
         loginFrame.setVisible(true);
         loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame
                 ? null : CyderCommon.getDominantFrame());
+
+        //dispose the splash frame immediately
         CyderSplash.fastDispose();
 
-        ArrayList<File> userJsons = new ArrayList<>();
-
-        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
-            if (user.isDirectory()) {
-                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-                if (json.exists())
-                    userJsons.add(json);
-            }
-        }
-
-        if (userJsons.size() == 0)
+        //if no users were found, prompt the user to create one
+        if (UserUtil.getUserCount() == 0)
             priorityPrintingList.add("No users found; please type \"create\"\n");
 
-        loginTypingAnimation(loginArea);
+        //begin typing animations
+        startTypingAnimation(new CyderOutputPane(loginArea));
 
-        //in case this is after a corruption or logout, start frame checker again
+        //resume the failsafe
         CyderCommon.resumeFrameChecker();
     }
 
@@ -511,13 +513,15 @@ public class LoginHandler {
     }
 
     /**
-     * Used for debugging, automatically logs the developer in if their account exists,
-     * otherwise the program continues as normal.
+     * Used for debugging, automatically logs the developer
+     * in if their account exists, otherwise the program continues as normal.
      */
     public static boolean autoCypher() {
         boolean ret = false;
 
+        //try block ensure something is always returned
         try {
+            //get all hashes
             ArrayList<IOUtil.DebugHash> cypherHashes = IOUtil.getDebugHashes();
 
             //for all cypher hashes, attempt to log in using one

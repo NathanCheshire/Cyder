@@ -3148,8 +3148,6 @@ public final class ConsoleFrame {
             int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
                     .getIDstring().replaceAll("[^0-9]", ""));
             screenStat.setMonitor(monitor);
-
-            System.out.println("saving console position: " + screenStat);
         }
 
         User user = UserUtil.extractUser();

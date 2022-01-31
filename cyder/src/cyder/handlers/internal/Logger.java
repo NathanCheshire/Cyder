@@ -329,6 +329,7 @@ public class Logger {
         return false;
     }
 
+    //todo concurrency issues?
     /**
      * Writes the line to the current log file and releases resources once done.
      * @param line the single line to write

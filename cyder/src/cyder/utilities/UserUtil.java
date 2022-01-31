@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
@@ -980,5 +981,25 @@ public class UserUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Returns the number of users associated with Cyder.
+     *
+     * @return the number of users associated with Cyder
+     */
+    public static int getUserCount() {
+        ArrayList<File> userJsons = new ArrayList<>();
+
+        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
+            if (user.isDirectory()) {
+                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+                if (json.exists())
+                    userJsons.add(json);
+            }
+        }
+
+        return userJsons.size();
     }
 }
