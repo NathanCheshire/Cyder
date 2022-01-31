@@ -116,7 +116,7 @@ public class InputHandler {
     private boolean handlePreliminaries(String command, boolean userTriggered) {
         //check for null link (should be impossible)
         if (outputArea == null)
-            throw new IllegalStateException("Output area not set; what are you, some kind of European toy maker?");
+            throw new IllegalStateException("Output area not set. " + CyderStrings.europeanToymaker);
 
         //if empty string don't do anything
         if (StringUtil.empytStr(command))

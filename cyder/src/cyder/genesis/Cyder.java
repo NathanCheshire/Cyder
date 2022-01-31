@@ -5,12 +5,13 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderNums;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.Logger;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
+import test.java.Debug;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -57,14 +58,21 @@ public class Cyder {
         if (!ensureCyderSingleInstance()) {
             Logger.log(Logger.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             exceptionExit("Multiple instances of Cyder are not allowed. " +
-                    "Terminate other instances before launching a new one.", "Instance Exception");
+                    "Terminate other instances before launching a new one.", "Instance Exception", -450);
+            return;
+        }
+
+        //check for fast testing
+        if (IOUtil.getSystemData().isFasttestingmode()) {
+            Debug.launchTests();
+            exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing", 50);
             return;
         }
 
         //make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
             Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
-            exceptionExit("Font required by system could not be loaded","Font failure");
+            exceptionExit("Font required by system could not be loaded","Font failure", 278);
             return;
         }
 
@@ -74,14 +82,14 @@ public class Cyder {
         setLoadingMessage("Checkinging for exit collisions");
         if (IOUtil.checkForExitCollisions()) {
             Logger.log(Logger.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
-            exceptionExit("You messed up exit codes :/","Exit Codes Exception");
+            exceptionExit("You messed up exit codes :/","Exit Codes Exception", 278);
             return;
         }
 
         if (OSUtil.isOSX()) {
             Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
             exceptionExit("System OS not intended for Cyder use. You should" +
-                    " install a dual boot or a VM or something.","OS Exception");
+                    " install a dual boot or a VM or something.","OS Exception", 278);
             return;
         }
 
@@ -115,10 +123,11 @@ public class Cyder {
      *
      * @param message the message of the popup
      * @param title the title of the popup
+     * @param code the exit code to log when exiting
      */
-    private static void exceptionExit(String message, String title) {
+    private static void exceptionExit(String message, String title, int code) {
         CyderCommon.suspendFrameChecker();
-        PopupHandler.inform(message, title, null, null, () -> CyderCommon.exit(278));
+        PopupHandler.inform(message, title, null, null, () -> CyderCommon.exit(code));
     }
 
     /**

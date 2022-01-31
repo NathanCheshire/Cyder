@@ -7,5 +7,6 @@
    "uiscale":1.0,
    "consoleresizable":true,
    "autocypher":true,
-   "testingmode":true
+   "testingmode":true,
+   "fasttestingmode":true
 }

@@ -2,6 +2,9 @@ package cyder.constants;
 
 import javax.swing.*;
 
+/**
+ * Common strings used throughout Cyder.
+ */
 public class CyderStrings {
     /**
      * Here string used for debugging.
@@ -29,10 +32,18 @@ public class CyderStrings {
     public static final String commentSepString = "----------------------------------------";
 
     /**
+     * A statement I like using in code if something happens that shouldn't ever happen.
+     */
+    public static final String europeanToymaker = "What are you, some kind of European toy maker?";
+
+    /**
      * A bulletpoint character used for numerous purposes.
      */
     public static final String bulletPoint = "\u2022";
 
+    /**
+     * Instantiation of constants class not allowed.
+     */
     private CyderStrings() {
         throw new IllegalStateException(attemptedClassInstantiation);
     }

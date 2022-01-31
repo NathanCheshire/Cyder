@@ -114,7 +114,7 @@ public class ExceptionHandler {
         if (stackTrace != null)
             exceptionPrintBuilder.append("\nTrace: ").append(stackTrace);
         else
-            exceptionPrintBuilder.append("\nStack trace not found; what are you some kind of Eurpoean toy maker?");
+            exceptionPrintBuilder.append("\nStack trace not found. " + CyderStrings.europeanToymaker);
 
         return Optional.of(exceptionPrintBuilder.toString());
     }

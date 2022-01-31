@@ -5,12 +5,10 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
 import cyder.utilities.ImageUtil;
-import cyder.utilities.ScreenUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -149,103 +147,61 @@ public class Debug {
      */
     public static void launchTests() {
         try {
-            //todo right now this should be top right of secondary monitor
-            int requestedMonitor = 0;
-            int requestedX = -3000;
-            int requestedY = -2000;
-            int requestedWidth = 743;
-            int requestedHeight = 708;
-            boolean pinned = true;
-
-            loadMonitorStats(requestedMonitor, requestedX, requestedY, requestedWidth, requestedHeight);
+            System.out.println("Hallo");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
-    public static void loadMonitorStats(int requestedMonitor, int requestedConsoleX,
-                                        int requestedConsoleY, int consoleFrameBackgroundWidth,
-                                        int consoleFrameBackgroundHeight) {
+    /**
+     * Attempts to set the provided frame to the monitor specified, if valid, with the provided bounds.
+     *
+     * @param requestedMonitor the id number of the monitor to place the frame on
+     * @param requestedX the x value to set the frame to
+     * @param requestedY the y value to set the frame to
+     * @param frame the frame to set the location/size of
+     */
+    public static void requestFramePosition(int requestedMonitor, int requestedX,
+                                            int requestedY, CyderFrame frame) {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
+        Rectangle requestedScreenBounds = null;
 
         //if the monitor is valid, use its bounds
         if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-            Rectangle requestedScreenBounds =
-                    screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
-
-            int monitorX = requestedScreenBounds.x;
-            int monitorY = requestedScreenBounds.y;
-            int monitorWidth = requestedScreenBounds.width;
-            int monitorHeight = requestedScreenBounds.height;
-
-
-            //todo we have bounds of the monitor and it's valid, WE MUST PUT IT ON THIS MONITOR!!!!
-
-            //if too far right, set to max x for this monitor
-            if (requestedConsoleX + consoleFrameBackgroundWidth > monitorX + monitorWidth) {
-                requestedConsoleX = monitorX  + monitorWidth - consoleFrameBackgroundWidth;
-            }
-
-            //if too far left, set to min x for this monitor
-            else if (requestedConsoleX < monitorX) {
-                requestedConsoleX = monitorX;
-            }
-
-            //if too far down, set to max y for this monitor
-            if (requestedConsoleY + consoleFrameBackgroundHeight > monitorY + monitorHeight) {
-                requestedConsoleY = monitorY + monitorHeight - consoleFrameBackgroundHeight;
-            }
-
-            //if too far up, set to min y
-            else if (requestedConsoleY < monitorY) {
-                requestedConsoleY = monitorY;
-            }
+            requestedScreenBounds = screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
+        } else if (screenDevices.length > 0) {
+            requestedScreenBounds = screenDevices[0].getDefaultConfiguration().getBounds();
+        } else {
+            throw new IllegalStateException("No monitors were found. " + CyderStrings.europeanToymaker);
         }
-        //todo remove duplicate code smell here by doing logic for monitor bounds first
-        //otherwise use the default monitor's bounds
-        else {
-            //primary monitor bounds
-            int minX = 0;
-            int minY = 0;
-            int maxX = ScreenUtil.getScreenWidth();
-            int maxY = ScreenUtil.getScreenHeight();
 
-            //if too far left, set to min x
-            if (requestedConsoleX < minX) {
-                requestedConsoleX = 0;
-            }
+        int monitorX = requestedScreenBounds.x;
+        int monitorY = requestedScreenBounds.y;
+        int monitorWidth = requestedScreenBounds.width;
+        int monitorHeight = requestedScreenBounds.height;
 
-            //if too far right, set to max x minus console width
-            if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
-                requestedConsoleX = maxX - consoleFrameBackgroundWidth;
-            }
+        //if too far right, set to max x for this monitor
+        if (requestedX + frame.getWidth() > monitorX + monitorWidth) {
+            requestedX = monitorX  + monitorWidth - frame.getWidth();
+        }
 
-            //if too far up, set to min y
-            if (requestedConsoleY < minY) {
-                requestedConsoleY = 0;
-            }
+        //if too far left, set to min x for this monitor
+        else if (requestedX < monitorX) {
+            requestedX = monitorX;
+        }
 
-            //if too far down, set to max y minus console height
-            if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
-                requestedConsoleY = maxY - consoleFrameBackgroundHeight;
-            }
+        //if too far down, set to max y for this monitor
+        if (requestedY + frame.getHeight() > monitorY + monitorHeight) {
+            requestedY = monitorY + monitorHeight - frame.getHeight();
+        }
 
+        //if too far up, set to min y
+        else if (requestedY < monitorY) {
+            requestedY = monitorY;
         }
 
         //set the location to the calculated location
-        ConsoleFrame.getConsoleFrame().setLocation(requestedConsoleX, requestedConsoleY);
-    }
-
-    /**
-     * Launches the tests without invoking any Cyder setup.
-     * WARNING: this could have unintended consequences. Before
-     * utilizing this entry point, ensure what you are testing does
-     * not require Cyder subroutines prior to executing.
-     *
-     * @param args the JVM command line arguments to ignore
-     */
-    public static void main(String[] args) {
-        launchTests();
+        frame.setLocation(requestedX, requestedY);
     }
 }

@@ -1,0 +1,23 @@
+[16-41-29] [ENTRY]: [Nathan]
+[16-41-29] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-41-29] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-41-29] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-41-29] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-41-29] [EXCEPTION]:
+Exception origin: java.base/java.net.DualStackPlainSocketImpl.bind0(Native Method)
+From line: -2
+Trace: java.net.BindException: Address already in use: NET_Bind
+at java.base/java.net.DualStackPlainSocketImpl.bind0(Native Method)
+at java.base/java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:106)
+at java.base/java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:437)
+at java.base/java.net.PlainSocketImpl.bind(PlainSocketImpl.java:174)
+at java.base/java.net.ServerSocket.bind(ServerSocket.java:381)
+at java.base/java.net.ServerSocket.<init>(ServerSocket.java:243)
+at java.base/java.net.ServerSocket.<init>(ServerSocket.java:135)
+at cyder.genesis.Cyder.lambda$ensureCyderSingleInstance$3(Cyder.java:200)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[16-41-30] [EXCEPTION]: ATTEMPTED MULTIPLE CYDER INSTANCES
+[16-41-41] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 762, 28)], hash = [423733503], parentFrame = [Instance Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-41-41] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(897, 646, 766, 100)], hash = [151442075], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Instance Exception]
+[16-41-41] [EXIT]: [RUNTIME] 12s
+[16-41-41] [EOL]: Log completed, exiting Cyder with exit code: 278 [Corrupted System File(s)], exceptions thrown: 2

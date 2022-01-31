@@ -808,6 +808,7 @@ public class IOUtil {
         private boolean consoleresizable;
         private boolean autocypher;
         private boolean testingmode;
+        private boolean fasttestingmode;
 
         public boolean isReleased() {
             return released;
@@ -879,6 +880,14 @@ public class IOUtil {
 
         public void setTestingmode(boolean testingmode) {
             this.testingmode = testingmode;
+        }
+
+        public boolean isFasttestingmode() {
+            return fasttestingmode;
+        }
+
+        public void setFasttestingmode(boolean fasttestingmode) {
+            this.fasttestingmode = fasttestingmode;
         }
 
         @Override

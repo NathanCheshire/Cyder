@@ -54,5 +54,9 @@
       {
         "code":-200,
         "description":"External Stop"
-      }
+      },
+      {
+          "code":-450,
+          "description":"Multiple Instances Exit"
+       }
    ]
