@@ -1229,10 +1229,15 @@ public final class ConsoleFrame {
             //inform and log how long it took to load Console from program start
             CyderCommon.setConsoleStartTime(System.currentTimeMillis());
 
+            //only show how long it took since this is the quickest path to ConsoleFrame visibility
             String logString = "Console loaded in " +
                     (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
+
             Logger.log(Logger.Tag.ACTION, logString);
-            notify(logString);
+
+            if (IOUtil.getSystemData().isAutocypher()) {
+                notify(logString);
+            }
 
             //resume frame checker
             CyderCommon.resumeFrameChecker();
