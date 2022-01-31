@@ -258,7 +258,7 @@ public final class ConsoleFrame {
      */
     public void launch() {
         //the ConsoleFrame should always be closed properly before start is invoked again
-        if (consoleCyderFrame != null)
+        if (!isClosed())
             throw new RuntimeException("ConsoleFrame left open");
 
         resizeBackgrounds();
@@ -1122,9 +1122,6 @@ public final class ConsoleFrame {
                 }
             }
 
-            //ensure console frame is on top if left on top last session
-            consoleCyderFrame.setAlwaysOnTop(UserUtil.extractUser().getScreenStat().isConsoleOnTop());
-
             //close all frames just before showing console
             for (CyderFrame f : FrameUtil.getCyderFrames()) {
                 if (f == consoleCyderFrame) {
@@ -1134,16 +1131,17 @@ public final class ConsoleFrame {
                 }
             }
 
+            //screen stat initialization
             User.ScreenStat requestedConsoleStats = UserUtil.extractUser().getScreenStat();
+
+            //ensure console frame is on top if left on top last session
+            consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
 
             //requested console bounds
             int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
             int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
-            int requestedConsoleX = requestedConsoleStats.getConsoleX();
-            int requestedConsoleY = requestedConsoleStats.getConsoleY();
 
-            //if requested width x height is valid for the background
-            // Cyder started on
+            //if requested size is valid for the background Cyder started on
             if (requestedConsoleWidth <= consoleFrameBackgroundWidth &&
                     requestedConsoleHeight <= consoleFrameBackgroundHeight &&
                         requestedConsoleWidth > MINIMUM_SIZE.width &&
@@ -1152,76 +1150,8 @@ public final class ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
-            //done with console frame size logic -------------------------------------------
-
-            //show on correct monitor if it exists
-            int requestedMonitor = requestedConsoleStats.getMonitor();
-
-            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
-
-            //if the monitor is valid, then we start on it
-            if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-                Rectangle requestedScreenBounds =
-                        screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
-
-                int minX = requestedScreenBounds.x;
-                int minY = requestedScreenBounds.y;
-                int maxX = requestedScreenBounds.x + requestedScreenBounds.width;
-                int maxY = requestedScreenBounds.y + requestedScreenBounds.height;
-
-                //if too far right, set to max x for this monitor
-                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
-                    requestedConsoleX = maxX - consoleFrameBackgroundWidth;
-                }
-
-                //if too far left, set to min x for this monitor
-                else if (requestedConsoleX < minX) {
-                    requestedConsoleX = minX;
-                }
-
-                //if too far down, set to max y for this monitor
-                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
-                    requestedConsoleY = maxY - consoleFrameBackgroundHeight;
-                }
-
-                //if too far up, set to min y
-                else if (requestedConsoleY < minY) {
-                    requestedConsoleY = minY;
-                }
-            }
-            //otherwise display on the primary monitor
-            else {
-                //primary monitor bounds
-                int minX = 0;
-                int minY = 0;
-                int maxX = ScreenUtil.getScreenWidth();
-                int maxY = ScreenUtil.getScreenHeight();
-
-                //if too far left, set to min x
-                if (requestedConsoleX < minX) {
-                    requestedConsoleX = 0;
-                }
-
-                //if too far right, set to max x minus console width
-                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
-                    requestedConsoleX = maxX - consoleFrameBackgroundWidth;
-                }
-
-                //if too far up, set to min y
-                if (requestedConsoleY < minY) {
-                    requestedConsoleY = 0;
-                }
-
-                //if too far down, set to max y minus console height
-                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
-                    requestedConsoleY = maxY - consoleFrameBackgroundHeight;
-                }
-
-            }
-
-            //set the location to the calculated location
-            consoleCyderFrame.setLocation(requestedConsoleX, requestedConsoleY);
+            //todo make sure frame bounds are saved properly on controlled exits/instance switches
+            //todo frame location from stats
 
             //show frame
             consoleCyderFrame.setVisible(true);
@@ -1235,6 +1165,7 @@ public final class ConsoleFrame {
 
             Logger.log(Logger.Tag.ACTION, logString);
 
+            //todo if came from login frame, don't show
             if (IOUtil.getSystemData().isAutocypher()) {
                 notify(logString);
             }
@@ -2488,21 +2419,7 @@ public final class ConsoleFrame {
                 getInputHandler().handle("fix foreground", false);
             }
 
-            //fix frame out of bounds if needed
-            if (consoleCyderFrame.getX() + consoleCyderFrame.getWidth() > ScreenUtil.getScreenWidth()) {
-                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - consoleCyderFrame.getWidth(),
-                        consoleCyderFrame.getY());
-            }
-            if (consoleCyderFrame.getX() < 0) {
-                consoleCyderFrame.setLocation(0, consoleCyderFrame.getY());
-            }
-            if (consoleCyderFrame.getY() + consoleCyderFrame.getHeight() > ScreenUtil.getScreenHeight()) {
-                consoleCyderFrame.setLocation(consoleCyderFrame.getX(),
-                        ScreenUtil.getScreenHeight() - consoleCyderFrame.getHeight());
-            }
-            if (consoleCyderFrame.getY() < 0) {
-                consoleCyderFrame.setLocation(consoleCyderFrame.getX(), 0);
-            }
+            //todo
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

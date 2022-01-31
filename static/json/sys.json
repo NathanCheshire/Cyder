@@ -8,5 +8,5 @@
    "consoleresizable":true,
    "autocypher":true,
    "testingmode":true,
-   "fasttestingmode":true
+   "fasttestingmode":false
 }

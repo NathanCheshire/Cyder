@@ -355,10 +355,8 @@ public class LoginHandler {
                         loginField.setText("");
                         priorityPrintingList.add("Attempting validation\n");
 
-                        if (recognize(username, SecurityUtil.toHexString(
+                        if (!recognize(username, SecurityUtil.toHexString(
                                 SecurityUtil.getSHA256(input)), false)) {
-                            doLoginAnimations = false;
-                        } else {
                             loginField.setText(currentBashString);
                             loginField.setCaretPosition(loginField.getPassword().length);
                             priorityPrintingList.add("Login failed\n");

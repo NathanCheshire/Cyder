@@ -1,0 +1,86 @@
+[17-13-39] [ENTRY]: [Nathan]
+[17-13-39] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-13-39] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-13-39] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-13-39] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-13-41] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-13-41] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-13-41] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-13-41] [SYSTEM_IO]: Userdata requested: Name
+[17-13-41] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-13-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-13-41] [SYSTEM_IO]: Userdata requested: Name
+[17-13-42] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[17-13-42] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-13-42] [SYSTEM_IO]: Userdata requested: Foreground
+[17-13-42] [SYSTEM_IO]: Userdata requested: Font
+[17-13-42] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-13-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-13-42] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-13-42] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[17-13-42] [SYSTEM_IO]: Userdata requested: Font
+[17-13-42] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-13-42] [SYSTEM_IO]: Userdata requested: InputFill
+[17-13-42] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1870670688], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-13-42] [ACTION]: Console loaded in 2945ms
+[17-13-42] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-13-42] [ENTRY]: [TESTING MODE]
+[17-13-42] [SYSTEM_IO]: Userdata requested: laststart
+[17-13-42] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2945ms
+[17-13-42] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-13-45] [CLIENT]: logout
+[17-13-45] [SYSTEM_IO]: Userdata requested: filterchat
+[17-13-45] [SYSTEM_IO]: Userdata requested: Name
+[17-13-45] [LOGOUT]: [Nathan]
+[17-13-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(916, 336, 743, 708)], hash = [2024415090], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[17-13-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1870670688], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-13-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(916, 336, 743, 708)], hash = [2024415090], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[17-13-45] [SYSTEM_IO]: Userdata requested: closeanimation [2x]
+[17-13-46] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1870670688], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-13-46] [HANDLE]: GENERAL COMMAND HANDLED
+[17-13-46] [HANDLE]: PRIMARY HANDLE
+[17-13-47] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[17-13-48] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[17-14-21] [LOGIN]: [STD LOGIN, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-14-45] [EXCEPTION]:
+Exception origin: cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:262)
+From line: 262
+Trace: java.lang.RuntimeException: ConsoleFrame left open
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:262)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:501)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:358)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17-15-28] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1
