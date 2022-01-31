@@ -16,7 +16,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -58,7 +57,12 @@ public class LoginHandler {
     /**
      * The string at the beginning of the input field.
      */
-    private static final String bashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
+    private static final String defaultBashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
+
+    /**
+     * The bashstring currently being used.
+     */
+    private static String currentBashString = defaultBashString;
 
     /**
      * Whether the login frame is closed.
@@ -96,32 +100,40 @@ public class LoginHandler {
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
 
+        //timeouts for printing animation
         final int charTimeout = 25;
         final int lineTimeout = 400;
 
+        //the actual thread that performs the printing animation
         new Thread(() -> {
-            StringUtil su = new StringUtil(referencePane);
-
             try {
+                //while the animation should be performed
                 while (doLoginAnimations && loginFrame != null)  {
+                    //pull from the priority list first
                     if (priorityPrintingList.size() > 0) {
+                        //ensure concurrency
                         referencePane.getSemaphore().acquire();
 
+                        //pull the line and perform the animation
                         String line = priorityPrintingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
-                            su.print(String.valueOf(c));
+                            referencePane.getStringUtil().print(String.valueOf(c));
                             Thread.sleep(charTimeout);
                         }
 
                         referencePane.getSemaphore().release();
-                    } else if (printingList.size() > 0) {
+                    }
+                    //pull from the regular list second
+                    else if (printingList.size() > 0) {
+                        //ensure concurrency
                         referencePane.getSemaphore().acquire();
 
+                        //pul the line and perform the animation
                         String line = printingList.removeFirst();
 
                         for (char c : line.toCharArray()) {
-                            su.print(String.valueOf(c));
+                            referencePane.getStringUtil().print(String.valueOf(c));
                             Thread.sleep(charTimeout);
                         }
 
@@ -137,17 +149,19 @@ public class LoginHandler {
             }
         },"Login printing animation").start();
 
+        //thread to update the input field caret position
         new Thread(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
                     //reset caret pos
-                    if (loginField.getCaretPosition() < bashString.length()) {
+                    if (loginField.getCaretPosition() < currentBashString.length()) {
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
                     //if it doesn't start with bash string, reset it to start with bashString if it's not mode 2
-                    if (loginMode != 2 && !String.valueOf(loginField.getPassword()).startsWith(bashString)) {
-                        loginField.setText(bashString + String.valueOf(loginField.getPassword()).replace(bashString, "").trim());
+                    if (loginMode != 2 && !String.valueOf(loginField.getPassword()).startsWith(currentBashString)) {
+                        loginField.setText(currentBashString + String.valueOf(
+                                loginField.getPassword()).replace(currentBashString, "").trim());
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
@@ -227,7 +241,7 @@ public class LoginHandler {
         //field input
         loginField = new JPasswordField(20);
         loginField.setEchoChar((char)0);
-        loginField.setText(bashString);
+        loginField.setText(currentBashString);
         loginField.setBounds(20, 340, 560, 40);
         loginField.setBackground(new Color(21,23,24));
         loginField.setBorder(null);
@@ -237,112 +251,8 @@ public class LoginHandler {
         loginField.setForeground(new Color(85,181,219));
         loginField.setCaretColor(new Color(85,181,219));
         loginField.addActionListener(e -> loginField.requestFocusInWindow());
-        loginField.addKeyListener(new KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                //todo extract logic to handle method
-                if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != 2) {
-                    if (loginField.getPassword().length < bashString.toCharArray().length) {
-                        evt.consume();
-                        loginField.setText(bashString);
-                    }
-                }
-
-                else if (evt.getKeyChar() == '\n') {
-                    char[] input = loginField.getPassword();
-
-                    if (loginMode != 2) {
-                        char[] newInput = new char[input.length - bashString.toCharArray().length];
-
-                        //copy input to new input with offset
-                        if (input.length - bashString.length() >= 0) {
-                            System.arraycopy(input, bashString.length(), newInput, 0,
-                                    input.length - bashString.length());
-                        }
-
-                        input = newInput.clone();
-                        Logger.log(Logger.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
-                    }
-
-                    switch (loginMode) {
-                        case 0:
-                            try {
-                                char[] lowerCased = String.valueOf(input).toLowerCase().toCharArray();
-
-                                if (Arrays.equals(lowerCased,"create".toCharArray())) {
-                                    UserCreator.showGUI();
-                                    loginField.setText(bashString);
-                                    loginMode = 0;
-                                } else if (Arrays.equals(lowerCased,"login".toCharArray())) {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Awaiting Username\n");
-                                    loginMode = 1;
-                                } else if (Arrays.equals(lowerCased,"quit".toCharArray())) {
-                                    loginFrame.dispose();
-                                    if (ConsoleFrame.getConsoleFrame().isClosed())
-                                        CyderCommon.exit(25);
-
-                                } else if (Arrays.equals(lowerCased,"h".toCharArray()) || Arrays.equals(lowerCased,"help".toCharArray())) {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Valid commands: create, login, quit, help\n");
-                                } else {
-                                    loginField.setText(bashString);
-                                    priorityPrintingList.add("Unknown command; See \"help\" for help\n");
-                                }
-                            } catch (Exception e) {
-                                ExceptionHandler.handle(e);
-                            }
-
-                            break;
-                        case 1:
-                            username = new String(input);
-                            loginMode = 2;
-                            loginField.setEchoChar(CyderStrings.ECHO_CHAR);
-                            loginField.setText("");
-                            priorityPrintingList.add("Awaiting Password (hold shift to reveal password)\n");
-
-                            break;
-                        case 2:
-                            loginField.setEchoChar((char)0);
-                            loginField.setText("");
-                            priorityPrintingList.add("Attempting validation\n");
-
-                            if (recognize(username, SecurityUtil.toHexString(
-                                    SecurityUtil.getSHA256(input)), false)) {
-                                doLoginAnimations = false;
-                            } else {
-                                loginField.setText(bashString);
-                                loginField.setCaretPosition(loginField.getPassword().length);
-                                priorityPrintingList.add("Login failed\n");
-                                loginMode = 0;
-                            }
-
-                            for (char c : input)
-                                c = '\0';
-
-                            break;
-                        default:
-                            loginField.setText(bashString);
-                            throw new IllegalArgumentException("Error resulting from login shell default case trigger");
-                    }
-                }
-            }
-
-            //holding shift allows the user to see their password
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-                    loginField.setEchoChar((char)0);
-                }
-            }
-
-            //releasing shift sets the echo char back to the
-            // obfuscated one if we are expecting a password
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SHIFT && loginMode == 2) {
-                    loginField.setEchoChar(CyderStrings.ECHO_CHAR);
-                }
-            }
-        });
-        loginField.setCaretPosition(bashString.length());
+        loginField.addKeyListener(loginFieldAdapter);
+        loginField.setCaretPosition(currentBashString.length());
         loginFrame.getContentPane().add(loginField);
 
         //give focus to the login field
@@ -370,6 +280,115 @@ public class LoginHandler {
         //resume the failsafe
         CyderCommon.resumeFrameChecker();
     }
+
+    /**
+     * The handler used to determine how to handle user input from the login field.
+     */
+    private static final KeyAdapter loginFieldAdapter = new KeyAdapter() {
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            if (evt.getKeyChar() == KeyEvent.VK_BACK_SPACE && loginMode != 2) {
+                if (loginField.getPassword().length < currentBashString.toCharArray().length) {
+                    evt.consume();
+                    loginField.setText(currentBashString);
+                }
+            }
+
+            //if enter was pressed
+            else if (evt.getKeyChar() == '\n') {
+                //get the input text
+                char[] input = loginField.getPassword();
+                String inputString = null;
+
+                //if the login mode is not expecting a password
+                if (loginMode != 2) {
+                    inputString = new String(input).replace(currentBashString,"");
+
+                    Logger.log(Logger.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
+                }
+
+                switch (loginMode) {
+                    //if not login mode, user could enter anything
+                    case 0:
+                        try {
+                            if (inputString.equalsIgnoreCase("create")) {
+                                UserCreator.showGUI();
+                                loginField.setText(currentBashString);
+                                loginMode = 0;
+                            } else if (inputString.equalsIgnoreCase("login")) {
+                                currentBashString = "Username: ";
+                                loginField.setText(currentBashString);
+                                priorityPrintingList.add("Awaiting Username\n");
+                                loginMode = 1;
+                            } else if (inputString.equalsIgnoreCase("quit")) {
+                                loginFrame.dispose();
+                                if (ConsoleFrame.getConsoleFrame().isClosed())
+                                    CyderCommon.exit(25);
+
+                            } else if (inputString.equalsIgnoreCase("help")) {
+                                loginField.setText(currentBashString);
+                                priorityPrintingList.add("Valid commands: create, login, quit, help\n");
+                            } else {
+                                loginField.setText(currentBashString);
+                                priorityPrintingList.add("Unknown command; See \"help\" for help\n");
+                            }
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
+
+                        break;
+                    //expecting a username
+                    case 1:
+                        username = inputString;
+                        loginMode = 2;
+                        loginField.setEchoChar(CyderStrings.ECHO_CHAR);
+                        loginField.setText("");
+                        priorityPrintingList.add("Awaiting Password (hold shift to reveal password)\n");
+                        currentBashString = defaultBashString;
+
+                        break;
+                    //expecting a password
+                    case 2:
+                        loginField.setEchoChar((char)0);
+                        loginField.setText("");
+                        priorityPrintingList.add("Attempting validation\n");
+
+                        if (recognize(username, SecurityUtil.toHexString(
+                                SecurityUtil.getSHA256(input)), false)) {
+                            doLoginAnimations = false;
+                        } else {
+                            loginField.setText(currentBashString);
+                            loginField.setCaretPosition(loginField.getPassword().length);
+                            priorityPrintingList.add("Login failed\n");
+                            loginMode = 0;
+                        }
+
+                        for (char c : input) {
+                            c = '\0';
+                        }
+
+                        break;
+                    default:
+                        loginField.setText(currentBashString);
+                        throw new IllegalArgumentException("Error resulting from login shell default case trigger");
+                }
+            }
+        }
+
+        //holding shift allows the user to see their password
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                loginField.setEchoChar((char)0);
+            }
+        }
+
+        //releasing shift sets the echo char back to the
+        // obfuscated one if we are expecting a password
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SHIFT && loginMode == 2) {
+                loginField.setEchoChar(CyderStrings.ECHO_CHAR);
+            }
+        }
+    };
 
     /**
      * Whether the login frame is closed.
@@ -445,7 +464,7 @@ public class LoginHandler {
             // reset the echo char and text for security reasons
             if (loginFrame != null) {
                 loginField.setEchoChar((char)0);
-                loginField.setText(bashString);
+                loginField.setText(currentBashString);
             }
 
             //attempt to validate the name and password

@@ -10,18 +10,14 @@
 [21-04-38] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-04-38] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-04-38] [SYSTEM_IO]: Userdata requested: Name
-[21-04-38] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-38] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-38] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-04-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-04-38] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-04-38] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-04-38] [SYSTEM_IO]: Userdata requested: Foreground
 [21-04-38] [SYSTEM_IO]: Userdata requested: Font
 [21-04-38] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-04-38] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-04-38] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-04-39] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-39] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-39] [SYSTEM_IO]: Userdata requested: Foreground
+[21-04-39] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-04-39] [SYSTEM_IO]: Userdata requested: Font
 [21-04-39] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-04-39] [SYSTEM_IO]: Userdata requested: InputFill
@@ -39,8 +35,7 @@
 [21-04-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1229, 484, 743, 708)], hash = [1176164144], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [21-04-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [544511503], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [21-04-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1229, 484, 743, 708)], hash = [1176164144], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
-[21-04-40] [SYSTEM_IO]: Userdata requested: closeanimation
-[21-04-40] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-04-40] [SYSTEM_IO]: Userdata requested: closeanimation [2x]
 [21-04-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [544511503], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [21-04-40] [HANDLE]: GENERAL COMMAND HANDLED
 [21-04-40] [HANDLE]: PRIMARY HANDLE
@@ -52,18 +47,14 @@
 [21-04-46] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-04-46] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-04-47] [SYSTEM_IO]: Userdata requested: Name
-[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-47] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-04-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-04-47] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-04-47] [SYSTEM_IO]: Userdata requested: Foreground
 [21-04-47] [SYSTEM_IO]: Userdata requested: Font
 [21-04-47] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-04-47] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-04-47] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground
+[21-04-47] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-04-47] [SYSTEM_IO]: Userdata requested: Font
 [21-04-47] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-04-47] [SYSTEM_IO]: Userdata requested: InputFill
@@ -100,18 +91,14 @@
 [21-04-55] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-04-55] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-04-55] [SYSTEM_IO]: Userdata requested: Name
-[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-55] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-04-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-04-55] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-04-55] [SYSTEM_IO]: Userdata requested: Foreground
 [21-04-55] [SYSTEM_IO]: Userdata requested: Font
 [21-04-55] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-04-55] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-04-55] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground
-[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground
+[21-04-55] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-04-55] [SYSTEM_IO]: Userdata requested: Font
 [21-04-55] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-04-55] [SYSTEM_IO]: Userdata requested: InputFill
@@ -152,39 +139,35 @@
 [21-05-05] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-05-05] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-05-05] [SYSTEM_IO]: Userdata requested: Name
-[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-05] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-05-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-05-05] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-05-05] [SYSTEM_IO]: Userdata requested: Foreground
 [21-05-05] [SYSTEM_IO]: Userdata requested: Font
 [21-05-05] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-05-05] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-05-05] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground
+[21-05-05] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-05-05] [SYSTEM_IO]: Userdata requested: Font
 [21-05-05] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-05-05] [SYSTEM_IO]: Userdata requested: InputFill
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [544511503], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1229, -701, 743, 708)], hash = [1176164144], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
-[21-05-05] [EXCEPTION]: 
+[21-05-05] [EXCEPTION]:
 Exception origin: cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1210)
 From line: 1210
 Trace: java.lang.NullPointerException
-	at cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1210)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1210)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [873444852], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1088, -696, 743, 708)], hash = [1312437284], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [21-05-05] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [1365887464], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
-[21-05-05] [DEBUG]: 
+[21-05-05] [DEBUG]:
 Exception origin: cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1210)
 From line: 1210
 Trace: java.lang.NullPointerException
-	at cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1210)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1210)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(445, -696, 743, 708)], hash = [1586560096], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [21-05-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [1510493488], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
 [21-05-05] [ACTION]: Console loaded in 3073ms
@@ -221,18 +204,14 @@ Trace: java.lang.NullPointerException
 [21-05-15] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-05-15] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-05-16] [SYSTEM_IO]: Userdata requested: Name
-[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-16] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-05-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[21-05-16] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-05-16] [SYSTEM_IO]: Userdata requested: Foreground
 [21-05-16] [SYSTEM_IO]: Userdata requested: Font
 [21-05-16] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-05-16] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-05-16] [SYSTEM_IO]: Userdata requested: InputBorder
-[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground
-[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground
+[21-05-16] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [21-05-16] [SYSTEM_IO]: Userdata requested: Font
 [21-05-16] [SYSTEM_IO]: Userdata requested: OutputFill
 [21-05-16] [SYSTEM_IO]: Userdata requested: InputFill

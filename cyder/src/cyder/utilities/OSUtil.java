@@ -423,14 +423,13 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo bug where disposal makes the console frame start at the top now?
     //todo bugs from cyder frame position not saving fast enough?
 
     //todo make a push frame into bounds method so that if it works on time
     // IT WILL FUCKING WORK elsewhere
 
-    //todo rethink how console frame uuid is set
-
-    //todo don't say console load time if not auto cypher
+    //todo don't say console load time if not autocypher
 
     //todo show login frame on console frame's monitor if logging out
     //todo add getMonitor and getMonitorBounds methods for CyderFrame
