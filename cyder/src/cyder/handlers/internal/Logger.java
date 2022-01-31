@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
@@ -329,32 +330,35 @@ public class Logger {
         return false;
     }
 
-    //todo concurrency issues?
+    private static final Semaphore writingSemaphore = new Semaphore(1);
+
     /**
      * Writes the line to the current log file and releases resources once done.
      * @param line the single line to write
      */
     private static void writeLine(String line) {
-        try {
-            //if the current log doesn't exist, find a unique file name and make it
-            if (!getCurrentLog().exists()) {
-                generateAndSetLogFile();
+        //if we have to make a new line
+        String recoveryLine = null;
 
-                FileWriter fw = new FileWriter(currentLog,true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write("[log file/directory was deleted during runtime, recreating and restarting log: " + TimeUtil.userTime() + "]");
-                bw.write(line.trim());
-                bw.newLine();
-                bw.close();
+        //if the current log doesn't exist, find a unique file name and make it
+        if (!getCurrentLog().exists()) {
+            generateAndSetLogFile();
+
+            recoveryLine = "[log file/directory was deleted during runtime, recreating and restarting log: "
+                    + TimeUtil.userTime() + "]";
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
+            writingSemaphore.acquire();
+
+            if (recoveryLine != null) {
+                bw.write(recoveryLine.trim());
             }
-            //otherwise just write to the current log file
-            else {
-                FileWriter fw = new FileWriter(currentLog,true);
-                BufferedWriter bw = new BufferedWriter(fw);
-                bw.write(line.trim());
-                bw.newLine();
-                bw.close();
-            }
+
+            bw.write(line.trim());
+            bw.newLine();
+
+            writingSemaphore.release();
         } catch(Exception e) {
             ExceptionHandler.handle(e);
         }
