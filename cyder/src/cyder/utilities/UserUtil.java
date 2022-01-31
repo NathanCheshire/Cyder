@@ -298,7 +298,7 @@ public class UserUtil {
      * Attempts to read backgrounds that Cyder would use for a user.
      * If failure, the image is corrupted so we delete it in the calling function.
      */
-    public static void fixBackgrounds() {
+    public static void deleteInvalidBackgrounds() {
         try {
             //acquire sem so that any user requested exit will not corrupt the background
             getUserIOSemaphore().acquire();
@@ -860,7 +860,7 @@ public class UserUtil {
         }
     }
 
-    //todo utilize me on startup for all users
+    //todo where's the best place to utilize this?
     /**
      * Ensure all user files from {@link UserFile} are created.
      */

@@ -240,10 +240,10 @@ public class Logger {
         } else if (representation.toString().contains("SYSTEM_IO")) {
             log(Tag.SYSTEM_IO, representation);
         } else {
-            ArrayList<String> ops = ConsoleFrame.getConsoleFrame().getOperationList();
+            ArrayList<String> ops = ConsoleFrame.getConsoleFrame().getCommandHistory();
             for (String op : ops) {
                 if (op.toLowerCase().contains(representation.toString())) {
-                    log(Tag.CLIENT);
+                    log(Tag.CLIENT, representation);
                     return;
                 }
             }

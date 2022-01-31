@@ -148,7 +148,7 @@ public class NetworkUtil {
         return Latency;
     }
 
-    public static boolean internetReachable() {
+    public static boolean decentPing() {
         Process Ping;
 
         try {

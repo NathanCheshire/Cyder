@@ -710,7 +710,7 @@ public class InputHandler {
 
                             ImageIO.write(img, "png", saveFile);
 
-                            LinkedList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
+                            ArrayList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
 
                             println("Background pixelated and saved as a separate background file.");
                             ConsoleFrame.getConsoleFrame().setFullscreen(false);
@@ -871,7 +871,7 @@ public class InputHandler {
         } else if (commandIs("throw")) {
             ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (commandIs("clearops")) {
-            ConsoleFrame.getConsoleFrame().clearOperationList();
+            ConsoleFrame.getConsoleFrame().clearCommandHistory();
             Logger.log(Logger.Tag.ACTION, "User cleared command history");
             println("Command history reset");
         } else if (commandIs("stopscript")) {

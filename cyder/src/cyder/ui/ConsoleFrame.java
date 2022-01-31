@@ -4,6 +4,7 @@ import cyder.algorithoms.GeometryAlgorithms;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
@@ -36,84 +37,229 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public final class ConsoleFrame {
-    //the one and only console frame method
+    /**
+     * The ConsoleFrame singleton.
+     */
     private static ConsoleFrame consoleFrameInstance = new ConsoleFrame();
 
+    /**
+     * Whether the ConsoleFrame singleton has been initialized.
+     */
+    private static boolean singletonCreated = false;
+
+    /**
+     * Returns the ConsoleFrame singleton object.
+     *
+     * @return the ConsoleFrame singleton object
+     */
     public static ConsoleFrame getConsoleFrame() {
         return consoleFrameInstance;
     }
 
+    /**
+     * Constructor necessary once, after that it should never be invoked again.
+     */
     private ConsoleFrame() {
-        //instantiation only available from within this class
+        if (singletonCreated)
+            throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+
+        singletonCreated = true;
     }
 
-    //program driver
+    /**
+     * The UUID of the user currently associated with the ConsoleFrame.
+     */
     private String uuid = null;
+
+    /**
+     * The ConsoleFrame's cyderframe instance.
+     */
     private CyderFrame consoleCyderFrame;
+
+    /**
+     * The input handler linked to the ConsoleFrame's IO.
+     */
     private InputHandler inputHandler;
 
-    //ui elements
+    /**
+     * The ConsoleFrame output scroll pane.
+     */
     private CyderScrollPane outputScroll;
+
+    /**
+     * The ConsoleFrame output textpane controlled by the scroll pane.
+     */
     public static JTextPane outputArea;
+
+    /**
+     * The input field for the ConsoleFrame. This is a password field
+     * in case we ever want to obfuscate the text in the future.
+     */
     private JPasswordField inputField;
+
+    /**
+     * The label added to the top drag label to show the time.
+     */
     private JLabel consoleClockLabel;
+
+    /**
+     * The label used for the Cyder taskbar.
+     */
     private JLabel menuLabel;
+
+    /**
+     * The top drag label help button.
+     */
     private JButton helpButton;
+
+    /**
+     * The top drag label menu toggle button.
+     */
     private JButton menuButton;
+
+    /**
+     * The top drag label minimize button.
+     */
     private JButton minimize;
+
+    /**
+     * The top drag label pin button.
+     */
     private JButton pin;
+
+    /**
+     * The top drag label background switch button.
+     */
     private JButton alternateBackground;
+
+    /**
+     * The top drag label close button.
+     */
     private JButton close;
+
+    /**
+     * The top drag label audio menu toggle button.
+     */
     private JButton toggleAudioControls;
 
-    //music controls panel
+    /**
+     * The audio menu parent label
+     */
     private JLabel audioControlsLabel;
-    private JLabel playPauseMusicLabel;
 
-    //debug ui elements
-    private JLabel debugImageLabel;
-    private JLabel verticalDebugLine;
-    private JLabel horizontalDebugLine;
+    /**
+     * The button label used to indicate if audio is playing or not
+     */
+    private JLabel playPauseAudioLabel;
 
-    //boolean vars
+    /**
+     * Whether the console menu has been generated.
+     */
     private boolean consoleMenuGenerated;
-    private boolean consoleLinesDrawn;
-    private boolean fullscreen;
-    private boolean closed = true;
 
-    //background vars
-    private LinkedList<File> backgroundFiles;
+    /**
+     * Whether the console frame is in fullscreen mode.
+     */
+    private boolean fullscreen;
+
+    /**
+     * Whether the console frame is closed.
+     */
+    private boolean consoleFrameClosed = true;
+
+    /**
+     * The list of valid backgrounds for the current user.
+     */
+    private ArrayList<File> backgroundFiles;
+
+    /**
+     * The index in the background files list we are currently at.
+     */
     private int backgroundIndex;
+
+    /**
+     * The file associated with the current background.
+     */
     private File backgroundFile;
+
+    /**
+     * The image icon associated with the current background.
+     */
     private ImageIcon backgroundImageIcon;
 
-    //string and font vars
+    /**
+     * The current bash string to use for the start of the input field.
+     */
     private String consoleBashString;
+
+    /**
+     * The font metric to use for the ConsoleFrame IO fields.
+     */
     private int fontMetric = Font.BOLD;
+
+    /**
+     * The size of the font for the ConsoleFrame IO fields.
+     */
     private int fontSize = 30;
 
-    //command scrolling
-    public static ArrayList<String> operationList = new ArrayList<>();
+    /**
+     * The command list used for scrolling.
+     */
+    public static ArrayList<String> commandList = new ArrayList<>();
+
+    /**
+     * The index of the command list we are at.
+     */
     private static int scrollingIndex;
 
-    //directional enums
+    /**
+     * The last direction performed upon the most recent switch background call.
+     */
     private Direction lastSlideDirection = Direction.LEFT;
+
+    /**
+     * The current orientation of the ConsoleFrame.
+     */
     private Direction consoleDir = Direction.TOP;
 
-    //threads to end/start for different users
+    /**
+     * The thread that checks for threads to indicate if Cyder is busy.
+     */
     private Thread busyCheckerThread;
+
+    /**
+     * The thread that updates the console clock.
+     */
     private Thread consoleClockUpdaterThread;
-    private Thread internetReachableThread;
+
+    /**
+     * The thread that determines if the internet is slow or not.
+     */
+    private Thread highPingChecker;
+
+    /**
+     * The thread that chimes every hour on the dot if the user preference for it is set to true.
+     */
     private Thread hourlyChimerThread;
 
-    //clickable menu items
+    /**
+     * The clickable taskbar icons.
+     */
     private LinkedList<CyderFrame> menuTaskbarFrames = new LinkedList<>();
 
+    /**
+     * The absolute minimum size allowable for the ConsoleFrame.
+     */
     public static final Dimension MINIMUM_SIZE = new Dimension(600,600);
 
+    /**
+     * Performs ConsoleFrame setup routines before constructing
+     * the frame and setting its visibility, location, and size.
+     */
     public void start() {
+        //the ConsoleFrame should always be closed properly before start is invoked again
         if (consoleCyderFrame != null)
-            consoleCyderFrame.dispose(); //todo isn't this bad?
+            throw new RuntimeException("ConsoleFrame left open");
 
         resizeBackgrounds();
         initBackgrounds();
@@ -127,12 +273,12 @@ public final class ConsoleFrame {
             consoleDir = Direction.TOP;
 
             //new op list and scrolling index
-            operationList.clear();
+            commandList.clear();
             scrollingIndex = 0;
 
             //special boolean vars
             fullscreen = false;
-            closed = false;
+            consoleFrameClosed = false;
 
             //menu items
             consoleMenuGenerated = false;
@@ -467,11 +613,11 @@ public final class ConsoleFrame {
                             .trim().replace(consoleBashString, "");
 
                     if (!StringUtil.empytStr(op)) {
-                        if (!(operationList.size() > 0 && operationList.get(operationList.size() - 1).equals(op))) {
-                            operationList.add(op);
+                        if (!(commandList.size() > 0 && commandList.get(commandList.size() - 1).equals(op))) {
+                            commandList.add(op);
                         }
 
-                        scrollingIndex = operationList.size();
+                        scrollingIndex = commandList.size();
 
                         //calls to linked inputhandler
                         if (!inputHandler.getUserInputMode()) {
@@ -1097,11 +1243,11 @@ public final class ConsoleFrame {
 
     private void startExecutors() {
         //internet connection checker
-        internetReachableThread = new Thread(() -> {
+        highPingChecker = new Thread(() -> {
             try {
                 OUTER:
                     while (true) {
-                        if (!NetworkUtil.internetReachable()) {
+                        if (!NetworkUtil.decentPing()) {
                             consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                                     ", but I had trouble connecting to the internet.\n" +
                                     "As a result, some features have been restricted until a " +
@@ -1115,7 +1261,7 @@ public final class ConsoleFrame {
                         int i = 0;
                         while (i < 5 * 60 * 1000) {
                             Thread.sleep(50);
-                            if (closed) {
+                            if (consoleFrameClosed) {
                                 break OUTER;
                             }
                             i += 50;
@@ -1125,7 +1271,7 @@ public final class ConsoleFrame {
                 ExceptionHandler.handle(e);
             }
         }, "Stable Network Connection Checker");
-        internetReachableThread.start();
+        highPingChecker.start();
 
         //hourly Chime Checker
         hourlyChimerThread = new Thread(() -> {
@@ -1136,7 +1282,7 @@ public final class ConsoleFrame {
                 int j = 0;
                 while (j < initSleep) {
                     Thread.sleep(50);
-                    if (closed) {
+                    if (consoleFrameClosed) {
                         return;
                     }
                     j += 50;
@@ -1152,7 +1298,7 @@ public final class ConsoleFrame {
                         int i = 0;
                         while (i < 60 * 60 * 1000) {
                             Thread.sleep(50);
-                            if (closed) {
+                            if (consoleFrameClosed) {
                                 break OUTER;
                             }
                             i += 50;
@@ -1175,7 +1321,7 @@ public final class ConsoleFrame {
                         int i = 0;
                         while (i < 500) {
                             Thread.sleep(50);
-                            if (closed) {
+                            if (consoleFrameClosed) {
                                 break OUTER;
                             }
                             i += 50;
@@ -1233,7 +1379,7 @@ public final class ConsoleFrame {
                         int i = 0;
                         while (i < 3000) {
                             Thread.sleep(50);
-                            if (closed) {
+                            if (consoleFrameClosed) {
                                 break OUTER;
                             }
                             i += 50;
@@ -1280,7 +1426,7 @@ public final class ConsoleFrame {
                         int i = 0;
                         while (i < 3000) {
                             Thread.sleep(50);
-                            if (closed) {
+                            if (consoleFrameClosed) {
                                 break OUTER;
                             }
                             i += 50;
@@ -1695,15 +1841,15 @@ public final class ConsoleFrame {
                     if (code == KeyEvent.VK_UP) {
                         if (scrollingIndex - 1 >= 0) {
                             scrollingIndex -= 1;
-                            inputField.setText(consoleBashString +  operationList.get(scrollingIndex).replace(consoleBashString, ""));
+                            inputField.setText(consoleBashString +  commandList.get(scrollingIndex).replace(consoleBashString, ""));
                         }
                     }
                     //scroll to subsequent command if exist
                     else if (code == KeyEvent.VK_DOWN) {
-                        if (scrollingIndex + 1 < operationList.size()) {
+                        if (scrollingIndex + 1 < commandList.size()) {
                             scrollingIndex += 1;
-                            inputField.setText(consoleBashString + operationList.get(scrollingIndex).replace(consoleBashString, ""));
-                        } else if (scrollingIndex + 1 == operationList.size()) {
+                            inputField.setText(consoleBashString + commandList.get(scrollingIndex).replace(consoleBashString, ""));
+                        } else if (scrollingIndex + 1 == commandList.size()) {
                             scrollingIndex += 1;
                             inputField.setText(consoleBashString);
                         }
@@ -1748,7 +1894,7 @@ public final class ConsoleFrame {
         UserUtil.setUserData("loggedin","1");
 
         //resize backgrounds
-        UserUtil.fixBackgrounds();
+        UserUtil.deleteInvalidBackgrounds();
     }
 
     /**
@@ -1849,7 +1995,7 @@ public final class ConsoleFrame {
      */
     public void resizeBackgrounds() {
         try {
-            LinkedList<File> backgrounds = getBackgrounds();
+            ArrayList<File> backgrounds = getBackgrounds();
 
             int minWidth = 400;
             int minHeight = 400;
@@ -1896,7 +2042,7 @@ public final class ConsoleFrame {
             File dir = new File("dynamic/users/" + getUUID() + "/Backgrounds");
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
 
-            backgroundFiles = new LinkedList<>(Arrays.asList(dir.listFiles(PNGFilter)));
+            backgroundFiles = new ArrayList<>(Arrays.asList(dir.listFiles(PNGFilter)));
 
             //if no backgrounds, copy the default image icon over and recall initBackgrounds()
             if (backgroundFiles.size() == 0) {
@@ -1919,7 +2065,7 @@ public final class ConsoleFrame {
         }
     }
 
-    public LinkedList<File> getBackgrounds() {
+    public ArrayList<File> getBackgrounds() {
         initBackgrounds();
         return backgroundFiles;
     }
@@ -2593,7 +2739,7 @@ public final class ConsoleFrame {
     }
 
     public boolean isClosed() {
-        return closed;
+        return consoleFrameClosed;
     }
 
     public InputHandler getInputHandler() {
@@ -2620,8 +2766,8 @@ public final class ConsoleFrame {
         consoleCyderFrame.rotateBackground(degrees);
     }
 
-    public void clearOperationList() {
-        operationList.clear();
+    public void clearCommandHistory() {
+        commandList.clear();
         scrollingIndex = 0;
     }
 
@@ -2633,8 +2779,8 @@ public final class ConsoleFrame {
         return inputField;
     }
 
-    public ArrayList<String> getOperationList() {
-        return operationList;
+    public ArrayList<String> getCommandHistory() {
+        return commandList;
     }
 
     public void minimize() {
@@ -2719,7 +2865,7 @@ public final class ConsoleFrame {
      * directory were deleted/added. We cannot rely on the current background file or index
      */
     public void refreshBackgroundIndex() {
-        LinkedList<File> backgroundFiles = ConsoleFrame.getConsoleFrame().getBackgrounds();
+        ArrayList<File> backgroundFiles = ConsoleFrame.getConsoleFrame().getBackgrounds();
         String currentBackground = ((JLabel) consoleCyderFrame.getContentPane()).getToolTipText();
 
         for (int i = 0; i < backgroundFiles.size(); i++) {
@@ -2740,7 +2886,7 @@ public final class ConsoleFrame {
      */
     public void revalidateMenu() {
         //if the frame is closed or the label simply doesn't exis
-        if (closed || menuLabel == null)
+        if (consoleFrameClosed || menuLabel == null)
             return;
 
         consoleMenuGenerated = false;
@@ -2821,9 +2967,9 @@ public final class ConsoleFrame {
             }
 
             if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
-                playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+                playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
             } else {
-                playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+                playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
             }
         }
     }
@@ -2857,7 +3003,7 @@ public final class ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 IOUtil.stopAllAudio();
-                playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+                playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
             }
 
             @Override
@@ -2874,12 +3020,12 @@ public final class ConsoleFrame {
         stopMusicLabel.setOpaque(false);
         audioControlsLabel.add(stopMusicLabel);
 
-        playPauseMusicLabel = new JLabel("");
-        playPauseMusicLabel.setBounds(80,5,30, 30);
+        playPauseAudioLabel = new JLabel("");
+        playPauseAudioLabel.setBounds(80,5,30, 30);
 
-        audioControlsLabel.add(playPauseMusicLabel);
-        playPauseMusicLabel.setToolTipText("Play/Pause");
-        playPauseMusicLabel.addMouseListener(new MouseAdapter() {
+        audioControlsLabel.add(playPauseAudioLabel);
+        playPauseAudioLabel.setToolTipText("Play/Pause");
+        playPauseAudioLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (IOUtil.generalAudioPlaying()) {
@@ -2896,28 +3042,28 @@ public final class ConsoleFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-                    playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/PlayHover.png"));
+                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/PlayHover.png"));
                 } else {
-                    playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/PauseHover.png"));
+                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/PauseHover.png"));
                 }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-                    playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
                 } else {
-                    playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+                    playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                 }
             }
         });
-        playPauseMusicLabel.setVisible(true);
-        playPauseMusicLabel.setOpaque(false);
-        audioControlsLabel.add(playPauseMusicLabel);
+        playPauseAudioLabel.setVisible(true);
+        playPauseAudioLabel.setOpaque(false);
+        audioControlsLabel.add(playPauseAudioLabel);
         if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
-            playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
+            playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
         } else {
-            playPauseMusicLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
+            playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
         }
 
         JLabel nextMusicLabel = new JLabel("");
@@ -3125,7 +3271,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
         }
 
-        closed = true;
+        consoleFrameClosed = true;
         consoleCyderFrame.dispose();
     }
 
