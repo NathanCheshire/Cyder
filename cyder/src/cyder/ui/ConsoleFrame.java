@@ -853,6 +853,8 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
+                saveConsoleFramePosition();
+
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
@@ -1003,9 +1005,13 @@ public final class ConsoleFrame {
 
             //done with console frame size logic -------------------------------------------
 
-            //todo secondary monitor bottom right gets set to top right
+            //todo bug is from logging out and back in again,
+            // closing works
 
             //todo don't say console load time if not auto cypher
+
+            //todo show login frame on console frame's monitor if logging out
+            //todo add getMonitor and getMonitorBounds methods for CyderFrame
 
             //show on correct monitor if it exists
             int requestedMonitor = requestedConsoleStats.getMonitor();
@@ -1015,7 +1021,7 @@ public final class ConsoleFrame {
 
             //if the monitor is valid, then we start on it
             if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-                //todo check logic here
+                //todo pushing back into bounds from too big doesn't work
                 Rectangle requestedScreenBounds =
                         screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
 
@@ -1024,22 +1030,29 @@ public final class ConsoleFrame {
                 int maxX = requestedScreenBounds.x + requestedScreenBounds.width;
                 int maxY = requestedScreenBounds.y + requestedScreenBounds.height;
 
-                //if too far left, set to min x for this monitor
-                if (requestedConsoleX < minX)
-                    requestedConsoleX = minX;
-
                 //if too far right, set to max x for this monitor
-                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX)
+                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
                     requestedConsoleX = maxX - consoleFrameBackgroundWidth;
+                    System.out.println("console x: " + requestedConsoleX);
+                }
+
+                //if too far left, set to min x for this monitor
+                else if (requestedConsoleX < minX) {
+                    requestedConsoleX = minX;
+                    System.out.println("console x: " + requestedConsoleX);
+                }
+
+                //if too far down, set to max y for this monitor
+                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
+                    requestedConsoleY = maxY - consoleFrameBackgroundHeight;
+                    System.out.println("console y max: " + requestedConsoleY);
+                }
 
                 //if too far up, set to min y
-                if (requestedConsoleY < minY)
+                else if (requestedConsoleY < minY) {
                     requestedConsoleY = minY;
-
-                //if too faqr down, set to max y for this monitor
-                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY)
-                    requestedConsoleY = maxY - consoleFrameBackgroundHeight;
-
+                    System.out.println("console y min: " + requestedConsoleY);
+                }
             }
             //otherwise display on the primary monitor
             else {
@@ -1050,20 +1063,28 @@ public final class ConsoleFrame {
                 int maxY = ScreenUtil.getScreenHeight();
 
                 //if too far left, set to min x
-                if (requestedConsoleX < minX)
+                if (requestedConsoleX < minX) {
                     requestedConsoleX = 0;
+                    System.out.println("console x min: " + requestedConsoleX);
+                }
 
                 //if too far right, set to max x minus console width
-                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX)
+                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
                     requestedConsoleX = maxX - consoleFrameBackgroundWidth;
+                    System.out.println("console x max: " + requestedConsoleX);
+                }
 
                 //if too far up, set to min y
-                if (requestedConsoleY < minY)
+                if (requestedConsoleY < minY) {
                     requestedConsoleY = 0;
+                    System.out.println("console y min: " + requestedConsoleY);
+                }
 
                 //if too far down, set to max y minus console height
-                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY)
+                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
                     requestedConsoleY = maxY - consoleFrameBackgroundHeight;
+                    System.out.println("console y max: " + requestedConsoleY);
+                }
 
             }
 
@@ -1271,7 +1292,7 @@ public final class ConsoleFrame {
 
                         //sleep 5000 ms
                         int i = 0;
-                        while (i < 5000) {
+                        while (i < 3000) {
                             Thread.sleep(50);
                             if (closed) {
                                 break OUTER;

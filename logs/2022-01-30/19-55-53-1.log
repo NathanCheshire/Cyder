@@ -1,0 +1,189 @@
+[19-55-54] [ENTRY]: [Nathan]
+[19-55-54] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-55-54] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-55-54] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-55-54] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-55-55] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-55-55] [WIDGET OPENED]: LOGIN
+[19-55-56] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-55-57] [CLIENT_IO]: [LOGIN FRAME] login
+[19-55-57] [CLIENT_IO]: [LOGIN FRAME] karla
+[19-56-00] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.fixUser(UserUtil.java:283)
+From line: 283
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.fixUser(UserUtil.java:283)
+at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1750)
+at cyder.utilities.UserUtil.checkPassword(UserUtil.java:646)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:395)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:269)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19-56-00] [LOGIN]: [STD LOGIN, 56d436a3-f77f-36c5-837a-541966687391]
+[19-56-00] [SYSTEM_IO]: Userdata requested: Name
+[19-56-00] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-56-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-56-00] [SYSTEM_IO]: Userdata requested: Name
+[19-56-00] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[19-56-00] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-56-00] [SYSTEM_IO]: Userdata requested: Foreground
+[19-56-00] [SYSTEM_IO]: Userdata requested: Font
+[19-56-00] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-56-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-56-00] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-56-00] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[19-56-00] [SYSTEM_IO]: Userdata requested: Font
+[19-56-00] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-56-00] [SYSTEM_IO]: Userdata requested: InputFill
+[19-56-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-56-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1862383967], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-00] [ACTION]: Console loaded in 7071ms
+[19-56-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1862383967], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-00] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-56-00] [ENTRY]: [TESTING MODE]
+[19-56-00] [SYSTEM_IO]: Userdata requested: laststart
+[19-56-00] [ACTION]: [Stellar Cyder [karla]] [NOTIFICATION] Console loaded in 7071ms
+[19-56-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-56-05] [SYSTEM_IO]: Userdata requested: Background
+[19-56-06] [CLIENT]: logout
+[19-56-06] [SYSTEM_IO]: Userdata requested: filterchat
+[19-56-06] [SYSTEM_IO]: Userdata requested: Name
+[19-56-06] [LOGOUT]: [karla]
+[19-56-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1830, 801, 1000, 1000)], hash = [1690494458], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-56-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1862383967], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-06] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-56-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1830, 801, 1000, 1000)], hash = [1690494458], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-06] [WIDGET OPENED]: LOGIN
+[19-56-06] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1862383967], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-06] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-56-06] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-56-06] [HANDLE]: GENERAL COMMAND HANDLED
+[19-56-06] [HANDLE]: PRIMARY HANDLE
+[19-56-08] [CLIENT_IO]: [LOGIN FRAME] login
+[19-56-09] [CLIENT_IO]: [LOGIN FRAME] karla
+[19-56-10] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.fixUser(UserUtil.java:283)
+From line: 283
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.fixUser(UserUtil.java:283)
+at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1750)
+at cyder.utilities.UserUtil.checkPassword(UserUtil.java:646)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:395)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:269)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[19-56-10] [LOGIN]: [STD LOGIN, 56d436a3-f77f-36c5-837a-541966687391]
+[19-56-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1830, -999, 1000, 1000)], hash = [1690494458], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-10] [SYSTEM_IO]: Userdata requested: Name
+[19-56-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-56-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-56-10] [SYSTEM_IO]: Userdata requested: Name
+[19-56-10] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[19-56-10] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-56-10] [SYSTEM_IO]: Userdata requested: Foreground
+[19-56-10] [SYSTEM_IO]: Userdata requested: Font
+[19-56-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-56-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-56-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-56-10] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[19-56-10] [SYSTEM_IO]: Userdata requested: Font
+[19-56-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-56-10] [SYSTEM_IO]: Userdata requested: InputFill
+[19-56-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-56-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1862383967], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1830, -999, 1000, 1000)], hash = [1690494458], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1468659243], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-10] [ACTION]: Console loaded in 7071ms
+[19-56-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1468659243], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-10] [ACTION]: [Stellar Cyder [karla]] [NOTIFICATION] Console loaded in 7071ms
+[19-56-11] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-56-11] [ENTRY]: [TESTING MODE]
+[19-56-11] [SYSTEM_IO]: Userdata requested: laststart
+[19-56-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-56-17] [CLIENT]: logout
+[19-56-17] [SYSTEM_IO]: Userdata requested: filterchat
+[19-56-17] [SYSTEM_IO]: Userdata requested: Name
+[19-56-17] [LOGOUT]: [karla]
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1811, 773, 1000, 1000)], hash = [231372574], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1862383967], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1830, -999, 1000, 1000)], hash = [1690494458], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1468659243], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1811, 773, 1000, 1000)], hash = [231372574], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [karla]]
+[19-56-17] [WIDGET OPENED]: LOGIN
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1468659243], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-56-17] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [448204228], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-56-17] [HANDLE]: GENERAL COMMAND HANDLED
+[19-56-17] [HANDLE]: PRIMARY HANDLE
+[19-56-18] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [763249493], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-56-18] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1230160164], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-56-18] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-56-19] [EXIT]: [RUNTIME] 25s
+[19-56-19] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 2
