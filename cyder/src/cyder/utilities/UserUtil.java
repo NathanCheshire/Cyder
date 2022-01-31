@@ -831,7 +831,6 @@ public class UserUtil {
                         "was attempted on the following: [" + appendBuilder + "]");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             ExceptionHandler.handle(e);
             ret = false;
         } finally {

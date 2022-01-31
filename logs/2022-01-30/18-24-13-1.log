@@ -1,0 +1,17 @@
+[18-24-13] [ENTRY]: [Nathan]
+[18-24-13] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-24-13] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-24-13] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-24-13] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-24-15] [WIDGET OPENED]: LOGIN
+[18-24-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-24-15] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1892103606], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-24-17] [CLIENT_IO]: [LOGIN FRAME] create
+[18-24-17] [WIDGET OPENED]: USER CREATED
+[18-24-30] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(60, 70, 240, 40)], hash = [626070341], parentFrame = [Create User], associated text = [karlA], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-24-37] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 390, 240, 40)], hash = [1888769101], parentFrame = [Create User], associated text = [Create User], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-24-37] [SYSTEM_IO]: Userdata requested: name
+[18-24-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-1198, 403, 356, 473)], hash = [297022862], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[18-24-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 414, 28)], hash = [1365914912], parentFrame = [], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-24-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1071, 646, 418, 100)], hash = [556570915], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-25-21] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

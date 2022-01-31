@@ -409,12 +409,12 @@ public class OSUtil {
                         Files.copy(path, zipOutputStream);
                         zipOutputStream.closeEntry();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                       ExceptionHandler.handle(e);
                     }
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ExceptionHandler.handle(e);
 
             if (!(e instanceof NoSuchFileException))
                 ret.set(false);
@@ -429,7 +429,7 @@ public class OSUtil {
 
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
-    //todo make this a command to regenerate the list of valid commands
+    // todo make this a command to regenerate the list of valid commands
     // from InputHandler which the script will then look through
 
     //todo user redis for storing user statistics in memory instead of constant IO to/from files

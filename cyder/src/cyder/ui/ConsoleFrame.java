@@ -151,24 +151,25 @@ public final class ConsoleFrame {
 
             //get proper width, height, and background image icon,
             // we take into account console rotation and fullscreen here
-            int w = 0;
-            int h = 0;
+            int consoleFrameBackgroundWidth = 0;
+            int consoleFrameBackgroundHeight = 0;
             ImageIcon usage = null;
 
             if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
-                w = ScreenUtil.getScreenWidth();
-                h = ScreenUtil.getScreenHeight();
-                usage = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
+                consoleFrameBackgroundWidth = ScreenUtil.getScreenWidth();
+                consoleFrameBackgroundHeight = ScreenUtil.getScreenHeight();
+                usage = new ImageIcon(ImageUtil.resizeImage(consoleFrameBackgroundWidth,
+                        consoleFrameBackgroundHeight,getCurrentBackgroundFile()));
                 fullscreen = true;
             } else {
-                w = getCurrentBackgroundImageIcon().getIconWidth();
-                h = getCurrentBackgroundImageIcon().getIconHeight();
+                consoleFrameBackgroundWidth = getCurrentBackgroundImageIcon().getIconWidth();
+                consoleFrameBackgroundHeight = getCurrentBackgroundImageIcon().getIconHeight();
                 usage = new ImageIcon(ImageUtil.getRotatedImage(
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
 
             //anonymous class
-            consoleCyderFrame = new CyderFrame(w, h, usage) {
+            consoleCyderFrame = new CyderFrame(consoleFrameBackgroundWidth, consoleFrameBackgroundHeight, usage) {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
@@ -256,7 +257,8 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setBackgroundResizing(true);
 
                 consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
-                consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+                consoleCyderFrame.setMaximumSize(new Dimension(consoleFrameBackgroundWidth,
+                        consoleFrameBackgroundHeight));
             }
 
             //set contentpane tooltip
@@ -452,8 +454,8 @@ public final class ConsoleFrame {
             inputField.addKeyListener(commandScrolling);
             inputField.setCaretPosition(inputField.getPassword().length);
 
-            inputField.setBounds(15, 62 + outputArea.getHeight() + 20,w - 40,
-                    h - (62 + outputArea.getHeight() + 20 + 20));
+            inputField.setBounds(15, 62 + outputArea.getHeight() + 20,consoleFrameBackgroundWidth - 40,
+                    consoleFrameBackgroundHeight - (62 + outputArea.getHeight() + 20 + 20));
             inputField.setOpaque(false);
             consoleCyderFrame.getContentPane().add(inputField);
             inputField.addActionListener(e -> {
@@ -969,6 +971,7 @@ public final class ConsoleFrame {
                 }
             }
 
+            //ensure console frame is on top if left on top last session
             consoleCyderFrame.setAlwaysOnTop(UserUtil.extractUser().getScreenStat().isConsoleOnTop());
 
             //close all frames just before showing console
@@ -980,65 +983,92 @@ public final class ConsoleFrame {
                 }
             }
 
-            User.ScreenStat screen = UserUtil.extractUser().getScreenStat();
+            User.ScreenStat requestedConsoleStats = UserUtil.extractUser().getScreenStat();
 
-            int requestedWidth = screen.getConsoleWidth();
-            int requestedHeight = screen.getConsoleHeight();
-            int consoleX = screen.getConsoleX();
-            int consoleY = screen.getConsoleY();
+            //requested console bounds
+            int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
+            int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
+            int requestedConsoleX = requestedConsoleStats.getConsoleX();
+            int requestedConsoleY = requestedConsoleStats.getConsoleY();
 
-            //width and height for frame if the current image can work with that
-            if (requestedWidth <= consoleCyderFrame.getWidth() &&
-                    requestedHeight <= consoleCyderFrame.getHeight() &&
-                        requestedWidth >= consoleCyderFrame.getMinimumSize().getWidth() &&
-                        requestedHeight >= consoleCyderFrame.getMinimumSize().getHeight()) {
-                consoleCyderFrame.setSize(requestedWidth, requestedHeight);
+            //if requested width x height is valid for the background
+            // Cyder started on
+            if (requestedConsoleWidth <= consoleFrameBackgroundWidth &&
+                    requestedConsoleHeight <= consoleFrameBackgroundHeight &&
+                        requestedConsoleWidth > MINIMUM_SIZE.width &&
+                        requestedConsoleHeight > MINIMUM_SIZE.height) {
+                consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
                 consoleCyderFrame.refreshBackground();
             }
 
+            //done with console frame size logic -------------------------------------------
+
+            //todo secondary monitor bottom right gets set to top right
+
+            //todo don't say console load time if not auto cypher
+
             //show on correct monitor if it exists
-            int requestedMonitor = screen.getMonitor();
+            int requestedMonitor = requestedConsoleStats.getMonitor();
+
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
 
+            //if the monitor is valid, then we start on it
             if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-                Rectangle screenRect = screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
+                //todo check logic here
+                Rectangle requestedScreenBounds =
+                        screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
 
-                consoleCyderFrame.setLocation(consoleX, consoleY);
+                int minX = requestedScreenBounds.x;
+                int minY = requestedScreenBounds.y;
+                int maxX = requestedScreenBounds.x + requestedScreenBounds.width;
+                int maxY = requestedScreenBounds.y + requestedScreenBounds.height;
 
-                int minX = screenRect.x;
-                int minY = screenRect.y;
-                int maxX = screenRect.x + screenRect.width;
-                int maxY = screenRect.y + screenRect.height;
+                //if too far left, set to min x for this monitor
+                if (requestedConsoleX < minX)
+                    requestedConsoleX = minX;
 
-                if (consoleX < minX)
-                    consoleX = minX;
-                if (consoleX + consoleCyderFrame.getWidth() > maxX)
-                    consoleX = maxX - consoleCyderFrame.getWidth();
-                if (consoleY < minY)
-                    consoleY = minY;
-                if (consoleY + consoleCyderFrame.getHeight() > maxY)
-                    consoleY = maxY - consoleCyderFrame.getHeight();
+                //if too far right, set to max x for this monitor
+                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX)
+                    requestedConsoleX = maxX - consoleFrameBackgroundWidth;
 
-                consoleCyderFrame.setLocation(consoleX, consoleY);
-            } else {
-                //otherwise show it on the display we're given but shifted into bounds if out
-                int minX = UserUtil.extractUser().getScreenStat().getConsoleX();
-                int minY = UserUtil.extractUser().getScreenStat().getConsoleY();
-                int maxX = UserUtil.extractUser().getScreenStat().getConsoleWidth();
-                int maxY = UserUtil.extractUser().getScreenStat().getConsoleHeight();
+                //if too far up, set to min y
+                if (requestedConsoleY < minY)
+                    requestedConsoleY = minY;
 
-                if (consoleX < minX)
-                    consoleX = 0;
-                if (consoleX + consoleCyderFrame.getWidth() > maxX)
-                    consoleX = maxX - consoleCyderFrame.getWidth();
-                if (consoleY < minY)
-                    consoleY = 0;
-                if (consoleY + consoleCyderFrame.getHeight() > maxY)
-                    consoleY = maxY - consoleCyderFrame.getHeight();
+                //if too faqr down, set to max y for this monitor
+                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY)
+                    requestedConsoleY = maxY - consoleFrameBackgroundHeight;
 
-                consoleCyderFrame.setLocation(consoleX, consoleY);
             }
+            //otherwise display on the primary monitor
+            else {
+                //primary monitor bounds
+                int minX = 0;
+                int minY = 0;
+                int maxX = ScreenUtil.getScreenWidth();
+                int maxY = ScreenUtil.getScreenHeight();
+
+                //if too far left, set to min x
+                if (requestedConsoleX < minX)
+                    requestedConsoleX = 0;
+
+                //if too far right, set to max x minus console width
+                if (requestedConsoleX + consoleFrameBackgroundWidth > maxX)
+                    requestedConsoleX = maxX - consoleFrameBackgroundWidth;
+
+                //if too far up, set to min y
+                if (requestedConsoleY < minY)
+                    requestedConsoleY = 0;
+
+                //if too far down, set to max y minus console height
+                if (requestedConsoleY + consoleFrameBackgroundHeight > maxY)
+                    requestedConsoleY = maxY - consoleFrameBackgroundHeight;
+
+            }
+
+            //set the location to the calculated location
+            consoleCyderFrame.setLocation(requestedConsoleX, requestedConsoleY);
 
             //show frame
             consoleCyderFrame.setVisible(true);

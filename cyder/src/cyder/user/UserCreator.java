@@ -476,32 +476,39 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
-        int monitorNum = 0;
-        int width = ScreenUtil.getScreenWidth();
-        int height = ScreenUtil.getScreenHeight();
-
+        int monitorNum = -1;
+        int x = -1;
+        int y = -1;
         //figure out the monitor we should be using for the user's screen stats
-        if (CyderCommon.getDominantFrame() != null) {
-            GraphicsConfiguration gc = CyderCommon.getDominantFrame().getGraphicsConfiguration();
-            GraphicsDevice gd = gc.getDevice();
-            String monitorID = gd.getIDstring().replaceAll("[^0-9]","");
+        if (createUserFrame != null) {
+            GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
+            String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]","");
 
             try {
                 monitorNum = Integer.parseInt(monitorID);
-                width = (int) gc.getBounds().getWidth();
-                height = (int) gc.getBounds().getHeight();
+                int monitorWidth = (int) gc.getBounds().getWidth();
+                int monitorHeight = (int) gc.getBounds().getHeight();
+                int monitorX = (int) gc.getBounds().getX();
+                int monitorY = (int) gc.getBounds().getY();
+
+                x = monitorX + (monitorWidth - background.getWidth()) / 2;
+                y = monitorY + (monitorHeight - background.getHeight()) / 2;
             } catch (Exception e) {
-                e.printStackTrace();
                 ExceptionHandler.silentHandle(e);
-                monitorNum = 0;
+
+                //error so default the screen stats
+                x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
+                y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
             }
         }
-
-        int x = (width - background.getWidth())  / 2;
-        int y = (height - background.getHeight())  / 2;
+        //otherwise default monitor stats
+        else {
+            x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
+            y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
+        }
 
         user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
-                background.getHeight(), monitorNum, true));
+                background.getHeight(), monitorNum, false));
 
         //executables
         user.setExecutables(null);

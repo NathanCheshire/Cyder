@@ -473,8 +473,6 @@ public class Logger {
      * @param file the file to consolidate duplicate lines of
      */
     public static void consolidateLines(File file) {
-        System.out.println("Consolidation called for file: " + file);
-
         if (!file.exists())
             throw new IllegalArgumentException("Provided file does not exist: " + file);
         else if (!StringUtil.getExtension(file).equalsIgnoreCase(".log"))
@@ -586,8 +584,11 @@ public class Logger {
                         }
 
                         if (!containsEOL) {
+                            //usually an IDE stop but sometimes the program exits,
+                            // with exit condition 1 due to something failing on startup
+                            // which is why this says "crashed unexpectedly"
                             String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
-                                    "Log completed, Cyder was force closed by an external entity: " +
+                                    "Log completed, Cyder crashed unexpectedly: " +
                                     "exit code: -200 [External Stop], exceptions thrown: " + exceptions;
 
                             Files.write(Paths.get(log.getAbsolutePath()),
