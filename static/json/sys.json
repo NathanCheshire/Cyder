@@ -6,6 +6,6 @@
    "uiloc":false,
    "uiscale":1.0,
    "consoleresizable":true,
-   "autocypher":false,
+   "autocypher":true,
    "testingmode":true
 }

@@ -1,0 +1,75 @@
+[20-13-11] [ENTRY]: [Nathan]
+[20-13-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[20-13-11] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[20-13-11] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[20-13-11] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[20-13-13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-13-13] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-13-13] [EXCEPTION]:
+Exception origin: cyder.ui.ConsoleFrame.revalidateAudioMenu(ConsoleFrame.java:2812)
+From line: 2812
+Trace: java.lang.NullPointerException
+at cyder.ui.ConsoleFrame.revalidateAudioMenu(ConsoleFrame.java:2812)
+at cyder.utilities.IOUtil.stopAudio(IOUtil.java:512)
+at cyder.ui.ConsoleFrame.closeConsoleFrame(ConsoleFrame.java:3110)
+at cyder.utilities.UserUtil.checkPassword(UserUtil.java:643)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:395)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:470)
+at cyder.handlers.internal.LoginHandler.beginLogin(LoginHandler.java:367)
+at cyder.genesis.Cyder.main(Cyder.java:109)
+[20-13-13] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[20-13-13] [WIDGET OPENED]: LOGIN
+[20-13-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [370918354], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-13-15] [CLIENT_IO]: [LOGIN FRAME] login
+[20-13-16] [CLIENT_IO]: [LOGIN FRAME] nathan
+[20-13-18] [EXCEPTION]:
+Exception origin: cyder.ui.ConsoleFrame.revalidateAudioMenu(ConsoleFrame.java:2812)
+From line: 2812
+Trace: java.lang.NullPointerException
+at cyder.ui.ConsoleFrame.revalidateAudioMenu(ConsoleFrame.java:2812)
+at cyder.utilities.IOUtil.stopAudio(IOUtil.java:512)
+at cyder.ui.ConsoleFrame.closeConsoleFrame(ConsoleFrame.java:3110)
+at cyder.utilities.UserUtil.checkPassword(UserUtil.java:643)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:395)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:269)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[20-13-18] [LOGIN]: [LOGIN FAIL]
+[20-13-19] [CLIENT_IO]: [LOGIN FRAME] login
+[20-13-20] [CLIENT_IO]: [LOGIN FRAME] nathan
+[20-13-22] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [9797126], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-13-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.handlers.internal.LoginHandler], bounds = [(980, 496, 600, 400)], hash = [1732238286], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[20-13-22] [EXIT]: [RUNTIME] 11s
+[20-13-22] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 2

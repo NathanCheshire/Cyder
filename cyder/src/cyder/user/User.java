@@ -498,5 +498,12 @@ public class User {
         public void setConsoleOnTop(boolean consoleOnTop) {
             this.consoleOnTop = consoleOnTop;
         }
+
+        @Override
+        public String toString() {
+            return "[" + this.consoleX + ", " + this.consoleY + ", "
+                    + this.consoleWidth + ", " + this.consoleHeight + ", "
+                    + this.monitor + ", " + this.consoleOnTop + "]";
+        }
     }
 }

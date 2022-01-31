@@ -640,9 +640,7 @@ public class UserUtil {
 
                 //if it's the one we're looking for, set consoel UUID, free resources, and return true
                 if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
-                    ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
-
-                    //THIS IS THE ONLY PLACE UUID IS EVER SET
+                   //THIS IS THE ONLY PLACE UUID IS EVER SET
                     ConsoleFrame.getConsoleFrame().setUUID(UUIDs[i].getName());
                     ret = true;
                 }

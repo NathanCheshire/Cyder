@@ -1005,14 +1005,6 @@ public final class ConsoleFrame {
 
             //done with console frame size logic -------------------------------------------
 
-            //todo bug is from logging out and back in again,
-            // closing works
-
-            //todo don't say console load time if not auto cypher
-
-            //todo show login frame on console frame's monitor if logging out
-            //todo add getMonitor and getMonitorBounds methods for CyderFrame
-
             //show on correct monitor if it exists
             int requestedMonitor = requestedConsoleStats.getMonitor();
 
@@ -1021,7 +1013,6 @@ public final class ConsoleFrame {
 
             //if the monitor is valid, then we start on it
             if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
-                //todo pushing back into bounds from too big doesn't work
                 Rectangle requestedScreenBounds =
                         screenDevices[requestedMonitor].getDefaultConfiguration().getBounds();
 
@@ -1033,25 +1024,21 @@ public final class ConsoleFrame {
                 //if too far right, set to max x for this monitor
                 if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
                     requestedConsoleX = maxX - consoleFrameBackgroundWidth;
-                    System.out.println("console x: " + requestedConsoleX);
                 }
 
                 //if too far left, set to min x for this monitor
                 else if (requestedConsoleX < minX) {
                     requestedConsoleX = minX;
-                    System.out.println("console x: " + requestedConsoleX);
                 }
 
                 //if too far down, set to max y for this monitor
                 if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
                     requestedConsoleY = maxY - consoleFrameBackgroundHeight;
-                    System.out.println("console y max: " + requestedConsoleY);
                 }
 
                 //if too far up, set to min y
                 else if (requestedConsoleY < minY) {
                     requestedConsoleY = minY;
-                    System.out.println("console y min: " + requestedConsoleY);
                 }
             }
             //otherwise display on the primary monitor
@@ -1065,25 +1052,21 @@ public final class ConsoleFrame {
                 //if too far left, set to min x
                 if (requestedConsoleX < minX) {
                     requestedConsoleX = 0;
-                    System.out.println("console x min: " + requestedConsoleX);
                 }
 
                 //if too far right, set to max x minus console width
                 if (requestedConsoleX + consoleFrameBackgroundWidth > maxX) {
                     requestedConsoleX = maxX - consoleFrameBackgroundWidth;
-                    System.out.println("console x max: " + requestedConsoleX);
                 }
 
                 //if too far up, set to min y
                 if (requestedConsoleY < minY) {
                     requestedConsoleY = 0;
-                    System.out.println("console y min: " + requestedConsoleY);
                 }
 
                 //if too far down, set to max y minus console height
                 if (requestedConsoleY + consoleFrameBackgroundHeight > maxY) {
                     requestedConsoleY = maxY - consoleFrameBackgroundHeight;
-                    System.out.println("console y max: " + requestedConsoleY);
                 }
 
             }
@@ -3139,7 +3122,6 @@ public final class ConsoleFrame {
         //save window location
         User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
 
-        //just to be safe
         if (consoleCyderFrame != null) {
             screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
             screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
@@ -3149,6 +3131,8 @@ public final class ConsoleFrame {
             int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
                     .getIDstring().replaceAll("[^0-9]", ""));
             screenStat.setMonitor(monitor);
+
+            System.out.println("saving console position: " + screenStat);
         }
 
         User user = UserUtil.extractUser();
@@ -3157,6 +3141,8 @@ public final class ConsoleFrame {
     }
 
     public void logout() {
+        saveConsoleFramePosition();
+
         CyderCommon.suspendFrameChecker();
 
         //close the consoleframe if it's still open

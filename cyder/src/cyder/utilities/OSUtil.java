@@ -423,13 +423,21 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo creating a user on monitor 0 puts the frame all the way to the right on the x-axis?
+    //todo make a push frame into bounds method so that if it works on time
+    // IT WILL FUCKING WORK elsewhere
+
+    //todo rethink how console frame uuid is set
+
+    //todo don't say console load time if not auto cypher
+
+    //todo show login frame on console frame's monitor if logging out
+    //todo add getMonitor and getMonitorBounds methods for CyderFrame
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
-    // todo make this a command to regenerate the list of valid commands
+    //todo make this a command to regenerate the list of valid commands
     // from InputHandler which the script will then look through
 
     //todo user redis for storing user statistics in memory instead of constant IO to/from files
