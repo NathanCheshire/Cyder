@@ -19,6 +19,7 @@ public class MonitorPoint {
     public MonitorPoint(Point p, int monitor) {
         this.x = (int) p.getX();
         this.y = (int) p.getY();
+        this.monitor = monitor;
     }
 
     public int getX() {

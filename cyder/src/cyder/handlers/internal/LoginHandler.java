@@ -35,6 +35,16 @@ public class LoginHandler {
     }
 
     /**
+     * The width of the login frame.
+     */
+    public static final int LOGIN_FRAME_WIDTH = 600;
+
+    /**
+     * The height of the login frame.
+     */
+    public static final int LOGIN_FRAME_HEIGHT = 400;
+
+    /**
      * The frame used for loggin into Cyder
      */
     private static CyderFrame loginFrame;
@@ -206,7 +216,7 @@ public class LoginHandler {
         }
 
         //new anonymous CyderFrame so that we can control the login animation var
-        loginFrame = new CyderFrame(600, 400,
+        loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
                 ImageUtil.imageIconFromColor(new Color(21,23,24)));
         loginFrame.setTitle("Cyder Login [" + IOUtil.getSystemData().getVersion() + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
