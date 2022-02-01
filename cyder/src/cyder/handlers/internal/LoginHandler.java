@@ -485,20 +485,17 @@ public class LoginHandler {
 
                 //log the success login
                 if (autoCypherAttempt) {
-                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER PASS, " + ConsoleFrame.getConsoleFrame().getUUID());
-                    autoCypherAttempt = false;
+                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER PASS, " + uuid);
                 } else {
-                    Logger.log(Logger.Tag.LOGIN, "STD LOGIN, " + ConsoleFrame.getConsoleFrame().getUUID());
+                    Logger.log(Logger.Tag.LOGIN, "STD LOGIN, " + uuid);
                 }
 
-                //reset console frame if it's already open
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-                    ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().removePostCloseActions();
                     ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
                 }
 
                 //open the console frame
-                ConsoleFrame.getConsoleFrame().launch();
+                ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt ? "autocypher" : "loginframe");
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in
@@ -506,6 +503,9 @@ public class LoginHandler {
                     loginFrame.removePostCloseActions();
                     loginFrame.dispose(true);
                 }
+
+                //reset autocypher
+                autoCypherAttempt = false;
             } else if (loginFrame != null && loginFrame.isVisible()) {
                 loginField.setText("");
 

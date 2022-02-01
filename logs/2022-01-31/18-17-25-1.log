@@ -10,18 +10,14 @@
 [18-17-28] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-17-28] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-28] [SYSTEM_IO]: Userdata requested: Name
-[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-28] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-17-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-17-28] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-17-28] [SYSTEM_IO]: Userdata requested: Foreground
 [18-17-28] [SYSTEM_IO]: Userdata requested: Font
 [18-17-28] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-17-28] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-28] [SYSTEM_IO]: Userdata requested: InputBorder
-[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground
+[18-17-28] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [18-17-28] [SYSTEM_IO]: Userdata requested: Font
 [18-17-28] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-17-28] [SYSTEM_IO]: Userdata requested: InputFill
@@ -39,8 +35,7 @@
 [18-17-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-177, 523, 743, 708)], hash = [1345900725], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [18-17-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [857375940], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [18-17-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-177, 523, 743, 708)], hash = [1345900725], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
-[18-17-33] [SYSTEM_IO]: Userdata requested: closeanimation
-[18-17-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-17-33] [SYSTEM_IO]: Userdata requested: closeanimation [2x]
 [18-17-34] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [857375940], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [18-17-34] [HANDLE]: GENERAL COMMAND HANDLED
 [18-17-34] [HANDLE]: PRIMARY HANDLE
@@ -51,18 +46,14 @@
 [18-17-36] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-17-36] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-36] [SYSTEM_IO]: Userdata requested: Name
-[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-36] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-17-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-17-36] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-17-36] [SYSTEM_IO]: Userdata requested: Foreground
 [18-17-36] [SYSTEM_IO]: Userdata requested: Font
 [18-17-36] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-17-36] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-36] [SYSTEM_IO]: Userdata requested: InputBorder
-[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground
+[18-17-36] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [18-17-36] [SYSTEM_IO]: Userdata requested: Font
 [18-17-36] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-17-36] [SYSTEM_IO]: Userdata requested: InputFill
@@ -95,18 +86,14 @@
 [18-17-41] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-17-41] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-41] [SYSTEM_IO]: Userdata requested: Name
-[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-41] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-17-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-17-41] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-17-41] [SYSTEM_IO]: Userdata requested: Foreground
 [18-17-41] [SYSTEM_IO]: Userdata requested: Font
 [18-17-41] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-17-41] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-41] [SYSTEM_IO]: Userdata requested: InputBorder
-[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground
+[18-17-41] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [18-17-41] [SYSTEM_IO]: Userdata requested: Font
 [18-17-41] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-17-41] [SYSTEM_IO]: Userdata requested: InputFill
@@ -146,18 +133,14 @@
 [18-17-45] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-17-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-45] [SYSTEM_IO]: Userdata requested: Name
-[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-45] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-17-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-17-45] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-17-45] [SYSTEM_IO]: Userdata requested: Foreground
 [18-17-45] [SYSTEM_IO]: Userdata requested: Font
 [18-17-45] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-17-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-45] [SYSTEM_IO]: Userdata requested: InputBorder
-[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground
+[18-17-45] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [18-17-45] [SYSTEM_IO]: Userdata requested: Font
 [18-17-45] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-17-45] [SYSTEM_IO]: Userdata requested: InputFill
@@ -202,18 +185,14 @@
 [18-17-51] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-17-51] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-51] [SYSTEM_IO]: Userdata requested: Name
-[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-51] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-17-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-17-51] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-17-51] [SYSTEM_IO]: Userdata requested: Foreground
 [18-17-51] [SYSTEM_IO]: Userdata requested: Font
 [18-17-51] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-17-51] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-51] [SYSTEM_IO]: Userdata requested: InputBorder
-[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground
+[18-17-51] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [18-17-51] [SYSTEM_IO]: Userdata requested: Font
 [18-17-51] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-17-51] [SYSTEM_IO]: Userdata requested: InputFill
@@ -261,18 +240,14 @@
 [18-17-55] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-17-55] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-55] [SYSTEM_IO]: Userdata requested: Name
-[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-55] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-17-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-17-55] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-17-55] [SYSTEM_IO]: Userdata requested: Foreground
 [18-17-55] [SYSTEM_IO]: Userdata requested: Font
 [18-17-55] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-17-55] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-17-55] [SYSTEM_IO]: Userdata requested: InputBorder
-[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground
-[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground
+[18-17-55] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [18-17-55] [SYSTEM_IO]: Userdata requested: Font
 [18-17-55] [SYSTEM_IO]: Userdata requested: OutputFill
 [18-17-55] [SYSTEM_IO]: Userdata requested: InputFill

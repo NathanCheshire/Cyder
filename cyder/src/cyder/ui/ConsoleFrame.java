@@ -255,8 +255,10 @@ public final class ConsoleFrame {
     /**
      * Performs ConsoleFrame setup routines before constructing
      * the frame and setting its visibility, location, and size.
+     *
+     * @param origin where the launch call originated from
      */
-    public void launch() {
+    public void launch(String origin) {
         //the ConsoleFrame should always be closed properly before start is invoked again
         if (!isClosed())
             throw new RuntimeException("ConsoleFrame left open");
@@ -1164,8 +1166,8 @@ public final class ConsoleFrame {
 
             Logger.log(Logger.Tag.ACTION, logString);
 
-            //todo if came from login frame, don't show
-            if (IOUtil.getSystemData().isAutocypher()) {
+            //todo enums for entry ways
+            if (origin.equals("autocypher")) {
                 notify(logString);
             }
 
