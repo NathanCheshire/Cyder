@@ -1,0 +1,58 @@
+[23-12-42] [ENTRY]: [Nathan]
+[23-12-42] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-12-42] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-12-42] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-12-42] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-12-43] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-12-43] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-12-44] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-12-44] [SYSTEM_IO]: Userdata requested: Name
+[23-12-44] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-12-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-44] [SYSTEM_IO]: Userdata requested: Name
+[23-12-44] [SYSTEM_IO]: Userdata requested: Foreground
+[23-12-44] [SYSTEM_IO]: Userdata requested: Foreground
+[23-12-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-44] [SYSTEM_IO]: Userdata requested: Foreground
+[23-12-44] [SYSTEM_IO]: Userdata requested: Font
+[23-12-44] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-12-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-44] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-12-44] [SYSTEM_IO]: Userdata requested: Foreground
+[23-12-44] [SYSTEM_IO]: Userdata requested: Foreground
+[23-12-44] [SYSTEM_IO]: Userdata requested: Foreground
+[23-12-44] [SYSTEM_IO]: Userdata requested: Font
+[23-12-44] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-12-44] [SYSTEM_IO]: Userdata requested: InputFill
+[23-12-44] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2088861049], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-12-44] [ACTION]: Console loaded in 2546ms
+[23-12-44] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-12-44] [ENTRY]: [TESTING MODE]
+[23-12-44] [SYSTEM_IO]: Userdata requested: laststart
+[23-12-44] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2546ms
+[23-12-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-12-57] [CLIENT]: weather
+[23-12-57] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-57] [WIDGET OPENED]: WEATHER
+[23-12-57] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.WeatherWidget
+[23-12-58] [HANDLE]: PRIMARY HANDLE
+[23-12-58] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[23-12-58] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-13-04] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1083, 450, 600, 310)], hash = [671466362], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Change Location]
+[23-13-04] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-13-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 250, 520, 40)], hash = [1031398828], parentFrame = [Change Location], associated text = [Change Location], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-13-04] [ACTION]: [Starkville's weather] [NOTIFICATION] Attempting to refresh weather stats for location "Slidell,La,Usa"
+[23-13-04] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-13-06] [ACTION]: [Slidell's weather] [NOTIFICATION] Refreshed
+[23-13-06] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-13-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [491463492], parentFrame = [Slidell's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-13-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.widgets.WeatherWidget], bounds = [(1143, 285, 480, 640)], hash = [287074070], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Slidell's weather]
+[23-13-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-13-10] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-13-10] [SYSTEM_IO]: Userdata requested: Name
+[23-13-10] [LOGOUT]: [Nathan]
+[23-13-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(270, 254, 743, 708)], hash = [718571091], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-13-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-13-10] [EXIT]: [RUNTIME] 28s
+[23-13-10] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

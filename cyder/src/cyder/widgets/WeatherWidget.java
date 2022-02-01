@@ -535,6 +535,8 @@ public class WeatherWidget implements WidgetBase {
                     } else {
                         weatherFrame.setTitle("Weather");
                     }
+
+                    ConsoleFrame.getConsoleFrame().revalidateMenu();
                 }
             } catch (FileNotFoundException e) {
                 //invalid custom location so go back to the old one

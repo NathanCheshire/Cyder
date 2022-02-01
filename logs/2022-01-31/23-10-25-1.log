@@ -1,0 +1,107 @@
+[23-10-26] [ENTRY]: [Nathan]
+[23-10-26] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-10-26] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-10-26] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-10-26] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-10-27] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-10-27] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-10-27] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-10-28] [SYSTEM_IO]: Userdata requested: Name
+[23-10-28] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-10-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-10-28] [SYSTEM_IO]: Userdata requested: Name
+[23-10-28] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[23-10-28] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-10-28] [SYSTEM_IO]: Userdata requested: Foreground
+[23-10-28] [SYSTEM_IO]: Userdata requested: Font
+[23-10-28] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-10-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-10-28] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-10-28] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[23-10-28] [SYSTEM_IO]: Userdata requested: Font
+[23-10-28] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-10-28] [SYSTEM_IO]: Userdata requested: InputFill
+[23-10-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1792433202], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-10-28] [ACTION]: Console loaded in 2656ms
+[23-10-28] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-10-28] [ENTRY]: [TESTING MODE]
+[23-10-28] [SYSTEM_IO]: Userdata requested: laststart
+[23-10-28] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2656ms
+[23-10-28] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-10-31] [CLIENT]: center
+[23-10-31] [SYSTEM_IO]: Userdata requested: filterchat
+[23-10-31] [HANDLE]: CYDERFRAME MOVEMENT COMMAND HANDLED
+[23-10-31] [HANDLE]: PRIMARY HANDLE
+[23-10-32] [CLIENT]: analyzecode
+[23-10-32] [SYSTEM_IO]: Userdata requested: filterchat
+[23-10-32] [HANDLE]: GENERAL COMMAND HANDLED
+[23-10-32] [HANDLE]: PRIMARY HANDLE
+[23-10-33] [CONSOLE_OUT]: [STRING] Total lines: 42962
+[23-10-34] [CONSOLE_OUT]: [STRING] Code lines: 30252
+[23-10-34] [CONSOLE_OUT]: [STRING] Blank lines: 6980
+[23-10-34] [CONSOLE_OUT]: [STRING] Comment lines: 5735
+[23-10-34] [CONSOLE_OUT]: [STRING] Java Files: 120
+[23-10-34] [CONSOLE_OUT]: [STRING] Code to comment ratio: 5.27
+[23-10-34] [CONSOLE_OUT]: [STRING] Escaped
+[23-10-51] [CLIENT]: 30252+6980+5735
+[23-10-51] [SYSTEM_IO]: Userdata requested: filterchat
+[23-10-51] [HANDLE]: CONSOLE MATH HANDLED
+[23-10-51] [HANDLE]: FINAL HANDLE
+[23-10-52] [CONSOLE_OUT]: [STRING] 42967.0
+[23-11-06] [CONSOLE_OUT]: [STRING] Manual tests:
+[23-11-07] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[23-11-07] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[23-11-08] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[23-11-08] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[23-11-09] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[23-11-10] [CONSOLE_OUT]: [STRING] askewTest
+[23-11-10] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1935)
+From line: 1935
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1935)
+at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1871)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[23-11-10] [CONSOLE_OUT]: [STRING] notificationTest
+[23-11-10] [CONSOLE_OUT]: [STRING] comboBoxTest
+[23-11-10] [CONSOLE_OUT]: [STRING] switchTest
+[23-11-10] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[23-11-10] [CONSOLE_OUT]: [STRING] queueTest
+[23-11-10] [CONSOLE_OUT]: [STRING] cyderGridTest
+[23-11-10] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[23-11-10] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[23-11-10] [CONSOLE_OUT]: [STRING] progressBarTest
+[23-11-10] [CONSOLE_OUT]: [STRING] informTest
+[23-11-10] [CONSOLE_OUT]: [STRING] stackTest
+[23-11-10] [CONSOLE_OUT]: [STRING] checkboxTest
+[23-11-10] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[23-11-10] [CONSOLE_OUT]: [STRING] Unit Tests:
+[23-11-10] [CONSOLE_OUT]: [STRING] testPluralConversion
+[23-11-10] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[23-11-10] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[23-11-10] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[23-11-10] [CONSOLE_OUT]: [STRING] testIsComment
+[23-11-10] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[23-11-10] [CONSOLE_OUT]: [JCOMPONENT] Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 0, 0)], hash = [1304023173], parentFrame = [No associated frame], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-11-10] [CONSOLE_OUT]: [STRING]
+[23-11-10] [CONSOLE_OUT]: [STRING] Escaped
+[23-11-11] [CLIENT]: clear
+[23-11-11] [SYSTEM_IO]: Userdata requested: filterchat
+[23-11-11] [HANDLE]: GENERAL COMMAND HANDLED
+[23-11-11] [HANDLE]: PRIMARY HANDLE
+[23-11-26] [CLIENT]: weather
+[23-11-26] [SYSTEM_IO]: Userdata requested: filterchat
+[23-11-26] [WIDGET OPENED]: WEATHER
+[23-11-26] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.WeatherWidget
+[23-11-27] [HANDLE]: PRIMARY HANDLE
+[23-11-27] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[23-11-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-11-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1743, 465, 600, 310)], hash = [1124626294], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Change Location]
+[23-11-45] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 250, 520, 40)], hash = [1767323518], parentFrame = [Change Location], associated text = [Change Location], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-11-45] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-11-45] [ACTION]: [Starkville's weather] [NOTIFICATION] Attempting to refresh weather stats for location "Slidell,La,Usa"
+[23-11-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-11-46] [ACTION]: [Slidell's weather] [NOTIFICATION] Refreshed
+[23-11-47] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-11-55] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [512888735], parentFrame = [Slidell's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[23-12-42] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

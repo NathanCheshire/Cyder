@@ -10,18 +10,14 @@
 [23-09-27] [SYSTEM_IO]: Userdata requested: RandomBackground
 [23-09-27] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-09-27] [SYSTEM_IO]: Userdata requested: Name
-[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-27] [SYSTEM_IO]: Userdata requested: FullScreen
-[23-09-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[23-09-27] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [23-09-27] [SYSTEM_IO]: Userdata requested: Foreground
 [23-09-27] [SYSTEM_IO]: Userdata requested: Font
 [23-09-27] [SYSTEM_IO]: Userdata requested: OutputBorder
 [23-09-27] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-09-27] [SYSTEM_IO]: Userdata requested: InputBorder
-[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground
+[23-09-27] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [23-09-27] [SYSTEM_IO]: Userdata requested: Font
 [23-09-27] [SYSTEM_IO]: Userdata requested: OutputFill
 [23-09-27] [SYSTEM_IO]: Userdata requested: InputFill
@@ -50,18 +46,14 @@
 [23-09-36] [SYSTEM_IO]: Userdata requested: RandomBackground
 [23-09-36] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-09-36] [SYSTEM_IO]: Userdata requested: Name
-[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-36] [SYSTEM_IO]: Userdata requested: FullScreen
-[23-09-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[23-09-36] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [23-09-36] [SYSTEM_IO]: Userdata requested: Foreground
 [23-09-36] [SYSTEM_IO]: Userdata requested: Font
 [23-09-36] [SYSTEM_IO]: Userdata requested: OutputBorder
 [23-09-36] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-09-36] [SYSTEM_IO]: Userdata requested: InputBorder
-[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground
-[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground
+[23-09-36] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [23-09-36] [SYSTEM_IO]: Userdata requested: Font
 [23-09-36] [SYSTEM_IO]: Userdata requested: OutputFill
 [23-09-36] [SYSTEM_IO]: Userdata requested: InputFill
