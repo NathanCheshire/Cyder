@@ -932,4 +932,40 @@ public class UserUtil {
 
         return userJsons.size();
     }
+
+    /**
+     * Returns a list of valid uuis associated with Cyder users.
+     *
+     * @return a list of valid uuis associated with Cyder users
+     */
+    public static ArrayList<String> getUserUUIDs() {
+        ArrayList<String> uuids = new ArrayList<>();
+
+        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
+            File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+            if (json.exists())
+                uuids.add(user.getName());
+        }
+
+        return uuids;
+    }
+
+    /**
+     * Returns a list of valid user jsons associated with Cyder users.
+     *
+     * @return a list of valid user jsons associated with Cyder users
+     */
+    public static ArrayList<File> getUserJsons() {
+        ArrayList<File> userFiles = new ArrayList<>();
+
+        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
+            File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+            if (json.exists())
+                userFiles.add(json);
+        }
+
+        return userFiles;
+    }
 }

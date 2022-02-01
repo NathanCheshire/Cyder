@@ -1,0 +1,30 @@
+[19-40-59] [ENTRY]: [Nathan]
+[19-40-59] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-40-59] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-40-59] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-40-59] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-41-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-41-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-41-01] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.userJsonDeleted(UserUtil.java:819)
+From line: 819
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.userJsonDeleted(UserUtil.java:819)
+at cyder.utilities.UserUtil.fixUser(UserUtil.java:231)
+at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1827)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:477)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:548)
+at cyder.handlers.internal.LoginHandler.determinCyderEntry(LoginHandler.java:424)
+at cyder.genesis.Cyder.main(Cyder.java:117)
+[19-41-01] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.setUserData(UserUtil.java:123)
+From line: 123
+Trace: java.lang.IllegalArgumentException: File does not exist
+at cyder.utilities.UserUtil.setUserData(UserUtil.java:123)
+at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1833)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:477)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:548)
+at cyder.handlers.internal.LoginHandler.determinCyderEntry(LoginHandler.java:424)
+at cyder.genesis.Cyder.main(Cyder.java:117)
+[19-41-01] [LOGIN]: [AUTOCYPHER FAIL]
+[19-42-01] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 2

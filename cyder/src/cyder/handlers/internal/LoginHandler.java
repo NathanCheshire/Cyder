@@ -456,7 +456,6 @@ public class LoginHandler {
      * @return whether or not the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
-        //initialize our return var
         boolean ret = false;
 
         //master try block to ensure something is always returned
@@ -477,7 +476,6 @@ public class LoginHandler {
                 //set the UUID (This is the only place in all of Cyder that setUUID should ever be called)
                 ConsoleFrame.getConsoleFrame().setUUID(uuid);
 
-                //set ret var
                 ret = true;
 
                 //stop login animations
@@ -561,7 +559,7 @@ public class LoginHandler {
     }
 
     /**
-     * Used to log out all users before logging in a new user
+     * For all users within dynamic/users, sets the loggedin key to 0.
      */
     public static void logoutAllUsers() {
         File usersDir = new File("dynamic/users");
@@ -596,32 +594,17 @@ public class LoginHandler {
         String ret = null;
 
         try {
-            hashedPass = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashedPass.toCharArray()));
+            for (File userJsonFile : UserUtil.getUserJsons()) {
+                System.out.println(userJsonFile.exists());
+                User user = UserUtil.extractUser(userJsonFile);
 
-            //get all users
-            File[] UUIDs = new File("dynamic/users").listFiles();
-            LinkedList<File> userDataFiles = new LinkedList<>();
-
-            //get all valid users
-            for (File user : UUIDs) {
-                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-                if (json.exists())
-                    userDataFiles.add(json);
-            }
-
-            //loop through all users and extract the name and password fields
-            for (int i = 0 ; i < userDataFiles.size() ; i++) {
-                User user = UserUtil.extractUser(userDataFiles.get(i));
-
-                //if it's the one we're looking for, set consoel UUID, free resources, and return true
-                if (name.equalsIgnoreCase(user.getName()) && hashedPass.equals(user.getPass())) {
-                    ret = UUIDs[i].getName();
+                //we always hash again here
+                if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                                hashedPass.toCharArray())).equals(user.getPass())) {
+                    System.out.println(ret);
                 }
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
