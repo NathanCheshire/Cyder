@@ -1,0 +1,10 @@
+[22-20-52] [ENTRY]: [Nathan]
+[22-20-52] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-20-52] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-20-52] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-20-52] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-20-54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-20-54] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-20-54] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[22-20-54] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [582031512], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-21-39] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -357,10 +357,15 @@ public class LoginHandler {
 
                         if (!recognize(username, SecurityUtil.toHexString(
                                 SecurityUtil.getSHA256(input)), false)) {
+
+                            loginField.setEchoChar((char)0);
                             loginField.setText(currentBashString);
                             loginField.setCaretPosition(loginField.getPassword().length);
+
                             priorityPrintingList.add("Login failed\n");
                             loginMode = 0;
+                            username = "";
+
                         }
 
                         for (char c : input) {
@@ -412,7 +417,7 @@ public class LoginHandler {
     /**
      * Begins the login sequence to figure out how to enter Cyder.
      */
-    public static void determinCyderEntry() {
+    public static void determineCyderEntry() {
         //if on main development computer
         if (SecurityUtil.nathanLenovo()) {
             CyderSplash.setLoadingMessage("Checking for autocypher");
@@ -429,7 +434,7 @@ public class LoginHandler {
                     showGUI();
                 }
             }
-            // if main development computer but cyphering is disabled, show the login gui
+            //if main development computer but cyphering is disabled, show the login gui
             else {
                 showGUI();
             }
@@ -460,39 +465,25 @@ public class LoginHandler {
 
         //master try block to ensure something is always returned
         try {
-            //first, if the we came here from login frame,
-            // reset the echo char and text for security reasons
-            if (loginFrame != null) {
-                loginField.setEchoChar((char)0);
-                loginField.setText(currentBashString);
-            }
-
             //attempt to validate the name and password
             // and obtain the resulting uuid if checkPassword() succeeded
             String uuid = checkPassword(name, hashedPass);
 
-            //if a user was found
             if (uuid != null) {
-                //set the UUID (This is the only place in all of Cyder that setUUID should ever be called)
+                //set the UUID
                 ConsoleFrame.getConsoleFrame().setUUID(uuid);
 
                 ret = true;
 
-                //stop login animations
                 doLoginAnimations = false;
 
-                //log the success login
-                if (autoCypherAttempt) {
-                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER PASS, " + uuid);
-                } else {
-                    Logger.log(Logger.Tag.LOGIN, "STD LOGIN, " + uuid);
-                }
+                Logger.log(Logger.Tag.LOGIN, (autoCypherAttempt
+                        ? "AUTOCYPHER PASS, " : "STD LOGIN, ") + uuid);
 
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                     ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
                 }
 
-                //open the console frame
                 ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt ? "autocypher" : "loginframe");
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
@@ -501,31 +492,22 @@ public class LoginHandler {
                     loginFrame.removePostCloseActions();
                     loginFrame.dispose(true);
                 }
-
-                //reset autocypher
-                autoCypherAttempt = false;
-            } else if (loginFrame != null && loginFrame.isVisible()) {
-                loginField.setText("");
-
-                if (autoCypherAttempt) {
-                    //reset autocypher
-                    autoCypherAttempt = false;
-                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
-                } else {
-                    Logger.log(Logger.Tag.LOGIN, "LOGIN FAIL");
-                }
-
-                username = "";
-                hashedPass = "";
-                loginField.requestFocusInWindow();
-            } else if (autoCypherAttempt) {
-                autoCypherAttempt = false;
+            }
+            //autocypher fail
+            else if (autoCypherAttempt) {
                 Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
             }
+            //login frame fail
+            else if (loginFrame != null && loginFrame.isVisible()) {
+                Logger.log(Logger.Tag.LOGIN, "LOGIN FAIL");
+                loginField.requestFocusInWindow();
+            }
+
+            //clean up calls
+            autoCypherAttempt = false;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
         } finally {
-            //lastly we always return either true or false
             return ret;
         }
     }
@@ -562,7 +544,7 @@ public class LoginHandler {
      * For all users within dynamic/users, sets the loggedin key to 0.
      */
     public static void logoutAllUsers() {
-        File usersDir = new File("dynamic/users");
+        File usersDir = new File(OSUtil.buildPath("dynamic","users"));
 
         if (!usersDir.exists()) {
             usersDir.mkdir();
@@ -595,13 +577,12 @@ public class LoginHandler {
 
         try {
             for (File userJsonFile : UserUtil.getUserJsons()) {
-                System.out.println(userJsonFile.exists());
                 User user = UserUtil.extractUser(userJsonFile);
 
                 //we always hash again here
                 if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
                                 hashedPass.toCharArray())).equals(user.getPass())) {
-                    System.out.println(ret);
+                    ret = StringUtil.getFilename(userJsonFile.getParentFile().getName());
                 }
             }
         } catch (Exception e) {

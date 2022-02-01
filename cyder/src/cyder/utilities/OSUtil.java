@@ -423,6 +423,9 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo wipe "UserFile" command
+    //todo wipeall command that essentailly resets the user to as if they just created their user
+
     //todo make sure closing console frame doesn't save it's y to the top, bug
 
     //todo utilize requestFramePosition() in FrameUtil for CyderFrame on start

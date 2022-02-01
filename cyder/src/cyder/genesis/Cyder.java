@@ -114,7 +114,7 @@ public class Cyder {
         CyderCommon.startFinalFrameDisposedChecker();
 
         //offship how to login to the LoginHandler since all subroutines finished
-        LoginHandler.determinCyderEntry();
+        LoginHandler.determineCyderEntry();
     }
 
     /**
