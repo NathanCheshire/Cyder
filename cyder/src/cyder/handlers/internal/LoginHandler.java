@@ -3,6 +3,7 @@ package cyder.handlers.internal;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderEntry;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
 import cyder.ui.*;
@@ -484,7 +485,8 @@ public class LoginHandler {
                     ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
                 }
 
-                ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt ? "autocypher" : "loginframe");
+                ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt
+                        ? CyderEntry.AutoCypher : CyderEntry.Login);
 
                 //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in

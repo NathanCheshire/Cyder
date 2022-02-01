@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.CyderEntry;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
@@ -256,9 +257,9 @@ public final class ConsoleFrame {
      * Performs ConsoleFrame setup routines before constructing
      * the frame and setting its visibility, location, and size.
      *
-     * @param origin where the launch call originated from
+     * @param entryPoint where the launch call originated from
      */
-    public void launch(String origin) {
+    public void launch(CyderEntry entryPoint) {
         //the ConsoleFrame should always be closed properly before start is invoked again
         if (!isClosed())
             throw new RuntimeException("ConsoleFrame left open");
@@ -1166,8 +1167,7 @@ public final class ConsoleFrame {
 
             Logger.log(Logger.Tag.ACTION, logString);
 
-            //todo enums for entry ways
-            if (origin.equals("autocypher")) {
+            if (entryPoint == CyderEntry.AutoCypher) {
                 notify(logString);
             }
 
