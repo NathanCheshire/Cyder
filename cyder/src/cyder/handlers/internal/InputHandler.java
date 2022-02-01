@@ -803,7 +803,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
-                CyderCommon.exit(25);
+                ConsoleFrame.getConsoleFrame().closeConsoleFrame(true);
             }
         } else if (commandIs("monitors")) {
             println(NetworkUtil.getMonitorStatsString());

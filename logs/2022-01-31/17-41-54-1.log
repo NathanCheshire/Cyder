@@ -1,0 +1,26 @@
+[17-41-54] [ENTRY]: [Nathan]
+[17-41-54] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-41-54] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-41-54] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-41-54] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-41-56] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-41-56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-41-56] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-41-56] [SYSTEM_IO]: Userdata requested: Name
+[17-41-56] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-41-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-41-56] [SYSTEM_IO]: Userdata requested: Name
+[17-41-56] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[17-41-56] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-41-56] [SYSTEM_IO]: Userdata requested: Foreground
+[17-41-56] [SYSTEM_IO]: Userdata requested: Font
+[17-41-56] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-41-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-41-56] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-41-56] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[17-41-56] [SYSTEM_IO]: Userdata requested: Font
+[17-41-56] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-41-56] [SYSTEM_IO]: Userdata requested: InputFill
+[17-41-57] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1718742607], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-43-14] [ACTION]: Console loaded in 80271ms
+[17-43-30] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

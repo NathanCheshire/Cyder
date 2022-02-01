@@ -2222,6 +2222,10 @@ public class CyderFrame extends JFrame {
         return this.drawDebugLines;
     }
 
+    /**
+     * Class for notifications so that we can save their information
+     * and show them later if ones are already in the queue.
+     */
     private static class WaitingNotification {
         private String htmlText;
         private int duration;
@@ -2326,5 +2330,24 @@ public class CyderFrame extends JFrame {
                     this.getNotificationDirection() + "," +
                     "), hash=" + this.hashCode();
         }
+    }
+
+    /**
+     * Returns the integer ID of the monitor this frame is on.
+     *
+     * @return the integer ID of the monitor this frame is on
+     */
+    public int getMonitor() {
+        return Integer.parseInt(this.getGraphicsConfiguration().getDevice()
+                .getIDstring().replaceAll("[^0-9]",""));
+    }
+
+    /**
+     * Returns the bounds of the monitor this frame is on.
+     *
+     * @return the bounds of the monitor this frame is on
+     */
+    public Rectangle getMonitorBounds() {
+        return this.getGraphicsConfiguration().getDevice().getDefaultConfiguration().getBounds();
     }
 }

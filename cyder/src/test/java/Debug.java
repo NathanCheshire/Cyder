@@ -147,7 +147,7 @@ public class Debug {
      */
     public static void launchTests() {
         try {
-            System.out.println("Hallo");
+
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

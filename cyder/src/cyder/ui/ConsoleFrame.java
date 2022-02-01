@@ -633,6 +633,7 @@ public final class ConsoleFrame {
                     inputField.setText(consoleBashString);
                     inputField.setCaretPosition(consoleBashString.length());
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     ExceptionHandler.handle(ex);
                 }
             });
@@ -1002,8 +1003,6 @@ public final class ConsoleFrame {
             close = new JButton("");
             close.setToolTipText("Close");
             close.addActionListener(e -> {
-                saveConsoleFramePosition();
-
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
@@ -1150,8 +1149,8 @@ public final class ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
-            //todo make sure frame bounds are saved properly on controlled exits/instance switches
-            //todo frame location from stats
+            FrameUtil.requestFramePosition(requestedConsoleStats.getMonitor(),
+                    requestedConsoleStats.getConsoleX(), requestedConsoleStats.getConsoleY(), consoleCyderFrame);
 
             //show frame
             consoleCyderFrame.setVisible(true);
@@ -1183,7 +1182,7 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
-                        if (!NetworkUtil.decentPing()) {
+                        if (!isClosed() && !NetworkUtil.decentPing()) {
                             consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
                                     ", but I had trouble connecting to the internet.\n" +
                                     "As a result, some features have been restricted until a " +
@@ -1226,7 +1225,7 @@ public final class ConsoleFrame {
 
                 OUTER:
                     while (true) {
-                        if (UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                        if (!isClosed() && UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
                             IOUtil.playSystemAudio("static/audio/chime.mp3");
                         }
 
@@ -1250,21 +1249,23 @@ public final class ConsoleFrame {
         consoleClockUpdaterThread = new Thread(() -> {
             OUTER:
                 while (true) {
-                    try {
-                        refreshClockText();
+                    if (!isClosed()) {
+                        try {
+                            refreshClockText();
 
-                        //sleep 500 ms
-                        int i = 0;
-                        while (i < 500) {
-                            Thread.sleep(50);
-                            if (consoleFrameClosed) {
-                                break OUTER;
+                            //sleep 500 ms
+                            int i = 0;
+                            while (i < 500) {
+                                Thread.sleep(50);
+                                if (consoleFrameClosed) {
+                                    break OUTER;
+                                }
+                                i += 50;
                             }
-                            i += 50;
+                        } catch (Exception e) {
+                            //sometimes this throws for no reason trying to get times or something so log quietly
+                            ExceptionHandler.silentHandle(e);
                         }
-                    }  catch (Exception e) {
-                        //sometimes this throws for no reason trying to get times or something so log quietly
-                        ExceptionHandler.silentHandle(e);
                     }
                 }
         }, "Console Clock Updater");
@@ -1275,7 +1276,7 @@ public final class ConsoleFrame {
             try {
                 OUTER:
                     while (true) {
-                        if (UserUtil.getUserData("showbusyicon").equals("1")) {
+                        if (!isClosed() && UserUtil.getUserData("showbusyicon").equals("1")) {
                             ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                             int num = threadGroup.activeCount();
                             Thread[] printThreads = new Thread[num];
@@ -1340,7 +1341,7 @@ public final class ConsoleFrame {
                         User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
 
                         //just to be safe
-                        if (consoleCyderFrame != null) {
+                        if (!isClosed()) {
                             screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
                             screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
                             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
@@ -2419,7 +2420,8 @@ public final class ConsoleFrame {
                 getInputHandler().handle("fix foreground", false);
             }
 
-            //todo
+            FrameUtil.requestFramePosition(UserUtil.extractUser().getScreenStat().getMonitor(),
+                    consoleCyderFrame.getX(), consoleCyderFrame.getY(), consoleCyderFrame);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -3174,6 +3176,9 @@ public final class ConsoleFrame {
      * @param exit whether or not to exit Cyder upon closing the ConsoleFrame
      */
     public void closeConsoleFrame(boolean exit) {
+        consoleFrameClosed = true;
+        saveConsoleFramePosition();
+
         //stop any audio
         IOUtil.stopAudio();
 
@@ -3193,7 +3198,6 @@ public final class ConsoleFrame {
             consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
         }
 
-        consoleFrameClosed = true;
         consoleCyderFrame.dispose();
     }
 
@@ -3204,28 +3208,27 @@ public final class ConsoleFrame {
         if (this.getUUID() == null)
             return;
 
-        //save window location
-        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
-
         if (consoleCyderFrame != null) {
+            User.ScreenStat screenStat = new User.ScreenStat();
+
             screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
             screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
             screenStat.setConsoleX(consoleCyderFrame.getX());
             screenStat.setConsoleY(consoleCyderFrame.getY());
             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+
             int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
                     .getIDstring().replaceAll("[^0-9]", ""));
-            screenStat.setMonitor(monitor);
-        }
 
-        User user = UserUtil.extractUser();
-        user.setScreenStat(screenStat);
-        UserUtil.setUserData(user);
+            screenStat.setMonitor(monitor);
+
+            User user = UserUtil.extractUser();
+            user.setScreenStat(screenStat);
+            UserUtil.setUserData(user);
+        }
     }
 
     public void logout() {
-        saveConsoleFramePosition();
-
         CyderCommon.suspendFrameChecker();
 
         //close the consoleframe if it's still open

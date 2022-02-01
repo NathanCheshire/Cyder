@@ -423,10 +423,11 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo make sure closing console frame doesn't save it's y to the top, bug
+
     //todo utilize requestFramePosition() in FrameUtil for CyderFrame on start
 
     //todo show login frame on console frame's monitor if logging out
-    //todo add getMonitor and getMonitorBounds methods for CyderFrame
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 

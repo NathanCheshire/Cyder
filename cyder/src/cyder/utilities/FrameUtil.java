@@ -142,7 +142,8 @@ public class FrameUtil {
      * Attempts to set the provided frame to the monitor specified,
      * if valid, with the provided starting location.
      *
-     * @param requestedMonitor the id number of the monitor to place the frame on
+     * @param requestedMonitor the id number of the monitor to place the frame on, if invalid,
+     *                         the frame is placed in the center of the primary display
      * @param requestedX the x value to set the frame to
      * @param requestedY the y value to set the frame to
      * @param frame the frame to set the location/size of

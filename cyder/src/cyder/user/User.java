@@ -441,6 +441,8 @@ public class User {
         private int monitor;
         private boolean consoleOnTop;
 
+        public ScreenStat() {}
+
         public ScreenStat(int consoleX, int consoleY, int consoleWidth,
                           int consoleHeight, int monitor, boolean consoleOnTop) {
             this.consoleX = consoleX;
