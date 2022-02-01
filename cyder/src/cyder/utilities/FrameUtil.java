@@ -139,6 +139,15 @@ public class FrameUtil {
     }
 
     /**
+     * Pushes the provided frame fully onto the monitor it is currently displayed on, if possible.
+     *
+     * @param frame the frame to push completely into bounds
+     */
+    public static void pushFrameIntoBounds(CyderFrame frame) {
+        requestFramePosition(frame.getMonitor(), frame.getX(), frame.getY(), frame);
+    }
+
+    /**
      * Attempts to set the provided frame to the monitor specified,
      * if valid, with the provided starting location.
      *
@@ -190,5 +199,45 @@ public class FrameUtil {
 
         //set the location to the calculated location
         frame.setLocation(requestedX, requestedY);
+    }
+
+    /**
+     * Closes all instances of Frame.
+     */
+    public static void closeAllFrames() {
+
+    }
+
+    /**
+     * Closes all instances of Frame. If a frame is an instance of CyderFrame,
+     * fastClose follows the value provided.
+     *
+     * @param fastClose whether or not to fastClose any instances of CyderFrame
+     */
+    public static void closeAllFrames(boolean fastClose) {
+        for (Frame frame : Frame.getFrames()) {
+            if (frame instanceof CyderFrame) {
+                ((CyderFrame) frame).dispose(fastClose);
+            } else {
+                frame.dispose();
+            }
+        }
+    }
+
+    /**
+     * Closes all instances of CyderFrame.
+     */
+    public static void closeAllCyderFrames() {
+        closeAllCyderFrames(false);
+    }
+
+    /**
+     * Closes all instances of CyderFrame.
+     *
+     * @param fastClose whether to invoke fast close on all CyderFrames found
+     */
+    public static void closeAllCyderFrames(boolean fastClose) {
+        for (CyderFrame f : getCyderFrames())
+            f.dispose(fastClose);
     }
 }

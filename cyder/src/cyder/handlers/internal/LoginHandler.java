@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
+import cyder.handlers.internal.objects.MonitorPoint;
 import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
@@ -181,6 +182,15 @@ public class LoginHandler {
 
     @Widget(trigger = {"login","pin"}, description = "A widget to switch between Cyder users")
     public static void showGUI() {
+        showGUI(null);
+    }
+
+    /**
+     * Shows the login frame.
+     *
+     * @param monitorPoint the monitor and point to place the login frame at
+     */
+    public static void showGUI(MonitorPoint monitorPoint) {
         //clear lists
         priorityPrintingList.clear();
         printingList.clear();
@@ -268,8 +278,21 @@ public class LoginHandler {
 
         //set visibility and location
         loginFrame.setVisible(true);
-        loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame
-                ? null : CyderCommon.getDominantFrame());
+
+        if (monitorPoint == null) {
+            loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame
+                    ? null : CyderCommon.getDominantFrame());
+        } else {
+            int centerX = monitorPoint.getX();
+            int centerY = monitorPoint.getY();
+
+            int requestedX = centerX - loginFrame.getWidth() / 2;
+            int requestedY = centerY - loginFrame.getHeight() / 2;
+
+            int requestedMonitor = monitorPoint.getMonitor();
+
+            FrameUtil.requestFramePosition(requestedMonitor, requestedX, requestedY, loginFrame);
+        }
 
         //dispose the splash frame immediately
         CyderSplash.fastDispose();

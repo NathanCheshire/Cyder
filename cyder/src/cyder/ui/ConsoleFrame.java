@@ -12,6 +12,7 @@ import cyder.enums.ScreenPosition;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
+import cyder.handlers.internal.objects.MonitorPoint;
 import cyder.user.User;
 import cyder.user.UserEditor;
 import cyder.user.UserFile;
@@ -3230,18 +3231,20 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Closes the CyderFrame and shows the LoginFrame
+     * relative to where ConsoleFrame was closed.
+     */
     public void logout() {
         CyderCommon.suspendFrameChecker();
 
-        //close the consoleframe if it's still open
+        Point centerPoint = consoleCyderFrame.getCenterPoint();
+        int monitor = consoleCyderFrame.getMonitor();
+
         closeConsoleFrame(false);
+        FrameUtil.closeAllFrames(true);
 
-        //close all residual cyderframes
-        for (Frame f : Frame.getFrames()) {
-            f.dispose();
-        }
-
-        LoginHandler.showGUI();
+        LoginHandler.showGUI(new MonitorPoint(centerPoint, monitor));
     }
 
     //dancing stuff -----------------------------------------------------------------------

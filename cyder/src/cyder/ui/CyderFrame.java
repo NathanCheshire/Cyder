@@ -2350,4 +2350,19 @@ public class CyderFrame extends JFrame {
     public Rectangle getMonitorBounds() {
         return this.getGraphicsConfiguration().getDevice().getDefaultConfiguration().getBounds();
     }
+
+    /**
+     * Returns the center point of this frame.
+     *
+     * @return the center point of this frame
+     */
+    public Point getCenterPoint() {
+        if (this == null)
+            throw new IllegalStateException("This frame is null");
+
+        int centerX = this.getX() + (this.getWidth() / 2);
+        int centerY = this.getY() + (this.getHeight() / 2);
+
+        return new Point(centerX, centerY);
+    }
 }
