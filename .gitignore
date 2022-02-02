@@ -4,3 +4,4 @@ out/
 *.git
 .gradle/*
 build/
+Userdata.json

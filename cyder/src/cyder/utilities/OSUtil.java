@@ -423,14 +423,15 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo don't log all users out, when starting check for an already logged in user
+    // users should only be logged in/out by the user themselves via login/logout commands
+
     //todo make gifs like devon crawford's A* readme
 
     //todo wierd login frame big frame bug?
 
     //todo wipe "UserFile" command
     //todo wipeall command that essentailly resets the user to as if they just created their user
-
-    //todo make sure closing console frame doesn't save it's y to the top, bug
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 
