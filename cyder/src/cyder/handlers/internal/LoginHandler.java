@@ -10,7 +10,6 @@ import cyder.handlers.internal.objects.MonitorPoint;
 import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
-import cyder.user.UserFile;
 import cyder.utilities.*;
 
 import javax.swing.*;
@@ -481,11 +480,17 @@ public class LoginHandler {
             //log the start and show the login frame
             Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
 
-            String loggedInUUD = getLoggedInUser();
+            String loggedInUUD = UserUtil.getFirstLoggedInUser();
 
             if (loggedInUUD != null) {
-                System.out.println(loggedInUUD + " was left logged in");
-                //todo so this isn't working, where is a user logged out?
+                UserUtil.logoutAllUsers();
+
+                ConsoleFrame.getConsoleFrame().setUUID(loggedInUUD);
+
+                Logger.log(Logger.Tag.LOGIN, "[PREVIOUS SESSION RESUMED] " + loggedInUUD);
+
+                ConsoleFrame.getConsoleFrame().launch(CyderEntry.PreviouslyLoggedIn);
+
             } else {
                 showGUI();
             }
@@ -519,10 +524,10 @@ public class LoginHandler {
                 doLoginAnimations = false;
 
                 Logger.log(Logger.Tag.LOGIN, (autoCypherAttempt
-                        ? "AUTOCYPHER PASS, " : "STD LOGIN, ") + uuid);
+                        ? "[AUTOCYPHER PASS]: " : "[STD LOGIN]: ") + uuid);
 
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-                    ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
+                    ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
                 }
 
                 ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt
@@ -580,46 +585,6 @@ public class LoginHandler {
         } finally {
             return ret;
         }
-    }
-
-    /**
-     * For all users within dynamic/users, sets the loggedin key to 0.
-     */
-    public static void logoutAllUsers() {
-        File usersDir = new File(OSUtil.buildPath("dynamic","users"));
-
-        if (!usersDir.exists()) {
-            usersDir.mkdir();
-            return;
-        }
-
-        File[] users = usersDir.listFiles();
-
-        if (users.length == 0)
-            throw new IllegalArgumentException("No users were found");
-
-        for (File user : users) {
-            File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-            if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
-                UserUtil.setUserData(jsonFile, "loggedin","0");
-        }
-    }
-
-    /**
-     * Searches through the users directory and finds the first logged in user.
-     *
-     * @return the uuid of the first logged in user, null if none was found
-     */
-    public static String getLoggedInUser() {
-        for (File userJSON : UserUtil.getUserJsons()) {
-            if (UserUtil.extractUser(userJSON).getLoggedin().equals("1"))
-                return StringUtil.getFilename(userJSON.getParentFile().getName());
-        }
-
-
-        //no logged in user was found
-        return null;
     }
 
     /**

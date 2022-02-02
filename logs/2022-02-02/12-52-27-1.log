@@ -1,0 +1,26 @@
+[12-52-27] [EXCEPTION]:
+Exception origin: java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
+From line: 87
+Trace: java.nio.file.FileAlreadyExistsException: C:\Users\Nathan\Documents\IntelliJava\Cyder\logs\2022-02-01.zip
+at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
+at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
+at java.base/java.nio.file.Files.newByteChannel(Files.java:369)
+at java.base/java.nio.file.Files.createFile(Files.java:640)
+at cyder.utilities.OSUtil.zip(OSUtil.java:405)
+at cyder.utilities.OSUtil.zip(OSUtil.java:385)
+at cyder.handlers.internal.Logger.zipPastLogs(Logger.java:457)
+at cyder.handlers.internal.Logger.initialize(Logger.java:283)
+at cyder.genesis.Cyder.main(Cyder.java:49)
+[12-52-28] [ENTRY]: [Nathan]
+[12-52-28] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-52-28] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-52-28] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[12-52-28] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-52-29] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-52-29] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [67060646], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-52-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [782505238], parentFrame = [Cyder Login [Stellar Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-52-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [51554940], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[12-52-33] [EXIT]: [RUNTIME] 6s
+[12-52-33] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

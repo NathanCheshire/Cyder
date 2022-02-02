@@ -531,86 +531,6 @@ public class UserUtil {
     }
 
     /**
-     * For all the user's in the users/ dir, sets their loggedin data
-     * to what it actually is regardless of what it says
-     */
-    public static void fixLoggedInValues() {
-        try {
-            File usersDir = new File("dynamic/users");
-
-            if (usersDir.exists()) {
-                File[] users = usersDir.listFiles();
-
-                if (users.length > 0) {
-                    for (File userFile : users) {
-                        File userJsonFile = new File(
-                                OSUtil.buildPath(userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-                        if (!userJsonFile.exists()) {
-                            continue;
-                        }
-
-                        String currentUUID = StringUtil.getFilename(userJsonFile.getParentFile().getName());
-
-                        //what we'll write to this json file
-                        String loggedIn = "0";
-
-                        File masterLogs = new File("logs");
-
-                        if (masterLogs.exists()) {
-                            File[] logsDirs = masterLogs.listFiles();
-
-                            for (File logsDir : logsDirs) {
-                                if (StringUtil.getExtension(logsDir).equalsIgnoreCase(".zip"))
-                                    continue;
-
-                                File[] logs = logsDir.listFiles();
-
-                                //we've started a Cyder instance already so there will always be one
-                                if (logs.length > 1) {
-                                    //loop through logs backwards
-                                    for (int i = logs.length - 2; i >= 0 ; i--) {
-                                        BufferedReader logReader = new BufferedReader(new FileReader(logs[i]));
-                                        String line;
-                                        String lineBeforeNull = "";
-                                        boolean lastLoggedInuser = false;
-                                        boolean breakAfter = false;
-
-                                        while ((line = logReader.readLine()) != null) {
-                                            if (line.contains("STD LOGIN") || line.contains("AUTOCYPHER PASS")){
-                                                //this user we're on now was the last logged in if we get to the end of the file
-                                                // and the last login tag we find has their uuid associated wit hit
-                                                lastLoggedInuser = line.contains(currentUUID);
-                                                breakAfter = true;
-                                            }
-
-                                            lineBeforeNull = line;
-                                        }
-
-                                        //now we have the last line as well so check if it contains the tags
-                                        if (!(lineBeforeNull.contains("[EOL]") || lineBeforeNull.contains("EXTERNAL STOP"))) {
-                                            //they're logged in then since this is the last time this user was logged in
-                                            // and that log doesn't conclude properly
-                                            loggedIn = "1";
-                                        }
-
-                                        if (breakAfter)
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-
-                        setUserData(userJsonFile,"loggedin", loggedIn);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * @return a user object with all of the default values found in {@code GenesisShare}
      */
     public static User getDefaultUser() {
@@ -967,5 +887,45 @@ public class UserUtil {
         }
 
         return userFiles;
+    }
+
+    /**
+     * For all users within dynamic/users, sets the loggedin key to 0.
+     */
+    public static void logoutAllUsers() {
+        File usersDir = new File(OSUtil.buildPath("dynamic","users"));
+
+        if (!usersDir.exists()) {
+            usersDir.mkdir();
+            return;
+        }
+
+        File[] users = usersDir.listFiles();
+
+        if (users.length == 0)
+            throw new IllegalArgumentException("No users were found");
+
+        for (File user : users) {
+            File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+            if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
+                UserUtil.setUserData(jsonFile, "loggedin","0");
+        }
+    }
+
+    /**
+     * Searches through the users directory and finds the first logged in user.
+     *
+     * @return the uuid of the first logged in user, null if none was found
+     */
+    public static String getFirstLoggedInUser() {
+        for (File userJSON : UserUtil.getUserJsons()) {
+            if (UserUtil.extractUser(userJSON).getLoggedin().equals("1"))
+                return StringUtil.getFilename(userJSON.getParentFile().getName());
+        }
+
+
+        //no logged in user was found
+        return null;
     }
 }

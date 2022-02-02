@@ -5,11 +5,17 @@ package cyder.enums;
  */
 public enum CyderEntry {
     /**
-     * Hashes within debughashes.json
+     * Hashes within debughashes.json.
      */
     AutoCypher,
     /**
-     * The official login frame
+     * The official login frame.
      */
     Login,
+    /**
+     * If the previous session was termianted without a logout.
+     */
+    PreviouslyLoggedIn,
+
+    //todo add pass/fail strings
 }

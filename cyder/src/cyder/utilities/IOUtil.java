@@ -352,7 +352,7 @@ public class IOUtil {
      * Clean the users/ dir of any possibly corrupted or invalid user folders.
      */
     public static void cleanUsers() {
-        File users = new File("dynamic/users");
+        File users = new File(OSUtil.buildPath("dynamic","users"));
 
         if (!users.exists()) {
             users.mkdirs();

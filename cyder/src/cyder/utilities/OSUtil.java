@@ -431,9 +431,6 @@ public class OSUtil {
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class
 
-    //todo don't log all users out, when starting check for an already logged in user
-    // users should only be logged in/out by the user themselves via login/logout commands
-
     //todo make gifs like devon crawford's A* readme
 
     //todo wierd login frame big frame bug?

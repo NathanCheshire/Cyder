@@ -602,9 +602,6 @@ public class Logger {
                     }
                 }
             }
-
-            //now fix userdata associated with the logs
-            UserUtil.fixLoggedInValues();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

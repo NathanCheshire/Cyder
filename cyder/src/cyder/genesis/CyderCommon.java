@@ -81,10 +81,6 @@ public class CyderCommon {
      */
     public static void exit(int code) {
         try {
-            //sign the user out
-            if (ConsoleFrame.getConsoleFrame().getUUID() != null)
-                UserUtil.setUserData("loggedin","0");
-
             //ensures IO finishes and is not invoked again
             UserUtil.blockFutureIO();
 

@@ -1,0 +1,54 @@
+[17-01-35] [EXCEPTION]:
+Exception origin: java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
+From line: 87
+Trace: java.nio.file.FileAlreadyExistsException: C:\Users\Nathan\Documents\IntelliJava\Cyder\logs\2022-02-01.zip
+at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
+at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
+at java.base/java.nio.file.Files.newByteChannel(Files.java:369)
+at java.base/java.nio.file.Files.createFile(Files.java:640)
+at cyder.utilities.OSUtil.zip(OSUtil.java:405)
+at cyder.utilities.OSUtil.zip(OSUtil.java:385)
+at cyder.handlers.internal.Logger.zipPastLogs(Logger.java:457)
+at cyder.handlers.internal.Logger.initialize(Logger.java:283)
+at cyder.genesis.Cyder.main(Cyder.java:49)
+[17-01-35] [ENTRY]: [Nathan]
+[17-01-35] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-01-35] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-01-35] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-01-35] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-01-36] [LOGIN]: [CYDER STARTING IN RELEASED MODE]
+[17-01-36] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-01-36] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [603113639], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-01-38] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[17-01-39] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[17-01-40] [LOGIN]: [[STD LOGIN]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-01-40] [SYSTEM_IO]: Userdata requested: Name
+[17-01-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-01-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-01-40] [SYSTEM_IO]: Userdata requested: Name
+[17-01-40] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[17-01-40] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-01-40] [SYSTEM_IO]: Userdata requested: Foreground
+[17-01-40] [SYSTEM_IO]: Userdata requested: Font
+[17-01-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-01-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-01-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-01-40] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[17-01-40] [SYSTEM_IO]: Userdata requested: Font
+[17-01-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-01-40] [SYSTEM_IO]: Userdata requested: InputFill
+[17-01-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [603113639], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-01-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [1464191502], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[17-01-40] [ACTION]: Console loaded in 6210ms
+[17-01-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [1464191502], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[17-01-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-01-40] [ENTRY]: [TESTING MODE]
+[17-01-40] [SYSTEM_IO]: Userdata requested: laststart
+[17-01-41] [ACTION]: [SYSTEM AUDIO] static/audio/startup.mp3
+[17-01-44] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[17-01-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(936, 216, 996, 655)], hash = [2062968782], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[17-01-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-01-44] [EXIT]: [RUNTIME] 10s
+[17-01-44] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

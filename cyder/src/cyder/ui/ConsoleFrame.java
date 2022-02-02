@@ -1010,7 +1010,7 @@ public final class ConsoleFrame {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     ConsoleFrame.getConsoleFrame().minimizeAll();
                 } else {
-                    closeConsoleFrame(true);
+                    closeConsoleFrame(true, false);
                 }
             });
             close.addMouseListener(new MouseAdapter() {
@@ -1829,7 +1829,7 @@ public final class ConsoleFrame {
 
         //log out all users that may have been left as logged in
         // since we are now logging in this one
-        LoginHandler.logoutAllUsers();
+        UserUtil.logoutAllUsers();
 
         //log the current user in
         UserUtil.setUserData("loggedin","1");
@@ -3178,8 +3178,9 @@ public final class ConsoleFrame {
      * Simply closes the console frame due to a user logout.
      *
      * @param exit whether or not to exit Cyder upon closing the ConsoleFrame
+     * @param logoutUser whether to logout the currently logged in user.
      */
-    public void closeConsoleFrame(boolean exit) {
+    public void closeConsoleFrame(boolean exit, boolean logoutUser) {
         consoleFrameClosed = true;
         saveConsoleFramePosition();
 
@@ -3191,8 +3192,10 @@ public final class ConsoleFrame {
         inputHandler = null;
 
         //logs
-        Logger.log(Logger.Tag.LOGOUT, "[" + getUsername() + "]");
-        UserUtil.setUserData("loggedin","0");
+        if (logoutUser) {
+            Logger.log(Logger.Tag.LOGOUT, "[" + getUsername() + "]");
+            UserUtil.setUserData("loggedin","0");
+        }
 
         //remove closing actions
         consoleCyderFrame.removePostCloseActions();
@@ -3242,7 +3245,7 @@ public final class ConsoleFrame {
         Point centerPoint = consoleCyderFrame.getCenterPoint();
         int monitor = consoleCyderFrame.getMonitor();
 
-        closeConsoleFrame(false);
+        closeConsoleFrame(false, true);
         FrameUtil.closeAllFrames(true);
 
         LoginHandler.showGUI(new MonitorPoint(centerPoint, monitor));

@@ -803,7 +803,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 ConsoleFrame.getConsoleFrame().minimizeAll();
             } else {
-                ConsoleFrame.getConsoleFrame().closeConsoleFrame(true);
+                ConsoleFrame.getConsoleFrame().closeConsoleFrame(true, false);
             }
         } else if (commandIs("monitors")) {
             println(NetworkUtil.getMonitorStatsString());

@@ -92,7 +92,7 @@ public class Cyder {
             return;
         }
 
-        //IOUtil necessary subroutines to complete with success before continuing
+        //necessary subroutines to complete with success before continuing
         setLoadingMessage("Checking system data");
         IOUtil.checkSystemData();
         setLoadingMessage("Fixing users");

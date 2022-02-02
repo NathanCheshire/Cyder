@@ -1407,7 +1407,7 @@ public class UserEditor implements WidgetBase {
                            " Are you ABSOLUTELY sure you wish to continue?", editUserFrame);
 
                    if (delete) {
-                       ConsoleFrame.getConsoleFrame().closeConsoleFrame(false);
+                       ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
                        OSUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                        String dep = SecurityUtil.getDeprecatedUUID();
