@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
+import cyder.genesis.CyderCommon;
 import test.java.Debug;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
@@ -117,5 +118,18 @@ public class ExceptionHandler {
             exceptionPrintBuilder.append("\nStack trace not found. " + CyderStrings.europeanToymaker);
 
         return Optional.of(exceptionPrintBuilder.toString());
+    }
+
+    /**
+     * Shows a popup with the provided error message. When the opened popup frame is disposed,
+     * Cyder exits.
+     *
+     * @param message the message of the popup
+     * @param title the title of the popup
+     * @param code the exit code to log when exiting
+     */
+    public static void exceptionExit(String message, String title, int code) {
+        CyderCommon.suspendFrameChecker();
+        PopupHandler.inform(message, title, null, null, () -> CyderCommon.exit(code));
     }
 }

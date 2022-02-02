@@ -481,7 +481,7 @@ public class LoginHandler {
         }
         //otherwise exit
         else {
-            CyderCommon.exit(-600);
+            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Unreleased",-600);
         }
     }
 

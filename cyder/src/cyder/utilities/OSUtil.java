@@ -423,6 +423,8 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo make gifs like devon crawford's A* readme
+
     //todo wierd login frame big frame bug?
 
     //todo wipe "UserFile" command
