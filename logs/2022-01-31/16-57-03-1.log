@@ -1,8 +1,0 @@
-[16-57-03] [ENTRY]: [Nathan]
-[16-57-04] [SYSTEM_IO]: System data pared in IOUtil's static block
-[16-57-04] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
-[16-57-04] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
-[16-57-04] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
-[16-57-07] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1217875525], parentFrame = [Hallo], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[16-57-07] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(604, 306, 800, 800)], hash = [767904468], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Hallo]
-[16-57-39] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -205,7 +205,40 @@ public class FrameUtil {
      * Closes all instances of Frame.
      */
     public static void closeAllFrames() {
+        for (Frame frame : Frame.getFrames()) {
+            frame.dispose();
+        }
+    }
 
+    /**
+     * Closes all instances of Frame. If a frame is an instance of CyderFrame,
+     * fastClose follows the value provided.
+     *
+     * @param fastClose whether or not to fastClose any instances of CyderFrame
+     * @param ignoreFrames frames to not dispose if encountered
+     */
+    public static void closeAllFrames(boolean fastClose, Frame... ignoreFrames) {
+        for (Frame frame : Frame.getFrames()) {
+            boolean skip = false;
+
+            if (ignoreFrames.length > 0) {
+                for (Frame ignoreFrame : ignoreFrames) {
+                    if (ignoreFrame == frame) {
+                        skip = true;
+                        break;
+                    }
+                }
+            }
+
+            if (skip)
+                continue;
+
+            if (frame instanceof CyderFrame) {
+                ((CyderFrame) frame).dispose(fastClose);
+            } else {
+                frame.dispose();
+            }
+        }
     }
 
     /**

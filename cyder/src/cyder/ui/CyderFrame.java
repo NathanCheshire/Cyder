@@ -1115,7 +1115,7 @@ public class CyderFrame extends JFrame {
 
         new Thread(() -> {
             try {
-                if (this == null)
+                if (this == null || this.disposed)
                     return;
 
                 //if closing confirmation exists and the user decides they do not want to exit the frame
@@ -1143,7 +1143,8 @@ public class CyderFrame extends JFrame {
                 //disable content pane REPAINTING not paint to speed up the animation
                 setDisableContentRepainting(true);
 
-                if (this != null && isVisible() && !fastClose && UserUtil.getUserData("closeanimation").equals("1")) {
+                if (this != null && isVisible() && !fastClose
+                        && UserUtil.getUserData("closeanimation").equals("1")) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
                     int y = (int) point.getY();
@@ -1167,10 +1168,14 @@ public class CyderFrame extends JFrame {
 
                 for (PostCloseAction action : postCloseActions)
                     action.invokeAction();
+
+                System.out.println(this.getTitle() + " dispose exited");
+                //todo why are disposes for splash called on logout of console frame
+                //todo why are disposes for consolel frame called on login from login frame
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + " CyderFrame dispose thread").start();
+        }, this.getTitle() + " CyderFrame dispose thread").start();
     }
 
     @Override

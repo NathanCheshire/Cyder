@@ -20,6 +20,11 @@ public class CyderSplash {
     private static boolean splashShown = false;
 
     /**
+     * Whether the splash has been disposed this instance.
+     */
+    private static boolean disposed = false;
+
+    /**
      * The splash screen CyderFrame.
      */
     private static CyderFrame splashFrame;
@@ -212,14 +217,10 @@ public class CyderSplash {
      * Disposes the splashFrame using fast close.
      */
     public static void fastDispose() {
+        if (disposed)
+            return;
         splashFrame.dispose(true);
-    }
-
-    /**
-     * Disposes the splashFrame conventionally.
-     */
-    public static void dispose() {
-        splashFrame.dispose();
+        disposed = true;
     }
 
     /**

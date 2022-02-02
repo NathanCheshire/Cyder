@@ -1,6 +1,0 @@
-[16-55-43] [ENTRY]: [Nathan]
-[16-55-43] [SYSTEM_IO]: System data pared in IOUtil's static block
-[16-55-43] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
-[16-55-43] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
-[16-55-43] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
-[16-56-09] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -1,9 +1,0 @@
-[17-02-26] [ENTRY]: [Nathan]
-[17-02-26] [SYSTEM_IO]: System data pared in IOUtil's static block
-[17-02-26] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
-[17-02-26] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
-[17-02-26] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
-[17-02-34] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 367, 28)], hash = [864852424], parentFrame = [Fast Testing], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-02-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(963, 562, 371, 100)], hash = [1741786839], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Fast Testing]
-[17-02-34] [EXIT]: [RUNTIME] 8s
-[17-02-34] [EOL]: Log completed, exiting Cyder with exit code: 50 [Testing Mode Exit], exceptions thrown: 0

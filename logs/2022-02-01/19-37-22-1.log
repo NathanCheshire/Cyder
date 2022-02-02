@@ -1,0 +1,94 @@
+[19-37-23] [ENTRY]: [Nathan]
+[19-37-23] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-37-23] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-37-23] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-37-23] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-37-25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-37-25] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-37-25] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-37-25] [SYSTEM_IO]: Userdata requested: Name
+[19-37-25] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-37-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-26] [SYSTEM_IO]: Userdata requested: Name
+[19-37-26] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[19-37-26] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-37-26] [SYSTEM_IO]: Userdata requested: Foreground
+[19-37-26] [SYSTEM_IO]: Userdata requested: Font
+[19-37-26] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-26] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-26] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[19-37-26] [SYSTEM_IO]: Userdata requested: Font
+[19-37-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-26] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-26] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [934537112], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-37-26] [ACTION]: Console loaded in 3901ms
+[19-37-26] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-37-26] [ENTRY]: [TESTING MODE]
+[19-37-26] [SYSTEM_IO]: Userdata requested: laststart
+[19-37-26] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3901ms
+[19-37-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-37-28] [CLIENT]: logout
+[19-37-28] [SYSTEM_IO]: Userdata requested: filterchat
+[19-37-28] [SYSTEM_IO]: Userdata requested: Name
+[19-37-28] [LOGOUT]: [Nathan]
+[19-37-28] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1052, 438, 743, 708)], hash = [102174918], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-37-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [934537112], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-37-28] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-37-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [934537112], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-37-28] [HANDLE]: GENERAL COMMAND HANDLED
+[19-37-28] [HANDLE]: PRIMARY HANDLE
+[19-37-30] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[19-37-30] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[19-37-31] [LOGIN]: [STD LOGIN, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-37-31] [SYSTEM_IO]: Userdata requested: Name
+[19-37-31] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-37-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-31] [SYSTEM_IO]: Userdata requested: Name
+[19-37-31] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[19-37-31] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-37-32] [SYSTEM_IO]: Userdata requested: Foreground
+[19-37-32] [SYSTEM_IO]: Userdata requested: Font
+[19-37-32] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-32] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-32] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[19-37-32] [SYSTEM_IO]: Userdata requested: Font
+[19-37-32] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-32] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-32] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [934537112], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-37-32] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1052, -702, 743, 708)], hash = [102174918], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-37-32] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1123, 592, 600, 400)], hash = [895161878], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-37-32] [ACTION]: Console loaded in 3901ms
+[19-37-32] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1123, 592, 600, 400)], hash = [895161878], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[19-37-32] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-37-32] [ENTRY]: [TESTING MODE]
+[19-37-32] [SYSTEM_IO]: Userdata requested: laststart
+[19-37-32] [CLIENT]: clear
+[19-37-32] [SYSTEM_IO]: Userdata requested: filterchat
+[19-37-32] [HANDLE]: GENERAL COMMAND HANDLED
+[19-37-32] [HANDLE]: PRIMARY HANDLE
+[19-37-34] [CLIENT]: threads
+[19-37-34] [SYSTEM_IO]: Userdata requested: filterchat
+[19-37-34] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[19-37-34] [HANDLE]: PRIMARY HANDLE
+[19-37-35] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[19-37-35] [CONSOLE_OUT]: [STRING] Final Frame Disposed Checker
+[19-37-35] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[19-37-35] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[19-37-35] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[19-37-35] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[19-37-35] [CONSOLE_OUT]: [STRING] Stable Network Connection Checker
+[19-37-35] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[19-37-35] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[19-37-35] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[19-37-35] [CONSOLE_OUT]: [STRING] ConsoleFrame Position Saver
+[19-37-35] [CONSOLE_OUT]: [STRING] Cyder Login [Stellar Build] CyderFrame dispose thread
+[19-37-35] [CONSOLE_OUT]: [STRING] Escaped
+[19-37-45] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-37-45] [SYSTEM_IO]: Userdata requested: Name
+[19-37-45] [LOGOUT]: [Nathan]
+[19-37-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1052, 438, 743, 708)], hash = [1135715792], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-37-45] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-37-46] [EXIT]: [RUNTIME] 23s
+[19-37-46] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

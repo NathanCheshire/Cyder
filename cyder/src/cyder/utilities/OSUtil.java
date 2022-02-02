@@ -423,6 +423,8 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo dispose thread doesn't resolve?
+
     //todo make gifs like devon crawford's A* readme
 
     //todo wierd login frame big frame bug?
