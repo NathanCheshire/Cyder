@@ -1281,6 +1281,34 @@ public class InputHandler {
                     println("Supported git commands: clone");
                 }
             }
+        } else if (commandIs("wipe")) {
+            if (checkArgsLength(0)) {
+                //wipe all
+            } else if (checkArgsLength(1)) {
+                File requestedDeleteFile = new File(OSUtil.buildPath(
+                        "dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(), getArg(0)));
+                if (requestedDeleteFile.exists()) {
+                    if (requestedDeleteFile.isDirectory()) {
+                        if (OSUtil.deleteFolder(requestedDeleteFile)) {
+                            println("Successfully deleted: " + requestedDeleteFile.getAbsolutePath());
+                        } else {
+                            println("Could not delete folder at this time");
+                        }
+                    } else if (requestedDeleteFile.isFile()) {
+                        if (requestedDeleteFile.delete()) {
+                            println("Successfully deleted " + requestedDeleteFile.getAbsolutePath());
+                        } else {
+                            println("Unable to delete file at this time");
+                        }
+                    } else {
+                        throw new IllegalStateException("File is not a file nor directory. " + CyderStrings.europeanToymaker);
+                    }
+                } else {
+                    println("Requested file does not exist: " + requestedDeleteFile.getAbsolutePath());
+                }
+            } else {
+                print("Wipe command usage: wipe [directory/file within your user directory]");
+            }
         }
 
         else ret = false;

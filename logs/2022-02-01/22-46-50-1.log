@@ -1,0 +1,88 @@
+[22-46-50] [ENTRY]: [Nathan]
+[22-46-50] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-46-50] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-46-50] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-46-50] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-46-54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-46-54] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-46-54] [LOGIN]: [AUTOCYPHER PASS, e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-46-54] [SYSTEM_IO]: Userdata requested: Name
+[22-46-54] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-46-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-46-54] [SYSTEM_IO]: Userdata requested: Name
+[22-46-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-46-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-46-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-46-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-46-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-46-54] [SYSTEM_IO]: Userdata requested: Font
+[22-46-54] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-46-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-46-54] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-46-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-46-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-46-54] [SYSTEM_IO]: Userdata requested: Foreground
+[22-46-54] [SYSTEM_IO]: Userdata requested: Font
+[22-46-54] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-46-54] [SYSTEM_IO]: Userdata requested: InputFill
+[22-46-54] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1777013422], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-46-55] [ACTION]: Console loaded in 5014ms
+[22-46-55] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-46-55] [ENTRY]: [TESTING MODE]
+[22-46-55] [SYSTEM_IO]: Userdata requested: laststart
+[22-46-55] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 5014ms
+[22-46-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-46-59] [CLIENT]: notes
+[22-46-59] [SYSTEM_IO]: Userdata requested: filterchat
+[22-46-59] [WIDGET OPENED]: NOTE
+[22-46-59] [SYSTEM_IO]: Userdata requested: Name
+[22-46-59] [SYSTEM_IO]: Userdata requested: Name
+[22-46-59] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.NotesWidget
+[22-46-59] [HANDLE]: PRIMARY HANDLE
+[22-47-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 560, 160, 40)], hash = [1596015915], parentFrame = [Nathan's notes], associated text = [Add Note], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-47-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(566, 468, 600, 625)], hash = [1702664178], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [New note]
+[22-47-03] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-47-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 570, 500, 40)], hash = [2098357313], parentFrame = [New note], associated text = [Create Note], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-47-05] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1040235480], parentFrame = [Editing note: asdf], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-47-05] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(566, 468, 600, 625)], hash = [1451407819], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: asdf]
+[22-47-05] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-47-06] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1707074768], parentFrame = [Nathan's notes], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-47-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(566, 468, 600, 625)], hash = [920742435], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Nathan's notes]
+[22-47-06] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-47-11] [CLIENT]: wipe
+[22-47-11] [SYSTEM_IO]: Userdata requested: filterchat
+[22-47-11] [HANDLE]: GENERAL COMMAND HANDLED
+[22-47-11] [HANDLE]: PRIMARY HANDLE
+[22-47-11] [CONSOLE_OUT]: [STRING] Successfully deleted: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\e5a50641-21d1-3654-b738-c0e4b2dc61b1\notes
+[22-47-16] [CLIENT]: notes
+[22-47-16] [SYSTEM_IO]: Userdata requested: filterchat
+[22-47-16] [WIDGET OPENED]: NOTE
+[22-47-16] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(566, -612, 600, 625)], hash = [920742435], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Nathan's notes]
+[22-47-16] [SYSTEM_IO]: Userdata requested: Name
+[22-47-16] [SYSTEM_IO]: Userdata requested: Name
+[22-47-16] [HANDLE]: PRIMARY HANDLE
+[22-47-16] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.NotesWidget
+[22-47-17] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [969469838], parentFrame = [Nathan's notes], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-47-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(318, 412, 600, 625)], hash = [2076857477], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Nathan's notes]
+[22-47-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-47-20] [CLIENT]: wipe
+[22-47-20] [SYSTEM_IO]: Userdata requested: filterchat
+[22-47-20] [HANDLE]: GENERAL COMMAND HANDLED
+[22-47-20] [HANDLE]: PRIMARY HANDLE
+[22-47-21] [CONSOLE_OUT]: [STRING] Successfully deleted: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\e5a50641-21d1-3654-b738-c0e4b2dc61b1\notes
+[22-47-25] [CLIENT]: wipe
+[22-47-25] [SYSTEM_IO]: Userdata requested: filterchat
+[22-47-25] [HANDLE]: GENERAL COMMAND HANDLED
+[22-47-25] [HANDLE]: PRIMARY HANDLE
+[22-47-25] [CONSOLE_OUT]: [STRING] Successfully deleted: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\e5a50641-21d1-3654-b738-c0e4b2dc61b1\files
+[22-47-28] [CLIENT]: wipe
+[22-47-28] [SYSTEM_IO]: Userdata requested: filterchat
+[22-47-28] [HANDLE]: GENERAL COMMAND HANDLED
+[22-47-28] [HANDLE]: PRIMARY HANDLE
+[22-47-28] [CONSOLE_OUT]: [STRING] Requested file does not exist: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\e5a50641-21d1-3654-b738-c0e4b2dc61b1\files
+[22-47-32] [CLIENT]: clear
+[22-47-32] [SYSTEM_IO]: Userdata requested: filterchat
+[22-47-32] [HANDLE]: GENERAL COMMAND HANDLED
+[22-47-32] [HANDLE]: PRIMARY HANDLE
+[22-48-07] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[22-48-07] [SYSTEM_IO]: Userdata requested: persistentnotifications

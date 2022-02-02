@@ -314,23 +314,28 @@ public class OSUtil {
      * Deletes the provided file/folder recursively.
      *
      * @param folder the folder/file to delete
+     * @return whether or not the folder/file was succesfully deleted
      */
-    public static void deleteFolder(File folder) {
+    public static boolean deleteFolder(File folder) {
         File[] files = folder.listFiles();
 
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()) {
-                    deleteFolder(f);
+                    if (!deleteFolder(f)) {
+                        return false;
+                    }
                 }
 
                 else {
-                    f.delete();
+                    if (!f.delete()) {
+                        return false;
+                    }
                 }
             }
         }
 
-        folder.delete();
+        return folder.delete();
     }
 
     /**
@@ -429,9 +434,6 @@ public class OSUtil {
     //todo make gifs like devon crawford's A* readme
 
     //todo wierd login frame big frame bug?
-
-    //todo wipe "UserFile" command
-    //todo wipeall command that essentailly resets the user to as if they just created their user
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 

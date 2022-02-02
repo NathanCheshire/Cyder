@@ -269,6 +269,10 @@ public class NotesWidget implements WidgetBase {
 
     private static void initializeNotesList() {
         File dir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes");
+
+        if (!dir.exists())
+            dir.mkdir();
+
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();
 
