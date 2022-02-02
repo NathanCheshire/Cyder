@@ -433,7 +433,7 @@ public class OSUtil {
 
     //todo make gifs like devon crawford's A* readme
 
-    //todo wierd login frame big frame bug?
+    //todo weird login frame big frame bug?
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 

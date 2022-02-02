@@ -10,6 +10,7 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 import test.java.Debug;
 
 import javax.swing.*;
@@ -99,6 +100,8 @@ public class Cyder {
         IOUtil.fixUsers();
         setLoadingMessage("Cleaning users");
         IOUtil.cleanUsers();
+        setLoadingMessage("Creating user files");
+        UserUtil.createUserFiles();
 
         //IOUtil secondary subroutines that can be executed when program has started essentially
         new Thread(() -> {

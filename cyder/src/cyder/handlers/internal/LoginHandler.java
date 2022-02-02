@@ -487,7 +487,8 @@ public class LoginHandler {
 
                 ConsoleFrame.getConsoleFrame().setUUID(loggedInUUD);
 
-                Logger.log(Logger.Tag.LOGIN, "[PREVIOUS SESSION RESUMED] " + loggedInUUD);
+                Logger.log(Logger.Tag.LOGIN, "["
+                        + CyderEntry.PreviouslyLoggedIn.getName().toUpperCase() + "] " + loggedInUUD);
 
                 ConsoleFrame.getConsoleFrame().launch(CyderEntry.PreviouslyLoggedIn);
 

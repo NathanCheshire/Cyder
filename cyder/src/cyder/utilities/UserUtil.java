@@ -780,11 +780,10 @@ public class UserUtil {
         }
     }
 
-    //todo where's the best place to utilize this?
     /**
      * Ensure all user files from {@link UserFile} are created.
      */
-    public void createUserFiles() {
+    public static void createUserFiles() {
         for (UserFile userFile : UserFile.getFiles()) {
             getUserFile(userFile.getName());
         }
