@@ -460,28 +460,35 @@ public class LoginHandler {
             if (IOUtil.getSystemData().isAutocypher()) {
                 Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 CyderSplash.setLoadingMessage("Autocyphering");
-                boolean autoCypherPass = autoCypher();
 
                 //if autocyphering fails, show teh login gui
-                if (!autoCypherPass) {
+                if (!autoCypher()) {
                     Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                     showGUI();
                 }
             }
-            //if main development computer but cyphering is disabled, show the login gui
+            //if main development computer but autocypher is disabled, show the login gui
             else {
                 showGUI();
             }
         }
-        //otherwise if Cyder is released
-        else if (IOUtil.getSystemData().isReleased()) {
+        //otherwise unreleased exit
+        else if (!IOUtil.getSystemData().isReleased()) {
+            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Unreleased",-600);
+        }
+        //otherwise if Cyder is released/usage is permitted
+        else {
             //log the start and show the login frame
             Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
-            showGUI();
-        }
-        //otherwise exit
-        else {
-            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Unreleased",-600);
+
+            String loggedInUUD = getLoggedInUser();
+
+            if (loggedInUUD != null) {
+                System.out.println(loggedInUUD + " was left logged in");
+                //todo so this isn't working, where is a user logged out?
+            } else {
+                showGUI();
+            }
         }
     }
 
@@ -597,6 +604,22 @@ public class LoginHandler {
             if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
                 UserUtil.setUserData(jsonFile, "loggedin","0");
         }
+    }
+
+    /**
+     * Searches through the users directory and finds the first logged in user.
+     *
+     * @return the uuid of the first logged in user, null if none was found
+     */
+    public static String getLoggedInUser() {
+        for (File userJSON : UserUtil.getUserJsons()) {
+            if (UserUtil.extractUser(userJSON).getLoggedin().equals("1"))
+                return StringUtil.getFilename(userJSON.getParentFile().getName());
+        }
+
+
+        //no logged in user was found
+        return null;
     }
 
     /**

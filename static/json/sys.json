@@ -6,7 +6,7 @@
    "uiloc":false,
    "uiscale":1.0,
    "consoleresizable":true,
-   "autocypher":true,
+   "autocypher":false,
    "testingmode":true,
    "fasttestingmode":false
 }

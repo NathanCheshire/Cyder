@@ -1828,6 +1828,7 @@ public final class ConsoleFrame {
         UserUtil.fixUser();
 
         //log out all users that may have been left as logged in
+        // since we are now logging in this one
         LoginHandler.logoutAllUsers();
 
         //log the current user in

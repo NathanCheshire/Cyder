@@ -428,6 +428,9 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo all class.subclass should be in an objects package within that package
+    // since they're needed by something outside of the class
+
     //todo don't log all users out, when starting check for an already logged in user
     // users should only be logged in/out by the user themselves via login/logout commands
 
@@ -443,6 +446,8 @@ public class OSUtil {
     // from InputHandler which the script will then look through
 
     //todo user redis for storing user statistics in memory instead of constant IO to/from files
+    //todo will also need to redo the way user data is accessed/saved/stored
+    // everything should be within userutil and it will be a black box essentially
 
     //todo redo image resizer and put cropper inside of it
 
@@ -458,4 +463,8 @@ public class OSUtil {
     //todo remember console orientation on exiting Cyder
 
     //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
+
+    //todo finish CyderGrid methods and new convex hull
+
+    //todo implement painting widget
 }
