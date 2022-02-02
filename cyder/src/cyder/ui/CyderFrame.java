@@ -1118,6 +1118,8 @@ public class CyderFrame extends JFrame {
                 if (this == null || this.disposed)
                     return;
 
+                disposed = true;
+
                 //if closing confirmation exists and the user decides they do not want to exit the frame
                 if (closingConfirmationMessage != null) {
                     boolean exit = new GetterUtil().getConfirmation(closingConfirmationMessage, this);
@@ -1164,14 +1166,9 @@ public class CyderFrame extends JFrame {
                 ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
                 super.dispose();
-                disposed = true;
 
                 for (PostCloseAction action : postCloseActions)
                     action.invokeAction();
-
-                System.out.println(this.getTitle() + " dispose exited");
-                //todo why are disposes for splash called on logout of console frame
-                //todo why are disposes for consolel frame called on login from login frame
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
