@@ -402,7 +402,20 @@ public class OSUtil {
         AtomicBoolean ret = new AtomicBoolean(true);
 
         try {
-            Path zipFile = Files.createFile(Paths.get(destination));
+            String copyDestination = destination;
+            File creationFile = new File(copyDestination);
+
+            if (creationFile.exists()) {
+                int incrementer = 1;
+                copyDestination = destination + "_" + incrementer;
+
+                while (new File(copyDestination).exists()) {
+                    incrementer++;
+                    copyDestination = destination + "_" + incrementer;
+                }
+            }
+
+            Path zipFile = Files.createFile(Paths.get(copyDestination));
             Path sourceDirPath = Paths.get(source);
 
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));

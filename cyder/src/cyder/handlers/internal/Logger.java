@@ -452,7 +452,7 @@ public class Logger {
         }
 
         for (File subLogDir : topLevelLogsDir.listFiles()) {
-            if (!subLogDir.getName().equals(TimeUtil.logSubDirTime())
+            if (!StringUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
                     && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
                 OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
             }
