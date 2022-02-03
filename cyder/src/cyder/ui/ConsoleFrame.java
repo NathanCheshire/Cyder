@@ -76,6 +76,11 @@ public final class ConsoleFrame {
     private String uuid = null;
 
     /**
+     * The previous uuid used for tracking purposes.
+     */
+    private String previousUuid = null;
+
+    /**
      * The ConsoleFrame's cyderframe instance.
      */
     private CyderFrame consoleCyderFrame;
@@ -261,20 +266,25 @@ public final class ConsoleFrame {
      * the frame and setting its visibility, location, and size.
      *
      * @param entryPoint where the launch call originated from
+     * @throws RuntimeException if the ConsoleFrame was left open
+     * @return whether the ConsoleFrame was opened
      */
-    public void launch(CyderEntry entryPoint) {
-        //the ConsoleFrame should always be closed properly before start is invoked again
-        if (!isClosed())
-            throw new RuntimeException("ConsoleFrame left open");
-
-        //create user files now that we have a valid uuid
-        setLoadingMessage("Creating user files");
-        UserUtil.createUserFiles();
-
-        resizeBackgrounds();
-        initBackgrounds();
+    public boolean launch(CyderEntry entryPoint) {
+        boolean ret = false;
 
         try {
+            //the ConsoleFrame should always be closed properly before start is invoked again
+            if (!isClosed())
+                throw new RuntimeException("ConsoleFrame was left open: old uuid: " + previousUuid);
+
+            //create user files now that we have a valid uuid
+            setLoadingMessage("Creating user files");
+            UserUtil.createUserFiles();
+
+            //make sure backgrounds are properly sized
+            resizeBackgrounds();
+            initBackgrounds();
+
             //set bashstring based on cyder username
             consoleBashString = getUsername() + "@Cyder:~$ ";
 
@@ -327,7 +337,8 @@ public final class ConsoleFrame {
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
 
-            //anonymous class
+            //anonymous class so that we can change component bounds
+            // on resize events
             consoleCyderFrame = new CyderFrame(consoleFrameBackgroundWidth, consoleFrameBackgroundHeight, usage) {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
@@ -368,26 +379,17 @@ public final class ConsoleFrame {
                     super.dispose();
                 }
             };
-
-            //after closing the frame exit the program is typical function
-            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
-
-            //set background to non-navy color
             consoleCyderFrame.setBackground(Color.black);
 
-            //this has to be here since we need consoleCyderFrame to not be null
+            //more of a failsafe and not really necessary
+            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
+
             if (fullscreen) {
                 consoleCyderFrame.disableDragging();
             }
 
-            //on minimize / reopen end/start threads for optimization
-            //on launch, request input field focus and run onLaunch() method
+            //on initial open, start executors, always request inputfield focus
             consoleCyderFrame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowIconified(WindowEvent e) {
-                    inputField.requestFocus();
-                }
-
                 @Override
                 public void windowDeiconified(WindowEvent e) {
                     inputField.requestFocus();
@@ -402,7 +404,6 @@ public final class ConsoleFrame {
 
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
             consoleCyderFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            consoleCyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
             consoleCyderFrame.paintWindowTitle(false);
             consoleCyderFrame.paintSuperTitle(true);
@@ -1058,8 +1059,9 @@ public final class ConsoleFrame {
             generateAudioMenu();
 
             //this turns into setting a center title
+            Font consoleClockLabelFont = CyderFonts.segoe20.deriveFont(21);
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
-            consoleClockLabel.setFont(CyderFonts.segoe20.deriveFont(20f));
+            consoleClockLabel.setFont(consoleClockLabelFont);
             consoleClockLabel.setForeground(CyderColors.vanila);
 
             //bounds not needed to be set since the executor service handles that
@@ -1180,8 +1182,12 @@ public final class ConsoleFrame {
 
             //resume frame checker
             CyderCommon.resumeFrameChecker();
+
+            ret = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        } finally {
+            return ret;
         }
     }
 
@@ -1828,6 +1834,7 @@ public final class ConsoleFrame {
         if (uuid == null)
             throw new IllegalArgumentException("Provided uuid is null");
 
+        previousUuid = this.uuid;
         this.uuid = uuid;
 
         //perform preference injection

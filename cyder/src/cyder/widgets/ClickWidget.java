@@ -24,7 +24,12 @@ public class ClickWidget implements WidgetBase {
         try {
             Logger.log(Logger.Tag.WIDGET_OPENED, "CLICKME");
 
-            CyderFrame clickMeFrame = new CyderFrame(220,100);
+            CyderFrame clickMeFrame = new CyderFrame(220,100) {
+                @Override
+                public void dispose() {
+                    super.dispose(true);
+                }
+            };
             clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
             clickMeFrame.setTitle("Click Me");
             clickMeFrame.setFrameType(CyderFrame.FrameType.POPUP);
