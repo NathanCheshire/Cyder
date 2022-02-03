@@ -18,6 +18,7 @@ import cyder.user.UserEditor;
 import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
+import cyder.widgets.objects.RelativeFrame;
 import test.java.Debug;
 
 import javax.imageio.ImageIO;
@@ -3286,45 +3287,8 @@ public final class ConsoleFrame {
 
         for (RelativeFrame rf : frames) {
             rf.getFrame().setLocation(
-                    rf.getxRelative() + consoleCyderFrame.getX(),
-                    rf.getyRelative() + consoleCyderFrame.getY());
-        }
-    }
-
-    //todo extract me to objects package within ui
-    private static class RelativeFrame {
-        private CyderFrame frame;
-        private int xRelative;
-        private int yRelative;
-
-        public RelativeFrame(CyderFrame frame, int xRelative, int yRelative) {
-            this.frame = frame;
-            this.xRelative = xRelative;
-            this.yRelative = yRelative;
-        }
-
-        public CyderFrame getFrame() {
-            return frame;
-        }
-
-        public void setFrame(CyderFrame frame) {
-            this.frame = frame;
-        }
-
-        public int getxRelative() {
-            return xRelative;
-        }
-
-        public void setxRelative(int xRelative) {
-            this.xRelative = xRelative;
-        }
-
-        public int getyRelative() {
-            return yRelative;
-        }
-
-        public void setyRelative(int yRelative) {
-            this.yRelative = yRelative;
+                    rf.getxOffset() + consoleCyderFrame.getX(),
+                    rf.getyOffset() + consoleCyderFrame.getY());
         }
     }
 
