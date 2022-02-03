@@ -467,6 +467,7 @@ public class Logger {
             if (StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
                 continue;
 
+            System.out.println(subLogDir);
             for (File logFile : subLogDir.listFiles())
                 consolidateLines(logFile);
         }

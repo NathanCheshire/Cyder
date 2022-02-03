@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import static cyder.genesis.CyderSplash.setLoadingMessage;
+
 public final class ConsoleFrame {
     /**
      * The ConsoleFrame singleton.
@@ -264,6 +266,10 @@ public final class ConsoleFrame {
         //the ConsoleFrame should always be closed properly before start is invoked again
         if (!isClosed())
             throw new RuntimeException("ConsoleFrame left open");
+
+        //create user files now that we have a valid uuid
+        setLoadingMessage("Creating user files");
+        UserUtil.createUserFiles();
 
         resizeBackgrounds();
         initBackgrounds();

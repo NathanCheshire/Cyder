@@ -170,8 +170,7 @@ public class CyderSplash {
                         Font newFont = new Font("Agency FB", Font.BOLD, 50);
 
                         loadingLabel.setFont(newFont);
-                        loadingLabel.setBounds(0, 600, 600,
-                                CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
+                        loadingLabel.setSize(600, 60);
 
                         for (int i = 0 ; i < 30 ; i++) {
                             loadingLabel.setText(message);

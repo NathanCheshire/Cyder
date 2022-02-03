@@ -1,18 +1,18 @@
-[17-03-22] [EXCEPTION]: 
+[17-03-22] [EXCEPTION]:
 Exception origin: java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
 From line: 87
 Trace: java.nio.file.FileAlreadyExistsException: C:\Users\Nathan\Documents\IntelliJava\Cyder\logs\2022-02-01.zip
-	at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
-	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
-	at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
-	at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:369)
-	at java.base/java.nio.file.Files.createFile(Files.java:640)
-	at cyder.utilities.OSUtil.zip(OSUtil.java:405)
-	at cyder.utilities.OSUtil.zip(OSUtil.java:385)
-	at cyder.handlers.internal.Logger.zipPastLogs(Logger.java:457)
-	at cyder.handlers.internal.Logger.initialize(Logger.java:283)
-	at cyder.genesis.Cyder.main(Cyder.java:49)
+at java.base/sun.nio.fs.WindowsException.translateToIOException(WindowsException.java:87)
+at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:103)
+at java.base/sun.nio.fs.WindowsException.rethrowAsIOException(WindowsException.java:108)
+at java.base/sun.nio.fs.WindowsFileSystemProvider.newByteChannel(WindowsFileSystemProvider.java:231)
+at java.base/java.nio.file.Files.newByteChannel(Files.java:369)
+at java.base/java.nio.file.Files.createFile(Files.java:640)
+at cyder.utilities.OSUtil.zip(OSUtil.java:405)
+at cyder.utilities.OSUtil.zip(OSUtil.java:385)
+at cyder.handlers.internal.Logger.zipPastLogs(Logger.java:457)
+at cyder.handlers.internal.Logger.initialize(Logger.java:283)
+at cyder.genesis.Cyder.main(Cyder.java:49)
 [17-03-22] [ENTRY]: [Nathan]
 [17-03-22] [SYSTEM_IO]: System data pared in IOUtil's static block
 [17-03-22] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
@@ -25,18 +25,14 @@ Trace: java.nio.file.FileAlreadyExistsException: C:\Users\Nathan\Documents\Intel
 [17-03-24] [SYSTEM_IO]: Userdata requested: RandomBackground
 [17-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-03-24] [SYSTEM_IO]: Userdata requested: Name
-[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground
-[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground
-[17-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
-[17-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[17-03-24] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [17-03-24] [SYSTEM_IO]: Userdata requested: Foreground
 [17-03-24] [SYSTEM_IO]: Userdata requested: Font
 [17-03-24] [SYSTEM_IO]: Userdata requested: OutputBorder
 [17-03-24] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-03-24] [SYSTEM_IO]: Userdata requested: InputBorder
-[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground
-[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground
-[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground
+[17-03-24] [SYSTEM_IO]: Userdata requested: Foreground [3x]
 [17-03-24] [SYSTEM_IO]: Userdata requested: Font
 [17-03-24] [SYSTEM_IO]: Userdata requested: OutputFill
 [17-03-24] [SYSTEM_IO]: Userdata requested: InputFill

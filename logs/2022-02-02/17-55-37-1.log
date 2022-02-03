@@ -1,0 +1,10 @@
+[17-55-37] [ENTRY]: [Nathan]
+[17-55-37] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-55-37] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-55-37] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-55-37] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-56-30] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(575, 309, 600, 600)], hash = [293594173], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-56-32] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 391, 28)], hash = [446346326], parentFrame = [Startup Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-56-32] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1083, 646, 395, 100)], hash = [1976797744], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Startup Exception]
+[17-56-32] [EXIT]: [RUNTIME] 55s
+[17-56-32] [EOL]: Log completed, exiting Cyder with exit code: -100 [Fatal Timeout], exceptions thrown: 0

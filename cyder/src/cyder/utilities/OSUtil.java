@@ -382,40 +382,25 @@ public class OSUtil {
      * @return whether the zipping was successful
      */
     public static boolean zip(final String source, final String destination, boolean deleteOnSuccess)  {
-        boolean ret = zip(source,destination);
-
-        if (ret) {
-            deleteFolder(new File(source));
-        }
-
-        return ret;
-    }
-
-    /**
-     * Zips the provided file/folder.
-     *
-     * @param source the file/dir to zip
-     * @param destination the destination of the zip archive
-     * @return whether the zipping was successful
-     */
-    public static boolean zip(final String source, final String destination) {
         AtomicBoolean ret = new AtomicBoolean(true);
 
+        String usedFileName = null;
+
         try {
-            String copyDestination = destination;
-            File creationFile = new File(copyDestination);
 
-            if (creationFile.exists()) {
+            if (new File(destination).exists()) {
                 int incrementer = 1;
-                copyDestination = destination + "_" + incrementer;
+                usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
 
-                while (new File(copyDestination).exists()) {
+                while (new File(usedFileName).exists()) {
                     incrementer++;
-                    copyDestination = destination + "_" + incrementer;
+                    usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
                 }
+            } else {
+                usedFileName = destination;
             }
 
-            Path zipFile = Files.createFile(Paths.get(copyDestination));
+            Path zipFile = Files.createFile(Paths.get(usedFileName));
             Path sourceDirPath = Paths.get(source);
 
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
@@ -427,7 +412,7 @@ public class OSUtil {
                         Files.copy(path, zipOutputStream);
                         zipOutputStream.closeEntry();
                     } catch (Exception e) {
-                       ExceptionHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
                 });
             }
@@ -438,8 +423,14 @@ public class OSUtil {
                 ret.set(false);
         }
 
+        if (deleteOnSuccess && ret.get())
+            if (!deleteFolder(new File(source)))
+                throw new RuntimeException("Unable to delete source folder: " + source);
+
         return ret.get();
     }
+
+    //todo utilize more splash messages
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

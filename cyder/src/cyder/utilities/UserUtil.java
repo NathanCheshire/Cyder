@@ -805,8 +805,13 @@ public class UserUtil {
      * @param fileName the file name of the user file to return a reference to
      * @return the provided user file
      * @throws IllegalArgumentException if the filename is not a standard enum
+     * @throws RuntimeException if the file/directory fails to be created
+     * @throws IllegalStateException if the consoleFrame uuid has not yet been set
      */
     public static File getUserFile(String fileName) {
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            throw new IllegalStateException("ConsoleFrame UUID is not yet set");
+
         boolean valid = false;
 
         for (UserFile userFile : UserFile.getFiles()) {
@@ -819,14 +824,15 @@ public class UserUtil {
         if (!valid)
             throw new IllegalArgumentException("Provided userfile does not exists as standard enum type");
 
-        File ret = new File("dynamic" + OSUtil.FILE_SEP
-                + "users" + OSUtil.FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID()
-                + OSUtil.FILE_SEP + fileName);
+        File ret = new File(OSUtil.buildPath("dynamic",
+                "users", ConsoleFrame.getConsoleFrame().getUUID(), fileName));
 
         if (!ret.exists()) {
             if (ret.mkdir()) {
                 return ret;
-            } else throw new RuntimeException("Directory could not be created");
+            } else {
+                throw new RuntimeException("Failed to create: " + fileName);
+            }
         }
 
         return ret;
