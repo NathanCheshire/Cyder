@@ -193,7 +193,7 @@ public class InputHandler {
         //check for bad language if filterchat
         if (UserUtil.getUserData("filterchat").equals("1")
                 && StringUtil.filterLanguage(this.command, true)) {
-            println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that language is prohibited.");
+            println("Sorry, " + UserUtil.extractUser().getName() + ", but that language is prohibited.");
             return false;
         }
 
@@ -270,24 +270,24 @@ public class InputHandler {
 
             switch (choice) {
                 case 1:
-                    println("Hello, " + ConsoleFrame.getConsoleFrame().getUsername() + ".");
+                    println("Hello, " + UserUtil.extractUser().getName() + ".");
                     break;
                 case 2:
                     if (TimeUtil.isEvening())
-                        println("Good evening, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
+                        println("Good evening, " + UserUtil.extractUser().getName() + ". How can I help?");
                     else if (TimeUtil.isMorning())
-                        println("Good monring, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
+                        println("Good monring, " + UserUtil.extractUser().getName() + ". How can I help?");
                     else
-                        println("Good afternoon, " + ConsoleFrame.getConsoleFrame().getUsername() + ". How can I help?");
+                        println("Good afternoon, " + UserUtil.extractUser().getName() + ". How can I help?");
                     break;
                 case 3:
-                    println("What's up, " + ConsoleFrame.getConsoleFrame().getUsername() + "?");
+                    println("What's up, " + UserUtil.extractUser().getName() + "?");
                     break;
                 case 4:
-                    println("How are you doing, " + ConsoleFrame.getConsoleFrame().getUsername() + "?");
+                    println("How are you doing, " + UserUtil.extractUser().getName() + "?");
                     break;
                 case 5:
-                    println("Greetings, " + ConsoleFrame.getConsoleFrame().getUsername() + ".");
+                    println("Greetings, " + UserUtil.extractUser().getName() + ".");
                     break;
                 case 6:
                     println("I'm here....");
@@ -363,11 +363,11 @@ public class InputHandler {
         } else if (commandIs("home")) {
             println("There's no place like localhost/127.0.0.1");
         } else if (commandIs("love")) {
-            println("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but I don't understand human emotions or affections.");
+            println("Sorry, " + UserUtil.extractUser().getName() + ", but I don't understand human emotions or affections.");
         } else if (commandIs("loop")) {
             println("InputHandler.handle(\"loop\", true);");
         } else if (commandIs("story")) {
-            println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + ConsoleFrame.getConsoleFrame().getUsername() + " started talking to Cyder."
+            println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + UserUtil.extractUser().getName() + " started talking to Cyder."
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
@@ -685,7 +685,7 @@ public class InputHandler {
             }
         } else if (commandIs("pixelate") && checkArgsLength(0)) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
-                println("Silly " + ConsoleFrame.getConsoleFrame().getUsername() + "; your background " +
+                println("Silly " + UserUtil.extractUser().getName() + "; your background " +
                         "is a solid color :P");
             } else {
                 new Thread(() -> {

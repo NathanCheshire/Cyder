@@ -11,6 +11,7 @@ import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -59,8 +60,8 @@ public class NotesWidget implements WidgetBase {
         noteFrames = new LinkedList<>();
 
         noteFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
-        noteFrame.setTitle(ConsoleFrame.getConsoleFrame().getUsername() +
-                StringUtil.getApostrophe(ConsoleFrame.getConsoleFrame().getUsername()) + " notes");
+        noteFrame.setTitle(UserUtil.extractUser().getName() +
+                StringUtil.getApostrophe(UserUtil.extractUser().getName()) + " notes");
 
         initializeNotesList();
 

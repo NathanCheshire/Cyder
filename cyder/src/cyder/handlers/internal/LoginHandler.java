@@ -460,7 +460,7 @@ public class LoginHandler {
                 Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
                 CyderSplash.setLoadingMessage("Autocyphering");
 
-                //if autocyphering fails, show teh login gui
+                //if autocyphering fails, show the login gui
                 if (!autoCypher()) {
                     Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                     showGUI();

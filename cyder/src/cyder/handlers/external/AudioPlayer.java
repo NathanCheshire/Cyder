@@ -327,7 +327,7 @@ public class AudioPlayer implements WidgetBase {
                 File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
                 if (selectedChildFile != null) {
                     if (!selectedChildFile.toString().endsWith("mp3")) {
-                        audioFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but that's not an mp3 file.");
+                        audioFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but that's not an mp3 file.");
                     } else if (selectedChildFile != null){
                         stopAudio();
                         refreshAudioFiles(selectedChildFile);

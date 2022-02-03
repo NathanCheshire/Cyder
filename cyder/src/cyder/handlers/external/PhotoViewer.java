@@ -9,6 +9,7 @@ import cyder.ui.CyderFrame;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -240,7 +241,7 @@ public class PhotoViewer {
         File currentBackground = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals( currentBackground.getAbsolutePath())) {
-           pictureFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", but you're not allowed to" +
+           pictureFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but you're not allowed to" +
                     " rename the background you are currently using");
             return;
         }

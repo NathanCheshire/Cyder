@@ -101,6 +101,11 @@ public final class ConsoleFrame {
     public static JTextPane outputArea;
 
     /**
+     * The JTextPane used for the console menu.
+     */
+    private JTextPane menuPane;
+
+    /**
      * The input field for the ConsoleFrame. This is a password field
      * in case we ever want to obfuscate the text in the future.
      */
@@ -261,6 +266,11 @@ public final class ConsoleFrame {
      */
     public static final Dimension MINIMUM_SIZE = new Dimension(600,600);
 
+    public static final ArrayList<String> startAudioPaths = new ArrayList<>(Arrays.asList(
+            "static/audio/BadApple.mp3",
+            "static/audio/BadApple.mp3",
+            "static/audio/BlackOrWhite.mp3"));
+
     /**
      * Performs ConsoleFrame setup routines before constructing
      * the frame and setting its visibility, location, and size.
@@ -286,7 +296,7 @@ public final class ConsoleFrame {
             initBackgrounds();
 
             //set bashstring based on cyder username
-            consoleBashString = getUsername() + "@Cyder:~$ ";
+            consoleBashString = UserUtil.extractUser().getName() + "@Cyder:~$ ";
 
             //init slide and dir directions
             lastSlideDirection = Direction.LEFT;
@@ -308,7 +318,7 @@ public final class ConsoleFrame {
             //handle random background by setting a random background index
             if (UserUtil.getUserData("RandomBackground").equals("1")) {
                 if (getBackgrounds().size() <= 1) {
-                    consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                    consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
                 } else {
                     backgroundIndex = NumberUtil.randInt(0,backgroundFiles.size() - 1);
@@ -407,8 +417,8 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.paintWindowTitle(false);
             consoleCyderFrame.paintSuperTitle(true);
-            consoleCyderFrame.setTitle(IOUtil.getSystemData().getVersion()+
-                    " Cyder [" + ConsoleFrame.getConsoleFrame().getUsername() + "]");
+            consoleCyderFrame.setTitle(IOUtil.getSystemData().getVersion() +
+                    " Cyder [" + UserUtil.extractUser().getName() + "]");
 
             if (IOUtil.getSystemData().isConsoleresizable()) {
                 consoleCyderFrame.initializeResizing();
@@ -449,8 +459,8 @@ public final class ConsoleFrame {
             });
 
             outputArea.setEditable(false);
-            outputArea.setCaretColor(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
-            outputArea.setCaret(new CyderCaret(ConsoleFrame.getConsoleFrame().getUserForegroundColor()));
+            outputArea.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+            outputArea.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));
             outputArea.setAutoscrolls(true);
             outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
@@ -469,8 +479,8 @@ public final class ConsoleFrame {
             outputArea.setSelectionColor(CyderColors.selectionColor);
             outputArea.setOpaque(false);
             outputArea.setBackground(CyderColors.nullus);
-            outputArea.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
-            outputArea.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
+            outputArea.setForeground(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+            outputArea.setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
 
             //init input handler
             inputHandler = new InputHandler(outputArea);
@@ -649,10 +659,10 @@ public final class ConsoleFrame {
                 }
             });
 
-            inputField.setCaretColor(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
-            inputField.setCaret(new CyderCaret(ConsoleFrame.getConsoleFrame().getUserForegroundColor()));
-            inputField.setForeground(ConsoleFrame.getConsoleFrame().getUserForegroundColor());
-            inputField.setFont(ConsoleFrame.getConsoleFrame().getUserFont());
+            inputField.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+            inputField.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));
+            inputField.setForeground(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+            inputField.setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
 
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
@@ -1058,13 +1068,11 @@ public final class ConsoleFrame {
             //audio controls
             generateAudioMenu();
 
-            //this turns into setting a center title
+            //console clock
             Font consoleClockLabelFont = CyderFonts.segoe20.deriveFont(21);
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(consoleClockLabelFont);
             consoleClockLabel.setForeground(CyderColors.vanila);
-
-            //bounds not needed to be set since the executor service handles that
             consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
             consoleClockLabel.setFocusable(false);
             consoleClockLabel.setVisible(true);
@@ -1092,7 +1100,6 @@ public final class ConsoleFrame {
                     }
                 }
             });
-
             consoleCyderFrame.addDragMouseListener(new MouseAdapter() {
                 //this should figure out what frames we need to move during hte current drag event
                 @Override
@@ -1121,66 +1128,44 @@ public final class ConsoleFrame {
                 }
             });
 
-            //spin off console executors
+            //spin off console executors and threads
             startExecutors();
 
-            //close all non-CyderFrames
-            for (Frame f : FrameUtil.getNonCyderFrames()) {
-                if (UserUtil.getUserData("closeanimation").equals("1")) {
-                    AnimationUtil.closeAnimation(f);
-                } else {
-                    f.dispose();
-                }
-            }
+            //close all frames aside from this one
+            FrameUtil.closeAllFrames(true, consoleCyderFrame);
 
-            //close all frames just before showing console
-            for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                if (f == consoleCyderFrame) {
-                    //we're trying to open this right now so don't close it
-                } else {
-                    f.dispose(true);
-                }
-            }
-
-            //screen stat initialization
+            //restore prior session's frame stats
             User.ScreenStat requestedConsoleStats = UserUtil.extractUser().getScreenStat();
-
-            //ensure console frame is on top if left on top last session
             consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
 
-            //requested console bounds
             int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
             int requestedConsoleHeight = requestedConsoleStats.getConsoleHeight();
 
-            //if requested size is valid for the background Cyder started on
             if (requestedConsoleWidth <= consoleFrameBackgroundWidth &&
                     requestedConsoleHeight <= consoleFrameBackgroundHeight &&
-                        requestedConsoleWidth > MINIMUM_SIZE.width &&
-                        requestedConsoleHeight > MINIMUM_SIZE.height) {
+                    requestedConsoleWidth > MINIMUM_SIZE.width &&
+                    requestedConsoleHeight > MINIMUM_SIZE.height) {
                 consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
                 consoleCyderFrame.refreshBackground();
             }
 
+            //push into bounds
             FrameUtil.requestFramePosition(requestedConsoleStats.getMonitor(),
                     requestedConsoleStats.getConsoleX(), requestedConsoleStats.getConsoleY(), consoleCyderFrame);
 
-            //show frame
             consoleCyderFrame.setVisible(true);
 
-            //inform and log how long it took to load Console from program start
+            //log how long it took to start
             CyderCommon.setConsoleStartTime(System.currentTimeMillis());
-
-            //only show how long it took since this is the quickest path to ConsoleFrame visibility
             String logString = "Console loaded in " +
                     (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
-
             Logger.log(Logger.Tag.ACTION, logString);
 
             if (entryPoint == CyderEntry.AutoCypher) {
                 notify(logString);
             }
 
-            //resume frame checker
+            //resume failsafe
             CyderCommon.resumeFrameChecker();
 
             ret = true;
@@ -1191,6 +1176,9 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Begins the console frame checker executors/threads.
+     */
     private void startExecutors() {
         //internet connection checker
         highPingChecker = new Thread(() -> {
@@ -1198,7 +1186,7 @@ public final class ConsoleFrame {
                 OUTER:
                     while (true) {
                         if (!isClosed() && !NetworkUtil.decentPing()) {
-                            consoleCyderFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() +
+                            consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() +
                                     ", but I had trouble connecting to the internet.\n" +
                                     "As a result, some features have been restricted until a " +
                                     "stable connection can be established.");
@@ -1207,9 +1195,9 @@ public final class ConsoleFrame {
                             CyderCommon.setHighLatency(false);
                         }
 
-                        //sleep 5 minutes
+                        //sleep 2 minutes
                         int i = 0;
-                        while (i < 5 * 60 * 1000) {
+                        while (i < 2 * 60 * 1000) {
                             Thread.sleep(50);
                             if (consoleFrameClosed) {
                                 break OUTER;
@@ -1355,26 +1343,26 @@ public final class ConsoleFrame {
                     while (true) {
                         User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
 
-                        //just to be safe
-                        if (!isClosed()) {
-                            screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
-                            screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
-                            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+                        screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
+                        screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
 
-                            int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
-                                    .getIDstring().replaceAll("[^0-9]", ""));
-                            screenStat.setMonitor(monitor);
+                        screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
 
-                            //remove this errr replace with monitor specific
-                            screenStat.setConsoleX(consoleCyderFrame.getX());
-                            screenStat.setConsoleY(consoleCyderFrame.getY());
-                        }
+                        screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
+                                .getDevice().getIDstring().replaceAll("[^0-9]", "")));
+
+                        screenStat.setConsoleX(consoleCyderFrame.getX());
+                        screenStat.setConsoleY(consoleCyderFrame.getY());
 
                         User user = UserUtil.extractUser();
                         user.setScreenStat(screenStat);
-                        UserUtil.setUserData(user);
 
-                        //sleep 5000 ms
+                        //just to be safe
+                        if (!isClosed()) {
+                            UserUtil.setUserData(user);
+                        }
+
+                        //sleep 3000 ms
                         int i = 0;
                         while (i < 3000) {
                             Thread.sleep(50);
@@ -1424,7 +1412,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.notify("Happy Valentines Day!");
         }
 
-        //preference handlers here
+        //preferences that launch widgets/stats on start
         if (UserUtil.getUserData("DebugWindows").equals("1")) {
             StatUtil.systemProperties();
             StatUtil.computerProperties();
@@ -1432,7 +1420,7 @@ public final class ConsoleFrame {
             StatUtil.debugMenu();
         }
 
-        //testing mode
+        //testing mode to auto execute Debug tests
         if (IOUtil.getSystemData().isTestingmode()) {
             Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
             Debug.launchTests();
@@ -1441,7 +1429,7 @@ public final class ConsoleFrame {
         //last start time operations
         if (TimeUtil.milisToDays(System.currentTimeMillis() -
                 Long.parseLong(UserUtil.getUserData("laststart"))) > 1) {
-            consoleCyderFrame.notify("Welcome back, " + ConsoleFrame.getConsoleFrame().getUsername() + "!");
+            consoleCyderFrame.notify("Welcome back, " + UserUtil.extractUser().getName() + "!");
         }
 
         UserUtil.setUserData("laststart", String.valueOf(System.currentTimeMillis()));
@@ -1450,7 +1438,8 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Invokes the method with the name holiday + year from the CardsWidget
+     * Invokes the method with the name holiday + year from the CardsWidget.
+     *
      * @param holiday the holiday name such as Christmas
      * @param year the year of the holiday such as 2021
      */
@@ -1508,16 +1497,18 @@ public final class ConsoleFrame {
         }
         //otherwise no intro music so check for gray scale image/play startup sound if released
         else if (IOUtil.getSystemData().isReleased()) {
-            //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
             try {
                 new Thread(() -> {
                     try {
                         Image icon = new ImageIcon(ImageIO.read(getCurrentBackgroundFile())).getImage();
+
                         int w = icon.getWidth(null);
                         int h = icon.getHeight(null);
+
                         int[] pixels = new int[w * h];
                         PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
                         pg.grabPixels();
+
                         boolean correct = true;
                         for (int pixel : pixels) {
                             Color color = new Color(pixel);
@@ -1527,30 +1518,26 @@ public final class ConsoleFrame {
                             }
                         }
 
+                        //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
                         if (correct) {
-                            int rand = NumberUtil.randInt(0,2);
-                            if (rand == 0) {
-                                IOUtil.playAudio("static/audio/BadApple.mp3");
-                            } else if (rand == 1){
-                                IOUtil.playAudio("static/audio/BeetleJuice.mp3");
-                            } else {
-                                IOUtil.playAudio("static/audio/BlackOrWhite.mp3");
-                            }
-                        }
-                        //not grayscale so play the default startup sound
-                        else {
+                            IOUtil.playAudio(startAudioPaths.get(
+                                    NumberUtil.randInt(0, startAudioPaths.size() - 1)));
+                        } else if (IOUtil.getSystemData().isReleased()) {
                             IOUtil.playSystemAudio("static/audio/startup.mp3");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
-                },"Black or White Checker").start();
+                },"Intro Music Checker").start();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }
     }
 
+    /**
+     * Refreshes the taskbar icons based on the frames currently in the frame list.
+     */
     private void installMenuTaskbarIcons() {
         boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
 
@@ -1660,10 +1647,8 @@ public final class ConsoleFrame {
     }
 
     /**
-     * The JTextPane used for the console menu.
+     * Revalidates the taskbar bounds and revalidates the icons.
      */
-    private JTextPane menuPane;
-
     private void generateConsoleMenu() {
         Font menuFont = CyderFonts.defaultFontSmall;
         int menuHeight = consoleCyderFrame.getHeight() - DragLabel.getDefaultHeight() - 5;
@@ -1709,6 +1694,11 @@ public final class ConsoleFrame {
         installMenuTaskbarIcons();
     }
 
+    /**
+     * Removes the provided frame reference from the taskbar frame list.
+     *
+     * @param associatedFrame the frame reference to remove from the taskbar frame list
+     */
     public void removeTaskbarIcon(CyderFrame associatedFrame) {
         if (menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.remove(associatedFrame);
@@ -1717,6 +1707,11 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Adds the provided frame reference to the taskbar frame list and revalidates the taskbar.
+     *
+     * @param associatedFrame the frame reference to add to the taskbar list
+     */
     public void addTaskbarIcon(CyderFrame associatedFrame) {
         if (!menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.add(associatedFrame);
@@ -1725,6 +1720,11 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Returns a menu separation label.
+     *
+     * @return a menu separation label
+     */
     public JLabel generateMenuSep() {
         JLabel sepLabel = new JLabel("90210  90210") {
             @Override
@@ -1739,6 +1739,9 @@ public final class ConsoleFrame {
         return sepLabel;
     }
 
+    /**
+     * Slowly animates the taskbar away.
+     */
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
             new Thread(() -> {
@@ -1782,6 +1785,9 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * The key listener for input field to control command scrolling.
+     */
     private KeyListener commandScrolling = new KeyAdapter() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent event) {
@@ -1827,6 +1833,7 @@ public final class ConsoleFrame {
     /**
      * Set the UUID for this Cyder session. Everything else relies on this being set and not null.
      * Once set, a one time check is performed to fix any possibly corrupted userdata.
+     *
      * @param uuid the user uuid that we will use to determine our output dir and other
      *             information specific to this instance of the console frame
      */
@@ -1861,45 +1868,29 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Returns the username associated with the user currently logged into Cyder.
-     *
-     * @return the username associated with the user currently logged into Cyder
+     * Sets the font metric to {@link Font#BOLD}.
      */
-    public String getUsername() {
-        String name = UserUtil.getUserData("Name");
-
-        if (name == null || name.trim().length() < 1)
-            throw new RuntimeException("Username not found");
-
-        return name;
-    }
-
-    public File getUserJson() {
-        if (uuid == null)
-            throw new RuntimeException("UUID not set");
-
-        File userJson = new File(OSUtil.buildPath("dynamic","users", uuid, UserFile.USERDATA.getName()));
-
-        if (!userJson.exists())
-            throw new RuntimeException("User json does not exist");
-
-        return userJson;
-    }
-
     public void setFontBold() {
         fontMetric = Font.BOLD;
     }
 
+    /**
+     * Sets the font metric to {@link Font#ITALIC}.
+     */
     public void setFontItalic() {
         fontMetric = Font.ITALIC;
     }
 
+    /**
+     * Sets the font metric to {@link Font#PLAIN}.
+     */
     public void setFontPlain() {
         fontMetric = Font.PLAIN;
     }
 
     /**
      * Sets the OutputArea and InputField font style for the current user
+     *
      * @param combStyle use Font.BOLD and Font.Italic to set the user
      *                  font style. You may pass combinations of font
      *                  styling using the addition operator
@@ -1909,35 +1900,22 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Sets the font size for the user to be used when {@link ConsoleFrame#getUserFont()} is called.
+     * Sets the font size for the user to be used when {@link ConsoleFrame#generateUserFont()} is called.
+     *
      * @param size the size of the font
      */
     public void setFontSize(int size) {
         fontSize = size;
     }
 
+    //todo be able to change size and metrics inside of user editor
     /**
      * Get the desired user font in combination with the set font metric and font size.
+     *
      * @return the font to use for the input and output areas
      */
-    public Font getUserFont() {
+    public Font generateUserFont() {
         return new Font(UserUtil.getUserData("Font"), fontMetric, fontSize);
-    }
-
-    /**
-     * Get the user's foreground color from Userdata
-     * @return a Color object representing the chosen foreground
-     */
-    public Color getUserForegroundColor() {
-        return ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground"));
-    }
-
-    /**
-     * Get the user's background color from Userdata
-     * @return a Color object representing the chosen background
-     */
-    public Color getUserBackgroundColor() {
-        return ColorUtil.hextorgbColor(UserUtil.getUserData("Background"));
     }
 
     /**
@@ -1991,13 +1969,17 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Initializes the backgrounds associated with the current user.
+     */
     public void initBackgrounds() {
         try {
-            File dir = new File("dynamic/users/" + getUUID() + "/Backgrounds");
+            File dir = new File(OSUtil.buildPath("dynamic","users", uuid, "Backgrounds"));
             FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
 
             backgroundFiles = new ArrayList<>(Arrays.asList(dir.listFiles(PNGFilter)));
 
+            //todo attempt to download new original first
             //if no backgrounds, copy the default image icon over and recall initBackgrounds()
             if (backgroundFiles.size() == 0) {
                 Image img = CyderIcons.defaultBackground.getImage();
@@ -2008,7 +1990,7 @@ public final class ConsoleFrame {
                 Graphics2D g2 = bi.createGraphics();
                 g2.drawImage(img, 0, 0, null);
                 g2.dispose();
-                File backgroundFile = new File("dynamic/users/" + uuid + "/Backgrounds/Default.png");
+                File backgroundFile = new File(OSUtil.buildPath("dynamic","users", uuid, "Backgrounds", "Default.png"));
                 backgroundFile.mkdirs();
                 ImageIO.write(bi, "png", backgroundFile);
 
@@ -2019,6 +2001,7 @@ public final class ConsoleFrame {
         }
     }
 
+    //todo here in commenting
     public ArrayList<File> getBackgrounds() {
         initBackgrounds();
         return backgroundFiles;
@@ -3206,7 +3189,7 @@ public final class ConsoleFrame {
 
         //logs
         if (logoutUser) {
-            Logger.log(Logger.Tag.LOGOUT, "[" + getUsername() + "]");
+            Logger.log(Logger.Tag.LOGOUT, "[" + UserUtil.extractUser().getName() + "]");
             UserUtil.setUserData("loggedin","0");
         }
 

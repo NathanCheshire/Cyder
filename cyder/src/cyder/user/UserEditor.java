@@ -1035,7 +1035,7 @@ public class UserEditor implements WidgetBase {
         changeUsernameButton.setFont(CyderFonts.segoe20);
         changeUsernameButton.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
-            if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(ConsoleFrame.getConsoleFrame().getUsername())) {
+            if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.extractUser().getName())) {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
                 ConsoleFrame.getConsoleFrame().setTitle(IOUtil.getSystemData().getVersion() + " Cyder [" + newUsername + "]");
@@ -1076,7 +1076,7 @@ public class UserEditor implements WidgetBase {
 
             if (newPassword.length > 4) {
                 if (!Arrays.equals(newPasswordConf,newPassword)) {
-                    editUserFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                    editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
                             "but your provided passwords were not equal");
                     changePasswordField.setText("");
                     changePasswordConfField.setText("");
@@ -1085,7 +1085,7 @@ public class UserEditor implements WidgetBase {
                     editUserFrame.notify("Password successfully changed");
                 }
             } else {
-                editUserFrame.notify("Sorry, " + ConsoleFrame.getConsoleFrame().getUsername() + ", " +
+                editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
                         "but your password must be greater than 4 characters for security reasons.");
             }
 
