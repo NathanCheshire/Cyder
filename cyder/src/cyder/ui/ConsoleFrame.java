@@ -31,7 +31,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -222,9 +221,9 @@ public final class ConsoleFrame {
     public static ArrayList<String> commandList = new ArrayList<>();
 
     /**
-     * The index of the command list we are at.
+     * The index of the command in the command history list we are at.
      */
-    private static int scrollingIndex;
+    private static int commandIndex;
 
     /**
      * The last direction performed upon the most recent switch background call.
@@ -304,7 +303,7 @@ public final class ConsoleFrame {
 
             //new op list and scrolling index
             commandList.clear();
-            scrollingIndex = 0;
+            commandIndex = 0;
 
             //special boolean vars
             fullscreen = false;
@@ -638,7 +637,7 @@ public final class ConsoleFrame {
                             commandList.add(op);
                         }
 
-                        scrollingIndex = commandList.size();
+                        commandIndex = commandList.size();
 
                         //calls to linked inputhandler
                         if (!inputHandler.getUserInputMode()) {
@@ -1797,18 +1796,18 @@ public final class ConsoleFrame {
                 if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
                     //scroll to previous commands
                     if (code == KeyEvent.VK_UP) {
-                        if (scrollingIndex - 1 >= 0) {
-                            scrollingIndex -= 1;
-                            inputField.setText(consoleBashString +  commandList.get(scrollingIndex).replace(consoleBashString, ""));
+                        if (commandIndex - 1 >= 0) {
+                            commandIndex -= 1;
+                            inputField.setText(consoleBashString +  commandList.get(commandIndex).replace(consoleBashString, ""));
                         }
                     }
                     //scroll to subsequent command if exist
                     else if (code == KeyEvent.VK_DOWN) {
-                        if (scrollingIndex + 1 < commandList.size()) {
-                            scrollingIndex += 1;
-                            inputField.setText(consoleBashString + commandList.get(scrollingIndex).replace(consoleBashString, ""));
-                        } else if (scrollingIndex + 1 == commandList.size()) {
-                            scrollingIndex += 1;
+                        if (commandIndex + 1 < commandList.size()) {
+                            commandIndex += 1;
+                            inputField.setText(consoleBashString + commandList.get(commandIndex).replace(consoleBashString, ""));
+                        } else if (commandIndex + 1 == commandList.size()) {
+                            commandIndex += 1;
                             inputField.setText(consoleBashString);
                         }
                     }
@@ -1908,7 +1907,7 @@ public final class ConsoleFrame {
         fontSize = size;
     }
 
-    //todo be able to change size and metrics inside of user editor
+    //todo field and switcher for input/output field font size and metric
     /**
      * Get the desired user font in combination with the set font metric and font size.
      *
@@ -1974,13 +1973,12 @@ public final class ConsoleFrame {
      */
     public void initBackgrounds() {
         try {
-            File dir = new File(OSUtil.buildPath("dynamic","users", uuid, "Backgrounds"));
-            FilenameFilter PNGFilter = (dir1, filename) -> filename.endsWith(".png");
+            //set our valid backgrounds to the ones found
+            backgroundFiles = new ArrayList<>(Arrays.asList(new File(
+                    OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
+                    (directory, filename) -> filename.endsWith(".png"))));
 
-            backgroundFiles = new ArrayList<>(Arrays.asList(dir.listFiles(PNGFilter)));
-
-            //todo attempt to download new original first
-            //if no backgrounds, copy the default image icon over and recall initBackgrounds()
+            //todo attempt to download new original first, make a method for this now
             if (backgroundFiles.size() == 0) {
                 Image img = CyderIcons.defaultBackground.getImage();
 
@@ -1990,7 +1988,8 @@ public final class ConsoleFrame {
                 Graphics2D g2 = bi.createGraphics();
                 g2.drawImage(img, 0, 0, null);
                 g2.dispose();
-                File backgroundFile = new File(OSUtil.buildPath("dynamic","users", uuid, "Backgrounds", "Default.png"));
+                File backgroundFile = new File(OSUtil.buildPath(
+                        "dynamic","users", uuid, "Backgrounds", "Default.png"));
                 backgroundFile.mkdirs();
                 ImageIO.write(bi, "png", backgroundFile);
 
@@ -2001,16 +2000,34 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo here in commenting
+    //todo maybe an object for holding image names, files, etc.
+    // todo images are the same if their underlying data excluding metadata is the same
+    // maybe make something to filter on this which wouldn't require revalidation for renaming
+
+    /**
+     * Reinitializes the background files and returns the resulting list of found backgrounds.
+     *
+     * @return list of found backgrounds
+     */
     public ArrayList<File> getBackgrounds() {
         initBackgrounds();
         return backgroundFiles;
     }
 
+    /**
+     * Returns the index that the current background is at.
+     *
+     * @return the index that the current background is at
+     */
     public int getBackgroundIndex() {
+        revalidateBackgroundIndex();
         return backgroundIndex;
     }
 
+    /**
+     * Revalidates where in the background images we are.
+     * //todo fix up this whole logic of keeping track of what image we are on
+     */
     public void revalidateBackgroundIndex() {
         try {
             ImageIcon currentBackground = ((ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon());
@@ -2029,10 +2046,19 @@ public final class ConsoleFrame {
         }
     }
 
-    public void setBackgroundIndex(int i) {
-        backgroundIndex = i;
+    /**
+     * Sets the background index to the provided integer.
+     *
+     * @param backgroundIndex the new background index
+     */
+    public void setBackgroundIndex(int backgroundIndex) {
+        this.backgroundIndex = backgroundIndex;
     }
 
+    /**
+     * Increments the background index.
+     * Wraps back to 0 if it exceeds the background size.
+     */
     public void incBackgroundIndex() {
         if (backgroundIndex + 1 == backgroundFiles.size()) {
             backgroundIndex = 0;
@@ -2041,6 +2067,10 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Decrements the background index.
+     * Wraps back to the max if it falls below 0
+     */
     public void decBackgroundIndex() {
         if (backgroundIndex - 1 < 0) {
             backgroundIndex = backgroundFiles.size() - 1;
@@ -2049,11 +2079,21 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Returns the file associated with the current background.
+     *
+     * @return the file associated with the current background
+     */
     public File getCurrentBackgroundFile() {
         backgroundFile = backgroundFiles.get(backgroundIndex);
         return backgroundFile;
     }
 
+    /**
+     * Returns an ImageIcon for the current background file at the current background index.
+     *
+     * @return an ImageIcon for the current background file at the current background index
+     */
     public ImageIcon getCurrentBackgroundImageIcon() {
         try {
             File f = getCurrentBackgroundFile();
@@ -2065,6 +2105,11 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Returns the next background image icon.
+     *
+     * @return the next background image icon
+     */
     public ImageIcon getNextBackgroundImageIcon() {
         ImageIcon ret = null;
 
@@ -2081,6 +2126,11 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Returns the last background image icon.
+     *
+     * @return the last background image icon
+     */
     public ImageIcon getLastBackgroundImageIcon() {
         ImageIcon ret = null;
 
@@ -2097,6 +2147,12 @@ public final class ConsoleFrame {
         }
     }
 
+    //todo probably duplicate code smell here
+    /**
+     * Switches backgrounds to the next background in the list via a sliding animation.
+     * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
+     * whatever size it was at before a background switch was requested.
+     */
     public void switchBackground() {
         revalidateBackgroundIndex();
 
@@ -2428,30 +2484,51 @@ public final class ConsoleFrame {
     }
 
     /**
-     * @return returns the current background with using the current background ImageIcon and regardless of whether full screen is active
+     * Returns the width associated with the current background. If fullscreen mode is active,
+     * returns the width of the screen the frame is on.
+     *
+     * @return the width associated with the current background. If fullscreen mode is active,
+     *      * returns the width of the screen the frame is on
      */
     public int getBackgroundWidth() {
-        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
-            return ScreenUtil.getScreenHeight();
-        else
+        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            return (int) consoleCyderFrame.getMonitorBounds().getWidth();
+        } else {
             return getCurrentBackgroundImageIcon().getIconWidth();
+        }
     }
 
     /**
-     * @return returns the current background height using the current background ImageIcon and regardless of whether full screen is active
+     * Returns the height associated with the current background. If fullscreen mode is active,
+     * returns the height of the screen the frame is on.
+     *
+     * @return the height associated with the current background. If fullscreen mode is active,
+     *      * returns the height of the screen the frame is on
      */
     public int getBackgroundHeight() {
-        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1"))
-            return ScreenUtil.getScreenHeight();
-        else
+        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            return (int) consoleCyderFrame.getMonitorBounds().getHeight();
+        } else {
             return getCurrentBackgroundImageIcon().getIconHeight();
+        }
     }
 
-    public void setConsoleDirection(Direction conDir) {
-        consoleDir = conDir;
+    /**
+     * Sets the console orientation and refreshes the frame.
+     * This action exits fullscreen mode if it is active.
+     *
+     * @param consoleDirection the direction the background is to face
+     */
+    public void setConsoleDirection(Direction consoleDirection) {
+        consoleDir = consoleDirection;
         setFullscreen(false);
     }
 
+    /**
+     * Returns the current console direction.
+     *
+     * @return the current console direction
+     */
     public Direction getConsoleDirection() {
         return consoleDir;
     }
@@ -2459,9 +2536,10 @@ public final class ConsoleFrame {
     /**
      * Smoothly transitions the background icon to the specified degrees.
      * Use set console direction for console flipping and not this.
-     * @param deg the degree by which to smoothly rotate
+     *
+     * @param degree the degree by which to smoothly rotate
      */
-    private void rotateConsole(int deg) {
+    private void rotateConsole(int degree) {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
@@ -2476,8 +2554,8 @@ public final class ConsoleFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 angle += delta;
-                if (angle > deg) {
-                    rotated = ImageUtil.rotateImageByDegrees(master, deg);
+                if (angle > degree) {
+                    rotated = ImageUtil.rotateImageByDegrees(master, degree);
                     ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
                     return;
                 }
@@ -2488,10 +2566,11 @@ public final class ConsoleFrame {
         timer.start();
     }
 
+    //todo probably duplicate code smell
     /**
-     * Repaints the ConsoleFrame based on the console flip diretion and regardless of whether fullscreen is turned on.
-     * Use this method as a repaint essentially.
-     * @param enable the fullscreen value of the frame
+     * Refreshses the console frame, bounds, orientation, and fullscreen mode.
+     *
+     * @param enable whether to set the frame to fullscreen mode.
      */
     public void setFullscreen(Boolean enable) {
         try {
@@ -2575,6 +2654,11 @@ public final class ConsoleFrame {
         }
     }
 
+    //todo maybe pass a function that refreshes this so that we don't even need this here
+    // the listeners will just take care of the changes
+    /**
+     * Refreshes Cyder properties based on possible changes within the UserEditor.
+     */
     public void refreshBasedOnPrefs() {
         //output border
         if (UserUtil.getUserData("OutputBorder").equals("0")) {
@@ -2633,84 +2717,174 @@ public final class ConsoleFrame {
         consoleCyderFrame.repaint();
     }
 
+    /**
+     * Returns whether fullscreen is on.
+     *
+     * @return whether fullscreen is on
+     */
     public boolean isFullscreen() {
         return fullscreen;
     }
 
-    public int getScrollingIndex() {
-        return scrollingIndex;
+    /**
+     * Returns the index in the command history we are currently at.
+     *
+     * @return the index in the command history we are currently at
+     */
+    public int getCommandIndex() {
+        return commandIndex;
     }
 
-    public void setScrollingIndex(int downs) {
-        scrollingIndex = downs;
+    /**
+     * Sets the index in the command history we are at.
+     *
+     * @param downs the index in the command history we are at
+     */
+    public void setCommandIndex(int downs) {
+        commandIndex = downs;
     }
 
-    public void incScrollingIndex() {
-        scrollingIndex += 1;
+    /**
+     * Increments the command index by 1.
+     */
+    public void incrementCommandIndex() {
+        commandIndex += 1;
     }
 
-    public void decScrollingIndex() {
-        scrollingIndex -= 1;
+    /**
+     * Decreases the command index by 1.
+     */
+    public void decrementCommandIndex() {
+        commandIndex -= 1;
     }
 
+    /**
+     * Returns whether the current background index is the maximum index.
+     *
+     * @return whether the current background index is the maximum index
+     */
     public boolean onLastBackground() {
         initBackgrounds();
         return backgroundFiles.size() == backgroundIndex + 1;
     }
 
+    /**
+     * Returns whether or not a background switch is allowable and possible.
+     *
+     * @return whether or not a background switch is allowable and possible
+     */
     public boolean canSwitchBackground() {
         return backgroundFiles.size() > 1;
     }
 
+    /**
+     *  Returns whether or not the ConsoleFrame is closed.
+     *
+     * @return whether or not the ConsoleFrame is closed
+     */
     public boolean isClosed() {
         return consoleFrameClosed;
     }
 
+    /**
+     * Returns the input handler associated with the ConsoleFrame.
+     *
+     * @return the input handler associated with the ConsoleFrame
+     */
     public InputHandler getInputHandler() {
         return inputHandler;
     }
 
+    /**
+     * Returns the x value of the ConsoleFrame.
+     *
+     * @return the x value of the ConsoleFrame
+     */
     public int getX() {
         return consoleCyderFrame.getX();
     }
 
+    /**
+     * Returns the y value of the ConsoleFrame.
+     *
+     * @return the y value of the ConsoleFrame
+     */
     public int getY() {
         return consoleCyderFrame.getY();
     }
 
+    /**
+     * Returns the width of the ConsoleFrame.
+     *
+     * @return the width of the ConsoleFrame
+     */
     public int getWidth() {
         return consoleCyderFrame.getWidth();
     }
 
+    /**
+     * Returns the height of the ConsoleFrame.
+     *
+     * @return the height of the ConsoleFrame
+     */
     public int getHeight() {
         return consoleCyderFrame.getHeight();
     }
 
+    /**
+     * Rotates the console frame by the provided degrees.
+     *
+     * @param degrees the console frame by the provided degrees
+     */
     public void rotateBackground(int degrees) {
         consoleCyderFrame.rotateBackground(degrees);
     }
 
+    /**
+     * Wipes all command history and sets the command index back to 0.
+     */
     public void clearCommandHistory() {
         commandList.clear();
-        scrollingIndex = 0;
+        commandIndex = 0;
     }
 
+    /**
+     * Returns the JTextPane associated with the ConsoleFrame.
+     *
+     * @return the JTextPane associated with the ConsoleFrame
+     */
     public JTextPane getOutputArea() {
         return outputArea;
     }
 
+    /**
+     * Returns the input JTextField associated with the ConsoleFrame.
+     *
+     * @return the input JTextField associated with the ConsoleFrame
+     */
     public JTextField getInputField() {
         return inputField;
     }
 
+    /**
+     * Returns the command history.
+     *
+     * @return the command history
+     */
     public ArrayList<String> getCommandHistory() {
         return commandList;
     }
 
+    /**
+     * Minimizes the ConsoleFrame.
+     */
     public void minimize() {
         consoleCyderFrame.minimizeAnimation();
     }
 
+    /**
+     * Minimizes all frames.
+     */
     public void minimizeAll() {
         User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
         screenStat.setConsoleX(consoleCyderFrame.getX());
@@ -2728,7 +2902,10 @@ public final class ConsoleFrame {
             }
         }
     }
-
+    //todo frame util these methods
+    /**
+     * Minimizes all CyderFrames
+     */
     public void minimizeAllCyderFrames() {
         User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
         screenStat.setConsoleX(consoleCyderFrame.getX());
@@ -2745,6 +2922,11 @@ public final class ConsoleFrame {
         }
     }
 
+    //todo replace methods like this with just direct calls and make a getter for the consoleCyderFrame
+
+    /**
+     * Performs a barrelRoll on the ConsoleFrame.
+     */
     public void barrelRoll() {
         consoleCyderFrame.barrelRoll();
     }
@@ -2765,10 +2947,14 @@ public final class ConsoleFrame {
         consoleCyderFrame.notify(text);
     }
 
-    public void flashSuggestionButton() {
+    /**
+     * Flashes the suggestion button between {@link CyderColors#regularRed} and {@link CyderColors#vanila}
+     * for "iterations" iterations each 600ms.
+     */
+    public void flashSuggestionButton(int iterations) {
         new Thread(() -> {
             try {
-                for (int i = 0 ; i < 4 ; i++) {
+                for (int i = 0 ; i < iterations ; i++) {
                     helpButton.setIcon(CyderIcons.helpIconHover);
                     Thread.sleep(300);
                     helpButton.setIcon(CyderIcons.helpIcon);
@@ -2780,6 +2966,10 @@ public final class ConsoleFrame {
         }, "Suggestion Button Flash").start();
     }
 
+    /**
+     * Repaint method for the ConsoleFrame.
+     * //todo fix me this shouldn't be it xD
+     */
     public void repaint() {
         setFullscreen(fullscreen);
     }
@@ -2801,12 +2991,17 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Returns the CyderFrame used for the ConsoleFrame.
+     *
+     * @return the CyderFrame used for the ConsoleFrame
+     */
     public CyderFrame getConsoleCyderFrame() {
         return consoleCyderFrame;
     }
 
     /**
-     * Revalidates the console menu and places it where it was depending on if it was visible or not
+     * Revalidates the console menu and places it where it was depending on if it was visible or not.
      */
     public void revalidateMenu() {
         //if the frame is closed or the label simply doesn't exis
@@ -2838,6 +3033,9 @@ public final class ConsoleFrame {
                 h - (62 + outputScroll.getHeight() + 20 + 20));
     }
 
+    /**
+     * Smoothly animates out the console audio controls.
+     */
     public void animateOutAudioControls() {
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
@@ -2850,6 +3048,9 @@ public final class ConsoleFrame {
         }, "Console Audio Menu Minimizer").start();
     }
 
+    /**
+     * Smooth animates out and removes the audio controls button.
+     */
     public void animateOutAndRemoveAudioControls() {
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
@@ -2863,6 +3064,9 @@ public final class ConsoleFrame {
         }, "Console Audio Menu Minimizer").start();
     }
 
+    /**
+     * Smoothly animates in the audio controls.
+     */
     public void animateInAudioControls() {
         new Thread(() -> {
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, -40);
@@ -2877,6 +3081,9 @@ public final class ConsoleFrame {
         }, "Console Audio Menu Minimizer").start();
     }
 
+    /**
+     * Revalidates the audio menu based on if audio is playing.
+     */
     public void revalidateAudioMenu() {
         if (!AudioPlayer.windowOpen() && !IOUtil.generalAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
@@ -2899,7 +3106,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Simply removes the audio controls, no questions asked
+     * Simply removes the audio controls, no questions asked.
      */
     public void removeAudioControls() {
         audioControlsLabel.setVisible(false);
@@ -2907,6 +3114,9 @@ public final class ConsoleFrame {
         consoleCyderFrame.getTopDragLabel().refreshButtons();
     }
 
+    /**
+     * Generates the audio menu label and the button components.
+     */
     private void generateAudioMenu() {
         audioControlsLabel = new JLabel("");
         audioControlsLabel.setBounds(consoleCyderFrame.getWidth() - 156,
@@ -3046,11 +3256,12 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it
+     * Sets the console frame to a provided ScreenPosition and moves any pinned CyderFrame windows with it.
+     *
      * @param screenPos the screen position to move the ConsoleFrame to
      */
     public void setLocationOnScreen(ScreenPosition screenPos) {
-        LinkedList<RelativeFrame> frames = getPinnedFrames();
+        ArrayList<RelativeFrame> frames = getPinnedFrames();
 
         switch(screenPos) {
             case CENTER:
@@ -3060,10 +3271,12 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setLocation(0, 0);
                 break;
             case TOP_RIGHT:
-                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(), 0);
+                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth()
+                        - ConsoleFrame.getConsoleFrame().getWidth(), 0);
                 break;
             case BOTTOM_LEFT:
-                consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+                consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight()
+                        - ConsoleFrame.getConsoleFrame().getHeight());
                 break;
             case BOTTOM_RIGHT:
                 consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
@@ -3072,10 +3285,13 @@ public final class ConsoleFrame {
         }
 
         for (RelativeFrame rf : frames) {
-            rf.getFrame().setLocation(rf.getxRelative() + consoleCyderFrame.getX(), rf.getyRelative() + consoleCyderFrame.getY());
+            rf.getFrame().setLocation(
+                    rf.getxRelative() + consoleCyderFrame.getX(),
+                    rf.getyRelative() + consoleCyderFrame.getY());
         }
     }
 
+    //todo extract me to objects package within ui
     private static class RelativeFrame {
         private CyderFrame frame;
         private int xRelative;
@@ -3112,9 +3328,13 @@ public final class ConsoleFrame {
         }
     }
 
-    //returns all frames pinned to the ConsoleFrame
-    private LinkedList<RelativeFrame> getPinnedFrames() {
-        LinkedList<RelativeFrame> frames = new LinkedList<>();
+    /**
+     * Returns a list of all frames that are pinned to the ConsoleFrame.
+     *
+     * @return a list of all frames that are pinned to the ConsoleFrame
+     */
+    private ArrayList<RelativeFrame> getPinnedFrames() {
+        ArrayList<RelativeFrame> frames = new ArrayList<>();
 
         Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
                 consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
@@ -3205,7 +3425,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Saves the console frame position to the currently logged in user's json file.
+     * Saves the console frame's position and window stats to the currently logged in user's json file.
      */
     public void saveConsoleFramePosition() {
         if (this.getUUID() == null)
@@ -3247,12 +3467,19 @@ public final class ConsoleFrame {
         LoginHandler.showGUI(new MonitorPoint(centerPoint, monitor));
     }
 
-    //dancing stuff -----------------------------------------------------------------------
+    //todo do more separators like this throughout Cyder
 
+    // ---------------------------
+    // dancing stuff
+    // ---------------------------
+
+    /**
+     * Whether or not dancing is currently active
+     */
     private boolean currentlyDancing = false;
 
     /**
-     * Invokes dance in a synchronous way on all CyderFrame instances
+     * Invokes dance in a synchronous way on all CyderFrame instances.
      */
     public void dance() {
         //anonymous inner class
@@ -3308,7 +3535,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Ends the dancing sequence if on-going
+     * Ends the dancing sequence if on-going.
      */
     public void stopDancing() {
         //end dancing sequence
@@ -3322,6 +3549,11 @@ public final class ConsoleFrame {
         }
     }
 
+    /**
+     * Returns whether or not all frames have completed a dance iteration.
+     *
+     * @return whether or not all frames have completed a dance iteration
+     */
     private boolean allFramesFinishedDancing() {
         boolean ret = true;
 
@@ -3334,6 +3566,4 @@ public final class ConsoleFrame {
 
         return ret;
     }
-
-    //end dancing stuff -------------------------------------------------------------------
 }

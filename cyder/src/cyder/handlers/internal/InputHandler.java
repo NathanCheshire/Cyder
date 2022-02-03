@@ -1548,7 +1548,7 @@ public class InputHandler {
             new Thread(() -> {
                 try {
                     println("Unknown command");
-                    ConsoleFrame.getConsoleFrame().flashSuggestionButton();
+                    ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
 
                     Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
 

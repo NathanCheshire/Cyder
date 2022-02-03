@@ -1,0 +1,65 @@
+[18-27-20] [ENTRY]: [Nathan]
+[18-27-20] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-27-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-27-20] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-27-20] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-27-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-27-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-27-22] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-27-22] [SYSTEM_IO]: Userdata requested: Name
+[18-27-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-27-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-22] [SYSTEM_IO]: Userdata requested: Name
+[18-27-22] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-27-22] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-27-22] [SYSTEM_IO]: Userdata requested: Foreground
+[18-27-22] [SYSTEM_IO]: Userdata requested: Font
+[18-27-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-27-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-22] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-27-22] [SYSTEM_IO]: Userdata requested: Foreground [3x]
+[18-27-22] [SYSTEM_IO]: Userdata requested: Font
+[18-27-22] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-27-22] [SYSTEM_IO]: Userdata requested: InputFill
+[18-27-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1990817385], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-27-23] [ACTION]: Console loaded in 3046ms
+[18-27-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-27-23] [ENTRY]: [TESTING MODE]
+[18-27-23] [SYSTEM_IO]: Userdata requested: laststart
+[18-27-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3046ms
+[18-27-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-27-31] [CLIENT]: cohi
+[18-27-31] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-32] [ACTION]: Similar command to "cohi" found with tol of 0.6666667, command = "hi"
+[18-27-32] [CONSOLE_OUT]: [STRING] Unknown command
+[18-27-33] [CLIENT]: clickme
+[18-27-33] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-33] [ACTION]: Similar command to "clickme" found with tol of 0.6, command = "clc"
+[18-27-33] [CONSOLE_OUT]: [STRING] Unknown command
+[18-27-35] [CLIENT]: clickme
+[18-27-35] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-35] [CONSOLE_OUT]: [STRING] Unknown command
+[18-27-35] [ACTION]: Similar command to "clickme" found with tol of 0.6, command = "clc"
+[18-27-36] [CLIENT]: click
+[18-27-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-36] [ACTION]: Similar command to "click" found with tol of 0.75, command = "clc"
+[18-27-36] [CONSOLE_OUT]: [STRING] Unknown command
+[18-27-38] [CLIENT]: click
+[18-27-38] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-38] [WIDGET OPENED]: CLICKME
+[18-27-38] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.ClickWidget
+[18-27-38] [HANDLE]: PRIMARY HANDLE
+[18-27-44] [CLIENT]: calc
+[18-27-44] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-44] [WIDGET OPENED]: CALCULATOR
+[18-27-44] [HANDLE]: PRIMARY HANDLE
+[18-27-44] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.CalculatorWidget
+[18-27-49] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [423557967], parentFrame = [Calculator], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-27-49] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1427, 470, 400, 595)], hash = [931320846], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Calculator]
+[18-27-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-27-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(2225, 1119, 220, 100)], hash = [573926622], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Click Me]
+[18-27-50] [WIDGET OPENED]: CLICKME
+[18-27-51] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 216, 28)], hash = [1998424621], parentFrame = [Click Me], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-27-51] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(2018, 241, 220, 100)], hash = [1180407139], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Click Me]
+[18-27-51] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-28-28] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
