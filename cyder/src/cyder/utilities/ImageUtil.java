@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -656,5 +657,36 @@ public class ImageUtil {
         component.paint(image.getGraphics());
 
         return image;
+    }
+
+    /**
+     * Returns whether the two images from the provided file are equal.
+     *
+     * @param file1 the first file
+     * @param file2 the second file
+     * @return whether the two images from the provided file are equal
+     */
+    public static boolean compareImage(File file1, File file2) {
+        try {
+            BufferedImage bi1 = ImageIO.read(file1);
+            DataBuffer db1 = bi1.getData().getDataBuffer();
+            int size = db1.getSize();
+
+            BufferedImage bi2 = ImageIO.read(file2);
+            DataBuffer db2 = bi2.getData().getDataBuffer();
+            int size2 = db2.getSize();
+
+            if (size == size2) {
+                for (int i = 0 ; i < size ; i++) {
+                    if (db1.getElem(i) != db2.getElem(i)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            } else return false;
+        } catch (Exception ignored) {
+            return  false;
+        }
     }
 }
