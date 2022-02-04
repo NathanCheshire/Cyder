@@ -454,7 +454,11 @@ public class Logger {
         for (File subLogDir : topLevelLogsDir.listFiles()) {
             if (!StringUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
                     && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
-                OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip", true);
+                if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
+                    OSUtil.deleteFolder(subLogDir);
+                } else {
+                    OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip");
+                }
             }
         }
     }
@@ -587,6 +591,8 @@ public class Logger {
                                 exceptions++;
                             }
                         }
+
+                        br.close();
 
                         if (!containsEOL) {
                             //usually an IDE stop but sometimes the program exits,

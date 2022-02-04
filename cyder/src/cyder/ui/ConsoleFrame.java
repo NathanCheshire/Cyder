@@ -658,6 +658,15 @@ public final class ConsoleFrame {
                     ExceptionHandler.handle(ex);
                 }
             });
+            inputField.addMouseWheelListener(e -> {
+                if (e.isControlDown()) {
+                    if (e.getWheelRotation() == -1 ) {
+                        System.out.println("down");
+                    } else {
+                        System.out.println("up");
+                    }
+                }
+            });
 
             inputField.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
             inputField.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));

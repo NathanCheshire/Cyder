@@ -378,10 +378,9 @@ public class OSUtil {
      *
      * @param source the file/dir to zip
      * @param destination the destination of the zip archive
-     * @param deleteOnSuccess whether to delete the original file/directory
      * @return whether the zipping was successful
      */
-    public static boolean zip(final String source, final String destination, boolean deleteOnSuccess)  {
+    public static boolean zip(final String source, final String destination)  {
         AtomicBoolean ret = new AtomicBoolean(true);
 
         String usedFileName = null;
@@ -422,10 +421,6 @@ public class OSUtil {
             if (!(e instanceof NoSuchFileException))
                 ret.set(false);
         }
-
-        if (deleteOnSuccess && ret.get())
-            if (!deleteFolder(new File(source)))
-                throw new RuntimeException("Unable to delete source folder: " + source);
 
         return ret.get();
     }

@@ -1,0 +1,39 @@
+[17-54-15] [ENTRY]: [Nathan]
+[17-54-15] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-54-15] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-54-15] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-54-15] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-54-16] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-54-16] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-54-16] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-54-17] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-54-17] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[17-54-17] [SYSTEM_IO]: Userdata requested: Font
+[17-54-17] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-54-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-54-17] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-54-17] [SYSTEM_IO]: Userdata requested: Font
+[17-54-17] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-54-17] [SYSTEM_IO]: Userdata requested: InputFill
+[17-54-17] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1263991064], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-54-17] [ACTION]: Console loaded in 2882ms
+[17-54-17] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-54-17] [ENTRY]: [TESTING MODE]
+[17-54-17] [SYSTEM_IO]: Userdata requested: laststart
+[17-54-17] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2882ms
+[17-54-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-54-59] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.extractUserData(UserUtil.java:488)
+From line: 488
+Trace: java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: typinganimation
+at cyder.utilities.UserUtil.extractUserData(UserUtil.java:488)
+at cyder.utilities.UserUtil.getUserData(UserUtil.java:465)
+at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1852)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[17-55-33] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[17-55-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(161, 326, 996, 655)], hash = [2133655103], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[17-55-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-55-33] [EXIT]: [RUNTIME] 1m 19s
+[17-55-33] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1
