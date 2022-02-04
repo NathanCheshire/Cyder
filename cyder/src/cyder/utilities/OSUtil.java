@@ -425,9 +425,11 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo load project up fresh so that you can see all the warnings youve ignored
+    //todo print all logs and add a tag to not write to file but just to print
 
-    //todo utilize more splash messages
+    //todo notification bug where it is cut off
+
+    //todo load project up fresh so that you can see all the warnings youve ignored
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

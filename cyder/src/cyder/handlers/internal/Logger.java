@@ -200,6 +200,7 @@ public class Logger {
             case PREFERENCE_REFRESH:
                 logBuilder.append("[PREFERENCE REFRESH INVOKED]: ");
                 logBuilder.append(representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented

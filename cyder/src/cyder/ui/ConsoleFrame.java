@@ -1831,7 +1831,7 @@ public final class ConsoleFrame {
      */
     private MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
-            int size = inputField.getFont().getSize();
+            int size = Integer.parseInt(UserUtil.extractUser().getFontsize());
 
             if (e.getWheelRotation() == -1) {
                 size++;
@@ -1897,9 +1897,9 @@ public final class ConsoleFrame {
      * @return the font to use for the input and output areas
      */
     public Font generateUserFont() {
-        return new Font(UserUtil.getUserData("Font"),
-                Integer.parseInt(UserUtil.getUserData("FontMetric")),
-                Integer.parseInt(UserUtil.getUserData("FontSize")));
+        return new Font(UserUtil.extractUser().getFont(),
+                Integer.parseInt(UserUtil.extractUser().getFontmetric()),
+                Integer.parseInt(UserUtil.extractUser().getFontsize()));
     }
 
     /**
@@ -1963,7 +1963,8 @@ public final class ConsoleFrame {
                     OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
                     (directory, filename) -> filename.endsWith(".png"))));
 
-           UserUtil.createDefaultBackground();
+            if (backgroundFiles.size() == 0)
+                UserUtil.createDefaultBackground();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -2829,6 +2830,8 @@ public final class ConsoleFrame {
     public JTextPane getOutputArea() {
         return outputArea;
     }
+
+    //todo make some kind of a wrapper to hold all the console frame ui elements
 
     /**
      * Returns the input JTextField associated with the ConsoleFrame.

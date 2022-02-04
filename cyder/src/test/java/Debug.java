@@ -5,16 +5,20 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.ui.CyderScrollPane;
+import cyder.ui.objects.CyderBackground;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.LinkedList;
 
 import static java.lang.System.out;
@@ -147,6 +151,12 @@ public class Debug {
      */
     public static void launchTests() {
         try {
+            //todo finish this
+            String uuid = ConsoleFrame.getConsoleFrame().getUUID();
+            CyderBackground cb1 = new CyderBackground(new File(OSUtil.buildPath("dynamic","users",uuid,
+                    "backgrounds","chillstep.png")));
+            CyderBackground cb2 = new CyderBackground(new File(OSUtil.buildPath("dynamic","users",uuid,
+                    "backgrounds","chillstep.png")));
 
         } catch (Exception e) {
             ExceptionHandler.handle(e);

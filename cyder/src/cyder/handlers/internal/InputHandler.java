@@ -657,10 +657,8 @@ public class InputHandler {
                 UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultDarkModeTextColor));
             }
 
+            Preferences.invokeRefresh("foreground");
             println("Foreground fixed");
-
-            //todo simply update foreground using it's function
-            ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
         } else if (commandIs("repaint")) {
             ConsoleFrame.getConsoleFrame().repaint();
             println("ConsoleFrame repainted");
@@ -1465,7 +1463,7 @@ public class InputHandler {
                     println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
                 }
 
-                //todo call the preference's update function
+                //todo Preferences.invokeRefresh(pref.getID());
                 ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
                 ret = true;
             }
