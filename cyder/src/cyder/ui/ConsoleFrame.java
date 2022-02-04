@@ -658,25 +658,6 @@ public final class ConsoleFrame {
                     ExceptionHandler.handle(ex);
                 }
             });
-            inputField.addMouseWheelListener(e -> {
-                if (e.isControlDown()) {
-                    int size = inputField.getFont().getSize();
-
-                    if (e.getWheelRotation() == -1) {
-                        size++;
-                    } else {
-                        size--;
-                    }
-
-                    if (size > 50 || size < 25)
-                        return;
-
-                    inputField.setFont(new Font(UserUtil.extractUser().getFont(),
-                            Font.BOLD + Font.ITALIC, size));
-                    outputArea.setFont(new Font(UserUtil.extractUser().getFont(),
-                            Font.BOLD + Font.ITALIC, size));
-                }
-            });
 
             inputField.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
             inputField.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));
@@ -696,6 +677,10 @@ public final class ConsoleFrame {
                 inputField.repaint();
                 inputField.revalidate();
             }
+
+            //font size changers
+            inputField.addMouseWheelListener(fontSizerListener);
+            outputArea.addMouseWheelListener(fontSizerListener);
 
             helpButton = new JButton("");
             helpButton.setToolTipText("Help");
@@ -1846,6 +1831,33 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
+        }
+    };
+
+    /**
+     * The MouseWheelListener used for increasing/decreasing the
+     * font size for input field and output area.
+     */
+    private MouseWheelListener fontSizerListener = e -> {
+        if (e.isControlDown()) {
+            if (inputField == null)
+                return;
+
+            int size = inputField.getFont().getSize();
+
+            if (e.getWheelRotation() == -1) {
+                size++;
+            } else {
+                size--;
+            }
+
+            if (size > 50 || size < 25)
+                return;
+
+            inputField.setFont(new Font(UserUtil.extractUser().getFont(),
+                    Font.BOLD, size));
+            outputArea.setFont(new Font(UserUtil.extractUser().getFont(),
+                    Font.BOLD, size));
         }
     };
 

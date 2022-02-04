@@ -7,9 +7,7 @@
 [18-23-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-23-43] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [18-23-43] [SYSTEM_IO]: Userdata requested: RandomBackground
-[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [18-23-43] [SYSTEM_IO]: Userdata requested: Font
 [18-23-43] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -113,13 +111,13 @@
 [18-24-31] [CONSOLE_OUT]: [STRING] Unknown command
 [18-24-31] [ACTION]: Similar command to "issue" found with tol of 0.90909094, command = "issues"
 [18-24-32] [CONSOLE_OUT]: [STRING] Most similar command: "issues"
-[18-24-32] [EXCEPTION]: 
+[18-24-32] [EXCEPTION]:
 Exception origin: cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1958)
 From line: 1958
 Trace: java.lang.NullPointerException
-	at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1958)
-	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1899)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1958)
+at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1899)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [18-24-34] [CLIENT]: issues
 [18-24-34] [SYSTEM_IO]: Userdata requested: filterchat
 [18-24-34] [HANDLE]: GENERAL COMMAND HANDLED
