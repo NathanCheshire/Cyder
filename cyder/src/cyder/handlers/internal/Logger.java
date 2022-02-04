@@ -58,6 +58,7 @@ public class Logger {
         DEBUG_PRINT, // used for debug printing and debug window stuff
         HANDLE_METHOD, // used for boolean returning handle methods within InputHandler
         WIDGET_OPENED, // used if a widget from the widgets package was opened
+        PREFERENCE_REFRESH, // used in Preferences class for when update functions are invoked
         UNKNOWN, // not sure/all else failed
     }
 
@@ -196,6 +197,9 @@ public class Logger {
                 logBuilder.append("[WIDGET OPENED]: ");
                 logBuilder.append(representation);
                 break;
+            case PREFERENCE_REFRESH:
+                logBuilder.append("[PREFERENCE REFRESH INVOKED]: ");
+                logBuilder.append(representation);
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
