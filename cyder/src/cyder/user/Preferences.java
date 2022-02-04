@@ -2,6 +2,8 @@ package cyder.user;
 
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
+import cyder.ui.CyderFrame;
+import cyder.utilities.FrameUtil;
 import cyder.utilities.ReflectionUtil;
 
 import java.util.ArrayList;
@@ -195,19 +197,23 @@ public class Preferences {
         ret.add(new Preference("ffmpegpath","IGNORE",
                 "","",(ignored) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = ffmpegpath");
-            //todo
+            //no update required
             return null;
         }));
         ret.add(new Preference("youtubedlpath","IGNORE",
                 "","",(ignored) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubedlpath");
-            //todo
+            //no update required
             return null;
         }));
         ret.add(new Preference("roundedwindows","Rounded Windows",
                 "Make certain windows rounded","0",(ignored) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = roundedwindows");
-            //todo
+
+            for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                f.repaint();
+            }
+
             return null;
         }));
         ret.add(new Preference("windowcolor","IGNORE",

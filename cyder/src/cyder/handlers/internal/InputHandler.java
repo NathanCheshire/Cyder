@@ -659,6 +659,7 @@ public class InputHandler {
 
             println("Foreground fixed");
 
+            //todo simply update foreground using it's function
             ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
         } else if (commandIs("repaint")) {
             ConsoleFrame.getConsoleFrame().repaint();
@@ -1464,6 +1465,7 @@ public class InputHandler {
                     println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
                 }
 
+                //todo call the preference's update function
                 ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
                 ret = true;
             }

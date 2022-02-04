@@ -83,7 +83,6 @@ public class UserEditor implements WidgetBase {
         editUserFrame = new CyderFrame(900, 580, CyderIcons.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Preferences");
-        editUserFrame.addPreCloseAction(() -> ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs());
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(new Color(255, 255, 255));
@@ -956,6 +955,7 @@ public class UserEditor implements WidgetBase {
                     boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
 
+                    //todo call specific function's update method
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
                     togglePrefLabel.repaint();
                 }
@@ -1609,6 +1609,7 @@ public class UserEditor implements WidgetBase {
 
                 fontMetricField.setFont(new Font(
                         UserUtil.extractUser().getFont(), number,20));
+                //todo simply call font metric's update method
                 ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
             } else {
                 fontMetricField.setText(UserUtil.extractUser().getFontmetric());

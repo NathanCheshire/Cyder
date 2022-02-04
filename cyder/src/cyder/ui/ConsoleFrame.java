@@ -1963,23 +1963,7 @@ public final class ConsoleFrame {
                     OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
                     (directory, filename) -> filename.endsWith(".png"))));
 
-            //todo attempt to download new original first, make a method for this now
-            if (backgroundFiles.size() == 0) {
-                Image img = CyderIcons.defaultBackground.getImage();
-
-                BufferedImage bi = new BufferedImage(img.getWidth(null),
-                        img.getHeight(null),BufferedImage.TYPE_INT_RGB);
-
-                Graphics2D g2 = bi.createGraphics();
-                g2.drawImage(img, 0, 0, null);
-                g2.dispose();
-                File backgroundFile = new File(OSUtil.buildPath(
-                        "dynamic","users", uuid, "Backgrounds", "Default.png"));
-                backgroundFile.mkdirs();
-                ImageIO.write(bi, "png", backgroundFile);
-
-                initBackgrounds();
-            }
+           UserUtil.createDefaultBackground();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -2639,8 +2623,7 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo maybe pass a function that refreshes this so that we don't even need this here
-    // the listeners will just take care of the changes
+    //todo go away with preference onUpdate functions
     /**
      * Refreshes Cyder properties based on possible changes within the UserEditor.
      */
@@ -2691,6 +2674,7 @@ public final class ConsoleFrame {
             inputField.revalidate();
         }
 
+        //todo taken care of
         //round corners fixer
         for (Frame f : Frame.getFrames()) {
             f.repaint();

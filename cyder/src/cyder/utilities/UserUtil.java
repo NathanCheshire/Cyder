@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.gson.Gson;
+import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -11,9 +12,11 @@ import cyder.user.User;
 import cyder.user.UserFile;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
@@ -932,5 +935,45 @@ public class UserUtil {
 
         //no logged in user was found
         return null;
+    }
+
+    /**
+     * Creates the default background inside the user's Backgrounds/ directory.
+     *
+     * @return a reference to the file created
+     * @throws IllegalStateException if the ConsoleFrame UUID has not yet been set
+     */
+    public static File createDefaultBackground() {
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            throw new IllegalStateException("ConsoleFrame uuid not yet set");
+
+        //default background is creating an image gradient
+        Image img = CyderIcons.defaultBackground.getImage();
+
+        BufferedImage bi = null;
+
+        //try to get default image that isn't bundled with Cyder
+        try {
+            bi = ImageIO.read(new URL("https://i.imgur.com/kniH8y9.png"));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+
+            bi = new BufferedImage(img.getWidth(null),
+                    img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = bi.createGraphics();
+            g2.drawImage(img, 0, 0, null);
+            g2.dispose();
+        }
+
+        File backgroundFile = new File(OSUtil.buildPath("dynamic","users",
+                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.BACKGROUNDS.getName(),"Default.png"));
+
+        try {
+            ImageIO.write(bi, "png", backgroundFile);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return backgroundFile;
     }
 }

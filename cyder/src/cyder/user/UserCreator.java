@@ -7,9 +7,9 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.utilities.*;
 import cyder.widgets.WidgetBase;
@@ -21,7 +21,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -409,36 +408,8 @@ public class UserCreator implements WidgetBase {
             }
         }
 
-        //if the background was not chosen, create a random gradient one
         if (createUserBackground == null) {
-            Image img = CyderIcons.defaultBackground.getImage();
-
-            BufferedImage bi = null;
-
-            //try to get default image that isn't bundled with Cyder
-            try {
-                bi = ImageIO.read(new URL("https://i.imgur.com/kniH8y9.png"));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-
-                bi = new BufferedImage(img.getWidth(null),
-                        img.getHeight(null),BufferedImage.TYPE_INT_RGB);
-                Graphics2D g2 = bi.createGraphics();
-                g2.drawImage(img, 0, 0, null);
-                g2.dispose();
-            }
-
-            File backgroundFile = new File(OSUtil.buildPath("dynamic","users",uuid,
-                    UserFile.BACKGROUNDS.getName(),"Default.png"));
-
-            try {
-                ImageIO.write(bi, "png", backgroundFile);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-                return false;
-            }
-
-            createUserBackground = backgroundFile;
+            createUserBackground = UserUtil.createDefaultBackground();
         }
 
         //create the user background in the directory

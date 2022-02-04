@@ -425,6 +425,8 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo load project up fresh so that you can see all the warnings youve ignored
+
     //todo utilize more splash messages
 
     //todo all class.subclass should be in an objects package within that package
