@@ -13,6 +13,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.MonitorPoint;
+import cyder.user.Preferences;
 import cyder.user.User;
 import cyder.user.UserEditor;
 import cyder.user.UserFile;
@@ -205,16 +206,6 @@ public final class ConsoleFrame {
      * The current bash string to use for the start of the input field.
      */
     private String consoleBashString;
-
-    /**
-     * The font metric to use for the ConsoleFrame IO fields.
-     */
-    private int fontMetric = Font.BOLD;
-
-    /**
-     * The size of the font for the ConsoleFrame IO fields.
-     */
-    private int fontSize = 30;
 
     /**
      * The command list used for scrolling.
@@ -1840,9 +1831,6 @@ public final class ConsoleFrame {
      */
     private MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
-            if (inputField == null)
-                return;
-
             int size = inputField.getFont().getSize();
 
             if (e.getWheelRotation() == -1) {
@@ -1851,13 +1839,18 @@ public final class ConsoleFrame {
                 size--;
             }
 
-            if (size > 50 || size < 25)
+            if (size > Preferences.FONT_MAX_SIZE || size < Preferences.FONT_MIN_SIZE)
                 return;
+            try {
+                String fontName = UserUtil.extractUser().getFont();
+                int fontMetric = Integer.parseInt(UserUtil.extractUser().getFontmetric());
 
-            inputField.setFont(new Font(UserUtil.extractUser().getFont(),
-                    Font.BOLD, size));
-            outputArea.setFont(new Font(UserUtil.extractUser().getFont(),
-                    Font.BOLD, size));
+                inputField.setFont(new Font(fontName, fontMetric, size));
+                outputArea.setFont(new Font(fontName, fontMetric, size));
+
+                UserUtil.setUserData("fontsize", String.valueOf(size));
+            } catch (Exception ignored) {}
+            //sometimes this throws so ignore it
         }
     };
 
@@ -1899,54 +1892,14 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Sets the font metric to {@link Font#BOLD}.
-     */
-    public void setFontBold() {
-        fontMetric = Font.BOLD;
-    }
-
-    /**
-     * Sets the font metric to {@link Font#ITALIC}.
-     */
-    public void setFontItalic() {
-        fontMetric = Font.ITALIC;
-    }
-
-    /**
-     * Sets the font metric to {@link Font#PLAIN}.
-     */
-    public void setFontPlain() {
-        fontMetric = Font.PLAIN;
-    }
-
-    /**
-     * Sets the OutputArea and InputField font style for the current user
-     *
-     * @param combStyle use Font.BOLD and Font.Italic to set the user
-     *                  font style. You may pass combinations of font
-     *                  styling using the addition operator
-     */
-    public void setFontMetric(int combStyle) {
-        fontMetric = combStyle;
-    }
-
-    /**
-     * Sets the font size for the user to be used when {@link ConsoleFrame#generateUserFont()} is called.
-     *
-     * @param size the size of the font
-     */
-    public void setFontSize(int size) {
-        fontSize = size;
-    }
-
-    //todo field and switcher for input/output field font size and metric
-    /**
      * Get the desired user font in combination with the set font metric and font size.
      *
      * @return the font to use for the input and output areas
      */
     public Font generateUserFont() {
-        return new Font(UserUtil.getUserData("Font"), fontMetric, fontSize);
+        return new Font(UserUtil.getUserData("Font"),
+                Integer.parseInt(UserUtil.getUserData("FontMetric")),
+                Integer.parseInt(UserUtil.getUserData("FontSize")));
     }
 
     /**
@@ -2745,6 +2698,10 @@ public final class ConsoleFrame {
 
         //always revalidate menu
         revalidateMenu();
+
+        //font
+        outputArea.setFont(generateUserFont());
+        inputField.setFont(generateUserFont());
 
         consoleCyderFrame.repaint();
     }

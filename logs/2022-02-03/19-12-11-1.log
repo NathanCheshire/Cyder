@@ -1,0 +1,43 @@
+[19-12-11] [ENTRY]: [Nathan]
+[19-12-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-12-11] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-12-11] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-12-11] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-12-13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-12-13] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-12-14] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-12-14] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-12-14] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[19-12-14] [SYSTEM_IO]: Userdata requested: Font
+[19-12-14] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-12-14] [SYSTEM_IO]: Userdata requested: FontSize
+[19-12-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-12-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-12-15] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-12-15] [SYSTEM_IO]: Userdata requested: Font
+[19-12-15] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-12-15] [SYSTEM_IO]: Userdata requested: FontSize
+[19-12-15] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-12-15] [SYSTEM_IO]: Userdata requested: InputFill
+[19-12-15] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [63977041], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-12-15] [ACTION]: Console loaded in 4318ms
+[19-12-15] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-12-15] [ENTRY]: [TESTING MODE]
+[19-12-15] [SYSTEM_IO]: Userdata requested: laststart
+[19-12-15] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 4318ms
+[19-12-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-12-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.extractUserData(UserUtil.java:488)
+From line: 488
+Trace: java.lang.IllegalArgumentException: Something is null :/
+User: null
+Name: showbusyicon
+at cyder.utilities.UserUtil.extractUserData(UserUtil.java:488)
+at cyder.utilities.UserUtil.getUserData(UserUtil.java:465)
+at cyder.ui.ConsoleFrame.lambda$startExecutors$19(ConsoleFrame.java:1276)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[19-13-07] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-13-07] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(953, 222, 996, 655)], hash = [2144838275], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-13-07] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-13-07] [EXIT]: [RUNTIME] 56s
+[19-13-07] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

@@ -1,0 +1,45 @@
+[19-13-12] [ENTRY]: [Nathan]
+[19-13-12] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-13-12] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-13-12] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-13-12] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-13-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-13-14] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-13-14] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-13-14] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-13-14] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[19-13-14] [SYSTEM_IO]: Userdata requested: Font
+[19-13-14] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-13-14] [SYSTEM_IO]: Userdata requested: FontSize
+[19-13-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-13-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-13-15] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-13-15] [SYSTEM_IO]: Userdata requested: Font
+[19-13-15] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-13-15] [SYSTEM_IO]: Userdata requested: FontSize
+[19-13-15] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-13-15] [SYSTEM_IO]: Userdata requested: InputFill
+[19-13-15] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1810265606], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-13-15] [ACTION]: Console loaded in 3541ms
+[19-13-15] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-13-15] [ENTRY]: [TESTING MODE]
+[19-13-15] [SYSTEM_IO]: Userdata requested: laststart
+[19-13-15] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3541ms
+[19-13-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-13-22] [CLIENT]: clear
+[19-13-22] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-22] [HANDLE]: GENERAL COMMAND HANDLED
+[19-13-22] [HANDLE]: PRIMARY HANDLE
+[19-13-23] [CLIENT]: font
+[19-13-23] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-24] [CONSOLE_OUT]: [STRING] Unknown command
+[19-13-24] [ACTION]: Similar command to "font" found with tol of 0.6666667, command = "donut"
+[19-13-25] [CLIENT]: clear
+[19-13-25] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-25] [HANDLE]: GENERAL COMMAND HANDLED
+[19-13-25] [HANDLE]: PRIMARY HANDLE
+[19-13-35] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-13-35] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(953, 222, 996, 655)], hash = [1242027525], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-13-35] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-13-35] [EXIT]: [RUNTIME] 23s
+[19-13-35] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

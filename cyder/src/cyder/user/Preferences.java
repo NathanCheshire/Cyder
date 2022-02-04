@@ -10,6 +10,16 @@ import java.util.ArrayList;
  */
 public class Preferences {
     /**
+     * The maximum allowable size for the input field and output area font.
+     */
+    public static final int FONT_MAX_SIZE = 50;
+
+    /**
+     * The minimum allowable size for the input field and output area font.
+     */
+    public static final int FONT_MIN_SIZE = 25;
+
+    /**
      * Instantiation of Preferences not allowed.
      */
     private Preferences() {
@@ -113,13 +123,20 @@ public class Preferences {
                 "Animate the window away for close requests","1"));
         ret.add(new Preference("compacttextmode", "Compact Text",
                 "Compact the text/components in supported text panes","0"));
+        ret.add(new Preference("fontmetric","IGNORE",
+                "", "1"));
+        ret.add(new Preference("fontsize","IGNORE",
+                "", "30"));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
+        // such as the case for name and password
 
         // Adding future prefs:
         // you'll need to add the preference here and also the data in user.java
         // since gson parses the userdata file into a user object.
+
+        //EVERYTHING that is in userdata must be in this list
 
         // Some rare cases might require deeper manipulation such as the case for executables
         // where we don't add it here but add it for the user object and for user creation

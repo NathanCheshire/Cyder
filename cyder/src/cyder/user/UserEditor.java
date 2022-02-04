@@ -1571,7 +1571,53 @@ public class UserEditor implements WidgetBase {
         }, "IP key validator").start());
         printingUtil.printlnComponent(validateIpKey);
 
+        printingUtil.print("\n\n");
+
+        CyderLabel fontMetricLabel = new CyderLabel("Font Metric");
+        printingUtil.printlnComponent(fontMetricLabel);
+
+        printingUtil.print("\n");
+
+        JTextField fontMetricField = new JTextField(0);
+        fontMetricField.setToolTipText("Font metrics: 0 = plain, 1 = bold, 2 = italic, 3 = bold + italic");
+        fontMetricField.setBackground(CyderColors.vanila);
+        fontMetricField.setSelectionColor(CyderColors.selectionColor);
+        fontMetricField.setFont(new Font(
+                UserUtil.extractUser().getFont(),
+                Integer.parseInt(UserUtil.extractUser().getFontmetric()),
+                20));
+        fontMetricField.setForeground(CyderColors.navy);
+        fontMetricField.setCaretColor(CyderColors.navy);
+        fontMetricField.setCaret(new CyderCaret(CyderColors.navy));
+        fontMetricField.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        fontMetricField.setOpaque(true);
+        printingUtil.printlnComponent(fontMetricField);
+        fontMetricField.setText(UserUtil.extractUser().getFontmetric());
+        fontMetricField.addActionListener(e -> {
+            String numbers = fontMetricField.getText().replace("[^0-9]+","");
+
+            if (numbers.length() > 0) {
+                int number = Integer.parseInt(numbers);
+
+                if (number < 0 || number > 3) {
+                    fontMetricField.setText(UserUtil.extractUser().getFontmetric());
+                    editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");
+                    return;
+                }
+
+                UserUtil.setUserData("fontmetric", numbers);
+
+                fontMetricField.setFont(new Font(
+                        UserUtil.extractUser().getFont(), number,20));
+                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+            } else {
+                fontMetricField.setText(UserUtil.extractUser().getFontmetric());
+                editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");
+            }
+        });
+
         //more labels, fields, and if applicable, validation buttons here
+        //format: \n\n to separate sections, \n to separate components within a section
 
         CyderScrollPane fieldInputsScroll = new CyderScrollPane(fieldInputsPane);
         fieldInputsScroll.setThumbSize(7);

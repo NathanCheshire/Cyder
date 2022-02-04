@@ -8,6 +8,8 @@ public class User {
     private String name;
     private String pass;
     private String font;
+    private String fontmetric;
+    private String fontsize;
     private String foreground;
     private String background;
     private String intromusic; 
@@ -376,6 +378,22 @@ public class User {
 
     public void setCompactTextMode(String compactTextMode) {
         this.compactTextMode = compactTextMode;
+    }
+
+    public String getFontmetric() {
+        return fontmetric;
+    }
+
+    public void setFontmetric(String fontmetric) {
+        this.fontmetric = fontmetric;
+    }
+
+    public String getFontsize() {
+        return fontsize;
+    }
+
+    public void setFontsize(String fontsize) {
+        this.fontsize = fontsize;
     }
 
     /**

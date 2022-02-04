@@ -1,0 +1,165 @@
+[19-36-49] [ENTRY]: [Nathan]
+[19-36-49] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-36-49] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-36-49] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-36-49] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-36-51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-36-51] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-36-52] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-36-52] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-36-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-36-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-36-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-36-52] [SYSTEM_IO]: Userdata requested: Font
+[19-36-52] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-36-52] [SYSTEM_IO]: Userdata requested: FontSize
+[19-36-52] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-36-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-36-52] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-36-52] [SYSTEM_IO]: Userdata requested: Font
+[19-36-52] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-36-52] [SYSTEM_IO]: Userdata requested: FontSize
+[19-36-52] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-36-52] [SYSTEM_IO]: Userdata requested: InputFill
+[19-36-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1410956921], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-36-52] [ACTION]: Console loaded in 3579ms
+[19-36-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-36-52] [ENTRY]: [TESTING MODE]
+[19-36-52] [SYSTEM_IO]: Userdata requested: laststart
+[19-36-53] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3579ms
+[19-36-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-36-59] [CLIENT]: prefs
+[19-36-59] [SYSTEM_IO]: Userdata requested: filterchat
+[19-36-59] [WIDGET OPENED]: PREFS
+[19-36-59] [HANDLE]: PRIMARY HANDLE
+[19-36-59] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[19-37-00] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[19-37-00] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[19-37-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [166894683], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-37-06] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-06] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-06] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-06] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-06] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-06] [SYSTEM_IO]: Userdata requested: Font
+[19-37-06] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-06] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-06] [SYSTEM_IO]: Userdata requested: Font
+[19-37-06] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-06] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-08] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-08] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-08] [SYSTEM_IO]: Userdata requested: Font
+[19-37-08] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-08] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-08] [SYSTEM_IO]: Userdata requested: Font
+[19-37-08] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-08] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-10] [ACTION]: [Preferences] [NOTIFICATION] Font metric has to be in the list [0,1,2,3]
+[19-37-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-37-16] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-16] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-16] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-16] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-16] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-16] [SYSTEM_IO]: Userdata requested: Font
+[19-37-16] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-16] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-16] [SYSTEM_IO]: Userdata requested: Font
+[19-37-16] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-16] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-24] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-24] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-24] [SYSTEM_IO]: Userdata requested: Font
+[19-37-24] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-24] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-24] [SYSTEM_IO]: Userdata requested: Font
+[19-37-24] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-24] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-25] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-25] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-25] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-25] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-25] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-25] [SYSTEM_IO]: Userdata requested: Font
+[19-37-25] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-25] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-25] [SYSTEM_IO]: Userdata requested: Font
+[19-37-25] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-25] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-27] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-27] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-27] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-27] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-27] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-27] [SYSTEM_IO]: Userdata requested: Font
+[19-37-27] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-27] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-27] [SYSTEM_IO]: Userdata requested: Font
+[19-37-27] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-27] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-29] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-29] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-29] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-29] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-29] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-29] [SYSTEM_IO]: Userdata requested: Font
+[19-37-29] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-29] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-29] [SYSTEM_IO]: Userdata requested: Font
+[19-37-29] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-29] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-30] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-30] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-30] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-30] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-30] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-30] [SYSTEM_IO]: Userdata requested: Font
+[19-37-30] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-30] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-30] [SYSTEM_IO]: Userdata requested: Font
+[19-37-30] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-30] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [728915297], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-37-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1495, 211, 900, 580)], hash = [1340649591], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[19-37-36] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-37-36] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-37-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-37-36] [SYSTEM_IO]: Userdata requested: ClockOnConsole
+[19-37-36] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-37-36] [SYSTEM_IO]: Userdata requested: InputFill
+[19-37-36] [SYSTEM_IO]: Userdata requested: Font
+[19-37-36] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-36] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-36] [SYSTEM_IO]: Userdata requested: Font
+[19-37-36] [SYSTEM_IO]: Userdata requested: FontMetric
+[19-37-36] [SYSTEM_IO]: Userdata requested: FontSize
+[19-37-36] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-37-39] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-37-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(656, 198, 996, 655)], hash = [1807015220], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[19-37-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-37-39] [EXIT]: [RUNTIME] 50s
+[19-37-39] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
