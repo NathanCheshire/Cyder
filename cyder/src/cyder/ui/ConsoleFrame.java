@@ -660,11 +660,21 @@ public final class ConsoleFrame {
             });
             inputField.addMouseWheelListener(e -> {
                 if (e.isControlDown()) {
-                    if (e.getWheelRotation() == -1 ) {
-                        System.out.println("down");
+                    int size = inputField.getFont().getSize();
+
+                    if (e.getWheelRotation() == -1) {
+                        size++;
                     } else {
-                        System.out.println("up");
+                        size--;
                     }
+
+                    if (size > 50 || size < 25)
+                        return;
+
+                    inputField.setFont(new Font(UserUtil.extractUser().getFont(),
+                            Font.BOLD + Font.ITALIC, size));
+                    outputArea.setFont(new Font(UserUtil.extractUser().getFont(),
+                            Font.BOLD + Font.ITALIC, size));
                 }
             });
 

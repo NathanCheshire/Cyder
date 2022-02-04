@@ -1,0 +1,217 @@
+[18-23-40] [ENTRY]: [Nathan]
+[18-23-41] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-23-41] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-23-41] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-23-41] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-23-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-23-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-23-43] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-23-43] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-23-43] [SYSTEM_IO]: Userdata requested: Font
+[18-23-43] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-23-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-23-43] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-23-43] [SYSTEM_IO]: Userdata requested: Font
+[18-23-43] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-23-43] [SYSTEM_IO]: Userdata requested: InputFill
+[18-23-43] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [386151481], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-23-43] [ACTION]: Console loaded in 3030ms
+[18-23-43] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-23-43] [ENTRY]: [TESTING MODE]
+[18-23-43] [SYSTEM_IO]: Userdata requested: laststart
+[18-23-43] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3030ms
+[18-23-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-23-51] [SYSTEM_IO]: Userdata requested: Background
+[18-23-53] [CLIENT]: hello
+[18-23-53] [SYSTEM_IO]: Userdata requested: filterchat
+[18-23-53] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-23-53] [HANDLE]: PRIMARY HANDLE
+[18-23-53] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[18-23-54] [CLIENT]: clear
+[18-23-54] [SYSTEM_IO]: Userdata requested: filterchat
+[18-23-55] [HANDLE]: GENERAL COMMAND HANDLED
+[18-23-55] [HANDLE]: PRIMARY HANDLE
+[18-23-56] [CLIENT]: what
+[18-23-56] [SYSTEM_IO]: Userdata requested: filterchat
+[18-23-56] [CONSOLE_OUT]: [STRING] Unknown command
+[18-23-56] [ACTION]: Similar command to "what" found with tol of 0.5714286, command = "why"
+[18-23-57] [CLIENT]: hi
+[18-23-57] [SYSTEM_IO]: Userdata requested: filterchat
+[18-23-57] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-23-57] [HANDLE]: PRIMARY HANDLE
+[18-23-57] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[18-24-02] [CLIENT]: hi
+[18-24-02] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-02] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-24-02] [HANDLE]: PRIMARY HANDLE
+[18-24-02] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[18-24-03] [CLIENT]: clear
+[18-24-03] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-03] [HANDLE]: GENERAL COMMAND HANDLED
+[18-24-03] [HANDLE]: PRIMARY HANDLE
+[18-24-04] [CLIENT]: what
+[18-24-04] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-04] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-04] [ACTION]: Similar command to "what" found with tol of 0.5714286, command = "why"
+[18-24-08] [CLIENT]: no
+[18-24-08] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-08] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-24-08] [HANDLE]: PRIMARY HANDLE
+[18-24-08] [CONSOLE_OUT]: [STRING] Yes
+[18-24-09] [CLIENT]: clear
+[18-24-09] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-09] [HANDLE]: GENERAL COMMAND HANDLED
+[18-24-09] [HANDLE]: PRIMARY HANDLE
+[18-24-10] [CLIENT]: lol
+[18-24-10] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-10] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-24-10] [HANDLE]: PRIMARY HANDLE
+[18-24-10] [CONSOLE_OUT]: [STRING] My memes are better.
+[18-24-11] [CONSOLE_OUT]: [STRING] Escaped
+[18-24-14] [CLIENT]: longlonglongword
+[18-24-14] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-14] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-14] [ACTION]: Similar command to "longlonglongword" found with tol of 0.6666667, command = "longword"
+[18-24-15] [CLIENT]: long
+[18-24-15] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-15] [ACTION]: Similar command to "long" found with tol of 0.6666667, command = "logic"
+[18-24-15] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-17] [CLIENT]: longword
+[18-24-17] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-17] [HANDLE]: GENERAL COMMAND HANDLED
+[18-24-17] [HANDLE]: PRIMARY HANDLE
+[18-24-17] [CONSOLE_OUT]: [STRING]
+[18-24-19] [CLIENT]: longlonglong
+[18-24-19] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-19] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-19] [ACTION]: Similar command to "longlonglong" found with tol of 0.5, command = "longword"
+[18-24-21] [CLIENT]: word
+[18-24-21] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-21] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-21] [ACTION]: Similar command to "word" found with tol of 0.6666667, command = "board"
+[18-24-23] [CLIENT]: long
+[18-24-23] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-23] [ACTION]: Similar command to "long" found with tol of 0.6666667, command = "logic"
+[18-24-23] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-26] [CLIENT]: longlong
+[18-24-26] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-26] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-26] [ACTION]: Similar command to "longlong" found with tol of 0.625, command = "longword"
+[18-24-27] [CLIENT]: longlongword
+[18-24-27] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-28] [ACTION]: Similar command to "longlongword" found with tol of 0.8, command = "longword"
+[18-24-28] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-28] [CLIENT]: clear
+[18-24-28] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-28] [HANDLE]: GENERAL COMMAND HANDLED
+[18-24-28] [HANDLE]: PRIMARY HANDLE
+[18-24-31] [CLIENT]: issue
+[18-24-31] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-31] [CONSOLE_OUT]: [STRING] Unknown command
+[18-24-31] [ACTION]: Similar command to "issue" found with tol of 0.90909094, command = "issues"
+[18-24-32] [CONSOLE_OUT]: [STRING] Most similar command: "issues"
+[18-24-32] [EXCEPTION]: 
+Exception origin: cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1958)
+From line: 1958
+Trace: java.lang.NullPointerException
+	at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1958)
+	at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1899)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+[18-24-34] [CLIENT]: issues
+[18-24-34] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-34] [HANDLE]: GENERAL COMMAND HANDLED
+[18-24-34] [HANDLE]: PRIMARY HANDLE
+[18-24-35] [CONSOLE_OUT]: [STRING] 17 issues found:
+[18-24-36] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-36] [CONSOLE_OUT]: [STRING] Issue #79
+[18-24-37] [CONSOLE_OUT]: [STRING] Curl command
+[18-24-37] [CONSOLE_OUT]: [STRING] Add a curl command into Cyder.
+
+Also be able to curl a repo and calculate how many lines of code are in that repo (you'll need to figure out the valid languages of the repo and all that).
+[18-24-41] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-42] [CONSOLE_OUT]: [STRING] Issue #78
+[18-24-42] [CONSOLE_OUT]: [STRING] What's playing?
+[18-24-42] [CONSOLE_OUT]: [STRING] The chrome extension you have that tells you what audio is playing should be able to be done in cyder.
+[18-24-44] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-45] [CONSOLE_OUT]: [STRING] Issue #77
+[18-24-46] [CONSOLE_OUT]: [STRING] Similar command finder shutdown
+[18-24-46] [CONSOLE_OUT]: [STRING] Similar command finder executor does not end after starting. Fix this by using executor.shutdown(). Also make sure it's not running after "unknown command" prints out.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #76
+[18-24-47] [CONSOLE_OUT]: [STRING] Size argument
+[18-24-47] [CONSOLE_OUT]: [STRING] Surround a command with size() and instead of the input being output or even handled, the size of the resultant command is output. Example: user enters "size(hi)", result: Cyder prints "1"
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #74
+[18-24-47] [CONSOLE_OUT]: [STRING] Notification bounds
+[18-24-47] [CONSOLE_OUT]: [STRING] Sometimes notifications overflow the CyderFrame if the width is too short and the notification text is long. Recreate this bug and fix.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #73
+[18-24-47] [CONSOLE_OUT]: [STRING] TOX messaging protocol
+[18-24-47] [CONSOLE_OUT]: [STRING] Make a messaging app using the TOX protocol which is Peer-to-peer architecture.
+
+If a user attempts to close Cyder without a message having been sent, inform the user of this since we WILL NOT store the message to send later.
+
+Use Console Commands exclusively for this since we're going to be shifting away from a super-friendly program to a truly CMI experience.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #72
+[18-24-47] [CONSOLE_OUT]: [STRING] OutputArea border focus
+[18-24-47] [CONSOLE_OUT]: [STRING] Fix OutputArea being focused upon dispose call. Also fix it shifting text when focused.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #67
+[18-24-47] [CONSOLE_OUT]: [STRING] Reset Buttons
+[18-24-47] [CONSOLE_OUT]: [STRING] Add a reset to initial state vs reset board button for Conways game of life and Pathfinding.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #65
+[18-24-47] [CONSOLE_OUT]: [STRING] SpotifyAPI
+[18-24-47] [CONSOLE_OUT]: [STRING] Use the Spotify API to stream audio and download album art. You'll also need a place to put keys for this in the user editor. Perhaps making a method to generate a label along with a field to control a preference after validation (pass in a lambda) would be beneficial at this point.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #63
+[18-24-47] [CONSOLE_OUT]: [STRING] CyderIconLabel
+[18-24-47] [CONSOLE_OUT]: [STRING] All the labels that act as buttons should be a cyder component with common methods. Also so that you can log the actions performed on them.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #61
+[18-24-47] [CONSOLE_OUT]: [STRING] Logs dir
+[18-24-47] [CONSOLE_OUT]: [STRING] Be able to change the logs dir through the preference editor
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #51
+[18-24-47] [CONSOLE_OUT]: [STRING] Jenkins
+[18-24-47] [CONSOLE_OUT]: [STRING] Link up server to auto-run unit tests and determine whether or not a build is passing or failing.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #46
+[18-24-47] [CONSOLE_OUT]: [STRING] Email client
+[18-24-47] [CONSOLE_OUT]: [STRING] Make an email client using CyderComponents and using javax.mail library. Should be able to add attachments and view formatted content of the email. Use JTextPane possibly.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #44
+[18-24-47] [CONSOLE_OUT]: [STRING] Flags for showcasing
+[18-24-47] [CONSOLE_OUT]: [STRING] Figure out how to flag stuff that you should showcase in the README/Widget Showcases/YouTube videos. I tried using an annotation but this did not work.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #35
+[18-24-47] [CONSOLE_OUT]: [STRING] Spectrum Analyzer
+[18-24-47] [CONSOLE_OUT]: [STRING] Implement a simple spectrum analyzer.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #33
+[18-24-47] [CONSOLE_OUT]: [STRING] Dark Mode
+[18-24-47] [CONSOLE_OUT]: [STRING] Implement a dark/light mode preference
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Issue #32
+[18-24-47] [CONSOLE_OUT]: [STRING] Multiple Image Support
+[18-24-47] [CONSOLE_OUT]: [STRING] Anywhere a PNG is accepted, be able to accept JPEG and JPG image types.
+[18-24-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[18-24-47] [CONSOLE_OUT]: [STRING] Escaped
+[18-24-48] [CLIENT]: clear
+[18-24-48] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-48] [HANDLE]: GENERAL COMMAND HANDLED
+[18-24-48] [HANDLE]: PRIMARY HANDLE
+[18-24-51] [CLIENT]: hi
+[18-24-51] [SYSTEM_IO]: Userdata requested: filterchat
+[18-24-51] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-24-51] [HANDLE]: PRIMARY HANDLE
+[18-24-51] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[18-24-52] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-24-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1162, 284, 996, 655)], hash = [1624972302], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-24-52] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-24-53] [EXIT]: [RUNTIME] 1m 12s
+[18-24-53] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1
