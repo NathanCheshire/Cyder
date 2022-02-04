@@ -11,6 +11,7 @@ import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.*;
+import cyder.ui.objects.CyderBackground;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
 import cyder.widgets.WidgetBase;
@@ -257,8 +258,8 @@ public class UserEditor implements WidgetBase {
                         if (addFile == null || addFile.getName().equals("NULL"))
                             return;
 
-                        for (File f : ConsoleFrame.getConsoleFrame().getBackgrounds()) {
-                            if (addFile.getName().equals(f.getName())) {
+                        for (CyderBackground background : ConsoleFrame.getConsoleFrame().getBackgrounds()) {
+                            if (addFile.getName().equals(background.getReferenceFile().getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;
                             }
@@ -494,7 +495,7 @@ public class UserEditor implements WidgetBase {
         switchingLabel.add(filesLabel);
 
         switchingLabel.revalidate();
-        ConsoleFrame.getConsoleFrame().refreshBackgroundIndex();
+        ConsoleFrame.getConsoleFrame().loadBackgrounds();
     }
 
     private static void switchToFontAndColor() {

@@ -13,6 +13,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.MonitorPoint;
+import cyder.ui.objects.CyderBackground;
 import cyder.user.Preferences;
 import cyder.user.User;
 import cyder.user.UserEditor;
@@ -20,7 +21,7 @@ import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 import cyder.widgets.objects.RelativeFrame;
-import test.java.Debug;
+import test.java.ManualTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -41,6 +42,10 @@ import java.util.LinkedList;
 
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
+/**
+ * Class of components that represent the main way a user
+ * interacts with Cyder and its copious functions.
+ */
 public final class ConsoleFrame {
     /**
      * The ConsoleFrame singleton.
@@ -183,26 +188,6 @@ public final class ConsoleFrame {
     private boolean consoleFrameClosed = true;
 
     /**
-     * The list of valid backgrounds for the current user.
-     */
-    private ArrayList<File> backgroundFiles;
-
-    /**
-     * The index in the background files list we are currently at.
-     */
-    private int backgroundIndex;
-
-    /**
-     * The file associated with the current background.
-     */
-    private File backgroundFile;
-
-    /**
-     * The image icon associated with the current background.
-     */
-    private ImageIcon backgroundImageIcon;
-
-    /**
      * The current bash string to use for the start of the input field.
      */
     private String consoleBashString;
@@ -257,7 +242,10 @@ public final class ConsoleFrame {
      */
     public static final Dimension MINIMUM_SIZE = new Dimension(600,600);
 
-    public static final ArrayList<String> startAudioPaths = new ArrayList<>(Arrays.asList(
+    /**
+     * The possible audio files to play if the starting user background is grayscale.
+     */
+    public static final ArrayList<String> grayscaleAudioPaths = new ArrayList<>(Arrays.asList(
             "static/audio/BadApple.mp3",
             "static/audio/BadApple.mp3",
             "static/audio/BlackOrWhite.mp3"));
@@ -282,9 +270,9 @@ public final class ConsoleFrame {
             setLoadingMessage("Creating user files");
             UserUtil.createUserFiles();
 
-            //make sure backgrounds are properly sized
+            //make sure backgrounds are properly sized,
+            // method also loads backgrounds after resizing
             resizeBackgrounds();
-            initBackgrounds();
 
             //set bashstring based on cyder username
             consoleBashString = UserUtil.extractUser().getName() + "@Cyder:~$ ";
@@ -312,7 +300,8 @@ public final class ConsoleFrame {
                     consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
                 } else {
-                    backgroundIndex = NumberUtil.randInt(0,backgroundFiles.size() - 1);
+                    //todo
+                    backgroundIndex = NumberUtil.randInt(0,backgrounds.size() - 1);
                 }
             }
 
@@ -984,7 +973,7 @@ public final class ConsoleFrame {
                 }
             });
             alternateBackground.addActionListener(e -> {
-                ConsoleFrame.getConsoleFrame().initBackgrounds();
+                loadBackgrounds();
 
                 try {
                     if (canSwitchBackground()) {
@@ -1418,7 +1407,7 @@ public final class ConsoleFrame {
         //testing mode to auto execute Debug tests
         if (IOUtil.getSystemData().isTestingmode()) {
             Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
-            Debug.launchTests();
+            ManualTests.launchTests();
         }
 
         //last start time operations
@@ -1515,8 +1504,8 @@ public final class ConsoleFrame {
 
                         //Bad Apple / Beetlejuice / Michael Jackson reference for a grayscale image
                         if (correct) {
-                            IOUtil.playAudio(startAudioPaths.get(
-                                    NumberUtil.randInt(0, startAudioPaths.size() - 1)));
+                            IOUtil.playAudio(grayscaleAudioPaths.get(
+                                    NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
                         } else if (IOUtil.getSystemData().isReleased()) {
                             IOUtil.playSystemAudio("static/audio/startup.mp3");
                         }
@@ -1902,6 +1891,20 @@ public final class ConsoleFrame {
                 Integer.parseInt(UserUtil.extractUser().getFontsize()));
     }
 
+    // -----------------
+    // background logic
+    // -----------------
+
+    /**
+     * The list of recognized backgrounds that the ConsoleFrame may switch to.
+     */
+    private ArrayList<CyderBackground> backgrounds = new ArrayList<>();
+
+    /**
+     * The index of the background we are currently at in the backgrounds list.
+     */
+    private int backgroundIndex = 0;
+
     /**
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
      * directory against the current monitor's resolution. If any width or height of a background file
@@ -1911,14 +1914,18 @@ public final class ConsoleFrame {
      */
     public void resizeBackgrounds() {
         try {
-            ArrayList<File> backgrounds = getBackgrounds();
-
             int minWidth = 400;
             int minHeight = 400;
             int maxWidth = ScreenUtil.getScreenWidth();
             int maxHeight = ScreenUtil.getScreenHeight();
 
-            for (File currentFile : backgrounds) {
+            for (CyderBackground currentBackground : backgrounds) {
+                File currentFile = currentBackground.getReferenceFile();
+
+                if (!currentBackground.getReferenceFile().exists()) {
+                    backgrounds.remove(currentBackground);
+                }
+
                 BufferedImage currentImage = ImageIO.read(currentFile);
 
                 int backgroundWidth = currentImage.getWidth();
@@ -1946,8 +1953,8 @@ public final class ConsoleFrame {
                 ImageIO.write(saveImage, "png", currentFile);
             }
 
-            //reinit backgrounds after resizing all backgrounds that needed fixing
-            initBackgrounds();
+            //reload backgrounds
+            loadBackgrounds();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -1956,15 +1963,22 @@ public final class ConsoleFrame {
     /**
      * Initializes the backgrounds associated with the current user.
      */
-    public void initBackgrounds() {
+    public void loadBackgrounds() {
         try {
-            //set our valid backgrounds to the ones found
-            backgroundFiles = new ArrayList<>(Arrays.asList(new File(
+            //allowable image formats include png and jpg
+            ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(new File(
                     OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
-                    (directory, filename) -> filename.endsWith(".png"))));
+                    (directory, filename) -> StringUtil.in(StringUtil.getExtension(filename),
+                            true, ".png", ".jpg", ".jpeg"))));
 
-            if (backgroundFiles.size() == 0)
+            if (backgroundFiles.size() == 0) {
+                //create and reload backgrounds since this shouldn't be empty now
                 UserUtil.createDefaultBackground();
+                loadBackgrounds();
+            }
+
+            //now construct our wrapper background objects from the valid images
+
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -1979,9 +1993,9 @@ public final class ConsoleFrame {
      *
      * @return list of found backgrounds
      */
-    public ArrayList<File> getBackgrounds() {
-        initBackgrounds();
-        return backgroundFiles;
+    public ArrayList<CyderBackground> getBackgrounds() {
+        loadBackgrounds();
+        return backgrounds;
     }
 
     /**
@@ -1990,32 +2004,21 @@ public final class ConsoleFrame {
      * @return the index that the current background is at
      */
     public int getBackgroundIndex() {
+        //todo extensive logic here to revalidate the
         revalidateBackgroundIndex();
         return backgroundIndex;
     }
 
-    /**
-     * Revalidates where in the background images we are.
-     * //todo fix up this whole logic of keeping track of what image we are on
-     */
+    //todo get background index should do this anyway
     public void revalidateBackgroundIndex() {
         try {
-            ImageIcon currentBackground = ((ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon());
-            initBackgrounds();
-
-            for (int i = 0 ; i < backgroundFiles.size() ; i++) {
-                ImageIcon possibleMatch = new ImageIcon(ImageIO.read(backgroundFiles.get(i)));
-
-                if (ImageUtil.imageIconsEqual(possibleMatch, currentBackground)) {
-                    setBackgroundIndex(i);
-                    break;
-                }
-            }
+           //todo logic but then move to getBackgroundIndex()
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
+    //todo go away
     /**
      * Sets the background index to the provided integer.
      *
@@ -2030,7 +2033,7 @@ public final class ConsoleFrame {
      * Wraps back to 0 if it exceeds the background size.
      */
     public void incBackgroundIndex() {
-        if (backgroundIndex + 1 == backgroundFiles.size()) {
+        if (backgroundIndex + 1 == backgrounds.size()) {
             backgroundIndex = 0;
         } else {
             backgroundIndex += 1;
@@ -2043,20 +2046,20 @@ public final class ConsoleFrame {
      */
     public void decBackgroundIndex() {
         if (backgroundIndex - 1 < 0) {
-            backgroundIndex = backgroundFiles.size() - 1;
+            backgroundIndex = backgrounds.size() - 1;
         } else {
             backgroundIndex -= 1;
         }
     }
 
+    //todo where is this used?
     /**
      * Returns the file associated with the current background.
      *
      * @return the file associated with the current background
      */
     public File getCurrentBackgroundFile() {
-        backgroundFile = backgroundFiles.get(backgroundIndex);
-        return backgroundFile;
+       return backgrounds.get(backgroundIndex).getReferenceFile();
     }
 
     /**
@@ -2065,14 +2068,7 @@ public final class ConsoleFrame {
      * @return an ImageIcon for the current background file at the current background index
      */
     public ImageIcon getCurrentBackgroundImageIcon() {
-        try {
-            File f = getCurrentBackgroundFile();
-            backgroundImageIcon = new ImageIcon(ImageIO.read(f));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            return backgroundImageIcon;
-        }
+        return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
     /**
@@ -2081,40 +2077,18 @@ public final class ConsoleFrame {
      * @return the next background image icon
      */
     public ImageIcon getNextBackgroundImageIcon() {
-        ImageIcon ret = null;
-
-        try {
-            if (backgroundIndex + 1 == backgroundFiles.size()) {
-                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(0)));
-            } else {
-                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundIndex + 1)));
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            return ret;
-        }
+        return backgrounds.get(backgroundIndex + 1 == backgrounds.size()
+                ? 0 : backgroundIndex + 1).generateImageIcon();
     }
-
+    //todo are these still valid?
     /**
      * Returns the last background image icon.
      *
      * @return the last background image icon
      */
     public ImageIcon getLastBackgroundImageIcon() {
-        ImageIcon ret = null;
-
-        try {
-            if (backgroundIndex - 1 >= 0) {
-                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundIndex - 1)));
-            } else {
-                ret = new ImageIcon(ImageIO.read(backgroundFiles.get(backgroundFiles.size() - 1)));
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            return ret;
-        }
+        return backgrounds.get(backgroundIndex - 1 >= 0
+                ? backgroundIndex - 1 : backgrounds.size() - 1).generateImageIcon();
     }
 
     //todo probably duplicate code smell here
@@ -2738,8 +2712,8 @@ public final class ConsoleFrame {
      * @return whether the current background index is the maximum index
      */
     public boolean onLastBackground() {
-        initBackgrounds();
-        return backgroundFiles.size() == backgroundIndex + 1;
+        loadBackgrounds();
+        return backgrounds.size() == backgroundIndex + 1;
     }
 
     /**
@@ -2748,7 +2722,7 @@ public final class ConsoleFrame {
      * @return whether or not a background switch is allowable and possible
      */
     public boolean canSwitchBackground() {
-        return backgroundFiles.size() > 1;
+        return backgrounds.size() > 1;
     }
 
     /**
@@ -2948,23 +2922,6 @@ public final class ConsoleFrame {
      */
     public void repaint() {
         setFullscreen(fullscreen);
-    }
-
-    /**
-     * Figures out the index of where the current background is in case some files in that
-     * directory were deleted/added. We cannot rely on the current background file or index
-     */
-    public void refreshBackgroundIndex() {
-        ArrayList<File> backgroundFiles = ConsoleFrame.getConsoleFrame().getBackgrounds();
-        String currentBackground = ((JLabel) consoleCyderFrame.getContentPane()).getToolTipText();
-
-        for (int i = 0; i < backgroundFiles.size(); i++) {
-            String thisname = StringUtil.getFilename(backgroundFiles.get(i));
-            if (currentBackground.equalsIgnoreCase(thisname)) {
-                ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-                break;
-            }
-        }
     }
 
     /**

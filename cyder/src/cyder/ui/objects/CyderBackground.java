@@ -31,7 +31,7 @@ public class CyderBackground {
             ImageIO.read(referenceFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-            throw new IllegalArgumentException("Provided file is not  valid image file");
+            throw new IllegalArgumentException("Provided file is not a valid image file");
         }
 
         this.referenceFile = referenceFile;
@@ -68,6 +68,15 @@ public class CyderBackground {
      */
     public ImageIcon generateImageIcon() {
         return ImageUtil.getImageIcon(generateBufferedImage());
+    }
+
+    /**
+     * Returns whether the reference file still exists, can be read, and is an image.
+     *
+     * @return whether the reference file still exists, can be read, and is an image
+     */
+    public boolean validate() {
+        return referenceFile.exists() && generateBufferedImage() != null;
     }
 
     @Override

@@ -2,7 +2,6 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import test.java.Debug;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
 
@@ -64,10 +63,7 @@ public class ExceptionHandler {
      */
     private static void silentHandleWithoutLogging(Exception e) {
        String write = getPrintableException(e).get();
-
-       if (write != null) {
-           Debug.println(write);
-       }
+       System.out.println(getPrintableException(e));
     }
 
     /**

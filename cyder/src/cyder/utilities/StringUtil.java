@@ -1058,4 +1058,33 @@ public class StringUtil {
 
         return sb.toString().trim();
     }
+
+    /**
+     * Returns whether the provided string is in the listed strings.
+     *
+     * @param lookFor the string to search the list for
+     * @param strings the list of strings
+     * @return whether the provided string is in the list of strings
+     */
+    public static boolean in(String lookFor, String... strings) {
+        return in(lookFor, false, strings);
+    }
+
+    /**
+     * Returns whether the provided string is in the listed strings.
+     *
+     * @param lookFor the string to look for
+     * @param strings the list of strings
+     * @param ignoreCase whether to ignore the case of the words
+     * @return whether the provided string is in the list of strings
+     */
+    public static boolean in(String lookFor, boolean ignoreCase, String... strings) {
+        for (String look : strings) {
+            if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
+               return true;
+            }
+        }
+
+        return false;
+    }
 }

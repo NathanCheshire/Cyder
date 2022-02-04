@@ -19,7 +19,6 @@ import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
 import cyder.utilities.*;
-import test.java.Debug;
 import test.java.ManualTests;
 import test.java.UnitTests;
 
@@ -709,17 +708,11 @@ public class InputHandler {
 
                             ImageIO.write(img, "png", saveFile);
 
-                            ArrayList<File> backgrounds = ConsoleFrame.getConsoleFrame().getBackgrounds();
-
                             println("Background pixelated and saved as a separate background file.");
                             ConsoleFrame.getConsoleFrame().setFullscreen(false);
 
-                            for (int i = 0; i < backgrounds.size(); i++) {
-                                if (backgrounds.get(i).getName().equals(searchName)) {
-                                    ConsoleFrame.getConsoleFrame().setBackgroundIndex(i);
-                                    ConsoleFrame.getConsoleFrame().repaint();
-                                }
-                            }
+                            //don't need to set console frame background index since a background switch event
+                            // will revalidate it for us
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -769,8 +762,6 @@ public class InputHandler {
             new Robot().keyPress(KeyEvent.VK_F17);
         }  else if (commandIs("debugstats")) {
             StatUtil.allStats();
-        } else if (commandIs("debug")) {
-            Debug.print("");
         } else if (commandIs("binary")) {
             if (checkArgsLength(1) && getArg(0).matches("[0-9]+")) {
                 new Thread(() -> {
@@ -1192,7 +1183,7 @@ public class InputHandler {
                 }
             }, "DST Checker").start();
         } else if (commandIs("test")) {
-            Debug.launchTests();
+            ManualTests.launchTests();
         } else if (commandIs("tests")) {
             println("Valid tests to call:\n");
             printUnitTests();
@@ -1953,10 +1944,16 @@ public class InputHandler {
      */
     private void innerConsolePrint(char c) {
         try {
+            boolean capsMode = false;
+
+            //this sometimes throws so we ignore it
+            try {
+                capsMode = UserUtil.extractUser().getCapsmode().equals("1");
+            } catch (Exception ignored) {}
+
             StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
             document.insertString(document.getLength(),
-                    UserUtil.extractUser().getCapsmode().equals("1")
-                            ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
+                    capsMode ? String.valueOf(c).toUpperCase() : String.valueOf(c), null);
             outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
 
             if (playInc == playRate - 1) {

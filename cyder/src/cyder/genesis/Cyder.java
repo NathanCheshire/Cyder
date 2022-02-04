@@ -10,7 +10,7 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
-import test.java.Debug;
+import test.java.ManualTests;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -63,7 +63,7 @@ public class Cyder {
 
         //check for fast testing
         if (IOUtil.getSystemData().isFasttestingmode()) {
-            Debug.launchTests();
+            ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing", 50);
             return;
         }

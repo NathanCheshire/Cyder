@@ -55,7 +55,7 @@ public class Logger {
         ENTRY, // entry of program
         EXIT, // exit of program
         CORRUPTION, // corruption of userdata file
-        DEBUG_PRINT, // used for debug printing and debug window stuff
+        DEBUG_PRINT, // used for debug printing
         HANDLE_METHOD, // used for boolean returning handle methods within InputHandler
         WIDGET_OPENED, // used if a widget from the widgets package was opened
         PREFERENCE_REFRESH, // used in Preferences class for when update functions are invoked
@@ -366,6 +366,8 @@ public class Logger {
             writingSemaphore.release();
         } catch(Exception e) {
             ExceptionHandler.handle(e);
+        } finally {
+            System.out.println(line.trim());
         }
     }
 

@@ -425,8 +425,6 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo print all logs and add a tag to not write to file but just to print
-
     //todo notification bug where it is cut off
 
     //todo load project up fresh so that you can see all the warnings youve ignored

@@ -19,7 +19,22 @@ import cyder.utilities.ImageUtil;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Tests which must be performed manually and cannot be unit tested.
+ */
 public class ManualTests {
+    /**
+     * Runs the tests within the method.
+     * This method is used purely for testing purposes.
+     */
+    public static void launchTests() {
+        try {
+
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels
     public static void dragLabelButtonTest() {
         CyderFrame testFrame = new CyderFrame(600,600, CyderIcons.defaultBackground);

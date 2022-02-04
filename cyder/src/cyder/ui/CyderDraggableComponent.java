@@ -1,6 +1,6 @@
 package cyder.ui;
 
-import test.java.Debug;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.IOUtil;
 import cyder.utilities.ReflectionUtil;
 
@@ -21,7 +21,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
 
             if (x >= 0 && y >= 0 && x < refFrame.getWidth() && y < refFrame.getHeight()) {
                 e.getComponent().setLocation(x,y);
-                Debug.println(x + "," + y, false, false);
+                Logger.log(Logger.Tag.DEBUG_PRINT, x + "," + y);
             }
         }
     }
