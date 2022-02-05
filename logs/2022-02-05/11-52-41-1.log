@@ -7,9 +7,7 @@
 [11-52-43] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [11-52-44] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [11-52-44] [SYSTEM_IO]: Userdata requested: RandomBackground
-[11-52-44] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-52-44] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-52-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-52-44] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [11-52-44] [SYSTEM_IO]: Userdata requested: OutputBorder
 [11-52-44] [SYSTEM_IO]: Userdata requested: FullScreen
 [11-52-44] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -27,10 +25,8 @@
 [11-52-46] [WIDGET OPENED]: PREFS
 [11-52-46] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
 [11-52-46] [HANDLE]: PRIMARY HANDLE
-[11-52-48] [SYSTEM_IO]: Userdata requested: Foreground
-[11-52-48] [SYSTEM_IO]: Userdata requested: Foreground
-[11-52-48] [SYSTEM_IO]: Userdata requested: Background
-[11-52-48] [SYSTEM_IO]: Userdata requested: Background
+[11-52-48] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[11-52-48] [SYSTEM_IO]: Userdata requested: Background [2x]
 [11-52-48] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1371041189], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [11-52-48] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [11-52-48] [SYSTEM_IO]: Userdata requested: persistentnotifications

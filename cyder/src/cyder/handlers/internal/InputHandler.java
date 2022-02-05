@@ -699,11 +699,11 @@ public class InputHandler {
                             BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
                                     getCurrentBackgroundFile().getAbsoluteFile()), pixelSize);
 
-                            String searchName = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getName()
-                                    .replace(".png", "") + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
+                            String newName = StringUtil.getFilename(ConsoleFrame.getConsoleFrame()
+                                    .getCurrentBackgroundFile().getName()) + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
                             File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
-                                    "/Backgrounds/" + searchName);
+                                    "/Backgrounds/" + newName);
 
                             ImageIO.write(img, "png", saveFile);
 
