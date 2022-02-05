@@ -12,6 +12,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
+import cyder.utilities.FileUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ScreenUtil;
 
@@ -23,8 +24,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class ImageResizerWidget implements WidgetBase {
 
@@ -64,7 +63,7 @@ public class ImageResizerWidget implements WidgetBase {
                   try {
                       File temp = new GetterUtil().getFile("Choose file to resize");
 
-                      if (temp != null && temp.getName().endsWith(".png")) {
+                      if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                           resizeImage = temp;
 
                           //add preview label with picture to frame
@@ -81,7 +80,8 @@ public class ImageResizerWidget implements WidgetBase {
                           ydim.setText(String.valueOf(dimIcon.getIconHeight()));
                       }
 
-                      if (temp != null && !Files.probeContentType(Paths.get(resizeImage.getAbsolutePath())).endsWith("png")) {
+                      if (temp != null &&
+                              !FileUtil.isSupportedImageExtension(resizeImage)) {
                           resizeImage = null;
                       }
                   } catch (Exception ex) {

@@ -12,10 +12,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -66,7 +63,7 @@ public class ImagePixelatorWidget implements WidgetBase {
                     try {
                         File temp = new GetterUtil().getFile("Choose file to resize");
 
-                        if (temp != null && temp.getName().toLowerCase().endsWith(".png")) {
+                        if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                             currentFile = temp;
 
                             displayIcon = checkImage(temp);
@@ -77,7 +74,7 @@ public class ImagePixelatorWidget implements WidgetBase {
                             pixelFrame.revalidate();
                             previewLabel.repaint();
                             pixelFrame.repaint();
-                        } else if (temp != null && !StringUtil.getExtension(temp).equalsIgnoreCase(".png")) {
+                        } else if (temp != null && !FileUtil.isSupportedImageExtension(temp)) {
                             currentFile = null;
                             displayIcon = null;
                         }
@@ -162,7 +159,7 @@ public class ImagePixelatorWidget implements WidgetBase {
         pixelFrame.setVisible(true);
         pixelFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
-        if (startPNG != null && StringUtil.getExtension(startPNG).equalsIgnoreCase(".png")) {
+        if (startPNG != null && FileUtil.isSupportedImageExtension(startPNG)) {
             try {
                 currentFile = startPNG;
                 displayIcon = checkImage(startPNG);

@@ -11,6 +11,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
+import cyder.utilities.FileUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.IOUtil;
 import cyder.utilities.StringUtil;
@@ -74,11 +75,11 @@ public class ImageAveragerWidget implements WidgetBase {
             try {
                 File input = new GetterUtil().getFile("select any png file");
 
-                if (StringUtil.getExtension(input).equals(".png")) {
+                if (FileUtil.isSupportedImageExtension(input)) {
                     files.add(input);
                     revalidateScroll();
                 } else {
-                    cf.notify("Selected file is not a png");
+                    cf.notify("Selected file is not a supported image file");
                 }
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
