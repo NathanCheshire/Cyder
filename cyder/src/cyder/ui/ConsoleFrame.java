@@ -2038,6 +2038,33 @@ public final class ConsoleFrame {
     }
 
     /**
+     * Sets the background to the provided file in the user's backgrounds directory provided it exists.
+     *
+     * @param backgroundFile the background file to set the console frame to
+     */
+    public void setBackgroundFile(File backgroundFile) {
+        loadBackgrounds();
+
+        int index = -1;
+
+        for (int i = 0 ; i < backgrounds.size() ; i++) {
+            System.out.println(backgrounds.get(i).getReferenceFile());
+            if (backgrounds.get(i).getReferenceFile().getAbsolutePath()
+                    .equals(backgroundFile.getAbsolutePath())) {
+                System.out.println(i);
+                index = i;
+                break;
+            }
+        }
+
+        if (index != -1)
+            setBackgroundIndex(index);
+        else
+            throw new IllegalArgumentException("Provided file not found in user's backgrounds directory: "
+                    + backgroundFile.getAbsolutePath());
+    }
+
+    /**
      * Sets the background index to the provided index
      * if valid and switches to that background.
      *
@@ -2053,9 +2080,35 @@ public final class ConsoleFrame {
 
         Point center = consoleCyderFrame.getCenterPoint();
 
-        backgroundIndex = index;
+        //todo what about console orientation and fullscreen?
 
-        //todo now refresh all shit
+        backgroundIndex = index;
+        System.out.println(index);
+
+        ImageIcon imageIcon = getCurrentBackgroundImageIcon();
+        consoleCyderFrame.setBackground(imageIcon);
+        consoleCyderFrame.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
+
+        consoleCyderFrame.setLocation((int) (center.getX() - (imageIcon.getIconWidth()) / 2),
+                (int) (center.getY() - (imageIcon.getIconHeight()) / 2));
+
+        //tooltip based on image name
+        ((JLabel) (consoleCyderFrame.getContentPane()))
+                .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+
+        int width = imageIcon.getIconWidth();
+        int height = imageIcon.getIconHeight();
+
+        //console frame component bounds
+        outputScroll.setBounds(15, 62, width - 40, height - 204);
+        inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
+                height - (62 + outputScroll.getHeight() + 20 + 20));
+
+        //focus default component
+        inputField.requestFocus();
+
+        //fix menu
+        revalidateMenu();
     }
 
     /**
@@ -2407,19 +2460,19 @@ public final class ConsoleFrame {
             }
 
 
-            //increment background index
+            //increment background index since we're ahead now
             incBackgroundIndex();
 
-            //change tooltip to new image name
+            //tooltip based on image name
             ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
-            //set input and output bounds
+            //console frame component bounds
             outputScroll.setBounds(15, 62, width - 40, height - 204);
             inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
                     height - (62 + outputScroll.getHeight() + 20 + 20));
 
-            //request focus
+            //focus default component
             inputField.requestFocus();
 
             //fix menu
@@ -2427,10 +2480,10 @@ public final class ConsoleFrame {
 
             //fix foreground if needed
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
-                getInputHandler().handle("fix foreground", false);
+                getInputHandler().handle("fixforeground", false);
             }
 
-            FrameUtil.requestFramePosition(UserUtil.extractUser().getScreenStat().getMonitor(),
+            FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
                     consoleCyderFrame.getX(), consoleCyderFrame.getY(), consoleCyderFrame);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

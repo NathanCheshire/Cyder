@@ -1,0 +1,42 @@
+[11-46-47] [ENTRY]: [Nathan]
+[11-46-47] [SYSTEM_IO]: System data pared in IOUtil's static block
+[11-46-47] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[11-46-47] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[11-46-47] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[11-46-49] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[11-46-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-46-49] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[11-46-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-46-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-46-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-46-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-46-50] [SYSTEM_IO]: Userdata requested: InputFill
+[11-46-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [971848802], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-46-50] [ACTION]: Console loaded in 3340ms
+[11-46-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-46-50] [ENTRY]: [TESTING MODE]
+[11-46-50] [SYSTEM_IO]: Userdata requested: laststart
+[11-46-50] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3340ms
+[11-46-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-46-58] [CLIENT]: backgroundcolor
+[11-46-58] [SYSTEM_IO]: Userdata requested: filterchat
+[11-46-58] [HANDLE]: GENERAL COMMAND HANDLED
+[11-46-58] [HANDLE]: PRIMARY HANDLE
+[11-46-58] [CONSOLE_OUT]: [STRING] Background color command usage: backgroundcolor EC407A
+[11-47-04] [CLIENT]: backgroundcolor
+[11-47-04] [SYSTEM_IO]: Userdata requested: filterchat
+[11-47-04] [CONSOLE_OUT]: [STRING] Background generated, set, and saved as a separate background file.
+[11-47-04] [HANDLE]: GENERAL COMMAND HANDLED
+[11-47-04] [HANDLE]: PRIMARY HANDLE
+[11-47-09] [SYSTEM_IO]: Userdata requested: Background
+[11-47-12] [SYSTEM_IO]: Userdata requested: Background
+[11-47-19] [SYSTEM_IO]: Userdata requested: Background
+[11-47-22] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[11-47-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(232, 298, 996, 655)], hash = [1481818223], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[11-47-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-47-22] [EXIT]: [RUNTIME] 35s
+[11-47-22] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

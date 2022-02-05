@@ -1,0 +1,48 @@
+[11-42-01] [ENTRY]: [Nathan]
+[11-42-01] [SYSTEM_IO]: System data pared in IOUtil's static block
+[11-42-01] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[11-42-01] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[11-42-02] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[11-42-03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-42-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[11-42-04] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[11-42-04] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-42-04] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[11-42-04] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-42-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-42-04] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-42-04] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-42-04] [SYSTEM_IO]: Userdata requested: InputFill
+[11-42-04] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [63977041], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-42-05] [ACTION]: Console loaded in 3406ms
+[11-42-05] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-42-05] [ENTRY]: [TESTING MODE]
+[11-42-05] [SYSTEM_IO]: Userdata requested: laststart
+[11-42-05] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3406ms
+[11-42-05] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-42-07] [CLIENT]: prefs
+[11-42-07] [SYSTEM_IO]: Userdata requested: filterchat
+[11-42-08] [WIDGET OPENED]: PREFS
+[11-42-08] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[11-42-08] [HANDLE]: PRIMARY HANDLE
+[11-42-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1377269692], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[11-42-10] [CONSOLE_OUT]: [STRING] Background: Solid_EC407AGenerated_Background successfully deleted.
+[11-42-20] [CLIENT]: backgroundcolor
+[11-42-20] [SYSTEM_IO]: Userdata requested: filterchat
+[11-42-20] [HANDLE]: GENERAL COMMAND HANDLED
+[11-42-20] [HANDLE]: PRIMARY HANDLE
+[11-42-20] [CONSOLE_OUT]: [STRING] Background color command usage: backgroundcolor EC407A
+[11-42-30] [CLIENT]: backgroundcolor
+[11-42-30] [SYSTEM_IO]: Userdata requested: filterchat
+[11-42-30] [CONSOLE_OUT]: [STRING] Background generated, set, and saved as a separate background file.
+[11-42-31] [HANDLE]: GENERAL COMMAND HANDLED
+[11-42-31] [HANDLE]: PRIMARY HANDLE
+[11-42-33] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[11-42-33] [SYSTEM_IO]: Userdata requested: Background [2x]
+[11-42-33] [SYSTEM_IO]: Userdata requested: Font
+[11-42-33] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [723755608], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[11-42-34] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
+[11-42-34] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [1687173140], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[11-42-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-42-45] [SYSTEM_IO]: Userdata requested: Background
+[11-43-30] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
