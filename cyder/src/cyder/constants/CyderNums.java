@@ -29,7 +29,7 @@ public class CyderNums {
      * The tolerance value that the similar command function must be at or above
      * to be passed off as a legit recommendation.
      */
-    public static final float SIMILAR_COMMAND_TOL = 0.85f;
+    public static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
      * Instantiation of CyderInts is not allowed

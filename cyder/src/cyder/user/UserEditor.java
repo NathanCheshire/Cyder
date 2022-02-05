@@ -956,7 +956,7 @@ public class UserEditor implements WidgetBase {
                     boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
 
-                    //todo call specific function's update method
+                    //todo Preferences.invokeRefresh(localID);
                     ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
                     togglePrefLabel.repaint();
                 }
@@ -1610,8 +1610,7 @@ public class UserEditor implements WidgetBase {
 
                 fontMetricField.setFont(new Font(
                         UserUtil.extractUser().getFont(), number,20));
-                //todo simply call font metric's update method
-                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+                Preferences.invokeRefresh("fontmetric");
             } else {
                 fontMetricField.setText(UserUtil.extractUser().getFontmetric());
                 editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");

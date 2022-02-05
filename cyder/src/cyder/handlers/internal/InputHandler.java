@@ -609,7 +609,6 @@ public class InputHandler {
         } else if (commandIs("backgroundcolor")) {
             if (checkArgsLength(1)) {
                 try {
-                    Color color = Color.decode("#" + getArg(0));
                     int w = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth();
                     int h = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight();
 
@@ -618,7 +617,7 @@ public class InputHandler {
                         h = ScreenUtil.getScreenHeight();
                     }
 
-                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, color);
+                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, Color.decode("#" + getArg(0)));
 
                     String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
 
@@ -629,6 +628,7 @@ public class InputHandler {
 
                     println("Background generated, set, and saved as a separate background file.");
 
+                    //todo not working
                     //no need to revalidate background index
                 } catch (Exception e) {
                     println("Background color command usage: backgroundcolor EC407A");

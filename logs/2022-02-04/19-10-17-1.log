@@ -1,0 +1,83 @@
+[19-10-17] [ENTRY]: [Nathan]
+[19-10-17] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-10-17] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-10-17] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-10-18] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-10-19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-10-19] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-10-19] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-10-20] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-10-20] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[19-10-20] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-10-20] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-10-20] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-10-20] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-10-20] [SYSTEM_IO]: Userdata requested: InputFill
+[19-10-20] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [755741007], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-10-20] [ACTION]: Console loaded in 2972ms
+[19-10-20] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-10-20] [ENTRY]: [TESTING MODE]
+[19-10-20] [SYSTEM_IO]: Userdata requested: laststart
+[19-10-20] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2972ms
+[19-10-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-10-36] [CLIENT]: pixelatebackground
+[19-10-36] [SYSTEM_IO]: Userdata requested: filterchat
+[19-10-36] [CONSOLE_OUT]: [STRING] Unknown command
+[19-10-36] [ACTION]: Similar command to "pixelatebackground" found with tol of 0.61538464, command = "pixelate"
+[19-10-38] [CLIENT]: pixelate
+[19-10-38] [SYSTEM_IO]: Userdata requested: filterchat
+[19-10-38] [HANDLE]: GENERAL COMMAND HANDLED
+[19-10-38] [HANDLE]: PRIMARY HANDLE
+[19-10-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1238, 907, 400, 170)], hash = [1640732540], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[19-10-39] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1006990600], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-10-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1238, 907, 400, 170)], hash = [1640732540], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[19-10-39] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1006990600], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-10-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-10-40] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[19-10-57] [SYSTEM_IO]: Userdata requested: Background [7x]
+[19-10-58] [CLIENT]: prefs
+[19-10-58] [SYSTEM_IO]: Userdata requested: filterchat
+[19-10-58] [WIDGET OPENED]: PREFS
+[19-10-58] [HANDLE]: PRIMARY HANDLE
+[19-10-58] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[19-11-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1017122852], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-11-00] [CONSOLE_OUT]: [STRING] Background: Chillstep_Pixelated_Pixel_Size_21 successfully deleted.
+[19-11-01] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1699897896], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-11-01] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(596, 458, 900, 580)], hash = [1673637006], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[19-11-01] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-11-18] [SYSTEM_IO]: Userdata requested: Background [3x]
+[19-11-20] [CLIENT]: prefs
+[19-11-20] [SYSTEM_IO]: Userdata requested: filterchat
+[19-11-20] [WIDGET OPENED]: PREFS
+[19-11-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(596, -577, 900, 580)], hash = [1673637006], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[19-11-20] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[19-11-20] [HANDLE]: PRIMARY HANDLE
+[19-11-37] [CLIENT]: pixelate
+[19-11-37] [SYSTEM_IO]: Userdata requested: filterchat
+[19-11-37] [HANDLE]: GENERAL COMMAND HANDLED
+[19-11-37] [HANDLE]: PRIMARY HANDLE
+[19-11-38] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(929, 645, 400, 170)], hash = [266514811], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[19-11-38] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1590167682], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-11-38] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-11-39] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[19-11-57] [CLIENT]: solid
+[19-11-57] [SYSTEM_IO]: Userdata requested: filterchat
+[19-11-57] [CONSOLE_OUT]: [STRING] Unknown command
+[19-11-58] [ACTION]: Similar command to "solid" found with tol of 0.5, command = "lol"
+[19-11-59] [CLIENT]: background
+[19-11-59] [SYSTEM_IO]: Userdata requested: filterchat
+[19-12-00] [CONSOLE_OUT]: [STRING] Unknown command
+[19-12-00] [ACTION]: Similar command to "background" found with tol of 0.8, command = "backgroundcolor"
+[19-12-08] [CLIENT]: clear
+[19-12-08] [SYSTEM_IO]: Userdata requested: filterchat
+[19-12-08] [HANDLE]: GENERAL COMMAND HANDLED
+[19-12-08] [HANDLE]: PRIMARY HANDLE
+[19-12-09] [CLIENT]: clear
+[19-12-09] [SYSTEM_IO]: Userdata requested: filterchat
+[19-12-09] [HANDLE]: GENERAL COMMAND HANDLED
+[19-12-09] [HANDLE]: PRIMARY HANDLE
+[19-12-10] [CLIENT]: background
+[19-12-10] [SYSTEM_IO]: Userdata requested: filterchat
+[19-12-11] [CONSOLE_OUT]: [STRING] Unknown command
+[19-12-11] [ACTION]: Similar command to "background" found with tol of 0.8, command = "backgroundcolor"
+[19-12-58] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

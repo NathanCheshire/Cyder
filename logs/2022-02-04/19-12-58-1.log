@@ -1,0 +1,67 @@
+[19-12-58] [ENTRY]: [Nathan]
+[19-12-58] [SYSTEM_IO]: System data pared in IOUtil's static block
+[19-12-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-12-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[19-12-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-13-00] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-13-00] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-13-00] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-13-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-13-01] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[19-13-01] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-13-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-13-01] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-13-01] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-13-01] [SYSTEM_IO]: Userdata requested: InputFill
+[19-13-01] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [767310853], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-13-01] [ACTION]: Console loaded in 3149ms
+[19-13-01] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-13-01] [ENTRY]: [TESTING MODE]
+[19-13-01] [SYSTEM_IO]: Userdata requested: laststart
+[19-13-01] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3149ms
+[19-13-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-13-07] [CLIENT]: prefs
+[19-13-07] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-08] [WIDGET OPENED]: PREFS
+[19-13-08] [HANDLE]: PRIMARY HANDLE
+[19-13-08] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[19-13-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1919148448], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-13-11] [CONSOLE_OUT]: [STRING] Background: chillsteppppperrrr.jpg_Pixelated_Pixel_Size_20 successfully deleted.
+[19-13-14] [CLIENT]: clear
+[19-13-14] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-14] [HANDLE]: GENERAL COMMAND HANDLED
+[19-13-14] [HANDLE]: PRIMARY HANDLE
+[19-13-19] [SYSTEM_IO]: Userdata requested: Background [2x]
+[19-13-23] [CLIENT]: pixelate
+[19-13-23] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-23] [HANDLE]: GENERAL COMMAND HANDLED
+[19-13-23] [HANDLE]: PRIMARY HANDLE
+[19-13-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(915, 648, 400, 170)], hash = [2145891907], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[19-13-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [706572400], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-13-24] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-13-24] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[19-13-31] [CLIENT]: backgroundoclor
+[19-13-31] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-31] [CONSOLE_OUT]: [STRING] Unknown command
+[19-13-31] [ACTION]: Similar command to "backgroundoclor" found with tol of 0.93333334, command = "backgroundcolor"
+[19-13-32] [CONSOLE_OUT]: [STRING] Most similar command: "backgroundcolor"
+[19-13-35] [CLIENT]: backgroundcolor
+[19-13-35] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-35] [HANDLE]: GENERAL COMMAND HANDLED
+[19-13-35] [HANDLE]: PRIMARY HANDLE
+[19-13-35] [CONSOLE_OUT]: [STRING] Background color command usage: backgroundcolor EC407A
+[19-13-40] [CLIENT]: backgroundcolor
+[19-13-40] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-40] [HANDLE]: GENERAL COMMAND HANDLED
+[19-13-40] [HANDLE]: PRIMARY HANDLE
+[19-13-40] [CONSOLE_OUT]: [STRING] Background generated, set, and saved as a separate background file.
+[19-13-44] [SYSTEM_IO]: Userdata requested: Background [2x]
+[19-13-46] [CLIENT]: [SIMULATED INPUT] fix
+[19-13-46] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-46] [SYSTEM_IO]: Userdata requested: Background
+[19-13-46] [CONSOLE_OUT]: [STRING] Unknown command
+[19-13-46] [ACTION]: Similar command to "fix" found with tol of 0.44444445, command = "define"
+[19-38-24] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Sorry, Nathan, but I had trouble connecting to the internet.
+As a result, some features have been restricted until a stable connection can be established.
+[19-38-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-40-13] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

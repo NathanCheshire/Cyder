@@ -298,7 +298,10 @@ public class Preferences {
         ret.add(new Preference("fontmetric","IGNORE", "",
                 "1", (optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontmetric");
-            //todo update console frame's input and output fields font metric
+
+            ConsoleFrame.getConsoleFrame().getInputField().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+            ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+
             return null;
         }));
         ret.add(new Preference("fontsize","IGNORE", "",

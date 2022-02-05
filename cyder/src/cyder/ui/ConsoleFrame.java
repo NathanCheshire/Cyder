@@ -2005,9 +2005,6 @@ public final class ConsoleFrame {
         return backgrounds;
     }
 
-    //todo finish validating this logic with different file types,
-    // adding/removing images mid runtime, pixelating background, and solid background command
-
     /**
      * Returns the index that the current background is at after
      * refreshing due to a possible background list change.
@@ -2038,6 +2035,27 @@ public final class ConsoleFrame {
         //failsafe
         backgroundIndex = 0;
         return backgroundIndex;
+    }
+
+    /**
+     * Sets the background index to the provided index
+     * if valid and switches to that background.
+     *
+     * @param index the index to switch the console frame background to
+     */
+    public void setBackgroundIndex(int index) {
+        loadBackgrounds();
+
+        //don't do anything
+        if (index < 0 || index > backgrounds.size() - 1) {
+            return;
+        }
+
+        Point center = consoleCyderFrame.getCenterPoint();
+
+        backgroundIndex = index;
+
+        //todo now refresh all shit
     }
 
     /**
@@ -2082,26 +2100,6 @@ public final class ConsoleFrame {
         return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
-    /**
-     * Returns the next background image icon.
-     *
-     * @return the next background image icon
-     */
-    public ImageIcon getNextBackgroundImageIcon() {
-        return backgrounds.get(backgroundIndex + 1 == backgrounds.size()
-                ? 0 : backgroundIndex + 1).generateImageIcon();
-    }
-    //todo are these still valid?
-    /**
-     * Returns the last background image icon.
-     *
-     * @return the last background image icon
-     */
-    public ImageIcon getLastBackgroundImageIcon() {
-        return backgrounds.get(backgroundIndex - 1 >= 0
-                ? backgroundIndex - 1 : backgrounds.size() - 1).generateImageIcon();
-    }
-
     //todo probably duplicate code smell here
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
@@ -2113,11 +2111,12 @@ public final class ConsoleFrame {
 
         try {
             ImageIcon oldBack = getCurrentBackgroundImageIcon();
-            ImageIcon newBack = getNextBackgroundImageIcon();
+            ImageIcon nextBack = backgrounds.get(backgroundIndex + 1 == backgrounds.size()
+                    ? 0 : backgroundIndex + 1).generateImageIcon();
 
             //get the dimensions which we will flip to, the next image
-            int width = newBack.getIconWidth();
-            int height = newBack.getIconHeight();
+            int width = nextBack.getIconWidth();
+            int height = nextBack.getIconHeight();
 
             //are we full screened and are we rotated?
             boolean fullscreen = isFullscreen();
@@ -2129,7 +2128,7 @@ public final class ConsoleFrame {
                 height = ScreenUtil.getScreenHeight();
 
                 oldBack = ImageUtil.resizeImage(oldBack, width, height);
-                newBack = ImageUtil.resizeImage(newBack, width, height);
+                nextBack = ImageUtil.resizeImage(nextBack, width, height);
             }
 
             //when switching backgrounds, we ignore rotation if in full screen because it is impossible
@@ -2142,8 +2141,8 @@ public final class ConsoleFrame {
 
                     oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
                             ImageUtil.ImageIcon2BufferedImage(oldBack), -90));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(newBack), -90));
+                    nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(nextBack), -90));
                 }
 
                 //not full screen and oriented right
@@ -2154,13 +2153,13 @@ public final class ConsoleFrame {
 
                     oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
                             ImageUtil.ImageIcon2BufferedImage(oldBack), 90));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(newBack), 90));
+                    nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(nextBack), 90));
                 } else if (direction == Direction.BOTTOM) {
                     oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
                             ImageUtil.ImageIcon2BufferedImage(oldBack), 180));
-                    newBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(newBack), 180));
+                    nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                            ImageUtil.ImageIcon2BufferedImage(nextBack), 180));
                 }
             }
 
@@ -2171,8 +2170,8 @@ public final class ConsoleFrame {
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
 
             //we only need to resize our new image in the event of a full screen or rotation event
-            if (newBack.getIconWidth() != width && newBack.getIconHeight() != height) {
-                newBack = ImageUtil.resizeImage(newBack, width, height);
+            if (nextBack.getIconWidth() != width && nextBack.getIconHeight() != height) {
+                nextBack = ImageUtil.resizeImage(nextBack, width, height);
             }
 
             //update frame bounds and set location relative to old center
@@ -2184,12 +2183,12 @@ public final class ConsoleFrame {
             consoleCyderFrame.setLocation(oldCenterX - width / 2, oldCenterY - height / 2);
 
             //icon to set as the background after sliding animation completes
-            ImageIcon finalNewBack = newBack;
+            ImageIcon finalNewBack = nextBack;
 
             switch (lastSlideDirection) {
                 case LEFT:
                     //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.BOTTOM);
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setSize(
                             consoleCyderFrame.getContentPane().getWidth(),
@@ -2244,7 +2243,7 @@ public final class ConsoleFrame {
                     break;
                 case TOP:
                     //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.LEFT);
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(-consoleCyderFrame.getContentPane().getWidth(),0,
                             consoleCyderFrame.getContentPane().getWidth() * 2,
@@ -2298,7 +2297,7 @@ public final class ConsoleFrame {
                     break;
                 case RIGHT:
                     //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.TOP);
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(0,-consoleCyderFrame.getHeight(),
                             consoleCyderFrame.getContentPane().getWidth(),
@@ -2352,7 +2351,7 @@ public final class ConsoleFrame {
                     break;
                 case BOTTOM:
                     //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, newBack, Direction.RIGHT);
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(0,0,
                             consoleCyderFrame.getContentPane().getWidth() * 2,
