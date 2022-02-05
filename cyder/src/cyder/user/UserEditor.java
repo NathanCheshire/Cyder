@@ -268,7 +268,7 @@ public class UserEditor implements WidgetBase {
                         Path copyPath = new File(addFile.getAbsolutePath()).toPath();
                         String folderName = null;
 
-                        if (addFile.getName().endsWith(".png")) {
+                        if (FileUtil.isSupportedImageExtension(addFile)) {
                             folderName = UserFile.BACKGROUNDS.getName();
                         } else if (addFile.getName().endsWith(".mp3")) {
                             folderName = UserFile.MUSIC.getName();
