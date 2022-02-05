@@ -6,10 +6,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.ReflectionUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -49,7 +46,7 @@ public class PhotoViewer {
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
         pictureFrame.setBackground(CyderColors.guiThemeColor);
-        pictureFrame.setTitle(currentImage.getName().replace(".png", ""));
+        pictureFrame.setTitle(StringUtil.getFilename(currentImage.getName()));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         pictureFrame.initializeResizing();
         pictureFrame.setResizable(true);
@@ -130,7 +127,7 @@ public class PhotoViewer {
             File[] files = startDir.listFiles();
 
             for (File f : files) {
-                if (StringUtil.getExtension(f).equals(".png"))
+                if (FileUtil.isSupportedImageExtension(f))
                     validImages.add(f);
             }
         } else {
@@ -138,7 +135,7 @@ public class PhotoViewer {
             File[] neighbors = parent.listFiles();
 
             for (File f : neighbors) {
-                if (StringUtil.getExtension(f).equals(".png"))
+                if (FileUtil.isSupportedImageExtension(f))
                     validImages.add(f);
             }
 
@@ -173,6 +170,7 @@ public class PhotoViewer {
                     nextImage.getIconHeight()));
 
             pictureFrame.refreshBackground();
+            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex).getName()));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -189,18 +187,19 @@ public class PhotoViewer {
                 currentIndex = validImages.size() - 1;
             }
 
-            ImageIcon nextImage = checkImage(validImages.get(currentIndex));
-            pictureFrame.setSize(nextImage.getIconWidth(),nextImage.getIconHeight());
-            pictureFrame.setBackground(nextImage);
-            pictureFrame.setLocation(oldCenterX - nextImage.getIconWidth() / 2,
-                    oldCenterY - nextImage.getIconHeight() / 2);
+            ImageIcon previousImage = checkImage(validImages.get(currentIndex));
+            pictureFrame.setSize(previousImage.getIconWidth(),previousImage.getIconHeight());
+            pictureFrame.setBackground(previousImage);
+            pictureFrame.setLocation(oldCenterX - previousImage.getIconWidth() / 2,
+                    oldCenterY - previousImage.getIconHeight() / 2);
 
-            pictureFrame.setMinimumSize(new Dimension(nextImage.getIconWidth() / 2,
-                    nextImage.getIconHeight() / 2));
-            pictureFrame.setMaximumSize(new Dimension(nextImage.getIconWidth(),
-                    nextImage.getIconHeight()));
+            pictureFrame.setMinimumSize(new Dimension(previousImage.getIconWidth() / 2,
+                    previousImage.getIconHeight() / 2));
+            pictureFrame.setMaximumSize(new Dimension(previousImage.getIconWidth(),
+                    previousImage.getIconHeight()));
 
             pictureFrame.refreshBackground();
+            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex).getName()));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -249,9 +248,13 @@ public class PhotoViewer {
         new Thread(() -> {
            try {
                String name = new GetterUtil().getString("Rename","Valid filename","Rename");
-               if (name != null && name.length() > 0 && !name.equals("NULL")) {
+               if (!StringUtil.isNull(name)) {
                    File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
-                   File newName = new File(validImages.get(currentIndex).getAbsolutePath().replace(validImages.get(currentIndex).getName().replace(".png",""),name));
+
+                   String replaceOldName = StringUtil.getFilename(oldName);
+
+                   File newName = new File(oldName.getAbsolutePath()
+                           .replace(replaceOldName, name));
                    oldName.renameTo(newName);
                    pictureFrame.notify("Successfully renamed to " + name);
 

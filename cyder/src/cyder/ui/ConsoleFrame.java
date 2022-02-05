@@ -1969,7 +1969,7 @@ public final class ConsoleFrame {
             ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(new File(
                     OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
                     (directory, filename) -> StringUtil.in(StringUtil.getExtension(filename),
-                            true, ".png", ".jpg", ".jpeg"))));
+                            true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS))));
 
             if (backgroundFiles.size() == 0) {
                 //create and reload backgrounds since this shouldn't be empty now
@@ -2005,6 +2005,9 @@ public final class ConsoleFrame {
         return backgrounds;
     }
 
+    //todo finish validating this logic with different file types,
+    // adding/removing images mid runtime, pixelating background, and solid background command
+
     /**
      * Returns the index that the current background is at after
      * refreshing due to a possible background list change.
@@ -2012,20 +2015,22 @@ public final class ConsoleFrame {
      * @return the index that the current background is at
      */
     public int getBackgroundIndex() {
-        JLabel contentLabel = ((JLabel) consoleCyderFrame.getContentPane());
+        if (consoleCyderFrame != null) {
+            JLabel contentLabel = ((JLabel) consoleCyderFrame.getContentPane());
 
-        if (contentLabel != null) {
-            String filename = contentLabel.getToolTipText();
+            if (contentLabel != null) {
+                String filename = contentLabel.getToolTipText();
 
-            if (StringUtil.empytStr(filename)) {
-                backgroundIndex = 0;
-                return backgroundIndex;
-            }
-
-            for (int i = 0 ; i < backgrounds.size() ; i++) {
-                if (StringUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
-                    backgroundIndex = i;
+                if (StringUtil.empytStr(filename)) {
+                    backgroundIndex = 0;
                     return backgroundIndex;
+                }
+
+                for (int i = 0 ; i < backgrounds.size() ; i++) {
+                    if (StringUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
+                        backgroundIndex = i;
+                        return backgroundIndex;
+                    }
                 }
             }
         }

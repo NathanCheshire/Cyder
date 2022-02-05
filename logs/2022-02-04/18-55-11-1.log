@@ -1,0 +1,170 @@
+[18-55-11] [ENTRY]: [Nathan]
+[18-55-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-55-11] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-55-11] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-55-11] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-55-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-55-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-55-13] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-55-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-55-13] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[18-55-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-55-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-55-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-55-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-55-13] [SYSTEM_IO]: Userdata requested: InputFill
+[18-55-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [873981303], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-55-14] [ACTION]: Console loaded in 2921ms
+[18-55-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-55-14] [ENTRY]: [TESTING MODE]
+[18-55-14] [SYSTEM_IO]: Userdata requested: laststart
+[18-55-14] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2921ms
+[18-55-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-55-15] [CLIENT]: clear
+[18-55-15] [SYSTEM_IO]: Userdata requested: filterchat
+[18-55-16] [HANDLE]: GENERAL COMMAND HANDLED
+[18-55-16] [HANDLE]: PRIMARY HANDLE
+[18-55-19] [CLIENT]: prefs
+[18-55-19] [SYSTEM_IO]: Userdata requested: filterchat
+[18-55-19] [WIDGET OPENED]: PREFS
+[18-55-19] [HANDLE]: PRIMARY HANDLE
+[18-55-19] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[18-55-24] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [2055479997], parentFrame = [Rename], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [1392200041], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[18-55-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [2027783571], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-27] [ACTION]: [Chillstepper] [NOTIFICATION] Successfully renamed to Chillstepper
+[18-55-27] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-55-33] [ACTION]: [Chillstep] [NOTIFICATION] Sorry, Nathan, but you're not allowed to rename the background you are currently using
+[18-55-33] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-55-33] [EXCEPTION]:
+Exception origin: java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1308)
+From line: 1308
+Trace: javax.imageio.IIOException: Can't read input file!
+at java.desktop/javax.imageio.ImageIO.read(ImageIO.java:1308)
+at cyder.handlers.external.PhotoViewer.checkImage(PhotoViewer.java:211)
+at cyder.handlers.external.PhotoViewer.scrollFoward(PhotoViewer.java:161)
+at cyder.handlers.external.PhotoViewer.lambda$new$1(PhotoViewer.java:84)
+at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1967)
+at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2308)
+at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:269)
+at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:297) [2x]
+at java.desktop/java.awt.Component.processMouseEvent(Component.java:6578)
+at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3343)
+at java.desktop/java.awt.Component.processEvent(Component.java:6343)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4539)
+at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4480)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2303)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[18-55-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-55-33] [EXCEPTION]:
+Exception origin: cyder.handlers.external.PhotoViewer.scrollFoward(PhotoViewer.java:162)
+From line: 162
+Trace: java.lang.NullPointerException
+at cyder.handlers.external.PhotoViewer.scrollFoward(PhotoViewer.java:162)
+at cyder.handlers.external.PhotoViewer.lambda$new$1(PhotoViewer.java:84)
+at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1967)
+at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2308)
+at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:269)
+at java.desktop/java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:297) [2x]
+at java.desktop/java.awt.Component.processMouseEvent(Component.java:6578)
+at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3343)
+at java.desktop/java.awt.Component.processEvent(Component.java:6343)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4539)
+at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4480)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2303)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[18-55-33] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-55-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [1703876474], parentFrame = [Rename], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [1598942493], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename] [2x]
+[18-55-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1975813208], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-36] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-36] [ACTION]: [NULL] [NOTIFICATION] Successfully renamed to NULL
+[18-55-36] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-55-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [1014773627], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[18-55-40] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1751224522], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-40] [ACTION]: [NULL] [NOTIFICATION] Successfully renamed to NULL
+[18-55-40] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-55-43] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [85407309], parentFrame = [NULL], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-43] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1510, 318, 800, 526)], hash = [1516854255], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-43] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-46] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [2124570978], parentFrame = [Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1510, 318, 800, 526)], hash = [1676264366], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Chillstep]
+[18-55-46] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-47] [ACTION]: Component name = [cyder.ui.CyderScrollList], bounds = [(0, 0, 673, 27)], hash = [34097795], parentFrame = [Preferences], associated text = [<html><div style='text-align: center;'>;)</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-49] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1320743921], parentFrame = [Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-49] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1510, 318, 800, 526)], hash = [1565669098], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Chillstep]
+[18-55-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-51] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1918707513], parentFrame = [Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-51] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1510, 318, 800, 526)], hash = [552952427], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Chillstep]
+[18-55-51] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-51] [ACTION]: Component name = [cyder.ui.CyderScrollList], bounds = [(0, 0, 673, 27)], hash = [34097795], parentFrame = [Preferences], associated text = [<html><div style='text-align: center;'>;)</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-53] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1648244366], parentFrame = [Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-53] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1510, 318, 800, 526)], hash = [1179506550], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Chillstep]
+[18-55-53] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-54] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1977683172], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-54] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1460, 291, 900, 580)], hash = [282498204], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-55-54] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-55-55] [CLIENT]: prefs
+[18-55-55] [SYSTEM_IO]: Userdata requested: filterchat
+[18-55-55] [WIDGET OPENED]: PREFS
+[18-55-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1460, -579, 900, 580)], hash = [282498204], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-55-55] [HANDLE]: PRIMARY HANDLE
+[18-55-55] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[18-55-57] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [632713325], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-55-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1460, 291, 900, 580)], hash = [1812538068], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-55-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-56-47] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 2

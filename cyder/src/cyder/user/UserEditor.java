@@ -137,7 +137,7 @@ public class UserEditor implements WidgetBase {
         filesNameList = new LinkedList<>();
 
         for (File file : backgroundDir.listFiles()) {
-            if (file.getName().endsWith((".png"))) {
+            if (FileUtil.isSupportedImageExtension(file)) {
                 filesList.add(file.getAbsoluteFile());
                 filesNameList.add("Backgrounds/" + StringUtil.getFilename(file));
             }
@@ -437,7 +437,7 @@ public class UserEditor implements WidgetBase {
                         if (StringUtil.getExtension(selectedFile).equals(".mp3"))
                             ConsoleFrame.getConsoleFrame().getInputHandler()
                                     .println("Music: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
-                        else if (StringUtil.getExtension(selectedFile).equals(".png")) {
+                        else if (FileUtil.isSupportedImageExtension(selectedFile)) {
                             ConsoleFrame.getConsoleFrame().getInputHandler()
                                     .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
                         } else {

@@ -1,0 +1,76 @@
+[18-56-47] [ENTRY]: [Nathan]
+[18-56-48] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-56-48] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-56-48] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-56-48] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-56-49] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-56-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-56-49] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-56-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-56-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-56-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-56-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-56-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-56-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-56-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-56-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-56-50] [SYSTEM_IO]: Userdata requested: InputFill
+[18-56-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [692256957], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-56-50] [ACTION]: Console loaded in 2864ms
+[18-56-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-56-50] [ENTRY]: [TESTING MODE]
+[18-56-50] [SYSTEM_IO]: Userdata requested: laststart
+[18-56-50] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2864ms
+[18-56-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-56-53] [CLIENT]: prefs
+[18-56-53] [SYSTEM_IO]: Userdata requested: filterchat
+[18-56-53] [WIDGET OPENED]: PREFS
+[18-56-53] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[18-56-53] [HANDLE]: PRIMARY HANDLE
+[18-56-58] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1194672569], parentFrame = [Rename], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-02] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [2061544474], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[18-57-02] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1593243908], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-02] [ACTION]: [chillsteppppperrrr] [NOTIFICATION] Successfully renamed to chillsteppppperrrr
+[18-57-02] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-57-03] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [918583543], parentFrame = [chillsteppppperrrr], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1552, 343, 800, 526)], hash = [1592544571], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [chillsteppppperrrr]
+[18-57-03] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-05] [SYSTEM_IO]: Userdata requested: Foreground
+[18-57-05] [SYSTEM_IO]: Userdata requested: Foreground
+[18-57-05] [SYSTEM_IO]: Userdata requested: Background
+[18-57-05] [SYSTEM_IO]: Userdata requested: Background
+[18-57-05] [SYSTEM_IO]: Userdata requested: Font
+[18-57-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1245929518], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-05] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
+[18-57-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [949464263], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-06] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-57-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [739425755], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[18-57-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1304327154], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-11] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [463961758], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[18-57-12] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1170968363], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-13] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1710, 496, 400, 170)], hash = [1800189250], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[18-57-13] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [758682346], parentFrame = [Rename], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-13] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-14] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [36682010], parentFrame = [chillsteppppperrrr], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-14] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1513, 476, 800, 526)], hash = [382083243], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [chillsteppppperrrr]
+[18-57-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-15] [SYSTEM_IO]: Userdata requested: Foreground
+[18-57-15] [SYSTEM_IO]: Userdata requested: Foreground
+[18-57-15] [SYSTEM_IO]: Userdata requested: Background
+[18-57-15] [SYSTEM_IO]: Userdata requested: Background
+[18-57-15] [SYSTEM_IO]: Userdata requested: Font
+[18-57-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1245929518], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-15] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
+[18-57-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [949464263], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-57-17] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1250226579], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1460, 291, 900, 580)], hash = [1653596618], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-57-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-18] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-57-18] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1412, 254, 996, 655)], hash = [1921242091], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-57-18] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-57-18] [EXIT]: [RUNTIME] 30s
+[18-57-18] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

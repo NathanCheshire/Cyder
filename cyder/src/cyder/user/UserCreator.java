@@ -270,8 +270,7 @@ public class UserCreator implements WidgetBase {
                     referenceButton.setText(createUserBackground.getName());
                 }
 
-                if (temp == null || !Files.probeContentType(Paths.get(
-                        createUserBackground.getAbsolutePath())).endsWith("png")) {
+                if (temp == null || !FileUtil.isSupportedImageExtension(temp)) {
                     createUserBackground = null;
                 }
             } catch (Exception ex) {
