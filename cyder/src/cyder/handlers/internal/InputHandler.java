@@ -627,9 +627,9 @@ public class InputHandler {
 
                     ImageIO.write(saveImage, "png", saveFile);
 
-                    ConsoleFrame.getConsoleFrame().revalidateBackgroundIndex();
-
                     println("Background generated, set, and saved as a separate background file.");
+
+                    //no need to revalidate background index
                 } catch (Exception e) {
                     println("Background color command usage: backgroundcolor EC407A");
                     ExceptionHandler.silentHandle(e);

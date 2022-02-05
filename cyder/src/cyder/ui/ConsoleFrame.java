@@ -300,7 +300,6 @@ public final class ConsoleFrame {
                     consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
                 } else {
-                    //todo
                     backgroundIndex = NumberUtil.randInt(0,backgrounds.size() - 1);
                 }
             }
@@ -1962,6 +1961,7 @@ public final class ConsoleFrame {
 
     /**
      * Initializes the backgrounds associated with the current user.
+     * Also attempts to find the background index of the ConsoleFrame current background if it exists.
      */
     public void loadBackgrounds() {
         try {
@@ -1977,16 +1977,23 @@ public final class ConsoleFrame {
                 loadBackgrounds();
             }
 
-            //now construct our wrapper background objects from the valid images
+            backgrounds.clear();
 
+            for (File file : backgroundFiles) {
+                if (ImageUtil.isValidImage(file) ) {
+                    backgrounds.add(new CyderBackground(file));
+                }
+            }
+
+
+            //now we have our wrapped files list
+
+            //find the index we are it if console frame has a content pane
+            getBackgroundIndex();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
     }
-
-    //todo maybe an object for holding image names, files, etc.
-    // todo images are the same if their underlying data excluding metadata is the same
-    // maybe make something to filter on this which wouldn't require revalidation for renaming
 
     /**
      * Reinitializes the background files and returns the resulting list of found backgrounds.
@@ -1999,33 +2006,33 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Returns the index that the current background is at.
+     * Returns the index that the current background is at after
+     * refreshing due to a possible background list change.
      *
      * @return the index that the current background is at
      */
     public int getBackgroundIndex() {
-        //todo extensive logic here to revalidate the
-        revalidateBackgroundIndex();
-        return backgroundIndex;
-    }
+        JLabel contentLabel = ((JLabel) consoleCyderFrame.getContentPane());
 
-    //todo get background index should do this anyway
-    public void revalidateBackgroundIndex() {
-        try {
-           //todo logic but then move to getBackgroundIndex()
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        if (contentLabel != null) {
+            String filename = contentLabel.getToolTipText();
+
+            if (StringUtil.empytStr(filename)) {
+                backgroundIndex = 0;
+                return backgroundIndex;
+            }
+
+            for (int i = 0 ; i < backgrounds.size() ; i++) {
+                if (StringUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
+                    backgroundIndex = i;
+                    return backgroundIndex;
+                }
+            }
         }
-    }
 
-    //todo go away
-    /**
-     * Sets the background index to the provided integer.
-     *
-     * @param backgroundIndex the new background index
-     */
-    public void setBackgroundIndex(int backgroundIndex) {
-        this.backgroundIndex = backgroundIndex;
+        //failsafe
+        backgroundIndex = 0;
+        return backgroundIndex;
     }
 
     /**
@@ -2052,7 +2059,6 @@ public final class ConsoleFrame {
         }
     }
 
-    //todo where is this used?
     /**
      * Returns the file associated with the current background.
      *
@@ -2098,7 +2104,7 @@ public final class ConsoleFrame {
      * whatever size it was at before a background switch was requested.
      */
     public void switchBackground() {
-        revalidateBackgroundIndex();
+        loadBackgrounds();
 
         try {
             ImageIcon oldBack = getCurrentBackgroundImageIcon();

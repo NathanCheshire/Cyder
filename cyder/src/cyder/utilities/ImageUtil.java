@@ -689,4 +689,26 @@ public class ImageUtil {
             return  false;
         }
     }
+
+    /**
+     * Returns whether the provided file is a valid image file.
+     *
+     * @param file the file to check for image validity
+     * @return whether the provided file is a valid image file
+     */
+    public static boolean isValidImage(File file) {
+        if (!file.exists())
+            return false;
+
+        boolean ret = true;
+
+        try {
+            ImageIO.read(file);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            ret = false;
+        }
+
+        return ret;
+    }
 }

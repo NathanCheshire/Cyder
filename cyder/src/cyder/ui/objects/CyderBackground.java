@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Files;
+import java.util.Arrays;
 
 /**
  * A background for the ConsoleFrame.
@@ -86,7 +88,13 @@ public class CyderBackground {
         else if (!(o instanceof CyderBackground))
             return false;
         else {
-            return ImageUtil.compareImage(referenceFile, ((CyderBackground) o).getReferenceFile());
+            try {
+                return Arrays.equals(Files.readAllBytes(this.getReferenceFile().toPath()),
+                        Files.readAllBytes(((CyderBackground) o).getReferenceFile().toPath()));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                return false;
+            }
         }
     }
 }
