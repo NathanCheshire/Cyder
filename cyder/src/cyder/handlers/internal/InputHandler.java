@@ -403,8 +403,8 @@ public class InputHandler {
         } else if (commandIs("daemonthreads")) {
             ThreadUtil.printDaemonThreads();
         } else if (commandIs("age")) {
-            BletchyThread.bletchy("As old as my tongue and a little bit older than my teeth, wait...",
-                    false, 50, true);
+            BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
+                    true, 50, false);
         } else ret = false;
 
         if (ret)

@@ -73,7 +73,7 @@ public class ImageAveragerWidget implements WidgetBase {
         cf.getContentPane().add(addButton);
         addButton.addActionListener(e -> new Thread(() -> {
             try {
-                File input = new GetterUtil().getFile("select any png file");
+                File input = new GetterUtil().getFile("select any image file");
 
                 if (FileUtil.isSupportedImageExtension(input)) {
                     files.add(input);
@@ -143,6 +143,7 @@ public class ImageAveragerWidget implements WidgetBase {
         cf.revalidate();
     }
 
+    //todo the preview image is way too big, make it like photo viewer
     private static void compute() {
         if (files.size() > 1) {
             try {
