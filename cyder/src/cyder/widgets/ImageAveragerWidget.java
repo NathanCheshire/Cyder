@@ -11,10 +11,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
-import cyder.utilities.FileUtil;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.IOUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -26,27 +23,58 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
+/**
+ * A widget to average images together.
+ */
 public class ImageAveragerWidget implements WidgetBase {
-    private static LinkedList<File> files;
+    /**
+     * The list of selected files to average together.
+     */
+    private static ArrayList<File> files;
+
+    /**
+     * The scroll label for the selected images.
+     */
     private static JLabel imagesScrollLabel;
+
+    /**
+     * The actual scroll container to hold the scroll label.
+     */
     private static CyderScrollList imagesScroll;
+
+    /**
+     * The averaging frame.
+     */
     private static CyderFrame cf;
+
+    /**
+     * The component to hold the scroll on top of it.
+     */
     private static JLabel imageScrollLabelHolder;
 
+    /**
+     * Instantiation of class not permitted.
+     */
     private ImageAveragerWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
+    /**
+     * Shows the image averaging widget.
+     */
     @Widget(trigger = {"average images", "average pictures"}, description = "A widget that adds multiple images " +
             "together and divides by the total to obtain an average base image")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "AVERAGE IMAGES");
 
-        files = new LinkedList<>();
+        files = new ArrayList<>();
+
+        if (cf != null)
+            cf.dispose(true);
 
         cf = new CyderFrame(600,640);
         cf.setTitle("Image Averager");
@@ -110,12 +138,15 @@ public class ImageAveragerWidget implements WidgetBase {
         average.setColors(CyderColors.regularPink);
         average.setBounds(90,580,420,40);
         cf.getContentPane().add(average);
-        average.addActionListener(e -> compute());
+        average.addActionListener(e -> averageButtonAction());
 
         cf.setVisible(true);
         cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
+    /**
+     * Revalidates the chosen images viewport.
+     */
     private static void revalidateScroll() {
         imagesScroll.removeAllElements();
         imageScrollLabelHolder.remove(imagesScrollLabel);
@@ -143,8 +174,10 @@ public class ImageAveragerWidget implements WidgetBase {
         cf.revalidate();
     }
 
-    //todo the preview image is way too big, make it like photo viewer
-    private static void compute() {
+    /**
+     * Action performed when the user clicks the compute button.
+     */
+    private static void averageButtonAction() {
         if (files.size() > 1) {
             try {
                 int width = 0;
@@ -171,9 +204,12 @@ public class ImageAveragerWidget implements WidgetBase {
                 graph.fillRect(0, 0, width, height);
 
                 //compute the average based on max width, height, and the BI to write to
-                ComputeAverage(width, height, saveImage);
+                computerAverage(width, height, saveImage);
 
-                CyderFrame drawFrame = new CyderFrame(saveImage.getWidth(), saveImage.getHeight(), new ImageIcon(saveImage));
+                ImageIcon previewImage = checkImage(new ImageIcon(saveImage));
+
+                CyderFrame drawFrame = new CyderFrame(previewImage.getIconWidth(),
+                        previewImage.getIconHeight(), previewImage);
 
                 JButton save = new JButton("Save");
                 save.setForeground(CyderColors.vanila);
@@ -218,7 +254,15 @@ public class ImageAveragerWidget implements WidgetBase {
         }
     }
 
-    private static void ComputeAverage(int width, int height, BufferedImage saveImage) {
+    /**
+     * Computes the average of the images inside of the files array list and
+     * modifies saveImage to have the reuslting calcualted pixel average.
+     *
+     * @param width the width of the resulting image
+     * @param height the height of the resulting image
+     * @param saveImage the reference image to save the averaged image to
+     */
+    private static void computerAverage(int width, int height, BufferedImage saveImage) {
         try {
             //running add array
             int[][] pixels = new int[height][width];
@@ -277,6 +321,12 @@ public class ImageAveragerWidget implements WidgetBase {
         }
     }
 
+    /**
+     * Returns a two dimensional integer array representing the pixel data of the provided buffered image.
+     *
+     * @param image the image to find the pixel data of
+     * @return an array of pixel data
+     */
     private static int[][] get2DRGBArr(BufferedImage image) {
         final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         final int width = image.getWidth();
@@ -322,6 +372,12 @@ public class ImageAveragerWidget implements WidgetBase {
         return result;
     }
 
+    /**
+     * Returns a string of the filenames from the files array
+     * list combined and separated by an underscore.
+     *
+     * @return the combined file names
+     */
     private static String combineImageNames() {
         StringBuilder ret = new StringBuilder();
 
@@ -330,5 +386,35 @@ public class ImageAveragerWidget implements WidgetBase {
         }
 
         return ret.substring(0, ret.toString().length() - 1);
+    }
+
+    /**
+     * Returns an image icon no bigger than 800x800.
+     *
+     * @param originalIcon the icon to resize if needed
+     * @return a new icon that is guaranteed to be at most 800x800
+     */
+    private static ImageIcon checkImage(ImageIcon originalIcon) {
+        try {
+            BufferedImage bi = ImageUtil.getBi(originalIcon);
+            int width = originalIcon.getIconWidth();
+            int height = originalIcon.getIconHeight();
+
+            if (width > height) {
+                int scaledHeight = 800 * height / width;
+                return new ImageIcon(bi.getScaledInstance(800, scaledHeight, Image.SCALE_SMOOTH));
+            } else if (height > width) {
+                int scaledWidth = 800 * width / height;
+                return new ImageIcon(bi.getScaledInstance(scaledWidth, 800, Image.SCALE_SMOOTH));
+            } else {
+                return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
+            }
+        }
+
+        catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return null;
     }
 }
