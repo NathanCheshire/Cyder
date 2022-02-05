@@ -7,9 +7,7 @@
 [11-46-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [11-46-49] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [11-46-50] [SYSTEM_IO]: Userdata requested: RandomBackground
-[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [11-46-50] [SYSTEM_IO]: Userdata requested: OutputBorder
 [11-46-50] [SYSTEM_IO]: Userdata requested: FullScreen
 [11-46-50] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -32,9 +30,7 @@
 [11-47-04] [CONSOLE_OUT]: [STRING] Background generated, set, and saved as a separate background file.
 [11-47-04] [HANDLE]: GENERAL COMMAND HANDLED
 [11-47-04] [HANDLE]: PRIMARY HANDLE
-[11-47-09] [SYSTEM_IO]: Userdata requested: Background
-[11-47-12] [SYSTEM_IO]: Userdata requested: Background
-[11-47-19] [SYSTEM_IO]: Userdata requested: Background
+[11-47-19] [SYSTEM_IO]: Userdata requested: Background [3x]
 [11-47-22] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [11-47-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(232, 298, 996, 655)], hash = [1481818223], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [11-47-22] [SYSTEM_IO]: Userdata requested: closeanimation

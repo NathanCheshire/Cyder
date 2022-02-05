@@ -706,7 +706,7 @@ public class UserEditor implements WidgetBase {
         switchingLabel.add(fillField);
 
         JLabel FontLabel = new JLabel("FONTS", SwingConstants.CENTER);
-        FontLabel.setFont(new Font(UserUtil.getUserData("Font"),Font.BOLD, 30));
+        FontLabel.setFont(new Font(UserUtil.extractUser().getFont(),Font.BOLD, 30));
         FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(50, 60, 300, 30);
         switchingLabel.add(FontLabel);
@@ -716,7 +716,7 @@ public class UserEditor implements WidgetBase {
 
         AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
 
-        editUserFrame.notify("Loading fonts...", 2000, NotificationDirection.TOP_RIGHT, null);
+        editUserFrame.notify("Loading fonts...", 2000, NotificationDirection.BOTTOM_LEFT, null);
         new Thread(() -> {
             String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             Collections.addAll(fontList, Fonts);
@@ -740,7 +740,7 @@ public class UserEditor implements WidgetBase {
                 fontScrollLabel.get().setBounds(50, 100, 300, 300);
                 switchingLabel.add(fontScrollLabel.get());
                 editUserFrame.revokeCurrentNotification();
-                editUserFrame.notify("Fonts loaded", 2000, NotificationDirection.TOP_RIGHT, null);
+                editUserFrame.notify("Fonts loaded", 2000, NotificationDirection.BOTTOM_LEFT, null);
             }
         },"Preference Font Loader").start();
 

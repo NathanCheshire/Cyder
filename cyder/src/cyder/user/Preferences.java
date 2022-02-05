@@ -268,7 +268,7 @@ public class Preferences {
                 "For the audio player, show the total audio time instead of the time remaining",
                 "1",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = audiolength");
-            //todo update audio player's label text
+            //no action required
             return null;
         }));
         ret.add(new Preference("persistentnotifications","Persistent Notifications",
@@ -307,7 +307,10 @@ public class Preferences {
         ret.add(new Preference("fontsize","IGNORE", "",
                 "30", (optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fontsize");
-            //update console frame's input and output fields font sizes
+
+            ConsoleFrame.getConsoleFrame().getInputField().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+            ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+
             return null;
         }));
 

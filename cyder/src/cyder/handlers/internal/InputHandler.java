@@ -628,7 +628,6 @@ public class InputHandler {
 
                     println("Background generated, set, and saved as a separate background file.");
 
-                    //todo not working exactly for finding out where we are and do this for pixelating background
                     ConsoleFrame.getConsoleFrame().setBackgroundFile(saveFile);
                 } catch (Exception e) {
                     println("Background color command usage: backgroundcolor EC407A");
@@ -709,10 +708,8 @@ public class InputHandler {
                             ImageIO.write(img, "png", saveFile);
 
                             println("Background pixelated and saved as a separate background file.");
-                            ConsoleFrame.getConsoleFrame().setFullscreen(false);
 
-                            //don't need to set console frame background index since a background switch event
-                            // will revalidate it for us
+                            ConsoleFrame.getConsoleFrame().setBackgroundFile(saveFile);
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);

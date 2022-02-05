@@ -1,0 +1,35 @@
+[11-52-08] [ENTRY]: [Nathan]
+[11-52-08] [SYSTEM_IO]: System data pared in IOUtil's static block
+[11-52-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[11-52-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[11-52-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[11-52-10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-52-10] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[11-52-11] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[11-52-11] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-52-11] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[11-52-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-52-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-52-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-52-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-52-11] [SYSTEM_IO]: Userdata requested: InputFill
+[11-52-11] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1877674724], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-52-11] [ACTION]: Console loaded in 3504ms
+[11-52-12] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-52-12] [ENTRY]: [TESTING MODE]
+[11-52-12] [SYSTEM_IO]: Userdata requested: laststart
+[11-52-12] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3504ms
+[11-52-12] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-52-14] [CLIENT]: prefs
+[11-52-14] [SYSTEM_IO]: Userdata requested: filterchat
+[11-52-14] [WIDGET OPENED]: PREFS
+[11-52-14] [HANDLE]: PRIMARY HANDLE
+[11-52-14] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[11-52-15] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[11-52-15] [SYSTEM_IO]: Userdata requested: Background [2x]
+[11-52-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [434477301], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[11-52-15] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
+[11-52-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-52-17] [ACTION]: [Preferences] [NOTIFICATION] Fonts loaded
+[11-52-18] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-52-41] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
