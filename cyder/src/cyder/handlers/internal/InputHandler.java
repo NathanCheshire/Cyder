@@ -1302,17 +1302,14 @@ public class InputHandler {
             CyderFrame ref = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
             Robot robot = new Robot();
 
-            Rectangle screenRect = new Rectangle(0, 0, 0, 0);
-            for (GraphicsDevice gd : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
-                screenRect = screenRect.union(gd.getDefaultConfiguration().getBounds());
-            }
-            BufferedImage capture = new Robot().createScreenCapture(screenRect);
+            Rectangle monitorBounds = ref.getMonitorBounds();
+            BufferedImage capture = new Robot().createScreenCapture(monitorBounds);
 
-            int xOff = (int) ref.getMonitorBounds().getX();
-            int yOff = (int) ref.getMonitorBounds().getY();
+            System.out.println(monitorBounds.getX());
+            System.out.println(ref.getX());
 
-            capture = ImageUtil.getCroppedImage(capture, Math.abs(-ref.getX() + xOff),
-                    Math.abs(-ref.getY() + yOff), ref.getWidth(), ref.getHeight());
+            capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
+                    (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(true);
 

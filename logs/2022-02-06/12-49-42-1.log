@@ -1,0 +1,28 @@
+[12-49-42] [ENTRY]: [Nathan]
+[12-49-42] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-49-42] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-49-42] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[12-49-42] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-49-43] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-49-43] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-49-44] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-49-44] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-49-44] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[12-49-44] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-49-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-49-44] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-49-44] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-49-44] [SYSTEM_IO]: Userdata requested: InputFill
+[12-49-44] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [440431528], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-49-44] [ACTION]: Console loaded in 2759ms
+[12-49-44] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-49-44] [ENTRY]: [TESTING MODE]
+[12-49-45] [SYSTEM_IO]: Userdata requested: laststart
+[12-49-45] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2759ms
+[12-49-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-49-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 2556, 28)], hash = [1139859215], parentFrame = [], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-49-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-609, 349, 2560, 1440)], hash = [1029580354], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-49-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-49-58] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[12-49-58] [SYSTEM_IO]: Userdata requested: Background
+[12-51-10] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

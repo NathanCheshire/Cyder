@@ -1,0 +1,36 @@
+[13-27-23] [ENTRY]: [Nathan]
+[13-27-24] [SYSTEM_IO]: System data pared in IOUtil's static block
+[13-27-24] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[13-27-24] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[13-27-24] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[13-27-25] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-27-25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-27-26] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-27-26] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-27-26] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[13-27-26] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-27-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-27-26] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-27-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-27-26] [SYSTEM_IO]: Userdata requested: InputFill
+[13-27-26] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [711760852], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-27-26] [ACTION]: Console loaded in 3192ms
+[13-27-26] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-27-26] [ENTRY]: [TESTING MODE]
+[13-27-26] [SYSTEM_IO]: Userdata requested: laststart
+[13-27-27] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3192ms
+[13-27-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-27-34] [CLIENT]: fix
+[13-27-34] [SYSTEM_IO]: Userdata requested: filterchat
+[13-27-34] [ACTION]: Similar command to "fix" found with tol of 0.44444445, command = "define"
+[13-27-34] [CONSOLE_OUT]: [STRING] Unknown command
+[13-27-39] [CLIENT]: fixforeground
+[13-27-39] [SYSTEM_IO]: Userdata requested: filterchat
+[13-27-39] [PREFERENCE REFRESH INVOKED]: key = foreground
+[13-27-39] [HANDLE]: GENERAL COMMAND HANDLED
+[13-27-39] [HANDLE]: PRIMARY HANDLE
+[13-27-39] [CONSOLE_OUT]: [STRING] Foreground fixed
+[13-27-44] [CLIENT]: chameleon
+[13-27-44] [SYSTEM_IO]: Userdata requested: filterchat
+[13-28-07] [EXIT]: [RUNTIME] 43s
+[13-28-07] [EOL]: Log completed, exiting Cyder with exit code: 120 [Final Frame Disposed], exceptions thrown: 0

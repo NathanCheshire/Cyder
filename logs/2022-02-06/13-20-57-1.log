@@ -1,0 +1,37 @@
+[13-20-57] [ENTRY]: [Nathan]
+[13-20-58] [SYSTEM_IO]: System data pared in IOUtil's static block
+[13-20-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[13-20-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[13-20-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[13-20-59] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-20-59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-21-00] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-21-00] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-21-00] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[13-21-00] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-21-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-21-00] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-21-00] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-21-00] [SYSTEM_IO]: Userdata requested: InputFill
+[13-21-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1633669261], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-21-01] [ACTION]: Console loaded in 3592ms
+[13-21-01] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-21-01] [ENTRY]: [TESTING MODE]
+[13-21-01] [SYSTEM_IO]: Userdata requested: laststart
+[13-21-01] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3592ms
+[13-21-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-21-06] [CLIENT]: chameleon
+[13-21-06] [SYSTEM_IO]: Userdata requested: filterchat
+[13-21-07] [HANDLE]: GENERAL COMMAND HANDLED
+[13-21-07] [HANDLE]: PRIMARY HANDLE
+[13-21-15] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 2556, 28)], hash = [795564776], parentFrame = [], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-21-15] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-678, 174, 2560, 1440)], hash = [1608915662], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-21-15] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-21-18] [CLIENT]: chameleon
+[13-21-18] [SYSTEM_IO]: Userdata requested: filterchat
+[13-21-19] [HANDLE]: GENERAL COMMAND HANDLED
+[13-21-19] [HANDLE]: PRIMARY HANDLE
+[13-21-22] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 2556, 28)], hash = [232750548], parentFrame = [], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-21-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-1253, 357, 2560, 1440)], hash = [207485365], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-21-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-23-15] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

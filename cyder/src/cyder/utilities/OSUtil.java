@@ -436,7 +436,8 @@ public class OSUtil {
 
     //todo make gifs like devon crawford's A* readme
 
-    //todo weird login frame big frame bug?
+    //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
+    // to push it into bounds or something with that function
 
     //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
 
