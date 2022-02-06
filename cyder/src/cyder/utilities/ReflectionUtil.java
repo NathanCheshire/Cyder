@@ -25,7 +25,7 @@ public class ReflectionUtil {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    public static String toStringReflection(Object obj) {
+    private static String toStringReflection(Object obj) {
         StringBuilder ret = new StringBuilder();
 
         ret.append(obj.getClass().getName());

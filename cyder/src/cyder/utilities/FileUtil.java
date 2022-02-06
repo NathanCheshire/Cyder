@@ -17,4 +17,6 @@ public class FileUtil {
     public static boolean isSupportedImageExtension(File f) {
         return StringUtil.in(StringUtil.getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS);
     }
+
+    //todo some stuff from String util should be here 
 }

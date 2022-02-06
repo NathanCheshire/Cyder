@@ -1951,10 +1951,9 @@ public final class ConsoleFrame {
                 if (deltaWidth == 0 || deltaHeight == 0)
                     continue;
 
-                //todo what if not a png
                 //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight);
-                ImageIO.write(saveImage, "png", currentFile);
+                ImageIO.write(saveImage, StringUtil.getExtension(currentFile), currentFile);
             }
 
             //reload backgrounds

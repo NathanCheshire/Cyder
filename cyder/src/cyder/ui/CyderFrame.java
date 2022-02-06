@@ -9,6 +9,7 @@ import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
+import cyder.ui.objects.QueuedNotification;
 import cyder.utilities.*;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -200,7 +201,7 @@ public class CyderFrame extends JFrame {
     /**
      * The list of notifications that have yet to be pulled and notified via this frame.
      */
-    private ArrayList<WaitingNotification> notificationList = new ArrayList<>();
+    private ArrayList<QueuedNotification> notificationList = new ArrayList<>();
 
     /**
      * The area exposed to allow frame resizing. The maximum is 5 since
@@ -1013,9 +1014,9 @@ public class CyderFrame extends JFrame {
     private Notification currentNotification;
 
     /**
-     * The waiting notification that is currently being displayed.
+     * The current queued notification that is currently being displayed.
      */
-    private WaitingNotification currentWaitingNotification;
+    private QueuedNotification currentQueuedNotification;
 
     /**
      * Whether the notification thread has been started for this frame.
@@ -1081,7 +1082,7 @@ public class CyderFrame extends JFrame {
                        Container container, Color notificationBackground) {
         //make a WaitingNotification and add to queue,
         // queue will automatically process any notifications so no further actions needed
-        notificationList.add(new WaitingNotification(htmltext, viewDuration, arrowDir, notificationDirection,
+        notificationList.add(new QueuedNotification(htmltext, viewDuration, arrowDir, notificationDirection,
                 onKillAction, container, notificationBackground, TimeUtil.notificationTime()));
 
         //ensure length will not break the bounds of the notification calculations
@@ -1095,21 +1096,21 @@ public class CyderFrame extends JFrame {
                 try {
                     while (this != null && !threadsKilled) {
                         if (notificationList.size() > 0) {
-                            WaitingNotification currentWaitingNotification = notificationList.remove(0);
-                            this.currentWaitingNotification = currentWaitingNotification;
+                            QueuedNotification currentQueuedNotification = notificationList.remove(0);
+                            this.currentQueuedNotification = currentQueuedNotification;
 
                             //init notification object
                             currentNotification = new Notification();
 
-                            if (currentWaitingNotification.getNotificationBackground() != null)
-                                currentNotification.setBackgroundColor(currentWaitingNotification.getNotificationBackground());
+                            if (currentQueuedNotification.getNotificationBackground() != null)
+                                currentNotification.setBackgroundColor(currentQueuedNotification.getNotificationBackground());
 
                             //set the arrow direction
-                            currentNotification.setArrow(currentWaitingNotification.getArrowDir());
+                            currentNotification.setArrow(currentQueuedNotification.getArrowDir());
 
                             //create text label to go on top of notification label
                             JLabel text = new JLabel();
-                            text.setText(currentWaitingNotification.getHtmlText());
+                            text.setText(currentQueuedNotification.getHtmlText());
 
                             Font notificationFont = new Font("Segoe UI Black", Font.BOLD, 20);
 
@@ -1125,7 +1126,7 @@ public class CyderFrame extends JFrame {
                                 continue;
                             }
 
-                            if (currentWaitingNotification.getContianer() == null) {
+                            if (currentQueuedNotification.getContianer() == null) {
                                 //set the text bounds to the proper x,y and theest
                                 // calculated width and height
                                 text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
@@ -1140,26 +1141,26 @@ public class CyderFrame extends JFrame {
                                 JLabel disposeLabel = new JLabel();
                                 disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
 
-                                disposeLabel.setToolTipText("Notified at: " + currentWaitingNotification.getTime());
+                                disposeLabel.setToolTipText("Notified at: " + currentQueuedNotification.getTime());
                                 disposeLabel.addMouseListener(new MouseAdapter() {
                                     @Override
                                     public void mouseClicked(MouseEvent e) {
                                         //fire any on kill actions if it's not null
-                                        if (currentWaitingNotification.getOnKillAction() != null)
-                                            currentWaitingNotification.getOnKillAction().fire();
+                                        if (currentQueuedNotification.getOnKillAction() != null)
+                                            currentQueuedNotification.getOnKillAction().fire();
 
                                         //smoothly animate notification away
-                                        currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), getContentPane(), 0);
+                                        currentNotification.vanish(currentQueuedNotification.getNotificationDirection(), getContentPane(), 0);
                                     }
                                 });
                                 currentNotification.add(disposeLabel);
                             } else {
-                                currentNotification.setWidth(currentWaitingNotification.getContianer().getWidth());
-                                currentNotification.setHeight(currentWaitingNotification.getContianer().getHeight());
-                                currentNotification.add(currentWaitingNotification.getContianer());
+                                currentNotification.setWidth(currentQueuedNotification.getContianer().getWidth());
+                                currentNotification.setHeight(currentQueuedNotification.getContianer().getHeight());
+                                currentNotification.add(currentQueuedNotification.getContianer());
                             }
 
-                            switch (currentWaitingNotification.getNotificationDirection()) {
+                            switch (currentQueuedNotification.getNotificationDirection()) {
                                 case TOP_LEFT:
                                     currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
                                     break;
@@ -1198,16 +1199,16 @@ public class CyderFrame extends JFrame {
 
                             //log the notification
                             Logger.log(Logger.Tag.ACTION, "[" +
-                                    this.getTitle() + "] [NOTIFICATION] " + currentWaitingNotification.getHtmlText());
+                                    this.getTitle() + "] [NOTIFICATION] " + currentQueuedNotification.getHtmlText());
 
                             //duration is always 300ms per word unless less than 5 seconds
                             int duration = 300 * StringUtil.countWords(
                                     Jsoup.clean(bs.getText(), Safelist.none())
                             );
                             duration = Math.max(duration, 5000);
-                            duration = currentWaitingNotification.getDuration() == 0 ?
-                                    duration : currentWaitingNotification.getDuration();
-                            currentNotification.appear(currentWaitingNotification.getNotificationDirection(), getContentPane(), duration);
+                            duration = currentQueuedNotification.getDuration() == 0 ?
+                                    duration : currentQueuedNotification.getDuration();
+                            currentNotification.appear(currentQueuedNotification.getNotificationDirection(), getContentPane(), duration);
 
                             while (getCurrentNotification().isVisible())
                                 Thread.onSpinWait();
@@ -1239,7 +1240,7 @@ public class CyderFrame extends JFrame {
      */
     public void revokeCurrentNotification(boolean animate) {
         if (animate) {
-            currentNotification.vanish(currentWaitingNotification.getNotificationDirection(), this, 0);
+            currentNotification.vanish(currentQueuedNotification.getNotificationDirection(), this, 0);
         } else {
             currentNotification.kill();
         }
@@ -2775,118 +2776,6 @@ public class CyderFrame extends JFrame {
      */
     public boolean isDrawDebugLines() {
         return this.drawDebugLines;
-    }
-
-    //todo extract to objects, but do we even need both this and notification objects here?
-    /**
-     * Class for notifications so that we can save their information
-     * and show them later if ones are already in the queue.
-     */
-    private static class WaitingNotification {
-        private String htmlText;
-        private int duration;
-        private Direction arrowDir;
-        private NotificationDirection notificationDirection;
-        private ClickAction onKillAction;
-        private String time;
-        private Container contianer;
-        private Color notificationBackground;
-
-        /**
-         * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
-         *
-         * @param text the html text for the eventual notification to display
-         * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
-         * @param arrowDir the arrow direction
-         * @param notificationDirection the notification direction
-         * @param onKillAction the action to perform if the notification is dismissed by the user
-         */
-        public WaitingNotification(String text, int dur, Direction arrowDir,
-                                   NotificationDirection notificationDirection,
-                                   ClickAction onKillAction, Container container, Color notificationBackground, String time) {
-            this.htmlText = text;
-            this.duration = dur;
-            this.arrowDir = arrowDir;
-            this.notificationDirection = notificationDirection;
-            this.onKillAction = onKillAction;
-            this.contianer = container;
-            this.notificationBackground = notificationBackground;
-            this.time = time;
-        }
-
-        public void setHtmlText(String htmlText) {
-            this.htmlText = htmlText;
-        }
-
-        public void setDuration(int duration) {
-            this.duration = duration;
-        }
-
-        public void setArrowDir(Direction arrowDir) {
-            this.arrowDir = arrowDir;
-        }
-
-        public void setNotificationDirection(NotificationDirection notificationDirection) {
-            this.notificationDirection = notificationDirection;
-        }
-
-        public String getHtmlText() {
-            return htmlText;
-        }
-
-        public int getDuration() {
-            return duration;
-        }
-
-        public Direction getArrowDir() {
-            return arrowDir;
-        }
-
-        public NotificationDirection getNotificationDirection() {
-            return notificationDirection;
-        }
-
-        public ClickAction getOnKillAction() {
-            return onKillAction;
-        }
-
-        public void setOnKillAction(ClickAction onKillAction) {
-            this.onKillAction = onKillAction;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        public Container getContianer() {
-            return contianer;
-        }
-
-        public void setContianer(Container contianer) {
-            this.contianer = contianer;
-        }
-
-        public Color getNotificationBackground() {
-            return notificationBackground;
-        }
-
-        public void setNotificationBackground(Color notificaitonBackground) {
-            this.notificationBackground = notificaitonBackground;
-        }
-
-        @Override
-        public String toString() {
-            return "WaitingNotification object: (" +
-                    this.getHtmlText() + "," +
-                    this.getDuration() + "," +
-                    this.getArrowDir() + "," +
-                    this.getNotificationDirection() + "," +
-                    "), hash=" + this.hashCode();
-        }
     }
 
     /**

@@ -158,6 +158,12 @@ public class ImageUtil {
         return null;
     }
 
+    /**
+     * Returns a buffered image from the provided image icon.
+     *
+     * @param im the image icon to convert to a buffered image.
+     * @return the buffered image drawn from the provided image icon
+     */
     public static BufferedImage getBi(ImageIcon im) {
         BufferedImage bi = new BufferedImage(im.getIconWidth(), im.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = bi.createGraphics();
