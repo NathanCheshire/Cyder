@@ -214,6 +214,11 @@ public class CyderFrame extends JFrame {
     public static final int borderLen = 5;
 
     /**
+     * The degree angle increment used for the barrel roll animation.
+     */
+    public static final  double BARREL_ROLL_DELTA = 2.0;
+
+    /**
      * Constructs an instance of CyderFrame with the specified width, height, and
      * ImageIcon which is used for the background.
      * (you may enable resizing of the Frame and rescaling of the image should you choose)
@@ -1355,7 +1360,11 @@ public class CyderFrame extends JFrame {
         return this.disposed;
     }
 
-    //content repainting setter for for the panel/iconLabel ----------------------
+    /**
+     * Whether to disable content label repainting.
+     *
+     * @param enabled whether content label repainting is enabled
+     */
     public void setDisableContentRepainting(boolean enabled) {
         disableContentRepainting = enabled;
 
@@ -1365,9 +1374,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Same as the regular overridden dispose method but you have the option to not animate the frame
-     * and practically dispose it immediately
-     * @param fastClose boolean describing whether or not fast close should be invoked
+     * Disposes the frame.
+     *
+     * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
         Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: " + fastClose + ", CyderFrame: " + this);
@@ -1434,16 +1443,19 @@ public class CyderFrame extends JFrame {
         }, this.getTitle() + " CyderFrame dispose thread").start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void dispose() {
         dispose(false);
     }
 
-    //----------------------------------------------------------------------------------
 
     /**
-     * Allow or disable moving the window.
-     * @param relocatable the boolean value determining if the window may be repositioned
+     * Whether to allow the frame to be relocated via dragging.
+     *
+     * @param relocatable whether to allow the frame to be relocated via dragging.
      */
     public void setRelocatable(boolean relocatable) {
         if (relocatable) {
@@ -1453,32 +1465,63 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //dancing ------------------------------------------------------------------------------
+    // -----------
+    // dancing
+    // -----------
 
+    /**
+     * The directions for frame dancing.
+     */
     public enum DancingDirection {
         INITIAL_UP, LEFT, DOWN, RIGHT, UP
     }
 
+    /**
+     * The direction the frame is currently going in its dance routine.
+     */
     private DancingDirection dancingDirection = DancingDirection.INITIAL_UP;
+
+    /**
+     * How much the frame location is incremented each dance step.
+     */
     private int dancingIncrement = 10;
+
+    /**
+     * Whether dancing has finished for this frame.
+     */
     private boolean dancingFinished = false;
 
-    public void setDancingDirection(DancingDirection dancingDirection) {
+    /**
+     * Sets the direction the frame is currently dancing in.
+     *
+     * @param dancingDirection the direction the frame is currently dancing in
+     */
+    protected void setDancingDirection(DancingDirection dancingDirection) {
         this.dancingDirection = dancingDirection;
     }
 
-    public boolean isDancingFinished() {
+    /**
+     * Returns whether dancing has concluded for this frame.
+     *
+     * @return whether dancing has concluded for this frame
+     */
+    protected boolean isDancingFinished() {
         return dancingFinished;
     }
 
-    public void setDancingFinished(boolean dancingFinished) {
+    /**
+     * Sets whether dancing has concluded.
+     *
+     * @param dancingFinished whether dancing has concluded
+     */
+    protected void setDancingFinished(boolean dancingFinished) {
         this.dancingFinished = dancingFinished;
     }
 
     /**
-     * Takes a step in the right direction for the dance routine
+     * Takes a step in the current dancing direction for a dance routine.
      */
-    public void danceStep() {
+    protected void danceStep() {
         switch (dancingDirection) {
             case INITIAL_UP:
                 this.setLocation(this.getX(), this.getY() - dancingIncrement);
@@ -1524,10 +1567,9 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // ------------------------------------------------------------------------------
-
     /**
-     * transforms the content pane by an incremental angle of 2 degrees emulating Google's barrel roll easter egg
+     * transforms the content pane by an incremental angle of 2 degrees
+     * emulating Google's barrel roll easter egg.
      */
     public void barrelRoll() {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
@@ -1535,16 +1577,18 @@ public class CyderFrame extends JFrame {
 
         Timer timer = null;
         Timer finalTimer = timer;
+
         timer = new Timer(10, new ActionListener() {
             private double angle = 0;
-            private double delta = 2.0;
 
             BufferedImage rotated;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                angle += delta;
+                angle += BARREL_ROLL_DELTA;
                 if (angle > 360) {
+                    rotated = ImageUtil.rotateImageByDegrees(master, 0);
+                    ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
                     return;
                 }
                 rotated = ImageUtil.rotateImageByDegrees(master, angle);
@@ -1557,7 +1601,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Rotates the currently content pane by the specified degrees from the top left corner.
-     * @param degrees the degrees to be rotated by; 360deg = 0deg.
+     *
+     * @param degrees the degrees to be rotated by (360deg <==> 0deg)
      */
     public void rotateBackground(int degrees) {
         ImageIcon masterIcon = currentOrigIcon;
@@ -1567,7 +1612,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Repaints the title position and button positions in the correct location.
+     * Repaints the title position and button positions in the currently set enum locations.
      */
     public void refreshTitleAndButtonPosition() {
         switch (titlePosition) {
@@ -1593,7 +1638,8 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Overriden setSize method to ensure the bounds are never less than min_width x min_height
+     * Sets the size of this frame ensuring that the sizing is not below
+     * {@link CyderFrame#MINIMUM_WIDTH} by {@link CyderFrame#MINIMUM_HEIGHT}
      *
      * @param width width of frame
      * @param height height of frame
@@ -1606,8 +1652,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the frame bounds and also changes the underlying drag
-     * label's bounds which is why this method is overridden.
+     * Sets the bounds of the CyderFrame and refreshes all components on the frame.
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
@@ -1686,15 +1731,34 @@ public class CyderFrame extends JFrame {
             }
     }
 
+    /**
+     * The minimum allowable width for a CydreFrame.
+     */
     public static final int MINIMUM_WIDTH = 100;
+
+    /**
+     * The maximum allowable height for a CyderFrame.
+     */
     public static final int MINIMUM_HEIGHT = 100;
 
+    /**
+     * The minimum size dimension.
+     */
     private Dimension minimumSize = new Dimension(MINIMUM_WIDTH, MINIMUM_HEIGHT);
+
+    /**
+     * The maximum size of a CyderFrame.
+     */
     private Dimension maximumSize = new Dimension(800, 800);
+
+    /**
+     * The increment to snap to on resize events.
+     */
     private Dimension snapSize = new Dimension(1, 1);
 
     /**
      * Sets the minimum window size if resizing is allowed.
+     *
      * @param minSize the Dimension of the minimum allowed size
      */
     public void setMinimumSize(Dimension minSize) {
@@ -1704,6 +1768,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Sets the maximum window size if resizing is allowed.
+     *
      * @param maxSize the Dimension of the minimum allowed size
      */
     public void setMaximumSize(Dimension maxSize) {
@@ -1722,6 +1787,8 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns the minimum window size if resizing is allowed.
+     *
      * @return the minimum window size if resizing is allowed
      */
     public Dimension getMinimumSize() {
@@ -1729,6 +1796,8 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns the maximum window size if resizing is allowed.
+     *
      * @return the maximum window size if resizing is allowed
      */
     public Dimension getMaximumSize() {
@@ -1736,25 +1805,31 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Returns the snap size for the window if resizing is allowed.
+     *
      * @return the snap size for the window if resizing is allowed
      */
     public Dimension getSnapSize() {
         return snapSize;
     }
 
-    ComponentResizer cr;
+    /**
+     * The component resizing object for this CyderFrame.
+     */
+    private ComponentResizer cr;
 
     /**
-     * Choose to allow/disable background image reisizing if window resizing is allowed.
-     * @param allowed the value determining background resizing
+     * Whether to allow background resizing on CyderFrame resize events.
+     *
+     * @param allowed whether to allow background resizing on CyderFrame resize events
      */
     public void setBackgroundResizing(Boolean allowed) {
         cr.enableBackgroundResize(allowed);
     }
 
     /**
-     * This method should be called first when attempting to allow resizing of a frame.
-     * Procedural calls: init component resizer, set resizing to true, set min, max, and snap sizes to default.
+     * Sets up necessary objects needed to allow the frame to be
+     * resizable such as registering the min/max sizes.
      */
     public void initializeResizing() {
         if (cr != null)
@@ -1771,13 +1846,24 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * @param allow sets/disables resizing of the frame.
+     * Sets whether frame resizing is allowed.
+     *
+     * @param allow whether frame resizing is allowed
      */
     public void setFrameResizing(boolean allow) {
         cr.setResizing(allow);
     }
-    ImageIcon currentOrigIcon;
 
+    /**
+     * The original image icon to use for image resizing on resizing events if allowed.
+     */
+    private ImageIcon currentOrigIcon;
+
+    /**
+     * Whether the frame is resizable.
+     *
+     * @param allow whether the frame is resizable
+     */
     @Override
     public void setResizable(boolean allow) {
         if (cr != null)
@@ -1785,7 +1871,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Refresh the background in the event of a frame size change or background image change.
+     * Refresh the background in the event of a frame size change or a background image change.
      */
     public void refreshBackground() {
         try {
@@ -1811,7 +1897,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Set the background to a new icon and refresh the frame.
-     * @param icon the ImageIcon you want the frame background to be
+     *
+     * @param icon the ImageIcon of the frame's background
      */
     public void setBackground(ImageIcon icon) {
         try {
@@ -1838,8 +1925,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the background color of the Frame's content pane
-     * @param background the Color object value of the content pane's desired background
+     * Sets the background color of the frame's content pane.
+     *
+     * @param background the new color of the frame's background
      */
     @Override
     public void setBackground(Color background) {
@@ -1850,34 +1938,43 @@ public class CyderFrame extends JFrame {
 
     /**
      * Returns the background color of the contentPane.
-     * @return Color object of the background color
+     *
+     * @return Color the background color of the contentPane
      */
     @Override
     public Color getBackground() {
         return this.backgroundColor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
     /**
-     * Kills all threads associated with this CyderFrame instance. An irreversible action. This
-     * method is actomatically called when {@link CyderFrame#dispose()} is invokekd.
+     * Kills all threads associated with this CyderFrame instance. This
+     * method is actomatically called when {@link CyderFrame#dispose()} is invoked.
+     * As such, correct features should not be expected to function properly after this method
+     * or dispose() are called.
      */
     public void killThreads() {
         threadsKilled = true;
     }
 
+    /**
+     * Whether threads have been killed.
+     *
+     * @return whether threads have been killed
+     */
     public boolean threadsKilled() {
         return this.threadsKilled;
     }
 
     /**
      * Set the background of {@code this} to the current ConsoleFrame background.
-     * Note: the background is not updated when the ConsoleFrame background is, I have plans
-     *  to add a method to enable this
      */
     public void stealConsoleBackground() {
         if (ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon() == null)
@@ -1889,29 +1986,57 @@ public class CyderFrame extends JFrame {
                 .getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT)));
     }
 
+    /**
+     * Returns the restore x value.
+     *
+     * @return the restore x value
+     */
     public int getRestoreX() {
         return this.restoreX;
     }
 
+    /**
+     * Returns the restore y value.
+     *
+     * @return the restore y value
+     */
     public int getRestoreY() {
         return this.restoreY;
     }
 
+    /**
+     * Sets the restore x value.
+     *
+     * @param x the restore x value
+     */
     public void setRestoreX(int x) {
         this.restoreX = x;
     }
 
+    /**
+     * Sets the restore y value.
+     *
+     * @param y the restore y value
+     */
     public void setRestoreY(int y) {
         this.restoreY = y;
     }
 
+    /**
+     * Whether dragging is permitted for this frame.
+     *
+     * @return whether dragging is permitted for this frame
+     */
     public boolean draggingEnabled() {
         return getTopDragLabel().isDraggingEnabled() &&
                 getBottomDragLabel().isDraggingEnabled() &&
                 getLeftDragLabel().isDraggingEnabled() &&
                 getRightDragLabel().isDraggingEnabled();
     }
-    
+
+    /**
+     * Disables dragging for this frame.
+     */
     public void disableDragging() {
         if (topDrag == null)
             return;
@@ -1922,6 +2047,9 @@ public class CyderFrame extends JFrame {
         getLeftDragLabel().disableDragging();
     }
 
+    /**
+     * Enables dragging for this frame.
+     */
     public void enableDragging() {
         getTopDragLabel().enableDragging();
         getBottomDragLabel().enableDragging();
@@ -1929,6 +2057,10 @@ public class CyderFrame extends JFrame {
         getLeftDragLabel().enableDragging();
     }
 
+    /**
+     * Repaints the frame, associated shape, and objects using
+     * the {@link CyderColors#guiThemeColor} attribute.
+     */
     @Override
     public void repaint() {
         if (topDrag == null) {
@@ -1989,13 +2121,26 @@ public class CyderFrame extends JFrame {
         super.repaint();
     }
 
+    /**
+     * Actions to be invoked before dispose is invoked.
+     */
     private LinkedList<PreCloseAction> preCloseActions = new LinkedList<>();
+
+    /**
+     * Actions to be invoked after dispose is invoked.
+     */
     private LinkedList<PostCloseAction> postCloseActions = new LinkedList<>();
 
+    /**
+     * Removes all pre close actions.
+     */
     public void removePreCloseActions() {
         preCloseActions = new LinkedList<>();
     }
 
+    /**
+     * Removes all post close actions.
+     */
     public void removePostCloseActions() {
         postCloseActions = new LinkedList<>();
     }
@@ -2003,6 +2148,7 @@ public class CyderFrame extends JFrame {
     /**
      * Performs the given action right before closing the frame. This action is invoked right before an animation
      * and sequential dispose call.
+     *
      * @param action the action to perform before closing/disposing
      */
     public void addPreCloseAction(PreCloseAction action) {
@@ -2012,36 +2158,54 @@ public class CyderFrame extends JFrame {
     /**
      * Performs the given action right after closing the frame. This action is invoked right after an animation
      * and sequential dispose call.
+     *
      * @param action the action to perform before closing/disposing
      */
     public void addPostCloseAction(PostCloseAction action) {
         postCloseActions.add(action);
     }
 
-    //interface to be used for preCloseActions
+    /**
+     * An action to invoke before a dispose call.
+     */
     public interface PreCloseAction {
         void invokeAction();
     }
 
-    //interface to be used for postCloseActions
+    /**
+     * An action to invoke after a dispose call.
+     */
     public interface PostCloseAction {
         void invokeAction();
     }
 
+    /**
+     * A message to display before the frame is actually disposed.
+     */
     private String closingConfirmationMessage = null;
 
     /**
-     * Displays a confirmation dialog to the user to confirm whether or not they intended to exit the frame
+     * Displays a confirmation dialog to the user to confirm
+     * whether they intended to exit the frame.
+     *
      * @param message the message to display to the user
      */
     public void setClosingConfirmation(String message) {
        this.closingConfirmationMessage = message;
     }
 
+    /**
+     * Removes any closing confirmation messages set.
+     */
     public void removeClosingConfirmation() {
         this.closingConfirmationMessage = null;
     }
 
+    /**
+     * Adds any {@link MouseMotionListener}s to the drag labels.
+     *
+     * @param actionListener the listener to add to the drag labels
+     */
     public void addDragListener(MouseMotionListener actionListener) {
         topDrag.addMouseMotionListener(actionListener);
         bottomDrag.addMouseMotionListener(actionListener);
