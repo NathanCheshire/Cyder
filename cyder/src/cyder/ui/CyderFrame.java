@@ -2201,6 +2201,10 @@ public class CyderFrame extends JFrame {
         this.closingConfirmationMessage = null;
     }
 
+    // ---------------
+    // pinning logic
+    // ---------------
+
     /**
      * Adds any {@link MouseMotionListener}s to the drag labels.
      *
@@ -2213,6 +2217,11 @@ public class CyderFrame extends JFrame {
         rightDrag.addMouseMotionListener(actionListener);
     }
 
+    /**
+     * Adds any {@link MouseListener}s to the drag labels.
+     *
+     * @param ml the listener to add to the drag labels
+     */
     public void addDragMouseListener(MouseListener ml) {
         topDrag.addMouseListener(ml);
         bottomDrag.addMouseListener(ml);
@@ -2220,11 +2229,15 @@ public class CyderFrame extends JFrame {
         rightDrag.addMouseListener(ml);
     }
 
+    /**
+     * Whether the frame should be pinned on top.
+     */
     private boolean pinned;
 
     /**
      * Sets the value for pinning the frame on top.
-     * @param pinWindow the value determining whether or not the frame is always on top
+     *
+     * @param pinWindow whether the frame is always on top
      */
     public void setPinned(boolean pinWindow) {
         this.pinned = pinWindow;
@@ -2232,93 +2245,128 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Standard getter for pinned boolean.
-     * @return the boolean of pinned
+     * Returns whether the frame is pinned.
+     *
+     * @return whether the frame is pinned
      */
     public boolean getPinned() {
         return this.pinned;
     }
 
-    //pinned to console, second mode of pinning
-
+    /**
+     * Whether the frame is pinned on top AND pinned to the console frame.
+     */
     private boolean consolePinned;
 
     /**
-     * Determines if the frame should be pinned to the console.
-     * @return boolean describing if the frame should move with the console
+     * Returns whether the frame should be pinned to the console frame.
+     *
+     * @return whether the frame should be pinned to the console frame
      */
     public boolean isConsolePinned() {
         return consolePinned;
     }
 
     /**
-     * Setter for the state of the provided boolean.
-     * @param consolePinned whether or not the frame should stick to the console
+     * Sets whether the frame should be pinned to the console frame.
+     *
+     * @param consolePinned whether the frame should be pinned to the console frame
      */
     public void setConsolePinned(boolean consolePinned) {
         this.consolePinned = consolePinned;
         setAlwaysOnTop(this.consolePinned);
     }
 
-    //relativeX, relativeY are used for frame pinning and dragging on the consoleFrame
-
+    /**
+     * The relative x value of this frame to the console frame, used for console pin dragging actions.
+     */
     private int relativeX = 0;
+
+    /**
+     * The relative y value of this frame to the console frame, used for console pin dragging actions.
+     */
     private int relativeY = 0;
 
+    /**
+     * Returns the relative x of this frame to the console frame.
+     *
+     * @return the relative x of this frame to the console frame
+     */
     public int getRelativeX() {
         return relativeX;
     }
 
+    /**
+     * Returns the relative y of this frame to the console frame.
+     *
+     * @return the relative y of this frame to the console frame
+     */
     public int getRelativeY() {
         return relativeY;
     }
 
+    /**
+     * Sets the relative x of this frame to the console frame.
+     *
+     * @param relativeX the relative x of this frame to the console frame
+     */
     public void setRelativeX(int relativeX) {
         this.relativeX = relativeX;
     }
 
+    /**
+     * Sets the relative y of this frame to the console frame.
+     *
+     * @param relativeY the relative y of this frame to the console frame
+     */
     public void setRelativeY(int relativeY) {
         this.relativeY = relativeY;
     }
 
-    //used for frame consolidation points
+    // -----------------
+    // taskbar logic
+    // -----------------
 
-    private double xPercent = 0;
-    private double yPercent = 0;
-
-    public double getxPercent() {
-        return xPercent;
-    }
-
-    public double getyPercent() {
-        return yPercent;
-    }
-
-    public void setxPercent(double xPercent) {
-        this.xPercent = xPercent;
-    }
-
-    public void setyPercent(double yPercent) {
-        this.yPercent = yPercent;
-    }
-
-    //console menu taskbar logic
-
-    //override to prevent changing on disposal calls
+    /**
+     * Sets the taskbar image of the CyderFrame to the provided image.
+     * If the frame's dispose() method has been invoked, this will
+     * prevent the image from being set for optimization purposes.
+     *
+     * @param image the image to use for the taskbar
+     */
     @Override
     public void setIconImage(Image image) {
         if (!threadsKilled)
             super.setIconImage(image);
     }
 
-    private static Color blueBorderColor = new Color(22,124,237);
-    private static Color redBorderColor = new Color(254,49,93);
-    private static Color orangeBorderColor = new Color(249,122,18);
+    /**
+     * The possible border colors to use for the taskbar icon
+     */
+    public static final ArrayList<Color> TASKBAR_BORDER_COLORS = new ArrayList<>() {{
+        add(new Color(22,124,237));
+        add(new Color(254,49,93));
+        add(new Color(249,122,18));
+    }};
 
+    /**
+     * The index which determines which color to choose for the border color.
+     */
     private static int colorIndex = 0;
+
+    /**
+     * The taskbar icon border color for this CyderFrame instance.
+     */
     private Color taskbarIconBorderColor;
 
+    /**
+     * Whether to use the custom taskbar icon if it exists.
+     */
     private boolean useCustomTaskbarIcon;
+
+    /**
+     * The custom ImageIcon to use for the taskbar icon if enabled.
+     */
     private ImageIcon customTaskbarIcon;
 
     /**
@@ -2333,7 +2381,7 @@ public class CyderFrame extends JFrame {
     /**
      * Whether to use a custom taskbar icon or the default one.
      *
-     * @param useCustomTaskbarIcon C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\ui\CyderFrame.java
+     * @param useCustomTaskbarIcon whether to use a custom taskbar icon or the default one
      */
     public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
         if (this.useCustomTaskbarIcon == useCustomTaskbarIcon)
@@ -2415,17 +2463,13 @@ public class CyderFrame extends JFrame {
      * @return the color to be associated with this CydrFrame's taskbar border color
      */
     private Color getTaskbarBorderColor() {
-        switch (colorIndex) {
-            case 0:
-                colorIndex++;
-                return blueBorderColor;
-            case 1:
-                colorIndex++;
-                return redBorderColor;
-            default:
-                colorIndex = 0;
-                return orangeBorderColor;
-        }
+        Color ret = TASKBAR_BORDER_COLORS.get(colorIndex);
+        colorIndex++;
+
+        if (colorIndex > TASKBAR_BORDER_COLORS.size() - 1)
+            colorIndex = 0;
+
+        return ret;
     }
 
     /**

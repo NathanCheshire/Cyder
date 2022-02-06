@@ -7,9 +7,7 @@
 [18-25-24] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-25-24] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [18-25-24] [SYSTEM_IO]: Userdata requested: RandomBackground
-[18-25-24] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-25-24] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-25-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-25-24] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [18-25-24] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-25-24] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-25-24] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -23,11 +21,9 @@
 [18-25-25] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3107ms
 [18-25-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [18-25-26] [SYSTEM_IO]: Userdata requested: minimizeanimation
-[18-25-26] [SYSTEM_IO]: Userdata requested: Background
-[18-25-27] [SYSTEM_IO]: Userdata requested: Background
+[18-25-27] [SYSTEM_IO]: Userdata requested: Background [2x]
 [18-25-29] [SYSTEM_IO]: Userdata requested: minimizeanimation
-[18-25-29] [SYSTEM_IO]: Userdata requested: Background
-[18-25-30] [SYSTEM_IO]: Userdata requested: Background
+[18-25-30] [SYSTEM_IO]: Userdata requested: Background [2x]
 [18-25-32] [CLIENT]: calc
 [18-25-32] [SYSTEM_IO]: Userdata requested: filterchat
 [18-25-32] [WIDGET OPENED]: CALCULATOR
