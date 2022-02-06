@@ -447,7 +447,8 @@ public class OSUtil {
     //todo will also need to redo the way user data is accessed/saved/stored
     // everything should be within userutil and it will be a black box essentially
 
-    //todo redo image resizer and put cropper inside of it
+    //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
+    // most methods should be in image utils probably.
 
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata
@@ -456,7 +457,7 @@ public class OSUtil {
     // to change/not change the size
 
     //todo fix weird bug with setting console orientation when it originally loads
-    // and you can do ctrl + up and it refreshes a little
+    // and you can do ctrl + up and it refreshes a littlea
 
     //todo remember console orientation on exiting Cyder
 

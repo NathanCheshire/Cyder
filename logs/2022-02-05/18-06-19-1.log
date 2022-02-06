@@ -1,0 +1,72 @@
+[18-06-19] [ENTRY]: [Nathan]
+[18-06-20] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-06-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-06-20] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-06-20] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-06-21] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-06-21] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-06-21] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-06-21] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-06-22] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[18-06-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-06-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-06-22] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-06-22] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-06-22] [SYSTEM_IO]: Userdata requested: InputFill
+[18-06-22] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [615107249], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-06-22] [ACTION]: Console loaded in 2914ms
+[18-06-22] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-06-22] [ENTRY]: [TESTING MODE]
+[18-06-22] [SYSTEM_IO]: Userdata requested: laststart
+[18-06-22] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2914ms
+[18-06-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-06-25] [CLIENT]: prefs
+[18-06-25] [SYSTEM_IO]: Userdata requested: filterchat
+[18-06-26] [WIDGET OPENED]: PREFS
+[18-06-26] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[18-06-26] [HANDLE]: PRIMARY HANDLE
+[18-06-27] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-06-27] [SYSTEM_IO]: Userdata requested: Background [2x]
+[18-06-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1531018419], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-06-27] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
+[18-06-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-06-28] [ACTION]: [Preferences] [NOTIFICATION] Fonts loaded
+[18-06-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-06-29] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(440, 250, 220, 50)], hash = [1868788589], parentFrame = [Preferences], associated text = [1A2033], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[18-07-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-07-07] [SYSTEM_IO]: Userdata requested: InputFill
+[18-07-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(210, 410, 140, 40)], hash = [339125705], parentFrame = [Preferences], associated text = [Reset ALL], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-07] [ACTION]: [Preferences] [NOTIFICATION] Default fonts and colors set
+[18-07-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-07-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [830559783], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-13] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(751, 343, 900, 580)], hash = [8909156], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-07-13] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-20] [CLIENT]: notificationtest
+[18-07-20] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-20] [HANDLE]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[18-07-20] [HANDLE]: FINAL HANDLE
+[18-07-20] [CONSOLE_OUT]: [STRING] Invoking manual test: notificationTest
+[18-07-29] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [780887033], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-29] [ACTION]: [Notification Test] [NOTIFICATION] asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfa
+[18-07-30] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-07-31] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [722951118], parentFrame = [Notification Test], associated text = [asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfa], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-32] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [780887033], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-32] [ACTION]: [Notification Test] [NOTIFICATION] asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaaasdfaasdfasdfa
+[18-07-33] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-07-35] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [722951118], parentFrame = [Notification Test], associated text = [asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaaasdfaasdfasdfa], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [780887033], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-36] [ACTION]: [Notification Test] [NOTIFICATION] asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaaasdasdfaasdfafaasdfasdfa
+[18-07-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-07-53] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [2060690108], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-53] [ACTION]: [Notification Test] [NOTIFICATION] asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaaasdasdfaasdfafaasdfasdfa
+[18-07-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-07-57] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [780887033], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-57] [ACTION]: [Notification Test] [NOTIFICATION] asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaaasdasdfaasdfafaasdfasdfa
+[18-07-59] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-08-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [780887033], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-08-08] [ACTION]: [Notification Test] [NOTIFICATION] asdfaasdfaasdfaasdfaasdfaasdfaasdfaasdfaaasdasdfaasdfafaasdfasdfa
+[18-08-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-08-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 616, 28)], hash = [38465347], parentFrame = [Notification Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-08-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1576, 381, 620, 600)], hash = [1787673152], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test]
+[18-08-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-09-10] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

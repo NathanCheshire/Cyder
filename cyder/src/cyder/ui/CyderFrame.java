@@ -24,30 +24,76 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.util.LinkedList;
 
+/**
+ * CyderFrame component is the primary backbone that all of Cyder lays on.
+ */
 public class CyderFrame extends JFrame {
+    /**
+     * The maximum allowable frame dimension to notification dimension before
+     * the notification is turned into a popup pane.
+     */
+    public static final float NOTIFICATION_MAX_RATIO = 0.9f;
+
+    /**
+     * The default width for a CyderFrame.
+     */
+    public static final int DEFAULT_WIDTH = 800;
+
+    /**
+     * The default height for a CyderFrame.
+     */
+    public static final int DEFAULT_HEIGHT = 800;
+
+    /**
+     * The possible title positions for a CyderFrame title.
+     */
     public enum TitlePosition {
         LEFT,
         CENTER,
         RIGHT,
     }
 
+    /**
+     * The possible button positions for a CyderFrame.
+     */
     public enum ButtonPosition {
         LEFT,
         RIGHT,
     }
 
+    /**
+     * The possible frame types for a CyderFrame.
+     */
     public enum FrameType {
         DEFAULT,
         INPUT_GETTER,
         POPUP,
     }
 
+    /**
+     * This CyderFrame's frame type.
+     */
     private FrameType frameType = FrameType.DEFAULT;
 
+    /**
+     * This CyderFrame's title position.
+     */
     private TitlePosition titlePosition = TitlePosition.LEFT;
+
+    /**
+     * This CyderFrame's button position.
+     */
     private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
-    private int width = 1;
-    private int height = 1;
+
+    /**
+     * This CyderFrame's width.
+     */
+    private int width = DEFAULT_WIDTH;
+
+    /**
+     * This CyderFrame's height.
+     */
+    private int height = DEFAULT_HEIGHT;
 
     //threads belonging to this instance: notification queuer and dance thread may be ctrl + c'd away
     private boolean threadsKilled;
@@ -90,9 +136,7 @@ public class CyderFrame extends JFrame {
 
     public static final int borderLen = 5;
 
-    //used for a constructor
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 800;
+
 
     /**
      * returns an instance of a cyderframe which extends JFrame with the specified width and height
@@ -881,7 +925,7 @@ public class CyderFrame extends JFrame {
                             int h = bs.getHeight();
                             text.setText(bs.getText());
 
-                            if (h > this.height) {
+                            if (h > this.height * NOTIFICATION_MAX_RATIO || w > this.width * NOTIFICATION_MAX_RATIO) {
                                 this.inform(text.getText(),"Notification");
                                 continue;
                             }
@@ -1720,6 +1764,10 @@ public class CyderFrame extends JFrame {
         bottomDrag.setBackground(CyderColors.guiThemeColor);
         leftDrag.setBackground(CyderColors.guiThemeColor);
         rightDrag.setBackground(CyderColors.guiThemeColor);
+        topDragCover.setBackground(CyderColors.guiThemeColor);
+        bottomDragCover.setBackground(CyderColors.guiThemeColor);
+        leftDragCover.setBackground(CyderColors.guiThemeColor);
+        rightDragCover.setBackground(CyderColors.guiThemeColor);
 
         //repaint drag labels
         topDrag.repaint();

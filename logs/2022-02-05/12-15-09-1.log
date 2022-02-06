@@ -7,9 +7,7 @@
 [12-15-10] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [12-15-11] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [12-15-11] [SYSTEM_IO]: Userdata requested: RandomBackground
-[12-15-11] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-15-11] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-15-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-15-11] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [12-15-11] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-15-11] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-15-11] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -55,9 +53,7 @@
 [12-16-06] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [964968737], parentFrame = [Bobby_China], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [12-16-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1056, 482, 800, 450)], hash = [487522881], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Bobby_China]
 [12-16-06] [SYSTEM_IO]: Userdata requested: closeanimation
-[12-16-11] [SYSTEM_IO]: Userdata requested: Background
-[12-16-13] [SYSTEM_IO]: Userdata requested: Background
-[12-16-18] [SYSTEM_IO]: Userdata requested: Background
+[12-16-18] [SYSTEM_IO]: Userdata requested: Background [3x]
 [12-16-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1513927935], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [12-16-23] [CONSOLE_OUT]: [STRING] Background: chillsteppppperrrr successfully deleted.
 [12-16-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1513927935], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]

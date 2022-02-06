@@ -549,7 +549,7 @@ public class UserEditor implements WidgetBase {
         foregroundField.setRegexMatcher("[A-Fa-f0-9]+");
         foregroundField.setText(UserUtil.getUserData("Foreground"));
         foregroundField.setFont(CyderFonts.segoe30);
-        foregroundField.setToolTipText("Hex Value");
+        foregroundField.setToolTipText("Console input/output text color");
         JTextField finalHexField1 = foregroundField;
         foregroundField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {

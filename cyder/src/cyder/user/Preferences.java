@@ -231,7 +231,7 @@ public class Preferences {
         ret.add(new Preference("consoleclockformat","IGNORE",
                 "","EEEEEEEEE h:mmaa",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key =  consoleclockformat");
-            //todo update console clock
+            ConsoleFrame.getConsoleFrame().refreshClockText();
             return null;
         }));
         ret.add(new Preference("youtubeuuid","IGNORE",
