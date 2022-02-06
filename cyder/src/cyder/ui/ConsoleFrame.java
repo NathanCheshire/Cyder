@@ -559,7 +559,11 @@ public final class ConsoleFrame {
             inputField.getActionMap().put("debuglines", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    consoleCyderFrame.drawDebugLines(!consoleCyderFrame.isDrawDebugLines());
+                    boolean drawLines = !consoleCyderFrame.isDrawDebugLines();
+
+                    for (CyderFrame frame : FrameUtil.getCyderFrames()) {
+                        frame.drawDebugLines(drawLines);
+                    }
                 }
             });
 

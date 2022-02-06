@@ -1,0 +1,23 @@
+[12-25-47] [ENTRY]: [Nathan]
+[12-25-48] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-25-48] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-25-48] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[12-25-48] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-25-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-25-49] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-25-50] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-25-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-25-50] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[12-25-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-25-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-25-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-25-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-25-50] [SYSTEM_IO]: Userdata requested: InputFill
+[12-25-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1623010287], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-25-50] [ACTION]: Console loaded in 3050ms
+[12-25-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-25-50] [ENTRY]: [TESTING MODE]
+[12-25-50] [SYSTEM_IO]: Userdata requested: laststart
+[12-25-51] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3050ms
+[12-25-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-26-39] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

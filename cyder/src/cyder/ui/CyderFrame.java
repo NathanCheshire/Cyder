@@ -2736,18 +2736,16 @@ public class CyderFrame extends JFrame {
 
             if (this.background != null) {
                 lineColor = ColorUtil.getDominantColorOpposite(this.background);
-
-                ImageIcon img = new ImageIcon(ImageUtil.resizeImage(25,25, this.background));
-
-                ImageIcon neffex = new ImageIcon("static/pictures/print/neffex.png");
-                debugImageLabel = new JLabel();
-                debugImageLabel.setIcon(neffex);
-                debugImageLabel.setBounds(
-                        getWidth() / 2 - neffex.getIconWidth() / 2,
-                        getHeight() / 2 - neffex.getIconHeight() / 2,
-                        neffex.getIconWidth(), neffex.getIconHeight());
-                this.add(debugImageLabel);
             }
+
+            ImageIcon neffex = new ImageIcon("static/pictures/print/neffex.png");
+            debugImageLabel = new JLabel();
+            debugImageLabel.setIcon(neffex);
+            debugImageLabel.setBounds(
+                    getWidth() / 2 - neffex.getIconWidth() / 2,
+                    getHeight() / 2 - neffex.getIconHeight() / 2,
+                    neffex.getIconWidth(), neffex.getIconHeight());
+            this.add(debugImageLabel);
 
             debugXLabel = new JLabel();
             debugXLabel.setBounds(getWidth() / 2 - 2, 0, 4, getHeight());
@@ -2779,6 +2777,7 @@ public class CyderFrame extends JFrame {
         return this.drawDebugLines;
     }
 
+    //todo extract to objects, but do we even need both this and notification objects here?
     /**
      * Class for notifications so that we can save their information
      * and show them later if ones are already in the queue.
