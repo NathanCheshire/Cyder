@@ -2,17 +2,11 @@ package cyder.genesis;
 
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.Logger;
-import cyder.threads.CyderThreadFactory;
+import cyder.handlers.internal.LoginHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
-import cyder.utilities.FrameUtil;
 import cyder.utilities.UserUtil;
-
-import java.util.concurrent.Executors;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Methods c ommon to all of Cyder that don't exactly belong in a util class.
@@ -23,54 +17,6 @@ public class CyderCommon {
      */
     private CyderCommon() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    }
-
-    /**
-     * Boolean describing the state of the frame checker failsafe.
-     */
-    private static boolean frameCheckerSuspended = false;
-    private static boolean checkerStarted = false;
-
-    /**
-     * Suspends the frame checker.
-     */
-    public static void suspendFrameChecker() {
-        frameCheckerSuspended = true;
-    }
-
-    /**
-     * Starts the framechecker if it was paused.
-     */
-    public static void resumeFrameChecker() {
-        frameCheckerSuspended = false;
-    }
-
-    /**
-     * Starts the frame disposal failsafe.
-     */
-    public static void startFinalFrameDisposedChecker() {
-        if (checkerStarted)
-            return;
-
-        checkerStarted = true;
-        frameCheckerSuspended = true;
-
-        Executors.newSingleThreadScheduledExecutor(new CyderThreadFactory(
-                "Final Frame Disposed Checker")).scheduleAtFixedRate(() -> {
-            if (!frameCheckerSuspended) {
-                int validFrames = 0;
-
-                for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                    if (f.isShowing()) {
-                        validFrames++;
-                    }
-                }
-
-                if (validFrames < 1) {
-                    CyderCommon.exit(120);
-                }
-            }
-        }, 10, 5, SECONDS);
     }
 
     /**

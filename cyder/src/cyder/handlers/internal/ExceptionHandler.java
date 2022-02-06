@@ -125,7 +125,6 @@ public class ExceptionHandler {
      * @param code the exit code to log when exiting
      */
     public static void exceptionExit(String message, String title, int code) {
-        CyderCommon.suspendFrameChecker();
         PopupHandler.inform(message, title, null, null, () -> CyderCommon.exit(code));
     }
 }

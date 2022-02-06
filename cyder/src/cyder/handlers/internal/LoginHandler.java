@@ -312,9 +312,6 @@ public class LoginHandler {
 
         //begin typing animations
         startTypingAnimation(new CyderOutputPane(loginArea));
-
-        //resume the failsafe
-        CyderCommon.resumeFrameChecker();
     }
 
     /**
@@ -534,7 +531,6 @@ public class LoginHandler {
                 ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt
                         ? CyderEntry.AutoCypher : CyderEntry.Login);
 
-                //dispose login frame now to avoid final frame disposed checker seeing that there are no frames
                 // and exiting the program when we have just logged in
                 if (loginFrame != null) {
                     loginFrame.removePostCloseActions();

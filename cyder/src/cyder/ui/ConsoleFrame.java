@@ -1152,9 +1152,6 @@ public final class ConsoleFrame {
                 notify(logString);
             }
 
-            //resume failsafe
-            CyderCommon.resumeFrameChecker();
-
             ret = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -3431,8 +3428,6 @@ public final class ConsoleFrame {
      * relative to where ConsoleFrame was closed.
      */
     public void logout() {
-        CyderCommon.suspendFrameChecker();
-
         Point centerPoint = consoleCyderFrame.getCenterPoint();
         int monitor = consoleCyderFrame.getMonitor();
 

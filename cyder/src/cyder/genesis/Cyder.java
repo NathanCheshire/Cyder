@@ -109,9 +109,6 @@ public class Cyder {
             IOUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();
 
-        //start GUI exiting failsafe
-        CyderCommon.startFinalFrameDisposedChecker();
-
         //offship how to login to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
     }
