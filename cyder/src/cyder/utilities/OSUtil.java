@@ -425,7 +425,9 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo notification bug where it is cut off
+    //todo get rid of final frame disposed checker
+
+    //todo make an active chameleon mode with arg for frequency in miliseconds
 
     //todo load project up fresh so that you can see all the warnings youve ignored
 

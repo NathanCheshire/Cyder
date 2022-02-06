@@ -2055,7 +2055,6 @@ public final class ConsoleFrame {
             System.out.println(backgrounds.get(i).getReferenceFile());
             if (backgrounds.get(i).getReferenceFile().getAbsolutePath()
                     .equals(backgroundFile.getAbsolutePath())) {
-                System.out.println(i);
                 index = i;
                 break;
             }
@@ -2066,6 +2065,20 @@ public final class ConsoleFrame {
         else
             throw new IllegalArgumentException("Provided file not found in user's backgrounds directory: "
                     + backgroundFile.getAbsolutePath());
+    }
+
+    /**
+     * Simply sets the background to the provided icon without having a refernce file.
+     * Please ensure the icon size is the same as the current background's.
+     *
+     * @param icon the icon to set to the background of the console frame
+     */
+    public void setBackground(ImageIcon icon) {
+        if (icon.getIconWidth() != backgrounds.get(backgroundIndex).generateImageIcon().getIconWidth()
+        || icon.getIconHeight() != backgrounds.get(backgroundIndex).generateImageIcon().getIconHeight())
+            throw new IllegalArgumentException("Provided icon is not the same size as the current icon");
+
+        consoleCyderFrame.setBackground(icon);
     }
 
     /**
@@ -2087,7 +2100,6 @@ public final class ConsoleFrame {
         //todo what about console orientation and fullscreen?
 
         backgroundIndex = index;
-        System.out.println(index);
 
         ImageIcon imageIcon = getCurrentBackgroundImageIcon();
         consoleCyderFrame.setBackground(imageIcon);

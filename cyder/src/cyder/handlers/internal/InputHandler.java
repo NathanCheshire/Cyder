@@ -1296,6 +1296,27 @@ public class InputHandler {
             } else {
                 print("Wipe command usage: wipe [directory/file within your user directory]");
             }
+        } else if (commandIs("chameleon")) {
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(false);
+
+            CyderFrame ref = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+            Robot robot = new Robot();
+
+            Rectangle screenRect = new Rectangle(0, 0, 0, 0);
+            for (GraphicsDevice gd : GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()) {
+                screenRect = screenRect.union(gd.getDefaultConfiguration().getBounds());
+            }
+            BufferedImage capture = new Robot().createScreenCapture(screenRect);
+
+            int xOff = (int) ref.getMonitorBounds().getX();
+            int yOff = (int) ref.getMonitorBounds().getY();
+
+            capture = ImageUtil.getCroppedImage(capture, Math.abs(-ref.getX() + xOff),
+                    Math.abs(-ref.getY() + yOff), ref.getWidth(), ref.getHeight());
+
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(true);
+
+            ConsoleFrame.getConsoleFrame().setBackground(ImageUtil.getImageIcon(capture));
         }
 
         else ret = false;
