@@ -2321,12 +2321,20 @@ public class CyderFrame extends JFrame {
     private boolean useCustomTaskbarIcon;
     private ImageIcon customTaskbarIcon;
 
+    /**
+     * Returns whether to use the default taskbar component or the custom one.
+     *
+     * @return whether to use the default taskbar component or the custom onec
+     */
     public boolean isUseCustomTaskbarIcon() {
         return useCustomTaskbarIcon;
     }
 
-    //even if console menu isn't visible, if we're calling generate it needs to be regenerated
-
+    /**
+     * Whether to use a custom taskbar icon or the default one.
+     *
+     * @param useCustomTaskbarIcon C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\ui\CyderFrame.java
+     */
     public void setUseCustomTaskbarIcon(boolean useCustomTaskbarIcon) {
         if (this.useCustomTaskbarIcon == useCustomTaskbarIcon)
             return;
@@ -2339,6 +2347,11 @@ public class CyderFrame extends JFrame {
         ConsoleFrame.getConsoleFrame().revalidateMenu();
     }
 
+    /**
+     * Constructs the custom taskbar icon based on the currently set custom taskbar imageicon.
+     *
+     * @return the custom taskbar icon based on the currently set custom taskbar imageicon
+     */
     public JLabel getCustomTaskbarIcon() {
         JLabel customLabel = new JLabel();
         customLabel.setSize(CyderFrame.taskbarIconLength, CyderFrame.taskbarIconLength);
@@ -2387,11 +2400,20 @@ public class CyderFrame extends JFrame {
         return customLabel;
     }
 
+    /**
+     * Sets the taskbar image icon to use.
+     *
+     * @param customTaskbarIcon the taskbar image icon to use
+     */
     public void setCustomTaskbarIcon(ImageIcon customTaskbarIcon) {
         this.customTaskbarIcon = customTaskbarIcon;
     }
 
-    //initializes this frame instance's border color to be used for drawing/redrawing until object is disposed
+    /**
+     * Returns the color to be associated with this CydrFrame's taskbar border color.
+     *
+     * @return the color to be associated with this CydrFrame's taskbar border color
+     */
     private Color getTaskbarBorderColor() {
         switch (colorIndex) {
             case 0:
@@ -2406,6 +2428,9 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    /**
+     * Increments the color index to use for border colors for CyderFrame objects.
+     */
     public static void incrementColorIndex() {
         colorIndex++;
 
@@ -2413,9 +2438,21 @@ public class CyderFrame extends JFrame {
             colorIndex = 0;
     }
 
+    /**
+     * The length of the taskbar icons to be generated.
+     */
     public static final int taskbarIconLength = 75;
+
+    /**
+     * The border length of the taskbar icons to be generated.
+     */
     public static final int taskbarBorderLength = 5;
 
+    /**
+     * Returns a compact taskbar component for this cyderframe instance.
+     *
+     * @return a compact taskbar component for this cyderframe instance
+     */
     public JLabel getComapctTaskbarButton() {
        return generateDefaultCompactTaskbarComponent(this.getTitle(), () -> {
            if (getState() == 0) {
@@ -2426,6 +2463,11 @@ public class CyderFrame extends JFrame {
        });
     }
 
+    /**
+     * Returns a taskbar component with the currently set border color.
+     *
+     * @return a taskbar component with the currently set border color
+     */
     public JLabel getTaskbarButton() {
         if (this.getTitle() == null || this.getTitle().length() == 0)
             throw new IllegalArgumentException("Title not set or long enough");
@@ -2433,6 +2475,13 @@ public class CyderFrame extends JFrame {
         return getTaskbarButton(taskbarIconBorderColor);
     }
 
+    /**
+     * Returns taskbar component with the specifiecd border
+     * color which minimizes the frame upon click actions.
+     *
+     * @param borderColor the color of the taskbar border
+     * @return a taskbar component with the specified border color
+     */
     public JLabel getTaskbarButton(Color borderColor) {
         return generateDefaultTaskbarComponent(this.getTitle(), () -> {
             if (getState() == 0) {
@@ -2445,6 +2494,13 @@ public class CyderFrame extends JFrame {
 
     public static final int MAX_COMPACT_MENU_CHARS = 11;
 
+    /**
+     * Generates a default taskbar component for compact mode.
+     *
+     * @param title the title of the compact taskbar component
+     * @param clickAction the action to invoke upon clicking the compact component
+     * @return the compact taskbar component
+     */
     public static JLabel generateDefaultCompactTaskbarComponent(String title, ClickAction clickAction) {
         JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));
         ret.setForeground(CyderColors.vanila);
@@ -2474,6 +2530,14 @@ public class CyderFrame extends JFrame {
         return ret;
     }
 
+    /**
+     * Generates a default taskbar component with the provided title, click action, and border color.
+     *
+     * @param title the title of the component
+     * @param clickAction the action to invoke when the component is clicked
+     * @param borderColor the color of the border around the component
+     * @return the taskbar component
+     */
     public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction, Color borderColor) {
         JLabel ret = new JLabel();
 
@@ -2548,18 +2612,29 @@ public class CyderFrame extends JFrame {
         return ret;
     }
 
+    /**
+     * Generates a default taskbar component for this frame based on its current title.
+     *
+     * @param title the title of the component
+     * @param clickAction the action to invoke when the icon is clicked
+     * @return the taskbar component
+     */
     public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction) {
         return generateDefaultTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
     }
 
-    //used for icon frame actions in ConsoleFrame
+    /**
+     * An action performed when this frame is clicked in ConsoleFrame's taskbar.
+     */
     public interface ClickAction {
         void fire();
     }
 
-    //---------------------------------------------------------------------------------------
-
-    //overridden so we can add to ConsoleFrame's taskbar menu
+    /**
+     * Sets the frame's visibility attrbite and adds the frame to the ConsoleFrame taskbar list.
+     *
+     * @param b whether to set the frame to be visible
+     */
     @Override
     public void setVisible(boolean b) {
         super.setVisible(b);
@@ -2580,11 +2655,28 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    //debug line logic --------------------------------------------
+    // ----------------
+    // debug lines
+    // ----------------
 
+    /**
+     * Whether drawing debug lines should be performed.
+     */
     private boolean drawDebugLines;
+
+    /**
+     * The label for the horizontal line.
+     */
     private JLabel debugXLabel;
+
+    /**
+     * The label for the vertical line.
+     */
     private JLabel debugYLabel;
+
+    /**
+     * The iamge to display at the center of the debug lines. TODO make me neffex
+     */
     private JLabel debugImageLabel;
 
     /**
@@ -2658,6 +2750,7 @@ public class CyderFrame extends JFrame {
 
         /**
          * A notification that hasn't been notified to the user yet and is waiting in a CyderFrame's queue.
+         *
          * @param text the html text for the eventual notification to display
          * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
          * @param arrowDir the arrow direction
