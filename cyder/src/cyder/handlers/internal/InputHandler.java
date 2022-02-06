@@ -381,7 +381,7 @@ public class InputHandler {
         boolean ret = true;
 
         if (commandIs("java")) {
-            printlnImage("static/pictures/print/Duke.png");
+            printlnImage("static/pictures/print/duke.png");
         } else if (commandIs("msu")) {
             printlnImage("static/pictures/print/msu.png");
         } else if (commandIs("nathan")) {

@@ -2719,7 +2719,7 @@ public class CyderFrame extends JFrame {
     private JLabel debugYLabel;
 
     /**
-     * The iamge to display at the center of the debug lines. TODO make me neffex
+     * The iamge to display at the center of the debug lines.
      */
     private JLabel debugImageLabel;
 
@@ -2739,12 +2739,13 @@ public class CyderFrame extends JFrame {
 
                 ImageIcon img = new ImageIcon(ImageUtil.resizeImage(25,25, this.background));
 
+                ImageIcon neffex = new ImageIcon("static/pictures/print/neffex.png");
                 debugImageLabel = new JLabel();
-                debugImageLabel.setIcon(this.background);
+                debugImageLabel.setIcon(neffex);
                 debugImageLabel.setBounds(
-                        getWidth() / 2 - img.getIconWidth() / 2,
-                        getHeight() / 2 - img.getIconHeight() / 2,
-                        img.getIconWidth(), img.getIconHeight());
+                        getWidth() / 2 - neffex.getIconWidth() / 2,
+                        getHeight() / 2 - neffex.getIconHeight() / 2,
+                        neffex.getIconWidth(), neffex.getIconHeight());
                 this.add(debugImageLabel);
             }
 
