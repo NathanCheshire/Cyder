@@ -394,8 +394,8 @@ public final class ConsoleFrame {
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
             consoleCyderFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-            consoleCyderFrame.paintWindowTitle(false);
-            consoleCyderFrame.paintSuperTitle(true);
+            consoleCyderFrame.setPaintWindowTitle(false);
+            consoleCyderFrame.setPaintSuperTitle(true);
             consoleCyderFrame.setTitle(IOUtil.getSystemData().getVersion() +
                     " Cyder [" + UserUtil.extractUser().getName() + "]");
 
