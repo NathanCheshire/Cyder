@@ -95,24 +95,66 @@ public class CyderFrame extends JFrame {
      */
     private int height = DEFAULT_HEIGHT;
 
-    //threads belonging to this instance: notification queuer and dance thread may be ctrl + c'd away
+    /**
+     * Whether threads that were spawned by this instance of CyderFrame have been killed yet.
+     * Examples include notifications and dancing.
+     */
     private boolean threadsKilled;
 
+    /**
+     * The background image for this CyderFrame.
+     */
     private ImageIcon background;
 
+    /**
+     * The label that hides the exposed area on the top to allow frame resizing.
+     */
     private JLabel topDragCover;
+
+    /**
+     * The label that hides the exposed area on the bottom to allow frame resizing.
+     */
     private JLabel bottomDragCover;
+
+    /**
+     * The label that hides the exposed area on the left to allow frame resizing.
+     */
     private JLabel leftDragCover;
+
+    /**
+     * The label that hides the exposed area on the right to allow frame resizing.
+     */
     private JLabel rightDragCover;
 
+    /**
+     * The top drag label of this CyderFrame which contains the
+     * button list, the title, and any custom components.
+     */
     private DragLabel topDrag;
+    /**
+     * The bottom component responsible for frame location changes on the bottom.
+     */
     private DragLabel bottomDrag;
+
+    /**
+     * The left component responsible for frame location changes on the left.
+     */
     private DragLabel leftDrag;
+
+    /**
+     * The right component responsible for frame location changes on the right.
+     */
     private DragLabel rightDrag;
 
+    /**
+     * The x position of the frame to set to after frame deiconification actions.
+     */
     private int restoreX = Integer.MAX_VALUE;
+
+    /**
+     * The y position of the frame to set to after frame deiconification actions.
+     */
     private int restoreY = Integer.MIN_VALUE;
-    private Rectangle restoreBounds = null;
 
     private JLabel titleLabel;
     private JLabel iconLabel;
@@ -1102,8 +1144,6 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
-            this.restoreBounds = ScreenUtil.getMonitorBounds(this);
-
             //set restore vars here
             setRestoreX(getX());
             setRestoreY(getY());
@@ -1688,15 +1728,6 @@ public class CyderFrame extends JFrame {
 
     public void setRestoreY(int y) {
         this.restoreY = y;
-    }
-
-    /**
-     * Returns the bounds of the monitor the frame was iconified on.
-     *
-     * @return the bounds of the monitor the frame was iconified on
-     */
-    public Rectangle getRestoreBounds() {
-        return this.restoreBounds;
     }
 
     public boolean draggingEnabled() {

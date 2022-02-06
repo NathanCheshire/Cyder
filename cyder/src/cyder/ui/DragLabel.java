@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.Logger;
+import cyder.utilities.FrameUtil;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
@@ -68,36 +69,12 @@ public class DragLabel extends JLabel {
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
-                Rectangle frameBounds = effectFrame.getBounds();
-                Rectangle restoreBounds = effectFrame.getRestoreBounds();
-
-                int width = effectFrame.getWidth();
-                int height = effectFrame.getHeight();
-
-                if (frameBounds.getWidth() > restoreBounds.getWidth()) {
-                    width = (int) (width - restoreBounds.getWidth());
-                }
-
-                if (frameBounds.getHeight() > restoreBounds.getHeight()) {
-                    height = (int) (height - restoreBounds.getHeight());
-                }
-
                 int restoreX = effectFrame.getRestoreX();
                 int restoreY = effectFrame.getRestoreY();
 
-                if (restoreX > restoreBounds.getX() + restoreBounds.getWidth())
-                    restoreX = (int) (restoreBounds.getX() + restoreBounds.getWidth() - effectFrame.getWidth());
-                if (restoreX < restoreBounds.getX() - effectFrame.getWidth())
-                    restoreX = (int) restoreBounds.getX();
-
-                if (restoreY > restoreBounds.getY() + restoreBounds.getHeight())
-                    restoreY = (int) (restoreBounds.getY() + restoreBounds.getHeight() - effectFrame.getHeight());
-                if (restoreY < restoreBounds.getY() - effectFrame.getHeight())
-                    restoreY = (int) restoreBounds.getY();
-
-                effectFrame.setBounds(restoreX, restoreY, width, height);
                 effectFrame.setVisible(true);
                 effectFrame.requestFocus();
+                FrameUtil.requestFramePosition(effectFrame.getMonitor(), restoreX, restoreY, effectFrame);
             }
         });
 

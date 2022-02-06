@@ -7,9 +7,7 @@
 [18-09-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-09-12] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [18-09-12] [SYSTEM_IO]: Userdata requested: RandomBackground
-[18-09-12] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-09-12] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-09-12] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-09-12] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [18-09-12] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-09-12] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-09-12] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -31,8 +29,7 @@
 [18-09-24] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf
 [18-09-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [18-09-25] [ACTION]: Component name = [cyder.ui.Notification], bounds = [(110, 29, 126, 67)], hash = [43961465], parentFrame = [Notification Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-09-25] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [2070788024], parentFrame = [Notification Test], associated text = [asdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-09-26] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [2070788024], parentFrame = [Notification Test], associated text = [asdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-09-26] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [2070788024], parentFrame = [Notification Test], associated text = [asdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [18-09-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [1814847780], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-09-27] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdf
 [18-09-28] [SYSTEM_IO]: Userdata requested: persistentnotifications
@@ -108,10 +105,7 @@
 [18-10-53] [SYSTEM_IO]: Userdata requested: closeanimation
 [18-10-53] [ACTION]: [Preferences] [NOTIFICATION] Eric Reprid - Lukewarm (feat. alexa).mp3 was successfully renamed to Eric Reprid - Lukewarm (feat. alexa.mp3
 [18-10-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[18-10-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [192879610], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-10-59] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [192879610], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-10-59] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [192879610], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-11-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [192879610], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-11-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [192879610], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [4x]
 [18-11-01] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [233844268], parentFrame = [Rename], associated text = [Eric Reprid - Lukewarm (feat. alexa], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-11-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1426, 697, 400, 170)], hash = [1748609807], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
 [18-11-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1488472348], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -168,8 +162,7 @@
 [18-11-52] [CONSOLE_OUT]: [STRING] Download complete and added to mp3 queue
 [18-11-52] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
 [18-11-57] [SYSTEM_IO]: Userdata requested: Background
-[18-12-00] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [308115092], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-12-02] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [308115092], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-12-02] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [308115092], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [18-12-05] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
 [18-12-12] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1395633426], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>6s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-12-12] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
@@ -193,11 +186,9 @@
 [18-12-37] [ACTION]: [Preferences] [NOTIFICATION] Twillzzz - Lord Please.mp3 was successfully renamed to Twillzzz - Lord Pleasee.mp3
 [18-12-37] [SYSTEM_IO]: Userdata requested: closeanimation
 [18-12-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[18-12-40] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Pleasee.mp3
-[18-12-49] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Pleasee.mp3
+[18-12-49] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Pleasee.mp3 [2x]
 [18-12-52] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [1954109551], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-12-53] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1800542605], parentFrame = [Rename], associated text = [Twillzzz - Lord Pleasee], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-12-54] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1800542605], parentFrame = [Rename], associated text = [Twillzzz - Lord Pleasee], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-12-54] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1800542605], parentFrame = [Rename], associated text = [Twillzzz - Lord Pleasee], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [18-12-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1454, 677, 400, 170)], hash = [1448905592], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
 [18-12-55] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [318525404], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-12-55] [ACTION]: [Preferences] [NOTIFICATION] Twillzzz - Lord Pleasee.mp3 was successfully renamed to Twillzzz - Lord Please.mp3
