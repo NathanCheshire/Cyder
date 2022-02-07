@@ -425,10 +425,7 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo make an active chameleon mode with arg for frequency in miliseconds
     //todo make cham mode work for console directions
-
-    //todo should control c exit chams?
 
     //todo load project up fresh so that you can see all the warnings youve ignored
 

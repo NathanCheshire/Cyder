@@ -137,14 +137,14 @@ public class UnitTests {
          assert StatUtil.isComment("/*/");
 
         assert !StatUtil.isComment("raw text");
-        assert !StatUtil.isComment("tehe: //haha");
+        assert !StatUtil.isComment("tee: //haha");
 
         //technically this line contains a comment but it iself is not a comment
-        assert !StatUtil.isComment("tehe: /*haha*/ alpha");
+        assert !StatUtil.isComment("tee: /*haha*/ alpha");
 
-        assert !StatUtil.isComment("tehe: //haha   /*");
-        assert !StatUtil.isComment("tehe: //haha/*");
-        assert !StatUtil.isComment("tehe: /*haha");
+        assert !StatUtil.isComment("tee: //haha   /*");
+        assert !StatUtil.isComment("tee: //haha/*");
+        assert !StatUtil.isComment("tee: /*haha");
         assert !StatUtil.isComment("\"//\"");
     }
 }

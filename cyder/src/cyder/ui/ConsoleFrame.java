@@ -3536,4 +3536,38 @@ public final class ConsoleFrame {
 
         return ret;
     }
+
+    // -----------
+    // chams mode
+    // -----------
+
+    private boolean chameleonActive = false;
+
+    /**
+     * Sets the background of the console frame to whatever is behind it.
+     */
+    public void toggleChameleon() {
+        try {
+            if (chameleonActive) {
+//                CyderFrame ref = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+//                Robot robot = new Robot();
+//                Rectangle monitorBounds = ref.getMonitorBounds();
+//
+//                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(false);
+//                BufferedImage capture = new Robot().createScreenCapture(monitorBounds);
+//                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(true);
+//
+//                capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
+//                        (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
+//
+//                ConsoleFrame.getConsoleFrame().setBackground(ImageUtil.getImageIcon(capture));
+            } else {
+                //todo turn off
+            }
+
+            chameleonActive = !chameleonActive;
+        } catch (Exception e) {
+           ExceptionHandler.handle(e);
+        }
+    }
 }

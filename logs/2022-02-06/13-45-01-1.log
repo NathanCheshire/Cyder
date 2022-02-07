@@ -7,9 +7,7 @@
 [13-45-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [13-45-03] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [13-45-04] [SYSTEM_IO]: Userdata requested: RandomBackground
-[13-45-04] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-45-04] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-45-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-45-04] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [13-45-04] [SYSTEM_IO]: Userdata requested: OutputBorder
 [13-45-04] [SYSTEM_IO]: Userdata requested: FullScreen
 [13-45-04] [SYSTEM_IO]: Userdata requested: InputBorder

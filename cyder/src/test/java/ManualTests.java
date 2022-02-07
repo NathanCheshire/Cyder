@@ -29,7 +29,30 @@ public class ManualTests {
      */
     public static void launchTests() {
         try {
+            CyderFrame testFrame = new CyderFrame();
+            testFrame.setBackground(new Color(0,0,0,0));
 
+            JLabel panel = new JLabel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    if (g instanceof Graphics2D) {
+                        final int R = 240;
+                        final int G = 240;
+                        final int B = 240;
+
+                        Paint p =
+                                new GradientPaint(0.0f, 0.0f, new Color(R, G, B, 0),
+                                        0.0f, getHeight(), new Color(R, G, B, 255), true);
+                        Graphics2D g2d = (Graphics2D)g;
+                        g2d.setPaint(p);
+                        g2d.fillRect(0, 0, 100, 100);
+                    }
+                }
+            };
+            testFrame.getContentPane().add(panel);
+
+            testFrame.setVisible(true);
+            testFrame.setLocationRelativeTo(null);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
