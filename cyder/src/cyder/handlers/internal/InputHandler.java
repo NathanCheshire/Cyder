@@ -1297,7 +1297,9 @@ public class InputHandler {
                 print("Wipe command usage: wipe [directory/file within your user directory]");
             }
         } else if (commandIs("chameleon")) {
-            ConsoleFrame.getConsoleFrame().toggleChameleon();
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toggleChameleon();
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toggleChameleon();
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toggleChameleon();
         }
 
         else ret = false;

@@ -7,9 +7,7 @@
 [18-32-37] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-32-37] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [18-32-37] [SYSTEM_IO]: Userdata requested: RandomBackground
-[18-32-37] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-32-37] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-32-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-32-37] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [18-32-37] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-32-37] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-32-37] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -22,3 +20,4 @@
 [18-32-38] [SYSTEM_IO]: Userdata requested: laststart
 [18-32-38] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2607ms
 [18-32-38] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-34-58] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

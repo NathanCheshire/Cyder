@@ -278,8 +278,14 @@ public class CyderFrame extends JFrame {
         };
         contentLabel.setFocusable(false);
 
-        //adding pane (getContentPane().add(component))
+        //adding pane, this is what is returned when getContentPane() is called
         iconLabel = new JLabel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+               if (!chameleonActive)
+                   super.paintComponent(g);
+            }
+
             @Override
             public void repaint() {
                 //as long as we should repaint, repaint it
@@ -2810,5 +2816,30 @@ public class CyderFrame extends JFrame {
         int centerY = this.getY() + (this.getHeight() / 2);
 
         return new Point(centerX, centerY);
+    }
+
+    // -----------
+    // chams mode
+    // -----------
+
+    private boolean chameleonActive = false;
+
+    /**
+     * Sets the background of the console frame to whatever is behind it.
+     */
+    public void toggleChameleon() {
+        try {
+            if (chameleonActive) {
+                setBackground(new Color(0,0,0,0));
+                revalidate();
+                repaint();
+            }
+
+            chameleonActive = !chameleonActive;
+            revalidate();
+            repaint();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }
