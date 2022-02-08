@@ -973,6 +973,9 @@ public class CyderFrame extends JFrame {
         private Color notificationBackground = null;
 
         public NotificationBuilder(String htmlText) {
+            if (htmlText == null || htmlText.length() < 3)
+                throw new IllegalArgumentException("Html text is null or less than 3 chars");
+
             this.htmltext = htmlText;
         }
 
@@ -1005,7 +1008,7 @@ public class CyderFrame extends JFrame {
      * The notification that is currently being displayed.
      */
     private Notification currentNotification;
-
+    //todo need both?
     /**
      * The current queued notification that is currently being displayed.
      */
@@ -1032,12 +1035,9 @@ public class CyderFrame extends JFrame {
      * @param notificationBuilder the builder used to construct the notification
      */
     public void notify(NotificationBuilder notificationBuilder) {
-        //ensure length will not break the bounds of the notification calculations
         if (StringUtil.getRawTextLength(notificationBuilder.htmltext) < 3)
             throw new IllegalArgumentException("Raw text must be 3 characters or greater");
 
-        //make a WaitingNotification and add to queue,
-        // queue will automatically process any notifications so no further actions needed
         notificationList.add(new QueuedNotification(
                 notificationBuilder.htmltext,
                 notificationBuilder.viewDuration,
@@ -1049,139 +1049,145 @@ public class CyderFrame extends JFrame {
                 TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
+            new Thread(notificationQueue, this + " notification queue checker").start();
             notificationCheckerStarted = true;
-
-            new Thread(() -> {
-                try {
-                    while (this != null && !threadsKilled) {
-                        if (notificationList.size() > 0) {
-                            QueuedNotification currentQueuedNotification = notificationList.remove(0);
-                            this.currentQueuedNotification = currentQueuedNotification;
-
-                            //init notification object
-                            currentNotification = new Notification();
-
-                            if (currentQueuedNotification.getNotificationBackground() != null)
-                                currentNotification.setBackgroundColor(currentQueuedNotification.getNotificationBackground());
-
-                            //set the arrow direction
-                            currentNotification.setArrow(currentQueuedNotification.getArrowDir());
-
-                            //create text label to go on top of notification label
-                            JLabel text = new JLabel();
-                            text.setText(currentQueuedNotification.getHtmlText());
-
-                            Font notificationFont = new Font("Segoe UI Black", Font.BOLD, 20);
-
-                            BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
-                                    (int) (this.width * 0.8), notificationFont);
-
-                            int w = bs.getWidth();
-                            int h = bs.getHeight();
-                            text.setText(bs.getText());
-
-                            if (h > this.height * NOTIFICATION_MAX_RATIO || w > this.width * NOTIFICATION_MAX_RATIO) {
-                                this.inform(text.getText(),"Notification");
-                                continue;
-                            }
-
-                            if (currentQueuedNotification.getContianer() == null) {
-                                //set the text bounds to the proper x,y and theest
-                                // calculated width and height
-                                text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-
-                                currentNotification.setWidth(w);
-                                currentNotification.setHeight(h);
-
-                                text.setFont(notificationFont);
-                                text.setForeground(CyderColors.notificationForegroundColor);
-                                currentNotification.add(text);
-
-                                JLabel disposeLabel = new JLabel();
-                                disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
-
-                                disposeLabel.setToolTipText("Notified at: " + currentQueuedNotification.getTime());
-                                disposeLabel.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mouseClicked(MouseEvent e) {
-                                        //fire any on kill actions if it's not null
-                                        if (currentQueuedNotification.getOnKillAction() != null)
-                                            currentQueuedNotification.getOnKillAction().fire();
-
-                                        //smoothly animate notification away
-                                        currentNotification.vanish(currentQueuedNotification.getNotificationDirection(), getContentPane(), 0);
-                                    }
-                                });
-                                currentNotification.add(disposeLabel);
-                            } else {
-                                currentNotification.setWidth(currentQueuedNotification.getContianer().getWidth());
-                                currentNotification.setHeight(currentQueuedNotification.getContianer().getHeight());
-                                currentNotification.add(currentQueuedNotification.getContianer());
-                            }
-
-                            switch (currentQueuedNotification.getNotificationDirection()) {
-                                case TOP_LEFT:
-                                    currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
-                                    break;
-                                case TOP_RIGHT:
-                                    currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                            topDrag.getHeight());
-                                    break;
-                                case BOTTOM:
-                                    currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                            getHeight() - 5);
-                                    break;
-                                case CENTER_LEFT:
-                                    currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                            getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
-                                    break;
-                                case CENTER_RIGHT:
-                                    currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                            getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
-                                    break;
-                                case BOTTOM_LEFT:
-                                    //parent.getHeight() - this.getHeight() + 10
-                                    currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                            getHeight() - currentNotification.getHeight() + 5);
-                                    break;
-                                case BOTTOM_RIGHT:
-                                    currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                            getHeight() - currentNotification.getHeight() + 5);
-                                    break;
-                                default:  //top
-                                    currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
-                                            DragLabel.getDefaultHeight() - currentNotification.getHeight());
-                            }
-
-                            iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
-                            getContentPane().repaint();
-
-                            //log the notification
-                            Logger.log(Logger.Tag.ACTION, "[" +
-                                    this.getTitle() + "] [NOTIFICATION] " + currentQueuedNotification.getHtmlText());
-
-                            //duration is always 300ms per word unless less than 5 seconds
-                            int duration = 300 * StringUtil.countWords(
-                                    Jsoup.clean(bs.getText(), Safelist.none())
-                            );
-                            duration = Math.max(duration, 5000);
-                            duration = currentQueuedNotification.getDuration() == 0 ?
-                                    duration : currentQueuedNotification.getDuration();
-                            currentNotification.appear(currentQueuedNotification.getNotificationDirection(), getContentPane(), duration);
-
-                            while (getCurrentNotification().isVisible())
-                                Thread.onSpinWait();
-                        } else {
-                            notificationCheckerStarted = false;
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, this + " notification queue checker").start();
         }
     }
+
+    /**
+     * The notification queue for internal frame notifications.
+     */
+    private final Runnable notificationQueue = () -> {
+        try {
+            while (this != null && !threadsKilled) {
+                if (notificationList.size() > 0) {
+                    QueuedNotification currentQueuedNotification = notificationList.remove(0);
+                    this.currentQueuedNotification = currentQueuedNotification;
+
+                    //init notification object
+                    currentNotification = new Notification();
+
+                    if (currentQueuedNotification.getNotificationBackground() != null)
+                        currentNotification.setBackgroundColor(currentQueuedNotification.getNotificationBackground());
+
+                    //set the arrow direction
+                    currentNotification.setArrow(currentQueuedNotification.getArrowDir());
+
+                    //create text label to go on top of notification label
+                    JLabel text = new JLabel(currentQueuedNotification.getHtmlText());
+
+                    //get dimensions and formatted text for the notification
+                    BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
+                            (int) (this.width * 0.8), CyderFonts.notificationFont);
+                    int w = bs.getWidth();
+                    int h = bs.getHeight();
+                    text.setText(bs.getText());
+
+                    //if too big for the frame, turn it into an external frame popup
+                    if (h > this.height * NOTIFICATION_MAX_RATIO
+                            || w > this.width * NOTIFICATION_MAX_RATIO) {
+                        this.inform(text.getText(),"Notification");
+                        continue;
+                    }
+
+                    if (currentQueuedNotification.getContianer() == null) {
+                        //set the text bounds to the proper x,y and theest
+                        // calculated width and height
+                        text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+
+                        currentNotification.setWidth(w);
+                        currentNotification.setHeight(h);
+
+                        text.setFont(CyderFonts.notificationFont);
+                        text.setForeground(CyderColors.notificationForegroundColor);
+                        currentNotification.add(text);
+
+                        JLabel disposeLabel = new JLabel();
+                        disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+
+                        disposeLabel.setToolTipText("Notified at: " + currentQueuedNotification.getTime());
+                        disposeLabel.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                //fire any on kill actions if it's not null
+                                if (currentQueuedNotification.getOnKillAction() != null)
+                                    currentQueuedNotification.getOnKillAction().fire();
+
+                                //smoothly animate notification away
+                                currentNotification.vanish(currentQueuedNotification.getNotificationDirection(), getContentPane(), 0);
+                            }
+                        });
+                        currentNotification.add(disposeLabel);
+                    } else {
+                        currentNotification.setWidth(currentQueuedNotification.getContianer().getWidth());
+                        currentNotification.setHeight(currentQueuedNotification.getContianer().getHeight());
+
+                        //container should have things on it already so no need to place text here
+                        currentNotification.add(currentQueuedNotification.getContianer());
+                    }
+
+                    switch (currentQueuedNotification.getNotificationDirection()) {
+                        case TOP_LEFT:
+                            currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
+                            break;
+                        case TOP_RIGHT:
+                            currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                                    topDrag.getHeight());
+                            break;
+                        case BOTTOM:
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                    getHeight() - 5);
+                            break;
+                        case CENTER_LEFT:
+                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
+                                    getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                            break;
+                        case CENTER_RIGHT:
+                            currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                                    getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                            break;
+                        case BOTTOM_LEFT:
+                            //parent.getHeight() - this.getHeight() + 10
+                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
+                                    getHeight() - currentNotification.getHeight() + 5);
+                            break;
+                        case BOTTOM_RIGHT:
+                            currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                                    getHeight() - currentNotification.getHeight() + 5);
+                            break;
+                        default:  //top
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                                    DragLabel.getDefaultHeight() - currentNotification.getHeight());
+                    }
+
+                    iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
+                    getContentPane().repaint();
+
+                    //log the notification
+                    Logger.log(Logger.Tag.ACTION, "[" +
+                            this.getTitle() + "] [NOTIFICATION] " + currentQueuedNotification.getHtmlText());
+
+                    //duration is always 300ms per word unless less than 5 seconds
+                    int duration = 300 * StringUtil.countWords(
+                            Jsoup.clean(bs.getText(), Safelist.none())
+                    );
+                    duration = Math.max(duration, 5000);
+                    duration = currentQueuedNotification.getDuration() == 0 ?
+                            duration : currentQueuedNotification.getDuration();
+                    currentNotification.appear(currentQueuedNotification.getNotificationDirection(), getContentPane(), duration);
+
+                    while (getCurrentNotification().isVisible())
+                        Thread.onSpinWait();
+                } else {
+                    //for optimization purposes, end queue thread
+                    notificationCheckerStarted = false;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    };
 
     /**
      * Ends the current notification on screen.

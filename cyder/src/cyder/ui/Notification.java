@@ -14,21 +14,55 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
+/**
+ * A custom notification component used for CyderFrames.
+ */
 public class Notification extends JLabel {
 
+    /**
+     * The width/height of the arrow.
+     */
     private int arrowSize = 6;
 
+    /**
+     * The default width of the notificaiton.
+     */
     private int width = 300;
+
+    /**
+     * The default height of the notification.
+     */
     private int height = 300;
 
+    /**
+     * The default arrow direction of the notification.
+     */
     private Direction ArrowType = Direction.TOP;
 
+    /**
+     * Whether this notification has been killed.
+     */
     private boolean killed;
+
+    /**
+     * The animation delay between the notification moving through its parent container.
+     */
     private static int delay = 10;
+
+    /**
+     * The increment between setLocation calls for the
+     * notification moving through its parent container.
+     */
     private static int increment = 8;
 
+    /**
+     * The background color of the notification.
+     */
     private Color backgroundColor = CyderColors.notificationBackgroundColor;
 
+    /**
+     * Initializes a notification.
+     */
     public Notification() {
         killed = false;
 
@@ -90,22 +124,26 @@ public class Notification extends JLabel {
 
     /**
      * Custom width getter since this is a custom paint component.
+     *
      * @return the width plus the x-offset of 14 twice for both sides with the arrow size
      * added in if the arrow is on the left or right.
      */
     @Override
     public int getWidth() {
-        return this.width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT || ArrowType == Direction.RIGHT) ? arrowSize : 0);
+        return this.width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT
+                || ArrowType == Direction.RIGHT) ? arrowSize : 0);
     }
 
     /**
      * Custom height getter since this is a custom paint component.
+     *
      * @return the height plus the y-offset of 16 twice for both sides with the arrow size
      * added in if the arrow is on the top or bottom.
      */
     @Override
     public int getHeight() {
-        return this.height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM || ArrowType == Direction.TOP) ? arrowSize : 0);
+        return this.height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM
+                || ArrowType == Direction.TOP) ? arrowSize : 0);
     }
 
     @Override
@@ -131,13 +169,19 @@ public class Notification extends JLabel {
         outlinePath.curveTo(8, 8 + 2,10,6 + 2, 12, 4 + 2);
         outlinePath.lineTo(this.width + 14 + 2, 4 + 2);
 
-        outlinePath.curveTo(this.width + 14 + 2, 4 + 2, this.width + 16 + 2, 6 + 2, this.width + 18 + 2, 8 + 2);
+        outlinePath.curveTo(this.width + 14 + 2, 4 + 2,
+                this.width + 16 + 2, 6 + 2,
+                this.width + 18 + 2, 8 + 2);
         outlinePath.lineTo(this.width + 18 + 2, this.height + 10 + 2 + 2);
 
-        outlinePath.curveTo(this.width + 18 + 2, this.height + 10 + 2 + 2, this.width + 16 + 2, this.height + 12 + 2  + 2, this.width + 14 + 2, this.height + 14 + 2  + 2);
+        outlinePath.curveTo(this.width + 18 + 2, this.height + 10 + 2 + 2,
+                this.width + 16 + 2, this.height + 12 + 2  + 2,
+                this.width + 14 + 2, this.height + 14 + 2  + 2);
         outlinePath.lineTo(12, this.height + 14 + 2 + 2);
 
-        outlinePath.curveTo(12, this.height + 14 + 2 + 2, 10, this.height + 12 + 2 + 2, 8, this.height + 10 + 2 + 2);
+        outlinePath.curveTo(12, this.height + 14 + 2 + 2,
+                10, this.height + 12 + 2 + 2,
+                8, this.height + 10 + 2 + 2);
         outlinePath.lineTo( 8, 8 + 2);
 
         switch (ArrowType) {
@@ -184,13 +228,16 @@ public class Notification extends JLabel {
         fillPath.curveTo(10, 10 + 2,12,8 + 2, 14, 6 + 2);
         fillPath.lineTo(this.width + 14, 6 + 2);
 
-        fillPath.curveTo(this.width + 14, 6 + 2, this.width + 16, 8 + 2, this.width + 18, 10 + 2);
+        fillPath.curveTo(this.width + 14, 6 + 2,
+                this.width + 16, 8 + 2, this.width + 18, 10 + 2);
         fillPath.lineTo(this.width + 18, this.height + 10 + 2);
 
-        fillPath.curveTo(this.width + 18, this.height + 10 + 2, this.width + 16, this.height + 12 + 2, this.width + 14, this.height + 14 + 2);
+        fillPath.curveTo(this.width + 18, this.height + 10 + 2,
+                this.width + 16, this.height + 12 + 2, this.width + 14, this.height + 14 + 2);
         fillPath.lineTo(14, this.height + 14 + 2);
 
-        fillPath.curveTo(14, this.height + 14 + 2, 12, this.height + 12 + 2, 10, this.height + 10 + 2);
+        fillPath.curveTo(14, this.height + 14 + 2,
+                12, this.height + 12 + 2, 10, this.height + 10 + 2);
         fillPath.lineTo( 10, 10 + 2);
 
         fillPath.closePath();
@@ -234,6 +281,7 @@ public class Notification extends JLabel {
     /**
      * This method to be used with an already initialized component. Expected that the component's starting
      * location is already set.
+     *
      * @param notificationDirection the direction for the notification to enter and exit from.
      */
     public void appear(NotificationDirection notificationDirection, Component parent, int delay) {
@@ -289,7 +337,8 @@ public class Notification extends JLabel {
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-                        setBounds(parent.getWidth() - this.getWidth() + 5, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
+                        setBounds(parent.getWidth() - this.getWidth() + 5,
+                                parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
                         break;
                     case BOTTOM:
                         for (int i = getY(); i > parent.getHeight() - this.getHeight() + 5; i -= this.increment) {
@@ -319,7 +368,8 @@ public class Notification extends JLabel {
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(this.delay);
                         }
-                        setBounds(parent.getWidth() - this.getWidth() + 5, parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
+                        setBounds(parent.getWidth() - this.getWidth() + 5,
+                                parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
                 }
 
@@ -347,6 +397,7 @@ public class Notification extends JLabel {
     /**
      * This method to be used in combination with an already visible notification to immediately move it off of the
      * parent until it is not visible. Upon completing the animation, the notification is removed from the parent.
+     *
      * @param notificationDirection the direction to exit to.
      * @param parent the component the notification is on. Used for bounds calculations.
      * @param delay the delay before vanish.
@@ -408,9 +459,40 @@ public class Notification extends JLabel {
             catch (Exception e) {
                ExceptionHandler.handle(e);
             }
-        },"notification vanish animater").start();
+        },"Notificaiton vanish animater " + this.hashCode()).start();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof Notification)) {
+            return false;
+        } else {
+            Notification other = (Notification) o;
+            return this.getArrow() == other.getArrow()
+                    && this.getWidth() == other.getWidth()
+                    && this.getHeight() == other.getHeight();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        int ret = getArrow().hashCode();
+        ret = 31 * ret + Integer.hashCode(this.getWidth());
+        ret = 31 * ret + Integer.hashCode(this.getHeight());
+        return ret;
+    }
+
+    /**
+     *  {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
