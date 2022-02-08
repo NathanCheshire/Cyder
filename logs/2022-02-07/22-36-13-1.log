@@ -1,0 +1,106 @@
+[22-36-13] [ENTRY]: [Nathan]
+[22-36-13] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-36-13] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-36-13] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-36-13] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-36-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-36-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-36-16] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-36-16] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-36-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-36-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-36-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-36-16] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-36-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-36-16] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-36-16] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-36-16] [SYSTEM_IO]: Userdata requested: InputFill
+[22-36-16] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1249085098], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-36-17] [ACTION]: Console loaded in 3667ms
+[22-36-17] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-36-17] [ENTRY]: [TESTING MODE]
+[22-36-17] [SYSTEM_IO]: Userdata requested: laststart
+[22-36-17] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3667ms
+[22-36-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-36-21] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[22-36-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-36-22] [WIDGET OPENED]: PREFS
+[22-36-23] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [266444455], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-23] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1248, 444, 900, 580)], hash = [984998855], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[22-36-23] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-36-26] [CLIENT]: calc
+[22-36-26] [SYSTEM_IO]: Userdata requested: filterchat
+[22-36-26] [WIDGET OPENED]: CALCULATOR
+[22-36-26] [HANDLE]: PRIMARY HANDLE
+[22-36-26] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.CalculatorWidget
+[22-36-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(210, 215, 75, 75)], hash = [998250238], parentFrame = [Calculator], associated text = [9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(210, 120, 75, 75)], hash = [1934510123], parentFrame = [Calculator], associated text = [*], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-28] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(210, 215, 75, 75)], hash = [998250238], parentFrame = [Calculator], associated text = [9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-28] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [436221532], parentFrame = [Calculator], associated text = [=], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-28] [ACTION]: [Calculator] [NOTIFICATION] 81.0
+[22-36-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-36-31] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(115, 120, 75, 75)], hash = [595061780], parentFrame = [Calculator], associated text = [-], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-31] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(210, 215, 75, 75)], hash = [998250238], parentFrame = [Calculator], associated text = [9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-32] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [436221532], parentFrame = [Calculator], associated text = [=], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-33] [ACTION]: [Calculator] [NOTIFICATION] 72.0
+[22-36-33] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-36-34] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(50, 50, 300, 50)], hash = [1222962892], parentFrame = [Calculator], associated text = [9*9-9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-35] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(50, 50, 300, 50)], hash = [1222962892], parentFrame = [Calculator], associated text = [9*9-9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-35] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(50, 50, 300, 50)], hash = [1222962892], parentFrame = [Calculator], associated text = [9*9-9], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-36] [EXCEPTION]: 
+Exception origin: com.fathzer.soft.javaluator.DoubleEvaluator.toValue(DoubleEvaluator.java:197)
+From line: 197
+Trace: java.lang.IllegalArgumentException: asdfasdf is not a number
+	at com.fathzer.soft.javaluator.DoubleEvaluator.toValue(DoubleEvaluator.java:197)
+	at com.fathzer.soft.javaluator.DoubleEvaluator.toValue(DoubleEvaluator.java:48)
+	at com.fathzer.soft.javaluator.AbstractEvaluator.output(AbstractEvaluator.java:132)
+	at com.fathzer.soft.javaluator.AbstractEvaluator.evaluate(AbstractEvaluator.java:342)
+	at com.fathzer.soft.javaluator.AbstractEvaluator.evaluate(AbstractEvaluator.java:213)
+	at cyder.widgets.CalculatorWidget.lambda$showGUI$7(CalculatorWidget.java:148)
+	at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1967)
+	at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2308)
+	at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+	at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+	at java.desktop/javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:269)
+	at java.desktop/java.awt.Component.processMouseEvent(Component.java:6578)
+	at java.desktop/javax.swing.JComponent.processMouseEvent(JComponent.java:3343)
+	at java.desktop/java.awt.Component.processEvent(Component.java:6343)
+	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4904)
+	at java.desktop/java.awt.LightweightDispatcher.processMouseEvent(Container.java:4539)
+	at java.desktop/java.awt.LightweightDispatcher.dispatchEvent(Container.java:4480)
+	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2303)
+	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-36-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [436221532], parentFrame = [Calculator], associated text = [=], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-36] [ACTION]: [Calculator] [NOTIFICATION] Could not parse expression
+[22-36-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-36-40] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [595543957], parentFrame = [Calculator], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-36-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1498, 437, 400, 595)], hash = [1910347487], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Calculator]
+[22-36-40] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-36-43] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-36-43] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1200, 407, 996, 655)], hash = [1946988038], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-36-43] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-36-44] [EXIT]: [RUNTIME] 30s
+[22-36-44] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

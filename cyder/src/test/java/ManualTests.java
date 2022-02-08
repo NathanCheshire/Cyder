@@ -5,6 +5,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
+import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
@@ -14,6 +15,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.structs.CyderQueue;
 import cyder.structs.CyderStack;
 import cyder.ui.*;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
@@ -116,42 +118,90 @@ public class ManualTests {
 
         CyderButton topNotifiy = new CyderButton("Top");
         topNotifiy.setBounds(100,110,150,40);
-        topNotifiy.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP.TOP, null));
+        topNotifiy.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.TOP);
+            notificationBuilder.setNotificationDirection(NotificationDirection.TOP);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(topNotifiy);
 
         CyderButton rightNotify = new CyderButton("Top Right");
         rightNotify.setBounds(100,170,150,40);
-        rightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP_RIGHT, null));
+        rightNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.RIGHT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.RIGHT);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(rightNotify);
 
         CyderButton bottomNotify = new CyderButton("Bottom");
         bottomNotify.setBounds(100,230,150,40);
-        bottomNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM, null));
+        bottomNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.BOTTOM);
+            notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(bottomNotify);
 
         CyderButton leftNotify = new CyderButton("Top Left");
         leftNotify.setBounds(100,290,150,40);
-        leftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.TOP_LEFT, null));
+        leftNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.LEFT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.TOP_LEFT);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(leftNotify);
 
         CyderButton centerLeftNotify = new CyderButton("Center Left");
         centerLeftNotify.setBounds(100,350,150,40);
-        centerLeftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.CENTER_LEFT, null));
+        centerLeftNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.LEFT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.LEFT);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(centerLeftNotify);
 
         CyderButton centerRightNotify = new CyderButton("Center Right");
         centerRightNotify.setBounds(100,410,150,40);
-        centerRightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.CENTER_RIGHT, null));
+        centerRightNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.RIGHT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.RIGHT);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(centerRightNotify);
 
         CyderButton bottomLeftNotify = new CyderButton("Bottom Left");
         bottomLeftNotify.setBounds(100,470,150,40);
-        bottomLeftNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM_LEFT, null));
+        bottomLeftNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.LEFT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(bottomLeftNotify);
 
         CyderButton bottomRightNotify = new CyderButton("Bottom Right");
         bottomRightNotify.setBounds(100,530,170,40);
-        bottomRightNotify.addActionListener(e -> testFrame.notify(ctf.getText(), miliDelay, NotificationDirection.BOTTOM_RIGHT, null));
+        bottomRightNotify.addActionListener(e -> {
+            NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
+            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setArrowDir(Direction.RIGHT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_RIGHT);
+            testFrame.notify(notificationBuilder);
+        });
         testFrame.getContentPane().add(bottomRightNotify);
 
         testFrame.initializeResizing();
@@ -397,13 +447,13 @@ public class ManualTests {
 
         CyderButton peekButton = new CyderButton("Peek");
         peekButton.setBounds(40,40,200,40);
-        peekButton.addActionListener(e -> cf.notify(stringStack.peek().toString()));
+        peekButton.addActionListener(e -> cf.notify(new NotificationBuilder(stringStack.peek().toString())));
         cf.getContentPane().add(peekButton);
 
         //pop data notify
         CyderButton popButton = new CyderButton("Pop");
         popButton.setBounds(40,100,200,40);
-        popButton.addActionListener(e -> cf.notify(stringStack.pop().toString()));
+        popButton.addActionListener(e -> cf.notify(new NotificationBuilder(stringStack.pop().toString())));
         cf.getContentPane().add(popButton);
 
         //push data
@@ -418,13 +468,13 @@ public class ManualTests {
         //isEmpty notify
         CyderButton isEmptyButton = new CyderButton("isEmpty");
         isEmptyButton.setBounds(40,220,200,40);
-        isEmptyButton.addActionListener(e -> cf.notify(String.valueOf(stringStack.isEmpty())));
+        isEmptyButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(stringStack.isEmpty()))));
         cf.getContentPane().add(isEmptyButton);
 
         //stack size
         CyderButton printButton = new CyderButton("Print");
         printButton.setBounds(40,280,200,40);
-        printButton.addActionListener(e -> cf.notify(String.valueOf(stringStack.toString())));
+        printButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(stringStack.toString()))));
         cf.getContentPane().add(printButton);
 
         cf.setVisible(true);
@@ -462,7 +512,7 @@ public class ManualTests {
 
         //dequeue
         CyderButton dequeueButton = new CyderButton("Dequeue");
-        dequeueButton.addActionListener(e -> cf.notify(String.valueOf(queue.dequeue())));
+        dequeueButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.dequeue()))));
         dequeueButton.setBounds(40,100, 220, 40);
         cf.getContentPane().add(dequeueButton);
 
@@ -478,31 +528,31 @@ public class ManualTests {
 
         //remove last button
         CyderButton removeLast = new CyderButton("Remove Last");
-        removeLast.addActionListener(e -> cf.notify(String.valueOf(queue.dequeue())));
+        removeLast.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.dequeue()))));
         removeLast.setBounds(40,220, 220, 40);
         cf.getContentPane().add(removeLast);
 
         //forward traversal button
         CyderButton forwardTraversalButton = new CyderButton("Forward Traversal");
-        forwardTraversalButton.addActionListener(e -> cf.notify(String.valueOf(queue.forwardTraversal())));
+        forwardTraversalButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.forwardTraversal()))));
         forwardTraversalButton.setBounds(40,280, 220, 40);
         cf.getContentPane().add(forwardTraversalButton);
 
         //reverse traversal button
         CyderButton reverseTraversalButton = new CyderButton("Reverse Traversal");
-        reverseTraversalButton.addActionListener(e -> cf.notify(String.valueOf(queue.reverseTraversal())));
+        reverseTraversalButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.reverseTraversal()))));
         reverseTraversalButton.setBounds(40,340, 220, 40);
         cf.getContentPane().add(reverseTraversalButton);
 
         CyderButton sizeButton = new CyderButton("Size");
-        sizeButton.addActionListener(e -> cf.notify(String.valueOf(queue.size())));
+        sizeButton.addActionListener(e -> cf.notify(new NotificationBuilder((String.valueOf(queue.size())))));
         sizeButton.setBounds(40,400,220,40);
         cf.getContentPane().add(sizeButton);
 
         CyderTextField containsField = new CyderTextField(0);
         containsField.setToolTipText("Contains");
         containsField.addActionListener(e -> {
-            cf.notify(String.valueOf(queue.contains(containsField.getText())));
+            cf.notify(new NotificationBuilder(String.valueOf(queue.contains(containsField.getText()))));
             containsField.setText("");
         });
         containsField.setBounds(40,460, 220, 40);
@@ -523,7 +573,7 @@ public class ManualTests {
         CyderButton printbutton = new CyderButton("Print choice");
         printbutton.setBounds(40,150,200,40);
         testFrame.getContentPane().add(printbutton);
-        printbutton.addActionListener(e -> testFrame.notify(ccb.getValue()));
+        printbutton.addActionListener(e -> testFrame.notify(new NotificationBuilder(ccb.getValue())));
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
@@ -607,7 +657,7 @@ public class ManualTests {
         //add components to the layout at specified position
         CyderButton testButton = new CyderButton("This");
         testButton.setSize(100,100);
-        testButton.addActionListener(e -> gridTestFrame.notify("Notified button clicked"));
+        testButton.addActionListener(e -> gridTestFrame.notify(new NotificationBuilder("Notified button clicked")));
         layout.addComponent(testButton, 0, 0, CyderGridLayout.Position.MIDDLE_RIGHT);
 
         CyderLabel testLabel2 = new CyderLabel("A");
@@ -660,7 +710,7 @@ public class ManualTests {
             CyderButton cb = new CyderButton("Test Button " + i);
             cb.setSize(200, 50);
             int finalI = i;
-            cb.addActionListener(e -> testFrame.notify(finalI + "button: " + cb));
+            cb.addActionListener(e -> testFrame.notify(new NotificationBuilder(finalI + "button: " + cb)));
             layout.addComponent(cb);
         }
 

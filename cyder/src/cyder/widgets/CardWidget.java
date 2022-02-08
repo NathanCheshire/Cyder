@@ -4,7 +4,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
-import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -123,11 +122,6 @@ public class CardWidget implements WidgetBase {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP, null);
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP_LEFT, null);
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.BOTTOM, null);
-                birthday2021Frame.notify("WOOOOOO HOOOOOOOOOOOOO", 3000, NotificationDirection.TOP_RIGHT, null);
             },"Birthday card 2021 notification wait thread").start();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

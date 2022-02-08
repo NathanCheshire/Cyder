@@ -319,7 +319,7 @@ public class Notification extends JLabel {
                         }
                         setBounds(2, getY(), getWidth(), getHeight());
                         break;
-                    case CENTER_LEFT:
+                    case LEFT:
                         for (int i = getX() ; i < 5 ; i+= this.increment) {
                             if (killed)
                                 break;
@@ -329,7 +329,7 @@ public class Notification extends JLabel {
                         }
                         setBounds(2, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
                         break;
-                    case CENTER_RIGHT:
+                    case RIGHT:
                         for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
                             if (killed)
                                 break;
@@ -427,7 +427,7 @@ public class Notification extends JLabel {
                         }
                         break;
                     case TOP_LEFT:
-                    case CENTER_LEFT:
+                    case LEFT:
                     case BOTTOM_LEFT:
                         for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
                             if (killed)
@@ -437,7 +437,7 @@ public class Notification extends JLabel {
                             Thread.sleep(this.delay);
                         }
                         break;
-                    case CENTER_RIGHT:
+                    case RIGHT:
                     case BOTTOM_RIGHT:
                     case TOP_RIGHT:
                         for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {

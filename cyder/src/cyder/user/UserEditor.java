@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
@@ -12,6 +13,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
 import cyder.widgets.WidgetBase;
@@ -714,7 +716,12 @@ public class UserEditor implements WidgetBase {
 
         AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
 
-        editUserFrame.notify("Loading fonts...", 2000, NotificationDirection.BOTTOM_LEFT, null);
+        NotificationBuilder builder = new NotificationBuilder("Loading fonts...");
+        builder.setViewDuration(2000);
+        builder.setArrowDir(Direction.LEFT);
+        builder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
+        editUserFrame.notify(builder);
+
         new Thread(() -> {
             String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             Collections.addAll(fontList, Fonts);
@@ -740,9 +747,16 @@ public class UserEditor implements WidgetBase {
                 fontScrollLabel.get().setBounds(50, 100, 300, 300);
                 switchingLabel.add(fontScrollLabel.get());
                 editUserFrame.revokeCurrentNotification();
-                editUserFrame.notify("Fonts loaded", 2000, NotificationDirection.BOTTOM_LEFT, null);
+
+                NotificationBuilder notificationBuilder = new NotificationBuilder("Fonts loaded");
+                notificationBuilder.setViewDuration(2000);
+                notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
+                notificationBuilder.setArrowDir(Direction.LEFT);
+                editUserFrame.notify(notificationBuilder);
             }
         },"Preference Font Loader").start();
+
+        //todo when switching panels, make sure to revoke any and all notifications on the pane
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

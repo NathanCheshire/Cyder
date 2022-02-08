@@ -6,6 +6,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
@@ -13,6 +14,7 @@ import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
+import cyder.ui.objects.NotificationBuilder;
 
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -146,14 +148,30 @@ public class CalculatorWidget implements WidgetBase {
                 double result = new DoubleEvaluator().evaluate(calcText);
 
                 if (result == Double.MAX_VALUE) {
-                    calculatorFrame.notify("Positive Inf",-1, NotificationDirection.TOP_RIGHT, null);
+                    NotificationBuilder builder = new NotificationBuilder("Positive Inf");
+                    builder.setViewDuration(-1);
+                    builder.setArrowDir(Direction.RIGHT);
+                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+                    calculatorFrame.notify(builder);
                 } else if (result == Double.MIN_VALUE) {
-                    calculatorFrame.notify("Negative Inf",-1,NotificationDirection.TOP_RIGHT, null);
+                    NotificationBuilder builder = new NotificationBuilder("Negative Inf");
+                    builder.setViewDuration(-1);
+                    builder.setArrowDir(Direction.RIGHT);
+                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+                    calculatorFrame.notify(builder);
                 } else {
-                    calculatorFrame.notify(String.valueOf(result),-1,NotificationDirection.TOP_RIGHT, null);
+                    NotificationBuilder builder = new NotificationBuilder(String.valueOf(result));
+                    builder.setViewDuration(-1);
+                    builder.setArrowDir(Direction.RIGHT);
+                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+                    calculatorFrame.notify(builder);
                 }
             } catch (Exception exc) {
-                calculatorFrame.notify("Could not parse expression",2000, NotificationDirection.TOP_RIGHT, null);
+                NotificationBuilder builder = new NotificationBuilder("Could not parse expression");
+                builder.setViewDuration(-1);
+                builder.setArrowDir(Direction.RIGHT);
+                builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+                calculatorFrame.notify(builder);
                 ExceptionHandler.silentHandle(exc);
             }
         });

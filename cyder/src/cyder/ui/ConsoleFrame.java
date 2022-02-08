@@ -7,13 +7,13 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
 import cyder.enums.Direction;
-import cyder.enums.NotificationDirection;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.MonitorPoint;
 import cyder.ui.objects.CyderBackground;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.user.Preferences;
 import cyder.user.User;
 import cyder.user.UserEditor;
@@ -982,8 +982,11 @@ public final class ConsoleFrame {
                     if (canSwitchBackground()) {
                         switchBackground();
                     }  else if (getBackgrounds().size() == 1) {
-                        consoleCyderFrame.notify("You only have one background image. " +
-                                "Try adding more via the user editor", 5000, NotificationDirection.TOP, () -> UserEditor.showGUI(0));
+                        NotificationBuilder builder = new NotificationBuilder("You only have one background image. " +
+                                "Try adding more via the user editor");
+                        builder.setViewDuration(5000);
+                        builder.setOnKillAction(() -> UserEditor.showGUI(0));
+                        consoleCyderFrame.notify(builder);
                     }
                 } catch (Exception ex) {
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");

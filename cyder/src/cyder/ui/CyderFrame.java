@@ -4,11 +4,10 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNums;
-import cyder.enums.Direction;
-import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.QueuedNotification;
 import cyder.utilities.*;
 import org.jsoup.Jsoup;
@@ -959,56 +958,13 @@ public class CyderFrame extends JFrame {
     // notifications
     // ------------------
 
-    //todo add java doc information for usage
-    public static class NotificationBuilder {
-        //required params
-        private final String htmltext;
-
-        //optional params
-        private int viewDuration = 5000;
-        private Direction arrowDir = Direction.TOP;
-        private ClickAction onKillAction = null;
-        private NotificationDirection notificationDirection = NotificationDirection.TOP;
-        private Container container = null;
-        private Color notificationBackground = null;
-
-        public NotificationBuilder(String htmlText) {
-            if (htmlText == null || htmlText.length() < 3)
-                throw new IllegalArgumentException("Html text is null or less than 3 chars");
-
-            this.htmltext = htmlText;
-        }
-
-        public void setViewDuration(int viewDuration) {
-            this.viewDuration = viewDuration;
-        }
-
-        public void setArrowDir(Direction arrowDir) {
-            this.arrowDir = arrowDir;
-        }
-
-        public void setOnKillAction(ClickAction onKillAction) {
-            this.onKillAction = onKillAction;
-        }
-
-        public void setNotificationDirection(NotificationDirection notificationDirection) {
-            this.notificationDirection = notificationDirection;
-        }
-
-        public void setContainer(Container container) {
-            this.container = container;
-        }
-
-        public void setNotificationBackground(Color notificationBackground) {
-            this.notificationBackground = notificationBackground;
-        }
-    }
-
     /**
      * The notification that is currently being displayed.
      */
     private Notification currentNotification;
+
     //todo need both?
+
     /**
      * The current queued notification that is currently being displayed.
      */
@@ -1029,23 +985,33 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Simple, quick, and easy way to show a notification on the frame without using
+     * a builder.
+     *
+     * @param htmlText the text containing possibly formatted text to display
+     */
+    public void notify(String htmlText) {
+        this.notify(new NotificationBuilder(htmlText));
+    }
+
+    /**
      * Notifies the user with a custom notification built from the provided builder.
      * See {@link NotificationBuilder} for more information.
      *
      * @param notificationBuilder the builder used to construct the notification
      */
     public void notify(NotificationBuilder notificationBuilder) {
-        if (StringUtil.getRawTextLength(notificationBuilder.htmltext) < 3)
+        if (StringUtil.getRawTextLength(notificationBuilder.getHtmltext()) < 3)
             throw new IllegalArgumentException("Raw text must be 3 characters or greater");
 
         notificationList.add(new QueuedNotification(
-                notificationBuilder.htmltext,
-                notificationBuilder.viewDuration,
-                notificationBuilder.arrowDir,
-                notificationBuilder.notificationDirection,
-                notificationBuilder.onKillAction,
-                notificationBuilder.container,
-                notificationBuilder.notificationBackground,
+                notificationBuilder.getHtmltext(),
+                notificationBuilder.getViewDuration(),
+                notificationBuilder.getArrowDir(),
+                notificationBuilder.getNotificationDirection(),
+                notificationBuilder.getOnKillAction(),
+                notificationBuilder.getContainer(),
+                notificationBuilder.getNotificationBackground(),
                 TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
@@ -1138,11 +1104,11 @@ public class CyderFrame extends JFrame {
                             currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
                                     getHeight() - 5);
                             break;
-                        case CENTER_LEFT:
+                        case LEFT:
                             currentNotification.setLocation(-currentNotification.getWidth() + 5,
                                     getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
                             break;
-                        case CENTER_RIGHT:
+                        case RIGHT:
                             currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
                                     getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
                             break;

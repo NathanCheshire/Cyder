@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
@@ -12,6 +13,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.IPUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
@@ -442,8 +444,13 @@ public class WeatherWidget implements WidgetBase {
                 weatherFrame.setTitle("Weather");
             }
 
-            if (weatherFrame != null)
-                weatherFrame.notify("Refreshed", 2000, NotificationDirection.BOTTOM_LEFT, null);
+            if (weatherFrame != null) {
+                NotificationBuilder builder = new NotificationBuilder("Refreshed");
+                builder.setViewDuration(2000);
+                builder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
+                builder.setArrowDir(Direction.LEFT);
+                weatherFrame.notify(builder);
+            }
         }
 
         catch (Exception e) {
