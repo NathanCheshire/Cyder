@@ -6,6 +6,9 @@ import java.io.File;
  * Static utilies having to do with files, their names, properties, and attributes.
  */
 public class FileUtil {
+    /**
+     * The image formats Cyder supports.
+     */
     public static final String[] SUPPORTED_IMAGE_EXTENSIONS = new String[] {".png", ".jpg", ".jpeg"};
 
     /**
@@ -15,6 +18,7 @@ public class FileUtil {
      * @return whether the provided file is a supported image file
      */
     public static boolean isSupportedImageExtension(File f) {
+        //todo also validate the file signature
         return StringUtil.in(StringUtil.getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS);
     }
 

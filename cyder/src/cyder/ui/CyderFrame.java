@@ -959,59 +959,46 @@ public class CyderFrame extends JFrame {
     // notifications
     // ------------------
 
-    /**
-     * Notifies the provided text with a duration of five seconds and at the top center of the frame.
-     *
-     * @param htmlText the text to display with html formatting if desired
-     */
-    public void notify(String htmlText) {
-        notify(htmlText, 5000, NotificationDirection.TOP,null);
-    }
+    //todo add java doc information for usage
+    public static class NotificationBuilder {
+        //required params
+        private final String htmltext;
 
-    /**
-     * Notifies the provided text with with the provided
-     * duration using the provided direction on this CydreFrame.
-     *
-     * @param htmltext the text you want to display (may include HTML tags)
-     * @param viewDuration time in ms that the notification should stay on screen
-     * @param direction the enter and vanish direction for the notification
-     */
-    public void notify(String htmltext, int viewDuration, NotificationDirection direction) {
-        notify(htmltext, viewDuration, direction, null);
-    }
+        //optional params
+        private int viewDuration = 5000;
+        private Direction arrowDir = Direction.TOP;
+        private ClickAction onKillAction = null;
+        private NotificationDirection notificationDirection = NotificationDirection.TOP;
+        private Container container = null;
+        private Color notificationBackground = null;
 
-    /**
-     * Notifies the provided text with the provided duration using
-     * the provided direction of this CyderFrame. An action may be specified for what to do
-     * should a click be received on the notification component.
-     *
-     * @param htmltext the text you want to display (may include HTML tags)
-     * @param viewDuration time in ms that the notification should stay on screen
-     * @param direction the enter and vanish direction for the notification
-     * @param onKillAction the action to invoke upon user disposal of the notification
-     */
-    public void notify(String htmltext, int viewDuration, NotificationDirection direction, ClickAction onKillAction) {
-        Direction arrowDir;
-
-        switch (direction) {
-            case TOP_LEFT:
-            case CENTER_LEFT:
-            case BOTTOM_LEFT:
-                arrowDir = Direction.LEFT;
-                break;
-            case TOP_RIGHT:
-            case CENTER_RIGHT:
-            case BOTTOM_RIGHT:
-                arrowDir = Direction.RIGHT;
-                break;
-            case BOTTOM:
-                arrowDir =Direction.BOTTOM;
-                break;
-            default: //top
-                arrowDir = Direction.TOP;
+        public NotificationBuilder(String htmlText) {
+            this.htmltext = htmlText;
         }
 
-        notify(htmltext, viewDuration, arrowDir, direction, onKillAction);
+        public void setViewDuration(int viewDuration) {
+            this.viewDuration = viewDuration;
+        }
+
+        public void setArrowDir(Direction arrowDir) {
+            this.arrowDir = arrowDir;
+        }
+
+        public void setOnKillAction(ClickAction onKillAction) {
+            this.onKillAction = onKillAction;
+        }
+
+        public void setNotificationDirection(NotificationDirection notificationDirection) {
+            this.notificationDirection = notificationDirection;
+        }
+
+        public void setContainer(Container container) {
+            this.container = container;
+        }
+
+        public void setNotificationBackground(Color notificationBackground) {
+            this.notificationBackground = notificationBackground;
+        }
     }
 
     /**
@@ -1039,61 +1026,27 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Full control over the notification function of a {@link CyderFrame}.
-     * See {@link CyderFrame#notify(String, int, NotificationDirection, ClickAction)}
-     * for a simpler notify function
+     * Notifies the user with a custom notification built from the provided builder.
+     * See {@link NotificationBuilder} for more information.
      *
-     * @param htmltext the text you want to display (may include HTML tags)
-     * @param viewDuration the time in ms the notification should be visible for. Pass in 0
-     *                     to be auto calculated based on word count
-     * @param arrowDir the direction of the arrow on the notification
-     * @param notificationDirection the enter/exit direction of the notification
+     * @param notificationBuilder the builder used to construct the notification
      */
-    public void notify(String htmltext, int viewDuration, Direction arrowDir, NotificationDirection notificationDirection, ClickAction onKillAction) {
-        notify(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, null);
-    }
+    public void notify(NotificationBuilder notificationBuilder) {
+        //ensure length will not break the bounds of the notification calculations
+        if (StringUtil.getRawTextLength(notificationBuilder.htmltext) < 3)
+            throw new IllegalArgumentException("Raw text must be 3 characters or greater");
 
-    /**
-     * Full control over the notification function of a {@link CyderFrame}.
-     * See {@link CyderFrame#notify(String, int, NotificationDirection, ClickAction)}
-     * for a simpler notify function
-     *
-     * @param htmltext the text you want to display (may include HTML tags)
-     * @param viewDuration the time in ms the notification should be visible for. Pass in 0
-     *        to be auto calculated based on word count, pass in -1 to persist indefinitely until the user clicks
-     * @param arrowDir the direction of the arrow on the notification
-     * @param notificationDirection the enter/exit direction of the notification
-     * @param container container to show on the notification instead of the typical text, pass null to ignore
-     */
-    public void notify(String htmltext, int viewDuration, Direction arrowDir,
-                       NotificationDirection notificationDirection, ClickAction onKillAction, Container container) {
-        notify(htmltext, viewDuration, arrowDir, notificationDirection, onKillAction, container, null);
-    }
-
-    /**
-     * Full control over the notification function of a {@link CyderFrame}.
-     * See {@link CyderFrame#notify(String, int, NotificationDirection, ClickAction)}
-     * for a simpler notify function
-     *
-     * @param htmltext the text you want to display (may include HTML tags)
-     * @param viewDuration the time in ms the notification should be visible for. Pass in 0
-     *        to be auto calculated based on word count, pass in -1 to persist indefinitely until the user clicks
-     * @param arrowDir the direction of the arrow on the notification
-     * @param notificationDirection the enter/exit direction of the notification
-     * @param container container to show on the notification instead of the typical text, pass null to ignore
-     * @param notificationBackground the color to set the notification background to. Pass null for default
-     */
-    public void notify(String htmltext, int viewDuration, Direction arrowDir,
-                       NotificationDirection notificationDirection, ClickAction onKillAction,
-                       Container container, Color notificationBackground) {
         //make a WaitingNotification and add to queue,
         // queue will automatically process any notifications so no further actions needed
-        notificationList.add(new QueuedNotification(htmltext, viewDuration, arrowDir, notificationDirection,
-                onKillAction, container, notificationBackground, TimeUtil.notificationTime()));
-
-        //ensure length will not break the bounds of the notification calculations
-        if (StringUtil.getRawTextLength(htmltext) < 3)
-            throw new IllegalArgumentException("Raw text must be 3 characters or greater");
+        notificationList.add(new QueuedNotification(
+                notificationBuilder.htmltext,
+                notificationBuilder.viewDuration,
+                notificationBuilder.arrowDir,
+                notificationBuilder.notificationDirection,
+                notificationBuilder.onKillAction,
+                notificationBuilder.container,
+                notificationBuilder.notificationBackground,
+                TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
