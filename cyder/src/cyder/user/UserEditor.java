@@ -95,20 +95,7 @@ public class UserEditor implements WidgetBase {
 
         prefsPanelIndex = startingIndex;
 
-        switch (prefsPanelIndex) {
-            case 0:
-                switchToUserFiles();
-                break;
-            case 1:
-                switchToFontAndColor();
-                break;
-            case 2:
-                switchToPreferences();
-                break;
-            case 3:
-                switchToFieldInputs();
-                break;
-        }
+        revalidateBasedOnIndex();
 
         backwardButton = new CyderButton("<");
         backwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -171,20 +158,7 @@ public class UserEditor implements WidgetBase {
         if (prefsPanelIndex == 4)
             prefsPanelIndex = 0;
 
-        switch (prefsPanelIndex) {
-            case 0:
-                switchToUserFiles();
-                break;
-            case 1:
-                switchToFontAndColor();
-                break;
-            case 2:
-                switchToPreferences();
-                break;
-            case 3:
-                switchToFieldInputs();
-                break;
-        }
+        revalidateBasedOnIndex();
     }
 
     private static void lastEditUser() {
@@ -198,6 +172,12 @@ public class UserEditor implements WidgetBase {
 
         if (prefsPanelIndex == -1)
             prefsPanelIndex = 3;
+
+        revalidateBasedOnIndex();
+    }
+
+    private static void revalidateBasedOnIndex() {
+        editUserFrame.revokeAllNotifications();
 
         switch (prefsPanelIndex) {
             case 0:
@@ -755,8 +735,6 @@ public class UserEditor implements WidgetBase {
                 editUserFrame.notify(notificationBuilder);
             }
         },"Preference Font Loader").start();
-
-        //todo when switching panels, make sure to revoke any and all notifications on the pane
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));

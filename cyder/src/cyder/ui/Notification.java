@@ -47,7 +47,7 @@ public class Notification extends JLabel {
     /**
      * The animation delay between the notification moving through its parent container.
      */
-    private static int delay = 10;
+    private static int delay = 8;
 
     /**
      * The increment between setLocation calls for the

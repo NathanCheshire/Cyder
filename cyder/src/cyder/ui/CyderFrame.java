@@ -1181,8 +1181,12 @@ public class CyderFrame extends JFrame {
      * Removes all currently displayed notifications and wipes the notification queue.
      */
     public void revokeAllNotifications() {
-        currentNotification.kill();
-        notificationList.clear();
+        if (currentNotification != null)
+            currentNotification.kill();
+
+        if (notificationList != null)
+            notificationList.clear();
+
         notificationCheckerStarted = false;
     }
 

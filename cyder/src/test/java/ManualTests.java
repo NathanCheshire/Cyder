@@ -133,7 +133,7 @@ public class ManualTests {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(miliDelay);
             notificationBuilder.setArrowDir(Direction.RIGHT);
-            notificationBuilder.setNotificationDirection(NotificationDirection.RIGHT);
+            notificationBuilder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
             testFrame.notify(notificationBuilder);
         });
         testFrame.getContentPane().add(rightNotify);
