@@ -7,9 +7,12 @@ import cyder.ui.CyderFrame;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
+/**
+ * Utilities to control, update, modify, create, etc. CyderFrames.
+ */
 public class FrameUtil {
     /**
      * Instantiation of frame util not allowed.
@@ -23,8 +26,8 @@ public class FrameUtil {
      *
      * @return a list of frames currently opened by this instance
      */
-    public static LinkedList<Frame> getFrames() {
-        return new LinkedList<>(Arrays.asList(Frame.getFrames()));
+    public static ArrayList<Frame> getFrames() {
+        return new ArrayList<>(Arrays.asList(Frame.getFrames()));
     }
 
     /**
@@ -32,8 +35,8 @@ public class FrameUtil {
      *
      * @return a list of CyderFrames currently opened by this instance
      */
-    public static LinkedList<CyderFrame> getCyderFrames() {
-        LinkedList<CyderFrame> ret = new LinkedList<>();
+    public static ArrayList<CyderFrame> getCyderFrames() {
+        ArrayList<CyderFrame> ret = new ArrayList<>();
 
         for (Frame f : Frame.getFrames())
             if (f instanceof CyderFrame)
@@ -47,8 +50,8 @@ public class FrameUtil {
      *
      * @return a list of non CyderFrame frame objects opened by this instance
      */
-    public static LinkedList<Frame> getNonCyderFrames() {
-        LinkedList<Frame> ret = new LinkedList<>();
+    public static ArrayList<Frame> getNonCyderFrames() {
+        ArrayList<Frame> ret = new ArrayList<>();
 
         for (Frame f : Frame.getFrames())
             if (!(f instanceof CyderFrame))
@@ -272,5 +275,21 @@ public class FrameUtil {
     public static void closeAllCyderFrames(boolean fastClose) {
         for (CyderFrame f : getCyderFrames())
             f.dispose(fastClose);
+    }
+
+    /**
+     * Repaints all valid instances of CyderFrame.
+     */
+    public static void repaintCyderFrames() {
+        for (CyderFrame frame : getCyderFrames())
+            frame.repaint();
+    }
+
+    /**
+     * Repaints all valid instances of Frame.
+     */
+    public static void repaintFrames() {
+        for (Frame frame : getFrames())
+            frame.repaint();
     }
 }

@@ -22,9 +22,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.GeneralPath;
 import java.io.BufferedReader;
 import java.io.File;
@@ -726,7 +724,9 @@ public class UserEditor implements WidgetBase {
                 class thisAction implements CyderScrollList.ScrollAction {
                     @Override
                     public void fire() {
-                        FontLabel.setFont(new Font(fontList.get(finalI),Font.BOLD, 30));
+                        FontLabel.setFont(new Font(fontList.get(finalI),
+                                Integer.parseInt(UserUtil.extractUser().getFontmetric()),
+                                Integer.parseInt(UserUtil.extractUser().getFontsize())));
                     }
                 }
 
@@ -757,10 +757,12 @@ public class UserEditor implements WidgetBase {
             String selectedFont = fontScrollList.getSelectedElements().get(0);
 
             if (selectedFont != null) {
-                Font ApplyFont = new Font(selectedFont, Font.BOLD, 30);
+                UserUtil.setUserData("Font", selectedFont);
+                Font ApplyFont = new Font(selectedFont,
+                        Integer.parseInt(UserUtil.extractUser().getFontmetric()),
+                        Integer.parseInt(UserUtil.extractUser().getFontsize()));
                 ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
-                UserUtil.setUserData("Font", selectedFont);
                 ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
             }
         });
@@ -949,15 +951,12 @@ public class UserEditor implements WidgetBase {
             togglePrefLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    //clicks make it here, but not toggled properly and not updated in menu
-
                     String localID = Preferences.getPreferences().get(localIndex).getID();
 
                     boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
                     UserUtil.setUserData(localID, wasSelected ? "0" : "1");
 
-                    //todo Preferences.invokeRefresh(localID);
-                    ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+                    Preferences.invokeRefresh(localID);
                     togglePrefLabel.repaint();
                 }
             });

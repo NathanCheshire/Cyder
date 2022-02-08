@@ -3,7 +3,6 @@ package cyder.user;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderFrame;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.FrameUtil;
 import cyder.utilities.ReflectionUtil;
@@ -70,7 +69,8 @@ public class Preferences {
         ret.add(new Preference("font","IGNORE",
                 "","Agency FB",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = font");
-            //todo update input and output fonts
+            //no action required, updates are done via font chooser field, font metric field, and scroll wheel
+            // for the respective font params
             return null;
         }));
         ret.add(new Preference("foreground","IGNORE",
@@ -133,7 +133,7 @@ public class Preferences {
         ret.add(new Preference("fullscreen", "Fullscreen",
                 "Fullscreen cyder (Extremely experimental)","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
-            //todo trigger a fullscreen refresh
+            ConsoleFrame.getConsoleFrame().setFullscreen(!ConsoleFrame.getConsoleFrame().isFullscreen());
             return null;
         }));
         ret.add(new Preference("outputfill", "Output Fill",
@@ -215,17 +215,13 @@ public class Preferences {
         ret.add(new Preference("roundedwindows","Rounded Windows",
                 "Make certain windows rounded","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = roundedwindows");
-
-            for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                f.repaint();
-            }
-
+            FrameUtil.repaintCyderFrames();
             return null;
         }));
         ret.add(new Preference("windowcolor","IGNORE",
                 "","1A2033",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = windowcolor");
-            //todo update colors for all cyder frames
+            FrameUtil.repaintCyderFrames();
             return null;
         }));
         ret.add(new Preference("consoleclockformat","IGNORE",

@@ -2725,12 +2725,6 @@ public final class ConsoleFrame {
             inputField.revalidate();
         }
 
-        //todo taken care of
-        //round corners fixer
-        for (Frame f : Frame.getFrames()) {
-            f.repaint();
-        }
-
         //always revalidate menu
         revalidateMenu();
 
@@ -2740,6 +2734,8 @@ public final class ConsoleFrame {
 
         consoleCyderFrame.repaint();
     }
+
+    //todo if notification is clicked and click action, fast dispose the notificaiton
 
     /**
      * Returns whether fullscreen is on.
@@ -2882,6 +2878,7 @@ public final class ConsoleFrame {
     }
 
     //todo make some kind of a wrapper to hold all the console frame ui elements
+    //todo make ui objects to hold input field, output area, output scroll with getters and setters
 
     /**
      * Returns the input JTextField associated with the ConsoleFrame.
