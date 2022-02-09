@@ -1,0 +1,32 @@
+[23-14-38] [ENTRY]: [Nathan]
+[23-14-38] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-14-38] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-14-38] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-14-38] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-14-40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-14-40] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-14-40] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-14-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-14-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-14-41] [EXCEPTION]:
+Exception origin: cyder.ui.ConsoleFrame.revalidate(ConsoleFrame.java:2829)
+From line: 2829
+Trace: java.lang.NullPointerException
+at cyder.ui.ConsoleFrame.revalidate(ConsoleFrame.java:2829)
+at cyder.ui.ConsoleFrame$1.setBounds(ConsoleFrame.java:329)
+at java.desktop/java.awt.Component.resize(Component.java:2195)
+at java.desktop/java.awt.Component.setSize(Component.java:2180)
+at java.desktop/java.awt.Window.setSize(Window.java:911)
+at cyder.ui.CyderFrame.setSize(CyderFrame.java:1592)
+at java.desktop/java.awt.Component.resize(Component.java:2228)
+at java.desktop/java.awt.Component.setSize(Component.java:2215)
+at java.desktop/java.awt.Window.setSize(Window.java:889)
+at cyder.ui.CyderFrame.<init>(CyderFrame.java:240)
+at cyder.ui.ConsoleFrame$1.<init>(ConsoleFrame.java:325)
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:325)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:531)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:574)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:461)
+at cyder.genesis.Cyder.main(Cyder.java:113)
+[23-14-41] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-15-12] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

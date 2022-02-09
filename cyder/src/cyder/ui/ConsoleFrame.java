@@ -2092,7 +2092,7 @@ public final class ConsoleFrame {
 
         Point center = consoleCyderFrame.getCenterPoint();
 
-        //todo what about console orientation and fullscreen?
+        //todo exit fullscreen if in, keep orientation if direction is set
 
         backgroundIndex = index;
 
@@ -2164,15 +2164,16 @@ public final class ConsoleFrame {
         return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
-    //todo remove duplicate code smell here too
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
     public void switchBackground() {
+        // always load first to ensure we're up to date
         loadBackgrounds();
 
+        //todo getting images and sizes can be optimzied
         try {
             ImageIcon oldBack = getCurrentBackgroundImageIcon();
             ImageIcon nextBack = backgrounds.get(backgroundIndex + 1 == backgrounds.size()
@@ -2249,6 +2250,7 @@ public final class ConsoleFrame {
             //icon to set as the background after sliding animation completes
             ImageIcon finalNewBack = nextBack;
 
+            // todo extract a lot of stuff from here
             switch (lastSlideDirection) {
                 case LEFT:
                     //get combined icon
@@ -2471,29 +2473,30 @@ public final class ConsoleFrame {
             }
 
 
-            //increment background index since we're ahead now
+            // increment background index since we're ahead now
             incBackgroundIndex();
 
-            //tooltip based on image name
+            // tooltip based on image name
             ((JLabel) (consoleCyderFrame.getContentPane()))
                     .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
-            //console frame component bounds
+            // console frame component bounds
             outputScroll.setBounds(15, 62, width - 40, height - 204);
             inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
                     height - (62 + outputScroll.getHeight() + 20 + 20));
 
-            //focus default component
+            // focus default component
             inputField.requestFocus();
 
-            //fix menu
+            // fix menu
             revalidateMenu();
 
-            //fix foreground if needed
+            // fix foreground if needed due to the new background
             if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
                 getInputHandler().handle("fixforeground", false);
             }
 
+            // bump the frme into bounds
             FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
                     consoleCyderFrame.getX(), consoleCyderFrame.getY(), consoleCyderFrame);
         } catch (Exception e) {
@@ -2790,8 +2793,6 @@ public final class ConsoleFrame {
         }, "Suggestion Button Flash").start();
     }
 
-    //todo this method should be called from flip dir and fullscreen where there we simply set if it's fullscreen
-    // or flipped or not
 
     //todo should this be called from console frame's set size/bounds methods in the anonoymous class creation?
 
@@ -2870,6 +2871,7 @@ public final class ConsoleFrame {
             consoleMenuGenerated = false;
         }
 
+        // this takes care of offset of input/output due to menu
         revalidateMenu();
 
         consoleCyderFrame.refreshBackground();
@@ -2879,6 +2881,15 @@ public final class ConsoleFrame {
         } else {
             consoleCyderFrame.enableDragging();
         }
+
+        //audio menu bounds
+        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+            audioControlsLabel.setBounds(w - 156, DragLabel.getDefaultHeight() - 2,
+                    audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
+        }
+
+        // clock text
+        refreshClockText();
     }
 
     /**
