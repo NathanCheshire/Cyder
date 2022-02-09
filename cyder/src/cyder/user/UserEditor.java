@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+//todo fix up Widget base and what it implies and forces, what's the functional point of it?
 public class UserEditor implements WidgetBase {
     private static CyderFrame editUserFrame;
 

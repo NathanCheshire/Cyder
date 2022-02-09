@@ -1300,6 +1300,8 @@ public class InputHandler {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toggleChameleon();
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toggleChameleon();
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toggleChameleon();
+        } else if (commandIs("originalchams")) {
+            ConsoleFrame.getConsoleFrame().originalChams();
         }
 
         else ret = false;

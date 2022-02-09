@@ -963,7 +963,7 @@ public class CyderFrame extends JFrame {
      */
     private Notification currentNotification;
 
-    //todo need both?
+    //todo need both? eliminate one it feels like you could do this
 
     /**
      * The current queued notification that is currently being displayed.

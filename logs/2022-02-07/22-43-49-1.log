@@ -7,9 +7,7 @@
 [22-43-52] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [22-43-52] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [22-43-52] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-43-52] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [22-43-52] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-43-52] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-43-52] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -31,20 +29,16 @@
 [22-44-02] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [727360719], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-44-02] [ACTION]: [Preferences] [NOTIFICATION] Unable to delete the background you are currently using
 [22-44-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[22-44-03] [SYSTEM_IO]: Userdata requested: Foreground
-[22-44-03] [SYSTEM_IO]: Userdata requested: Foreground
-[22-44-03] [SYSTEM_IO]: Userdata requested: Background
-[22-44-03] [SYSTEM_IO]: Userdata requested: Background
+[22-44-03] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-44-03] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-44-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1663631785], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-44-03] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-44-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [22-44-04] [ACTION]: [Preferences] [NOTIFICATION] Fonts loaded
 [22-44-05] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [22-44-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [5622053], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-44-07] [SYSTEM_IO]: Userdata requested: Foreground
-[22-44-07] [SYSTEM_IO]: Userdata requested: Foreground
-[22-44-07] [SYSTEM_IO]: Userdata requested: Background
-[22-44-07] [SYSTEM_IO]: Userdata requested: Background
+[22-44-07] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-44-07] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-44-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1663631785], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-44-07] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-44-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
@@ -55,10 +49,8 @@
 [22-44-08] [SYSTEM_IO]: Userdata requested: randombackground
 [22-44-08] [SYSTEM_IO]: Userdata requested: debugwindows
 [22-44-08] [SYSTEM_IO]: Userdata requested: intromusic
-[22-44-10] [SYSTEM_IO]: Userdata requested: Foreground
-[22-44-10] [SYSTEM_IO]: Userdata requested: Foreground
-[22-44-10] [SYSTEM_IO]: Userdata requested: Background
-[22-44-10] [SYSTEM_IO]: Userdata requested: Background
+[22-44-10] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-44-10] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-44-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [5622053], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-44-10] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-44-10] [SYSTEM_IO]: Userdata requested: persistentnotifications

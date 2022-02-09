@@ -22,5 +22,6 @@ public class FileUtil {
         return StringUtil.in(StringUtil.getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS);
     }
 
-    //todo some stuff from String util should be here 
+    //todo StringUtil filename and extension methods should be here, look for other methods that should be here
+    // also think about what else might be useful
 }

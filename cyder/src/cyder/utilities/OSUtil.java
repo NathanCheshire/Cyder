@@ -270,6 +270,33 @@ public class OSUtil {
     }
 
     /**
+     * Builds the provided strings into a file by inserting the OS' path s
+     * eparators between the provided path strings.
+     * Example: buildFile("alpha","beta","gamma","delta.txt") on Windows would be equivalent to typing:
+     * new File("alpha\beta\gamma\delta.txt")
+     *
+     * @param directories the names of directories to add one after the other
+     * @return a reference to a file which may or may not exist
+     */
+    public static File buildFile(String... directories) {
+        if (directories == null)
+            throw new IllegalArgumentException("Directories is null");
+        if (directories.length == 0)
+            throw new IllegalArgumentException("Directories length is null");
+
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0; i < directories.length; i++) {
+            ret.append(directories[i]);
+
+            if (i != directories.length - 1)
+                ret.append(FILE_SEP);
+        }
+
+        return new File(ret.toString());
+    }
+
+    /**
      * Returns the username of the operating system user.
      *
      * @return the username of the operating system user
@@ -425,6 +452,8 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo console flipping doesn't update menu size
+
     //todo load project up fresh so that you can see all the warnings youve ignored
 
     //todo all class.subclass should be in an objects package within that package
@@ -451,12 +480,6 @@ public class OSUtil {
 
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata
-
-    //todo changing the consoleframe background to something needs it's own method and param
-    // to change/not change the size
-
-    //todo fix weird bug with setting console orientation when it originally loads
-    // and you can do ctrl + up and it refreshes a littlea
 
     //todo remember console orientation on exiting Cyder
 
