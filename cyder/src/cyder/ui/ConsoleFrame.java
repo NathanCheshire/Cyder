@@ -2175,7 +2175,6 @@ public final class ConsoleFrame {
 
         //todo getting images and sizes can be optimzied
         try {
-            ImageIcon oldBack = getCurrentBackgroundImageIcon();
             ImageIcon nextBack = backgrounds.get(backgroundIndex + 1 == backgrounds.size()
                     ? 0 : backgroundIndex + 1).generateImageIcon();
 
@@ -2183,56 +2182,41 @@ public final class ConsoleFrame {
             int width = nextBack.getIconWidth();
             int height = nextBack.getIconHeight();
 
-            //are we full screened and are we rotated?
-            boolean fullscreen = isFullscreen();
-            Direction direction = getConsoleDirection();
+            if (isFullscreen()) {
+                // full screen so frame's monitor size
 
-            //if full screen then get full screen images
-            if (fullscreen) {
-                width = ScreenUtil.getScreenWidth();
-                height = ScreenUtil.getScreenHeight();
+                width = (int) consoleCyderFrame.getMonitorBounds().getWidth();
+                height = (int) consoleCyderFrame.getMonitorBounds().getHeight();
 
-                oldBack = ImageUtil.resizeImage(oldBack, width, height);
                 nextBack = ImageUtil.resizeImage(nextBack, width, height);
-            }
-
-            //when switching backgrounds, we ignore rotation if in full screen because it is impossible
-            else {
-                //not full screen and oriented left
-                if (direction == Direction.LEFT) {
+            }  else {
+                // not full screen and oriented left
+                if (consoleDir == Direction.LEFT || consoleDir == Direction.RIGHT) {
+                    // switch width with height
                     width = width + height;
                     height = width - height;
                     width = width - height;
 
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(oldBack), -90));
-                    nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(nextBack), -90));
-                }
-
-                //not full screen and oriented right
-                else if (direction == Direction.RIGHT) {
-                    width = width + height;
-                    height = width - height;
-                    width = width - height;
-
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(oldBack), 90));
-                    nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(nextBack), 90));
-                } else if (direction == Direction.BOTTOM) {
-                    oldBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(oldBack), 180));
+                    if (consoleDir == Direction.LEFT) {
+                        nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                                ImageUtil.ImageIcon2BufferedImage(nextBack), -90));
+                    } else {
+                        nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                                ImageUtil.ImageIcon2BufferedImage(nextBack), 90));
+                    }
+                } else if (consoleDir == Direction.BOTTOM) {
                     nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
                             ImageUtil.ImageIcon2BufferedImage(nextBack), 180));
                 }
             }
 
-            //make master image to set to background and slide
+            //now we have width and height figured out for the new background
+
             ImageIcon combinedIcon;
 
             //before combining images, we need to resize to the new width and height
-            oldBack = ImageUtil.resizeImage(oldBack, width, height);
+            //todo is this the dimensions of the new background?
+            ImageIcon oldBack = ImageUtil.resizeImage(getCurrentBackgroundImageIcon(), width, height);
 
             //we only need to resize our new image in the event of a full screen or rotation event
             if (nextBack.getIconWidth() != width && nextBack.getIconHeight() != height) {
@@ -2243,9 +2227,10 @@ public final class ConsoleFrame {
             int oldCenterX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
             int oldCenterY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
 
-            consoleCyderFrame.setSize(width,height);
+            Point originalCenter = consoleCyderFrame.getCenterPoint();
 
-            consoleCyderFrame.setLocation(oldCenterX - width / 2, oldCenterY - height / 2);
+            // set size to new width and height since the image is some factor of these bounds
+            consoleCyderFrame.setSize(width,height);
 
             //icon to set as the background after sliding animation completes
             ImageIcon finalNewBack = nextBack;
@@ -2266,7 +2251,7 @@ public final class ConsoleFrame {
                         int delay = 5;
                         int increment = 8;
 
-                        if (fullscreen) {
+                        if (isFullscreen()) {
                             delay = 1;
                             increment = 20;
                         }
@@ -2321,7 +2306,7 @@ public final class ConsoleFrame {
                         int delay = 5;
                         int increment = 8;
 
-                        if (fullscreen) {
+                        if (isFullscreen()) {
                             delay = 1;
                             increment = 20;
                         }
@@ -2375,7 +2360,7 @@ public final class ConsoleFrame {
                         int delay = 5;
                         int increment = 8;
 
-                        if (fullscreen) {
+                        if (isFullscreen()) {
                             delay = 1;
                             increment = 20;
                         }
@@ -2429,7 +2414,7 @@ public final class ConsoleFrame {
                         int delay = 5;
                         int increment = 8;
 
-                        if (fullscreen) {
+                        if (isFullscreen()) {
                             delay = 1;
                             increment = 20;
                         }
@@ -2498,7 +2483,7 @@ public final class ConsoleFrame {
 
             // bump the frme into bounds
             FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                    consoleCyderFrame.getX(), consoleCyderFrame.getY(), consoleCyderFrame);
+                    (int) originalCenter.getX(), (int) originalCenter.getY(), consoleCyderFrame);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -2587,8 +2572,6 @@ public final class ConsoleFrame {
         });
         timer.start();
     }
-
-    //todo fullscreen true after turned off due to console dir flip doesn't work
 
     /**
      * Refreshses the console frame, bounds, orientation, and fullscreen mode.
@@ -2792,9 +2775,6 @@ public final class ConsoleFrame {
             }
         }, "Suggestion Button Flash").start();
     }
-
-
-    //todo should this be called from console frame's set size/bounds methods in the anonoymous class creation?
 
     /**
      * Revalidates the ConsoleFrame based on the current background.
