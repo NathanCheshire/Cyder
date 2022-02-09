@@ -155,7 +155,7 @@ public class YoutubeThread {
 
                         int avgMsPerCheck = 200; //we could make this actually calculate but...
                         long msTimeLeft = (long) ((totalUUIDs - completedUUIDs) / avgMsPerCheck);
-                        ConsoleFrame.getConsoleFrame().notify("Time left: "
+                        ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Time left: "
                                 + TimeUtil.milisToFormattedString(msTimeLeft));
                     }
                 }

@@ -850,7 +850,7 @@ public class InputHandler {
                 println("Hexdump usage: hexdump -f /path/to/binary/file");
             }
         } else if (commandIs("barrelroll")) {
-            ConsoleFrame.getConsoleFrame().barrelRoll();
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().barrelRoll();
         } else if (commandIs("askew")) {
             ConsoleFrame.getConsoleFrame().rotateBackground(5);
         } else if (commandIs("logout")) {

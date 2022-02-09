@@ -107,7 +107,7 @@ public class WeatherWidget implements WidgetBase {
         Logger.log(Logger.Tag.WIDGET_OPENED, "WEATHER");
 
         if (CyderCommon.isHighLatency()) {
-            ConsoleFrame.getConsoleFrame().notify("Sorry, " + UserUtil.extractUser().getName() + ", but" +
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, " + UserUtil.extractUser().getName() + ", but" +
                     " this feature is suspended until a stable internet connection can be established");
             return;
         }

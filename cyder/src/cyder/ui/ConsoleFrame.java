@@ -1153,7 +1153,7 @@ public final class ConsoleFrame {
             Logger.log(Logger.Tag.ACTION, logString);
 
             if (entryPoint == CyderEntry.AutoCypher) {
-                notify(logString);
+                consoleCyderFrame.notify(logString);
             }
 
             ret = true;
@@ -2886,6 +2886,7 @@ public final class ConsoleFrame {
             }
         }
     }
+
     //todo frame util these methods
     /**
      * Minimizes all CyderFrames
@@ -2904,31 +2905,6 @@ public final class ConsoleFrame {
                 ((CyderFrame) f).minimizeAnimation();
             }
         }
-    }
-
-    //todo replace methods like this with just direct calls and make a getter for the consoleCyderFrame
-
-    /**
-     * Performs a barrelRoll on the ConsoleFrame.
-     */
-    public void barrelRoll() {
-        consoleCyderFrame.barrelRoll();
-    }
-
-    public void setLocation(int x, int y) {
-        consoleCyderFrame.setLocation(x, y);
-    }
-
-    public void setLocationRelativeTo(Component c) {
-        consoleCyderFrame.setLocationRelativeTo(c);
-    }
-
-    public void setTitle(String title) {
-        consoleCyderFrame.setTitle(title);
-    }
-
-    public void notify(String text) {
-        consoleCyderFrame.notify(text);
     }
 
     /**

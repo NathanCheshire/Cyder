@@ -4,6 +4,8 @@ package cyder.threads;
  * A class used to submit runnables and executors.
  */
 public final class CyderThreadRunner {
+    //todo use this for all thread invokes so that we can log them
+
     /**
      * Immediately starts a thread with the provided
      * runnable named with the provided name.

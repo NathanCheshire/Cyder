@@ -55,7 +55,7 @@ public class BletchyThread {
     public static void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
         //starting not permitting if bletchy or this is already underway
         if (BletchyThread.isActive() || MasterYoutubeThread.isActive()) {
-            ConsoleFrame.getConsoleFrame().notify("Cannot start bletchy/youtube thread" +
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
         }
