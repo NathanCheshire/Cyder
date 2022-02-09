@@ -348,7 +348,8 @@ public final class ConsoleFrame {
                     //menu label bounds
                     if (menuLabel != null && menuLabel.isVisible()) {
                         menuLabel.setBounds(3, DragLabel.getDefaultHeight() - 2,
-                                menuLabel.getWidth(), menuLabel.getHeight());
+                                menuLabel.getWidth(), consoleCyderFrame.getHeight()
+                                        - DragLabel.getDefaultHeight() - 5);
                     }
 
                     //audio menu bounds
@@ -3022,6 +3023,9 @@ public final class ConsoleFrame {
         if (menuLabel.isVisible()) {
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
             installMenuTaskbarIcons();
+            menuLabel.setBounds(3, DragLabel.getDefaultHeight() - 2,
+                    menuLabel.getWidth(), consoleCyderFrame.getHeight()
+                            - DragLabel.getDefaultHeight() - 5);
         } else {
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
             //no other actions needed
