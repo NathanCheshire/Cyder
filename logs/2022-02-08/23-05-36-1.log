@@ -1,0 +1,94 @@
+[23-05-37] [ENTRY]: [Nathan]
+[23-05-37] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-05-37] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-05-37] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-05-37] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-05-38] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-05-38] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-05-39] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-05-39] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-05-39] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[23-05-39] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-05-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-05-39] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-05-39] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-05-39] [SYSTEM_IO]: Userdata requested: InputFill
+[23-05-39] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2146036149], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-05-39] [ACTION]: Console loaded in 3103ms
+[23-05-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-05-40] [ENTRY]: [TESTING MODE]
+[23-05-40] [SYSTEM_IO]: Userdata requested: laststart
+[23-05-40] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3103ms
+[23-05-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-05-42] [CLIENT]: fullscreen
+[23-05-42] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-42] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-42] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-42] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[23-05-42] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-42] [HANDLE]: FINAL HANDLE
+[23-05-43] [CLIENT]: fullscreen
+[23-05-43] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-43] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-43] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-05-43] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-43] [HANDLE]: FINAL HANDLE
+[23-05-45] [CLIENT]: fullscreen
+[23-05-45] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-45] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-46] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[23-05-46] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-46] [HANDLE]: FINAL HANDLE
+[23-05-48] [CLIENT]: fullscreen
+[23-05-48] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-48] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-48] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-48] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-48] [HANDLE]: FINAL HANDLE
+[23-05-48] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-05-50] [CLIENT]: fullscreen
+[23-05-50] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-50] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-50] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-50] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-05-50] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-50] [HANDLE]: FINAL HANDLE
+[23-05-53] [CLIENT]: fullscreen
+[23-05-53] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-53] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-53] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-53] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-05-53] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-53] [HANDLE]: FINAL HANDLE
+[23-05-57] [CLIENT]: fullscreen
+[23-05-57] [SYSTEM_IO]: Userdata requested: filterchat
+[23-05-57] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-05-57] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-05-57] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-05-57] [HANDLE]: FINAL HANDLE
+[23-05-57] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-05-59] [EXCEPTION]:
+Exception origin: cyder.ui.ConsoleFrame.lambda$startExecutors$20(ConsoleFrame.java:1332)
+From line: 1332
+Trace: java.lang.NullPointerException
+at cyder.ui.ConsoleFrame.lambda$startExecutors$20(ConsoleFrame.java:1332)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[23-05-59] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-06-03] [SYSTEM_IO]: Userdata requested: Background
+[23-06-05] [CLIENT]: fullscreen
+[23-06-05] [SYSTEM_IO]: Userdata requested: filterchat
+[23-06-05] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-06-05] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-06-05] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-06-05] [HANDLE]: FINAL HANDLE
+[23-06-05] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-06-15] [CLIENT]: fullscreen
+[23-06-15] [SYSTEM_IO]: Userdata requested: filterchat
+[23-06-15] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-06-15] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-06-15] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-06-15] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-06-15] [HANDLE]: FINAL HANDLE
+[23-06-58] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

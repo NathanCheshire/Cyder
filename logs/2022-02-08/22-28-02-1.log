@@ -1,0 +1,27 @@
+[22-28-03] [ENTRY]: [Nathan]
+[22-28-03] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-28-03] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-28-03] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-28-03] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-28-04] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-28-04] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-28-05] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-28-05] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-28-05] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[22-28-05] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-28-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-05] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-28-06] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-28-06] [SYSTEM_IO]: Userdata requested: InputFill
+[22-28-06] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1060, 414, 600, 600)], hash = [696567255], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-28-06] [ACTION]: Console loaded in 3583ms
+[22-28-06] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-28-06] [ENTRY]: [TESTING MODE]
+[22-28-06] [SYSTEM_IO]: Userdata requested: laststart
+[22-28-06] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3583ms
+[22-28-06] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-28-07] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-28-07] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(520, 234, 996, 655)], hash = [769432223], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-28-07] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-28-08] [EXIT]: [RUNTIME] 5s
+[22-28-08] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -178,11 +178,6 @@ public final class ConsoleFrame {
     private boolean consoleMenuGenerated;
 
     /**
-     * Whether the console frame is in fullscreen mode.
-     */
-    private boolean fullscreen;
-
-    /**
      * Whether the console frame is closed.
      */
     private boolean consoleFrameClosed = true;
@@ -285,8 +280,7 @@ public final class ConsoleFrame {
             commandList.clear();
             commandIndex = 0;
 
-            //special boolean vars
-            fullscreen = false;
+            UserUtil.setUserData("fullscreen","0");
             consoleFrameClosed = false;
 
             //menu items
@@ -318,7 +312,7 @@ public final class ConsoleFrame {
                 consoleFrameBackgroundHeight = ScreenUtil.getScreenHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(consoleFrameBackgroundWidth,
                         consoleFrameBackgroundHeight,getCurrentBackgroundFile()));
-                fullscreen = true;
+                UserUtil.setUserData("fullscreen","1");
             } else {
                 consoleFrameBackgroundWidth = getCurrentBackgroundImageIcon().getIconWidth();
                 consoleFrameBackgroundHeight = getCurrentBackgroundImageIcon().getIconHeight();
@@ -374,7 +368,7 @@ public final class ConsoleFrame {
             //more of a failsafe and not really necessary
             consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
 
-            if (fullscreen) {
+            if (UserUtil.getUserData("fullscreen").equals("1")) {
                 consoleCyderFrame.disableDragging();
             }
 
@@ -1016,7 +1010,7 @@ public final class ConsoleFrame {
             close.setToolTipText("Close");
             close.addActionListener(e -> {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
-                    ConsoleFrame.getConsoleFrame().minimizeAll();
+                    FrameUtil.minimizeAllFrames();
                 } else {
                     closeConsoleFrame(true, false);
                 }
@@ -2170,7 +2164,7 @@ public final class ConsoleFrame {
         return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
-    //todo probably duplicate code smell here
+    //todo remove duplicate code smell here too
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
@@ -2539,13 +2533,14 @@ public final class ConsoleFrame {
 
     /**
      * Sets the console orientation and refreshes the frame.
-     * This action exits fullscreen mode if it is active.
+     * This action exits fullscreen mode if active.
      *
      * @param consoleDirection the direction the background is to face
      */
     public void setConsoleDirection(Direction consoleDirection) {
         consoleDir = consoleDirection;
-        setFullscreen(false);
+        UserUtil.setUserData("fullscreen","0");
+        revalidate(true, false);
     }
 
     /**
@@ -2590,107 +2585,20 @@ public final class ConsoleFrame {
         timer.start();
     }
 
-    //todo probably duplicate code smell
+    //todo fullscreen true after turned off due to console dir flip doesn't work
+
     /**
      * Refreshses the console frame, bounds, orientation, and fullscreen mode.
      *
-     * @param enable whether to set the frame to fullscreen mode.
+     * @param fullscreen whether to set the frame to fullscreen mode.
      */
-    public void setFullscreen(Boolean enable) {
+    public void setFullscreen(boolean fullscreen) {
         try {
-            fullscreen = enable;
-
-            UserUtil.setUserData("fullscreen", enable ? "1" : "0");
-
-            int w = 0;
-            int h = 0;
-            ImageIcon rotatedIcon = null;
-
-            //determine the background
-            if (fullscreen) {
-                w = (int) ScreenUtil.getMonitorWidth(consoleCyderFrame);
-                h = (int) ScreenUtil.getMonitorHeight(consoleCyderFrame);
-
-                consoleDir = Direction.TOP;
-                rotatedIcon = new ImageIcon(ImageUtil.resizeImage(w,h,getCurrentBackgroundFile()));
-            } else {
-                if (consoleDir == Direction.LEFT || consoleDir == Direction.RIGHT) {
-                    w = getCurrentBackgroundImageIcon().getIconHeight();
-                    h = getCurrentBackgroundImageIcon().getIconWidth();
-                } else {
-                    w = getCurrentBackgroundImageIcon().getIconWidth();
-                    h = getCurrentBackgroundImageIcon().getIconHeight();
-                }
-
-                switch (consoleDir) {
-                    case TOP:
-                        rotatedIcon = getCurrentBackgroundImageIcon();
-                        break;
-                    case LEFT:
-                        rotatedIcon = new ImageIcon(ImageUtil.getRotatedImage(
-                                getCurrentBackgroundFile().getAbsolutePath(), Direction.LEFT));
-                        break;
-                    case RIGHT:
-                        rotatedIcon = new ImageIcon(ImageUtil.getRotatedImage(
-                                getCurrentBackgroundFile().getAbsolutePath(), Direction.RIGHT));
-                        break;
-                    case BOTTOM:
-                        rotatedIcon = new ImageIcon(ImageUtil.getRotatedImage(
-                                getCurrentBackgroundFile().getAbsolutePath(), Direction.BOTTOM));
-                        break;
-                }
-            }
-
-            consoleCyderFrame.setSize(w, h);
-            consoleCyderFrame.setBackground(rotatedIcon);
-
-            int addX = (int) ScreenUtil.getMonitorXOffset(consoleCyderFrame);
-            int addY = (int) ScreenUtil.getMonitorYOffset(consoleCyderFrame);
-
-            int width = (int) ScreenUtil.getMonitorWidth(consoleCyderFrame);
-            int height = (int) ScreenUtil.getMonitorHeight(consoleCyderFrame);
-
-            consoleCyderFrame.setLocation(
-                    addX - w / 2 + width / 2,
-                    addY - h / 2 + height / 2);
-
-            outputScroll.setBounds(15, 62, w - 40, h - 204);
-            inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,w - 40,
-                    h - (62 + outputScroll.getHeight() + 20 + 20));
-
-            consoleCyderFrame.setMaximumSize(new Dimension(w, h));
-
-            if (!menuLabel.isVisible()) {
-                consoleMenuGenerated = false;
-            }
-
-            revalidateMenu();
-
-            if (fullscreen) {
-                consoleCyderFrame.disableDragging();
-            } else {
-                consoleCyderFrame.enableDragging();
-            }
-
-            consoleCyderFrame.refreshBackground();
+            UserUtil.setUserData("fullscreen", fullscreen ? "1" : "0");
+            revalidate(false, true);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    //todo go away with preference onUpdate functions
-    /**
-     * Refreshes Cyder properties based on possible changes within the UserEditor.
-     */
-    public void refreshBasedOnPrefs() {
-        //always revalidate menu
-        revalidateMenu();
-
-        //font
-        outputArea.setFont(generateUserFont());
-        inputField.setFont(generateUserFont());
-
-        consoleCyderFrame.repaint();
     }
 
     /**
@@ -2699,7 +2607,7 @@ public final class ConsoleFrame {
      * @return whether fullscreen is on
      */
     public boolean isFullscreen() {
-        return fullscreen;
+        return UserUtil.extractUser().getFullscreen().equals("1");
     }
 
     /**
@@ -2859,53 +2767,9 @@ public final class ConsoleFrame {
         return inputField;
     }
 
-    /**
-     * Minimizes the ConsoleFrame.
-     */
-    public void minimize() {
-        consoleCyderFrame.minimizeAnimation();
-    }
-
-    /**
-     * Minimizes all frames.
-     */
-    public void minimizeAll() {
-        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
-        screenStat.setConsoleX(consoleCyderFrame.getX());
-        screenStat.setConsoleY(consoleCyderFrame.getY());
-
-        User user = UserUtil.extractUser();
-        user.setScreenStat(screenStat);
-        UserUtil.setUserData(user);
-
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame) {
-                ((CyderFrame) f).minimizeAnimation();
-            } else {
-                f.setState(Frame.ICONIFIED);
-            }
-        }
-    }
-
-    //todo frame util these methods
-    /**
-     * Minimizes all CyderFrames
-     */
-    public void minimizeAllCyderFrames() {
-        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
-        screenStat.setConsoleX(consoleCyderFrame.getX());
-        screenStat.setConsoleY(consoleCyderFrame.getY());
-
-        User user = UserUtil.extractUser();
-        user.setScreenStat(screenStat);
-        UserUtil.setUserData(user);
-
-        for (Frame f : Frame.getFrames()) {
-            if (f instanceof CyderFrame) {
-                ((CyderFrame) f).minimizeAnimation();
-            }
-        }
-    }
+    // ------------------------
+    // ConsoleFrame buttons
+    // ------------------------
 
     /**
      * Flashes the suggestion button between {@link CyderColors#regularRed} and {@link CyderColors#vanila}
@@ -2926,12 +2790,95 @@ public final class ConsoleFrame {
         }, "Suggestion Button Flash").start();
     }
 
+    //todo this method should be called from flip dir and fullscreen where there we simply set if it's fullscreen
+    // or flipped or not
+
+    //todo should this be called from console frame's set size/bounds methods in the anonoymous class creation?
+
     /**
-     * Repaint method for the ConsoleFrame.
-     * //todo fix me this shouldn't be it xD
+     * Revalidates the ConsoleFrame based on the current background.
+     * Note maintainDirection trumps maintainFullscreen.
+     *
+     * @param maintainDirection whether to maintain the console direction
+     * @param maintainFullscreen whether to maintain fullscreen mode
      */
-    public void repaint() {
-        setFullscreen(fullscreen);
+    public void revalidate(boolean maintainDirection, boolean maintainFullscreen) {
+        ImageIcon background = null;
+
+        if (maintainDirection) {
+            // have full size of image and maintain direction we are in currently
+
+            switch (consoleDir) {
+                case TOP:
+                    background = getCurrentBackgroundImageIcon();
+                    break;
+                case LEFT:
+                    background = new ImageIcon(ImageUtil.getRotatedImage(
+                            getCurrentBackgroundFile().getAbsolutePath(), Direction.LEFT));
+                    break;
+                case RIGHT:
+                    background = new ImageIcon(ImageUtil.getRotatedImage(
+                            getCurrentBackgroundFile().getAbsolutePath(), Direction.RIGHT));
+                    break;
+                case BOTTOM:
+                    background = new ImageIcon(ImageUtil.getRotatedImage(
+                            getCurrentBackgroundFile().getAbsolutePath(), Direction.BOTTOM));
+                    break;
+            }
+
+            UserUtil.setUserData("fullscreen", "0");
+        } else if (maintainFullscreen && UserUtil.extractUser().getFullscreen().equals("1")) {
+            // have fullscreen on current monitor
+            background = ImageUtil.resizeImage(getCurrentBackgroundImageIcon(),
+                    (int) consoleCyderFrame.getMonitorBounds().getWidth(),
+                    (int) consoleCyderFrame.getMonitorBounds().getHeight());
+        } else {
+            background = getCurrentBackgroundImageIcon();
+        }
+
+        // no background somehow so create the default one in user space
+        if (background == null) {
+            File newlyCreatedBackground = UserUtil.createDefaultBackground();
+
+            try {
+                background = ImageUtil.getImageIcon(ImageIO.read(newlyCreatedBackground));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
+
+        int w = background.getIconWidth();
+        int h = background.getIconHeight();
+
+        // this shouldn't ever happen
+        if (w == -1 || h == -1)
+            throw new IllegalStateException("Resulting width or height was found to " +
+                    "not have been set in ConsoleFrame refresh method. " + CyderStrings.europeanToymaker);
+
+        consoleCyderFrame.setSize(w, h);
+        consoleCyderFrame.setBackground(background);
+
+        consoleCyderFrame.setLocationRelativeTo(null);
+
+        outputScroll.setBounds(15, 62, w - 40, h - 204);
+        inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,w - 40,
+                h - (62 + outputScroll.getHeight() + 20 + 20));
+
+        consoleCyderFrame.setMaximumSize(new Dimension(w, h));
+
+        if (!menuLabel.isVisible()) {
+            consoleMenuGenerated = false;
+        }
+
+        revalidateMenu();
+
+        consoleCyderFrame.refreshBackground();
+
+        if (isFullscreen()) {
+            consoleCyderFrame.disableDragging();
+        } else {
+            consoleCyderFrame.enableDragging();
+        }
     }
 
     /**
@@ -2944,15 +2891,14 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Revalidates the console menu and places it where it was depending on if it was visible or not.
+     * Revalidates the console menu bounds and height and places
+     * it where it in the proper spot depending on if it is shown.
      */
     public void revalidateMenu() {
-        //if the frame is closed or the label simply doesn't exis
         if (consoleFrameClosed || menuLabel == null)
             return;
 
-        consoleMenuGenerated = false;
-
+        // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
             installMenuTaskbarIcons();
@@ -2964,16 +2910,18 @@ public final class ConsoleFrame {
             //no other actions needed
         }
 
-        //based on console menu, set bounds of fields
+        // ---------------------------------------------
+        // set bounds of components affected by the menu
+        // ---------------------------------------------
+
         int addX = 0;
         int w = consoleCyderFrame.getWidth();
         int h = consoleCyderFrame.getHeight();
 
-        //offset for setting field bounds
+        //offset for components below
         if (menuLabel.isVisible())
             addX = 2 + menuLabel.getWidth();
 
-        //set bounds
         outputScroll.setBounds(addX + 15, 62, w - 40 - addX, h - 204);
         inputField.setBounds(addX + 15, 62 + outputScroll.getHeight() + 20,w - 40 - addX,
                 h - (62 + outputScroll.getHeight() + 20 + 20));

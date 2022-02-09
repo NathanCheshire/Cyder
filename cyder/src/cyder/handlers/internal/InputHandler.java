@@ -658,13 +658,13 @@ public class InputHandler {
             Preferences.invokeRefresh("foreground");
             println("Foreground fixed");
         } else if (commandIs("repaint")) {
-            ConsoleFrame.getConsoleFrame().repaint();
+            ConsoleFrame.getConsoleFrame().revalidate(false, false);
             println("ConsoleFrame repainted");
         } else if (commandIs("javaproperties")) {
             StatUtil.javaProperties();
         } else if (commandIs("panic")) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
-                ConsoleFrame.getConsoleFrame().minimizeAll();
+                FrameUtil.minimizeAllFrames();
             } else {
                 CyderCommon.exit(25);
             }
@@ -717,7 +717,7 @@ public class InputHandler {
                 },"Image Pixelator Getter thread").start();
             }
         } else if (commandIs("hide")) {
-            ConsoleFrame.getConsoleFrame().minimize();
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
             if (checkArgsLength(0) || checkArgsLength(1)) {
                 File startDir = new File("cyder");
@@ -788,7 +788,7 @@ public class InputHandler {
                 commandIs("leave") ||
                 commandIs("close")) {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
-                ConsoleFrame.getConsoleFrame().minimizeAll();
+                FrameUtil.minimizeAllFrames();
             } else {
                 ConsoleFrame.getConsoleFrame().closeConsoleFrame(true, false);
             }

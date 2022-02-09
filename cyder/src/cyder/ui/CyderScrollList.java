@@ -68,13 +68,16 @@ public class CyderScrollList {
         this.border = border;
     }
 
-    private static ArrayList<CyderScrollList> validScrollLists = new ArrayList<>();
+    /**
+     * The list of scroll lists craeted in the current instance of Cyder.
+     */
+    private static ArrayList<CyderScrollList> scrollLists = new ArrayList<>();
 
     /**
-     * Refreshes all CyderScrollLists that have been created this instance of CyderFrame.
+     * Refreshes all CyderScrollLists that have been created this instance of Cyder.
      */
     public static void refreshAllLists() {
-        for (CyderScrollList list : validScrollLists) {
+        for (CyderScrollList list : scrollLists) {
             Component parent = SwingUtilities.getRoot(list.getScrollPane());
 
             if (parent instanceof CyderFrame) {
@@ -89,7 +92,7 @@ public class CyderScrollList {
     }
 
     /**
-     * Refreshses the current list.
+     * Refreshses the list belonging to this instance of CyderScrollList.
      */
     public void refreshList() {
         boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
@@ -106,6 +109,11 @@ public class CyderScrollList {
 
     }
 
+    /**
+     * Generates a label based on the currently set width and height containing the CyderScrollList.
+     *
+     * @return a label based on the currently set width and height containing the CyderScrollList
+     */
     public JLabel generateScrollList() {
         Font menuFont = scrollFont;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
@@ -129,7 +137,7 @@ public class CyderScrollList {
         listPane.setParagraphAttributes(attribs, true);
 
         refreshList();
-        validScrollLists.add(this);
+        scrollLists.add(this);
 
         scrollPane = new CyderScrollPane(listPane);
         scrollPane.setThumbSize(5);

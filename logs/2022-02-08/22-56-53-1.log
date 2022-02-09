@@ -1,0 +1,97 @@
+[22-56-54] [ENTRY]: [Nathan]
+[22-56-54] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-56-54] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-56-54] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-56-54] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-56-55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-56-55] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-56-56] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-56-56] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-56-56] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[22-56-56] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-56-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-56-56] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-56-56] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-56-56] [SYSTEM_IO]: Userdata requested: InputFill
+[22-56-56] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [810328229], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-56-56] [ACTION]: Console loaded in 3002ms
+[22-56-56] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-56-56] [ENTRY]: [TESTING MODE]
+[22-56-56] [SYSTEM_IO]: Userdata requested: laststart
+[22-56-57] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3002ms
+[22-56-57] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-56-58] [CLIENT]: fullscreen
+[22-56-58] [SYSTEM_IO]: Userdata requested: filterchat
+[22-56-58] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-56-58] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-56-58] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[22-56-58] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-56-58] [HANDLE]: FINAL HANDLE
+[22-57-00] [CLIENT]: fullscreen
+[22-57-00] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-00] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-57-00] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-57-00] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[22-57-00] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-57-00] [HANDLE]: FINAL HANDLE
+[22-57-10] [CLIENT]: fullscreen
+[22-57-10] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-10] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-57-10] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-57-10] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[22-57-10] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-57-10] [HANDLE]: FINAL HANDLE
+[22-57-11] [CLIENT]: fullscreen
+[22-57-11] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-11] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-57-11] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-57-11] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[22-57-11] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-57-11] [HANDLE]: FINAL HANDLE
+[22-57-13] [CLIENT]: fullscreen
+[22-57-13] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-57-13] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-57-13] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[22-57-14] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-57-14] [HANDLE]: FINAL HANDLE
+[22-57-16] [CLIENT]: fullscreen
+[22-57-16] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-16] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-57-16] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-57-16] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[22-57-16] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-57-16] [HANDLE]: FINAL HANDLE
+[22-57-17] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[22-57-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-57-18] [SYSTEM_IO]: Userdata requested: Background
+[22-57-21] [CLIENT]: repaint
+[22-57-21] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-21] [HANDLE]: GENERAL COMMAND HANDLED
+[22-57-21] [HANDLE]: PRIMARY HANDLE
+[22-57-21] [CONSOLE_OUT]: [STRING] ConsoleFrame repainted
+[22-57-30] [CLIENT]: repaint
+[22-57-30] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-30] [HANDLE]: GENERAL COMMAND HANDLED
+[22-57-30] [HANDLE]: PRIMARY HANDLE
+[22-57-31] [CONSOLE_OUT]: [STRING] ConsoleFrame repainted
+[22-57-41] [SYSTEM_IO]: Userdata requested: Background
+[22-57-43] [CLIENT]: repaintrepaint
+[22-57-43] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-43] [CONSOLE_OUT]: [STRING] Unknown command
+[22-57-43] [ACTION]: Similar command to "repaintrepaint" found with tol of 0.6666667, command = "repaint"
+[22-57-44] [CLIENT]: repaint
+[22-57-44] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-44] [HANDLE]: GENERAL COMMAND HANDLED
+[22-57-44] [HANDLE]: PRIMARY HANDLE
+[22-57-44] [CONSOLE_OUT]: [STRING] ConsoleFrame repainted
+[22-57-52] [CLIENT]: repaint
+[22-57-52] [SYSTEM_IO]: Userdata requested: filterchat
+[22-57-52] [HANDLE]: GENERAL COMMAND HANDLED
+[22-57-52] [HANDLE]: PRIMARY HANDLE
+[22-57-52] [CONSOLE_OUT]: [STRING] ConsoleFrame repainted
+[22-57-55] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-57-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(408, 345, 996, 655)], hash = [783191662], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-57-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-57-55] [EXIT]: [RUNTIME] 1m 1s
+[22-57-55] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

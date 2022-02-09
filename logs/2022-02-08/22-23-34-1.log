@@ -7,9 +7,7 @@
 [22-23-36] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [22-23-37] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [22-23-37] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-23-37] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-23-37] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-23-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-23-37] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [22-23-37] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-23-37] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-23-37] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -60,10 +58,8 @@
 [22-24-31] [CONSOLE_OUT]: [STRING] Compact Text set to false
 [22-24-34] [WIDGET OPENED]: PREFS
 [22-24-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1498, -572, 900, 580)], hash = [1585417244], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
-[22-24-36] [SYSTEM_IO]: Userdata requested: Foreground
-[22-24-36] [SYSTEM_IO]: Userdata requested: Foreground
-[22-24-36] [SYSTEM_IO]: Userdata requested: Background
-[22-24-36] [SYSTEM_IO]: Userdata requested: Background
+[22-24-36] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-24-36] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-24-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1444974443], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-24-36] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-24-36] [SYSTEM_IO]: Userdata requested: persistentnotifications

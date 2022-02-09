@@ -452,6 +452,8 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo fix up Widget base and what it implies and forces, what's the functional point of it?
+
     //todo load project up fresh so that you can see all the warnings youve ignored
 
     //todo all class.subclass should be in an objects package within that package

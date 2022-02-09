@@ -49,8 +49,6 @@ public class Preferences {
         return prefs;
     }
 
-    //todo these need to be toggled when prefs are switched from console commands too
-
     /**
      * Initializes the preferences collection.
      *
@@ -154,14 +152,7 @@ public class Preferences {
                 "Fullscreen cyder (Extremely experimental)","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
 
-            boolean isFullscreenNow = ConsoleFrame.getConsoleFrame().isFullscreen();
-            boolean isSetFullscreen = UserUtil.extractUser().getFullscreen().equals("1");
-
-            if (!isSetFullscreen && isFullscreenNow) {
-                ConsoleFrame.getConsoleFrame().setFullscreen(false);
-            } else if (isSetFullscreen && !isFullscreenNow ) {
-                ConsoleFrame.getConsoleFrame().setFullscreen(true);
-            }
+            ConsoleFrame.getConsoleFrame().setFullscreen(UserUtil.extractUser().getFullscreen().equals("1"));
 
             return null;
         }));
@@ -323,6 +314,7 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = persistentnotifications");
 
             //todo any notification shown shouldn't go away/revoke all
+            //todo so need a static method to change current notifications?
 
             return null;
         }));

@@ -1,0 +1,79 @@
+[23-06-58] [ENTRY]: [Nathan]
+[23-06-58] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-06-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-06-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-06-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-07-00] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-07-00] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-07-01] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-07-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-07-01] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[23-07-01] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-07-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-07-01] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-07-01] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-07-01] [SYSTEM_IO]: Userdata requested: InputFill
+[23-07-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [158483874], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-07-02] [ACTION]: Console loaded in 3621ms
+[23-07-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-07-02] [ENTRY]: [TESTING MODE]
+[23-07-02] [SYSTEM_IO]: Userdata requested: laststart
+[23-07-02] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3621ms
+[23-07-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-07-05] [CLIENT]: logout
+[23-07-05] [SYSTEM_IO]: Userdata requested: filterchat
+[23-07-05] [LOGOUT]: [Nathan]
+[23-07-05] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(608, 416, 996, 655)], hash = [1150963491], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-07-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [158483874], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-07-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(608, 416, 996, 655)], hash = [1150963491], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-07-05] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-07-06] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [158483874], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-07-06] [HANDLE]: GENERAL COMMAND HANDLED
+[23-07-06] [HANDLE]: PRIMARY HANDLE
+[23-07-06] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[23-07-07] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[23-07-08] [LOGIN]: [[STD LOGIN]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-07-08] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-07-08] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[23-07-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-07-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-07-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-07-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-07-08] [SYSTEM_IO]: Userdata requested: InputFill
+[23-07-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [158483874], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-07-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(608, -649, 996, 655)], hash = [1150963491], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[23-07-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(806, 543, 600, 400)], hash = [717379138], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[23-07-08] [ACTION]: Console loaded in 3621ms
+[23-07-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(806, 543, 600, 400)], hash = [717379138], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Stellar Build]]
+[23-07-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-07-08] [ENTRY]: [TESTING MODE]
+[23-07-08] [SYSTEM_IO]: Userdata requested: laststart
+[23-07-13] [CLIENT]: fullscreen
+[23-07-13] [SYSTEM_IO]: Userdata requested: filterchat
+[23-07-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-07-13] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-07-13] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-07-13] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-07-13] [HANDLE]: FINAL HANDLE
+[23-07-14] [CLIENT]: fullscreen
+[23-07-14] [SYSTEM_IO]: Userdata requested: filterchat
+[23-07-14] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-07-14] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-07-14] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[23-07-14] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-07-14] [HANDLE]: FINAL HANDLE
+[23-07-15] [CLIENT]: fullscreen
+[23-07-15] [SYSTEM_IO]: Userdata requested: filterchat
+[23-07-15] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-07-15] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-07-15] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-07-15] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-07-15] [HANDLE]: FINAL HANDLE
+[23-07-17] [CLIENT]: fullscreen
+[23-07-17] [SYSTEM_IO]: Userdata requested: filterchat
+[23-07-17] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-07-17] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[23-07-17] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-07-17] [HANDLE]: FINAL HANDLE
+[23-07-17] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[23-09-30] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

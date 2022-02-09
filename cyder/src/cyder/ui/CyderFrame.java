@@ -872,6 +872,7 @@ public class CyderFrame extends JFrame {
 
     // ------------------------------------
     // bounds calculations for text
+    // todo move to BoundsUtil and move most things there to StringUtil
     // ------------------------------------
 
     /**
@@ -940,7 +941,7 @@ public class CyderFrame extends JFrame {
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getHeight() + 10;
     }
-    //todo these belong in bounds util, maybe all of bounds util should be in string util?
+
     /**
      * Returns the minimum height required for the given String
      * using the given font without adding 10.
@@ -955,7 +956,7 @@ public class CyderFrame extends JFrame {
     }
 
     // ------------------
-    // notifications
+    // Notifications
     // ------------------
 
     /**
