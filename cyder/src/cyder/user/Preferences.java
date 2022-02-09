@@ -322,7 +322,7 @@ public class Preferences {
                 "Notifications stay on screen until manually dismissed","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = persistentnotifications");
 
-            //todo any notifications shown, cancel them being vanished if it's before vanish is called
+            //todo any notification shown shouldn't go away/revoke all
 
             return null;
         }));

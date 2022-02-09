@@ -7,9 +7,7 @@
 [19-49-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [19-49-26] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [19-49-26] [SYSTEM_IO]: Userdata requested: RandomBackground
-[19-49-26] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-49-26] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-49-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-49-26] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [19-49-26] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-49-26] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-49-26] [SYSTEM_IO]: Userdata requested: InputBorder

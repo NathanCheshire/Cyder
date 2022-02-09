@@ -75,10 +75,15 @@ public class CyderScrollList {
      */
     public static void refreshAllLists() {
         for (CyderScrollList list : validScrollLists) {
-            System.out.println("here");
-            if (list != null) {
-                //todo how to know if frame or list ins't valid
-                list.refreshList();
+            Component parent = SwingUtilities.getRoot(list.getScrollPane());
+
+            if (parent instanceof CyderFrame) {
+                CyderFrame parentFrame = (CyderFrame) parent;
+
+                if (list != null && !parentFrame.isDisposed()) {
+                    list.refreshList();
+                    System.out.println("Refreshing: " + list);
+                }
             }
         }
     }

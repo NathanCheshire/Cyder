@@ -1457,8 +1457,7 @@ public class InputHandler {
                     println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
                 }
 
-                //todo Preferences.invokeRefresh(pref.getID());
-                ConsoleFrame.getConsoleFrame().refreshBasedOnPrefs();
+                Preferences.invokeRefresh(pref.getID());
                 ret = true;
             }
         }
