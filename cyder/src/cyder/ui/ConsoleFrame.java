@@ -2164,6 +2164,9 @@ public final class ConsoleFrame {
         return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
+    //todo when saving youtube video uuid background,
+    // get title of webpage and trim to no more than 20 chars use this for title of file
+
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain

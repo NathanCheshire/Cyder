@@ -1,0 +1,41 @@
+[16-36-11] [ENTRY]: [Nathan]
+[16-36-11] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-36-11] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-36-11] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-36-11] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-36-13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-36-13] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-36-13] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-36-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-36-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-36-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-36-14] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-36-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-36-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-36-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-36-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-36-14] [SYSTEM_IO]: Userdata requested: InputFill
+[16-36-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [910272253], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-36-14] [ACTION]: Console loaded in 3203ms
+[16-36-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-36-14] [ENTRY]: [TESTING MODE]
+[16-36-14] [SYSTEM_IO]: Userdata requested: laststart
+[16-36-14] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3203ms
+[16-36-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-36-16] [CLIENT]: youtube
+[16-36-16] [SYSTEM_IO]: Userdata requested: filterchat
+[16-36-16] [WIDGET OPENED]: YOUTUBE
+[16-36-16] [HANDLE]: PRIMARY HANDLE
+[16-36-17] [CONSOLE_OUT]: [STRING] Opening widget: cyder.utilities.YoutubeUtil
+[16-36-19] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(703, 586, 400, 240)], hash = [757833042], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Thumbnail Stealer]
+[16-36-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(86, 160, 228, 40)], hash = [2133787893], parentFrame = [Thumbnail Stealer], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-19] [SYSTEM_IO]: Userdata requested: closeanimation
+[16-36-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 1286, 28)], hash = [1782503352], parentFrame = [YouTube], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(258, 316, 1290, 780)], hash = [1599173923], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [YouTube]
+[16-36-36] [SYSTEM_IO]: Userdata requested: closeanimation
+[16-36-37] [CLIENT]: youtube
+[16-36-37] [SYSTEM_IO]: Userdata requested: filterchat
+[16-36-37] [WIDGET OPENED]: YOUTUBE
+[16-36-37] [HANDLE]: PRIMARY HANDLE
+[16-36-37] [CONSOLE_OUT]: [STRING] Opening widget: cyder.utilities.YoutubeUtil
+[16-37-24] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
