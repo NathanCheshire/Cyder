@@ -2683,52 +2683,6 @@ public final class ConsoleFrame {
      * Refreshes Cyder properties based on possible changes within the UserEditor.
      */
     public void refreshBasedOnPrefs() {
-        //output border
-        if (UserUtil.getUserData("OutputBorder").equals("0")) {
-            outputScroll.setBorder(BorderFactory.createEmptyBorder());
-        } else {
-            outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")), 3, true));
-        }
-
-        //input border
-        if (UserUtil.getUserData("InputBorder").equals("0")) {
-            inputField.setBorder(null);
-        } else {
-            inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")), 3, true));
-        }
-
-        //full screen
-        if (UserUtil.getUserData("FullScreen").equals("0") && isFullscreen()) {
-            setFullscreen(false);
-        } else if (UserUtil.getUserData("FullScreen").equals("1") && !isFullscreen()) {
-            setFullscreen(true);
-        }
-
-        //console clock
-        consoleClockLabel.setVisible(UserUtil.getUserData("ClockOnConsole").equals("1"));
-
-        //output color fill
-        if (UserUtil.getUserData("OutputFill").equals("0")) {
-            outputArea.setBackground(null);
-            outputArea.setOpaque(false);
-        } else {
-            outputArea.setOpaque(true);
-            outputArea.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
-            outputArea.repaint();
-            outputArea.revalidate();
-        }
-
-        //input color fill
-        if (UserUtil.getUserData("InputFill").equals("0")) {
-            inputField.setBackground(null);
-            inputField.setOpaque(false);
-        } else {
-            inputField.setOpaque(true);
-            inputField.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
-            inputField.repaint();
-            inputField.revalidate();
-        }
-
         //always revalidate menu
         revalidateMenu();
 
@@ -2738,8 +2692,6 @@ public final class ConsoleFrame {
 
         consoleCyderFrame.repaint();
     }
-
-    //todo if notification is clicked and click action, fast dispose the notificaiton
 
     /**
      * Returns whether fullscreen is on.
@@ -2802,15 +2754,6 @@ public final class ConsoleFrame {
     }
 
     /**
-     *  Returns whether or not the ConsoleFrame is closed.
-     *
-     * @return whether or not the ConsoleFrame is closed
-     */
-    public boolean isClosed() {
-        return consoleFrameClosed;
-    }
-
-    /**
      * Returns the input handler associated with the ConsoleFrame.
      *
      * @return the input handler associated with the ConsoleFrame
@@ -2864,6 +2807,10 @@ public final class ConsoleFrame {
         consoleCyderFrame.rotateBackground(degrees);
     }
 
+    // -----------------
+    // command history mods
+    // -----------------
+
     /**
      * Wipes all command history and sets the command index back to 0.
      */
@@ -2871,6 +2818,19 @@ public final class ConsoleFrame {
         commandList.clear();
         commandIndex = 0;
     }
+
+    /**
+     * Returns the command history.
+     *
+     * @return the command history
+     */
+    public ArrayList<String> getCommandHistory() {
+        return commandList;
+    }
+
+    // -----------------
+    // ui getters
+    // -----------------
 
     /**
      * Returns the JTextPane associated with the ConsoleFrame.
@@ -2881,8 +2841,14 @@ public final class ConsoleFrame {
         return outputArea;
     }
 
-    //todo make some kind of a wrapper to hold all the console frame ui elements
-    //todo make ui objects to hold input field, output area, output scroll with getters and setters
+    /**
+     * Returns the JScrollPane associated with the ConsoleFrame.
+     *
+     * @return the JScrollPane associated with the ConsoleFrame
+     */
+    public CyderScrollPane getOutputScroll() {
+        return outputScroll;
+    }
 
     /**
      * Returns the input JTextField associated with the ConsoleFrame.
@@ -2891,15 +2857,6 @@ public final class ConsoleFrame {
      */
     public JTextField getInputField() {
         return inputField;
-    }
-
-    /**
-     * Returns the command history.
-     *
-     * @return the command history
-     */
-    public ArrayList<String> getCommandHistory() {
-        return commandList;
     }
 
     /**
@@ -3338,8 +3295,15 @@ public final class ConsoleFrame {
      */
     public void refreshClockText() {
        try {
-           if (consoleClockLabel == null || !consoleClockLabel.isVisible())
+           if (consoleClockLabel == null)
                return;
+
+           if (UserUtil.extractUser().getClockonconsole().equals("1")) {
+               consoleClockLabel.setVisible(true);
+           } else {
+               consoleClockLabel.setVisible(false);
+               return;
+           }
 
            //the user set time
            String pattern = UserUtil.extractUser().getConsoleclockformat();
@@ -3401,6 +3365,15 @@ public final class ConsoleFrame {
     }
 
     /**
+     *  Returns whether or not the ConsoleFrame is closed.
+     *
+     * @return whether or not the ConsoleFrame is closed
+     */
+    public boolean isClosed() {
+        return consoleFrameClosed;
+    }
+
+    /**
      * Saves the console frame's position and window stats to the currently logged in user's json file.
      */
     public void saveConsoleFramePosition() {
@@ -3441,7 +3414,6 @@ public final class ConsoleFrame {
         LoginHandler.showGUI(new MonitorPoint(centerPoint, monitor));
     }
 
-    //todo do more separators like this throughout Cyder
 
     // ---------------------------
     // dancing stuff
@@ -3546,6 +3518,11 @@ public final class ConsoleFrame {
      * Sets the background of the console frame to whatever is behind it.
      */
     public void originalChams() {
+        if (getConsoleDirection() != Direction.TOP) {
+            inputHandler.println("Sorry, but original chams only work for a console orientation of up");
+            return;
+        }
+
         try {
             CyderFrame ref = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
             Robot robot = new Robot();

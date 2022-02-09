@@ -452,8 +452,6 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo console flipping doesn't update menu size
-
     //todo load project up fresh so that you can see all the warnings youve ignored
 
     //todo all class.subclass should be in an objects package within that package

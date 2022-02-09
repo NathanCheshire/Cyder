@@ -1,0 +1,130 @@
+[18-39-57] [ENTRY]: [Nathan]
+[18-39-57] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-39-58] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-39-58] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-39-58] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-39-59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-39-59] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-40-00] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-40-00] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-40-00] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[18-40-00] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-40-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-40-00] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-40-00] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-40-00] [SYSTEM_IO]: Userdata requested: InputFill
+[18-40-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [324804499], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-40-01] [ACTION]: Console loaded in 3409ms
+[18-40-01] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-40-01] [ENTRY]: [TESTING MODE]
+[18-40-01] [SYSTEM_IO]: Userdata requested: laststart
+[18-40-02] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3409ms
+[18-40-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-40-05] [CLIENT]: prefs
+[18-40-05] [SYSTEM_IO]: Userdata requested: filterchat
+[18-40-05] [WIDGET OPENED]: PREFS
+[18-40-05] [HANDLE]: PRIMARY HANDLE
+[18-40-05] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[18-40-07] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[18-40-07] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[18-40-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [168015778], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[18-40-08] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-08] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-08] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-08] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-08] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-08] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-08] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-08] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-08] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: intromusic
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-40-09] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-09] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-09] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-10] [SYSTEM_IO]: Userdata requested: inputborder
+[18-40-10] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-10] [SYSTEM_IO]: Userdata requested: randombackground
+[18-40-10] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-10] [PREFERENCE REFRESH INVOKED]: key = outputborder
+[18-40-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-40-10] [SYSTEM_IO]: Userdata requested: Background
+[18-40-11] [SYSTEM_IO]: Userdata requested: outputborder [2x]
+[18-40-11] [PREFERENCE REFRESH INVOKED]: key = outputborder
+[18-40-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-40-11] [SYSTEM_IO]: Userdata requested: outputborder [2x]
+[18-40-11] [PREFERENCE REFRESH INVOKED]: key = outputborder
+[18-40-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-40-11] [SYSTEM_IO]: Userdata requested: Background
+[18-40-11] [SYSTEM_IO]: Userdata requested: outputborder [2x]
+[18-40-11] [PREFERENCE REFRESH INVOKED]: key = outputborder
+[18-40-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-40-11] [SYSTEM_IO]: Userdata requested: outputborder
+[18-40-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1143052086], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1411, 413, 900, 580)], hash = [1521139820], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-40-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-40-14] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-40-14] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(845, 376, 996, 655)], hash = [1946988038], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-40-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-40-14] [EXIT]: [RUNTIME] 17s
+[18-40-14] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

@@ -73,7 +73,6 @@ public class CyderScrollPane extends JScrollPane {
     }
 
     public CyderScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
-
         setBorder(null);
 
         // Set ScrollBar UI

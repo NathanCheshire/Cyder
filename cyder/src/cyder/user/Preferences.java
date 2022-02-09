@@ -3,11 +3,14 @@ package cyder.user;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
+import cyder.ui.CyderScrollList;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.FrameUtil;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -45,6 +48,8 @@ public class Preferences {
     public static ArrayList<Preference> getPreferences() {
         return prefs;
     }
+
+    //todo these need to be toggled when prefs are switched from console commands too
 
     /**
      * Initializes the preferences collection.
@@ -85,7 +90,7 @@ public class Preferences {
         ret.add(new Preference("background","IGNORE",
                 "","101010",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = background");
-            //todo update output/input fill colors/ border colors if shown
+            //no action needed
             return null;
         }));
         ret.add(new Preference("intromusic", "Intro Music",
@@ -109,13 +114,28 @@ public class Preferences {
         ret.add(new Preference("outputborder", "Output Border",
                 "Draw a border around the output area","0", (optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = outputborder");
-            //todo update output area border shown
+
+            if (UserUtil.getUserData("OutputBorder").equals("0")) {
+                ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
+            } else {
+                ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(new LineBorder(ColorUtil.hextorgbColor(
+                        UserUtil.getUserData("Background")), 3, true));
+            }
+
             return null;
         }));
         ret.add(new Preference("inputborder", "Input Border",
                 "Draw a border around the input area","0", (optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = inputborder");
-            //todo update input field border shown
+
+            if (UserUtil.getUserData("InputBorder").equals("0")) {
+                ConsoleFrame.getConsoleFrame().getInputField().setBorder(null);
+            } else {
+                ConsoleFrame.getConsoleFrame().getInputField().setBorder(
+                        new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
+                                3, true));
+            }
+
             return null;
         }));
         ret.add(new Preference("hourlychimes", "Hourly Chimes",
@@ -133,33 +153,64 @@ public class Preferences {
         ret.add(new Preference("fullscreen", "Fullscreen",
                 "Fullscreen cyder (Extremely experimental)","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
-            ConsoleFrame.getConsoleFrame().setFullscreen(!ConsoleFrame.getConsoleFrame().isFullscreen());
+
+            boolean isFullscreenNow = ConsoleFrame.getConsoleFrame().isFullscreen();
+            boolean isSetFullscreen = UserUtil.extractUser().getFullscreen().equals("1");
+
+            if (!isSetFullscreen && isFullscreenNow) {
+                ConsoleFrame.getConsoleFrame().setFullscreen(false);
+            } else if (isSetFullscreen && !isFullscreenNow ) {
+                ConsoleFrame.getConsoleFrame().setFullscreen(true);
+            }
+
             return null;
         }));
         ret.add(new Preference("outputfill", "Output Fill",
                 "Fill the output area with the color specified in the \"Fonts & Colors\" panel",
                 "0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = outputfill");
-            //todo update output field border shown/not shown
+
+            if (UserUtil.getUserData("OutputFill").equals("0")) {
+                ConsoleFrame.getConsoleFrame().getOutputArea().setBackground(null);
+                ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(false);
+            } else {
+                ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
+                ConsoleFrame.getConsoleFrame().getOutputArea().setBackground(
+                        ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                ConsoleFrame.getConsoleFrame().getOutputArea().repaint();
+                ConsoleFrame.getConsoleFrame().getOutputArea().revalidate();
+            }
+
             return null;
         }));
         ret.add(new Preference("inputfill", "Input Fill",
                 "Fill the input area with the color specified in the \"Fonts & Colors\" panel",
                 "0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = inputfill");
-            //todo update input field border shown/not shown
+
+            if (UserUtil.getUserData("InputFill").equals("0")) {
+                ConsoleFrame.getConsoleFrame().getInputField().setBackground(null);
+                ConsoleFrame.getConsoleFrame().getInputField().setOpaque(false);
+            } else {
+                ConsoleFrame.getConsoleFrame().getInputField().setOpaque(true);
+                ConsoleFrame.getConsoleFrame().getInputField().setBackground(
+                        ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                ConsoleFrame.getConsoleFrame().getInputField().repaint();
+                ConsoleFrame.getConsoleFrame().getInputField().revalidate();
+            }
+
             return null;
         }));
         ret.add(new Preference("clockonconsole", "Clock On Console",
                 "Show a clock at the top of the console","1",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = clockonconsole");
-            //todo update console clocok
+            ConsoleFrame.getConsoleFrame().refreshClockText();
             return null;
         }));
         ret.add(new Preference("showseconds", "Show Seconds",
                 "Show seconds on the console clock if enabled","1",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = showseconds");
-            //todo update console clock
+            ConsoleFrame.getConsoleFrame().refreshClockText();
             return null;
         }));
         ret.add(new Preference("filterchat", "Filter Chat",
@@ -257,7 +308,7 @@ public class Preferences {
         ret.add(new Preference("loggedin","IGNORE",
                 "","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = loggedin");
-            //no action required, todo maybe ensure console frame doesn't have this uuid
+            //no action required
             return null;
         }));
         ret.add(new Preference("audiolength","Show Audio Total Length",
@@ -270,7 +321,9 @@ public class Preferences {
         ret.add(new Preference("persistentnotifications","Persistent Notifications",
                 "Notifications stay on screen until manually dismissed","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = persistentnotifications");
+
             //todo any notifications shown, cancel them being vanished if it's before vanish is called
+
             return null;
         }));
         ret.add(new Preference("minimizeanimation","Minimize Animation",
@@ -288,7 +341,10 @@ public class Preferences {
         ret.add(new Preference("compacttextmode", "Compact Text",
                 "Compact the text/components in supported text panes","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = compacttextmode");
-            //todo refresh CyderPanes and the console frame menu
+
+            ConsoleFrame.getConsoleFrame().revalidateMenu();
+            CyderScrollList.refreshAllLists();
+
             return null;
         }));
         ret.add(new Preference("fontmetric","IGNORE", "",

@@ -14,6 +14,7 @@ import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class CyderScrollList {
@@ -67,6 +68,39 @@ public class CyderScrollList {
         this.border = border;
     }
 
+    private static ArrayList<CyderScrollList> validScrollLists = new ArrayList<>();
+
+    /**
+     * Refreshes all CyderScrollLists that have been created this instance of CyderFrame.
+     */
+    public static void refreshAllLists() {
+        for (CyderScrollList list : validScrollLists) {
+            System.out.println("here");
+            if (list != null) {
+                //todo how to know if frame or list ins't valid
+                list.refreshList();
+            }
+        }
+    }
+
+    /**
+     * Refreshses the current list.
+     */
+    public void refreshList() {
+        boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
+
+        CyderOutputPane cop = new CyderOutputPane(listPane);
+        cop.getJTextPane().setText("");
+
+        for (int i = 0 ; i < elements.size() ; i++) {
+            cop.getStringUtil().printlnComponent(elements.get(i));
+
+            if (i != elements.size() - 1 && !compactMode)
+                cop.getStringUtil().printlnComponent(getSepLabel());
+        }
+
+    }
+
     public JLabel generateScrollList() {
         Font menuFont = scrollFont;
         int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
@@ -89,16 +123,8 @@ public class CyderScrollList {
         StyleConstants.setAlignment(attribs, itemAlignemnt);
         listPane.setParagraphAttributes(attribs, true);
 
-        boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
-
-        CyderOutputPane cop = new CyderOutputPane(listPane);
-
-        for (int i = 0 ; i < elements.size() ; i++) {
-            cop.getStringUtil().printlnComponent(elements.get(i));
-
-            if (i != elements.size() - 1 && !compactMode)
-                cop.getStringUtil().printlnComponent(getSepLabel());
-        }
+        refreshList();
+        validScrollLists.add(this);
 
         scrollPane = new CyderScrollPane(listPane);
         scrollPane.setThumbSize(5);

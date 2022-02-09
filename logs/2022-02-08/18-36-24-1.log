@@ -1,0 +1,271 @@
+[18-36-24] [ENTRY]: [Nathan]
+[18-36-25] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-36-25] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-36-25] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-36-25] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-36-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-36-26] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-36-27] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-36-27] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-36-27] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
+[18-36-27] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-36-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-36-27] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-36-27] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-36-27] [SYSTEM_IO]: Userdata requested: InputFill
+[18-36-27] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [234287766], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-36-27] [ACTION]: Console loaded in 2979ms
+[18-36-27] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-36-27] [ENTRY]: [TESTING MODE]
+[18-36-27] [SYSTEM_IO]: Userdata requested: laststart
+[18-36-27] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2979ms
+[18-36-28] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-36-31] [CLIENT]: prefs
+[18-36-31] [SYSTEM_IO]: Userdata requested: filterchat
+[18-36-31] [WIDGET OPENED]: PREFS
+[18-36-31] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[18-36-31] [HANDLE]: PRIMARY HANDLE
+[18-36-33] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[18-36-33] [SYSTEM_IO]: Userdata requested: Background [2x]
+[18-36-33] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [2061445643], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-36-33] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
+[18-36-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-36-34] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [2061445643], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-36-34] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-34] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-34] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-34] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-34] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-34] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-35] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[18-36-35] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[18-36-35] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [2061445643], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-36-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [1330407057], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-36-36] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-36] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-36] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-36] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-36] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-36] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-36] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-36] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-36] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-36] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-36] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-36] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-36] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-36] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-36] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-36] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-36] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: intromusic
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: randombackground
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: outputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-37] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-37] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-37] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-37] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputborder
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: hourlychimes
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: silenceerrors
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: outputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-38] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-38] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-39] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-39] [SYSTEM_IO]: Userdata requested: inputfill
+[18-36-39] [SYSTEM_IO]: Userdata requested: clockonconsole [3x]
+[18-36-39] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-40] [SYSTEM_IO]: Userdata requested: clockonconsole [2x]
+[18-36-40] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-40] [SYSTEM_IO]: Userdata requested: clockonconsole [2x]
+[18-36-40] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-41] [SYSTEM_IO]: Userdata requested: clockonconsole [2x]
+[18-36-41] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-42] [SYSTEM_IO]: Userdata requested: clockonconsole [2x]
+[18-36-42] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-42] [SYSTEM_IO]: Userdata requested: clockonconsole [2x]
+[18-36-42] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-42] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-44] [PREFERENCE REFRESH INVOKED]: key = showseconds [2x]
+[18-36-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-36-45] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-45] [SYSTEM_IO]: Userdata requested: clockonconsole [2x]
+[18-36-45] [PREFERENCE REFRESH INVOKED]: key = clockonconsole
+[18-36-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[18-37-44] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

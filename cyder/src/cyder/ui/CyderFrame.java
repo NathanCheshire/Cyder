@@ -940,7 +940,7 @@ public class CyderFrame extends JFrame {
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getHeight() + 10;
     }
-
+    //todo these belong in bounds util, maybe all of bounds util should be in string util?
     /**
      * Returns the minimum height required for the given String
      * using the given font without adding 10.
@@ -1076,11 +1076,15 @@ public class CyderFrame extends JFrame {
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 //fire any on kill actions if it's not null
-                                if (currentQueuedNotification.getOnKillAction() != null)
+                                if (currentQueuedNotification.getOnKillAction() != null) {
+                                    currentNotification.kill();
                                     currentQueuedNotification.getOnKillAction().fire();
+                                } else {
+                                    //smoothly animate notification away
+                                    currentNotification.vanish(currentQueuedNotification.getNotificationDirection(),
+                                            getContentPane(), 0);
 
-                                //smoothly animate notification away
-                                currentNotification.vanish(currentQueuedNotification.getNotificationDirection(), getContentPane(), 0);
+                                }
                             }
                         });
                         currentNotification.add(disposeLabel);
