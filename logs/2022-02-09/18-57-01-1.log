@@ -1,0 +1,38 @@
+[18-57-01] [ENTRY]: [Nathan]
+[18-57-02] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-57-02] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-57-02] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-57-02] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-57-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-57-03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-57-04] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-57-04] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-57-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-57-04] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-57-04] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-57-04] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-57-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-57-05] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-57-05] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-57-05] [SYSTEM_IO]: Userdata requested: InputFill
+[18-57-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [611282707], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-57-05] [ACTION]: Console loaded in 3717ms
+[18-57-05] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-57-05] [ENTRY]: [TESTING MODE]
+[18-57-05] [SYSTEM_IO]: Userdata requested: laststart
+[18-57-05] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3717ms
+[18-57-05] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-57-08] [CLIENT]: chams
+[18-57-08] [SYSTEM_IO]: Userdata requested: filterchat
+[18-57-09] [CONSOLE_OUT]: [STRING] Unknown command
+[18-57-09] [ACTION]: Similar command to "chams" found with tol of 0.5714286, command = "chameleon"
+[18-57-10] [CLIENT]: chameleon
+[18-57-10] [SYSTEM_IO]: Userdata requested: filterchat
+[18-57-10] [HANDLE]: GENERAL COMMAND HANDLED
+[18-57-10] [HANDLE]: PRIMARY HANDLE
+[18-57-30] [CLIENT]: calc
+[18-57-30] [SYSTEM_IO]: Userdata requested: filterchat
+[18-57-30] [WIDGET OPENED]: CALCULATOR
+[18-57-30] [HANDLE]: PRIMARY HANDLE
+[18-57-30] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.CalculatorWidget
+[18-58-53] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -452,6 +452,10 @@ public class OSUtil {
         return ret.get();
     }
 
+    //todo utilize thread runner
+
+    //todo address YoutubeUtil bugs
+
     //todo fix up Widget base and what it implies and forces, what's the functional point of it?
 
     //todo load project up fresh so that you can see all the warnings youve ignored

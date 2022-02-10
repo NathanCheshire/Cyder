@@ -6,6 +6,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
+import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -140,8 +141,8 @@ public class CyderSplash {
                         CyderLabel cyderLabel = new CyderLabel("Cyder");
                         cyderLabel.setFont(cyderFont);
                         cyderLabel.setForeground(CyderColors.vanila);
-                        cyderLabel.setBounds(0, -CyderFrame.getMinHeight("Cyder",cyderFont),
-                                600,CyderFrame.getMinHeight("Cyder",cyderFont));
+                        cyderLabel.setBounds(0, -StringUtil.getMinHeight("Cyder",cyderFont),
+                                600, StringUtil.getMinHeight("Cyder",cyderFont));
                         splashFrame.getContentPane().add(cyderLabel);
 
                         while (cyderLabel.getY() < 600 / 2 - 150 / 2 - cyderLabel.getHeight() - 30) {
@@ -155,7 +156,7 @@ public class CyderSplash {
                         loadingLabel.setFont(nathanFont);
                         loadingLabel.setForeground(CyderColors.vanila);
                         loadingLabel.setBounds(0, 600, 600,
-                                CyderFrame.getMinHeight("By Nathan Cheshire",nathanFont));
+                                StringUtil.getMinHeight("By Nathan Cheshire",nathanFont));
                         splashFrame.getContentPane().add(loadingLabel);
 
                         while (loadingLabel.getY() > 600 / 2 + 150 / 2 + loadingLabel.getHeight() + 30) {

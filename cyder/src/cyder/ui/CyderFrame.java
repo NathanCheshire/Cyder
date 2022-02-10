@@ -17,8 +17,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
@@ -630,7 +628,7 @@ public class CyderFrame extends JFrame {
                     switch (oldPosition) {
                         case RIGHT:
                             for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2)
-                                    - (getMinWidth(this.title) / 2); i--) {
+                                    - (StringUtil.getMinWidth(this.title, titleLabel.getFont()) / 2); i--) {
                                 titleLabel.setLocation(i, 2);
 
                                 try {
@@ -642,7 +640,7 @@ public class CyderFrame extends JFrame {
                             break;
                         case LEFT:
                             for (int i = titleLabel.getX(); i < (getTopDragLabel().getWidth() / 2)
-                                    - (getMinWidth(this.title) / 2); i++) {
+                                    - (StringUtil.getMinWidth(this.title, titleLabel.getFont()) / 2); i++) {
                                 titleLabel.setLocation(i, 2);
 
                                 try {
@@ -653,14 +651,16 @@ public class CyderFrame extends JFrame {
                             }
                             break;
                     }
-                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
+                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                            - (StringUtil.getMinWidth(this.title, titleLabel.getFont()) / 2), 2);
                     this.titlePosition = TitlePosition.CENTER;
                     //set final bounds
                 },"title position animater").start();
             } else {
                 //right
                 new Thread(() -> {
-                    for (int i = titleLabel.getX() ; i < this.width - getMinWidth(this.title) - 8; i++) {
+                    for (int i = titleLabel.getX() ; i < this.width
+                            - StringUtil.getMinWidth(this.title, titleLabel.getFont()) - 8; i++) {
                         titleLabel.setLocation(i, 2);
 
                         try {
@@ -669,7 +669,8 @@ public class CyderFrame extends JFrame {
                             ExceptionHandler.handle(e);
                         }
                     }
-                    titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
+                    titleLabel.setLocation(this.width
+                            - StringUtil.getMinWidth(this.title, titleLabel.getFont()), 2);
                     this.titlePosition = TitlePosition.RIGHT;
                 },"title position animater").start();
             }
@@ -690,11 +691,13 @@ public class CyderFrame extends JFrame {
                     setButtonPosition(ButtonPosition.RIGHT);
                     break;
                 case RIGHT:
-                    titleLabel.setLocation(this.width - getMinWidth(this.title), 2);
+                    titleLabel.setLocation(this.width
+                            - StringUtil.getMinWidth(this.title, titleLabel.getFont()), 2);
                     setButtonPosition(ButtonPosition.LEFT);
                     break;
                 case CENTER:
-                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
+                    titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                            - (StringUtil.getMinWidth(this.title, titleLabel.getFont()) / 2), 2);
             }
         }
     }
@@ -736,7 +739,8 @@ public class CyderFrame extends JFrame {
             titleLabel.setLocation(4, 2);
         } else if (buttonPosition == ButtonPosition.LEFT && titlePosition == TitlePosition.LEFT) {
             this.titlePosition = TitlePosition.RIGHT;
-            titleLabel.setLocation(this.width -getMinWidth(this.title), 2);
+            titleLabel.setLocation(this.width
+                    - StringUtil.getMinWidth(this.title, titleLabel.getFont()), 2);
         }
     }
 
@@ -840,21 +844,21 @@ public class CyderFrame extends JFrame {
         super.setTitle(paintSuperTitle ? title : "");
 
         if (paintWindowTitle && title != null && title.length() != 0 && titleLabel != null) {
-            int titleWidth = getTitleWidth(title);
+            int titleWidth = StringUtil.getMinWidth(title, titleLabel.getFont());
             String shortenedTitle = title;
 
             while (titleWidth > this.width * 0.70) {
                 shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
-                titleWidth = getTitleWidth(shortenedTitle + "...");
+                titleWidth = StringUtil.getMinWidth(shortenedTitle + "...", titleLabel.getFont());
             }
 
-            if (titleWidth != getTitleWidth(title))
+            if (titleWidth != StringUtil.getMinWidth(title, titleLabel.getFont()))
                 shortenedTitle += "...";
 
             this.title = shortenedTitle;
             titleLabel.setText(this.title);
 
-            titleWidth = getTitleWidth(this.title);
+            titleWidth = StringUtil.getAbsoluteMinWidth(this.title, titleLabel.getFont());
 
             switch (titlePosition) {
                 case CENTER:
@@ -868,91 +872,6 @@ public class CyderFrame extends JFrame {
                     break;
             }
         }
-    }
-
-    // ------------------------------------
-    // bounds calculations for text
-    // todo move to BoundsUtil and move most things there to StringUtil
-    // ------------------------------------
-
-    /**
-     * Returns the minimum width required for the given String using notificationFont.
-     *
-     * @param title the text you want to determine the width of
-     * @return an interger value determining the minimum width of
-     * a string of text (10 is added to avoid ... bug)
-     */
-    private int getMinWidth(String title) {
-        Font notificationFont = titleLabel.getFont();
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) notificationFont.getStringBounds(title, frc).getWidth() + 10;
-    }
-
-    /**
-     * Returns the minimum width required for the given String using the given font.
-     *
-     * @param title the text you want to determine the width of
-     * @param f the font for the text
-     * @return an interger value determining the minimum width of
-     * a string of text (10 is added to avoid ... bug)
-     */
-    public static int getMinWidth(String title, Font f) {
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getWidth() + 10;
-    }
-
-    /**
-     * Returns the minimum width required for the given String using the given font.
-     *
-     * @param title the text you want to determine the width of
-     * @param f the font for the text
-     * @return an interger value determining the minimum width of a string of text
-     */
-    public static int getAbsoluteMinWidth(String title, Font f) {
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getWidth();
-    }
-
-    /**
-     * Returns the minimum width required for the given String
-     * using the given font without adding 10 to the result.
-     *
-     * @param title the text you want to determine the width of
-     * @return an interger value determining the minimum width of a string of text
-     */
-    public int getTitleWidth(String title) {
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, false, false);
-        return (int) this.titleLabel.getFont().getStringBounds(title, frc).getWidth() + 10;
-    }
-
-    /**
-     * Returns the minimum height required for the given String using the given font.
-     *
-     * @param title the text you want to determine the height of
-     * @return an interger value determining the minimum height
-     * of a string of text (10 is added to avoid ... bug)
-     */
-    public static int getMinHeight(String title, Font f) {
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getHeight() + 10;
-    }
-
-    /**
-     * Returns the minimum height required for the given String
-     * using the given font without adding 10.
-     *
-     * @param title the text you want to determine the height of
-     * @return an interger value determining the minimum height of a string of text
-     */
-    public static int getAbsoluteMinHeight(String title, Font f) {
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        return (int) f.getStringBounds(title, frc).getHeight();
     }
 
     // ------------------
@@ -1561,10 +1480,12 @@ public class CyderFrame extends JFrame {
                 titleLabel.setLocation(4, 2);
                 break;
             case RIGHT:
-                titleLabel.setLocation(this.width - getMinWidth(this.title), 2);
+                titleLabel.setLocation(this.width -
+                        StringUtil.getMinWidth(this.title, titleLabel.getFont()), 2);
                 break;
             case CENTER:
-                titleLabel.setLocation((getTopDragLabel().getWidth() / 2) - (getMinWidth(this.title) / 2), 2);
+                titleLabel.setLocation((getTopDragLabel().getWidth() / 2)
+                        - (StringUtil.getMinWidth(this.title, titleLabel.getFont()) / 2), 2);
                 break;
         }
 

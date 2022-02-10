@@ -276,7 +276,7 @@ public class WeatherWidget implements WidgetBase {
 
                     String maxText = maxTemp  + "F";
                     y = (fm.getAscent() + (40 - (fm.getAscent() + fm.getDescent())) / 2);
-                    g.drawString(maxText, 400 - 5 - CyderFrame.getMinWidth(maxText, f), y);
+                    g.drawString(maxText, 400 - 5 - StringUtil.getMinWidth(maxText, f), y);
 
                     g.setColor(CyderColors.regularPink);
                     int line = (int) Math.round(tempVal);

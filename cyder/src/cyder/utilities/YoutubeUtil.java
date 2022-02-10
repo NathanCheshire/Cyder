@@ -96,6 +96,11 @@ public class YoutubeUtil {
                     LinkedList<String> fileNames = new LinkedList<>();
 
                     for (String line: outLines) {
+                        if (line.matches("^\\[youtube].*: Downloading webpage$")) {
+                            System.out.println(line.replace("[youtube]","")
+                                    .replace(": Downloading webpage","").trim());
+                        }
+
                         if (line.contains("[ffmpeg] Destination:")) {
                             String currentTitle = line.replace("[ffmpeg] Destination:","").trim();
 
@@ -116,33 +121,13 @@ public class YoutubeUtil {
                 error();
             }
 
-            if (ret != null && ret.size() > 0) {
-                for (File retter : ret) {
-                    if (retter.exists()) {
-                        try {
-                            //todo how to get
-                            BufferedImage save = getSquareThumbnail(videoURL);
-                            String name = StringUtil.getFilename(retter) + ".png";
-
-                            File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                    + "/Music/AlbumArt");
-
-                            if (!albumArtDir.exists())
-                                albumArtDir.mkdir();
-
-                            File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                    + "/Music/AlbumArt/" + name);
-                            ImageIO.write(save, "png", saveFile);
-                        } catch (Exception e) {
-                            ExceptionHandler.handle(e);
-                        }
-                    }
-                }
-            }
-
             return ret;
         });
     }
+
+    //todo get title not working
+    //todo throws for no reason on completion of downloading playlist
+    //todo how to download thumbnails from playlist
 
     /**
      * Downloads the audio from the provided youtube URL provided it exists.
@@ -326,7 +311,7 @@ public class YoutubeUtil {
 
         CyderLabel label = new CyderLabel("Enter any valid YouTube UUID");
         label.setFont(label.getFont().deriveFont(22f));
-        int labelWidth = CyderFrame.getMinWidth("Enter any valid YouTube UUID", label.getFont());
+        int labelWidth = StringUtil.getMinWidth("Enter any valid YouTube UUID", label.getFont());
         label.setBounds(400 / 2 - labelWidth / 2, 60, labelWidth, 30);
         uuidFrame.add(label);
 

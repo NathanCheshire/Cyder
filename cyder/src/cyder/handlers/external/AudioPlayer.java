@@ -311,9 +311,9 @@ public class AudioPlayer implements WidgetBase {
         audioTitleLabelContainer.add(audioTitleLabel);
 
         audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
-                - CyderFrame.getAbsoluteMinWidth(audioTitleLabel.getText(),
+                - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
                 audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
-                CyderFrame.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
+                StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
                 audioTitleLabel.getParent().getHeight());
 
         selectAudioDirButton = new JButton("");
@@ -806,9 +806,9 @@ public class AudioPlayer implements WidgetBase {
             if (audioTitleLabel != null) {
                 audioTitleLabel.setText(DEFAULT_LABEL_TEXT);
                 audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
-                                - CyderFrame.getAbsoluteMinWidth(audioTitleLabel.getText(),
+                                - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
                                 audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
-                        CyderFrame.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
+                        StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
                         audioTitleLabel.getParent().getHeight());
             }
 
@@ -1316,7 +1316,7 @@ public class AudioPlayer implements WidgetBase {
                 int parentWidth = effectLabel.getParent().getWidth();
                 int parentHeight = effectLabel.getParent().getHeight();
 
-                int minWidth = CyderFrame.getMinWidth(localTitle, effectLabel.getFont());
+                int minWidth = StringUtil.getMinWidth(localTitle, effectLabel.getFont());
                 effectLabel.setSize(minWidth, parentHeight);
 
                 if (minWidth - 12 > parentWidth) {
@@ -1364,7 +1364,7 @@ public class AudioPlayer implements WidgetBase {
                     String text = StringUtil.getFilename(audioFiles.get(audioIndex));
                     effectLabel.setText(text);
                     effectLabel.setLocation(effectLabel.getParent().getWidth() / 2
-                            - CyderFrame.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
+                            - StringUtil.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

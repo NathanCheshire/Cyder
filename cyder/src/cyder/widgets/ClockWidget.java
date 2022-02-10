@@ -9,10 +9,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.*;
-import cyder.utilities.ColorUtil;
-import cyder.utilities.IPUtil;
-import cyder.utilities.TimeUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -367,7 +364,7 @@ public class ClockWidget implements WidgetBase {
                 hexLabel.setForeground(CyderColors.navy);
             }
         });
-        hexLabel.setBounds(60, 830, CyderFrame.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
+        hexLabel.setBounds(60, 830, StringUtil.getMinWidth("Clock Color Hex:",hexLabel.getFont()), 40);
         clockFrame.getContentPane().add(hexLabel);
 
         CyderTextField locationField = new CyderTextField(0);

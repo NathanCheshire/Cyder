@@ -434,7 +434,7 @@ public class DragLabel extends JLabel {
                     int textWidth = 0;
 
                     if(buttonsList.get(i).getText().length() > 0) {
-                        textWidth = CyderFrame.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+                        textWidth = StringUtil.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
@@ -450,7 +450,7 @@ public class DragLabel extends JLabel {
                     int textWidth = 0;
 
                     if(buttonsList.get(i).getText().length() > 0) {
-                        textWidth = CyderFrame.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+                        textWidth = StringUtil.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add

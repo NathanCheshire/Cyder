@@ -1,0 +1,40 @@
+[17-12-17] [ENTRY]: [Nathan]
+[17-12-17] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-12-17] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-12-17] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-12-17] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-12-18] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-12-18] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-12-19] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-12-19] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-12-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-12-19] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-12-19] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-12-19] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-12-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-12-19] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-12-19] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-12-19] [SYSTEM_IO]: Userdata requested: InputFill
+[17-12-19] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1918285899], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-12-19] [ACTION]: Console loaded in 2678ms
+[17-12-19] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-12-19] [ENTRY]: [TESTING MODE]
+[17-12-19] [SYSTEM_IO]: Userdata requested: laststart
+[17-12-19] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2678ms
+[17-12-19] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-12-37] [CLIENT]: play
+[17-12-37] [SYSTEM_IO]: Userdata requested: filterchat
+[17-12-38] [HANDLE]: GENERAL COMMAND HANDLED
+[17-12-38] [HANDLE]: PRIMARY HANDLE
+[17-12-38] [CONSOLE_OUT]: [STRING] Starting download of playlist:
+[17-20-50] [EXCEPTION]:
+Exception origin: cyder.utilities.YoutubeUtil.lambda$downloadPlaylist$0(YoutubeUtil.java:110)
+From line: 110
+Trace: java.lang.NullPointerException
+at cyder.utilities.YoutubeUtil.lambda$downloadPlaylist$0(YoutubeUtil.java:110)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[17-20-50] [CONSOLE_OUT]: [STRING] Could not download video's audio at this time
+[17-31-20] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

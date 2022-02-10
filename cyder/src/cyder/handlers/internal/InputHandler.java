@@ -997,7 +997,7 @@ public class InputHandler {
                             String playlistID = input.replace("https://www.youtube.com/playlist?list=","");
 
                             println("Starting download of playlist: " +
-                                    NetworkUtil.getURLTitle("https://www.youtube.com/playlist?list=" + playlistID));
+                                    NetworkUtil.getURLTitle(input));
                             Future<ArrayList<java.io.File>> downloadedFiles =
                                     YoutubeUtil.downloadPlaylist(playlistID,"dynamic/users/"
                                             + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");

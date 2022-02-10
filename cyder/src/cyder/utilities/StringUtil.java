@@ -8,6 +8,8 @@ import org.jsoup.select.Elements;
 
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -1086,5 +1088,58 @@ public class StringUtil {
         }
 
         return false;
+    }
+
+    /**
+     * Returns the minimum width required for the given String using the given font.
+     *
+     * @param title the text you want to determine the width of
+     * @param f the font for the text
+     * @return an interger value determining the minimum width of
+     * a string of text (10 is added to avoid ... bug)
+     */
+    public static int getMinWidth(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getWidth() + 10;
+    }
+
+    /**
+     * Returns the minimum width required for the given String using the given font.
+     *
+     * @param title the text you want to determine the width of
+     * @param f the font for the text
+     * @return an interger value determining the minimum width of a string of text
+     */
+    public static int getAbsoluteMinWidth(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getWidth();
+    }
+
+    /**
+     * Returns the minimum height required for the given String using the given font.
+     *
+     * @param title the text you want to determine the height of
+     * @return an interger value determining the minimum height
+     * of a string of text (10 is added to avoid ... bug)
+     */
+    public static int getMinHeight(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getHeight() + 10;
+    }
+
+    /**
+     * Returns the minimum height required for the given String
+     * using the given font without adding 10.
+     *
+     * @param title the text you want to determine the height of
+     * @return an interger value determining the minimum height of a string of text
+     */
+    public static int getAbsoluteMinHeight(String title, Font f) {
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        return (int) f.getStringBounds(title, frc).getHeight();
     }
 }

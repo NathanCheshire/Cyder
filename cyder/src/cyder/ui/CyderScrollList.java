@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.utilities.ReflectionUtil;
+import cyder.utilities.StringUtil;
 import cyder.utilities.UserUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -116,7 +117,7 @@ public class CyderScrollList {
      */
     public JLabel generateScrollList() {
         Font menuFont = scrollFont;
-        int fontHeight = CyderFrame.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
+        int fontHeight = StringUtil.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         JLabel retLabel = new JLabel("");
         retLabel.setSize(this.width, this.height);

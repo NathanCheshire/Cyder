@@ -1,0 +1,64 @@
+[18-52-34] [ENTRY]: [Nathan]
+[18-52-34] [SYSTEM_IO]: System data pared in IOUtil's static block
+[18-52-34] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-52-34] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-52-34] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-52-36] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-52-36] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-52-36] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-52-37] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-52-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-52-37] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-52-37] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-52-37] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-52-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-52-37] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-52-37] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-52-37] [SYSTEM_IO]: Userdata requested: InputFill
+[18-52-37] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2074626588], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-52-37] [ACTION]: Console loaded in 3442ms
+[18-52-37] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-52-37] [ENTRY]: [TESTING MODE]
+[18-52-37] [SYSTEM_IO]: Userdata requested: laststart
+[18-52-38] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3442ms
+[18-52-38] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-52-41] [CLIENT]: fullscreen
+[18-52-41] [SYSTEM_IO]: Userdata requested: filterchat
+[18-52-41] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-52-41] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[18-52-42] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[18-52-42] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-52-42] [HANDLE]: FINAL HANDLE
+[18-52-42] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1962)
+From line: 1962
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:1962)
+at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$11(InputHandler.java:1892)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[18-52-45] [CLIENT]: fullscreen
+[18-52-45] [SYSTEM_IO]: Userdata requested: filterchat
+[18-52-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-52-45] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[18-52-45] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-52-45] [HANDLE]: FINAL HANDLE
+[18-52-45] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[18-52-46] [CLIENT]: fullscreen
+[18-52-46] [SYSTEM_IO]: Userdata requested: filterchat
+[18-52-46] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-52-46] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[18-52-46] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-52-46] [HANDLE]: FINAL HANDLE
+[18-52-46] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[18-52-48] [CLIENT]: fullscreen
+[18-52-48] [SYSTEM_IO]: Userdata requested: filterchat
+[18-52-48] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-52-48] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[18-52-48] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-52-48] [HANDLE]: FINAL HANDLE
+[18-52-48] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[18-52-52] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-52-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(517, 337, 996, 655)], hash = [651802632], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[18-52-52] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-52-52] [EXIT]: [RUNTIME] 18s
+[18-52-52] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 1

@@ -2092,11 +2092,30 @@ public final class ConsoleFrame {
 
         Point center = consoleCyderFrame.getCenterPoint();
 
-        //todo exit fullscreen if in, keep orientation if direction is set
+        revalidate(true, false);
 
         backgroundIndex = index;
 
-        ImageIcon imageIcon = getCurrentBackgroundImageIcon();
+        ImageIcon imageIcon = null;
+
+        switch(consoleDir) {
+            case LEFT:
+                imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                        backgrounds.get(backgroundIndex).generateBufferedImage(), -90));
+                break;
+            case RIGHT:
+                imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                        backgrounds.get(backgroundIndex).generateBufferedImage(), 90));
+                break;
+            case TOP:
+                imageIcon = getCurrentBackgroundImageIcon();
+                break;
+            case BOTTOM:
+                imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
+                        backgrounds.get(backgroundIndex).generateBufferedImage(), 180));
+                break;
+        }
+
         consoleCyderFrame.setBackground(imageIcon);
         consoleCyderFrame.setSize(imageIcon.getIconWidth(), imageIcon.getIconHeight());
 
@@ -2164,9 +2183,6 @@ public final class ConsoleFrame {
         return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
-    //todo when saving youtube video uuid background,
-    // get title of webpage and trim to no more than 20 chars use this for title of file
-
     /**
      * Switches backgrounds to the next background in the list via a sliding animation.
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
@@ -2218,7 +2234,7 @@ public final class ConsoleFrame {
             ImageIcon combinedIcon;
 
             //before combining images, we need to resize to the new width and height
-            //todo is this the dimensions of the new background?
+            //todo is this the right dimensions of the new background?
             ImageIcon oldBack = ImageUtil.resizeImage(getCurrentBackgroundImageIcon(), width, height);
 
             //we only need to resize our new image in the event of a full screen or rotation event
@@ -2230,7 +2246,7 @@ public final class ConsoleFrame {
             int oldCenterX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
             int oldCenterY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
 
-            Point originalCenter = consoleCyderFrame.getCenterPoint();
+            Point originalPoint = consoleCyderFrame.getLocation();
 
             // set size to new width and height since the image is some factor of these bounds
             consoleCyderFrame.setSize(width,height);
@@ -2486,7 +2502,7 @@ public final class ConsoleFrame {
 
             // bump the frme into bounds
             FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                    (int) originalCenter.getX(), (int) originalCenter.getY(), consoleCyderFrame);
+                    (int) originalPoint.getX(), (int) originalPoint.getY(), consoleCyderFrame);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -2584,7 +2600,13 @@ public final class ConsoleFrame {
     public void setFullscreen(boolean fullscreen) {
         try {
             UserUtil.setUserData("fullscreen", fullscreen ? "1" : "0");
-            revalidate(false, true);
+
+            if (fullscreen) {
+                consoleDir = Direction.TOP;
+                revalidate(false, true);
+            } else {
+                revalidate(true, false);
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -3239,8 +3261,8 @@ public final class ConsoleFrame {
                }
            }
 
-           int w = CyderFrame.getMinWidth(time, consoleClockLabel.getFont());
-           int h = CyderFrame.getAbsoluteMinHeight(time, consoleClockLabel.getFont());
+           int w = StringUtil.getMinWidth(time, consoleClockLabel.getFont());
+           int h = StringUtil.getAbsoluteMinHeight(time, consoleClockLabel.getFont());
            consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2,
                    0, w, h);
            consoleClockLabel.setText(time);

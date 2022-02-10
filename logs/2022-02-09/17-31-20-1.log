@@ -1,0 +1,52 @@
+[17-31-20] [ENTRY]: [Nathan]
+[17-31-20] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-31-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-31-20] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-31-20] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-31-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-31-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-31-22] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-31-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-31-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-31-22] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-31-22] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-31-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-31-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-31-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-31-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-31-23] [SYSTEM_IO]: Userdata requested: InputFill
+[17-31-23] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2051885273], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-31-23] [ACTION]: Console loaded in 3164ms
+[17-31-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-31-23] [ENTRY]: [TESTING MODE]
+[17-31-23] [SYSTEM_IO]: Userdata requested: laststart
+[17-31-23] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3164ms
+[17-31-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-31-38] [CLIENT]: clear
+[17-31-38] [SYSTEM_IO]: Userdata requested: filterchat
+[17-31-38] [HANDLE]: GENERAL COMMAND HANDLED
+[17-31-38] [HANDLE]: PRIMARY HANDLE
+[17-31-39] [CLIENT]: clear
+[17-31-39] [SYSTEM_IO]: Userdata requested: filterchat
+[17-31-39] [HANDLE]: GENERAL COMMAND HANDLED
+[17-31-39] [HANDLE]: PRIMARY HANDLE
+[17-31-40] [CLIENT]: clear
+[17-31-40] [SYSTEM_IO]: Userdata requested: filterchat
+[17-31-40] [HANDLE]: GENERAL COMMAND HANDLED
+[17-31-40] [HANDLE]: PRIMARY HANDLE
+[17-32-17] [CLIENT]: play
+[17-32-17] [SYSTEM_IO]: Userdata requested: filterchat
+[17-32-17] [HANDLE]: GENERAL COMMAND HANDLED
+[17-32-17] [HANDLE]: PRIMARY HANDLE
+[17-32-17] [CONSOLE_OUT]: [STRING] Invalid youtube UUID: mDlQ4QYsVhQ&list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
+[17-32-44] [CLIENT]: play
+[17-32-44] [SYSTEM_IO]: Userdata requested: filterchat
+[17-32-44] [HANDLE]: GENERAL COMMAND HANDLED
+[17-32-44] [HANDLE]: PRIMARY HANDLE
+[17-32-44] [CONSOLE_OUT]: [STRING] Invalid youtube UUID: mDlQ4QYsVhQ&list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
+[17-33-42] [CLIENT]: play
+[17-33-42] [SYSTEM_IO]: Userdata requested: filterchat
+[17-33-42] [HANDLE]: GENERAL COMMAND HANDLED
+[17-33-42] [HANDLE]: PRIMARY HANDLE
+[17-33-42] [CONSOLE_OUT]: [STRING] Starting download of playlist:
+[17-35-01] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
