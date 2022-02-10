@@ -2809,6 +2809,8 @@ public final class ConsoleFrame {
      * @param maintainFullscreen whether to maintain fullscreen mode
      */
     public void revalidate(boolean maintainDirection, boolean maintainFullscreen) {
+        Point originalCenter = consoleCyderFrame.getCenterPoint();
+
         ImageIcon background = null;
 
         if (maintainDirection) {
@@ -2864,7 +2866,9 @@ public final class ConsoleFrame {
         consoleCyderFrame.setSize(w, h);
         consoleCyderFrame.setBackground(background);
 
-        consoleCyderFrame.setLocationRelativeTo(null);
+        FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
+                (int) originalCenter.getX() - w / 2,
+                (int) originalCenter.getY() - h / 2, consoleCyderFrame);
 
         outputScroll.setBounds(15, 62, w - 40, h - 204);
         inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,w - 40,
