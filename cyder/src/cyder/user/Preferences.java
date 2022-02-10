@@ -312,10 +312,7 @@ public class Preferences {
         ret.add(new Preference("persistentnotifications","Persistent Notifications",
                 "Notifications stay on screen until manually dismissed","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = persistentnotifications");
-
-            //todo any notification shown shouldn't go away/revoke all
-            //todo so need a static method to change current notifications?
-
+            //no action required
             return null;
         }));
         ret.add(new Preference("minimizeanimation","Minimize Animation",

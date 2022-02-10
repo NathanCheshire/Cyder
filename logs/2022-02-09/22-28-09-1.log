@@ -9,8 +9,7 @@
 [22-28-11] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-28-11] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-28-12] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-28-12] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-28-12] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-12] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-28-12] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-28-12] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-28-12] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -28,10 +27,8 @@
 [22-28-20] [WIDGET OPENED]: PREFS
 [22-28-20] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
 [22-28-20] [HANDLE]: PRIMARY HANDLE
-[22-28-21] [SYSTEM_IO]: Userdata requested: Foreground
-[22-28-21] [SYSTEM_IO]: Userdata requested: Foreground
-[22-28-21] [SYSTEM_IO]: Userdata requested: Background
-[22-28-21] [SYSTEM_IO]: Userdata requested: Background
+[22-28-21] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-28-21] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-28-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [199419204], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-28-21] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-28-22] [SYSTEM_IO]: Userdata requested: persistentnotifications
@@ -45,18 +42,14 @@
 [22-28-26] [SYSTEM_IO]: Userdata requested: randombackground
 [22-28-26] [SYSTEM_IO]: Userdata requested: debugwindows
 [22-28-26] [SYSTEM_IO]: Userdata requested: intromusic
-[22-28-26] [SYSTEM_IO]: Userdata requested: Foreground
-[22-28-26] [SYSTEM_IO]: Userdata requested: Foreground
-[22-28-26] [SYSTEM_IO]: Userdata requested: Background
-[22-28-26] [SYSTEM_IO]: Userdata requested: Background
+[22-28-26] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-28-26] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-28-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [377094369], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-28-26] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-28-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [22-28-28] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [377094369], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-28-30] [SYSTEM_IO]: Userdata requested: Foreground
-[22-28-30] [SYSTEM_IO]: Userdata requested: Foreground
-[22-28-30] [SYSTEM_IO]: Userdata requested: Background
-[22-28-30] [SYSTEM_IO]: Userdata requested: Background
+[22-28-30] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[22-28-30] [SYSTEM_IO]: Userdata requested: Background [2x]
 [22-28-30] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [199419204], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-28-30] [ACTION]: [Preferences] [NOTIFICATION] Loading fonts...
 [22-28-30] [SYSTEM_IO]: Userdata requested: persistentnotifications

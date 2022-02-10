@@ -2069,9 +2069,9 @@ public final class ConsoleFrame {
      * @param icon the icon to set to the background of the console frame
      */
     public void setBackground(ImageIcon icon) {
-        if (icon.getIconWidth() != backgrounds.get(backgroundIndex).generateImageIcon().getIconWidth()
-        || icon.getIconHeight() != backgrounds.get(backgroundIndex).generateImageIcon().getIconHeight())
-            throw new IllegalArgumentException("Provided icon is not the same size as the current icon");
+        if (icon.getIconWidth() != consoleCyderFrame.getWidth()
+        || icon.getIconHeight() != consoleCyderFrame.getHeight())
+            throw new IllegalArgumentException("Provided icon is not the same size as the current frame dimensions");
 
         consoleCyderFrame.setBackground(icon);
     }
@@ -3453,16 +3453,10 @@ public final class ConsoleFrame {
         return ret;
     }
 
-
     /**
      * Sets the background of the console frame to whatever is behind it.
      */
     public void originalChams() {
-        if (getConsoleDirection() != Direction.TOP) {
-            inputHandler.println("Sorry, but original chams only work for a console orientation of up");
-            return;
-        }
-
         try {
             CyderFrame ref = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
             Robot robot = new Robot();
