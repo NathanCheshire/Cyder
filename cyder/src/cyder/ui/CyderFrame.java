@@ -883,13 +883,6 @@ public class CyderFrame extends JFrame {
      */
     private Notification currentNotification;
 
-    //todo need both? eliminate one it feels like you could do this
-
-    /**
-     * The current queued notification that is currently being displayed.
-     */
-    private QueuedNotification currentQueuedNotification;
-
     /**
      * Whether the notification thread has been started for this frame.
      */
@@ -948,7 +941,6 @@ public class CyderFrame extends JFrame {
             while (this != null && !threadsKilled) {
                 if (notificationList.size() > 0) {
                     QueuedNotification currentQueuedNotification = notificationList.remove(0);
-                    this.currentQueuedNotification = currentQueuedNotification;
 
                     //init notification object
                     currentNotification = new Notification();
@@ -1064,7 +1056,11 @@ public class CyderFrame extends JFrame {
                     duration = Math.max(duration, 5000);
                     duration = currentQueuedNotification.getDuration() == 0 ?
                             duration : currentQueuedNotification.getDuration();
-                    currentNotification.appear(currentQueuedNotification.getNotificationDirection(), getContentPane(), duration);
+
+                    currentNotification.setVanishDirection(currentQueuedNotification.getNotificationDirection());
+
+                    currentNotification.appear(currentQueuedNotification.getNotificationDirection(),
+                            getContentPane(), duration);
 
                     while (getCurrentNotification().isVisible())
                         Thread.onSpinWait();
@@ -1095,7 +1091,7 @@ public class CyderFrame extends JFrame {
      */
     public void revokeCurrentNotification(boolean animate) {
         if (animate) {
-            currentNotification.vanish(currentQueuedNotification.getNotificationDirection(), this, 0);
+            currentNotification.vanish(this, 0);
         } else {
             currentNotification.kill();
         }

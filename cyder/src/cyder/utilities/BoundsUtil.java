@@ -13,7 +13,14 @@ import java.util.LinkedList;
 import static cyder.utilities.StringUtil.TaggedString;
 import static cyder.utilities.StringUtil.TaggedStringType;
 
+/**
+ * Utililty methods to calculate the needed space for a String of text.
+ */
 public class BoundsUtil {
+
+    /**
+     * Restrict instanitation of class.
+     */
     private BoundsUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

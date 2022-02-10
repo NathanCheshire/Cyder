@@ -395,12 +395,36 @@ public class Notification extends JLabel {
     }
 
     /**
+     * The direction this notification should vanish if no vanish direction can be provided.
+     */
+    private NotificationDirection vanishDirection;
+
+    /**
+     * Sets the vanish direction for this notification.
+     *
+     * @param vanishDirection the vanish direction for this notification
+     */
+    public void setVanishDirection(NotificationDirection vanishDirection) {
+        this.vanishDirection = vanishDirection;
+    }
+
+    /**
+     * Vanishes the current notification using the currently set notification direction.
+     *
+     * @param parent the component the notification is on
+     * @param delay the delay before vanishing
+     */
+    protected void vanish(Component parent, int delay) {
+        vanish(vanishDirection, parent, delay);
+    }
+
+    /**
      * This method to be used in combination with an already visible notification to immediately move it off of the
      * parent until it is not visible. Upon completing the animation, the notification is removed from the parent.
      *
-     * @param notificationDirection the direction to exit to.
-     * @param parent the component the notification is on. Used for bounds calculations.
-     * @param delay the delay before vanish.
+     * @param notificationDirection the direction to exit to
+     * @param parent the component the notification is on. Used for bounds calculations
+     * @param delay the delay before vanish
      */
     protected void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
         new Thread(() -> {
