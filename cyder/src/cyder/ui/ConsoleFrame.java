@@ -2189,72 +2189,71 @@ public final class ConsoleFrame {
      * whatever size it was at before a background switch was requested.
      */
     public void switchBackground() {
-        // always load first to ensure we're up to date
+        // always load first to ensure we're up to date with the valid backgrounds
         loadBackgrounds();
 
-        //todo getting images and sizes can be optimzied
         try {
-            ImageIcon nextBack = backgrounds.get(backgroundIndex + 1 == backgrounds.size()
-                    ? 0 : backgroundIndex + 1).generateImageIcon();
+            // find the next background to use and rotate current background accordingly
+            ImageIcon nextBack;
 
-            //get the dimensions which we will flip to, the next image
-            int width = nextBack.getIconWidth();
-            int height = nextBack.getIconHeight();
+            if (backgroundIndex + 1 == backgrounds.size()) {
+                nextBack = backgrounds.get(0).generateImageIcon();
+            } else {
+                nextBack = backgrounds.get(backgroundIndex + 1).generateImageIcon();
+            }
 
+            // find the dimensions of the image after transforming it as needed
+            int width = -1;
+            int height = -1;
+
+            // full screen trumps all else
             if (isFullscreen()) {
-                // full screen so frame's monitor size
-
                 width = (int) consoleCyderFrame.getMonitorBounds().getWidth();
                 height = (int) consoleCyderFrame.getMonitorBounds().getHeight();
 
                 nextBack = ImageUtil.resizeImage(nextBack, width, height);
-            }  else {
-                // not full screen and oriented left
-                if (consoleDir == Direction.LEFT || consoleDir == Direction.RIGHT) {
-                    // switch width with height
-                    width = width + height;
-                    height = width - height;
-                    width = width - height;
+            } else if (consoleDir == Direction.LEFT) {
+                // not a typo
+                width = nextBack.getIconHeight();
+                height = nextBack.getIconWidth();
 
-                    if (consoleDir == Direction.LEFT) {
-                        nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                                ImageUtil.ImageIcon2BufferedImage(nextBack), -90));
-                    } else {
-                        nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                                ImageUtil.ImageIcon2BufferedImage(nextBack), 90));
-                    }
-                } else if (consoleDir == Direction.BOTTOM) {
-                    nextBack = new ImageIcon(ImageUtil.rotateImageByDegrees(
-                            ImageUtil.ImageIcon2BufferedImage(nextBack), 180));
-                }
+                nextBack = ImageUtil.rotateImageByDegrees(nextBack, -90);
+            } else if (consoleDir == Direction.RIGHT) {
+                // not a typo
+                width = nextBack.getIconHeight();
+                height = nextBack.getIconWidth();
+
+                nextBack = nextBack = ImageUtil.rotateImageByDegrees(nextBack, 90);
+            } else if (consoleDir == Direction.BOTTOM) {
+                width = nextBack.getIconWidth();
+                height = nextBack.getIconHeight();
+
+                nextBack = ImageUtil.rotateImageByDegrees(nextBack, 180);
+            } else {
+                // orientation is UP so dimensions
+                width = nextBack.getIconWidth();
+                height = nextBack.getIconHeight();
             }
 
-            //now we have width and height figured out for the new background
+            // old back is as simple as getting the content pane's ImageIcon and resizing it
+            ImageIcon oldBack = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
+            oldBack = ImageUtil.resizeImage(oldBack, width, height);
 
-            ImageIcon combinedIcon;
+            ImageUtil.drawImageIcon(oldBack);
+            ImageUtil.drawImageIcon(nextBack);
 
-            //before combining images, we need to resize to the new width and height
-            //todo is this the right dimensions of the new background?
-            ImageIcon oldBack = ImageUtil.resizeImage(getCurrentBackgroundImageIcon(), width, height);
+            if (true)
+                return;
 
-            //we only need to resize our new image in the event of a full screen or rotation event
-            if (nextBack.getIconWidth() != width && nextBack.getIconHeight() != height) {
-                nextBack = ImageUtil.resizeImage(nextBack, width, height);
-            }
-
-            //update frame bounds and set location relative to old center
-            int oldCenterX = consoleCyderFrame.getX() + consoleCyderFrame.getWidth() / 2;
-            int oldCenterY = consoleCyderFrame.getY() + consoleCyderFrame.getHeight() / 2;
-
+            // original center used to restore position at the end of the animation
             Point originalPoint = consoleCyderFrame.getLocation();
 
             // set size to new width and height since the image is some factor of these bounds
             consoleCyderFrame.setSize(width,height);
 
-            //icon to set as the background after sliding animation completes
-            ImageIcon finalNewBack = nextBack;
+            ImageIcon combinedIcon;
 
-            // todo extract a lot of stuff from here
+            // todo switch should find the combined image, then switch again to move it
             switch (lastSlideDirection) {
                 case LEFT:
                     //get combined icon
@@ -2266,6 +2265,7 @@ public final class ConsoleFrame {
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
+                    ImageIcon finalNextBack = nextBack;
                     new Thread(() -> {
                         int delay = 5;
                         int increment = 8;
@@ -2297,8 +2297,8 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNewBack);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
+                        consoleCyderFrame.setBackground(finalNextBack);
+                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack);
 
                         //refresh the background
                         consoleCyderFrame.refreshBackground();
@@ -2306,8 +2306,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.TOP;
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
-                                finalNewBack.getIconHeight()));
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack.getIconWidth(),
+                                finalNextBack.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -2321,6 +2321,7 @@ public final class ConsoleFrame {
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
+                    ImageIcon finalNextBack1 = nextBack;
                     new Thread(() -> {
                         int delay = 5;
                         int increment = 8;
@@ -2351,8 +2352,8 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNewBack);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
+                        consoleCyderFrame.setBackground(finalNextBack1);
+                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack1);
 
                         //refresh the background
                         consoleCyderFrame.refreshBackground();
@@ -2360,8 +2361,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.RIGHT;
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
-                                finalNewBack.getIconHeight()));
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack1.getIconWidth(),
+                                finalNextBack1.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -2375,6 +2376,7 @@ public final class ConsoleFrame {
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
+                    ImageIcon finalNextBack2 = nextBack;
                     new Thread(() -> {
                         int delay = 5;
                         int increment = 8;
@@ -2405,8 +2407,8 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNewBack);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
+                        consoleCyderFrame.setBackground(finalNextBack2);
+                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack2);
 
                         //refresh the background
                         consoleCyderFrame.refreshBackground();
@@ -2414,8 +2416,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.BOTTOM;
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
-                                finalNewBack.getIconHeight()));
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack2.getIconWidth(),
+                                finalNextBack2.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
@@ -2429,6 +2431,7 @@ public final class ConsoleFrame {
                     //set content pane image
                     ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
                     //animate the image up
+                    ImageIcon finalNextBack3 = nextBack;
                     new Thread(() -> {
                         int delay = 5;
                         int increment = 8;
@@ -2460,8 +2463,8 @@ public final class ConsoleFrame {
                         consoleCyderFrame.getContentPane().setLocation(0,0);
 
                         //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNewBack);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNewBack);
+                        consoleCyderFrame.setBackground(finalNextBack3);
+                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack3);
 
                         //refresh the background
                         consoleCyderFrame.refreshBackground();
@@ -2469,8 +2472,8 @@ public final class ConsoleFrame {
 
                         //set our last slide direction
                         lastSlideDirection = Direction.LEFT;
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNewBack.getIconWidth(),
-                                finalNewBack.getIconHeight()));
+                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack3.getIconWidth(),
+                                finalNextBack3.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
