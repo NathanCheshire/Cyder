@@ -2173,7 +2173,7 @@ public final class ConsoleFrame {
     public File getCurrentBackgroundFile() {
        return backgrounds.get(backgroundIndex).getReferenceFile();
     }
-
+    //todo do away with these methods
     /**
      * Returns an ImageIcon for the current background file at the current background index.
      *
@@ -2202,6 +2202,9 @@ public final class ConsoleFrame {
                 nextBack = backgrounds.get(backgroundIndex + 1).generateImageIcon();
             }
 
+            // increment background index accordingly
+            incBackgroundIndex();
+
             // find the dimensions of the image after transforming it as needed
             int width = -1;
             int height = -1;
@@ -2223,7 +2226,7 @@ public final class ConsoleFrame {
                 width = nextBack.getIconHeight();
                 height = nextBack.getIconWidth();
 
-                nextBack = nextBack = ImageUtil.rotateImageByDegrees(nextBack, 90);
+                nextBack  = ImageUtil.rotateImageByDegrees(nextBack, 90);
             } else if (consoleDir == Direction.BOTTOM) {
                 width = nextBack.getIconWidth();
                 height = nextBack.getIconHeight();
@@ -2235,29 +2238,51 @@ public final class ConsoleFrame {
                 height = nextBack.getIconHeight();
             }
 
-            // old back is as simple as getting the content pane's ImageIcon and resizing it
-            ImageIcon oldBack = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
+            // get console frame's content pane
+            JLabel contentPane = ((JLabel) (consoleCyderFrame.getContentPane()));
+
+            // tooltip based on image name
+            contentPane.setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+
+            // get the original background and resize it as needed
+            ImageIcon oldBack = (ImageIcon) contentPane.getIcon();
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
 
-            ImageUtil.drawImageIcon(oldBack);
-            ImageUtil.drawImageIcon(nextBack);
-
-            if (true)
-                return;
-
-            // original center used to restore position at the end of the animation
+            // change frame size and put the center in the same spot
             Point originalPoint = consoleCyderFrame.getLocation();
+            consoleCyderFrame.setSize(width, height);
 
-            // set size to new width and height since the image is some factor of these bounds
-            consoleCyderFrame.setSize(width,height);
+            // bump frame into bounds if resize pushes it out
+            FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
+                    (int) originalPoint.getX(), (int) originalPoint.getY(), consoleCyderFrame);
 
+            // stich images
             ImageIcon combinedIcon;
+
+            switch (lastSlideDirection) {
+                case LEFT:
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
+                    lastSlideDirection = Direction.TOP;
+                    break;
+                case RIGHT:
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
+                    lastSlideDirection = Direction.BOTTOM;
+                    break;
+                case TOP:
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
+                    lastSlideDirection = Direction.RIGHT;
+                    break;
+                case BOTTOM:
+                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
+                    lastSlideDirection = Direction.LEFT;
+                    break;
+                default:
+                    throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+            }
 
             // todo switch should find the combined image, then switch again to move it
             switch (lastSlideDirection) {
                 case LEFT:
-                    //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setSize(
                             consoleCyderFrame.getContentPane().getWidth(),
@@ -2304,16 +2329,12 @@ public final class ConsoleFrame {
                         consoleCyderFrame.refreshBackground();
                         consoleCyderFrame.getContentPane().revalidate();
 
-                        //set our last slide direction
-                        lastSlideDirection = Direction.TOP;
                         consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack.getIconWidth(),
                                 finalNextBack.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
                 case TOP:
-                    //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(-consoleCyderFrame.getContentPane().getWidth(),0,
                             consoleCyderFrame.getContentPane().getWidth() * 2,
@@ -2359,17 +2380,12 @@ public final class ConsoleFrame {
                         consoleCyderFrame.refreshBackground();
                         consoleCyderFrame.getContentPane().revalidate();
 
-                        //set our last slide direction
-                        lastSlideDirection = Direction.RIGHT;
                         consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack1.getIconWidth(),
                                 finalNextBack1.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
                 case RIGHT:
-                    //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
-                    //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(0,-consoleCyderFrame.getHeight(),
                             consoleCyderFrame.getContentPane().getWidth(),
                             consoleCyderFrame.getContentPane().getHeight() * 2);
@@ -2414,16 +2430,12 @@ public final class ConsoleFrame {
                         consoleCyderFrame.refreshBackground();
                         consoleCyderFrame.getContentPane().revalidate();
 
-                        //set our last slide direction
-                        lastSlideDirection = Direction.BOTTOM;
                         consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack2.getIconWidth(),
                                 finalNextBack2.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
 
                     break;
                 case BOTTOM:
-                    //get combined icon
-                    combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
                     //set content pane bounds to hold combined image
                     consoleCyderFrame.getContentPane().setBounds(0,0,
                             consoleCyderFrame.getContentPane().getWidth() * 2,
@@ -2470,8 +2482,6 @@ public final class ConsoleFrame {
                         consoleCyderFrame.refreshBackground();
                         consoleCyderFrame.getContentPane().revalidate();
 
-                        //set our last slide direction
-                        lastSlideDirection = Direction.LEFT;
                         consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack3.getIconWidth(),
                                 finalNextBack3.getIconHeight()));
                     },"ConsoleFrame Background Switch Animation").start();
@@ -2479,33 +2489,10 @@ public final class ConsoleFrame {
                     break;
             }
 
-
-            // increment background index since we're ahead now
-            incBackgroundIndex();
-
-            // tooltip based on image name
-            ((JLabel) (consoleCyderFrame.getContentPane()))
-                    .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
-
-            // console frame component bounds
-            outputScroll.setBounds(15, 62, width - 40, height - 204);
-            inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
-                    height - (62 + outputScroll.getHeight() + 20 + 20));
-
-            // focus default component
-            inputField.requestFocus();
-
-            // fix menu
+            // revalidating menu also revalidates input field
+            //todo do we need more validation?
+            // like clock, audio menu, etc.?
             revalidateMenu();
-
-            // fix foreground if needed due to the new background
-            if (ImageUtil.solidColor(getCurrentBackgroundFile())) {
-                getInputHandler().handle("fixforeground", false);
-            }
-
-            // bump the frme into bounds
-            FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                    (int) originalPoint.getX(), (int) originalPoint.getY(), consoleCyderFrame);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -2805,8 +2792,8 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Revalidates the ConsoleFrame based on the current background.
-     * Note maintainDirection trumps maintainFullscreen.
+     * Revalidates the ConsoleFrame size, bounds, background, menu, clock, audio menu, draggable property, etc.
+     * based on the current background. Note that maintainDirection trumps maintainFullscreen.
      *
      * @param maintainDirection whether to maintain the console direction
      * @param maintainFullscreen whether to maintain fullscreen mode
