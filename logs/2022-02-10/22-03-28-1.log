@@ -9,8 +9,7 @@
 [22-03-30] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-03-30] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-03-31] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-03-31] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-03-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-31] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-03-31] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-03-31] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-03-31] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -25,12 +24,12 @@
 [22-03-32] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [22-04-16] [THREAD STARTED]: Background Switcher
 [22-04-16] [SYSTEM_IO]: Userdata requested: Background
-[22-04-17] [EXCEPTION]: 
+[22-04-17] [EXCEPTION]:
 Exception origin: cyder.ui.ConsoleFrame.lambda$startExecutors$20(ConsoleFrame.java:1341)
 From line: 1341
 Trace: java.lang.NullPointerException
-	at cyder.ui.ConsoleFrame.lambda$startExecutors$20(ConsoleFrame.java:1341)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at cyder.ui.ConsoleFrame.lambda$startExecutors$20(ConsoleFrame.java:1341)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [22-04-17] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [22-04-18] [THREAD STARTED]: Background Switcher
 [22-04-18] [SYSTEM_IO]: Userdata requested: Background
@@ -50,3 +49,4 @@ Trace: java.lang.NullPointerException
 [22-04-30] [SYSTEM_IO]: Userdata requested: Background
 [22-04-31] [THREAD STARTED]: Background Switcher
 [22-04-31] [SYSTEM_IO]: Userdata requested: Background
+[22-05-23] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

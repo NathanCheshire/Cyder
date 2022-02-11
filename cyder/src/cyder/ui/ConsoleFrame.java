@@ -2318,6 +2318,9 @@ public final class ConsoleFrame {
             // disable dragging
             consoleCyderFrame.disableDragging();
 
+            // restrict focus
+            outputArea.setFocusable(false);
+
             // create and submit job for animation
             Runnable backgroundSwitcher = () -> {
                 // set delay and increment for the animation
@@ -2400,6 +2403,9 @@ public final class ConsoleFrame {
                 // enable dragging
                 consoleCyderFrame.enableDragging();
 
+                // allow focus
+                outputArea.setFocusable(false);
+
                 // revalidate bounds to be safe
                 if (isFullscreen()) {
                     revalidate(false, true);
@@ -2408,7 +2414,7 @@ public final class ConsoleFrame {
                 }
 
                 // give focus back to original owner
-                alternateBackground.requestFocus();
+                inputField.requestFocus();
             };
 
             CyderThreadRunner.submit(backgroundSwitcher, "Background Switcher");

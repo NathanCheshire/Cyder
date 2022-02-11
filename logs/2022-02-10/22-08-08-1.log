@@ -1,0 +1,50 @@
+[22-08-08] [ENTRY]: [Nathan]
+[22-08-08] [SYSTEM_IO]: System data pared in IOUtil's static block
+[22-08-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-08-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-08-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-08-10] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-08-10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-08-11] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-08-11] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-08-11] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-08-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-08-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-08-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-08-11] [SYSTEM_IO]: Userdata requested: InputFill
+[22-08-12] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [715091622], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-08-12] [ACTION]: Console loaded in 3725ms
+[22-08-12] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-08-12] [ENTRY]: [TESTING MODE]
+[22-08-12] [SYSTEM_IO]: Userdata requested: laststart
+[22-08-12] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3725ms
+[22-08-12] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-08-15] [ACTION]: Component name = [cyder.ui.Notification], bounds = [(341, 29, 315, 67)], hash = [-1061161480], parentFrame = [Stellar Cyder [Nathan]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-08-18] [CLIENT]: fullscreen
+[22-08-18] [SYSTEM_IO]: Userdata requested: filterchat
+[22-08-18] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-08-18] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-08-18] [CONSOLE_OUT]: [STRING] Fullscreen set to true
+[22-08-18] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-08-18] [HANDLE]: FINAL HANDLE
+[22-08-20] [THREAD STARTED]: Background Switcher
+[22-08-21] [THREAD STARTED]: Background Switcher
+[22-08-23] [THREAD STARTED]: Background Switcher
+[22-08-24] [THREAD STARTED]: Background Switcher
+[22-08-28] [CLIENT]: fullscreen
+[22-08-28] [SYSTEM_IO]: Userdata requested: filterchat
+[22-08-28] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-08-28] [PREFERENCE REFRESH INVOKED]: key = fullscreen
+[22-08-28] [CONSOLE_OUT]: [STRING] Fullscreen set to false
+[22-08-28] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-08-28] [HANDLE]: FINAL HANDLE
+[22-08-31] [THREAD STARTED]: Background Switcher
+[22-08-33] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-08-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(953, 222, 655, 996)], hash = [252480153], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[22-08-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-08-33] [EXIT]: [RUNTIME] 24s
+[22-08-33] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
