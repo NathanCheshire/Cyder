@@ -2262,237 +2262,144 @@ public final class ConsoleFrame {
             switch (lastSlideDirection) {
                 case LEFT:
                     combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.BOTTOM);
-                    lastSlideDirection = Direction.TOP;
                     break;
                 case RIGHT:
                     combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.TOP);
-                    lastSlideDirection = Direction.BOTTOM;
                     break;
                 case TOP:
                     combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.LEFT);
-                    lastSlideDirection = Direction.RIGHT;
                     break;
                 case BOTTOM:
                     combinedIcon = ImageUtil.combineImages(oldBack, nextBack, Direction.RIGHT);
+                    break;
+                default:
+                    throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+            }
+
+            // set content pane's size
+            switch (lastSlideDirection) {
+                case LEFT:
+                    // slidng up
+                    consoleCyderFrame.getContentPane().setSize(
+                            consoleCyderFrame.getContentPane().getWidth(),
+                     consoleCyderFrame.getContentPane().getHeight() * 2);
+                    break;
+                case RIGHT:
+                    // sliding down
+                    consoleCyderFrame.getContentPane().setBounds(
+                            0,-consoleCyderFrame.getHeight(),
+                            consoleCyderFrame.getContentPane().getWidth(),
+                     consoleCyderFrame.getContentPane().getHeight() * 2);
+                    break;
+                case TOP:
+                    // sliding right
+                    consoleCyderFrame.getContentPane().setBounds(
+                            -consoleCyderFrame.getContentPane().getWidth(),0,
+                      consoleCyderFrame.getContentPane().getWidth() * 2,
+                             consoleCyderFrame.getContentPane().getHeight());
+                    break;
+                case BOTTOM:
+                    // sliding left
+                    consoleCyderFrame.getContentPane().setBounds(0,0,
+                     consoleCyderFrame.getContentPane().getWidth() * 2,
+                            consoleCyderFrame.getContentPane().getHeight());
+                    break;
+                default:
+                    throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+            }
+
+            // set the stiched image
+            contentPane.setIcon(combinedIcon);
+
+            // disable dragging
+            consoleCyderFrame.disableDragging();
+
+            // set delay and increment for the animation
+            final int delay = isFullscreen() ? 1 : 5;
+            final int increment = isFullscreen() ? 20 : 8;
+
+            // animate the old image away and set last slide direction
+            switch (lastSlideDirection) {
+                case LEFT:
+                    // slidng up
+                    for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
+                        try {
+                            Thread.sleep(delay);
+                            consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+
+                    lastSlideDirection = Direction.TOP;
+                    break;
+                case RIGHT:
+                    // sliding down
+                    for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += increment) {
+                        try {
+                            Thread.sleep(delay);
+                            consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+
+                    lastSlideDirection = Direction.BOTTOM;
+                    break;
+                case TOP:
+                    // sliding right
+                    for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += increment) {
+                        try {
+                            Thread.sleep(delay);
+                            consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+
+                    lastSlideDirection = Direction.RIGHT;
+                    break;
+                case BOTTOM:
+                    // sliding left
+                    for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
+                        try {
+                            Thread.sleep(delay);
+                            consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
+                        } catch (InterruptedException e) {
+                            ExceptionHandler.handle(e);
+                        }
+                    }
+
                     lastSlideDirection = Direction.LEFT;
                     break;
                 default:
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
-            // todo switch should find the combined image, then switch again to move it
-            switch (lastSlideDirection) {
-                case LEFT:
-                    //set content pane bounds to hold combined image
-                    consoleCyderFrame.getContentPane().setSize(
-                            consoleCyderFrame.getContentPane().getWidth(),
-                            consoleCyderFrame.getContentPane().getHeight() * 2);
-                    //set content pane image
-                    ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
-                    //animate the image up
-                    ImageIcon finalNextBack = nextBack;
-                    new Thread(() -> {
-                        int delay = 5;
-                        int increment = 8;
+            // set the new image since the animation has concluded
+            consoleCyderFrame.setBackground(nextBack);
+            contentPane.setIcon(nextBack);
 
-                        if (isFullscreen()) {
-                            delay = 1;
-                            increment = 20;
-                        }
+            // call refresh background on the CyderFrame object
+            consoleCyderFrame.refreshBackground();
+            consoleCyderFrame.getContentPane().revalidate();
 
-                        //disable dragging to avoid random repaints
-                        consoleCyderFrame.disableDragging();
+            // set the content pane position to 0,0
+            consoleCyderFrame.getContentPane().setLocation(0,0);
 
-                        for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
-                            try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        //set proper location for complete animation
-                        consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(),
-                                -consoleCyderFrame.getHeight());
+            // set new max resizing size
+            consoleCyderFrame.setMaximumSize(
+                    new Dimension(nextBack.getIconWidth(), nextBack.getIconHeight()));
 
-                        //reanble dragging
-                        consoleCyderFrame.enableDragging();
+            // enable dragging
+            consoleCyderFrame.enableDragging();
 
-                        //reset content pane bounds
-                        consoleCyderFrame.getContentPane().setLocation(0,0);
-
-                        //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNextBack);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack);
-
-                        //refresh the background
-                        consoleCyderFrame.refreshBackground();
-                        consoleCyderFrame.getContentPane().revalidate();
-
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack.getIconWidth(),
-                                finalNextBack.getIconHeight()));
-                    },"ConsoleFrame Background Switch Animation").start();
-
-                    break;
-                case TOP:
-                    //set content pane bounds to hold combined image
-                    consoleCyderFrame.getContentPane().setBounds(-consoleCyderFrame.getContentPane().getWidth(),0,
-                            consoleCyderFrame.getContentPane().getWidth() * 2,
-                            consoleCyderFrame.getContentPane().getHeight());
-                    //set content pane image
-                    ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
-                    //animate the image up
-                    ImageIcon finalNextBack1 = nextBack;
-                    new Thread(() -> {
-                        int delay = 5;
-                        int increment = 8;
-
-                        if (isFullscreen()) {
-                            delay = 1;
-                            increment = 20;
-                        }
-
-                        //disable dragging to avoid random repaints
-                        consoleCyderFrame.disableDragging();
-
-                        for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += increment) {
-                            try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        //set proper location for complete animation
-                        consoleCyderFrame.getContentPane().setLocation(0, consoleCyderFrame.getContentPane().getY());
-
-                        //reanble dragging
-                        consoleCyderFrame.enableDragging();
-
-                        //reset content pane bounds
-                        consoleCyderFrame.getContentPane().setLocation(0,0);
-
-                        //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNextBack1);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack1);
-
-                        //refresh the background
-                        consoleCyderFrame.refreshBackground();
-                        consoleCyderFrame.getContentPane().revalidate();
-
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack1.getIconWidth(),
-                                finalNextBack1.getIconHeight()));
-                    },"ConsoleFrame Background Switch Animation").start();
-
-                    break;
-                case RIGHT:
-                    consoleCyderFrame.getContentPane().setBounds(0,-consoleCyderFrame.getHeight(),
-                            consoleCyderFrame.getContentPane().getWidth(),
-                            consoleCyderFrame.getContentPane().getHeight() * 2);
-                    //set content pane image
-                    ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
-                    //animate the image up
-                    ImageIcon finalNextBack2 = nextBack;
-                    new Thread(() -> {
-                        int delay = 5;
-                        int increment = 8;
-
-                        if (isFullscreen()) {
-                            delay = 1;
-                            increment = 20;
-                        }
-
-                        //disable dragging to avoid random repaints
-                        consoleCyderFrame.disableDragging();
-
-                        for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += increment) {
-                            try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        //set proper location for complete animation
-                        consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), 0);
-
-                        //reanble dragging
-                        consoleCyderFrame.enableDragging();
-
-                        //reset content pane bounds
-                        consoleCyderFrame.getContentPane().setLocation(0,0);
-
-                        //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNextBack2);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack2);
-
-                        //refresh the background
-                        consoleCyderFrame.refreshBackground();
-                        consoleCyderFrame.getContentPane().revalidate();
-
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack2.getIconWidth(),
-                                finalNextBack2.getIconHeight()));
-                    },"ConsoleFrame Background Switch Animation").start();
-
-                    break;
-                case BOTTOM:
-                    //set content pane bounds to hold combined image
-                    consoleCyderFrame.getContentPane().setBounds(0,0,
-                            consoleCyderFrame.getContentPane().getWidth() * 2,
-                            consoleCyderFrame.getContentPane().getHeight());
-                    //set content pane image
-                    ((JLabel)consoleCyderFrame.getContentPane()).setIcon(combinedIcon);
-                    //animate the image up
-                    ImageIcon finalNextBack3 = nextBack;
-                    new Thread(() -> {
-                        int delay = 5;
-                        int increment = 8;
-
-                        if (isFullscreen()) {
-                            delay = 1;
-                            increment = 20;
-                        }
-
-                        //disable dragging to avoid random repaints
-                        consoleCyderFrame.disableDragging();
-
-                        for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
-                            try {
-                                Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
-                            } catch (InterruptedException e) {
-                                ExceptionHandler.handle(e);
-                            }
-                        }
-                        //set proper location for complete animation
-                        consoleCyderFrame.getContentPane().setLocation(-consoleCyderFrame.getWidth() / 2,
-                                consoleCyderFrame.getContentPane().getY());
-
-                        //reanble dragging
-                        consoleCyderFrame.enableDragging();
-
-                        //reset content pane bounds
-                        consoleCyderFrame.getContentPane().setLocation(0,0);
-
-                        //reset the icon to the new one without combined icon
-                        consoleCyderFrame.setBackground(finalNextBack3);
-                        ((JLabel)consoleCyderFrame.getContentPane()).setIcon(finalNextBack3);
-
-                        //refresh the background
-                        consoleCyderFrame.refreshBackground();
-                        consoleCyderFrame.getContentPane().revalidate();
-
-                        consoleCyderFrame.setMaximumSize(new Dimension(finalNextBack3.getIconWidth(),
-                                finalNextBack3.getIconHeight()));
-                    },"ConsoleFrame Background Switch Animation").start();
-
-                    break;
+            // revalidate bounds to be safe
+            if (isFullscreen()) {
+                revalidate(false, true);
+            } else {
+                revalidate(true, false);
             }
-
-            // revalidating menu also revalidates input field
-            //todo do we need more validation?
-            // like clock, audio menu, etc.?
-            revalidateMenu();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
