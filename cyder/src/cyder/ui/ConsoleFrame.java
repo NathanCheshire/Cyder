@@ -12,6 +12,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.MonitorPoint;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.user.Preferences;
@@ -2244,6 +2245,9 @@ public final class ConsoleFrame {
             // tooltip based on image name
             contentPane.setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
 
+            // create final background that won't change
+            final ImageIcon nextBackFinal = nextBack;
+
             // get the original background and resize it as needed
             ImageIcon oldBack = (ImageIcon) contentPane.getIcon();
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
@@ -2314,92 +2318,100 @@ public final class ConsoleFrame {
             // disable dragging
             consoleCyderFrame.disableDragging();
 
-            // set delay and increment for the animation
-            final int delay = isFullscreen() ? 1 : 5;
-            final int increment = isFullscreen() ? 20 : 8;
+            // create and submit job for animation
+            Runnable backgroundSwitcher = () -> {
+                // set delay and increment for the animation
+                final int delay = isFullscreen() ? 1 : 5;
+                final int increment = isFullscreen() ? 20 : 8;
 
-            // animate the old image away and set last slide direction
-            switch (lastSlideDirection) {
-                case LEFT:
-                    // slidng up
-                    for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
-                        try {
-                            Thread.sleep(delay);
-                            consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
+                // animate the old image away and set last slide direction
+                switch (lastSlideDirection) {
+                    case LEFT:
+                        // slidng up
+                        for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
+                            try {
+                                Thread.sleep(delay);
+                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                            } catch (InterruptedException e) {
+                                ExceptionHandler.handle(e);
+                            }
                         }
-                    }
 
-                    lastSlideDirection = Direction.TOP;
-                    break;
-                case RIGHT:
-                    // sliding down
-                    for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += increment) {
-                        try {
-                            Thread.sleep(delay);
-                            consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
+                        lastSlideDirection = Direction.TOP;
+                        break;
+                    case RIGHT:
+                        // sliding down
+                        for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += increment) {
+                            try {
+                                Thread.sleep(delay);
+                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                            } catch (InterruptedException e) {
+                                ExceptionHandler.handle(e);
+                            }
                         }
-                    }
 
-                    lastSlideDirection = Direction.BOTTOM;
-                    break;
-                case TOP:
-                    // sliding right
-                    for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += increment) {
-                        try {
-                            Thread.sleep(delay);
-                            consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
+                        lastSlideDirection = Direction.BOTTOM;
+                        break;
+                    case TOP:
+                        // sliding right
+                        for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += increment) {
+                            try {
+                                Thread.sleep(delay);
+                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
+                            } catch (InterruptedException e) {
+                                ExceptionHandler.handle(e);
+                            }
                         }
-                    }
 
-                    lastSlideDirection = Direction.RIGHT;
-                    break;
-                case BOTTOM:
-                    // sliding left
-                    for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
-                        try {
-                            Thread.sleep(delay);
-                            consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
-                        } catch (InterruptedException e) {
-                            ExceptionHandler.handle(e);
+                        lastSlideDirection = Direction.RIGHT;
+                        break;
+                    case BOTTOM:
+                        // sliding left
+                        for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
+                            try {
+                                Thread.sleep(delay);
+                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
+                            } catch (InterruptedException e) {
+                                ExceptionHandler.handle(e);
+                            }
                         }
-                    }
 
-                    lastSlideDirection = Direction.LEFT;
-                    break;
-                default:
-                    throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
-            }
+                        lastSlideDirection = Direction.LEFT;
+                        break;
+                    default:
+                        throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
+                }
 
-            // set the new image since the animation has concluded
-            consoleCyderFrame.setBackground(nextBack);
-            contentPane.setIcon(nextBack);
+                // set the new image since the animation has concluded
+                consoleCyderFrame.setBackground(nextBackFinal);
+                contentPane.setIcon(nextBackFinal);
 
-            // call refresh background on the CyderFrame object
-            consoleCyderFrame.refreshBackground();
-            consoleCyderFrame.getContentPane().revalidate();
+                // call refresh background on the CyderFrame object
+                consoleCyderFrame.refreshBackground();
+                consoleCyderFrame.getContentPane().revalidate();
 
-            // set the content pane position to 0,0
-            consoleCyderFrame.getContentPane().setLocation(0,0);
+                // set the content pane position to 0,0
+                consoleCyderFrame.getContentPane().setLocation(0,0);
 
-            // set new max resizing size
-            consoleCyderFrame.setMaximumSize(
-                    new Dimension(nextBack.getIconWidth(), nextBack.getIconHeight()));
+                // set new max resizing size
+                consoleCyderFrame.setMaximumSize(
+                        new Dimension(nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
 
-            // enable dragging
-            consoleCyderFrame.enableDragging();
+                // enable dragging
+                consoleCyderFrame.enableDragging();
 
-            // revalidate bounds to be safe
-            if (isFullscreen()) {
-                revalidate(false, true);
-            } else {
-                revalidate(true, false);
-            }
+                // revalidate bounds to be safe
+                if (isFullscreen()) {
+                    revalidate(false, true);
+                } else {
+                    revalidate(true, false);
+                }
+
+                // give focus back to original owner
+                alternateBackground.requestFocus();
+            };
+
+            CyderThreadRunner.submit(backgroundSwitcher, "Background Switcher");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

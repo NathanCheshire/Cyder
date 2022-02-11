@@ -59,6 +59,7 @@ public class Logger {
         HANDLE_METHOD, // used for boolean returning handle methods within InputHandler
         WIDGET_OPENED, // used if a widget from the widgets package was opened
         PREFERENCE_REFRESH, // used in Preferences class for when update functions are invoked
+        THREAD, // used to log threads that are invoked
         UNKNOWN, // not sure/all else failed
     }
 
@@ -199,6 +200,10 @@ public class Logger {
                 break;
             case PREFERENCE_REFRESH:
                 logBuilder.append("[PREFERENCE REFRESH INVOKED]: ");
+                logBuilder.append(representation);
+                break;
+            case THREAD:
+                logBuilder.append("[THREAD STARTED]: ");
                 logBuilder.append(representation);
                 break;
             default:
