@@ -2768,7 +2768,7 @@ public final class ConsoleFrame {
             File newlyCreatedBackground = UserUtil.createDefaultBackground();
 
             try {
-                background = ImageUtil.getImageIcon(ImageIO.read(newlyCreatedBackground));
+                background = ImageUtil.toImageIcon(ImageIO.read(newlyCreatedBackground));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -3392,7 +3392,7 @@ public final class ConsoleFrame {
             capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
                     (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
-            ConsoleFrame.getConsoleFrame().setBackground(ImageUtil.getImageIcon(capture));
+            ConsoleFrame.getConsoleFrame().setBackground(ImageUtil.toImageIcon(capture));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

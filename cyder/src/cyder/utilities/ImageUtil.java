@@ -15,13 +15,25 @@ import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
 import java.io.File;
 
+/**
+ * Static utility methods revolving around Image manipulation.
+ */
 public class ImageUtil {
+
+    /**
+     * Prevent class instantiation.
+     */
     private ImageUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    private static CyderFrame pixelFrame;
-
+    /**
+     * Pixelates the provided bufferedImage.
+     *
+     * @param imageToPixelate the image to pixelate
+     * @param pixelSize the number of old pixels to represent a single new "pixel"
+     * @return a buffered image in the same size as the original with new, bigger pixel blocks
+     */
     public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
         BufferedImage pixelateImage = new BufferedImage(
                 imageToPixelate.getWidth(),
@@ -44,7 +56,8 @@ public class ImageUtil {
     }
 
     /**
-     * Crops the specified bufferedImage to the new bounds and returns a new buffered image
+     * Crops the specified bufferedImage to the new bounds and returns a new buffered image.
+     *
      * @param image the buffered image to crop
      * @param startx the starting x pixel within the image
      * @param starty the starting y pixel within the image
@@ -74,6 +87,14 @@ public class ImageUtil {
         return image.getSubimage(startx, starty, width, height);
     }
 
+    /**
+     * Returns a buffered image of the specified color.
+     *
+     * @param width the width of the requested image
+     * @param height the height of the requested image
+     * @param c the color of the requested image
+     * @return the buffered image of the provided color and dimensions
+     */
     public static BufferedImage bufferedImageFromColor(int width, int height, Color c) {
         BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
@@ -84,14 +105,14 @@ public class ImageUtil {
         return bi;
     }
 
-    public static ImageIcon imageIconFromColor(Color c) {
-        BufferedImage im = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = im.createGraphics();
-        g.setPaint(c);
-        g.fillRect(0, 0, 1, 1);
-        return new ImageIcon(im);
-    }
-
+    /**
+     * Returns an ImageIcon of the requested color.
+     *
+     * @param c the color of the requested image
+     * @param width the width of the requested image
+     * @param height the height of the requested image
+     * @return the image of the requested color and dimensions
+     */
     public static ImageIcon imageIconFromColor(Color c, int width, int height) {
         BufferedImage im = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
@@ -100,6 +121,14 @@ public class ImageUtil {
         return new ImageIcon(im);
     }
 
+    /**
+     * Resizes the provided ImageIcon to the requested dimensions.
+     *
+     * @param width the width of the reqested image
+     * @param height the height of the requested image
+     * @param icon the ImageIcon to resize
+     * @return the resized image
+     */
     public static BufferedImage resizeImage(int width, int height, ImageIcon icon) {
         BufferedImage ReturnImage = null;
 
@@ -121,11 +150,19 @@ public class ImageUtil {
         return ReturnImage;
     }
 
-    public static BufferedImage resizeImage(int width, int height, File UneditedImage) {
+    /**
+     * Returns the image at the provided location resized.
+     *
+     * @param width the width to resize to
+     * @param height the height to resize to
+     * @param imageFile the File representing an image
+     * @return the resized image
+     */
+    public static BufferedImage resizeImage(int width, int height, File imageFile) {
         BufferedImage ReturnImage = null;
 
         try {
-            File CurrentConsole = UneditedImage;
+            File CurrentConsole = imageFile;
             Image ConsoleImage = ImageIO.read(CurrentConsole);
             Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -143,12 +180,16 @@ public class ImageUtil {
         return ReturnImage;
     }
 
-    public BufferedImage getBi(File imageFile) {
+    /**
+     * Returns a buffered image from the provided file.
+     *
+     * @param imageFile the file to convert to a buffered image
+     * @return the buffered image
+     */
+    public static BufferedImage getBi(File imageFile) {
         try {
             return ImageIO.read(imageFile);
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
@@ -168,20 +209,24 @@ public class ImageUtil {
         return bi;
     }
 
-    public static ImageIcon getImageIcon(BufferedImage image) {
+    /**
+     * Returns the buffered image converted to an ImageIcon.
+     *
+     * @param image a buffered image to convert
+     * @return the image icon after conversion
+     */
+    public static ImageIcon toImageIcon(BufferedImage image) {
         return new ImageIcon(image);
     }
 
+    /**
+     * Returns a buffered image by attempting to read the provided path.
+     *
+     * @param filename the path to read
+     * @return the buffered image
+     */
     public static BufferedImage getBi(String filename) {
-        try {
-            return ImageIO.read(new File(filename));
-        }
-
-        catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return null;
+        return getBi(new File(filename));
     }
 
     /**
@@ -206,8 +251,19 @@ public class ImageUtil {
         }
     }
 
+    /**
+     * Rotates the provided buffered image by the requested angle in degrees.
+     *
+     * @param img the buffered image to rotate
+     * @param angle the angle to rotate by
+     * @return the rotated image
+     */
     public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
         double rads = Math.toRadians(angle);
+
+        // technically you could pass in Double.MAX_VALUE and this would take a while
+        while (angle >= 360.0)
+            angle -= 360.0;
 
         double sin = Math.abs(Math.sin(rads));
         double cos = Math.abs(Math.cos(rads));
@@ -231,9 +287,19 @@ public class ImageUtil {
         return rotated;
     }
 
-
+    /**
+     * Rotates the provided ImageIcon by the requested angle in degrees
+     *
+     * @param imageIcon the iamge icon to rotate
+     * @param angle the angle to rotate by
+     * @return the rotated image
+     */
     public static ImageIcon rotateImageByDegrees(ImageIcon imageIcon, double angle) {
         BufferedImage img = getBi(imageIcon);
+
+        // technically you could pass in Double.MAX_VALUE and this would take a while
+        while (angle >= 360.0)
+            angle -= 360.0;
 
         double rads = Math.toRadians(angle);
 

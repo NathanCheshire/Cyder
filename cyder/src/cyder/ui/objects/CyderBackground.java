@@ -69,7 +69,7 @@ public class CyderBackground {
      * @return a generated image icon from the background file
      */
     public ImageIcon generateImageIcon() {
-        return ImageUtil.getImageIcon(generateBufferedImage());
+        return ImageUtil.toImageIcon(generateBufferedImage());
     }
 
     /**

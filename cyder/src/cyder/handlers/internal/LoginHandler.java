@@ -216,7 +216,7 @@ public class LoginHandler {
 
         //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
-                ImageUtil.imageIconFromColor(new Color(21,23,24)));
+                ImageUtil.imageIconFromColor(new Color(21,23,24), 1, 1));
         loginFrame.setTitle("Cyder Login [" + IOUtil.getSystemData().getVersion() + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
 
