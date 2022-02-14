@@ -2280,6 +2280,9 @@ public final class ConsoleFrame {
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
+            // set the stiched image
+            contentPane.setIcon(combinedIcon);
+
             // set content pane's size
             switch (lastSlideDirection) {
                 case LEFT:
@@ -2312,14 +2315,14 @@ public final class ConsoleFrame {
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
-            // set the stiched image
-            contentPane.setIcon(combinedIcon);
-
             // disable dragging
             consoleCyderFrame.disableDragging();
 
             // restrict focus
             outputArea.setFocusable(false);
+
+            // todo doesn't work for bigger images for some reason :/
+            // todo also centering the frame on the new background doesn't work
 
             // create and submit job for animation
             Runnable backgroundSwitcher = () -> {

@@ -66,6 +66,18 @@ public class DragLabel extends JLabel {
             }
         });
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                effectFrame.startDragEvent();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                effectFrame.endDragEvent();
+            }
+        });
+
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
