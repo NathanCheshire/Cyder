@@ -2667,37 +2667,11 @@ public class CyderFrame extends JFrame {
     // Transparency during drag events
     // -----------
 
-    private boolean duringDragEvent = false;
-
     protected void startDragEvent() {
-//        Color c = getBackground();
-//        setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),128));
-//
-//        duringDragEvent = true;
-//
-//        revalidate();
-//        repaint();
-        contentLabel.setOpaque(false);
-        contentLabel.setBackground(new Color(0,0,0,0));
-        iconLabel.setOpaque(false);
-        iconLabel.setBackground(new Color(0,0,0,0));
-        iconPane.setOpaque(false);
-        iconPane.setBackground(new Color(0,0,0,0));
-        revalidate();
-        repaint();
-        revalidate();
-        repaint();
-        revalidate();
-        repaint();
+        this.setOpacity(0.7f);
     }
 
     protected void endDragEvent() {
-        Color c = getBackground();
-        setBackground(new Color(c.getRed(),c.getGreen(),c.getBlue(),255));
-
-        duringDragEvent = false;
-
-        revalidate();
-        repaint();
+        this.setOpacity(1.0f);
     }
 }
