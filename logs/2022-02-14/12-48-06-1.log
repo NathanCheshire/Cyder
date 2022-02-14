@@ -1,0 +1,88 @@
+[12-48-06] [ENTRY]: [Nathan]
+[12-48-06] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-48-06] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-48-06] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[12-48-06] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-48-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-48-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-48-08] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-48-08] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-48-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-48-09] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-48-09] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-48-09] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-48-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-48-09] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-48-09] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-48-09] [SYSTEM_IO]: Userdata requested: InputFill
+[12-48-09] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1448446783], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-48-09] [ACTION]: Console loaded in 3542ms
+[12-48-09] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-48-09] [ENTRY]: [TESTING MODE]
+[12-48-09] [SYSTEM_IO]: Userdata requested: laststart
+[12-48-09] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3542ms
+[12-48-09] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-48-10] [CLIENT]: calc
+[12-48-10] [SYSTEM_IO]: Userdata requested: filterchat
+[12-48-10] [WIDGET OPENED]: CALCULATOR
+[12-48-10] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.CalculatorWidget
+[12-48-10] [HANDLE]: PRIMARY HANDLE
+[12-48-12] [EXCEPTION]:
+Exception origin: cyder.ui.CyderFrame.notify(CyderFrame.java:912)
+From line: 912
+Trace: java.lang.IllegalArgumentException: Raw text must be 3 characters or greater
+at cyder.ui.CyderFrame.notify(CyderFrame.java:912)
+at cyder.widgets.CalculatorWidget.lambda$showGUI$7(CalculatorWidget.java:149)
+at java.desktop/javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1967)
+at java.desktop/javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2308)
+at java.desktop/javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:405)
+at java.desktop/javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262)
+at java.desktop/javax.swing.AbstractButton.doClick(AbstractButton.java:369)
+at java.desktop/javax.swing.AbstractButton.doClick(AbstractButton.java:349)
+at cyder.widgets.CalculatorWidget.lambda$showGUI$8(CalculatorWidget.java:161)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[12-48-12] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [225213077], parentFrame = [Calculator], associated text = [=], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-48-12] [ACTION]: [Calculator] [NOTIFICATION] Could not parse expression
+[12-48-13] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-48-14] [ACTION]: Component name = [cyder.ui.Notification], bounds = [(66, 28, 335, 61)], hash = [-1090962780], parentFrame = [Calculator], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-48-15] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Happy Valentines Day!
+[12-48-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-49-12] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

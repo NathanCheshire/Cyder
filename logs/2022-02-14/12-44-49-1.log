@@ -1,0 +1,35 @@
+[12-44-49] [ENTRY]: [Nathan]
+[12-44-49] [SYSTEM_IO]: System data pared in IOUtil's static block
+[12-44-49] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-44-49] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[12-44-49] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-44-51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-44-51] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-44-51] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-44-52] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-44-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-44-52] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-44-52] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-44-52] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-44-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-44-52] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-44-52] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-44-52] [SYSTEM_IO]: Userdata requested: InputFill
+[12-44-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1455373314], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-44-52] [ACTION]: Console loaded in 3919ms
+[12-44-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-44-52] [ENTRY]: [TESTING MODE]
+[12-44-52] [SYSTEM_IO]: Userdata requested: laststart
+[12-44-53] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3919ms
+[12-44-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-44-54] [CLIENT]: calc
+[12-44-54] [SYSTEM_IO]: Userdata requested: filterchat
+[12-44-54] [WIDGET OPENED]: CALCULATOR
+[12-44-54] [HANDLE]: PRIMARY HANDLE
+[12-44-54] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.CalculatorWidget
+[12-44-55] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 405, 75, 75)], hash = [1082532444], parentFrame = [Calculator], associated text = [1], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-44-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 120, 75, 75)], hash = [2076265469], parentFrame = [Calculator], associated text = [/], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-44-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 500, 75, 75)], hash = [1388094002], parentFrame = [Calculator], associated text = [0], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-45-44] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [848317622], parentFrame = [Calculator], associated text = [=], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-45-44] [ACTION]: [Calculator] [NOTIFICATION] Infinity
+[12-45-52] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

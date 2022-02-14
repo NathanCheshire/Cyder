@@ -908,7 +908,7 @@ public class CyderFrame extends JFrame {
      * @param notificationBuilder the builder used to construct the notification
      */
     public void notify(NotificationBuilder notificationBuilder) {
-        if (StringUtil.getRawTextLength(notificationBuilder.getHtmltext()) < 3)
+        if (StringUtil.getRawTextLength(notificationBuilder.getHtmltext()) < NotificationBuilder.MINIMUM_TEXT_LENGTH)
             throw new IllegalArgumentException("Raw text must be 3 characters or greater");
 
         notificationList.add(new QueuedNotification(

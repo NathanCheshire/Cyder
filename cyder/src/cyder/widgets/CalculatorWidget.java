@@ -130,35 +130,36 @@ public class CalculatorWidget implements WidgetBase {
         calculatorEquals.setFont(CyderFonts.segoe30);
         calculatorEquals.addActionListener(e -> {
             try {
-                String calcText = calculatorField.getText().trim();
-                double result = new DoubleEvaluator().evaluate(calcText);
+                double result = new DoubleEvaluator().evaluate(calculatorField.getText().trim());
 
-                if (result == Double.MAX_VALUE) {
-                    NotificationBuilder builder = new NotificationBuilder("Positive Inf");
-                    builder.setViewDuration(-1);
-                    builder.setArrowDir(Direction.RIGHT);
-                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
-                    calculatorFrame.notify(builder);
-                } else if (result == Double.MIN_VALUE) {
-                    NotificationBuilder builder = new NotificationBuilder("Negative Inf");
-                    builder.setViewDuration(-1);
-                    builder.setArrowDir(Direction.RIGHT);
-                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
-                    calculatorFrame.notify(builder);
+                NotificationBuilder builder = null;
+
+                if (result == Double.POSITIVE_INFINITY) {
+                    // todo not exactly working, comment notification builder
+                    builder = new NotificationBuilder(  "+∞");
+                } else if (result == Double.NEGATIVE_INFINITY) {
+                    builder = new NotificationBuilder( "-∞");
                 } else {
-                    NotificationBuilder builder = new NotificationBuilder(String.valueOf(result));
-                    builder.setViewDuration(-1);
-                    builder.setArrowDir(Direction.RIGHT);
-                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
-                    calculatorFrame.notify(builder);
+                    builder = new NotificationBuilder(String.valueOf(result));
                 }
-            } catch (Exception exc) {
-                NotificationBuilder builder = new NotificationBuilder("Could not parse expression");
+
                 builder.setViewDuration(-1);
                 builder.setArrowDir(Direction.RIGHT);
                 builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+
                 calculatorFrame.notify(builder);
-                ExceptionHandler.silentHandle(exc);
+            } catch (Exception exc) {
+                if (exc instanceof IllegalArgumentException) {
+                    NotificationBuilder builder = new NotificationBuilder("Could not parse expression");
+
+                    builder.setViewDuration(-1);
+                    builder.setArrowDir(Direction.RIGHT);
+                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+
+                    calculatorFrame.notify(builder);
+                } else {
+                    ExceptionHandler.silentHandle(exc);
+                }
             }
         });
         calculatorField.addActionListener(e -> calculatorEquals.doClick());

@@ -1,0 +1,32 @@
+[16-23-07] [ENTRY]: [Nathan]
+[16-23-07] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-23-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-23-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-23-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-23-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-23-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-23-09] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-23-09] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-23-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-23-10] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-23-10] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-23-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-23-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-23-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-23-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-23-10] [SYSTEM_IO]: Userdata requested: InputFill
+[16-23-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [664317387], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-23-10] [ACTION]: Console loaded in 2943ms
+[16-23-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-23-10] [ENTRY]: [TESTING MODE]
+[16-23-10] [SYSTEM_IO]: Userdata requested: laststart
+[16-23-10] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2943ms
+[16-23-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-23-12] [CLIENT]: calc
+[16-23-12] [SYSTEM_IO]: Userdata requested: filterchat
+[16-23-12] [WIDGET OPENED]: CALCULATOR
+[16-23-12] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.CalculatorWidget
+[16-23-12] [HANDLE]: PRIMARY HANDLE
+[16-23-52] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(305, 215, 75, 75)], hash = [1677929561], parentFrame = [Calculator], associated text = [=], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-23-52] [ACTION]: [Calculator] [NOTIFICATION] Could not parse expression
+[16-23-56] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
