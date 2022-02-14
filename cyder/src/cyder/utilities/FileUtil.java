@@ -24,17 +24,19 @@ public class FileUtil {
     /**
      * The metadata signature for a jpg file.
      */
-    public static final String JPG_SIGNATURE = "FFD8FF";
+    public static final int[] JPG_SIGNATURE = new int[]{0xFF, 0xD8, 0xFF};
 
     /**
-     * Returns whether the provided file is a supported image file.
+     * Returns whether the provided file is a supported image file by validating
+     * the file extension and the file byte signature.
      *
      * @param f the file to determine if it is a supported image type
      * @return whether the provided file is a supported image file
      */
     public static boolean isSupportedImageExtension(File f) {
         //todo also validate the file signature
-        return StringUtil.in(StringUtil.getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS);
+        return StringUtil.in(StringUtil.getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
+                && (matchesSignature(f, PNG_SIGNATURE) || matchesSignature(f, JPG_SIGNATURE));
     }
 
     /**

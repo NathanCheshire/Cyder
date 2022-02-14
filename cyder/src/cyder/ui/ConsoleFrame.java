@@ -315,8 +315,8 @@ public final class ConsoleFrame {
                         consoleFrameBackgroundHeight,getCurrentBackgroundFile()));
                 UserUtil.setUserData("fullscreen","1");
             } else {
-                consoleFrameBackgroundWidth = consoleCyderFrame.getWidth();
-                consoleFrameBackgroundHeight = consoleCyderFrame.getHeight();
+                consoleFrameBackgroundWidth = getCurrentBackground().generateBufferedImage().getWidth();
+                consoleFrameBackgroundHeight = getCurrentBackground().generateBufferedImage().getHeight();
                 usage = new ImageIcon(ImageUtil.getRotatedImage(
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }

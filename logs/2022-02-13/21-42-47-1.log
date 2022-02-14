@@ -9,8 +9,7 @@
 [21-42-49] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-42-49] [SYSTEM_IO]: Userdata requested: fullscreen
-[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-42-49] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-42-49] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -91,8 +90,7 @@
 [21-44-00] [SYSTEM_IO]: Userdata requested: filterchat
 [21-44-00] [HANDLE]: GENERAL COMMAND HANDLED
 [21-44-00] [HANDLE]: PRIMARY HANDLE
-[21-44-08] [THREAD STARTED]: Background Switcher
-[21-44-10] [THREAD STARTED]: Background Switcher
+[21-44-10] [THREAD STARTED]: Background Switcher [2x]
 [21-44-11] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [21-44-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(719, 419, 996, 655)], hash = [2035616217], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [21-44-11] [SYSTEM_IO]: Userdata requested: closeanimation
