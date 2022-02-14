@@ -2570,7 +2570,7 @@ public class CyderFrame extends JFrame {
     private JLabel debugYLabel;
 
     /**
-     * The iamge to display at the center of the debug lines.
+     * The image to display at the center of the debug lines.
      */
     private JLabel debugImageLabel;
 

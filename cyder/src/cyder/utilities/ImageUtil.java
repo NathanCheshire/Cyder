@@ -13,10 +13,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 public class ImageUtil {
     private ImageUtil() {
@@ -234,6 +231,7 @@ public class ImageUtil {
         return rotated;
     }
 
+
     public static ImageIcon rotateImageByDegrees(ImageIcon imageIcon, double angle) {
         BufferedImage img = getBi(imageIcon);
 
@@ -261,16 +259,22 @@ public class ImageUtil {
         return new ImageIcon(rotated);
     }
 
-    public static int xOffsetForCenterJLabel(int compWidth, String title) {
-        return (int) Math.floor(5 + (compWidth / 2.0)) - (((int) Math.ceil(14 * title.length())) / 2);
-    }
-
+    /**
+     * Draws the provided buffered image to a CyderFrame and displays it.
+     *
+     * @param bi the buffered image to display
+     */
     public static void drawBufferedImage(BufferedImage bi) {
         CyderFrame frame = new CyderFrame(bi.getWidth(), bi.getHeight(), new ImageIcon(bi));
         frame.setVisible(true);
         frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
+    /**
+     * Draws the provided image icon to a CyderFrame and displays it.
+     *
+     * @param icon the icon to display
+     */
     public static void drawImageIcon(ImageIcon icon) {
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight(), icon);
         frame.setTitle(icon.getDescription() == null || icon.getDescription().length() == 0 ? "" : icon.getDescription());
@@ -279,6 +283,15 @@ public class ImageUtil {
         frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
+    /**
+     * Resizes the provided buffered image.
+     *
+     * @param originalImage the original buffered image to resize
+     * @param type the image type
+     * @param img_width the width of the new image
+     * @param img_height the height of the new image
+     * @return the resized buffered image
+     */
     public static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
         BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
         Graphics2D g = resizedImage.createGraphics();
@@ -288,15 +301,16 @@ public class ImageUtil {
         return resizedImage;
     }
 
-    public static double getAspectRatio(BufferedImage im) {
-        return ((double) im.getWidth() / (double) im.getHeight());
-    }
-
-    public int getScreenResolution() {
-        return Toolkit.getDefaultToolkit().getScreenResolution();
-    }
-
-    public static ImageIcon resizeImage(ImageIcon srcImg, int w, int h){
+    /**
+     * Resizes the provided ImageIcon to have the requested
+     * dimensions using bilinear interpolation.
+     *
+     * @param srcImg the image to resize
+     * @param w the width of the new image
+     * @param h the height of the new image
+     * @return the resized image
+     */
+    public static ImageIcon resizeImage(ImageIcon srcImg, int w, int h) {
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
 
@@ -307,7 +321,11 @@ public class ImageUtil {
         return new ImageIcon(resizedImg);
     }
 
-    /** the two images must be of the same size in order to merge them into one image
+    /**
+     * Combines the provided ImageIcons into one image by placing one relative to the other and taking into account
+     * the possible rotation direction provided.
+     *
+     * The two images must be of the same size in order to merge them into one image.
      *
      * @param newImage the new image (image to be placed to the dir[ection] of the old image)
      * @param oldImage the old image (image to be placed center)
@@ -317,12 +335,13 @@ public class ImageUtil {
     public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
         ImageIcon ret = null;
 
-        if (oldImage.getIconWidth() != newImage.getIconWidth() || oldImage.getIconHeight() != newImage.getIconHeight())
+        if (oldImage.getIconWidth() != newImage.getIconWidth()
+                || oldImage.getIconHeight() != newImage.getIconHeight())
             return ret;
 
         try {
-            BufferedImage bi1 = ImageIcon2BufferedImage(oldImage);
-            BufferedImage bi2 = ImageIcon2BufferedImage(newImage);
+            BufferedImage bi1 = toBufferedImage(oldImage);
+            BufferedImage bi2 = toBufferedImage(newImage);
 
             int width = 0;
             int height = 0;
@@ -393,7 +412,13 @@ public class ImageUtil {
         return ret;
     }
 
-    public static BufferedImage ImageIcon2BufferedImage(ImageIcon icon) {
+    /**
+     * Converts the provided ImageIcon to a BufferedImage.
+     *
+     * @param icon the image icon to convert
+     * @return the buffered image after converting
+     */
+    public static BufferedImage toBufferedImage(ImageIcon icon) {
         BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = bi.createGraphics();
         icon.paintIcon(null, g, 0,0);
@@ -401,33 +426,24 @@ public class ImageUtil {
         return bi;
     }
 
-    public static boolean checkFileSignature(File checkFile, int[] signature) {
-        boolean ret = true;
-
-        try  {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(checkFile));
-            int[] headerBytes = new int[signature.length];
-
-            for (int i = 0; i < signature.length; i++) {
-                headerBytes[i] = inputStream.read();
-                if (headerBytes[i] != signature[i]) {
-                    ret = false;
-                }
-            }
-        } catch (IOException ex) {
-            ExceptionHandler.handle(ex);
-        }
-
-        return ret;
-    }
-
-    public static BufferedImage getImageGradient(int width, int height, Color shadeColor, Color primaryRight, Color primaryLeft) {
+    /**
+     * Returns an image gradient following the provided parameters.
+     *
+     * @param width the width of the resulting image
+     * @param height the height of the resulting image
+     * @param shadeColor the color to mix/shade in when merging the left and right colors
+     * @param primaryRight the primary color for the left
+     * @param primaryLeft the primary color for the left
+     * @return an image gradient
+     */
+    public static BufferedImage getImageGradient(int width, int height, Color shadeColor,
+                                                 Color primaryRight, Color primaryLeft) {
         BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = ret.createGraphics();
 
         GradientPaint primary = new GradientPaint(0f, 0f, primaryLeft, height, 0f, primaryRight);
-        GradientPaint shade = new GradientPaint(0f, 0f,
-                new Color(shadeColor.getRed(), shadeColor.getGreen(), shadeColor.getBlue(), 0), 0f, 600, shadeColor);
+        GradientPaint shade = new GradientPaint(0f, 0f, new Color(shadeColor.getRed(),
+                shadeColor.getGreen(), shadeColor.getBlue(), 0), 0f, 600, shadeColor);
         g2.setPaint(primary);
         g2.fillRect(0, 0, width, height);
         g2.setPaint(shade);
@@ -438,54 +454,13 @@ public class ImageUtil {
         return ret;
     }
 
-    public static boolean whiteImage(ImageIcon icon) {
-        try {
-            int w = icon.getIconWidth();
-            int h = icon.getIconHeight();
-            int[] pixels = new int[w * h];
-            PixelGrabber pg = new PixelGrabber(icon.getImage(), 0, 0, w, h, pixels, 0, w);
-            pg.grabPixels();
-            boolean allWhite = true;
-            for (int pixel : pixels) {
-                Color color = new Color(pixel);
-                if (color.getRGB() != Color.WHITE.getRGB()) {
-                    allWhite = false;
-                    break;
-                }
-            }
-
-            return allWhite;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return false;
-    }
-
-    public static boolean blackImage(ImageIcon icon) {
-        try {
-            int w = icon.getIconWidth();
-            int h = icon.getIconHeight();
-            int[] pixels = new int[w * h];
-            PixelGrabber pg = new PixelGrabber(icon.getImage(), 0, 0, w, h, pixels, 0, w);
-            pg.grabPixels();
-            boolean allBlack = true;
-            for (int pixel : pixels) {
-                Color color = new Color(pixel);
-                if (color.getRGB() != Color.BLACK.getRGB()) {
-                    allBlack = false;
-                    break;
-                }
-            }
-
-            return allBlack;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return false;
-    }
-
+    /**
+     * Returns whether the image at the provided path is a gray scale image.
+     * This is determined if the for all pixels, the red, green, and blue bits are equal.
+     *
+     * @param pathToFile the path to the image file
+     * @return whether the image is gray scale
+     */
     public static boolean grayScaleImage(File pathToFile) {
         try {
             Image icon = new ImageIcon(ImageIO.read(pathToFile)).getImage();
@@ -511,6 +486,12 @@ public class ImageUtil {
         return false;
     }
 
+    /**
+     * Returns whether the image represented by the provided path is a solid color.
+     *
+     * @param pathToFile the path to the file
+     * @return whether the image represented by the provided path is a solid color
+     */
     public static boolean solidColor(File pathToFile) {
         boolean ret = true;
 
@@ -535,49 +516,24 @@ public class ImageUtil {
         return ret;
     }
 
+    /**
+     * Returns whether the provided ImageIcons are equal.
+     *
+     * @param first the first image icon
+     * @param second the second image icon
+     * @return whether the provided ImageIcons are equal
+     */
     public static boolean imageIconsEqual(ImageIcon first, ImageIcon second) {
-        boolean ret = true;
-
-        try {
-            Image firstImage = first.getImage();
-            Image secondImage = second.getImage();
-
-            int w1 = firstImage.getWidth(null);
-            int h1 = firstImage.getHeight(null);
-
-            int w2 = secondImage.getWidth(null);
-            int h2 = secondImage.getHeight(null);
-
-            if (w1 != w2 || h1 != h2) {
-                ret = false;
-            } else {
-                int[] pixels1 = new int[w1 * h1];
-                int[] pixels2 = new int[w2 * h2];
-
-                PixelGrabber pg1 = new PixelGrabber(firstImage, 0, 0, w1, h2, pixels1, 0, w1);
-                pg1.grabPixels();
-
-                PixelGrabber pg2 = new PixelGrabber(secondImage, 0, 0, w2, h2, pixels2, 0, w2);
-                pg2.grabPixels();
-
-                if (pixels1.length != pixels2.length) {
-                    ret = false;
-                } else {
-                    for (int i = 1 ; i < pixels1.length ; i++) {
-                        if (pixels1[i] != pixels2[i]) {
-                            ret = false;
-                            break;
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            return ret;
-        }
+        return imagesEqual(first.getImage(), second.getImage());
     }
 
+    /**
+     * Returns whether the two images represent the same pixel data.
+     *
+     * @param firstImage the first image
+     * @param secondImage the second image
+     * @return whether the two images represent the same pixel data
+     */
     public static boolean imagesEqual(Image firstImage, Image secondImage) {
         boolean ret = true;
 
@@ -621,10 +577,12 @@ public class ImageUtil {
     /**
      * Finds the optimal size provided the min/max width/height bounds. The return dimension is ensured
      * to be within the provided bounds
+     *
      * @return an array representing the new image dimensions that the provided image should be cropped to
      * so that the provided min/max properties are maintained
      */
-    public static Dimension getImageResizeDimensions(int minWidth, int minHeight, int maxWidth, int maxHeight, BufferedImage image) {
+    public static Dimension getImageResizeDimensions(int minWidth, int minHeight,
+                                                     int maxWidth, int maxHeight, BufferedImage image) {
         int backgroundWidth = image.getWidth();
         int backgroundHeight = image.getHeight();
         int imageType = image.getType();

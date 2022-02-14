@@ -1,6 +1,11 @@
 package cyder.utilities;
 
+import cyder.handlers.internal.ExceptionHandler;
+
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Static utilies having to do with files, their names, properties, and attributes.
@@ -42,6 +47,26 @@ public class FileUtil {
     public static boolean matchesSignature(File file, String expectedSignature) {
 
         return false;
+    }
+
+    public static boolean checkFileSignature(File checkFile, int[] signature) {
+        boolean ret = true;
+
+        try  {
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(checkFile));
+            int[] headerBytes = new int[signature.length];
+
+            for (int i = 0; i < signature.length; i++) {
+                headerBytes[i] = inputStream.read();
+                if (headerBytes[i] != signature[i]) {
+                    ret = false;
+                }
+            }
+        } catch (IOException ex) {
+            ExceptionHandler.handle(ex);
+        }
+
+        return ret;
     }
 
     //todo StringUtil filename and extension methods should be here, look for other methods that should be here
