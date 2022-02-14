@@ -112,7 +112,7 @@ public class Logger {
                 //files opened, links opened
                 logBuilder.append("[LINK]: ");
                 if (representation instanceof File) {
-                    logBuilder.append("[").append(StringUtil.getExtension((File) representation)).append("] ");
+                    logBuilder.append("[").append(FileUtil.getExtension((File) representation)).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
@@ -464,8 +464,8 @@ public class Logger {
         }
 
         for (File subLogDir : topLevelLogsDir.listFiles()) {
-            if (!StringUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
-                    && !StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
+            if (!FileUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
+                    && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
                 if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
                     OSUtil.deleteFolder(subLogDir);
                 } else {
@@ -480,7 +480,7 @@ public class Logger {
      */
     public static void consolidateLines() {
         for (File subLogDir : new File("logs").listFiles()) {
-            if (StringUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
+            if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
                 continue;
 
             for (File logFile : subLogDir.listFiles())
@@ -496,7 +496,7 @@ public class Logger {
     public static void consolidateLines(File file) {
         if (!file.exists())
             throw new IllegalArgumentException("Provided file does not exist: " + file);
-        else if (!StringUtil.getExtension(file).equalsIgnoreCase(".log"))
+        else if (!FileUtil.getExtension(file).equalsIgnoreCase(".log"))
             throw new IllegalArgumentException("Provided file is not a log file: " + file);
 
         ArrayList<String> lines = new ArrayList<>();
@@ -584,7 +584,7 @@ public class Logger {
         try {
             for (File logDir : new File("logs").listFiles()) {
                 //for all directories of days of logs
-                if (StringUtil.getExtension(logDir).equalsIgnoreCase(".zip"))
+                if (FileUtil.getExtension(logDir).equalsIgnoreCase(".zip"))
                     continue;
 
                 for (File log : logDir.listFiles()) {

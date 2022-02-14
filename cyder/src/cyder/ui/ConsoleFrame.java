@@ -408,7 +408,7 @@ public final class ConsoleFrame {
 
             //set contentpane tooltip
             ((JLabel) (consoleCyderFrame.getContentPane())).setToolTipText(
-                    StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+                    FileUtil.getFilename(getCurrentBackgroundFile().getName()));
 
             outputArea = new JTextPane() {
                 @Override
@@ -1949,7 +1949,7 @@ public final class ConsoleFrame {
 
                 //save the modified image
                 BufferedImage saveImage = ImageUtil.resizeImage(currentImage, imageType, deltaWidth, deltaHeight);
-                ImageIO.write(saveImage, StringUtil.getExtension(currentFile), currentFile);
+                ImageIO.write(saveImage, FileUtil.getExtension(currentFile), currentFile);
             }
 
             //reload backgrounds
@@ -1968,7 +1968,7 @@ public final class ConsoleFrame {
             //allowable image formats include png and jpg
             ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(new File(
                     OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
-                    (directory, filename) -> StringUtil.in(StringUtil.getExtension(filename),
+                    (directory, filename) -> StringUtil.in(FileUtil.getExtension(filename),
                             true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS))));
 
             if (backgroundFiles.size() == 0) {
@@ -2024,7 +2024,7 @@ public final class ConsoleFrame {
                 }
 
                 for (int i = 0 ; i < backgrounds.size() ; i++) {
-                    if (StringUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
+                    if (FileUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
                         backgroundIndex = i;
                         return backgroundIndex;
                     }
@@ -2125,7 +2125,7 @@ public final class ConsoleFrame {
 
         //tooltip based on image name
         ((JLabel) (consoleCyderFrame.getContentPane()))
-                .setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+                .setToolTipText(FileUtil.getFilename(getCurrentBackgroundFile().getName()));
 
         int width = imageIcon.getIconWidth();
         int height = imageIcon.getIconHeight();
@@ -2244,7 +2244,7 @@ public final class ConsoleFrame {
             JLabel contentPane = ((JLabel) (consoleCyderFrame.getContentPane()));
 
             // tooltip based on image name
-            contentPane.setToolTipText(StringUtil.getFilename(getCurrentBackgroundFile().getName()));
+            contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackgroundFile().getName()));
 
             // create final background that won't change
             final ImageIcon nextBackFinal = nextBack;

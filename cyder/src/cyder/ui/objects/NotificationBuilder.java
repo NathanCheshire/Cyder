@@ -6,7 +6,13 @@ import cyder.ui.CyderFrame;
 
 import java.awt.*;
 
+/**
+ * Notification Builder for CyderFrame notifications as opposed to telescoping constructors.
+ */
 public final class NotificationBuilder {
+    /**
+     * The minimum allowable char length for a notification.
+     */
     public static final int MINIMUM_TEXT_LENGTH = 2;
 
     //required params
@@ -20,6 +26,11 @@ public final class NotificationBuilder {
     private Container container = null;
     private Color notificationBackground = null;
 
+    /**
+     * Default constructor for a Notification with the required parameters for the Notification.
+     *
+     * @param htmlText the html styled text to display
+     */
     public NotificationBuilder(String htmlText) {
         if (htmlText == null || htmlText.length() < MINIMUM_TEXT_LENGTH)
             throw new IllegalArgumentException("Html text is null or less than " + MINIMUM_TEXT_LENGTH + " chars");

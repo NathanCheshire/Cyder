@@ -11,12 +11,9 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Simple general String utility methods along with some JTextPane utility methods
@@ -485,17 +482,6 @@ public class StringUtil {
     }
 
     /**
-     * Finds the first word in a given string.
-     *
-     * @param sentence the string to search for
-     * @return the resultant first word found
-     */
-    public static String firstWord(String sentence) {
-        String[] sentences = sentence.split(" ");
-        return sentences[0];
-    }
-
-    /**
      * Determines if a word is palindrome (spelled the same forward and backwards like ogopogo and racecar).
      *
      * @param word the word to check
@@ -503,31 +489,6 @@ public class StringUtil {
      */
     public static boolean isPalindrome(String word) {
         return Arrays.equals(word.toLowerCase().toCharArray(), reverseArray(word.toLowerCase().toCharArray()));
-    }
-
-    /**
-     * Uses a regex to find the first occurence of a digit and follows until no more digits.
-     *
-     * @param search the string to search for digits in
-     * @return the reusltant number found, if any
-     */
-    public static String firstNumber(String search) {
-        Pattern Pat = Pattern.compile("\\d+");
-        Matcher m = Pat.matcher(search);
-        return m.find() ? m.group() : null;
-    }
-
-    /**
-     * Matches a given string with the provided regex and returns the result.
-     *
-     * @param search the string to use the regex on
-     * @param regex the regex to compare to the given string
-     * @return the resultant match of the string to the regex
-     */
-    public static String match(String search, String regex) {
-        Pattern pat = Pattern.compile(regex);
-        Matcher match = pat.matcher(search);
-        return match.find() ? match.group() : null;
     }
 
     /**
@@ -587,7 +548,7 @@ public class StringUtil {
         StringBuilder sb = new StringBuilder();
 
         for (String word : words) {
-            sb.append(wordLeet(word)).append(" ");
+            sb.append(replaceLeet(word)).append(" ");
         }
 
         return sb.toString().trim();
@@ -599,7 +560,7 @@ public class StringUtil {
      * @param word the word to filter leet out of.
      * @return the word having leet removed to the best of our abilities
      */
-    private static String wordLeet(String word) {
+    private static String replaceLeet(String word) {
         char[] chars = word.toLowerCase().toCharArray();
 
         for (int i = 0 ; i < chars.length ; i++) {
@@ -671,7 +632,8 @@ public class StringUtil {
      */
     public static boolean hasWord(String userInput, String findWord, boolean removeComments) {
         if (userInput == null || findWord == null)
-            throw new IllegalArgumentException("Provided input is null: userInput = " + userInput + ", word = " + findWord);
+            throw new IllegalArgumentException("Provided input is null: userInput = "
+                    + userInput + ", word = " + findWord);
 
         if (removeComments) {
             userInput = userInput.replace("//","")
@@ -696,7 +658,7 @@ public class StringUtil {
      * @param filterLeet whether or not to filter out possible leet from the string
      * @return a boolean describing whether or not the filter was triggered by the input
      */
-    public static boolean filterLanguage(String input, boolean filterLeet) {
+    public static boolean containsBlockedWords(String input, boolean filterLeet) {
         boolean ret = false;
 
         if (filterLeet)
@@ -744,68 +706,6 @@ public class StringUtil {
     }
 
     /**
-     * Uses a regex to get the file name of the provided file, does not return the period.
-     *
-     * @param file the file of which to return the name of (this does not include the
-     *             extension; use {@link File#getName()} )} to get the full filename + extension)
-     * @return the file name requested
-     */
-    public static String getFilename(String file) {
-        return file.replaceAll("\\.([^.]+)$", "");
-    }
-
-    /**
-     * Uses a regex to get the file extension of the provided file, returns the period too.
-     *
-     * @param file the name of the file of which to return the extension of
-     * @return the file extension requested
-     */
-    public static String getExtension(String file) {
-        return file.replace(getFilename(file), "");
-    }
-
-    /**
-     * Uses a regex to get the file name of the provided file, does not return the period.
-     *
-     * @param file the name of the file of which to return the name of (this does not include the
-     *             extension; use {@link File#getName()})} to get the full filename + extension)
-     * @return the file name requested
-     */
-    public static String getFilename(File file) {
-        return file.getName().replaceAll("\\.([^.]+)$", "");
-    }
-
-    /**
-     * Uses a regex to get the file extension of the provided file, returns the period too.
-     *
-     * @param file the file of which to return the extension of
-     * @return the file extension requested
-     */
-    public static String getExtension(File file) {
-        return file.getName().replace(getFilename(file), "");
-    }
-
-    /**
-     * Determines if a string is confirming a question or denying it.
-     *
-     * @param input the input string to check for verifcation key words
-     * @return the boolean result of the confirmation
-     */
-    public static boolean isConfirmation(String input) {
-        return (input.equalsIgnoreCase("yes") ||
-                input.equalsIgnoreCase("y") ||
-                input.equalsIgnoreCase("sure") ||
-                input.equalsIgnoreCase("i guess") ||
-                input.equalsIgnoreCase("why not") ||
-                input.equalsIgnoreCase("mhmm") ||
-                input.equalsIgnoreCase("mhm") ||
-                input.equalsIgnoreCase("k") ||
-                input.equalsIgnoreCase("ok") ||
-                input .equalsIgnoreCase("okay") ||
-                input.contains("go"));
-    }
-
-    /**
      * Ensures that there is a space after every comma within the input.
      *
      * @param input the potentially wrongly formatted string
@@ -821,7 +721,7 @@ public class StringUtil {
             for (String s : parts)
                 sb.append(s).append(", ");
 
-            return sb.substring(0,sb.toString().length() - 2);
+            return sb.substring(0, sb.toString().length() - 2);
         }
     }
 
@@ -831,7 +731,7 @@ public class StringUtil {
      * @param word the word to find a definition for
      * @return the definition of the requested word if found
      */
-    public static String define(String word) {
+    public static String getDefinition(String word) {
         String ret = null;
 
         try {
@@ -855,7 +755,7 @@ public class StringUtil {
      * @param query the query to search wikipedia for
      * @return the wiki body result
      */
-    public static String wikiSummary(String query) {
+    public static String getWikipediaSummary(String query) {
         String ret = null;
 
         try  {
@@ -983,11 +883,11 @@ public class StringUtil {
     }
 
     /**
-     * Determines how closely string alpha is to string beta. Lower numbers mean a closer match.
+     * Determines how closely string alpha is to string beta.
      *
      * @param alpha the base string
      * @param beta the string to test for similarity against alpha
-     * @return how close beta is to alpha
+     * @return how close beta is to alpha by a percentage score
      */
     public static int levenshteinDistance(String alpha, String beta) {
         if (alpha.isEmpty()) {

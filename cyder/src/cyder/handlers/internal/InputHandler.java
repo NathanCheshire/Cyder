@@ -189,7 +189,7 @@ public class InputHandler {
 
         //check for bad language if filterchat
         if (UserUtil.getUserData("filterchat").equals("1")
-                && StringUtil.filterLanguage(this.command, true)) {
+                && StringUtil.containsBlockedWords(this.command, true)) {
             println("Sorry, " + UserUtil.extractUser().getName() + ", but that language is prohibited.");
             return false;
         }
@@ -668,13 +668,13 @@ public class InputHandler {
             }
         } else if (commandIs("define")) {
             if (args.size() > 0) {
-                println(StringUtil.define(argsToString()));
+                println(StringUtil.getDefinition(argsToString()));
             } else {
                 println("define usage: define YOUR_WORD/expression");
             }
         } else if (commandIs("wikisum")) {
             if (args.size() > 0) {
-                println(StringUtil.wikiSummary(argsToString()));
+                println(StringUtil.getWikipediaSummary(argsToString()));
             } else {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
@@ -697,7 +697,7 @@ public class InputHandler {
                             BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
                                     getCurrentBackgroundFile().getAbsoluteFile()), pixelSize);
 
-                            String newName = StringUtil.getFilename(ConsoleFrame.getConsoleFrame()
+                            String newName = FileUtil.getFilename(ConsoleFrame.getConsoleFrame()
                                     .getCurrentBackgroundFile().getName()) + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
                             File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
@@ -820,7 +820,7 @@ public class InputHandler {
                     if (!f.exists())
                         throw new IllegalArgumentException("File does not exist");
 
-                    if (StringUtil.getExtension(f).equalsIgnoreCase(".bin")) {
+                    if (FileUtil.getExtension(f).equalsIgnoreCase(".bin")) {
                         if (f.exists()) {
                             printlnPriority("0x" + IOUtil.getHexString(f).toUpperCase());
                         } else {
@@ -920,7 +920,7 @@ public class InputHandler {
 
                 for (File logDir : logDirs) {
                     for (File log : logDir.listFiles()) {
-                        if (StringUtil.getExtension(log).equals(".log")
+                        if (FileUtil.getExtension(log).equals(".log")
                                 && !log.equals(Logger.getCurrentLog())) {
                             log.delete();
                             count++;
@@ -942,7 +942,7 @@ public class InputHandler {
                 for (File logDir : logDirs) {
                     days++;
                     for (File log : logDir.listFiles()) {
-                        if (StringUtil.getExtension(log).equals(".log")
+                        if (FileUtil.getExtension(log).equals(".log")
                                 && !logDir.equals(Logger.getCurrentLog())) {
                             count++;
                         }

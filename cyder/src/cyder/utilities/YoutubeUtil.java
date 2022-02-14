@@ -181,7 +181,7 @@ public class YoutubeUtil {
             if (ret.exists()) {
                 try {
                     BufferedImage save = getSquareThumbnail(videoURL);
-                    String name = StringUtil.getFilename(ret) + ".png";
+                    String name = FileUtil.getFilename(ret) + ".png";
 
                     File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
                             + "/Music/AlbumArt");

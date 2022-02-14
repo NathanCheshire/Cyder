@@ -7,9 +7,9 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
+import cyder.utilities.FileUtil;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
 import test.java.ManualTests;
 
 import javax.swing.*;
@@ -161,7 +161,7 @@ public class Cyder {
             //loop through fonts dir
             for (File f : fontsDir) {
                 //if it's a valid font file
-                if (StringUtil.getExtension(f).equals(".ttf")) {
+                if (FileUtil.getExtension(f).equals(".ttf")) {
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     try {
                         //register the font so we can use it throughout Cyder

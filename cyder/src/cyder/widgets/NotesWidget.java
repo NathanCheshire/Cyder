@@ -9,6 +9,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.*;
+import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.UserUtil;
@@ -278,9 +279,9 @@ public class NotesWidget implements WidgetBase {
         noteNameList = new LinkedList<>();
 
         for (File file : dir.listFiles()) {
-            if (StringUtil.getExtension(file.getName()).equalsIgnoreCase((".txt"))) {
+            if (FileUtil.getExtension(file.getName()).equalsIgnoreCase((".txt"))) {
                 noteList.add(file.getAbsoluteFile());
-                noteNameList.add(StringUtil.getFilename(file.getName()));
+                noteNameList.add(FileUtil.getFilename(file.getName()));
             }
         }
     }
@@ -372,7 +373,7 @@ public class NotesWidget implements WidgetBase {
 
                 //contents are equal and name is same so there is nothing to save so return
                 if (noteEditArea.getText().contentEquals(contents) &&
-                        noteEditField.getText().trim().equals(StringUtil.getFilename(currentUserNote))) {
+                        noteEditField.getText().trim().equals(FileUtil.getFilename(currentUserNote))) {
                     noteEditorFrame.removeClosingConfirmation();
                     return;
                 }
@@ -384,7 +385,7 @@ public class NotesWidget implements WidgetBase {
                 //saved so remove closing confirmation
                 noteEditorFrame.removeClosingConfirmation();
 
-                if (noteEditField.getText().length() > 0 && !StringUtil.getFilename(currentUserNote).equals(noteEditField.getText().trim())) {
+                if (noteEditField.getText().length() > 0 && !FileUtil.getFilename(currentUserNote).equals(noteEditField.getText().trim())) {
                     File newName = new File(currentUserNote.getAbsolutePath().replace(
                             currentUserNote.getName(),noteEditField.getText().trim() + ".txt"));
                     boolean updated = File.renameTo(newName);

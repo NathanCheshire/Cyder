@@ -192,7 +192,7 @@ public class OSUtil {
      * @return a File object representing the file that was created
      */
     public static File createFileInUserSpace(String name) {
-        if (!StringUtil.empytStr(ConsoleFrame.getConsoleFrame().getUUID())) {
+        if (!StringUtil.isNull(ConsoleFrame.getConsoleFrame().getUUID())) {
             File saveDir = new File("dynamic" + FILE_SEP
                     + "users" + FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID()
                     + FILE_SEP + "Files");
@@ -393,7 +393,7 @@ public class OSUtil {
             ret.add(startDir);
         }
 
-        else if (StringUtil.getExtension(startDir).equals(extension)) {
+        else if (FileUtil.getExtension(startDir).equals(extension)) {
             ret.add(startDir);
         }
 
@@ -451,6 +451,8 @@ public class OSUtil {
 
         return ret.get();
     }
+
+    //todo need pwd command, eventually shell should emulate the os shell
 
     //todo utilize thread runner for threads and test for each before committing
 

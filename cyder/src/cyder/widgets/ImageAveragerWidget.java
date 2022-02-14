@@ -382,7 +382,7 @@ public class ImageAveragerWidget implements WidgetBase {
         StringBuilder ret = new StringBuilder();
 
         for (File f : files) {
-            ret.append(StringUtil.getFilename(f.getName())).append("_");
+            ret.append(FileUtil.getFilename(f.getName())).append("_");
         }
 
         return ret.substring(0, ret.toString().length() - 1);

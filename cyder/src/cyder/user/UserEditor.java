@@ -126,20 +126,20 @@ public class UserEditor implements WidgetBase {
         for (File file : backgroundDir.listFiles()) {
             if (FileUtil.isSupportedImageExtension(file)) {
                 filesList.add(file.getAbsoluteFile());
-                filesNameList.add("Backgrounds/" + StringUtil.getFilename(file));
+                filesNameList.add("Backgrounds/" + FileUtil.getFilename(file));
             }
         }
 
         for (File file : musicDir.listFiles()) {
             if (file.getName().endsWith((".mp3"))) {
                 filesList.add(file.getAbsoluteFile());
-                filesNameList.add("Music/" + StringUtil.getFilename(file));
+                filesNameList.add("Music/" + FileUtil.getFilename(file));
             }
         }
 
         for (File file : filesDir.listFiles()) {
             filesList.add(file.getAbsoluteFile());
-            filesNameList.add("Files/" + StringUtil.getFilename(file));
+            filesNameList.add("Files/" + FileUtil.getFilename(file));
         }
 
         String[] BackgroundsArray = new String[filesNameList.size()];
@@ -317,8 +317,8 @@ public class UserEditor implements WidgetBase {
                                ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
-                        String oldname = StringUtil.getFilename(selectedFile);
-                        String extension = StringUtil.getExtension(selectedFile);
+                        String oldname = FileUtil.getFilename(selectedFile);
+                        String extension = FileUtil.getExtension(selectedFile);
                         GetterUtil gu = new GetterUtil();
                         gu.setRelativeFrame(editUserFrame);
                         String newname = gu.getString("Rename","Enter any valid file name",
@@ -351,7 +351,7 @@ public class UserEditor implements WidgetBase {
                                     File refFile = null;
 
                                     for (File f : albumArtDir.listFiles()) {
-                                        if (StringUtil.getFilename(f).equals(oldname)) {
+                                        if (FileUtil.getFilename(f).equals(oldname)) {
                                             refFile = f;
                                             break;
                                         }
@@ -414,25 +414,25 @@ public class UserEditor implements WidgetBase {
                     if (deleted) {
                         revalidateFilesScroll();
 
-                        if (StringUtil.getExtension(selectedFile).equals(".mp3"))
+                        if (FileUtil.getExtension(selectedFile).equals(".mp3"))
                             ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("Music: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                                    .println("Music: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
                         else if (FileUtil.isSupportedImageExtension(selectedFile)) {
                             ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("Background: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                                    .println("Background: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
                         } else {
                             ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("File: " + StringUtil.getFilename(selectedFile) + " successfully deleted.");
+                                    .println("File: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
                         }
 
-                        if (StringUtil.getExtension(selectedFile.getName()).equals(".mp3")) {
+                        if (FileUtil.getExtension(selectedFile.getName()).equals(".mp3")) {
                             //attempt to find album art
-                            String name = StringUtil.getFilename(selectedFile.getName());
+                            String name = FileUtil.getFilename(selectedFile.getName());
 
                             //find corresponding album art and delete
                             for (File f : new File("dynamic/users/"
                                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
-                                if (StringUtil.getFilename(f).equals(name)) {
+                                if (FileUtil.getFilename(f).equals(name)) {
                                     f.delete();
                                     break;
                                 }
@@ -1318,7 +1318,7 @@ public class UserEditor implements WidgetBase {
             if (text.length() > 0) {
                 File ffmpegMaybe = new File(text);
                 if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
-                        StringUtil.getExtension(ffmpegMaybe).equals(".exe")) {
+                        FileUtil.getExtension(ffmpegMaybe).equals(".exe")) {
                     User user = UserUtil.extractUser();
                     user.setFfmpegpath(text);
                     UserUtil.setUserData(user);
@@ -1361,7 +1361,7 @@ public class UserEditor implements WidgetBase {
             if (text.length() > 0) {
                 File youtubeDLMaybe = new File(text);
                 if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
-                        StringUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
+                        FileUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
                     User user = UserUtil.extractUser();
                     user.setYoutubedlpath(text);
                     UserUtil.setUserData(user);

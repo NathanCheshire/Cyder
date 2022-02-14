@@ -34,8 +34,7 @@ public class FileUtil {
      * @return whether the provided file is a supported image file
      */
     public static boolean isSupportedImageExtension(File f) {
-        //todo also validate the file signature
-        return StringUtil.in(StringUtil.getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
+        return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
                 && (matchesSignature(f, PNG_SIGNATURE) || matchesSignature(f, JPG_SIGNATURE));
     }
 
@@ -73,8 +72,45 @@ public class FileUtil {
         return true;
     }
 
-    //todo StringUtil filename and extension methods should be here, look for other methods that should be here
-    // also think about what else might be useful
+    /**
+     * Uses a regex to get the file name of the provided file, does not return the period.
+     *
+     * @param file the file of which to return the name of (this does not include the
+     *             extension; use {@link File#getName()} )} to get the full filename + extension)
+     * @return the file name requested
+     */
+    public static String getFilename(String file) {
+        return file.replaceAll("\\.([^.]+)$", "");
+    }
 
+    /**
+     * Uses a regex to get the file extension of the provided file, returns the period too.
+     *
+     * @param file the name of the file of which to return the extension of
+     * @return the file extension requested
+     */
+    public static String getExtension(String file) {
+        return file.replace(getFilename(file), "");
+    }
 
+    /**
+     * Uses a regex to get the file name of the provided file, does not return the period.
+     *
+     * @param file the name of the file of which to return the name of (this does not include the
+     *             extension; use {@link File#getName()})} to get the full filename + extension)
+     * @return the file name requested
+     */
+    public static String getFilename(File file) {
+        return file.getName().replaceAll("\\.([^.]+)$", "");
+    }
+
+    /**
+     * Uses a regex to get the file extension of the provided file, returns the period too.
+     *
+     * @param file the file of which to return the extension of
+     * @return the file extension requested
+     */
+    public static String getExtension(File file) {
+        return file.getName().replace(getFilename(file), "");
+    }
 }

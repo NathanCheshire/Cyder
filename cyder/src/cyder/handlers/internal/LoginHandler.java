@@ -602,7 +602,7 @@ public class LoginHandler {
                 //we always hash again here
                 if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(
                                 hashedPass.toCharArray())).equals(user.getPass())) {
-                    ret = StringUtil.getFilename(userJsonFile.getParentFile().getName());
+                    ret = FileUtil.getFilename(userJsonFile.getParentFile().getName());
                 }
             }
         } catch (Exception e) {

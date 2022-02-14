@@ -596,7 +596,7 @@ public class AudioPlayer implements WidgetBase {
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 
-        if (startPlaying != null && StringUtil.getExtension(startPlaying).equals(".mp3")) {
+        if (startPlaying != null && FileUtil.getExtension(startPlaying).equals(".mp3")) {
             refreshAudioFiles(startPlaying);
             startAudio();
         } else {
@@ -615,7 +615,7 @@ public class AudioPlayer implements WidgetBase {
                 }
 
                 for (File f : userFiles) {
-                    if (StringUtil.getExtension(f).equals(".mp3"))
+                    if (FileUtil.getExtension(f).equals(".mp3"))
                         refreshAudioFiles(f);
                 }
 
@@ -743,7 +743,7 @@ public class AudioPlayer implements WidgetBase {
         audioFiles.clear();
 
         for (File file : refreshOnFile.getParentFile().listFiles())
-            if (StringUtil.getExtension(file).equals(".mp3"))
+            if (FileUtil.getExtension(file).equals(".mp3"))
                 audioFiles.add(file);
 
         for (int i = 0; i < audioFiles.size() ; i++) {
@@ -1021,7 +1021,7 @@ public class AudioPlayer implements WidgetBase {
 
                 //if not in mini player mode, initalize these views
                 if (!miniPlayer) {
-                    audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
+                    audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
                     audioScroll = new ImprovedScrollLabel(audioTitleLabel);
                     audioLocation = new AudioLocation(audioProgress);
                 }
@@ -1119,7 +1119,7 @@ public class AudioPlayer implements WidgetBase {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },DEFAULT_TITLE + " Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+        },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
     }
 
     /**
@@ -1233,7 +1233,7 @@ public class AudioPlayer implements WidgetBase {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },DEFAULT_TITLE + " Audio Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+            },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
         }
     }
 
@@ -1284,7 +1284,7 @@ public class AudioPlayer implements WidgetBase {
                             ExceptionHandler.silentHandle(e);
                         }
                     }
-                },DEFAULT_TITLE + " Progress Thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+                },DEFAULT_TITLE + " Progress Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1307,7 +1307,7 @@ public class AudioPlayer implements WidgetBase {
             this.effectLabel = effectLabel;
 
             try {
-                String localTitle = StringUtil.getFilename(audioFiles.get(audioIndex).getName());
+                String localTitle = FileUtil.getFilename(audioFiles.get(audioIndex).getName());
                 effectLabel.setText(localTitle);
 
                 int parentX = effectLabel.getParent().getX();
@@ -1359,9 +1359,9 @@ public class AudioPlayer implements WidgetBase {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    },DEFAULT_TITLE + " scrolling title thread[" + StringUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+                    },DEFAULT_TITLE + " scrolling title thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
                 } else {
-                    String text = StringUtil.getFilename(audioFiles.get(audioIndex));
+                    String text = FileUtil.getFilename(audioFiles.get(audioIndex));
                     effectLabel.setText(text);
                     effectLabel.setLocation(effectLabel.getParent().getWidth() / 2
                             - StringUtil.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
@@ -1449,7 +1449,7 @@ public class AudioPlayer implements WidgetBase {
      * Exits mini mode if the player is in mini mode.
      */
     public static void exitMiniPlayer() {
-        audioTitleLabel.setText(StringUtil.getFilename(audioFiles.get(audioIndex)));
+        audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
         audioScroll = new ImprovedScrollLabel(audioTitleLabel);
         audioLocation = new AudioLocation(audioProgress);
 
@@ -1561,7 +1561,7 @@ public class AudioPlayer implements WidgetBase {
             if (audioFiles == null || audioFiles.size() == 0)
                 return false;
 
-            String currentName = StringUtil.getFilename(audioFiles.get(audioIndex));
+            String currentName = FileUtil.getFilename(audioFiles.get(audioIndex));
 
             File albumArtDir = new File("dynamic/users/"
                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
@@ -1573,7 +1573,7 @@ public class AudioPlayer implements WidgetBase {
 
             //for all the album arts
             for (File f : albumArtDir.listFiles()) {
-                if (StringUtil.getFilename(f).equals(currentName)) {
+                if (FileUtil.getFilename(f).equals(currentName)) {
                     currentAlbumArt = new ImageIcon(ImageIO.read(f));
                     return true;
                 }
@@ -1593,7 +1593,7 @@ public class AudioPlayer implements WidgetBase {
         if (lastAction == LastAction.STOP)
             audioFrame.setTitle(DEFAULT_TITLE);
         else
-            audioFrame.setTitle(StringUtil.getFilename(audioFiles.get(audioIndex).getName()));
+            audioFrame.setTitle(FileUtil.getFilename(audioFiles.get(audioIndex).getName()));
         ConsoleFrame.getConsoleFrame().revalidateMenu();
     }
 

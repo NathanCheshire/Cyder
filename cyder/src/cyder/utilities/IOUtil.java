@@ -390,7 +390,7 @@ public class IOUtil {
                 //if it fails then delete the json
                 if (!success) {
                     json.delete();
-                    UserUtil.userJsonDeleted(StringUtil.getFilename(user));
+                    UserUtil.userJsonDeleted(FileUtil.getFilename(user));
                 }
             }
         }
@@ -616,7 +616,7 @@ public class IOUtil {
     public static String getBinaryString(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("bin does not exist");
-        if (!StringUtil.getExtension(f).equalsIgnoreCase(".bin"))
+        if (!FileUtil.getExtension(f).equalsIgnoreCase(".bin"))
             throw new IllegalArgumentException("File is not a binary");
 
         String ret = null;
@@ -643,7 +643,7 @@ public class IOUtil {
     public static String getHexString(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("bin does not exist");
-        if (!StringUtil.getExtension(f).equalsIgnoreCase(".bin"))
+        if (!FileUtil.getExtension(f).equalsIgnoreCase(".bin"))
             throw new IllegalArgumentException("File is not a binary");
 
         String ret = null;

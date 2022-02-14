@@ -85,7 +85,7 @@ public class UserUtil {
     public static void setUserData(File f, String name, String value) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
-        if (!StringUtil.getExtension(f).equals(".json"))
+        if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
 
         User user = extractUser(f);
@@ -163,7 +163,7 @@ public class UserUtil {
     public static void setUserData(File f, User u) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
-        if (!StringUtil.getExtension(f).equals(".json"))
+        if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
 
         Gson gson = new Gson();
@@ -190,7 +190,7 @@ public class UserUtil {
 
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
-        if (!StringUtil.getExtension(f).equals(".json"))
+        if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
 
         Gson gson = new Gson();
@@ -337,7 +337,7 @@ public class UserUtil {
     public static User extractUser(File f) {
         if (!f.exists())
             throw new IllegalArgumentException("Provided file does not exist");
-        if (!StringUtil.getExtension(f).equals(".json"))
+        if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("Provided file is not a json");
 
         User ret = null;
@@ -425,7 +425,7 @@ public class UserUtil {
      * @return the requested data
      */
     public static String extractUserData(File f, String name) {
-        if (!StringUtil.getExtension(f).equals(".json"))
+        if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
@@ -581,9 +581,9 @@ public class UserUtil {
      * @param f the file to check for corrections
      */
     public static boolean updateOldJson(File f) {
-        if (!StringUtil.getExtension(f).equals(".json")) {
+        if (!FileUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
-        } else if (!StringUtil.getFilename(f).equalsIgnoreCase(StringUtil.getFilename(UserFile.USERDATA.getName()))) {
+        } else if (!FileUtil.getFilename(f).equalsIgnoreCase(FileUtil.getFilename(UserFile.USERDATA.getName()))) {
             throw new IllegalArgumentException("Provided file is not a userdata file");
         }
 
@@ -753,10 +753,10 @@ public class UserUtil {
 
                 for (File f : userDir.listFiles()) {
                     if (f.isFile()) {
-                        filenames.add(StringUtil.getFilename(f));
+                        filenames.add(FileUtil.getFilename(f));
                     } else if (f.isDirectory()) {
                         for (File file : f.listFiles()) {
-                            filenames.add(StringUtil.getFilename(file));
+                            filenames.add(FileUtil.getFilename(file));
                         }
                     }
                 }
@@ -916,7 +916,7 @@ public class UserUtil {
         for (File user : users) {
             File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
-            if (jsonFile.exists() && !StringUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
+            if (jsonFile.exists() && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
                 UserUtil.setUserData(jsonFile, "loggedin","0");
         }
     }
@@ -929,7 +929,7 @@ public class UserUtil {
     public static String getFirstLoggedInUser() {
         for (File userJSON : UserUtil.getUserJsons()) {
             if (UserUtil.extractUser(userJSON).getLoggedin().equals("1"))
-                return StringUtil.getFilename(userJSON.getParentFile().getName());
+                return FileUtil.getFilename(userJSON.getParentFile().getName());
         }
 
 

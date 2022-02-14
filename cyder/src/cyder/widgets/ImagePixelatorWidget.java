@@ -129,7 +129,7 @@ public class ImagePixelatorWidget implements WidgetBase {
                 if (pixel > 1) {
                     try {
                         BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
-                        String saveName = StringUtil.getFilename(currentFile) +
+                        String saveName = FileUtil.getFilename(currentFile) +
                                  "_Pixelated_Pixel_Size_" + pixel + ".png";
                         File saveFile = new File("c:/users/"
                                 +

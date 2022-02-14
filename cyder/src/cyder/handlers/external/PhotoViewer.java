@@ -46,7 +46,7 @@ public class PhotoViewer {
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
         pictureFrame.setBackground(CyderColors.guiThemeColor);
-        pictureFrame.setTitle(StringUtil.getFilename(currentImage.getName()));
+        pictureFrame.setTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         pictureFrame.initializeResizing();
         pictureFrame.setResizable(true);
@@ -170,7 +170,7 @@ public class PhotoViewer {
                     nextImage.getIconHeight()));
 
             pictureFrame.refreshBackground();
-            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex).getName()));
+            pictureFrame.setTitle(FileUtil.getFilename(validImages.get(currentIndex).getName()));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -199,7 +199,7 @@ public class PhotoViewer {
                     previousImage.getIconHeight()));
 
             pictureFrame.refreshBackground();
-            pictureFrame.setTitle(StringUtil.getFilename(validImages.get(currentIndex).getName()));
+            pictureFrame.setTitle(FileUtil.getFilename(validImages.get(currentIndex).getName()));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -251,7 +251,7 @@ public class PhotoViewer {
                if (!StringUtil.isNull(name)) {
                    File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
 
-                   String replaceOldName = StringUtil.getFilename(oldName);
+                   String replaceOldName = FileUtil.getFilename(oldName);
 
                    File newName = new File(oldName.getAbsolutePath()
                            .replace(replaceOldName, name));

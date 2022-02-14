@@ -502,15 +502,15 @@ public class StatUtil {
 
             for (File f : files)
                 innerFindBadWords(f);
-        } else if (startDir.isFile() && !StringUtil.getFilename(startDir.getName()).equals("v.txt")) {
+        } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("v.txt")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
                 String line = "";
 
                 while ((line = lineReader.readLine()) != null) {
-                    if (isComment(line) && StringUtil.filterLanguage(line,false)) {
+                    if (isComment(line) && StringUtil.containsBlockedWords(line,false)) {
                        ConsoleFrame.getConsoleFrame().getInputHandler().println(
-                               StringUtil.getFilename(startDir.getName()) + ": " + line.trim());
+                               FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
                     }
                 }
             } catch (Exception ex) {
