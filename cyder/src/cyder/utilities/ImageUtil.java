@@ -188,27 +188,25 @@ public class ImageUtil {
     }
 
     /**
-     * Returns the passed background file accounting for set rotate direction. For example, if the direction
-     * is left this method will return a left rotated image. Use {@link cyder.ui.ConsoleFrame#getCurrentBackgroundImageIcon}
-     * to get the image without possible rotations applied. This method is used to set the console background when the background
-     * is altered or updated.
-     * @param bufferedImage the path to the file
-     * @param consoleDirection the cardinal direction of rotation
+     * Returns the rotated background file.
+     *
+     * @param filepath the path to the file
+     * @param direction the direction of rotation
      * @return the rotated image
      */
-    public static BufferedImage getRotatedImage(String bufferedImage, Direction consoleDirection) {
-        switch(consoleDirection) {
+    public static BufferedImage getRotatedImage(String filepath, Direction direction) {
+        switch (direction) {
             case TOP:
-                return ImageUtil.getBi(bufferedImage);
+                return ImageUtil.getBi(filepath);
             case RIGHT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(bufferedImage),90);
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(filepath), 90);
             case BOTTOM:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(bufferedImage),180);
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(filepath), 180);
             case LEFT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(bufferedImage),-90);
+                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(filepath), -90);
+            default:
+                throw new IllegalArgumentException("Invalid direction: " + direction);
         }
-
-        return null;
     }
 
     public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {

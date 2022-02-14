@@ -1829,13 +1829,12 @@ public class CyderFrame extends JFrame {
      * Set the background of {@code this} to the current ConsoleFrame background.
      */
     public void stealConsoleBackground() {
-        if (ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon() == null)
+        if (ConsoleFrame.getConsoleFrame().getCurrentBackground() == null)
             return;
 
-        currentOrigIcon = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon();
-
-        iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
-                .getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT)));
+        iconLabel.setIcon(new ImageIcon(ConsoleFrame.getConsoleFrame().getCurrentBackground()
+                .generateImageIcon().getImage().getScaledInstance(
+                        this.getWidth(), this.getHeight(), Image.SCALE_DEFAULT)));
     }
 
     /**

@@ -315,8 +315,8 @@ public final class ConsoleFrame {
                         consoleFrameBackgroundHeight,getCurrentBackgroundFile()));
                 UserUtil.setUserData("fullscreen","1");
             } else {
-                consoleFrameBackgroundWidth = getCurrentBackgroundImageIcon().getIconWidth();
-                consoleFrameBackgroundHeight = getCurrentBackgroundImageIcon().getIconHeight();
+                consoleFrameBackgroundWidth = consoleCyderFrame.getWidth();
+                consoleFrameBackgroundHeight = consoleCyderFrame.getHeight();
                 usage = new ImageIcon(ImageUtil.getRotatedImage(
                         getCurrentBackgroundFile().toString(),getConsoleDirection()));
             }
@@ -2109,7 +2109,7 @@ public final class ConsoleFrame {
                         backgrounds.get(backgroundIndex).generateBufferedImage(), 90));
                 break;
             case TOP:
-                imageIcon = getCurrentBackgroundImageIcon();
+                imageIcon = getCurrentBackground().generateImageIcon();
                 break;
             case BOTTOM:
                 imageIcon = new ImageIcon(ImageUtil.rotateImageByDegrees(
@@ -2167,21 +2167,22 @@ public final class ConsoleFrame {
     }
 
     /**
+     * Returns the current background.
+     *
+     * @return the current background
+     */
+    public CyderBackground getCurrentBackground() {
+        return backgrounds.get(backgroundIndex);
+    }
+
+    //todo do away with
+    /**
      * Returns the file associated with the current background.
      *
      * @return the file associated with the current background
      */
     public File getCurrentBackgroundFile() {
        return backgrounds.get(backgroundIndex).getReferenceFile();
-    }
-    //todo do away with these methods
-    /**
-     * Returns an ImageIcon for the current background file at the current background index.
-     *
-     * @return an ImageIcon for the current background file at the current background index
-     */
-    public ImageIcon getCurrentBackgroundImageIcon() {
-        return backgrounds.get(backgroundIndex).generateImageIcon();
     }
 
     /**
@@ -2437,7 +2438,7 @@ public final class ConsoleFrame {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
             return (int) consoleCyderFrame.getMonitorBounds().getWidth();
         } else {
-            return getCurrentBackgroundImageIcon().getIconWidth();
+            return getCurrentBackground().generateImageIcon().getIconWidth();
         }
     }
 
@@ -2452,7 +2453,7 @@ public final class ConsoleFrame {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
             return (int) consoleCyderFrame.getMonitorBounds().getHeight();
         } else {
-            return getCurrentBackgroundImageIcon().getIconHeight();
+            return getCurrentBackground().generateImageIcon().getIconHeight();
         }
     }
 
@@ -2736,7 +2737,7 @@ public final class ConsoleFrame {
 
             switch (consoleDir) {
                 case TOP:
-                    background = getCurrentBackgroundImageIcon();
+                    background = getCurrentBackground().generateImageIcon();
                     break;
                 case LEFT:
                     background = new ImageIcon(ImageUtil.getRotatedImage(
@@ -2755,11 +2756,11 @@ public final class ConsoleFrame {
             UserUtil.setUserData("fullscreen", "0");
         } else if (maintainFullscreen && UserUtil.extractUser().getFullscreen().equals("1")) {
             // have fullscreen on current monitor
-            background = ImageUtil.resizeImage(getCurrentBackgroundImageIcon(),
+            background = ImageUtil.resizeImage(getCurrentBackground().generateImageIcon(),
                     (int) consoleCyderFrame.getMonitorBounds().getWidth(),
                     (int) consoleCyderFrame.getMonitorBounds().getHeight());
         } else {
-            background = getCurrentBackgroundImageIcon();
+            background = getCurrentBackground().generateImageIcon();
         }
 
         // no background somehow so create the default one in user space

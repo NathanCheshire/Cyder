@@ -607,8 +607,8 @@ public class InputHandler {
         } else if (commandIs("backgroundcolor")) {
             if (checkArgsLength(1)) {
                 try {
-                    int w = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconWidth();
-                    int h = ConsoleFrame.getConsoleFrame().getCurrentBackgroundImageIcon().getIconHeight();
+                    int w = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getWidth();
+                    int h = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getHeight();
 
                     if (UserUtil.extractUser().getFullscreen().equals("1")) {
                         w = ScreenUtil.getScreenWidth();
