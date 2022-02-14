@@ -2667,10 +2667,21 @@ public class CyderFrame extends JFrame {
     // Transparency during drag events
     // -----------
 
+    /**
+     * The opacity value to set the frame to on drag events.
+     */
+    public static final float DRAG_OPACITY = 0.7f;
+
+    /**
+     * Sets the opacity of the frame to {@link CyderFrame#DRAG_OPACITY}.
+     */
     protected void startDragEvent() {
-        this.setOpacity(0.7f);
+        this.setOpacity(DRAG_OPACITY);
     }
 
+    /**
+     * Sets the opacity of the frame to 1.0f.
+     */
     protected void endDragEvent() {
         this.setOpacity(1.0f);
     }

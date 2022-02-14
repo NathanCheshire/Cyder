@@ -1,0 +1,32 @@
+[21-39-37] [ENTRY]: [Nathan]
+[21-39-37] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-39-37] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-39-37] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-39-37] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-39-39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-39-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-39-39] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-39-39] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-39-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-39-39] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-39-39] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[21-39-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-39-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-39-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-39-40] [SYSTEM_IO]: Userdata requested: InputFill
+[21-39-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [289899981], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-39-40] [ACTION]: Console loaded in 3220ms
+[21-39-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-39-40] [ENTRY]: [TESTING MODE]
+[21-39-40] [SYSTEM_IO]: Userdata requested: laststart
+[21-39-40] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3220ms
+[21-39-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-39-44] [CLIENT]: opacity
+[21-39-44] [SYSTEM_IO]: Userdata requested: filterchat
+[21-39-44] [HANDLE]: GENERAL COMMAND HANDLED
+[21-39-44] [HANDLE]: PRIMARY HANDLE
+[21-39-44] [CONSOLE_OUT]: [JCOMPONENT] javax.swing.JSlider[,0,0,300x50,invalid,alignmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=0,minorTickSpacing=0,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToValue=true]
+[21-39-44] [CONSOLE_OUT]: [STRING]
+[21-40-46] [THREAD STARTED]: Background Switcher
+[21-40-56] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

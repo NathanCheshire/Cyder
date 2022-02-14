@@ -1,0 +1,100 @@
+[21-42-47] [ENTRY]: [Nathan]
+[21-42-47] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-42-47] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-42-47] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-42-47] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-42-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-42-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-42-49] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-42-49] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-42-49] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-42-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-42-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-42-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-42-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-42-49] [SYSTEM_IO]: Userdata requested: InputFill
+[21-42-50] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1886452049], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-42-50] [ACTION]: Console loaded in 3084ms
+[21-42-50] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-42-50] [ENTRY]: [TESTING MODE]
+[21-42-50] [SYSTEM_IO]: Userdata requested: laststart
+[21-42-50] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3084ms
+[21-42-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-42-55] [CLIENT]: opacity
+[21-42-55] [SYSTEM_IO]: Userdata requested: filterchat
+[21-42-55] [HANDLE]: GENERAL COMMAND HANDLED
+[21-42-55] [HANDLE]: PRIMARY HANDLE
+[21-42-55] [CONSOLE_OUT]: [JCOMPONENT] javax.swing.JSlider[,0,0,300x50,invalid,alignmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=0,minorTickSpacing=0,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToValue=true]
+[21-42-56] [CONSOLE_OUT]: [STRING]
+[21-43-26] [CLIENT]: originalchams
+[21-43-26] [SYSTEM_IO]: Userdata requested: filterchat
+[21-43-26] [HANDLE]: GENERAL COMMAND HANDLED
+[21-43-26] [HANDLE]: PRIMARY HANDLE
+[21-43-40] [CLIENT]: hello
+[21-43-40] [SYSTEM_IO]: Userdata requested: filterchat
+[21-43-40] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[21-43-40] [HANDLE]: PRIMARY HANDLE
+[21-43-40] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[21-43-41] [CLIENT]: clear
+[21-43-41] [SYSTEM_IO]: Userdata requested: filterchat
+[21-43-41] [HANDLE]: GENERAL COMMAND HANDLED
+[21-43-41] [HANDLE]: PRIMARY HANDLE
+[21-43-44] [CLIENT]: whats
+[21-43-44] [SYSTEM_IO]: Userdata requested: filterchat
+[21-43-44] [CONSOLE_OUT]: [STRING] Unknown command
+[21-43-44] [ACTION]: Similar command to "whats" found with tol of 0.54545456, command = "thanks"
+[21-43-45] [CLIENT]: clear
+[21-43-45] [SYSTEM_IO]: Userdata requested: filterchat
+[21-43-45] [HANDLE]: GENERAL COMMAND HANDLED
+[21-43-45] [HANDLE]: PRIMARY HANDLE
+[21-43-49] [CONSOLE_OUT]: [STRING] Manual tests:
+[21-43-49] [CONSOLE_OUT]: [STRING] launchTests
+[21-43-49] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[21-43-50] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[21-43-51] [CONSOLE_OUT]: [STRING] checkboxTest
+[21-43-51] [CONSOLE_OUT]: [STRING] progressBarTest
+[21-43-51] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[21-43-51] [CONSOLE_OUT]: [STRING] askewTest
+[21-43-51] [CONSOLE_OUT]: [STRING] queueTest
+[21-43-51] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[21-43-51] [CONSOLE_OUT]: [STRING] comboBoxTest
+[21-43-51] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[21-43-51] [CONSOLE_OUT]: [STRING] cyderGridTest
+[21-43-51] [CONSOLE_OUT]: [STRING] switchTest
+[21-43-51] [CONSOLE_OUT]: [STRING] stackTest
+[21-43-51] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[21-43-51] [CONSOLE_OUT]: [STRING] informTest
+[21-43-51] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[21-43-51] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[21-43-51] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[21-43-51] [CONSOLE_OUT]: [STRING] notificationTest
+[21-43-51] [CONSOLE_OUT]: [STRING] Unit Tests:
+[21-43-51] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[21-43-51] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[21-43-51] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[21-43-51] [CONSOLE_OUT]: [STRING] testPluralConversion
+[21-43-51] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[21-43-51] [CONSOLE_OUT]: [STRING] testIsComment
+[21-43-51] [CONSOLE_OUT]: [JCOMPONENT] Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 0, 0)], hash = [916456901], parentFrame = [No associated frame], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-43-51] [CONSOLE_OUT]: [STRING]
+[21-43-51] [CONSOLE_OUT]: [STRING] Escaped
+[21-43-53] [SYSTEM_IO]: Userdata requested: Background
+[21-43-53] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 215, 38)], hash = [916456901], parentFrame = [Stellar Cyder [Nathan]], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-43-56] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [89835059], parentFrame = [Suggestion], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-43-57] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(285, 330, 400, 170)], hash = [1853273632], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Suggestion]
+[21-43-57] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1789496920], parentFrame = [Suggestion], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-43-57] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-44-00] [CLIENT]: clear
+[21-44-00] [SYSTEM_IO]: Userdata requested: filterchat
+[21-44-00] [HANDLE]: GENERAL COMMAND HANDLED
+[21-44-00] [HANDLE]: PRIMARY HANDLE
+[21-44-08] [THREAD STARTED]: Background Switcher
+[21-44-10] [THREAD STARTED]: Background Switcher
+[21-44-11] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-44-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(719, 419, 996, 655)], hash = [2035616217], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[21-44-11] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-44-12] [EXIT]: [RUNTIME] 1m 24s
+[21-44-12] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

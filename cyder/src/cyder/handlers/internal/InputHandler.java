@@ -6,15 +6,13 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderNums;
 import cyder.constants.CyderStrings;
 import cyder.enums.ScreenPosition;
+import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.scripts.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.MasterYoutubeThread;
-import cyder.ui.ConsoleFrame;
-import cyder.ui.CyderCaret;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderOutputPane;
+import cyder.ui.*;
 import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
@@ -1298,6 +1296,36 @@ public class InputHandler {
             }
         } else if (commandIs("originalchams")) {
             ConsoleFrame.getConsoleFrame().originalChams();
+        } else if (commandIs("opacity")) {
+            JSlider opacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+            opacitySlider.setBounds(0,0, 300, 50);
+            CyderSliderUI UI = new CyderSliderUI(opacitySlider);
+            UI.setThumbStroke(new BasicStroke(2.0f));
+            UI.setSliderShape(SliderShape.CIRCLE);
+            UI.setThumbDiameter(35);
+            UI.setFillColor(CyderColors.navy);
+            UI.setOutlineColor(CyderColors.vanila);
+            UI.setNewValColor(CyderColors.vanila);
+            UI.setOldValColor(CyderColors.regularPink);
+            UI.setTrackStroke(new BasicStroke(3.0f));
+            opacitySlider.setUI(UI);
+            opacitySlider.setMinimum(0);
+            opacitySlider.setMaximum(100);
+            opacitySlider.setPaintTicks(false);
+            opacitySlider.setPaintLabels(false);
+            opacitySlider.setVisible(true);
+            opacitySlider.setValue(100);
+            opacitySlider.addChangeListener(e -> {
+                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
+                        .setOpacity(opacitySlider.getValue() / 100.0f);
+                opacitySlider.repaint();
+            });
+            opacitySlider.setOpaque(false);
+            opacitySlider.setToolTipText("Opacity");
+            opacitySlider.setFocusable(false);
+            opacitySlider.repaint();
+
+            printlnComponent(opacitySlider);
         }
 
         else ret = false;

@@ -1,0 +1,84 @@
+[21-38-29] [ENTRY]: [Nathan]
+[21-38-30] [SYSTEM_IO]: System data pared in IOUtil's static block
+[21-38-30] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-38-30] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-38-30] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-38-31] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-38-31] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-38-32] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-38-32] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-38-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-38-32] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-38-32] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[21-38-32] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-38-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-38-32] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-38-32] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-38-32] [SYSTEM_IO]: Userdata requested: InputFill
+[21-38-32] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [158483874], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-38-32] [ACTION]: Console loaded in 3087ms
+[21-38-32] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-38-32] [ENTRY]: [TESTING MODE]
+[21-38-32] [SYSTEM_IO]: Userdata requested: laststart
+[21-38-32] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3087ms
+[21-38-33] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-38-36] [CLIENT]: opacity
+[21-38-36] [SYSTEM_IO]: Userdata requested: filterchat
+[21-38-36] [HANDLE]: GENERAL COMMAND HANDLED
+[21-38-36] [HANDLE]: PRIMARY HANDLE
+[21-38-36] [CONSOLE_OUT]: [STRING] Note: this is reset on drag events
+[21-38-37] [CONSOLE_OUT]: [JCOMPONENT] javax.swing.JSlider[,0,0,300x50,invalid,alignmentX=0.0,alignmentY=0.0,border=,flags=16777504,maximumSize=,minimumSize=,preferredSize=,isInverted=false,majorTickSpacing=0,minorTickSpacing=0,orientation=HORIZONTAL,paintLabels=false,paintTicks=false,paintTrack=true,snapToTicks=false,snapToValue=true]
+[21-38-37] [CONSOLE_OUT]: [STRING]
+[21-39-04] [CONSOLE_OUT]: [STRING] Manual tests:
+[21-39-04] [CONSOLE_OUT]: [STRING] launchTests
+[21-39-04] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[21-39-05] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[21-39-06] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[21-39-06] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[21-39-07] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[21-39-07] [CONSOLE_OUT]: [STRING] notificationTest
+[21-39-08] [CONSOLE_OUT]: [STRING] cyderGridTest
+[21-39-08] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[21-39-08] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[21-39-08] [SYSTEM_IO]: Userdata requested: Background
+[21-39-09] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[21-39-09] [CONSOLE_OUT]: [STRING] progressBarTest
+[21-39-10] [CONSOLE_OUT]: [STRING] switchTest
+[21-39-10] [CONSOLE_OUT]: [STRING] queueTest
+[21-39-11] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[21-39-11] [CONSOLE_OUT]: [STRING] askewTest
+[21-39-12] [CONSOLE_OUT]: [STRING] comboBoxTest
+[21-39-12] [CONSOLE_OUT]: [STRING] informTest
+[21-39-12] [CONSOLE_OUT]: [STRING] checkboxTest
+[21-39-13] [CONSOLE_OUT]: [STRING] stackTest
+[21-39-13] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[21-39-14] [CONSOLE_OUT]: [STRING] Unit Tests:
+[21-39-14] [CONSOLE_OUT]: [STRING] testPluralConversion
+[21-39-15] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[21-39-15] [SYSTEM_IO]: Userdata requested: Background
+[21-39-16] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[21-39-17] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[21-39-18] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[21-39-19] [CONSOLE_OUT]: [STRING] testIsComment
+[21-39-19] [CONSOLE_OUT]: [JCOMPONENT] Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 0, 0)], hash = [1041596024], parentFrame = [No associated frame], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-39-20] [CONSOLE_OUT]: [STRING]
+[21-39-22] [CONSOLE_OUT]: [STRING] Manual tests:
+[21-39-23] [CONSOLE_OUT]: [STRING] launchTests
+[21-39-23] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[21-39-24] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[21-39-24] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[21-39-25] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[21-39-25] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[21-39-26] [CONSOLE_OUT]: [STRING] notificationTest
+[21-39-26] [CONSOLE_OUT]: [STRING] cyderGridTest
+[21-39-27] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[21-39-27] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[21-39-28] [CONSOLE_OUT]: [STRING] progressBarTest
+[21-39-28] [CONSOLE_OUT]: [STRING] switchTest
+[21-39-29] [CONSOLE_OUT]: [STRING] queueTest
+[21-39-29] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[21-39-30] [CONSOLE_OUT]: [STRING] askewTest
+[21-39-30] [CONSOLE_OUT]: [STRING] comboBoxTest
+[21-39-30] [CONSOLE_OUT]: [STRING] informTest
+[21-39-31] [CONSOLE_OUT]: [STRING] checkboxTest
+[21-39-37] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0
