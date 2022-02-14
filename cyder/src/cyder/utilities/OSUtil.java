@@ -452,7 +452,7 @@ public class OSUtil {
         return ret.get();
     }
 
-    //todo utilize thread runner
+    //todo utilize thread runner for threads and test for each before committing
 
     //todo address YoutubeUtil bugs
 
@@ -475,9 +475,9 @@ public class OSUtil {
     //todo make this a command to regenerate the list of valid commands
     // from InputHandler which the script will then look through
 
-    //todo user redis for storing user statistics in memory instead of constant IO to/from files
-    //todo will also need to redo the way user data is accessed/saved/stored
-    // everything should be within userutil and it will be a black box essentially
+    //todo load user in memory and access that object, write to
+    // file ever 3s or so, make a final var for the timeout,
+    // on controlled exists make sure to save just like screen stats
 
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably.
@@ -490,6 +490,4 @@ public class OSUtil {
     //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
 
     //todo finish CyderGrid methods and new convex hull
-
-    //todo implement painting widget
 }

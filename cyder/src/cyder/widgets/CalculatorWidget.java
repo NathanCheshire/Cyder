@@ -19,18 +19,25 @@ import cyder.ui.objects.NotificationBuilder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
+/**
+ * A calculator widget to parse mathematical expressions.
+ */
 public class CalculatorWidget implements WidgetBase {
-    private static String calculatorExpression = "";
 
+    /**
+     * Prevent illegal class instantiation.
+     */
     private CalculatorWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = {"calculator", "calc"}, description = "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
+    /**
+     * ShowGUI method per WidgetBase standard
+     */
+    @Widget(trigger = {"calculator", "calc"}, description =
+            "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CALCULATOR");
-
-        calculatorExpression = "";
 
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");
@@ -51,10 +58,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorAdd.setFocusPainted(false);
         calculatorAdd.setBackground(CyderColors.regularOrange);
         calculatorAdd.setFont(CyderFonts.segoe30);
-        calculatorAdd.addActionListener(e -> {
-            calculatorExpression += "+";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorAdd.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "+"));
 
         CyderButton calculatorSubtract = new CyderButton("-");
         calculatorSubtract.setColors(CyderColors.regularOrange);
@@ -64,10 +68,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorSubtract.setFocusPainted(false);
         calculatorSubtract.setBackground(CyderColors.regularOrange);
         calculatorSubtract.setFont(CyderFonts.segoe30);
-        calculatorSubtract.addActionListener(e -> {
-            calculatorExpression += "-";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorSubtract.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "-"));
 
         CyderButton calculatorMultiply = new CyderButton("*");
         calculatorMultiply.setColors(CyderColors.regularOrange);
@@ -77,10 +78,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorMultiply.setFocusPainted(false);
         calculatorMultiply.setBackground(CyderColors.regularOrange);
         calculatorMultiply.setFont(CyderFonts.segoe30);
-        calculatorMultiply.addActionListener(e -> {
-            calculatorExpression += "*";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorMultiply.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "*"));
 
         CyderButton calculatorDivide = new CyderButton("/");
         calculatorDivide.setColors(CyderColors.regularOrange);
@@ -90,10 +88,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorDivide.setFocusPainted(false);
         calculatorDivide.setBackground(CyderColors.regularOrange);
         calculatorDivide.setFont(CyderFonts.segoe30);
-        calculatorDivide.addActionListener(e -> {
-            calculatorExpression += "/";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorDivide.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "/"));
 
         CyderButton calculatorSeven = new CyderButton("7");
         calculatorSeven.setColors(CyderColors.regularOrange);
@@ -103,10 +98,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorSeven.setFocusPainted(false);
         calculatorSeven.setBackground(CyderColors.regularOrange);
         calculatorSeven.setFont(CyderFonts.segoe30);
-        calculatorSeven.addActionListener(e -> {
-            calculatorExpression += "7";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorSeven.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "7"));
 
         CyderButton calculatorEight = new CyderButton("8");
         calculatorEight.setColors(CyderColors.regularOrange);
@@ -116,10 +108,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorEight.setFocusPainted(false);
         calculatorEight.setBackground(CyderColors.regularOrange);
         calculatorEight.setFont(CyderFonts.segoe30);
-        calculatorEight.addActionListener(e -> {
-            calculatorExpression += "8";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorEight.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "8"));
 
         CyderButton calculatorNine = new CyderButton("9");
         calculatorNine.setColors(CyderColors.regularOrange);
@@ -129,10 +118,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorNine.setFocusPainted(false);
         calculatorNine.setBackground(CyderColors.regularOrange);
         calculatorNine.setFont(CyderFonts.segoe30);
-        calculatorNine.addActionListener(e -> {
-            calculatorExpression += "9";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorNine.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "9"));
 
         CyderButton calculatorEquals = new CyderButton("=");
         calculatorEquals.setColors(CyderColors.regularOrange);
@@ -185,10 +171,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorFour.setFocusPainted(false);
         calculatorFour.setBackground(CyderColors.regularOrange);
         calculatorFour.setFont(CyderFonts.segoe30);
-        calculatorFour.addActionListener(e -> {
-            calculatorExpression += "4";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorFour.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "4"));
 
         CyderButton calculatorFive = new CyderButton("5");
         calculatorFive.setColors(CyderColors.regularOrange);
@@ -198,10 +181,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorFive.setFocusPainted(false);
         calculatorFive.setBackground(CyderColors.regularOrange);
         calculatorFive.setFont(CyderFonts.segoe30);
-        calculatorFive.addActionListener(e -> {
-            calculatorExpression += "5";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorFive.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "5"));
 
         CyderButton calculatorSix = new CyderButton("6");
         calculatorSix.setColors(CyderColors.regularOrange);
@@ -211,10 +191,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorSix.setFocusPainted(false);
         calculatorSix.setBackground(CyderColors.regularOrange);
         calculatorSix.setFont(CyderFonts.segoe30);
-        calculatorSix.addActionListener(e -> {
-            calculatorExpression += "6";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorSix.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "6"));
 
         CyderButton calculatorClear = new CyderButton("CE");
         calculatorClear.setColors(CyderColors.regularOrange);
@@ -224,10 +201,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorClear.setFocusPainted(false);
         calculatorClear.setBackground(CyderColors.regularOrange);
         calculatorClear.setFont(CyderFonts.segoe30);
-        calculatorClear.addActionListener(e -> {
-            calculatorExpression = "";
-            calculatorField.setText("");
-        });
+        calculatorClear.addActionListener(e -> calculatorField.setText(""));
 
         CyderButton calculatorOne = new CyderButton("1");
         calculatorOne.setColors(CyderColors.regularOrange);
@@ -237,10 +211,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorOne.setFocusPainted(false);
         calculatorOne.setBackground(CyderColors.regularOrange);
         calculatorOne.setFont(CyderFonts.segoe30);
-        calculatorOne.addActionListener(e -> {
-            calculatorExpression += "1";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorOne.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "1"));
 
         CyderButton calculatorTwo = new CyderButton("2");
         calculatorTwo.setColors(CyderColors.regularOrange);
@@ -250,10 +221,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorTwo.setFocusPainted(false);
         calculatorTwo.setBackground(CyderColors.regularOrange);
         calculatorTwo.setFont(CyderFonts.segoe30);
-        calculatorTwo.addActionListener(e -> {
-            calculatorExpression += "2";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorTwo.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "2"));
 
         CyderButton calculatorThree = new CyderButton("3");
         calculatorThree.setColors(CyderColors.regularOrange);
@@ -263,10 +231,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorThree.setFocusPainted(false);
         calculatorThree.setBackground(CyderColors.regularOrange);
         calculatorThree.setFont(CyderFonts.segoe30);
-        calculatorThree.addActionListener(e -> {
-            calculatorExpression += "3";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorThree.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "3"));
 
         CyderButton calculatorUndo = new CyderButton("<<");
         calculatorUndo.setColors(CyderColors.regularOrange);
@@ -277,9 +242,10 @@ public class CalculatorWidget implements WidgetBase {
         calculatorUndo.setBackground(CyderColors.regularOrange);
         calculatorUndo.setFont(CyderFonts.segoe30);
         calculatorUndo.addActionListener(e -> {
-            calculatorExpression = (calculatorExpression == null || calculatorExpression.length() == 0)
-                    ? "" : (calculatorExpression.substring(0, calculatorExpression.length() - 1));
-            calculatorField.setText(calculatorExpression);
+            String text = calculatorField.getText();
+
+            if (text.length() > 1)
+                calculatorField.setText(text.substring(0, text.length() - 1));
         });
 
         CyderButton calculatorZero = new CyderButton("0");
@@ -290,10 +256,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorZero.setFocusPainted(false);
         calculatorZero.setBackground(CyderColors.regularOrange);
         calculatorZero.setFont(CyderFonts.segoe30);
-        calculatorZero.addActionListener(e -> {
-            calculatorExpression += "0";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorZero.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "0"));
 
         CyderButton calculatorDecimal = new CyderButton(".");
         calculatorDecimal.setColors(CyderColors.regularOrange);
@@ -303,10 +266,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorDecimal.setFocusPainted(false);
         calculatorDecimal.setBackground(CyderColors.regularOrange);
         calculatorDecimal.setFont(CyderFonts.segoe30);
-        calculatorDecimal.addActionListener(e -> {
-            calculatorExpression += ".";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorDecimal.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "."));
 
         CyderButton calculatorOpenP = new CyderButton("(");
         calculatorOpenP.setColors(CyderColors.regularOrange);
@@ -316,10 +276,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorOpenP.setFocusPainted(false);
         calculatorOpenP.setBackground(CyderColors.regularOrange);
         calculatorOpenP.setFont(CyderFonts.segoe30);
-        calculatorOpenP.addActionListener(e -> {
-            calculatorExpression += "(";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorOpenP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + "("));
 
         CyderButton calculatorCloseP = new CyderButton(")");
         calculatorCloseP.setColors(CyderColors.regularOrange);
@@ -329,10 +286,7 @@ public class CalculatorWidget implements WidgetBase {
         calculatorCloseP.setFocusPainted(false);
         calculatorCloseP.setBackground(CyderColors.regularOrange);
         calculatorCloseP.setFont(CyderFonts.segoe30);
-        calculatorCloseP.addActionListener(e -> {
-            calculatorExpression += ")";
-            calculatorField.setText(calculatorExpression);
-        });
+        calculatorCloseP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + ")"));
 
         calculatorFrame.setVisible(true);
         calculatorFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
