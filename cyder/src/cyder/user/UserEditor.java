@@ -1027,7 +1027,7 @@ public class UserEditor implements WidgetBase {
         changeUsernameButton.setFont(CyderFonts.segoe20);
         changeUsernameButton.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
-            if (!StringUtil.empytStr(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.extractUser().getName())) {
+            if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.extractUser().getName())) {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
                 ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()

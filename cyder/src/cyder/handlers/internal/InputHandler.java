@@ -116,7 +116,7 @@ public class InputHandler {
             throw new IllegalStateException("Output area not set. " + CyderStrings.europeanToymaker);
 
         //if empty string don't do anything
-        if (StringUtil.empytStr(command))
+        if (StringUtil.isNull(command))
             return false;
 
         //reset redirection now since we have a new command

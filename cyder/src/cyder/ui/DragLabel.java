@@ -508,7 +508,7 @@ public class DragLabel extends JLabel {
     public void refreshPinButton() {
         for (JButton dragLabelButton : this.getButtonsList()) {
             String tooltipText = dragLabelButton.getToolTipText();
-            if (!StringUtil.empytStr(tooltipText) && tooltipText.equals(pinButton.getToolTipText())) {
+            if (!StringUtil.isNull(tooltipText) && tooltipText.equals(pinButton.getToolTipText())) {
                 if (this.effectFrame.isAlwaysOnTop()) {
                     pinButton.setIcon(CyderIcons.pinIconHover);
                     effectFrame.setConsolePinned(false);

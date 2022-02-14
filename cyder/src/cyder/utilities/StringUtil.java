@@ -18,9 +18,13 @@ import java.util.LinkedList;
 /**
  * Simple general String utility methods along with some JTextPane utility methods
  * Note: these methods are not thread safe and thus this class should be externally synchronized
- * to achieve thread safety.
+ * to achieve thread safety. Typically in Cyder, this is performed via using a {@link CyderOutputPane}
+ * which bundles a JTextPane, StringUtil, and Semaphore together.
  */
 public class StringUtil {
+    /**
+     * The output pane to print to in the case an object is created.
+     */
     private CyderOutputPane linkedCyderPane = null;
 
     /**
@@ -453,15 +457,6 @@ public class StringUtil {
         } else {
             return word.endsWith("s") ? word + "es" : word + "s";
         }
-    }
-    /**
-     * Determines if the given string is empty.
-     *
-     * @param s the string to compare for emptiness (self.Soul() usually returns true)
-     * @return the boolean result of the comparison
-     */
-    public static boolean empytStr(String s) {
-        return (s == null || (s.trim().length() == 0));
     }
 
     /**

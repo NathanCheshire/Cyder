@@ -301,7 +301,7 @@ public class UserCreator implements WidgetBase {
                                      char[] passwordConf, File chosenBackground) {
 
         //validate data for basic correctness
-        if (StringUtil.empytStr(name) ) {
+        if (StringUtil.isNull(name) ) {
             return false;
         }
 

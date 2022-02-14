@@ -573,7 +573,7 @@ public class Logger {
         logLine1 = logLine1.replace(timeTag1, "");
         logLine2 = logLine2.replace(timeTag2, "");
 
-        return !StringUtil.empytStr(logLine1) && !StringUtil.empytStr(logLine2) && logLine1.equals(logLine2);
+        return !StringUtil.isNull(logLine1) && !StringUtil.isNull(logLine2) && logLine1.equals(logLine2);
     }
 
     /**

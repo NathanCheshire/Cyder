@@ -612,7 +612,7 @@ public final class ConsoleFrame {
                     String op = String.valueOf(inputField.getPassword()).substring(consoleBashString.length())
                             .trim().replace(consoleBashString, "");
 
-                    if (!StringUtil.empytStr(op)) {
+                    if (!StringUtil.isNull(op)) {
                         if (!(commandList.size() > 0 && commandList.get(commandList.size() - 1).equals(op))) {
                             commandList.add(op);
                         }
@@ -2018,7 +2018,7 @@ public final class ConsoleFrame {
             if (contentLabel != null) {
                 String filename = contentLabel.getToolTipText();
 
-                if (StringUtil.empytStr(filename)) {
+                if (StringUtil.isNull(filename)) {
                     backgroundIndex = 0;
                     return backgroundIndex;
                 }
