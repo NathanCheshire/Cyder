@@ -70,12 +70,12 @@ public class CyderSplash {
                         while (cBlock.getX() < 600 / 2 - cBlock.getWidth() / 2) {
                             cBlock.setLocation(cBlock.getX() + 5, cBlock.getY());
                             yBlock.setLocation(yBlock.getX() - 5, yBlock.getY());
-                            Thread.sleep(8);
+                            Thread.sleep(6);
                         }
 
                         int longSide = 200;
                         int sub = 40;
-                        long delay = 5;
+                        long delay = 3;
 
                         JLabel topBorder = new JLabel() {
                             @Override
@@ -152,37 +152,44 @@ public class CyderSplash {
 
                         Font nathanFont = new Font("Darling In Paris", Font.BOLD, 40);
 
-                        loadingLabel = new CyderLabel("By Nathan Cheshire");
-                        loadingLabel.setFont(nathanFont);
-                        loadingLabel.setForeground(CyderColors.vanila);
-                        loadingLabel.setBounds(0, 600, 600,
+                        CyderLabel creatorLabel = new CyderLabel("By Nathan Cheshire");
+                        creatorLabel.setFont(nathanFont);
+                        creatorLabel.setForeground(CyderColors.vanila);
+                        creatorLabel.setBounds(0, 600, 600,
                                 StringUtil.getMinHeight("By Nathan Cheshire",nathanFont));
-                        splashFrame.getContentPane().add(loadingLabel);
+                        splashFrame.getContentPane().add(creatorLabel);
 
-                        while (loadingLabel.getY() > 600 / 2 + 150 / 2 + loadingLabel.getHeight() + 30) {
-                            loadingLabel.setLocation(loadingLabel.getX(), loadingLabel.getY() - 5);
+                        while (creatorLabel.getY() > 600 / 2 + 150 / 2 + creatorLabel.getHeight() + 10) {
+                            creatorLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
                             Thread.sleep(5);
                         }
 
-                        Thread.sleep(500);
+                        Thread.sleep(800);
 
                         String message = CyderSplash.loadingMessage;
                         int dotTimeout = 400;
                         Font newFont = new Font("Agency FB", Font.BOLD, 50);
 
+                        loadingLabel = new CyderLabel("Test text");
                         loadingLabel.setFont(newFont);
-                        loadingLabel.setSize(600, 60);
+                        loadingLabel.setForeground(CyderColors.vanila);
+                        loadingLabel.setSize(600, StringUtil.getMinHeight(CyderStrings.europeanToymaker, newFont));
+                        loadingLabel.setLocation(0,510);
+                        splashFrame.getContentPane().add(loadingLabel);
 
                         for (int i = 0 ; i < 30 ; i++) {
                             loadingLabel.setText(message);
                             loadingLabel.repaint();
                             Thread.sleep(dotTimeout);
+
                             loadingLabel.setText(message + ".");
                             loadingLabel.repaint();
                             Thread.sleep(dotTimeout);
+
                             loadingLabel.setText(message + "..");
                             loadingLabel.repaint();
                             Thread.sleep(dotTimeout);
+
                             loadingLabel.setText(message + "...");
                             Thread.sleep(dotTimeout);
                             loadingLabel.repaint();
@@ -192,7 +199,7 @@ public class CyderSplash {
                         }
 
                         if (splashFrame != null) {
-                            splashFrame.dispose(true);
+                           // splashFrame.dispose(true);
 
                             //this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
@@ -219,8 +226,17 @@ public class CyderSplash {
     public static void fastDispose() {
         if (disposed)
             return;
-        splashFrame.dispose(true);
+        //splashFrame.dispose(true);
         disposed = true;
+    }
+
+    /**
+     * Returns the splash frame.
+     *
+     * @return the splash frame
+     */
+    public static CyderFrame getSplashFrame() {
+        return splashFrame;
     }
 
     /**
@@ -241,6 +257,7 @@ public class CyderSplash {
             CyderSplash.loadingMessage = loadingMessage.trim();
 
         if (loadingLabel != null) {
+            loadingLabel.setText(loadingMessage);
             loadingLabel.revalidate();
             loadingLabel.repaint();
         }

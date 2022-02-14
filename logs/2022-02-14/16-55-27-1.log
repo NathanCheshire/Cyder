@@ -1,0 +1,30 @@
+[16-55-27] [ENTRY]: [Nathan]
+[16-55-27] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-55-27] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-55-27] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-55-27] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-55-29] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-55-29] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-55-29] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-55-29] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-55-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-55-29] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-55-29] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-55-30] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-55-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-55-30] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-55-30] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-55-30] [SYSTEM_IO]: Userdata requested: InputFill
+[16-55-30] [ACTION]: Console loaded in 2780ms
+[16-55-30] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-55-30] [ENTRY]: [TESTING MODE]
+[16-55-30] [SYSTEM_IO]: Userdata requested: laststart
+[16-55-30] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2780ms
+[16-55-30] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-55-35] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Happy Valentines Day!
+[16-55-35] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-56-26] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 391, 28)], hash = [1965091826], parentFrame = [Startup Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-56-26] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1083, 646, 395, 100)], hash = [277581934], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Startup Exception]
+[16-56-26] [SYSTEM_IO]: Userdata requested: closeanimation
+[16-56-26] [EXIT]: [RUNTIME] 58s
+[16-56-26] [EOL]: Log completed, exiting Cyder with exit code: -100 [Fatal Timeout], exceptions thrown: 0

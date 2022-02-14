@@ -1,0 +1,29 @@
+[17-01-44] [ENTRY]: [Nathan]
+[17-01-44] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-01-44] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-01-44] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-01-44] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-01-46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-01-46] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-01-46] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-01-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-01-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-01-47] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-01-47] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-01-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-01-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-01-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-01-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-01-47] [SYSTEM_IO]: Userdata requested: InputFill
+[17-01-47] [ACTION]: Console loaded in 3233ms
+[17-01-47] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-01-47] [ENTRY]: [TESTING MODE]
+[17-01-47] [SYSTEM_IO]: Userdata requested: laststart
+[17-01-47] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3233ms
+[17-01-47] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Happy Valentines Day!
+[17-01-47] [SYSTEM_IO]: Userdata requested: persistentnotifications [2x]
+[17-01-50] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[17-01-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1355, 737, 996, 655)], hash = [2075952726], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[17-01-50] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-01-50] [EXIT]: [RUNTIME] 6s
+[17-01-50] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

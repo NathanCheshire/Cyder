@@ -1,0 +1,25 @@
+[17-00-43] [ENTRY]: [Nathan]
+[17-00-43] [SYSTEM_IO]: System data pared in IOUtil's static block
+[17-00-43] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-00-43] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[17-00-43] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-00-45] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-00-45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-00-46] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-00-46] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-00-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-00-46] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-00-46] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-00-46] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-00-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-00-46] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-00-46] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-00-46] [SYSTEM_IO]: Userdata requested: InputFill
+[17-00-46] [ACTION]: Console loaded in 3241ms
+[17-00-46] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-00-46] [ENTRY]: [TESTING MODE]
+[17-00-46] [SYSTEM_IO]: Userdata requested: laststart
+[17-00-46] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Happy Valentines Day!
+[17-00-46] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3241ms
+[17-00-47] [SYSTEM_IO]: Userdata requested: persistentnotifications [2x]
+[17-01-44] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

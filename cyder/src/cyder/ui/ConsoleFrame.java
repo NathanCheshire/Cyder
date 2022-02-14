@@ -9,6 +9,7 @@ import cyder.enums.CyderEntry;
 import cyder.enums.Direction;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.MonitorPoint;
@@ -1118,7 +1119,7 @@ public final class ConsoleFrame {
             startExecutors();
 
             //close all frames aside from this one
-            FrameUtil.closeAllFrames(true, consoleCyderFrame);
+            FrameUtil.closeAllFrames(true, consoleCyderFrame, CyderSplash.getSplashFrame());
 
             //restore prior session's frame stats
             User.ScreenStat requestedConsoleStats = UserUtil.extractUser().getScreenStat();

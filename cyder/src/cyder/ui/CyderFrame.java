@@ -3,7 +3,6 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderNums;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
@@ -385,23 +384,23 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns an instance of a CyderFrame lacking any borders and drag labels. The content label
-     * itself has mouselisteners which allow for movement so it is simply up to you to determine
+     * Returns an instance of a CyderFrame lacking any borders. The content label
+     * itself has is a DragLabel used for dragging the frame. It is up to you to determine
      * how the frame is filled with components and most importantly, how it is disposed properly.
      */
     public static CyderFrame getBorderlessFrame(int width, int height) {
-        return new CyderFrame(NumberUtil.randInt(0, CyderNums.INFINITY - 1), width, height);
+        return new CyderFrame(width, height, true);
     }
 
     /**
      * Constructs a CyderFrame object as a CyderFrame that exists without
      * surrounding drag labels, the title label, and the button list.
      *
-     * @param borderlessID the integer ID of this frame instance
      * @param width the width of this CyderFrame
      * @param height the height of this CyderFrame
+     * @param borderless whether the frame is borderless
      */
-    private CyderFrame(int borderlessID, int width, int height) {
+    private CyderFrame(int width, int height, boolean borderless) {
         this.width = width;
         this.height = height;
 
@@ -420,6 +419,9 @@ public class CyderFrame extends JFrame {
                 dispose();
             }
         });
+
+        setShape(new RoundRectangle2D.Double(0, 0,
+                getWidth(), getHeight(), 30, 30));
 
         //master contentlabel
         contentLabel = new JLayeredPane() {
@@ -457,31 +459,15 @@ public class CyderFrame extends JFrame {
         iconPane.add(iconLabel,JLayeredPane.DEFAULT_LAYER);
         iconPane.setFocusable(false);
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
-
-        contentLabel.setBorder(new LineBorder(Color.black, 3, false));
         setContentPane(contentLabel);
 
-        final int[] xMouse = {0};
-        final int[] yMouse = {0};
+        DragLabel masterDrag = new DragLabel(width, height, this);
+        masterDrag.setButtonsList(null);
+        masterDrag.setBounds(0, 0, width, height);
+        contentLabel.add(masterDrag, JLayeredPane.DRAG_LAYER);
+        masterDrag.setFocusable(false);
 
-        //contentLabel drag listener for frame moving around
-        addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                int x = e.getXOnScreen();
-                int y = e.getYOnScreen();
-
-                if (this != null && isFocused()) {
-                    setLocation(x - xMouse[0], y - yMouse[0]);
-                }
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                xMouse[0] = e.getX();
-                yMouse[0] = e.getY();
-            }
-        });
+        contentLabel.add(masterDrag);
 
         //default boolean values
         this.threadsKilled = false;
