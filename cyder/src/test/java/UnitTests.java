@@ -1,15 +1,14 @@
 package test.java;
 
 import cyder.constants.CyderRegexPatterns;
-import cyder.utilities.BoundsUtil;
-import cyder.utilities.StatUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.LinkedList;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class UnitTests {
     @Test
@@ -146,5 +145,13 @@ public class UnitTests {
         assert !StatUtil.isComment("tee: //haha/*");
         assert !StatUtil.isComment("tee: /*haha");
         assert !StatUtil.isComment("\"//\"");
+    }
+
+    @Test
+    public void testFileSignature() {
+        assertTrue(FileUtil.matchesSignature(new File(OSUtil.buildPath("static","pictures","C.png")),
+               FileUtil.PNG_SIGNATURE));
+        assertFalse(FileUtil.matchesSignature(new File(""), FileUtil.PNG_SIGNATURE));
+        assertFalse(FileUtil.matchesSignature(null, FileUtil.PNG_SIGNATURE));
     }
 }

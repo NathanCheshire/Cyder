@@ -19,7 +19,7 @@ public class FileUtil {
     /**
      * The metadata signature for a png file.
      */
-    public static final String PNG_SIGNATURE = "89504E470D0A1A0A";
+    public static final int[] PNG_SIGNATURE =  new int[]{0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 
     /**
      * The metadata signature for a jpg file.
@@ -39,34 +39,36 @@ public class FileUtil {
 
     /**
      * Returns whether the given file matches the provided signature.
+     * Example: passing a png image and an integer array of "89 50 4E 47 0D 0A 1A 0A"
+     *          should return true
      *
      * @param file the file to validate
-     * @param expectedSignature the expected file signature
+     * @param expectedSignature the expected file signature bytes
      * @return whether the given file matches the provided signature
      */
-    public static boolean matchesSignature(File file, String expectedSignature) {
+    public static boolean matchesSignature(File file, int[] expectedSignature) {
+        if (file == null || expectedSignature == null || expectedSignature.length == 0)
+            return false;
+        if (!file.exists())
+            return false;
 
-        return false;
-    }
+        try {
+            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            int[] headerBytes = new int[expectedSignature.length];
 
-    public static boolean checkFileSignature(File checkFile, int[] signature) {
-        boolean ret = true;
-
-        try  {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(checkFile));
-            int[] headerBytes = new int[signature.length];
-
-            for (int i = 0; i < signature.length; i++) {
+            for (int i = 0; i < expectedSignature.length; i++) {
                 headerBytes[i] = inputStream.read();
-                if (headerBytes[i] != signature[i]) {
-                    ret = false;
+
+                if (headerBytes[i] != expectedSignature[i]) {
+                    return false;
                 }
             }
         } catch (IOException ex) {
             ExceptionHandler.handle(ex);
+            return false;
         }
 
-        return ret;
+        return true;
     }
 
     //todo StringUtil filename and extension methods should be here, look for other methods that should be here
