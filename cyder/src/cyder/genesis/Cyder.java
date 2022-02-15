@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
 /**
- * The Cyderbase that performs checks on data and environment variables to ensure
+ * The Cyder base that performs checks on data and environment variables to ensure
  * a successful start can happen.
  */
 public class Cyder {
@@ -35,7 +35,7 @@ public class Cyder {
 
     /**
      * Setup and start the best program ever made :D
-     * @param CA possible command line args passed in. They serve no purpose yet
+     * @param CA possible command line args passed in. They serve no purpose yet,
      *           but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] CA)  {
@@ -78,7 +78,7 @@ public class Cyder {
         //launch splash screen since we will most likely be launching Cyder
         CyderSplash.showSplash();
 
-        setLoadingMessage("Checkinging for exit collisions");
+        setLoadingMessage("Checking for exit collisions");
         if (IOUtil.checkForExitCollisions()) {
             Logger.log(Logger.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
             ExceptionHandler.exceptionExit("You messed up exit codes :/","Exit Codes Exception", 278);
@@ -109,7 +109,7 @@ public class Cyder {
             IOUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();
 
-        //offship how to login to the LoginHandler since all subroutines finished
+        //off-ship how to log in to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
     }
 
@@ -144,16 +144,19 @@ public class Cyder {
 
     /**
      * Registers the fonts within the fonts/ directory. These fonts are then
-     * serialized into objects inside of consts.CyderFonts. These fonts may ONLY
+     * serialized into objects inside consts.CyderFonts. These fonts may ONLY
      * be derived throughout the program. No other fonts may be used aside from the user selected font which
      * is guaranteed to work since we pull the list of fonts from the GraphicsEnvironment.
      *
-     * @return whether or not all the fonts were loaded properly
+     * @return whether all the fonts were loaded properly
      */
     public static boolean registerFonts() {
         boolean ret = true;
 
         File[] fontsDir = new File("static/fonts").listFiles();
+
+        if (fontsDir == null || fontsDir.length == 0)
+            throw new IllegalStateException("No system fonts found");
 
         if (!new File("static/fonts").exists()) {
             ret = false;
@@ -181,7 +184,7 @@ public class Cyder {
     /**
      * Determines if the provided instance of Cyder is the only one.
      *
-     * @return whether or not the provided instance of Cyder is the only one
+     * @return whether the provided instance of Cyder is the only one
      */
     public static boolean ensureCyderSingleInstance() {
         AtomicBoolean ret = new AtomicBoolean(true);
