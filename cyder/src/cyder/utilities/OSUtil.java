@@ -128,7 +128,7 @@ public class OSUtil {
      * @return whether or not the operating system is OSX
      */
     public static boolean isOSX() {
-        return OPERATING_SYSTEM_NAME.contains("mac");
+        return OPERATING_SYSTEM_NAME.toLowerCase().contains("mac");
     }
 
     /**

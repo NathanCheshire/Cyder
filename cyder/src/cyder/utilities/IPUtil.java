@@ -33,6 +33,10 @@ public class IPUtil {
      */
     public static void parseData() {
         Gson gson = new Gson();
+
+        if (UserUtil.extractUser() == null)
+            return;
+
         String key = UserUtil.extractUser().getIpkey();
 
         if (key.trim().length() == 0) {

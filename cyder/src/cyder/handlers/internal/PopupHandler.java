@@ -55,6 +55,7 @@ public class PopupHandler {
                 informFrame.addPostCloseAction(postCloseAction);
 
             informFrame.setVisible(true);
+            informFrame.setAlwaysOnTop(true);
             informFrame.setLocationRelativeTo(relativeTo);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

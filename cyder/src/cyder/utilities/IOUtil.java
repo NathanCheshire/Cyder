@@ -259,7 +259,8 @@ public class IOUtil {
                 argsString.append(cyderArgs[i]);
             }
 
-            String append = "[LOCATION] " + (SecurityUtil.nathanLenovo() ?
+            // todo convert to developer mode, should be independent of a Nathan thing
+            String append = "[LOCATION] " + (!IOUtil.getSystemData().released ?
                     "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
 

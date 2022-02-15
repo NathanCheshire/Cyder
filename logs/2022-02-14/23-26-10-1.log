@@ -1,0 +1,10 @@
+[23-26-10] [ENTRY]: [nathancheshire]
+[23-26-10] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-26-10] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-26-10] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-26-10] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-26-11] [EXCEPTION]: IMPROPER OS
+[23-26-25] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 699, 28)], hash = [825249556], parentFrame = [OS Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-26-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(405, 429, 703, 100)], hash = [953742666], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [OS Exception]
+[23-26-25] [EXIT]: [RUNTIME] 15s
+[23-26-25] [EOL]: Log completed, exiting Cyder with exit code: 278 [Corrupted System File(s)], exceptions thrown: 1

@@ -1,0 +1,16 @@
+[23-11-03] [ENTRY]: [nathancheshire]
+[23-11-03] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-11-03] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-11-03] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-11-03] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-11-04] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.extractUser(UserUtil.java:397)
+From line: 397
+Trace: java.lang.IllegalArgumentException: ConsoleFrame's UUID is not set
+at cyder.utilities.UserUtil.extractUser(UserUtil.java:397)
+at cyder.utilities.IPUtil.parseData(IPUtil.java:36)
+at cyder.utilities.IPUtil.getIpdata(IPUtil.java:25)
+at cyder.utilities.IOUtil.logArgs(IOUtil.java:264)
+at cyder.genesis.Cyder.lambda$main$0(Cyder.java:106)
+at java.base/java.lang.Thread.run(Thread.java:833)
+[23-12-41] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

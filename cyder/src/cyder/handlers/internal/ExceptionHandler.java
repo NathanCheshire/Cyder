@@ -21,10 +21,10 @@ public class ExceptionHandler {
      */
     public static void handle(Exception e) {
         try {
-            String write = getPrintableException(e).get();
+            Optional<String> write = getPrintableException(e);
 
-            if (write.trim().length() > 0)
-                Logger.log(Logger.Tag.EXCEPTION, write);
+            if (write.isPresent() && write.get().trim().length() > 0)
+                Logger.log(Logger.Tag.EXCEPTION, write.get());
 
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
@@ -34,7 +34,7 @@ public class ExceptionHandler {
             }
         }
 
-        //uh oh; error was thrown inside of here so we'll just generic inform the user of it
+        //uh oh; error was thrown inside here, so we'll just generic inform the user of it
         catch (Exception ex) {
             silentHandleWithoutLogging(ex);
         }
@@ -47,10 +47,10 @@ public class ExceptionHandler {
      */
     public static void silentHandle(Exception e) {
         try {
-            String write = getPrintableException(e).get();
+            Optional<String> write = getPrintableException(e);
 
-            if (write != null && write.trim().length() > 0)
-                Logger.log(Logger.Tag.EXCEPTION, write);
+            if (write.isPresent() && write.get().trim().length() > 0)
+                Logger.log(Logger.Tag.EXCEPTION, write.get());
         } catch (Exception ex) {
             silentHandleWithoutLogging(ex);
         }
@@ -62,7 +62,6 @@ public class ExceptionHandler {
      * @param e the exception to be displayed
      */
     private static void silentHandleWithoutLogging(Exception e) {
-       String write = getPrintableException(e).get();
        System.out.println(getPrintableException(e));
     }
 
@@ -76,8 +75,6 @@ public class ExceptionHandler {
         //should be highly unlikely if not impossible
         if (e == null)
             return Optional.empty();
-
-        Optional<String> ret;
 
         //init streams to get information from the Exception
         StringWriter sw = new StringWriter();
@@ -108,10 +105,7 @@ public class ExceptionHandler {
             exceptionPrintBuilder.append("\nThrowing line not found");
 
         //trace
-        if (stackTrace != null)
-            exceptionPrintBuilder.append("\nTrace: ").append(stackTrace);
-        else
-            exceptionPrintBuilder.append("\nStack trace not found. " + CyderStrings.europeanToymaker);
+        exceptionPrintBuilder.append("\nTrace: ").append(stackTrace);
 
         return Optional.of(exceptionPrintBuilder.toString());
     }

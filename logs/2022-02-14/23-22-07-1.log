@@ -1,0 +1,7 @@
+[23-22-07] [ENTRY]: [nathancheshire]
+[23-22-08] [SYSTEM_IO]: System data pared in IOUtil's static block
+[23-22-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[23-22-08] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[23-22-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[23-22-08] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-22-29] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

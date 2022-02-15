@@ -19,24 +19,7 @@ public class SecurityUtil {
     } //private constructor to avoid object creation
 
     public static String getMACAddress() {
-        byte[] MAC = null;
-
-        try {
-            InetAddress address = InetAddress.getLocalHost();
-            NetworkInterface NI = NetworkInterface.getByInetAddress(address);
-            MAC = NI.getHardwareAddress();
-
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < MAC.length; i++) {
-            sb.append(String.format("%02X%s", MAC[i], (i < MAC.length - 1) ? "-" : ""));
-        }
-
-        return sb.toString();
+        return "NULL"; //todo address a UUID independent of an OS
     }
 
     public static boolean nathanLenovo() {
