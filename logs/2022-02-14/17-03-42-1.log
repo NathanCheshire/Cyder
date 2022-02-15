@@ -9,8 +9,7 @@
 [17-03-45] [SYSTEM_IO]: Userdata requested: RandomBackground
 [17-03-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-03-45] [SYSTEM_IO]: Userdata requested: fullscreen
-[17-03-45] [SYSTEM_IO]: Userdata requested: FullScreen
-[17-03-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-03-45] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [17-03-45] [SYSTEM_IO]: Userdata requested: OutputBorder
 [17-03-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-03-45] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -22,8 +21,7 @@
 [17-03-45] [SYSTEM_IO]: Userdata requested: laststart
 [17-03-45] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Happy Valentines Day!
 [17-03-45] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 3038ms
-[17-03-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[17-03-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-03-45] [SYSTEM_IO]: Userdata requested: persistentnotifications [2x]
 [17-03-51] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [17-03-51] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1355, 737, 996, 655)], hash = [539690370], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
 [17-03-51] [SYSTEM_IO]: Userdata requested: closeanimation

@@ -139,7 +139,7 @@ public class IOUtil {
      */
     private static String sysFilePath = "static/json/sys.json";
 
-    //determines whether or not the sys.json file exists, is parsable, and contains non-null fields
+    //determines whether the sys.json file exists, is parsable, and contains non-null fields
     public static void checkSystemData() {
         try {
             File sysFile = new File(sysFilePath);
@@ -250,19 +250,20 @@ public class IOUtil {
      */
     public static void logArgs(String[] cyderArgs) {
         try {
-            String argsString = "";
+            StringBuilder argsString = new StringBuilder();
 
             for (int i = 0; i < cyderArgs.length; i++) {
                 if (i != 0)
-                    argsString += ",";
-                argsString += cyderArgs[i];
+                    argsString.append(",");
+
+                argsString.append(cyderArgs[i]);
             }
 
             String append = "[LOCATION] " + (SecurityUtil.nathanLenovo() ?
                     "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
 
-            if (argsString.trim().length() > 0) {
+            if (argsString.toString().trim().length() > 0) {
                 append += "; args: " + argsString;
             }
 

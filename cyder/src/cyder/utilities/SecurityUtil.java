@@ -25,6 +25,7 @@ public class SecurityUtil {
             InetAddress address = InetAddress.getLocalHost();
             NetworkInterface NI = NetworkInterface.getByInetAddress(address);
             MAC = NI.getHardwareAddress();
+
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

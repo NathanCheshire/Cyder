@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class CyderGrid extends JLabel {
     //how many nodes should be drawn on the grid
@@ -30,7 +30,7 @@ public class CyderGrid extends JLabel {
     private Color backgroundColor = null;
 
     //the actual grid data structure
-    private LinkedList<GridNode> grid;
+    private ArrayList<GridNode> grid;
 
     public CyderGrid() {
         this(DEFAULT_NODES, DEFAULT_WIDTH);
@@ -45,7 +45,7 @@ public class CyderGrid extends JLabel {
         this.nodes = nodes;
         this.width = width;
 
-        grid = new LinkedList<>() {
+        grid = new ArrayList<>() {
             @Override
             public boolean add(GridNode e) {
                 if (!grid.contains(e))
