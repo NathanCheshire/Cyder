@@ -16,7 +16,7 @@ import java.awt.*;
  */
 public class CyderSplash {
     /**
-     * Whether or not the splash screen has been shown.
+     * Whether the splash screen has been shown.
      */
     private static boolean splashShown = false;
 

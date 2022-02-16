@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Static utilies having to do with files, their names, properties, and attributes.
+ * Static utilities having to do with files, their names, properties, and attributes.
  */
 public class FileUtil {
     /**

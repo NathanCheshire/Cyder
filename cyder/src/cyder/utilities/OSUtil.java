@@ -19,6 +19,7 @@ import java.util.zip.ZipOutputStream;
 /**
  * Methods that depend on the Operating System Cyder is running on are placed in this class.
  */
+@SuppressWarnings("unused") /* Some methods have no use still */
 public class OSUtil {
 
     public static final String[] invalidWindowsFilenames = new String[]{"CON", "PRN", "AUX", "NUL",
@@ -114,29 +115,29 @@ public class OSUtil {
     }
 
     /**
-     * Returns whether or not the operating system is windows.
+     * Returns whether the operating system is windows.
      *
-     * @return whether or not the operating system is windows
+     * @return whether the operating system is windows
      */
     public static boolean isWindows() {
         return OPERATING_SYSTEM_NAME.contains("win");
     }
 
     /**
-     * Returns whether or not the operating system is OSX.
+     * Returns whether the operating system is OSX.
      *
-     * @return whether or not the operating system is OSX
+     * @return whether the operating system is OSX
      */
     public static boolean isOSX() {
         return OPERATING_SYSTEM_NAME.toLowerCase().contains("mac");
     }
 
     /**
-     * Returns whether or not the operating system is unix based.
+     * Returns whether the operating system is unix based.
      * (yes this includes OSX systems too. If you need to test for
      * OSX specifically then call {@link OSUtil#isOSX()})
      *
-     * @return whether or not the operating system is unix based
+     * @return whether the operating system is unix based
      */
     public static boolean isUnix() {
         return (OPERATING_SYSTEM_NAME.contains("nix")
@@ -145,9 +146,9 @@ public class OSUtil {
     }
 
     /**
-     * Returns whether or not the operating system is Solaris.
+     * Returns whether the operating system is Solaris.
      *
-     * @return whether or not the operating system is Solaris
+     * @return whether the operating system is Solaris
      */
     public static boolean isSolaris() {
         return OPERATING_SYSTEM_NAME.contains("sunos");
@@ -191,6 +192,7 @@ public class OSUtil {
      * @param name the filename to create
      * @return a File object representing the file that was created
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored") /* The point is to create files so ignore */
     public static File createFileInUserSpace(String name) {
         if (!StringUtil.isNull(ConsoleFrame.getConsoleFrame().getUUID())) {
             File saveDir = new File("dynamic" + FILE_SEP
@@ -207,8 +209,7 @@ public class OSUtil {
 
                 createFile.createNewFile();
                 return createFile;
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
             //impossible to throw due to check, or is it?
         }
 
@@ -221,6 +222,7 @@ public class OSUtil {
      * @param name the filename to create
      * @return a File object representing the file that was created
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored") /* Creating files */
     public static File createFileInSystemSpace(String name) {
         File saveDir = new File("cyder" + FILE_SEP + "src"
                 + FILE_SEP + "cyder" + FILE_SEP + "tmp");
@@ -270,8 +272,8 @@ public class OSUtil {
     }
 
     /**
-     * Builds the provided strings into a file by inserting the OS' path s
-     * eparators between the provided path strings.
+     * Builds the provided strings into a file by inserting the OS' path
+     * separators between the provided path strings.
      * Example: buildFile("alpha","beta","gamma","delta.txt") on Windows would be equivalent to typing:
      * new File("alpha\beta\gamma\delta.txt")
      *
@@ -366,34 +368,34 @@ public class OSUtil {
     }
 
     /**
-     * Returns a list of all files contained within the startDir and sub directories
+     * Returns a list of all files contained within the startDir and subdirectories
      * that have the specified extension.
      *
      * @param startDir the starting directory
      * @param extension the specified extension. Ex. ".java" (Pass null to ignore file extensions)
      * @return an ArrayList of all files with the given extension found within the startDir and
-     * sub directories
+     * subdirectories
      */
     public static ArrayList<File> getFiles(File startDir, String extension) {
         if (startDir == null)
             throw new IllegalArgumentException("Start directory is null");
 
-        //init return set
+        // init return set
         ArrayList<File> ret = new ArrayList<>();
 
-        //should be directory but test anyway
+        // should be directory but test anyway
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
+
+            if (files == null)
+                return ret;
 
             for (File f : files)
                 ret.addAll(getFiles(f, extension));
 
-        }
-        else if (extension == null) {
+        } else if (extension == null) {
             ret.add(startDir);
-        }
-
-        else if (FileUtil.getExtension(startDir).equals(extension)) {
+        } else if (FileUtil.getExtension(startDir).equals(extension)) {
             ret.add(startDir);
         }
 
@@ -405,12 +407,11 @@ public class OSUtil {
      *
      * @param source the file/dir to zip
      * @param destination the destination of the zip archive
-     * @return whether the zipping was successful
      */
-    public static boolean zip(final String source, final String destination)  {
+    public static void zip(final String source, final String destination)  {
         AtomicBoolean ret = new AtomicBoolean(true);
 
-        String usedFileName = null;
+        String usedFileName;
 
         try {
 
@@ -449,7 +450,7 @@ public class OSUtil {
                 ret.set(false);
         }
 
-        return ret.get();
+        ret.get();
     }
 
     //todo need pwd command, eventually shell should emulate the os shell

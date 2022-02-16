@@ -433,7 +433,7 @@ public class StringUtil {
     }
 
     /**
-     * Determines the proper english grammer when attempting to use possession on a string that typically
+     * Determines the proper english grammar when attempting to use possession on a string that typically
      * represents a noun.
      * @param name the proper name of the noun
      * @return the string to be appended to the proper noun ('s or simply ')
@@ -551,7 +551,7 @@ public class StringUtil {
     }
 
     /**
-     * Inner filtering of leet speach for words specifically, this is the main driver method that does the magic.
+     * Inner filtering of leet speech for words specifically, this is the main driver method that does the magic.
      *
      * @param word the word to filter leet out of.
      * @return the word having leet removed to the best of our abilities
@@ -608,23 +608,23 @@ public class StringUtil {
     }
 
     /**
-     * Tests whether or not the provided string has the provided word inside of it.
+     * Tests whether the provided string has the provided word inside it.
      *
      * @param userInput the master string to search through
      * @param findWord the word to search the master string for
-     * @return a boolean depicting whether or not the given string contains the test word
+     * @return a boolean depicting whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord) {
         return hasWord(userInput, findWord, false);
     }
 
     /**
-     * Tests whether or not the provided string has the provided word inside of it.
+     * Tests whether the provided string has the provided word inside it.
      *
      * @param userInput the master string to search through
      * @param findWord the word to search the master string for
-     * @param removeComments whether or not to remove comment tags from the input
-     * @return a boolean depicting whether or not the given string contains the test word
+     * @param removeComments whether to remove comment tags from the input
+     * @return a boolean depicting whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord, boolean removeComments) {
         if (userInput == null || findWord == null)
@@ -651,8 +651,8 @@ public class StringUtil {
      * Tests a given string to see if it contains any blocked words contained in the v.txt system file.
      *
      * @param input the provided string to test against
-     * @param filterLeet whether or not to filter out possible leet from the string
-     * @return a boolean describing whether or not the filter was triggered by the input
+     * @param filterLeet whether to filter out possible leet from the string
+     * @return a boolean describing whether the filter was triggered by the input
      */
     public static boolean containsBlockedWords(String input, boolean filterLeet) {
         boolean ret = false;
@@ -671,9 +671,9 @@ public class StringUtil {
             }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**

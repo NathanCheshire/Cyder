@@ -1142,7 +1142,7 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.setVisible(true);
 
-            //log how long it took to start
+            // log how long it took to start
             CyderCommon.setConsoleStartTime(System.currentTimeMillis());
             String logString = "Console loaded in " +
                     (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
