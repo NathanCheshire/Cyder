@@ -12,13 +12,14 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
  * Simple general String utility methods along with some JTextPane utility methods
  * Note: these methods are not thread safe and thus this class should be externally synchronized
- * to achieve thread safety. Typically in Cyder, this is performed via using a {@link CyderOutputPane}
+ * to achieve thread safety. Typically, in Cyder, this is performed via using a {@link CyderOutputPane}
  * which bundles a JTextPane, StringUtil, and Semaphore together.
  */
 public class StringUtil {
@@ -31,7 +32,7 @@ public class StringUtil {
      * StringUtil instantiation not allowed unless a valid CyderOutputPane is provided.
      */
     private StringUtil() {
-        throw new IllegalStateException("Instanitation of StringUtil is not permitted without a CyderOutputPane");
+        throw new IllegalStateException("Instantiation of StringUtil is not permitted without a CyderOutputPane");
     }
 
     /**
@@ -75,8 +76,8 @@ public class StringUtil {
     }
 
     /**
-     * Removes the last "thing" addeed to the JTextPane whether it's a component,
-     * icon, or string of multi-llined text.
+     * Removes the last "thing" added to the JTextPane whether it's a component,
+     * icon, or string of multi-lined text.
      * In more detail, this method figures out what it'll be removing and then determines how many calls
      * are needed to {@link StringUtil#removeLastLine()}
      */
@@ -487,7 +488,7 @@ public class StringUtil {
     }
 
     /**
-     * Concatinates two arrays together.
+     * Concatenates two arrays together.
      *
      * @param a the first array
      * @param b the second array
@@ -506,7 +507,7 @@ public class StringUtil {
      * capital version if the character is a standard latin character.
      *
      * @param word the word to capitalize the first letter of
-     * @return the resultant wtring
+     * @return the resultant string
      */
     public static String capsFirst(String word) {
         if (word.length() == 0)
@@ -731,7 +732,8 @@ public class StringUtil {
 
         try {
             Document doc = Jsoup.connect("https://www.dictionary.com/browse/" + word).get();
-            Elements els = doc.getElementsByClass("one-click-content css-nnyc96 e1q3nk1v1").not(".pad_10").not(".pad_20");
+            Elements els = doc.getElementsByClass("one-click-content css-nnyc96 e1q3nk1v1")
+                    .not(".pad_10").not(".pad_20");
             org.jsoup.nodes.Element htmlDescription = els.get(0);
 
             Document docParsed = Jsoup.parse(String.valueOf(htmlDescription));
@@ -739,9 +741,9 @@ public class StringUtil {
         } catch (Exception e) {
             ret = "Definition not found";
             ExceptionHandler.silentHandle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -751,7 +753,7 @@ public class StringUtil {
      * @return the wiki body result
      */
     public static String getWikipediaSummary(String query) {
-        String ret = null;
+        String ret;
 
         try  {
             String urlString = "https://en.wikipedia.org/w/api.php?format=json&action=query" +
@@ -765,9 +767,9 @@ public class StringUtil {
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
             ret = "Wiki article not found";
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -775,7 +777,7 @@ public class StringUtil {
      *
      * @param wordOne the first word
      * @param wordTwo the second word
-     * @return a boolean describing whether or not these words are anagrams
+     * @return a boolean describing whether these words are anagrams
      */
     public static boolean areAnagrams(String wordOne, String wordTwo) {
         char[] W1C = wordOne.toLowerCase().toCharArray();
@@ -798,7 +800,7 @@ public class StringUtil {
         //init list for strings by tag
         LinkedList<TaggedString> taggedStrings = new LinkedList<>();
 
-        //figoure out tags
+        //figure out tags
         String textCopy = htmlText;
         while ((textCopy.contains("<") && textCopy.contains(">"))) {
             int firstOpeningTag = textCopy.indexOf("<");
@@ -867,12 +869,15 @@ public class StringUtil {
      * empty (length 0), equal to NULL, or equal to NUL.
      *
      * @param nullCheck the String to test for
-     * @return whether or not the provided String was null
+     * @return whether the provided String was null
      */
     public static boolean isNull(String nullCheck) {
+        if (nullCheck == null)
+            return true;
+
         nullCheck = nullCheck.trim();
 
-        return nullCheck == null || nullCheck.length() == 0 ||
+        return  nullCheck.length() == 0 ||
                 nullCheck.equalsIgnoreCase("NUL") ||
                 nullCheck.equalsIgnoreCase("NULL");
     }
@@ -906,16 +911,16 @@ public class StringUtil {
     /**
      * Returns the length of the non-html text of the provided String.
      *
-     * @param htmltext the text containing html tags and styling
+     * @param htmlText the text containing html tags and styling
      * @return the length of the non-html text
      */
-    public static int getRawTextLength(String htmltext) {
+    public static int getRawTextLength(String htmlText) {
         int length = 0;
 
-        LinkedList<TaggedString> taggedStrings = getTaggedStrings(htmltext);
+        LinkedList<TaggedString> taggedStrings = getTaggedStrings(htmlText);
 
-        if (taggedStrings == null || taggedStrings.isEmpty()) {
-            length = htmltext.length();
+        if (taggedStrings.isEmpty()) {
+            length = htmlText.length();
         } else {
             for (TaggedString ts : taggedStrings) {
                 if (ts.getType() == TaggedStringType.TEXT)
@@ -927,7 +932,7 @@ public class StringUtil {
     }
 
     /**
-     * Returns the provided text trimmed and with all occurences
+     * Returns the provided text trimmed and with all occurrences
      * of whitespace replaced with one whitespace char.
      *
      * @param text the text to trim
@@ -938,8 +943,8 @@ public class StringUtil {
     }
 
     /**
-     * Returns the provided string with each word converted to l
-     * owercase except for the first char of each word.
+     * Returns the provided string with each word converted to
+     * lowercase except for the first char of each word.
      *
      * @param text the text to convert to standard caps form
      * @return the converted text
@@ -986,11 +991,29 @@ public class StringUtil {
     }
 
     /**
+     * Returns whether the provided string is in the listed strings.
+     *
+     * @param lookFor the string to look for
+     * @param strings the list of strings
+     * @param ignoreCase whether to ignore the case of the words
+     * @return whether the provided string is in the list of strings
+     */
+    public static boolean in(String lookFor, boolean ignoreCase, ArrayList<String> strings) {
+        for (String look : strings) {
+            if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of
      * @param f the font for the text
-     * @return an interger value determining the minimum width of
+     * @return an integer value determining the minimum width of
      * a string of text (10 is added to avoid ... bug)
      */
     public static int getMinWidth(String title, Font f) {
@@ -1004,7 +1027,7 @@ public class StringUtil {
      *
      * @param title the text you want to determine the width of
      * @param f the font for the text
-     * @return an interger value determining the minimum width of a string of text
+     * @return an integer value determining the minimum width of a string of text
      */
     public static int getAbsoluteMinWidth(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();
@@ -1016,7 +1039,7 @@ public class StringUtil {
      * Returns the minimum height required for the given String using the given font.
      *
      * @param title the text you want to determine the height of
-     * @return an interger value determining the minimum height
+     * @return an integer value determining the minimum height
      * of a string of text (10 is added to avoid ... bug)
      */
     public static int getMinHeight(String title, Font f) {
@@ -1030,7 +1053,7 @@ public class StringUtil {
      * using the given font without adding 10.
      *
      * @param title the text you want to determine the height of
-     * @return an interger value determining the minimum height of a string of text
+     * @return an integer value determining the minimum height of a string of text
      */
     public static int getAbsoluteMinHeight(String title, Font f) {
         AffineTransform affinetransform = new AffineTransform();

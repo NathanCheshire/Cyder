@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Static utilies having to do with files, their names, properties, and attributes.
@@ -113,4 +114,11 @@ public class FileUtil {
     public static String getExtension(File file) {
         return file.getName().replace(getFilename(file), "");
     }
+
+    /**
+     * Supported font types that are loaded upon Cyder's start.
+     */
+    public static final ArrayList<String> validFontExtensions = new ArrayList<>() {{
+        add(".ttf");
+    }};
 }

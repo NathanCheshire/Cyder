@@ -1,0 +1,49 @@
+[16-53-36] [ENTRY]: [Nathan]
+[16-53-36] [SYSTEM_IO]: System data pared in IOUtil's static block
+[16-53-36] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-53-36] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[16-53-36] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-53-37] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-53-37] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-53-37] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-53-38] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-53-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-53-38] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-53-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-53-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-53-38] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-53-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-53-38] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-53-38] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-53-38] [SYSTEM_IO]: Userdata requested: InputFill
+[16-53-38] [ACTION]: Console loaded in 2433ms
+[16-53-38] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-53-38] [ENTRY]: [TESTING MODE]
+[16-53-38] [SYSTEM_IO]: Userdata requested: laststart
+[16-53-38] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1201581523], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-53-38] [ACTION]: [Stellar Cyder [Nathan]] [NOTIFICATION] Console loaded in 2433ms
+[16-53-38] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-53-48] [CLIENT]: mp3
+[16-53-48] [SYSTEM_IO]: Userdata requested: filterchat
+[16-53-48] [WIDGET OPENED]: AUDIO PLAYER
+[16-53-49] [HANDLE]: PRIMARY HANDLE
+[16-53-49] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[16-53-49] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[16-53-53] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1187042947], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>2s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-53-53] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[16-54-30] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1187042947], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>2m 16s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-30] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[16-54-31] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1187042947], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>1m 47s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-31] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[16-54-32] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1187042947], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>2m 20s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-32] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[16-54-33] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1187042947], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>2m 52s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-33] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[16-54-53] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [1330208935], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-53] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1338, 530, 500, 225)], hash = [1894991711], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Twillzzz - Lord Please]
+[16-54-53] [SYSTEM_IO]: Userdata requested: closeanimation
+[16-54-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[16-54-54] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(847, 354, 996, 655)], hash = [1412601264], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Stellar Cyder [Nathan]]
+[16-54-54] [SYSTEM_IO]: Userdata requested: closeanimation
+[16-54-54] [EXIT]: [RUNTIME] 1m 18s
+[16-54-54] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

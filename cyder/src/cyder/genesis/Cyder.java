@@ -10,6 +10,7 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.utilities.FileUtil;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
+import cyder.utilities.StringUtil;
 import test.java.ManualTests;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
 /**
- * The Cyder base that performs checks on data and environment variables to ensure
+ * The Cyder-base that performs checks on data and environment variables to ensure
  * a successful start can happen.
  */
 public class Cyder {
@@ -39,21 +40,21 @@ public class Cyder {
      *           but we shall log them regardless (just like Big Brother would want)
      */
     public static void main(String[] CA)  {
-        //set start time, this should be the first call always
+        // set start time, this should be the first call always
         CyderCommon.setAbsoluteStartTime(System.currentTimeMillis());
 
         //set shutdown hooks
         addExitHook();
 
-        //start session logger
+        // start session logger
         Logger.initialize();
         Logger.log(Logger.Tag.ENTRY, OSUtil.getSystemUsername());
 
-        //subroutines
+        // subroutines
         initSystemKeys();
         initUIKeys();
 
-        //prevent multiple instances, fatal subroutine if failure
+        // prevent multiple instances, fatal subroutine if failure
         if (!ensureCyderSingleInstance()) {
             Logger.log(Logger.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
@@ -61,21 +62,29 @@ public class Cyder {
             return;
         }
 
-        //check for fast testing
+        // check for fast testing
         if (IOUtil.getSystemData().isFasttestingmode()) {
             ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing", 50);
             return;
         }
 
-        //make sure all fonts are loaded, fatal subroutine if failure
+        // make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
             Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
             ExceptionHandler.exceptionExit("Font required by system could not be loaded","Font failure", 278);
             return;
         }
 
-        //launch splash screen since we will most likely be launching Cyder
+        // not permitted on Mac OS X
+        if (OSUtil.isOSX()) {
+            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
+            ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
+                    " install a dual boot or a VM or something.","OS Exception", 278);
+            return;
+        }
+
+        // launch splash screen since we will most likely be launching Cyder
         CyderSplash.showSplash();
 
         setLoadingMessage("Checking for exit collisions");
@@ -84,13 +93,6 @@ public class Cyder {
             ExceptionHandler.exceptionExit("You messed up exit codes :/","Exit Codes Exception", 278);
             return;
         }
-
-//        if (OSUtil.isOSX()) {
-//            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
-//            ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
-//                    " install a dual boot or a VM or something.","OS Exception", 278);
-//            return;
-//        }
 
         //necessary subroutines to complete with success before continuing
         setLoadingMessage("Checking system data");
@@ -109,7 +111,7 @@ public class Cyder {
             IOUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();
 
-        //off-ship how to log in to the LoginHandler since all subroutines finished
+        // Off-ship how to login to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
     }
 
@@ -144,7 +146,7 @@ public class Cyder {
 
     /**
      * Registers the fonts within the fonts/ directory. These fonts are then
-     * serialized into objects inside consts.CyderFonts. These fonts may ONLY
+     * serialized into objects inside constants/CyderFonts. These fonts may ONLY
      * be derived throughout the program. No other fonts may be used aside from the user selected font which
      * is guaranteed to work since we pull the list of fonts from the GraphicsEnvironment.
      *
@@ -153,22 +155,27 @@ public class Cyder {
     public static boolean registerFonts() {
         boolean ret = true;
 
-        File[] fontsDir = new File("static/fonts").listFiles();
+        File fontsDir = new File("static/fonts");
 
-        if (fontsDir == null || fontsDir.length == 0)
-            throw new IllegalStateException("No system fonts found");
+        if (fontsDir.exists())
+            throw new IllegalStateException("Fonts directory does not exist");
+
+        File[] fontFiles = new File("static/fonts").listFiles();
+
+        if (fontFiles == null || fontFiles.length == 0)
+            throw new IllegalStateException("No fonts were found to load");
 
         if (!new File("static/fonts").exists()) {
             ret = false;
         } else {
-            //loop through fonts dir
-            for (File f : fontsDir) {
-                //if it's a valid font file
-                if (FileUtil.getExtension(f).equals(".ttf")) {
+            // loop through fonts dir
+            for (File f : fontFiles) {
+                // if it's a valid font file
+                if (StringUtil.in(FileUtil.getExtension(f), true, FileUtil.validFontExtensions)) {
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     try {
-                        //register the font so we can use it throughout Cyder
-                        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,f));
+                        // register the font so we can use it throughout Cyder
+                        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
                         ret = false;

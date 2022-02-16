@@ -26,11 +26,11 @@ public class OSUtil {
             "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
 
     /**
-     * Returns whether or not the provided filename is valid for the operating system
+     * Returns whether the provided filename is valid for the operating system
      * Cyder is currently running on.
      *
      * @param filename the desired filename
-     * @return whether or not the provided filename is valid for the operating system
+     * @return whether the provided filename is valid for the operating system
      * Cyder is currently running on
      */
     public static boolean isValidFilename(String filename) {
@@ -460,7 +460,7 @@ public class OSUtil {
 
     //todo fix up Widget base and what it implies and forces, what's the functional point of it?
 
-    //todo load project up fresh so that you can see all the warnings youve ignored
+    //todo load project up fresh so that you can see all the warnings you've ignored
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

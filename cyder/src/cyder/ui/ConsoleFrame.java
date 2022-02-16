@@ -1152,12 +1152,14 @@ public final class ConsoleFrame {
                 consoleCyderFrame.notify(logString);
             }
 
+            CyderSplash.fastDispose();
+
             ret = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
