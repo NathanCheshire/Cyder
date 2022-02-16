@@ -45,6 +45,7 @@ public class CyderSplash {
     /**
      * Shows the splash screen as long as it has not already been shown.
      */
+    @SuppressWarnings("BusyWait") /* Sleeping in loops for animations */
     public static void showSplash() {
         if (splashShown)
             throw new IllegalStateException("Program has already been loaded");
@@ -55,7 +56,6 @@ public class CyderSplash {
             try {
                 splashFrame = CyderFrame.getBorderlessFrame(600,600);
                 splashFrame.setTitle("Cyder Splash");
-                splashFrame.setAlwaysOnTop(true);
 
                 new Thread(() -> {
                     try {
@@ -199,9 +199,9 @@ public class CyderSplash {
                         }
 
                         if (splashFrame != null) {
-                           // splashFrame.dispose(true);
+                            splashFrame.dispose(true);
 
-                            //this has been going on for over a minute at this point if the program reaches here
+                            // this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
                             PopupHandler.inform("idk what happened but you screwed something up",
                                     "Startup Exception", null,
@@ -226,7 +226,7 @@ public class CyderSplash {
     public static void fastDispose() {
         if (disposed)
             return;
-        //splashFrame.dispose(true);
+        splashFrame.dispose(true);
         disposed = true;
     }
 

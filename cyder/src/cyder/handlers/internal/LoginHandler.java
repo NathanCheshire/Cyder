@@ -463,16 +463,16 @@ public class LoginHandler {
                     showGUI();
                 }
             }
-            //if main development computer but autocypher is disabled, show the login gui
+            // if main development computer but autocypher is disabled, show the login gui
             else {
                 showGUI();
             }
         }
-        //otherwise unreleased exit
+        // otherwise, unreleased exit
         else if (!IOUtil.getSystemData().isReleased()) {
-            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Unreleased",-600);
+            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception",-600);
         }
-        //otherwise if Cyder is released/usage is permitted
+        // otherwise, if Cyder is released/usage is permitted
         else {
             //log the start and show the login frame
             Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");

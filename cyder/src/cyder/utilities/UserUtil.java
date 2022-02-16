@@ -940,13 +940,11 @@ public class UserUtil {
     /**
      * Creates the default background inside the user's Backgrounds/ directory.
      *
+     * @param uuid the user's uuid to save the default background to
      * @return a reference to the file created
-     * @throws IllegalStateException if the ConsoleFrame UUID has not yet been set
      */
-    public static File createDefaultBackground() {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            throw new IllegalStateException("ConsoleFrame uuid not yet set");
-
+    @SuppressWarnings("ResultOfMethodCallIgnored") /* Creating a file result does not matter */
+    public static File createDefaultBackground(String uuid) {
         //default background is creating an image gradient
         Image img = CyderIcons.defaultBackground.getImage();
 
@@ -966,9 +964,16 @@ public class UserUtil {
         }
 
         File backgroundFile = new File(OSUtil.buildPath("dynamic","users",
-                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.BACKGROUNDS.getName(),"Default.png"));
+                uuid, UserFile.BACKGROUNDS.getName(), "Default.png"));
+
+        File backgroundFolder = new File(OSUtil.buildPath("dynamic","users",
+                uuid, UserFile.BACKGROUNDS.getName()));
 
         try {
+            if (!backgroundFolder.exists()) {
+                backgroundFolder.createNewFile();
+            }
+
             ImageIO.write(bi, "png", backgroundFile);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

@@ -4,8 +4,6 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +22,7 @@ public class SecurityUtil {
 
     public static boolean nathanLenovo() {
         try {
-            return compMACAddress(getMACAddress());
+            return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

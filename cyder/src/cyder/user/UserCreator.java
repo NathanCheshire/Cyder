@@ -408,10 +408,10 @@ public class UserCreator implements WidgetBase {
         }
 
         if (createUserBackground == null) {
-            createUserBackground = UserUtil.createDefaultBackground();
+            createUserBackground = UserUtil.createDefaultBackground(uuid);
         }
 
-        //create the user background in the directory
+        // create the user background in the directory
         try {
             File destination = new File(OSUtil.buildPath("dynamic", "users", uuid,
                     UserFile.BACKGROUNDS.getName(), createUserBackground.getName()));
@@ -421,7 +421,7 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
-        //build the user
+        // build the user
         User user = new User();
 
         //name and password
@@ -429,7 +429,7 @@ public class UserCreator implements WidgetBase {
         user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
                 SecurityUtil.toHexString(SecurityUtil.getSHA256(password)).toCharArray())));
 
-        //default perferences
+        //default preferences
         for (Preferences.Preference pref : Preferences.getPreferences()) {
             //as per convention, IGNORE for tooltip means ignore when creating user
             // whilst IGNORE for default value means ignore for edit user
@@ -437,7 +437,7 @@ public class UserCreator implements WidgetBase {
                 UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
         }
 
-        BufferedImage background = null;
+        BufferedImage background;
 
         //screen stat initializing
         try {
@@ -448,9 +448,10 @@ public class UserCreator implements WidgetBase {
         }
 
         int monitorNum = -1;
-        int x = -1;
-        int y = -1;
-        //figure out the monitor we should be using for the user's screen stats
+        int x;
+        int y;
+
+        // figure out the monitor we should be using for the user's screen stats
         if (createUserFrame != null) {
             GraphicsConfiguration gc = createUserFrame.getGraphicsConfiguration();
             String monitorID = gc.getDevice().getIDstring().replaceAll("[^0-9]","");
@@ -481,17 +482,16 @@ public class UserCreator implements WidgetBase {
         user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
                 background.getHeight(), monitorNum, false));
 
-        //executables
+        // executables
         user.setExecutables(null);
+
+        // write all data
         UserUtil.setUserData(new File(OSUtil.buildPath(
                 "dynamic","users",uuid,UserFile.USERDATA.getName())), user);
 
         //password security
-        for (char c : password)
-            c = '\0';
-
-        for (char c : passwordConf)
-            c = '\0';
+        Arrays.fill(password, '\0');
+        Arrays.fill(passwordConf, '\0');
 
         return true;
     }

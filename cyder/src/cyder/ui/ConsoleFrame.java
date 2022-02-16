@@ -1974,7 +1974,7 @@ public final class ConsoleFrame {
 
             if (backgroundFiles.size() == 0) {
                 //create and reload backgrounds since this shouldn't be empty now
-                UserUtil.createDefaultBackground();
+                UserUtil.createDefaultBackground(uuid);
                 loadBackgrounds();
             }
 
@@ -2766,7 +2766,7 @@ public final class ConsoleFrame {
 
         // no background somehow so create the default one in user space
         if (background == null) {
-            File newlyCreatedBackground = UserUtil.createDefaultBackground();
+            File newlyCreatedBackground = UserUtil.createDefaultBackground(uuid);
 
             try {
                 background = ImageUtil.toImageIcon(ImageIO.read(newlyCreatedBackground));

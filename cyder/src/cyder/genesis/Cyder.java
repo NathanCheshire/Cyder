@@ -85,12 +85,12 @@ public class Cyder {
             return;
         }
 
-        if (OSUtil.isOSX()) {
-            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
-            ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
-                    " install a dual boot or a VM or something.","OS Exception", 278);
-            return;
-        }
+//        if (OSUtil.isOSX()) {
+//            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
+//            ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
+//                    " install a dual boot or a VM or something.","OS Exception", 278);
+//            return;
+//        }
 
         //necessary subroutines to complete with success before continuing
         setLoadingMessage("Checking system data");
