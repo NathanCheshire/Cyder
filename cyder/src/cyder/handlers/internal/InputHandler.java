@@ -3,7 +3,7 @@ package cyder.handlers.internal;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderNums;
+import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
 import cyder.enums.ScreenPosition;
 import cyder.enums.SliderShape;
@@ -1588,7 +1588,7 @@ public class InputHandler {
                             Logger.log(Logger.Tag.ACTION, "Similar command to \""
                                     + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
-                            if (tol > CyderNums.SIMILAR_COMMAND_TOL) {
+                            if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
                                 println("Most similar command: \"" + parts[0] + "\"");
                             }
                         }

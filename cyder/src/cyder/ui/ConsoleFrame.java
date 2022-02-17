@@ -1,10 +1,7 @@
 package cyder.ui;
 
 import cyder.algorithoms.GeometryAlgorithms;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.CyderEntry;
 import cyder.enums.Direction;
 import cyder.enums.ScreenPosition;
@@ -41,6 +38,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
@@ -48,11 +46,14 @@ import static cyder.genesis.CyderSplash.setLoadingMessage;
  * Class of components that represent the main way a user
  * interacts with Cyder and its copious functions.
  */
+@SuppressWarnings({"unused", "FieldNotUsedInToString"})
+/* Some methods aren't used yet,
+toString() uses the inner CyderFrame's toString method */
 public final class ConsoleFrame {
     /**
      * The ConsoleFrame singleton.
      */
-    private static ConsoleFrame consoleFrameInstance = new ConsoleFrame();
+    private static final ConsoleFrame consoleFrameInstance = new ConsoleFrame();
 
     /**
      * Whether the ConsoleFrame singleton has been initialized.
@@ -89,7 +90,7 @@ public final class ConsoleFrame {
     private String previousUuid = null;
 
     /**
-     * The ConsoleFrame's cyderframe instance.
+     * The ConsoleFrame's CyderFrame instance.
      */
     private CyderFrame consoleCyderFrame;
 
@@ -104,9 +105,9 @@ public final class ConsoleFrame {
     private CyderScrollPane outputScroll;
 
     /**
-     * The ConsoleFrame output textpane controlled by the scroll pane.
+     * The ConsoleFrame output TextPane controlled by the scroll pane.
      */
-    public static JTextPane outputArea;
+    private static JTextPane outputArea;
 
     /**
      * The JTextPane used for the console menu.
@@ -175,11 +176,6 @@ public final class ConsoleFrame {
     private JLabel playPauseAudioLabel;
 
     /**
-     * Whether the console menu has been generated.
-     */
-    private boolean consoleMenuGenerated;
-
-    /**
      * Whether the console frame is closed.
      */
     private boolean consoleFrameClosed = true;
@@ -192,7 +188,7 @@ public final class ConsoleFrame {
     /**
      * The command list used for scrolling.
      */
-    public static ArrayList<String> commandList = new ArrayList<>();
+    private static final ArrayList<String> commandList = new ArrayList<>();
 
     /**
      * The index of the command in the command history list we are at.
@@ -210,42 +206,37 @@ public final class ConsoleFrame {
     private Direction consoleDir = Direction.TOP;
 
     /**
-     * The thread that checks for threads to indicate if Cyder is busy.
+     * The list of recognized backgrounds that the ConsoleFrame may switch to.
      */
-    private Thread busyCheckerThread;
+    private final ArrayList<CyderBackground> backgrounds = new ArrayList<>();
 
     /**
-     * The thread that updates the console clock.
+     * The index of the background we are currently at in the backgrounds list.
      */
-    private Thread consoleClockUpdaterThread;
-
-    /**
-     * The thread that determines if the internet is slow or not.
-     */
-    private Thread highPingChecker;
-
-    /**
-     * The thread that chimes every hour on the dot if the user preference for it is set to true.
-     */
-    private Thread hourlyChimerThread;
+    private int backgroundIndex = 0;
 
     /**
      * The clickable taskbar icons.
      */
-    private LinkedList<CyderFrame> menuTaskbarFrames = new LinkedList<>();
+    private final LinkedList<CyderFrame> menuTaskbarFrames = new LinkedList<>();
 
     /**
      * The absolute minimum size allowable for the ConsoleFrame.
      */
-    public static final Dimension MINIMUM_SIZE = new Dimension(600,600);
+    private static final Dimension MINIMUM_SIZE = new Dimension(600,600);
 
     /**
      * The possible audio files to play if the starting user background is grayscale.
      */
-    public static final ArrayList<String> grayscaleAudioPaths = new ArrayList<>(Arrays.asList(
+    private static final ArrayList<String> grayscaleAudioPaths = new ArrayList<>(Arrays.asList(
             "static/audio/BadApple.mp3",
             "static/audio/BadApple.mp3",
             "static/audio/BlackOrWhite.mp3"));
+
+    /**
+     * Whether dancing is currently active
+     */
+    private boolean currentlyDancing = false;
 
     /**
      * Performs ConsoleFrame setup routines before constructing
@@ -253,11 +244,8 @@ public final class ConsoleFrame {
      *
      * @param entryPoint where the launch call originated from
      * @throws RuntimeException if the ConsoleFrame was left open
-     * @return whether the ConsoleFrame was opened
      */
-    public boolean launch(CyderEntry entryPoint) {
-        boolean ret = false;
-
+    public void launch(CyderEntry entryPoint) {
         try {
             //the ConsoleFrame should always be closed properly before start is invoked again
             if (!isClosed())
@@ -271,7 +259,7 @@ public final class ConsoleFrame {
             // method also loads backgrounds after resizing
             resizeBackgrounds();
 
-            //set bashstring based on cyder username
+            //set BashString based on cyder username
             consoleBashString = UserUtil.extractUser().getName() + "@Cyder:~$ ";
 
             //init slide and dir directions
@@ -286,7 +274,6 @@ public final class ConsoleFrame {
             consoleFrameClosed = false;
 
             //menu items
-            consoleMenuGenerated = false;
             menuLabel = null;
             menuTaskbarFrames.clear();
 
@@ -305,9 +292,9 @@ public final class ConsoleFrame {
 
             //get proper width, height, and background image icon,
             // we take into account console rotation and fullscreen here
-            int consoleFrameBackgroundWidth = 0;
-            int consoleFrameBackgroundHeight = 0;
-            ImageIcon usage = null;
+            int consoleFrameBackgroundWidth;
+            int consoleFrameBackgroundHeight;
+            ImageIcon usage;
 
             if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
                 consoleFrameBackgroundWidth = ScreenUtil.getScreenWidth();
@@ -389,7 +376,7 @@ public final class ConsoleFrame {
             });
 
             //we should always be using controlled exits so this is why we use DO_NOTHING_ON_CLOSE
-            consoleCyderFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            consoleCyderFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
             consoleCyderFrame.setPaintWindowTitle(false);
             consoleCyderFrame.setPaintSuperTitle(true);
@@ -465,8 +452,8 @@ public final class ConsoleFrame {
             inputHandler.startConsolePrintingAnimation();
 
             outputScroll = new CyderScrollPane(outputArea,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED,
-                    JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED) {
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED) {
                 @Override
                 public void setBounds(int x, int y, int w, int h) {
                     super.setBounds(x,y,w,h);
@@ -510,7 +497,7 @@ public final class ConsoleFrame {
                 @Override
                 public void keyPressed(java.awt.event.KeyEvent e) {
                     //escaping
-                    if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0)) {
+                    if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
                         try {
                             inputHandler.escapeThreads();
                         } catch (Exception exception) {
@@ -519,19 +506,26 @@ public final class ConsoleFrame {
                     }
 
                     //direction switching
-                    if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                    if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
                         int pos = outputArea.getCaretPosition();
                         setConsoleDirection(Direction.BOTTOM);
                         outputArea.setCaretPosition(pos);
-                    } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                    } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT)
+                            && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
                         int pos = outputArea.getCaretPosition();
                         setConsoleDirection(Direction.RIGHT);
                         outputArea.setCaretPosition(pos);
-                    } else if ((e.getKeyCode() == KeyEvent.VK_UP) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                    } else if ((e.getKeyCode() == KeyEvent.VK_UP)
+                            && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
                         int pos = outputArea.getCaretPosition();
                        setConsoleDirection(Direction.TOP);
                         outputArea.setCaretPosition(pos);
-                    } else if ((e.getKeyCode() == KeyEvent.VK_LEFT) && ((e.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) != 0) && ((e.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) != 0)) {
+                    } else if ((e.getKeyCode() == KeyEvent.VK_LEFT)
+                            && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
                         int pos = outputArea.getCaretPosition();
                         setConsoleDirection(Direction.LEFT);
                         outputArea.setCaretPosition(pos);
@@ -555,6 +549,11 @@ public final class ConsoleFrame {
 
             inputField.getActionMap().put("debuglines", new AbstractAction() {
                 @Override
+                protected AbstractAction clone() throws CloneNotSupportedException {
+                    throw new CloneNotSupportedException();
+                }
+
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     boolean drawLines = !consoleCyderFrame.isDrawDebugLines();
 
@@ -568,6 +567,11 @@ public final class ConsoleFrame {
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), "forcedexit");
 
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
+                @Override
+                protected AbstractAction clone() throws CloneNotSupportedException {
+                    throw new CloneNotSupportedException();
+                }
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     CyderCommon.exit(-404);
@@ -590,6 +594,7 @@ public final class ConsoleFrame {
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
+                        //noinspection BusyWait
                         Thread.sleep(50);
                     }
                 }
@@ -1056,7 +1061,7 @@ public final class ConsoleFrame {
             generateAudioMenu();
 
             //console clock
-            Font consoleClockLabelFont = CyderFonts.segoe20.deriveFont(21);
+            Font consoleClockLabelFont = CyderFonts.segoe20.deriveFont(Font.BOLD, 21.0f);
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
             consoleClockLabel.setFont(consoleClockLabelFont);
             consoleClockLabel.setForeground(CyderColors.vanila);
@@ -1064,16 +1069,12 @@ public final class ConsoleFrame {
             consoleClockLabel.setFocusable(false);
             consoleClockLabel.setVisible(true);
 
-            //add listeners for pinned window functon
+            //add listeners for pinned window function
             consoleCyderFrame.addDragListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
                             && consoleCyderFrame.draggingEnabled()) {
-
-                        Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
-                                consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
-
                         for (Frame f : Frame.getFrames()) {
                             if (f instanceof CyderFrame && ((CyderFrame) f).isConsolePinned() &&
                                     !f.getTitle().equals(consoleCyderFrame.getTitle()) &&
@@ -1144,6 +1145,8 @@ public final class ConsoleFrame {
 
             // log how long it took to start
             CyderCommon.setConsoleStartTime(System.currentTimeMillis());
+
+            //noinspection StringConcatenationMissingWhitespace
             String logString = "Console loaded in " +
                     (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
             Logger.log(Logger.Tag.ACTION, logString);
@@ -1153,52 +1156,47 @@ public final class ConsoleFrame {
             }
 
             CyderSplash.fastDispose();
-
-            ret = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return ret;
     }
 
     /**
      * Begins the console frame checker executors/threads.
      */
     private void startExecutors() {
-        //internet connection checker
-        highPingChecker = new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 OUTER:
-                    while (true) {
-                        if (!isClosed() && !NetworkUtil.decentPing()) {
-                            consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() +
-                                    ", but I had trouble connecting to the internet.\n" +
-                                    "As a result, some features have been restricted until a " +
-                                    "stable connection can be established.");
-                            CyderCommon.setHighLatency(true);
-                        } else {
-                            CyderCommon.setHighLatency(false);
-                        }
+                while (true) {
+                    if (!isClosed() && !NetworkUtil.decentPing()) {
+                        consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() +
+                                ", but I had trouble connecting to the internet.\n" +
+                                "As a result, some features have been restricted until a " +
+                                "stable connection can be established.");
+                        CyderCommon.setHighLatency(true);
+                    } else {
+                        CyderCommon.setHighLatency(false);
+                    }
 
-                        //sleep 2 minutes
-                        int i = 0;
-                        while (i < 2 * 60 * 1000) {
-                            Thread.sleep(50);
-                            if (consoleFrameClosed) {
-                                break OUTER;
-                            }
-                            i += 50;
+                    //sleep 2 minutes
+                    int i = 0;
+                    while (i < 2 * 60 * 1000) {
+                        //noinspection BusyWait
+                        Thread.sleep(50);
+                        if (consoleFrameClosed) {
+                            break OUTER;
                         }
+                        i += 50;
+                    }
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Stable Network Connection Checker");
-        highPingChecker.start();
+        }, "High Ping Checker");
 
-        //hourly Chime Checker
-        hourlyChimerThread = new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 long initSleep = (3600 * 1000 //1 hour
                         - LocalDateTime.now().getMinute() * 60 * 1000 //minus minutes in hour to milis
@@ -1213,38 +1211,38 @@ public final class ConsoleFrame {
                 }
 
                 OUTER:
-                    while (true) {
-                        if (!isClosed() && UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
-                            IOUtil.playSystemAudio("static/audio/chime.mp3");
-                        }
-
-                        //sleep 60 minutes
-                        int i = 0;
-                        while (i < 60 * 60 * 1000) {
-                            Thread.sleep(50);
-                            if (consoleFrameClosed) {
-                                break OUTER;
-                            }
-                            i += 50;
-                        }
+                while (true) {
+                    if (!isClosed() && UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                        IOUtil.playSystemAudio("static/audio/chime.mp3");
                     }
+
+                    //sleep 60 minutes
+                    int i = 0;
+                    while (i < 60 * 60 * 1000) {
+                        //noinspection BusyWait
+                        Thread.sleep(50);
+                        if (consoleFrameClosed) {
+                            break OUTER;
+                        }
+                        i += 50;
+                    }
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, "Hourly Chime Checker");
-        hourlyChimerThread.start();
 
-        //Console Clock Updater
-        consoleClockUpdaterThread = new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             OUTER:
                 while (true) {
                     if (!isClosed()) {
                         try {
                             refreshClockText();
 
-                            //sleep 500 ms
+                            // sleep 500 ms
                             int i = 0;
                             while (i < 500) {
+                                //noinspection BusyWait
                                 Thread.sleep(50);
                                 if (consoleFrameClosed) {
                                     break OUTER;
@@ -1252,65 +1250,64 @@ public final class ConsoleFrame {
                                 i += 50;
                             }
                         } catch (Exception e) {
-                            //sometimes this throws for no reason trying to get times or something so log quietly
+                            // sometimes this throws for no reason trying to get times or something so log quietly
                             ExceptionHandler.silentHandle(e);
                         }
                     }
                 }
         }, "Console Clock Updater");
-        consoleClockUpdaterThread.start();
 
-        //Cyder Busy Checker
-        busyCheckerThread = new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 OUTER:
-                    while (true) {
-                        if (!isClosed() && UserUtil.getUserData("showbusyicon").equals("1")) {
-                            ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
-                            int num = threadGroup.activeCount();
-                            Thread[] printThreads = new Thread[num];
-                            threadGroup.enumerate(printThreads);
+                while (true) {
+                    if (!isClosed() && UserUtil.getUserData("showbusyicon").equals("1")) {
+                        ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+                        int num = threadGroup.activeCount();
+                        Thread[] printThreads = new Thread[num];
+                        threadGroup.enumerate(printThreads);
 
-                            ArrayList<String> ignoreThreads = IOUtil.getIgnoreThreads().getIgnorethreads();
+                        ArrayList<String> ignoreThreads = IOUtil.getIgnoreThreads().getIgnorethreads();
 
-                            int busyThreads = 0;
+                        int busyThreads = 0;
 
-                            for (int i = 0; i < num; i++) {
-                                boolean contains = false;
+                        for (int i = 0; i < num; i++) {
+                            boolean contains = false;
 
-                                for (String ignoreThread : ignoreThreads) {
-                                    if (ignoreThread.equalsIgnoreCase(printThreads[i].getName())) {
-                                        contains = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!printThreads[i].isDaemon() && !contains) {
-                                    busyThreads++;
+                            for (String ignoreThread : ignoreThreads) {
+                                if (ignoreThread.equalsIgnoreCase(printThreads[i].getName())) {
+                                    contains = true;
+                                    break;
                                 }
                             }
 
-                            if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
-                                CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
-                            } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon){
-                                CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON_BLINK);
+                            if (!printThreads[i].isDaemon() && !contains) {
+                                busyThreads++;
                             }
-                        } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                        }
+
+                        if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
                             CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
+                        } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                            CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON_BLINK);
                         }
-
-                        consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
-
-                        //sleep 3 seconds
-                        int i = 0;
-                        while (i < 3000) {
-                            Thread.sleep(50);
-                            if (consoleFrameClosed) {
-                                break OUTER;
-                            }
-                            i += 50;
-                        }
+                    } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
+                        CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
                     }
+
+                    consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
+
+                    //sleep 3 seconds
+                    int i = 0;
+                    while (i < 3000) {
+                        //noinspection BusyWait
+                        Thread.sleep(50);
+                        if (consoleFrameClosed) {
+                            break OUTER;
+                        }
+                        i += 50;
+                    }
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             } finally {
@@ -1318,51 +1315,51 @@ public final class ConsoleFrame {
                 consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
             }
         }, "Cyder Busy Checker");
-        busyCheckerThread.start();
 
-        Thread consolePosSaverThread = new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
-                //initial delay
+                // initial delay
                 Thread.sleep(5000);
 
                 OUTER:
-                    while (true) {
-                        User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
+                while (true) {
+                    User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
 
-                        screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
-                        screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
+                    screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
+                    screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
 
-                        screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+                    screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
 
-                        screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
-                                .getDevice().getIDstring().replaceAll("[^0-9]", "")));
+                    screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
+                            .getDevice().getIDstring().replaceAll("[^0-9]", "")));
 
-                        screenStat.setConsoleX(consoleCyderFrame.getX());
-                        screenStat.setConsoleY(consoleCyderFrame.getY());
+                    screenStat.setConsoleX(consoleCyderFrame.getX());
+                    screenStat.setConsoleY(consoleCyderFrame.getY());
 
-                        User user = UserUtil.extractUser();
-                        user.setScreenStat(screenStat);
+                    User user = UserUtil.extractUser();
+                    user.setScreenStat(screenStat);
 
-                        //just to be safe
-                        if (!isClosed()) {
-                            UserUtil.setUserData(user);
-                        }
-
-                        //sleep 3000 ms
-                        int i = 0;
-                        while (i < 3000) {
-                            Thread.sleep(50);
-                            if (consoleFrameClosed) {
-                                break OUTER;
-                            }
-                            i += 50;
-                        }
+                    //just to be safe
+                    if (!isClosed()) {
+                        UserUtil.setUserData(user);
                     }
+
+                    //sleep 3000 ms
+                    int i = 0;
+                    while (i < 3000) {
+                        //noinspection BusyWait
+                        Thread.sleep(50);
+                        if (consoleFrameClosed) {
+                            break OUTER;
+                        }
+                        i += 50;
+                    }
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"ConsoleFrame Position Saver");
-        consolePosSaverThread.start();
+        }, "Json Data Saver");
+        // todo save more details such as all user settings
     }
 
     //one time run things such as notifying due to special days, debug properties,
@@ -1542,7 +1539,7 @@ public final class ConsoleFrame {
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
-        if (menuTaskbarFrames != null && menuTaskbarFrames.size() > 0) {
+        if (menuTaskbarFrames.size() > 0) {
             for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
                 CyderFrame currentFrame = menuTaskbarFrames.get(i);
 
@@ -1629,14 +1626,12 @@ public final class ConsoleFrame {
         //set menu location to top
         menuPane.setCaretPosition(0);
 
-        consoleMenuGenerated = true;
     }
 
     /**
      * Revalidates the taskbar bounds and revalidates the icons.
      */
     private void generateConsoleMenu() {
-        Font menuFont = CyderFonts.defaultFontSmall;
         int menuHeight = consoleCyderFrame.getHeight() - DragLabel.getDefaultHeight() - 5;
 
         menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
@@ -1685,10 +1680,9 @@ public final class ConsoleFrame {
      *
      * @param associatedFrame the frame reference to remove from the taskbar frame list
      */
-    public void removeTaskbarIcon(CyderFrame associatedFrame) {
+    void removeTaskbarIcon(CyderFrame associatedFrame) {
         if (menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.remove(associatedFrame);
-            consoleMenuGenerated = false;
             revalidateMenu();
         }
     }
@@ -1698,10 +1692,9 @@ public final class ConsoleFrame {
      *
      * @param associatedFrame the frame reference to add to the taskbar list
      */
-    public void addTaskbarIcon(CyderFrame associatedFrame) {
+    void addTaskbarIcon(CyderFrame associatedFrame) {
         if (!menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.add(associatedFrame);
-            consoleMenuGenerated = false;
             revalidateMenu();
         }
     }
@@ -1711,7 +1704,7 @@ public final class ConsoleFrame {
      *
      * @return a menu separation label
      */
-    public JLabel generateMenuSep() {
+    private JLabel generateMenuSep() {
         JLabel sepLabel = new JLabel("90210  90210") {
             @Override
             public void paintComponent(Graphics g) {
@@ -1774,13 +1767,13 @@ public final class ConsoleFrame {
     /**
      * The key listener for input field to control command scrolling.
      */
-    private KeyListener commandScrolling = new KeyAdapter() {
+    private final KeyListener commandScrolling = new KeyAdapter() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent event) {
             int code = event.getKeyCode();
             try {
                 //command scrolling
-                if ((event.getModifiersEx() & KeyEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & KeyEvent.ALT_DOWN_MASK) == 0)) {
+                if ((event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) == 0 && ((event.getModifiersEx() & InputEvent.ALT_DOWN_MASK) == 0)) {
                     //scroll to previous commands
                     if (code == KeyEvent.VK_UP) {
                         if (commandIndex - 1 >= 0) {
@@ -1799,13 +1792,14 @@ public final class ConsoleFrame {
                         }
                     }
 
-                    //f17 Easter egg and other acknowlegement of other function keys
-                    for (int i = 61440; i < 61452; i++) {
+                    // F17 Easter egg and other acknowledgement of other function keys
+                    for (int i = CyderNumbers.FUNCTION_KEY_START - 13 ; i < CyderNumbers.FUNCTION_KEY_START + 13 ; i++) {
                         if (code == i) {
                             if (i - 61427 == 17) {
                                 IOUtil.playAudio("static/audio/f17.mp3");
                             } else {
-                                inputHandler.println("Interesting F" + (i - 61427) + " key");
+                                //noinspection StringConcatenationMissingWhitespace
+                                inputHandler.println("Interesting F" + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
                             }
                         }
                     }
@@ -1820,7 +1814,8 @@ public final class ConsoleFrame {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
-    private MouseWheelListener fontSizerListener = e -> {
+    @SuppressWarnings("MagicConstant") /* Loaded font metric */
+    private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.extractUser().getFontsize());
 
@@ -1887,6 +1882,7 @@ public final class ConsoleFrame {
      *
      * @return the font to use for the input and output areas
      */
+    @SuppressWarnings("MagicConstant") /* Loading font */
     public Font generateUserFont() {
         return new Font(UserUtil.extractUser().getFont(),
                 Integer.parseInt(UserUtil.extractUser().getFontmetric()),
@@ -1896,16 +1892,6 @@ public final class ConsoleFrame {
     // -----------------
     // background logic
     // -----------------
-
-    /**
-     * The list of recognized backgrounds that the ConsoleFrame may switch to.
-     */
-    private ArrayList<CyderBackground> backgrounds = new ArrayList<>();
-
-    /**
-     * The index of the background we are currently at in the backgrounds list.
-     */
-    private int backgroundIndex = 0;
 
     /**
      * Takes into account the dpi scaling value and checks all the backgrounds in the user's
@@ -1969,10 +1955,12 @@ public final class ConsoleFrame {
     public void loadBackgrounds() {
         try {
             //allowable image formats include png and jpg
-            ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(new File(
-                    OSUtil.buildPath("dynamic","users", uuid, "Backgrounds")).listFiles(
-                    (directory, filename) -> StringUtil.in(FileUtil.getExtension(filename),
-                            true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS))));
+            ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(
+                        Objects.requireNonNull(new File(
+                                OSUtil.buildPath("dynamic", "users", uuid, "Backgrounds"))
+                                .listFiles((directory, filename) ->
+                                        StringUtil.in(FileUtil.getExtension(filename),
+                                true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)))));
 
             if (backgroundFiles.size() == 0) {
                 //create and reload backgrounds since this shouldn't be empty now
@@ -1992,7 +1980,7 @@ public final class ConsoleFrame {
             //now we have our wrapped files list
 
             //find the index we are it if console frame has a content pane
-            getBackgroundIndex();
+            revalidateBackgroundIndex();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -2009,12 +1997,10 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Returns the index that the current background is at after
+     * Revalidates the index that the current background is at after
      * refreshing due to a possible background list change.
-     *
-     * @return the index that the current background is at
      */
-    public int getBackgroundIndex() {
+    private void revalidateBackgroundIndex() {
         if (consoleCyderFrame != null) {
             JLabel contentLabel = ((JLabel) consoleCyderFrame.getContentPane());
 
@@ -2023,21 +2009,20 @@ public final class ConsoleFrame {
 
                 if (StringUtil.isNull(filename)) {
                     backgroundIndex = 0;
-                    return backgroundIndex;
+                    return;
                 }
 
                 for (int i = 0 ; i < backgrounds.size() ; i++) {
                     if (FileUtil.getFilename(backgrounds.get(i).getReferenceFile()).equals(filename)) {
                         backgroundIndex = i;
-                        return backgroundIndex;
+                        return;
                     }
                 }
             }
         }
 
-        //failsafe
+        // failsafe
         backgroundIndex = 0;
-        return backgroundIndex;
     }
 
     /**
@@ -2086,7 +2071,7 @@ public final class ConsoleFrame {
      *
      * @param index the index to switch the console frame background to
      */
-    public void setBackgroundIndex(int index) {
+    private void setBackgroundIndex(int index) {
         loadBackgrounds();
 
         //don't do anything
@@ -2149,7 +2134,7 @@ public final class ConsoleFrame {
      * Increments the background index.
      * Wraps back to 0 if it exceeds the background size.
      */
-    public void incBackgroundIndex() {
+    private void incBackgroundIndex() {
         if (backgroundIndex + 1 == backgrounds.size()) {
             backgroundIndex = 0;
         } else {
@@ -2158,23 +2143,11 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Decrements the background index.
-     * Wraps back to the max if it falls below 0
-     */
-    public void decBackgroundIndex() {
-        if (backgroundIndex - 1 < 0) {
-            backgroundIndex = backgrounds.size() - 1;
-        } else {
-            backgroundIndex -= 1;
-        }
-    }
-
-    /**
      * Returns the current background.
      *
      * @return the current background
      */
-    public CyderBackground getCurrentBackground() {
+    CyderBackground getCurrentBackground() {
         return backgrounds.get(backgroundIndex);
     }
 
@@ -2193,8 +2166,9 @@ public final class ConsoleFrame {
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
-    public void switchBackground() {
-        // always load first to ensure we're up to date with the valid backgrounds
+    @SuppressWarnings("BusyWait") /* Animations */
+    private void switchBackground() {
+        // always load first to ensure we're up-to-date with the valid backgrounds
         loadBackgrounds();
 
         try {
@@ -2211,8 +2185,8 @@ public final class ConsoleFrame {
             incBackgroundIndex();
 
             // find the dimensions of the image after transforming it as needed
-            int width = -1;
-            int height = -1;
+            int width;
+            int height;
 
             // full screen trumps all else
             if (isFullscreen()) {
@@ -2264,7 +2238,7 @@ public final class ConsoleFrame {
             FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
                     (int) originalPoint.getX(), (int) originalPoint.getY(), consoleCyderFrame);
 
-            // stich images
+            // stitch images
             ImageIcon combinedIcon;
 
             switch (lastSlideDirection) {
@@ -2284,13 +2258,13 @@ public final class ConsoleFrame {
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
-            // set the stiched image
+            // set the stitched image
             contentPane.setIcon(combinedIcon);
 
             // set content pane's size
             switch (lastSlideDirection) {
                 case LEFT:
-                    // slidng up
+                    // sliding up
                     consoleCyderFrame.getContentPane().setSize(
                             consoleCyderFrame.getContentPane().getWidth(),
                      consoleCyderFrame.getContentPane().getHeight() * 2);
@@ -2337,7 +2311,7 @@ public final class ConsoleFrame {
                 // animate the old image away and set last slide direction
                 switch (lastSlideDirection) {
                     case LEFT:
-                        // slidng up
+                        // sliding up
                         for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
                             try {
                                 Thread.sleep(delay);
@@ -2437,7 +2411,7 @@ public final class ConsoleFrame {
      * @return the width associated with the current background. If fullscreen mode is active,
      *      * returns the width of the screen the frame is on
      */
-    public int getBackgroundWidth() {
+    private int getBackgroundWidth() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
             return (int) consoleCyderFrame.getMonitorBounds().getWidth();
         } else {
@@ -2452,7 +2426,7 @@ public final class ConsoleFrame {
      * @return the height associated with the current background. If fullscreen mode is active,
      *      * returns the height of the screen the frame is on
      */
-    public int getBackgroundHeight() {
+    private int getBackgroundHeight() {
         if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
             return (int) consoleCyderFrame.getMonitorBounds().getHeight();
         } else {
@@ -2466,7 +2440,7 @@ public final class ConsoleFrame {
      *
      * @param consoleDirection the direction the background is to face
      */
-    public void setConsoleDirection(Direction consoleDirection) {
+    private void setConsoleDirection(Direction consoleDirection) {
         consoleDir = consoleDirection;
         UserUtil.setUserData("fullscreen","0");
         revalidate(true, false);
@@ -2477,7 +2451,7 @@ public final class ConsoleFrame {
      *
      * @return the current console direction
      */
-    public Direction getConsoleDirection() {
+    private Direction getConsoleDirection() {
         return consoleDir;
     }
 
@@ -2487,21 +2461,18 @@ public final class ConsoleFrame {
      *
      * @param degree the degree by which to smoothly rotate
      */
+    @SuppressWarnings("unused") /* to be used */
     private void rotateConsole(int degree) {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
-        Timer timer = null;
-        Timer finalTimer = timer;
-        timer = new Timer(10, new ActionListener() {
+        new Timer(10, new ActionListener() {
             private double angle = 0;
-            private double delta = 2.0;
-
             BufferedImage rotated;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                angle += delta;
+                angle += 2.0; // delta
                 if (angle > degree) {
                     rotated = ImageUtil.rotateImageByDegrees(master, degree);
                     ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
@@ -2510,12 +2481,11 @@ public final class ConsoleFrame {
                 rotated = ImageUtil.rotateImageByDegrees(master, angle);
                 ((JLabel) consoleCyderFrame.getContentPane()).setIcon(new ImageIcon(rotated));
             }
-        });
-        timer.start();
+        }).start();
     }
 
     /**
-     * Refreshses the console frame, bounds, orientation, and fullscreen mode.
+     * Refreshes the console frame, bounds, orientation, and fullscreen mode.
      *
      * @param fullscreen whether to set the frame to fullscreen mode.
      */
@@ -2539,7 +2509,7 @@ public final class ConsoleFrame {
      *
      * @return whether fullscreen is on
      */
-    public boolean isFullscreen() {
+    private boolean isFullscreen() {
         return UserUtil.extractUser().getFullscreen().equals("1");
     }
 
@@ -2586,11 +2556,11 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Returns whether or not a background switch is allowable and possible.
+     * Returns whether background switch is allowable and possible.
      *
-     * @return whether or not a background switch is allowable and possible
+     * @return whether a background switch is allowable and possible
      */
-    public boolean canSwitchBackground() {
+    private boolean canSwitchBackground() {
         return backgrounds.size() > 1;
     }
 
@@ -2798,10 +2768,6 @@ public final class ConsoleFrame {
 
         consoleCyderFrame.setMaximumSize(new Dimension(w, h));
 
-        if (!menuLabel.isVisible()) {
-            consoleMenuGenerated = false;
-        }
-
         // this takes care of offset of input/output due to menu
         revalidateMenu();
 
@@ -2872,7 +2838,7 @@ public final class ConsoleFrame {
     /**
      * Smoothly animates out the console audio controls.
      */
-    public void animateOutAudioControls() {
+    private void animateOutAudioControls() {
         new Thread(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
@@ -2903,13 +2869,14 @@ public final class ConsoleFrame {
     /**
      * Smoothly animates in the audio controls.
      */
-    public void animateInAudioControls() {
+    private void animateInAudioControls() {
         new Thread(() -> {
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, -40);
             audioControlsLabel.setVisible(true);
             for (int i = -40 ; i < DragLabel.getDefaultHeight() - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
+                    //noinspection BusyWait
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
             }
@@ -2944,7 +2911,7 @@ public final class ConsoleFrame {
     /**
      * Simply removes the audio controls, no questions asked.
      */
-    public void removeAudioControls() {
+    private void removeAudioControls() {
         audioControlsLabel.setVisible(false);
         toggleAudioControls.setVisible(false);
         consoleCyderFrame.getTopDragLabel().refreshButtons();
@@ -3231,9 +3198,9 @@ public final class ConsoleFrame {
     }
 
     /**
-     *  Returns whether or not the ConsoleFrame is closed.
+     *  Returns whether the ConsoleFrame is closed.
      *
-     * @return whether or not the ConsoleFrame is closed
+     * @return whether the ConsoleFrame is closed
      */
     public boolean isClosed() {
         return consoleFrameClosed;
@@ -3286,22 +3253,17 @@ public final class ConsoleFrame {
     // ---------------------------
 
     /**
-     * Whether or not dancing is currently active
-     */
-    private boolean currentlyDancing = false;
-
-    /**
      * Invokes dance in a synchronous way on all CyderFrame instances.
      */
     public void dance() {
-        //anonymous inner class
+        @SuppressWarnings("ClassHasNoToStringMethod")
         class RestoreFrame {
-            int restoreX;
-            int restoreY;
-            CyderFrame frame;
-            boolean draggingWasEnabled;
+            private final int restoreX;
+            private final int restoreY;
+            private final CyderFrame frame;
+            private final boolean draggingWasEnabled;
 
-            public RestoreFrame(CyderFrame frame, int restoreX, int restoreY, boolean draggingWasEnabled) {
+            private RestoreFrame(CyderFrame frame, int restoreX, int restoreY, boolean draggingWasEnabled) {
                 this.restoreX = restoreX;
                 this.restoreY = restoreY;
                 this.frame = frame;
@@ -3399,5 +3361,13 @@ public final class ConsoleFrame {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return consoleCyderFrame.toString();
     }
 }

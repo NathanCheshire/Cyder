@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
@@ -19,12 +20,46 @@ import java.util.zip.ZipOutputStream;
 /**
  * Methods that depend on the Operating System Cyder is running on are placed in this class.
  */
-@SuppressWarnings("unused") /* Some methods have no use still */
+@SuppressWarnings({"unused", "WeakerAccess"}) /* Some methods have no use still, some methods aren't used yet */
 public class OSUtil {
 
-    public static final String[] invalidWindowsFilenames = new String[]{"CON", "PRN", "AUX", "NUL",
-            "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8",
-            "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"};
+    public static final ArrayList<String> invalidWindowsFilenames = new ArrayList<>(){
+        @Override
+        public ArrayList<String> clone() throws AssertionError {
+            throw new AssertionError("Attempted clone of final list");
+        }
+
+        {
+            add("CON");
+            add("PRN");
+            add("AUX");
+            add("NUL");
+            add("COM1");
+            add("COM2");
+            add("COM3");
+            add("COM4");
+            add("COM5");
+            add("COM6");
+            add("COM7");
+            add("COM8");
+            add("COM9");
+            add("LPT1");
+            add("LPT2");
+            add("LPT3");
+            add("LPT4");
+            add("LPT5");
+            add("LPT6");
+            add("LPT7");
+            add("LPT8");
+            add("LPT9");
+    }};
+
+    /**
+     * Prevent illegal class instantiation.
+     */
+    public OSUtil() {
+        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+    }
 
     /**
      * Returns whether the provided filename is valid for the operating system
@@ -34,6 +69,7 @@ public class OSUtil {
      * @return whether the provided filename is valid for the operating system
      * Cyder is currently running on
      */
+    @SuppressWarnings("HardcodedFileSeparator") /* that's the point of this method */
     public static boolean isValidFilename(String filename) {
         filename = filename.trim();
 
@@ -82,6 +118,7 @@ public class OSUtil {
     /**
      * The raw operating system name.
      */
+    @SuppressWarnings("WeakerAccess") /* anything can access this since it's final */
     public static final String OPERATING_SYSTEM_NAME = System.getProperty("os.name");
 
     /**
@@ -159,6 +196,7 @@ public class OSUtil {
     /**
      * Opens the command shell for the operating system.
      */
+    @SuppressWarnings({"CallToRuntimeExec", "HardcodedFileSeparator"}) /* the point of this method is to handle non-portability */
     public static void openShell() {
         try {
             switch (OPERATING_SYSTEM) {
@@ -191,6 +229,7 @@ public class OSUtil {
      *
      * @param name the filename to create
      * @return a File object representing the file that was created
+     * @throws IllegalStateException if the file could not be created at this time
      */
     @SuppressWarnings("ResultOfMethodCallIgnored") /* The point is to create files so ignore */
     public static File createFileInUserSpace(String name) {
@@ -213,7 +252,7 @@ public class OSUtil {
             //impossible to throw due to check, or is it?
         }
 
-        return null;
+        throw new IllegalStateException("File could not be created at this time: " + name);
     }
 
     /**
@@ -221,6 +260,7 @@ public class OSUtil {
      *
      * @param name the filename to create
      * @return a File object representing the file that was created
+     * @throws IllegalStateException if the file could not be created
      */
     @SuppressWarnings("ResultOfMethodCallIgnored") /* Creating files */
     public static File createFileInSystemSpace(String name) {
@@ -242,7 +282,7 @@ public class OSUtil {
             ExceptionHandler.handle(e);
         }
 
-        return null;
+        throw new IllegalStateException("File could not be created at this time: " + name);
     }
 
     /**
@@ -453,6 +493,10 @@ public class OSUtil {
         ret.get();
     }
 
+    //todo extract out listeners of consoleframe to listeners class
+
+    //todo sys.json go away
+
     //todo need pwd command, eventually shell should emulate the os shell
 
     //todo utilize thread runner for threads and test for each before committing
@@ -460,8 +504,6 @@ public class OSUtil {
     //todo address YoutubeUtil bugs
 
     //todo fix up Widget base and what it implies and forces, what's the functional point of it?
-
-    //todo load project up fresh so that you can see all the warnings you've ignored
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

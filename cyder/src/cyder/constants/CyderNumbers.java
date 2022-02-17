@@ -3,7 +3,7 @@ package cyder.constants;
 /**
  * A class of commonly used integers throughout Cyder
  */
-public class CyderNums {
+public class CyderNumbers {
     /**
      * Java integer limit.
      */
@@ -15,7 +15,7 @@ public class CyderNums {
     public static final int NEG_INFINITY = Integer.MIN_VALUE;
 
     /**
-     * The port we use to ensure one instance of Cyder is ever active.
+     * The port to ensure one instance of Cyder is ever active.
      * 143 does have a hidden meaning ;)
      */
     public static final int INSTANCE_SOCKET_PORT = 143;
@@ -32,9 +32,14 @@ public class CyderNums {
     public static final float SIMILAR_COMMAND_TOL = 0.80f;
 
     /**
+     * The start of function key code identifiers for Windows.
+     */
+    public static final int FUNCTION_KEY_START = 61427;
+
+    /**
      * Instantiation of CyderInts is not allowed
      */
-    private CyderNums() {
+    private CyderNumbers() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 }
