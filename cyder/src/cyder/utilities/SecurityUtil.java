@@ -11,15 +11,18 @@ import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.UUID;
 
+/**
+ * Static utility class containing methods related to security.
+ */
 public class SecurityUtil {
+    /**
+     * Prevent illegal class instantiation.
+     */
     private SecurityUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } //private constructor to avoid object creation
-
-    public static String getMACAddress() {
-        return "NULL"; //todo address a UUID independent of an OS
     }
 
+    // todo remove, use !released or something
     public static boolean nathanLenovo() {
         try {
             return true;
@@ -28,10 +31,6 @@ public class SecurityUtil {
         }
 
         return false;
-    }
-
-    public static boolean compMACAddress(String mac) {
-        return toHexString(getSHA256(mac.toCharArray())).equals(IOUtil.getSystemData().getMastermac());
     }
 
     /**
@@ -43,7 +42,7 @@ public class SecurityUtil {
      * @param chars the char array to be converted to byte array
      * @return the byte array representing the given char array
      */
-    public static byte[] toBytes(char[] chars) {
+    private static byte[] toBytes(char[] chars) {
         CharBuffer charBuffer = CharBuffer.wrap(chars);
         ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(charBuffer);
         byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
@@ -83,9 +82,7 @@ public class SecurityUtil {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             return md.digest(toBytes(input));
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
 
@@ -96,9 +93,7 @@ public class SecurityUtil {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             return md.digest(input);
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
 
@@ -125,18 +120,10 @@ public class SecurityUtil {
             MessageDigest salt = MessageDigest.getInstance("SHA-256");
             salt.update(UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
             return UUID.nameUUIDFromBytes(salt.digest()).toString();
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         return null;
-    }
-
-    public static void clearCharArray(char[] arr) {
-        for (char c : arr) {
-            c = '\0';
-        }
     }
 }

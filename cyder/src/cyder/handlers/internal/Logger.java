@@ -45,9 +45,9 @@ public class Logger {
         CONSOLE_OUT, // printing something to the console frame
         EXCEPTION, // an exception
         ACTION, // an action taken
-        LINK, // a link in anyway is printed, represented, etc.
+        LINK, // a link in any way is printed, represented, etc.
         SUGGESTION, // logging a suggestion
-        SYSTEM_IO, // input or output to/from sys.json
+        SYSTEM_IO, // system input or output
         CLIENT_IO, // input or output to/from userdata file
         LOGIN, // user is logged in
         LOGOUT, // user is logged out

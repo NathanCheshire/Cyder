@@ -1034,7 +1034,7 @@ public class UserEditor implements WidgetBase {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
                 ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
-                        .setTitle(IOUtil.getSystemData().getVersion() + " Cyder [" + newUsername + "]");
+                        .setTitle(CyderCommon.VERSION + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText(UserUtil.extractUser().getName());
             }
         });

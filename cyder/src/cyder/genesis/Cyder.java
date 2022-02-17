@@ -63,7 +63,7 @@ public class Cyder {
         }
 
         // check for fast testing
-        if (IOUtil.getSystemData().isFasttestingmode()) {
+        if (CyderCommon.isFastTestingMode()) {
             ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing", 50);
             return;
@@ -95,8 +95,6 @@ public class Cyder {
         }
 
         //necessary subroutines to complete with success before continuing
-        setLoadingMessage("Checking system data");
-        IOUtil.checkSystemData();
         setLoadingMessage("Fixing users");
         IOUtil.fixUsers();
         setLoadingMessage("Cleaning users");
@@ -131,7 +129,7 @@ public class Cyder {
      * Initializes System.getProperty key/value pairs such as the ui scale
      */
     private static void initSystemKeys() {
-        System.setProperty("sun.java2d.uiScale", String.valueOf(IOUtil.getSystemData().getUiscale()));
+        System.setProperty("sun.java2d.uiScale", String.valueOf(OSUtil.getUIScale()));
     }
 
     /**
@@ -152,12 +150,12 @@ public class Cyder {
      *
      * @return whether all the fonts were loaded properly
      */
-    public static boolean registerFonts() {
+    private static boolean registerFonts() {
         boolean ret = true;
 
         File fontsDir = new File("static/fonts");
 
-        if (fontsDir.exists())
+        if (!fontsDir.exists())
             throw new IllegalStateException("Fonts directory does not exist");
 
         File[] fontFiles = new File("static/fonts").listFiles();
@@ -193,12 +191,14 @@ public class Cyder {
      *
      * @return whether the provided instance of Cyder is the only one
      */
-    public static boolean ensureCyderSingleInstance() {
+    private static boolean ensureCyderSingleInstance() {
         AtomicBoolean ret = new AtomicBoolean(true);
 
         new Thread(() -> {
             try {
                 //blocking method which also throws
+
+                //noinspection resource,IOResourceOpenedButNotSafelyClosed,SocketOpenedButNotSafelyClosed
                 new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

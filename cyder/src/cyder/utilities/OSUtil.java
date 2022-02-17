@@ -493,9 +493,35 @@ public class OSUtil {
         ret.get();
     }
 
-    //todo extract out listeners of consoleframe to listeners class
+    /**
+     * Returns the UI scaling factor for the primary monitor.
+     *
+     * @return the UI scaling factor for the primary monitor
+     */
+    public static double getUIScale() {
+        return getUIScale(Toolkit.getDefaultToolkit().getScreenSize());
+    }
 
-    //todo sys.json go away
+    /**
+     * Returns the scaling factor for the provided monitor size.
+     *
+     * @param monitorDimensions the dimensions of the monitor
+     * @return the scaling factor for the provided monitor size
+     */
+    public static double getUIScale(Dimension monitorDimensions) {
+        double pixels = monitorDimensions.getWidth() * monitorDimensions.getHeight();
+        double baseline = 2560.0 * 1440.0;
+
+        if (pixels == baseline) {
+            return 1.0;
+        } else if (pixels < baseline) {
+            return 2.0;
+        } else {
+            return 3.0;
+        }
+    }
+
+    //todo extract out listeners of ConsoleFrame to listeners class
 
     //todo need pwd command, eventually shell should emulate the os shell
 
@@ -513,7 +539,8 @@ public class OSUtil {
     //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
     // to push it into bounds or something with that function
 
-    //todo widgetpackages.json will go away since we're going to use guava to get all widgets from all packages
+    //todo WidgetPackages.json will go away since we're going to use guava to get all widgets from all packages
+    // throughout Cyder
 
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,

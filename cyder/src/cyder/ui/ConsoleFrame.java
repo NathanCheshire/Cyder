@@ -380,19 +380,18 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.setPaintWindowTitle(false);
             consoleCyderFrame.setPaintSuperTitle(true);
-            consoleCyderFrame.setTitle(IOUtil.getSystemData().getVersion() +
+            consoleCyderFrame.setTitle(CyderCommon.VERSION +
                     " Cyder [" + UserUtil.extractUser().getName() + "]");
 
-            if (IOUtil.getSystemData().isConsoleresizable()) {
-                consoleCyderFrame.initializeResizing();
-                consoleCyderFrame.setResizable(true);
+            // ConsoleFrame resizing
+            consoleCyderFrame.initializeResizing();
+            consoleCyderFrame.setResizable(true);
 
-                consoleCyderFrame.setBackgroundResizing(true);
+            consoleCyderFrame.setBackgroundResizing(true);
 
-                consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
-                consoleCyderFrame.setMaximumSize(new Dimension(consoleFrameBackgroundWidth,
-                        consoleFrameBackgroundHeight));
-            }
+            consoleCyderFrame.setMinimumSize(MINIMUM_SIZE);
+            consoleCyderFrame.setMaximumSize(new Dimension(consoleFrameBackgroundWidth,
+                    consoleFrameBackgroundHeight));
 
             //set contentpane tooltip
             ((JLabel) (consoleCyderFrame.getContentPane())).setToolTipText(
@@ -1404,7 +1403,7 @@ public final class ConsoleFrame {
         }
 
         //testing mode to auto execute Debug tests
-        if (IOUtil.getSystemData().isTestingmode()) {
+        if (CyderCommon.isTestingMode()) {
             Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
             ManualTests.launchTests();
         }
@@ -1428,7 +1427,7 @@ public final class ConsoleFrame {
      */
     private void cardReflector(String holiday, int year) {
         //don't reflect if in testing mode
-        if (IOUtil.getSystemData().isTestingmode())
+        if (CyderCommon.isTestingMode())
             return;
 
         try {
@@ -1479,7 +1478,7 @@ public final class ConsoleFrame {
             }
         }
         // otherwise, no intro music so check for gray scale image/play startup sound if released
-        else if (IOUtil.getSystemData().isReleased()) {
+        else if (CyderCommon.isReleased()) {
             try {
                 new Thread(() -> {
                     try {
@@ -1505,7 +1504,7 @@ public final class ConsoleFrame {
                         if (correct) {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
-                        } else if (IOUtil.getSystemData().isReleased()) {
+                        } else if (CyderCommon.isReleased()) {
                             IOUtil.playSystemAudio("static/audio/startup.mp3");
                         }
                     } catch (Exception e) {

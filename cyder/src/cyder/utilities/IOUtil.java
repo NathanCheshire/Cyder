@@ -15,7 +15,6 @@ import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URL;
@@ -135,114 +134,6 @@ public class IOUtil {
     }
 
     /**
-     * The file path to the sys json file.
-     */
-    private static String sysFilePath = "static/json/sys.json";
-
-    //determines whether the sys.json file exists, is parsable, and contains non-null fields
-    public static void checkSystemData() {
-        try {
-            File sysFile = new File(sysFilePath);
-
-            if (!sysFile.exists())
-                CyderCommon.exit(-112);
-
-            //gson obj
-            Gson gson = new Gson();
-
-            //read into the object if parsable
-            FileReader reader = new FileReader(sysFile);
-            SystemData sysObj = null;
-
-            try {
-                sysObj = gson.fromJson(reader, SystemData.class);
-            } catch (Exception ignored) {
-                //couldn't be parsed so exit program
-                reader.close();
-                throw new Exception("Could not parse system data");
-            }
-
-            //object successfully parsed by GSON at this point
-
-            //make sure the obj isn't null
-            if (sysObj == null) {
-                throw new Exception("System data object serialized to null");
-            }
-
-            //try all getters and make sure not null
-            for (Method m : sysObj.getClass().getMethods()) {
-                //get the getter method
-                if (m.getName().toLowerCase().contains("get") && m.getParameterCount() == 0) {
-                    //all getters return strings for user objects so invoke the method
-                    Object object = m.invoke(sysObj);
-
-                    if (object == null)
-                        throw new Exception("System data object attribute was serialized to null: " + m.getName());
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            CyderCommon.exit(-112);
-        }
-    }
-
-    /**
-     * Returns the SystemData object representing all the system data located in sys.json.
-     *
-     * @return the SystemData object
-     */
-    public static SystemData getSystemData() {
-        return sd;
-    }
-
-    /**
-     * The SystemData object.
-     */
-    private static SystemData sd = null;
-
-    static {
-        loadSystemData();
-    }
-
-    /**
-     * Loads the system data.
-     */
-    private static void loadSystemData() {
-        SystemData ret = null;
-        Gson gson = new Gson();
-
-        Logger.log(Logger.Tag.SYSTEM_IO, "System data pared in IOUtil's static block");
-
-        try (Reader reader = new FileReader(sysFilePath)) {
-            ret = gson.fromJson(reader, SystemData.class);
-
-            //if successful set as our sd object
-            sd = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Writes the provided SystemData object to sys.json, overriding whatever object is represented there.
-     *
-     * @param sd the SystemData object to write
-     */
-    public static void setSystemData(SystemData sd) {
-        Gson gson = new Gson();
-
-        try (FileWriter writer = new FileWriter(sysFilePath)) {
-            gson.toJson(sd, writer);
-            Logger.log(Logger.Tag.SYSTEM_IO, "System data set to sd: " + sd);
-
-            //now update IOUtil's sd object
-            loadSystemData();
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log.
      *
@@ -259,8 +150,8 @@ public class IOUtil {
                 argsString.append(cyderArgs[i]);
             }
 
-            // todo convert to developer mode, should be independent of a Nathan thing
-            String append = "[LOCATION] " + (!IOUtil.getSystemData().released ?
+            // todo make backend that accepts post that will return the location for an IP
+            String append = "[LOCATION] " + (!CyderCommon.isReleased() ?
                     "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
 
@@ -794,107 +685,6 @@ public class IOUtil {
             debugHashes = ret;
         } catch (IOException e) {
             ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * SystemData class used by sys.json, no lists should be contained within SystemData.
-     */
-    public static class SystemData {
-        private boolean released;
-        private String version;
-        private String releasedate;
-        private String mastermac;
-        private boolean uiloc;
-        private double uiscale;
-        private boolean consoleresizable;
-        private boolean autocypher;
-        private boolean testingmode;
-        private boolean fasttestingmode;
-
-        public boolean isReleased() {
-            return released;
-        }
-
-        public void setReleased(boolean released) {
-            this.released = released;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
-
-        public String getReleasedate() {
-            return releasedate;
-        }
-
-        public void setReleasedate(String releasedate) {
-            this.releasedate = releasedate;
-        }
-
-        public String getMastermac() {
-            return mastermac;
-        }
-
-        public void setMastermac(String mastermac) {
-            this.mastermac = mastermac;
-        }
-
-        public boolean isUiloc() {
-            return uiloc;
-        }
-
-        public void setUiloc(boolean uiloc) {
-            this.uiloc = uiloc;
-        }
-
-        public double getUiscale() {
-            return uiscale;
-        }
-
-        public void setUiscale(double uiscale) {
-            this.uiscale = uiscale;
-        }
-
-        public boolean isConsoleresizable() {
-            return consoleresizable;
-        }
-
-        public void setConsoleresizable(boolean consoleresizable) {
-            this.consoleresizable = consoleresizable;
-        }
-
-        public boolean isAutocypher() {
-            return autocypher;
-        }
-
-        public void setAutocypher(boolean autocypher) {
-            this.autocypher = autocypher;
-        }
-
-        public boolean isTestingmode() {
-            return testingmode;
-        }
-
-        public void setTestingmode(boolean testingmode) {
-            this.testingmode = testingmode;
-        }
-
-        public boolean isFasttestingmode() {
-            return fasttestingmode;
-        }
-
-        public void setFasttestingmode(boolean fasttestingmode) {
-            this.fasttestingmode = fasttestingmode;
-        }
-
-        @Override
-        public String toString() {
-            return ReflectionUtil.commonCyderToString(this);
         }
     }
 

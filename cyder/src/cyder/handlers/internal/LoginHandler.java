@@ -107,9 +107,9 @@ public class LoginHandler {
         printingList.clear();
 
         //add the standard login animation
-        printingList.add("Cyder version: " + IOUtil.getSystemData().getReleasedate() + "\n");
+        printingList.add("Cyder version: " + CyderCommon.VERSION + "\n");
         printingList.add("Type \"help\" for a list of valid commands\n");
-        printingList.add("Build: " + IOUtil.getSystemData().getVersion() +"\n");
+        printingList.add("Build: " + CyderCommon.RELEASE_DATE +"\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
@@ -217,10 +217,10 @@ public class LoginHandler {
         //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
                 ImageUtil.imageIconFromColor(new Color(21,23,24), 1, 1));
-        loginFrame.setTitle("Cyder Login [" + IOUtil.getSystemData().getVersion() + " Build]");
+        loginFrame.setTitle("Cyder Login [" + CyderCommon.VERSION + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
 
-        //whether or not the frame is open or closed handling
+        //whether the frame is open or closed handling
         loginFrameClosed = false;
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -450,26 +450,26 @@ public class LoginHandler {
     public static void determineCyderEntry() {
         //if on main development computer
         if (SecurityUtil.nathanLenovo()) {
-            CyderSplash.setLoadingMessage("Checking for autocypher");
+            CyderSplash.setLoadingMessage("Checking for an AutoCypher");
 
-            //if autocyphering is enabled, attempt all cyphers
-            if (IOUtil.getSystemData().isAutocypher()) {
+            //if AutoCyphering is enabled, attempt all cyphers
+            if (CyderCommon.isAutoCypher()) {
                 Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
-                CyderSplash.setLoadingMessage("Autocyphering");
+                CyderSplash.setLoadingMessage("Auto Cyphering");
 
-                //if autocyphering fails, show the login gui
+                //if AutoCyphering fails, show the login gui
                 if (!autoCypher()) {
                     Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                     showGUI();
                 }
             }
-            // if main development computer but autocypher is disabled, show the login gui
+            // if main development computer but AutoCypher is disabled, show the login gui
             else {
                 showGUI();
             }
         }
         // otherwise, unreleased exit
-        else if (!IOUtil.getSystemData().isReleased()) {
+        else if (!CyderCommon.isReleased()) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception",-600);
         }
         // otherwise, if Cyder is released/usage is permitted
