@@ -300,13 +300,13 @@ public final class ConsoleFrame {
                 consoleFrameBackgroundWidth = ScreenUtil.getScreenWidth();
                 consoleFrameBackgroundHeight = ScreenUtil.getScreenHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(consoleFrameBackgroundWidth,
-                        consoleFrameBackgroundHeight,getCurrentBackgroundFile()));
+                        consoleFrameBackgroundHeight,getCurrentBackground().getReferenceFile()));
                 UserUtil.setUserData("fullscreen","1");
             } else {
                 consoleFrameBackgroundWidth = getCurrentBackground().generateBufferedImage().getWidth();
                 consoleFrameBackgroundHeight = getCurrentBackground().generateBufferedImage().getHeight();
                 usage = new ImageIcon(ImageUtil.getRotatedImage(
-                        getCurrentBackgroundFile().toString(),getConsoleDirection()));
+                        getCurrentBackground().getReferenceFile().toString(),getConsoleDirection()));
             }
 
             //anonymous class so that we can change component bounds
@@ -361,7 +361,7 @@ public final class ConsoleFrame {
                 consoleCyderFrame.disableDragging();
             }
 
-            //on initial open, start executors, always request inputfield focus
+            // on initial open, start executors, always request InputField focus
             consoleCyderFrame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowDeiconified(WindowEvent e) {
@@ -396,7 +396,7 @@ public final class ConsoleFrame {
 
             //set contentpane tooltip
             ((JLabel) (consoleCyderFrame.getContentPane())).setToolTipText(
-                    FileUtil.getFilename(getCurrentBackgroundFile().getName()));
+                    FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
             outputArea = new JTextPane() {
                 @Override
@@ -534,7 +534,7 @@ public final class ConsoleFrame {
 
                 @Override
                 public void keyTyped(java.awt.event.KeyEvent e) {
-                    //bashstring checker
+                    // BashString checker
                     if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
                         if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
                             e.consume();
@@ -625,7 +625,7 @@ public final class ConsoleFrame {
 
                         commandIndex = commandList.size();
 
-                        //calls to linked inputhandler
+                        //calls to linked InputHandler
                         if (!inputHandler.getUserInputMode()) {
                             inputHandler.handle(op, true);
                         }
@@ -1199,8 +1199,8 @@ public final class ConsoleFrame {
         CyderThreadRunner.submit(() -> {
             try {
                 long initSleep = (3600 * 1000 //1 hour
-                        - LocalDateTime.now().getMinute() * 60 * 1000 //minus minutes in hour to milis
-                        - LocalDateTime.now().getSecond() * 1000); //minus seconds in hour to milis
+                        - LocalDateTime.now().getMinute() * 60 * 1000 //minus minutes in hour to millis
+                        - LocalDateTime.now().getSecond() * 1000); //minus seconds in hour to millis
                 int j = 0;
                 while (j < initSleep) {
                     Thread.sleep(50);
@@ -1473,17 +1473,17 @@ public final class ConsoleFrame {
                 IOUtil.playAudio(OSUtil.buildPath("dynamic","users",
                         ConsoleFrame.getConsoleFrame().getUUID(), UserFile.MUSIC.getName(), audioName));
             }
-            //otherwise play our own
+            // otherwise, play our own
             else {
                 IOUtil.playAudio(OSUtil.buildPath("static","audio","Ride.mp3"));
             }
         }
-        //otherwise no intro music so check for gray scale image/play startup sound if released
+        // otherwise, no intro music so check for gray scale image/play startup sound if released
         else if (IOUtil.getSystemData().isReleased()) {
             try {
                 new Thread(() -> {
                     try {
-                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackgroundFile())).getImage();
+                        Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
 
                         int w = icon.getWidth(null);
                         int h = icon.getHeight(null);
@@ -1640,11 +1640,11 @@ public final class ConsoleFrame {
             menuLabel.setVisible(false);
         }
 
-        int MENUWIDTH = 110;
+        int menuWidth = 110;
 
         menuLabel = new JLabel("");
-        menuLabel.setBounds(-MENUWIDTH, DragLabel.getDefaultHeight() - 2,
-                MENUWIDTH, menuHeight);
+        menuLabel.setBounds(-menuWidth, DragLabel.getDefaultHeight() - 2,
+                menuWidth, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.guiThemeColor);
         menuLabel.setVisible(true);
@@ -2052,7 +2052,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Simply sets the background to the provided icon without having a refernce file.
+     * Simply sets the background to the provided icon without having a reference file.
      * Please ensure the icon size is the same as the current background's.
      *
      * @param icon the icon to set to the background of the console frame
@@ -2113,7 +2113,7 @@ public final class ConsoleFrame {
 
         //tooltip based on image name
         ((JLabel) (consoleCyderFrame.getContentPane()))
-                .setToolTipText(FileUtil.getFilename(getCurrentBackgroundFile().getName()));
+                .setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
         int width = imageIcon.getIconWidth();
         int height = imageIcon.getIconHeight();
@@ -2149,16 +2149,6 @@ public final class ConsoleFrame {
      */
     public CyderBackground getCurrentBackground() {
         return backgrounds.get(backgroundIndex);
-    }
-
-    //todo do away with
-    /**
-     * Returns the file associated with the current background.
-     *
-     * @return the file associated with the current background
-     */
-    public File getCurrentBackgroundFile() {
-       return backgrounds.get(backgroundIndex).getReferenceFile();
     }
 
     /**
@@ -2221,7 +2211,7 @@ public final class ConsoleFrame {
             JLabel contentPane = ((JLabel) (consoleCyderFrame.getContentPane()));
 
             // tooltip based on image name
-            contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackgroundFile().getName()));
+            contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
             // create final background that won't change
             final ImageIcon nextBackFinal = nextBack;
@@ -2714,15 +2704,15 @@ public final class ConsoleFrame {
                     break;
                 case LEFT:
                     background = new ImageIcon(ImageUtil.getRotatedImage(
-                            getCurrentBackgroundFile().getAbsolutePath(), Direction.LEFT));
+                            getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.LEFT));
                     break;
                 case RIGHT:
                     background = new ImageIcon(ImageUtil.getRotatedImage(
-                            getCurrentBackgroundFile().getAbsolutePath(), Direction.RIGHT));
+                            getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.RIGHT));
                     break;
                 case BOTTOM:
                     background = new ImageIcon(ImageUtil.getRotatedImage(
-                            getCurrentBackgroundFile().getAbsolutePath(), Direction.BOTTOM));
+                            getCurrentBackground().getReferenceFile().getAbsolutePath(), Direction.BOTTOM));
                     break;
             }
 
@@ -3160,14 +3150,14 @@ public final class ConsoleFrame {
                    0, w, h);
            consoleClockLabel.setText(time);
        } catch (Exception ignored) {}
-       //sometimes extracting user throws so we will ignore exceptions thrown from this method
+       //sometimes extracting user throws, so we will ignore exceptions thrown from this method
     }
 
     /**
      * Simply closes the console frame due to a user logout.
      *
-     * @param exit whether or not to exit Cyder upon closing the ConsoleFrame
-     * @param logoutUser whether to logout the currently logged in user.
+     * @param exit whether to exit Cyder upon closing the ConsoleFrame
+     * @param logoutUser whether to log out the currently logged-in user.
      */
     public void closeConsoleFrame(boolean exit, boolean logoutUser) {
         consoleFrameClosed = true;
@@ -3207,7 +3197,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Saves the console frame's position and window stats to the currently logged in user's json file.
+     * Saves the console frame's position and window stats to the currently logged-in user's json file.
      */
     public void saveConsoleFramePosition() {
         if (this.getUUID() == null)
@@ -3309,7 +3299,7 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Ends the dancing sequence if on-going.
+     * Ends the dancing sequence if ongoing.
      */
     public void stopDancing() {
         //end dancing sequence
@@ -3324,9 +3314,9 @@ public final class ConsoleFrame {
     }
 
     /**
-     * Returns whether or not all frames have completed a dance iteration.
+     * Returns whether all frames have completed a dance iteration.
      *
-     * @return whether or not all frames have completed a dance iteration
+     * @return whether all frames have completed a dance iteration
      */
     private boolean allFramesFinishedDancing() {
         boolean ret = true;

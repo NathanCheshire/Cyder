@@ -636,7 +636,7 @@ public class InputHandler {
             }
         } else if (commandIs("fixforeground")) {
             Color backgroundDom = ColorUtil.getDominantColor(ImageIO.read(
-                    ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile()));
+                    ConsoleFrame.getConsoleFrame().getCurrentBackground().getReferenceFile()));
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
@@ -679,7 +679,7 @@ public class InputHandler {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
         } else if (commandIs("pixelate") && checkArgsLength(0)) {
-            if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile())) {
+            if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackground().getReferenceFile())) {
                 println("Silly " + UserUtil.extractUser().getName() + "; your background " +
                         "is a solid color :P");
             } else {
@@ -695,10 +695,11 @@ public class InputHandler {
 
                         if (pixelSize > 0) {
                             BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
-                                    getCurrentBackgroundFile().getAbsoluteFile()), pixelSize);
+                                    getCurrentBackground().getReferenceFile().getAbsoluteFile()), pixelSize);
 
                             String newName = FileUtil.getFilename(ConsoleFrame.getConsoleFrame()
-                                    .getCurrentBackgroundFile().getName()) + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
+                                    .getCurrentBackground().getReferenceFile().getName())
+                                    + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
                             File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
                                     "/Backgrounds/" + newName);
