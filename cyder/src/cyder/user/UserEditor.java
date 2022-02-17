@@ -24,7 +24,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.io.BufferedReader;
 import java.io.File;
@@ -314,7 +316,8 @@ public class UserEditor implements WidgetBase {
                             && selectedFile.getAbsoluteFile().toString().equals(
                                AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
                             || selectedFile.getAbsoluteFile().toString().equals(
-                               ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile().toString())) {
+                               ConsoleFrame.getConsoleFrame().getCurrentBackground().getReferenceFile()
+                                       .getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldname = FileUtil.getFilename(selectedFile);
@@ -403,7 +406,7 @@ public class UserEditor implements WidgetBase {
                 }
 
                 if (selectedFile.getAbsolutePath().equalsIgnoreCase(ConsoleFrame.getConsoleFrame()
-                        .getCurrentBackgroundFile().getAbsolutePath())) {
+                        .getCurrentBackground().getReferenceFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
                 } else if (AudioPlayer.getCurrentAudio() != null &&
                         selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer.getCurrentAudio().getAbsolutePath())) {

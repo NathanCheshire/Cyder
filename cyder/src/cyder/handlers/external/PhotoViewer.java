@@ -237,9 +237,10 @@ public class PhotoViewer {
 
     private void rename() {
         File currentRename = new File(validImages.get(currentIndex).getAbsolutePath());
-        File currentBackground = ConsoleFrame.getConsoleFrame().getCurrentBackgroundFile().getAbsoluteFile();
+        File currentBackground = ConsoleFrame.getConsoleFrame()
+                .getCurrentBackground().getReferenceFile().getAbsoluteFile();
 
-        if (currentRename.getAbsolutePath().equals( currentBackground.getAbsolutePath())) {
+        if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
            pictureFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but you're not allowed to" +
                     " rename the background you are currently using");
             return;

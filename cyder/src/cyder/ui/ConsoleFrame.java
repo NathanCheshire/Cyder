@@ -2147,7 +2147,7 @@ public final class ConsoleFrame {
      *
      * @return the current background
      */
-    CyderBackground getCurrentBackground() {
+    public CyderBackground getCurrentBackground() {
         return backgrounds.get(backgroundIndex);
     }
 
