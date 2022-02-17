@@ -17,16 +17,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
+@SuppressWarnings("FieldNotUsedInToString") /* why is this necessary? */
 public class PhotoViewer {
-    private LinkedList<File> validImages = new LinkedList<>();
-    private File startDir;
+    private final LinkedList<File> validImages = new LinkedList<>();
+    private final File startDir;
     private int currentIndex;
 
     private CyderFrame pictureFrame;
 
-    private JButton nextImage;
-    private JButton lastImage;
-    private JButton renameButton;
+    private final JButton nextImage;
+    private final JButton lastImage;
+    private final JButton renameButton;
 
     private int oldCenterX;
     private int oldCenterY;
@@ -41,7 +42,7 @@ public class PhotoViewer {
         if (pictureFrame != null)
             pictureFrame.dispose();
 
-        ImageIcon newImage = null;
+        ImageIcon newImage;
         newImage = checkImage(currentImage);
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
@@ -81,7 +82,7 @@ public class PhotoViewer {
 
         nextImage = new JButton("");
         nextImage.setToolTipText("Next image");
-        nextImage.addActionListener(e -> scrollFoward());
+        nextImage.addActionListener(e -> scrollForward());
         nextImage.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -147,7 +148,7 @@ public class PhotoViewer {
             }
         }
     }
-    private void scrollFoward() {
+    private void scrollForward() {
         oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
         oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
 
@@ -205,7 +206,7 @@ public class PhotoViewer {
         }
     }
 
-    //returns a scaled down imageicon if the image file is too big
+    //returns a scaled down ImageIcon if the image file is too big
     private ImageIcon checkImage(File im) {
         try {
             ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
@@ -228,11 +229,7 @@ public class PhotoViewer {
             ExceptionHandler.handle(e);
         }
 
-        return null;
-    }
-
-    private double getAspectRatio(ImageIcon im) {
-        return ((double) im.getIconWidth() / (double) im.getIconHeight());
+        throw new IllegalStateException("Could not generate ImageIcon at this time");
     }
 
     private void rename() {
@@ -256,6 +253,7 @@ public class PhotoViewer {
 
                    File newName = new File(oldName.getAbsolutePath()
                            .replace(replaceOldName, name));
+                   //noinspection ResultOfMethodCallIgnored
                    oldName.renameTo(newName);
                    pictureFrame.notify("Successfully renamed to " + name);
 
@@ -276,7 +274,7 @@ public class PhotoViewer {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return ReflectionUtil.commonCyderToString(this);
     }
 }
