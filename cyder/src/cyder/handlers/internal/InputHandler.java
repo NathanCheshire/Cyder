@@ -17,6 +17,7 @@ import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
 import cyder.utilities.*;
+import org.jetbrains.annotations.Nullable;
 import test.java.ManualTests;
 import test.java.UnitTests;
 
@@ -29,7 +30,11 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -38,14 +43,15 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
+@SuppressWarnings("unused") /* some methods have yet to be utilized */
 public class InputHandler {
     /**
      * The linked CyderOutputPane.
      */
-    private CyderOutputPane outputArea;
+    private final CyderOutputPane outputArea;
 
     /**
-     * boolean describing whether or not input should be passed to handle() or handleSecond().
+     * boolean describing whether input should be passed to handle() or handleSecond().
      */
     private boolean userInputMode;
 
@@ -55,7 +61,7 @@ public class InputHandler {
     private String userInputDesc;
 
     /**
-     * boolean describing whether or not to quickly append all remaining queued objects to the linked JTextPane.
+     * boolean describing whether to quickly append all remaining queued objects to the linked JTextPane.
      */
     private boolean finishPrinting;
 
@@ -65,7 +71,7 @@ public class InputHandler {
     private File redirectionFile;
 
     /**
-     * Boolean describing whether or not possible command output should be redirected to the redirectionFile.
+     * Boolean describing whether possible command output should be redirected to the redirectionFile.
      */
     private boolean redirection;
 
@@ -89,10 +95,10 @@ public class InputHandler {
     /**
      * Default constructor with required JTextPane.
      *
-     * @param outputArea the JTextPane to output pictures/components/text/etc to
+     * @param outputArea the JTextPane to output pictures/components/text/etc. to
      */
     public InputHandler(JTextPane outputArea) {
-        //link JTextPane
+        // link JTextPane
         this.outputArea = new CyderOutputPane(outputArea);
 
         //init other JTextPane objects such as Threads
@@ -107,9 +113,10 @@ public class InputHandler {
      * Also sets the ops array to the found command and arguments
      *
      * @param command the command to handle preliminaries on before behind handled
-     * @param userTriggered whether or not the provided operation was produced via a user
-     * @return whether or not the process may proceed
+     * @param userTriggered whether the provided operation was produced via a user
+     * @return whether the process may proceed
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored") /* file deletions and creations*/
     private boolean handlePreliminaries(String command, boolean userTriggered) {
         //check for null link (should be impossible)
         if (outputArea == null)
@@ -201,10 +208,10 @@ public class InputHandler {
      * Handles the input and provides output if necessary to the linked JTextPane.
      *
      * @param op the operation that is being handled
-     * @param userTriggered whether or not the provided op was produced via a user
+     * @param userTriggered whether the provided op was produced via a user
      * @throws Exception for numerous reasons such as if the JTextPane is not linked
      */
-    public void handle(String op, boolean userTriggered) throws Exception {
+    public final void handle(String op, boolean userTriggered) throws Exception {
         if (!handlePreliminaries(op, userTriggered)) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
         }
@@ -255,9 +262,10 @@ public class InputHandler {
         } else if (StringUtil.isPalindrome(command.replace(" ", "")) && command.length() > 3) {
             println("Nice palindrome.");
         } else if (commandIs("coinflip")) {
-            if (Math.random() <= 0.0001) {
-                println("You're not going to beleive this, but it landed on its side.");
-            } else if (Math.random() <= 0.5) {
+            double randGauss = new SecureRandom().nextGaussian();
+            if (randGauss <= 0.0001) {
+                println("You're not going to believe this, but it landed on its side.");
+            } else if (randGauss <= 0.5) {
                 println("It's Heads!");
             } else {
                 println("It's Tails!");
@@ -337,12 +345,6 @@ public class InputHandler {
             println("Why?");
         } else if (commandIs("groovy")) {
             println("Kotlin is the best JVM lang.... I mean, Java is obviously the best!");
-        } else if (commandIs("luck")) {
-            if (Math.random() * 100 <= 0.001) {
-                println("YOU WON!!");
-            } else {
-                println("You are not lucky today.");
-            }
         } else if (commandIs("&&")) {
             println("||");
         } else if (commandIs("||")) {
@@ -842,6 +844,8 @@ public class InputHandler {
                             }
                         }
 
+                        inputStream.close();
+
                         printlnPriority(sb.toString());
                     }
                 }
@@ -923,6 +927,7 @@ public class InputHandler {
                     for (File log : logDir.listFiles()) {
                         if (FileUtil.getExtension(log).equals(".log")
                                 && !log.equals(Logger.getCurrentLog())) {
+                            //noinspection ResultOfMethodCallIgnored
                             log.delete();
                             count++;
                         }
@@ -1034,11 +1039,10 @@ public class InputHandler {
                                 return;
                             }
 
-                            String videoURL = input;
-                            Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
+                            Future<java.io.File> downloadedFile = YoutubeUtil.download(input, "dynamic/users/"
                                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-                            String videoTitle = NetworkUtil.getURLTitle(videoURL)
+                            String videoTitle = NetworkUtil.getURLTitle(input)
                                     .replaceAll("(?i) - YouTube", "").trim();
                             println("Starting download of: " + videoTitle);
 
@@ -1060,10 +1064,9 @@ public class InputHandler {
             } else {
                 new Thread(() -> {
                     try {
-                        String userQuery = input;
 
-                        println("Searching youtube for: " + userQuery);
-                        String UUID = YoutubeUtil.getFirstUUID(userQuery);
+                        println("Searching youtube for: " + input);
+                        String UUID = YoutubeUtil.getFirstUUID(input);
                         String videoURL = "https://www.youtube.com/watch?v=" + UUID;
                         Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
                                 + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
@@ -1088,7 +1091,7 @@ public class InputHandler {
             }
         }  else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
-                String urlString = "";
+                String urlString;
                 if (getArg(0).contains("pastebin.com")) {
                     urlString = getArg(0);
                 } else {
@@ -1268,9 +1271,7 @@ public class InputHandler {
                 }
             }
         } else if (commandIs("wipe")) {
-            if (checkArgsLength(0)) {
-                //wipe all
-            } else if (checkArgsLength(1)) {
+            if (checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
                         "dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(), getArg(0)));
                 if (requestedDeleteFile.exists()) {
@@ -1298,7 +1299,7 @@ public class InputHandler {
         } else if (commandIs("originalchams")) {
             ConsoleFrame.getConsoleFrame().originalChams();
         } else if (commandIs("opacity")) {
-            JSlider opacitySlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 100);
+            JSlider opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 100);
             opacitySlider.setBounds(0,0, 300, 50);
             CyderSliderUI UI = new CyderSliderUI(opacitySlider);
             UI.setThumbStroke(new BasicStroke(2.0f));
@@ -1343,21 +1344,23 @@ public class InputHandler {
      * Checks of the provided command is a URL and if so, opens a connection to it.
      *
      * @param command the command to attempt to open as a URL
-     * @return whether or not the command was indeed a valid URL
+     * @return whether the command was indeed a valid URL
      */
     private boolean isURLCheck(String command) {
         boolean ret = false;
 
         try {
             URL url = new URL(command);
-            HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+            url.openConnection();
             ret = true;
             NetworkUtil.internetConnect(command);
         } catch (Exception ignored) {}
 
-        //log before returning
-        if (ret)
+        // log before returning
+        if (ret) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
+        }
+
         return ret;
     }
 
@@ -1496,7 +1499,7 @@ public class InputHandler {
      * Determines if the command intended to invoke a manual test from test/ManualTests.
      *
      * @param command the command to attempt to recognize as a manual test
-     * @return whether or not the command was handled as a manual test call
+     * @return whether the command was handled as a manual test call
      */
     private boolean manualTestCheck(String command) {
         boolean ret = false;
@@ -1504,6 +1507,7 @@ public class InputHandler {
         command = command.toLowerCase();
 
         if (command.contains("test")) {
+            //noinspection InstantiationOfUtilityClass
             ManualTests mtw = new ManualTests();
 
             for (Method m : mtw.getClass().getMethods()) {
@@ -1610,17 +1614,17 @@ public class InputHandler {
      *
      * @return the current user issued command
      */
-    public String getCommand() {
+    public final String getCommand() {
         return this.command;
     }
 
     /**
-     * Returns whether or not the arguments array contains the expected number of arguments.
+     * Returns whether the arguments array contains the expected number of arguments.
      *
      * @param expectedSize the expected size of the command arguments
-     * @return whether or not the arguments array contains the expected number of arguments
+     * @return whether the arguments array contains the expected number of arguments
      */
-    public boolean checkArgsLength(int expectedSize) {
+    private boolean checkArgsLength(int expectedSize) {
         return this.args.size() == expectedSize;
     }
 
@@ -1628,13 +1632,14 @@ public class InputHandler {
      * Returns the command argument at the provided index.
      * Returns null if the index is out of bounds instead of throwing.
      *
-     * @param index the index to retreive the command argument of
+     * @param index the index to retrieve the command argument of
      * @return the command argument at the provided index
      */
-    public String getArg(int index) {
+    private @Nullable String getArg(int index) {
         if (index + 1 <= args.size() && index >= 0) {
             return args.get(index);
-        } else return null;
+        } else throw new IllegalArgumentException("Provided index is out of bounds: " + index
+                + ", argument size: " + args.size());
     }
 
     /**
@@ -1642,7 +1647,7 @@ public class InputHandler {
      *
      * @return the arguments in String form separated by spaces
      */
-    public String argsToString() {
+    private String argsToString() {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0 ; i < args.size() ; i++) {
@@ -1657,7 +1662,7 @@ public class InputHandler {
      *
      * @return the original user input, that of command followed by the arguments
      */
-    public String argsAndCommandToString() {
+    private String argsAndCommandToString() {
         StringBuilder sb = new StringBuilder();
         sb.append(command.trim()).append(" ");
 
@@ -1673,7 +1678,7 @@ public class InputHandler {
     /**
      * Prints the available unit tests to the linked JTextPane.
      */
-    public void printUnitTests() {
+    public final void printUnitTests() {
         println("Unit Tests:");
         UnitTests ut = new UnitTests();
 
@@ -1687,8 +1692,9 @@ public class InputHandler {
      * Prints the available manual tests that follow the standard
      * naming convention to the linked JTextPane.
      */
-    public void printManualTests() {
+    public final void printManualTests() {
         println("Manual tests:");
+        //noinspection InstantiationOfUtilityClass
         ManualTests mtw = new ManualTests();
 
         for (Method m : mtw.getClass().getMethods()) {
@@ -1704,10 +1710,14 @@ public class InputHandler {
      *
      * @param input the secondary input to handle
      */
-    public void handleSecond(String input) {
+    public final void handleSecond(String input) {
         try {
             String desc = getUserInputDesc();
+
             //tests on desc which should have been set from the first handle method
+            if (desc.equals("YOUR PREVIOUSLY SET DESC") && StringUtil.hasWord(input, "YOUR WORD")) {
+                System.out.println();
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1716,7 +1726,7 @@ public class InputHandler {
     /**
      * Prints the suggestions as recommendations to the user for what to use Cyder for.
      */
-    public void help() {
+    private void help() {
         println("Try typing: ");
 
         for (IOUtil.Suggestion suggestion : IOUtil.getSuggestions()) {
@@ -1730,7 +1740,7 @@ public class InputHandler {
      *
      * @return the linked JTextPane
      */
-    public JTextPane getOutputArea() {
+    public final JTextPane getOutputArea() {
         return this.outputArea.getJTextPane();
     }
 
@@ -1739,7 +1749,7 @@ public class InputHandler {
      *
      * @return the value of user input mode
      */
-    public boolean getUserInputMode() {
+    public final boolean getUserInputMode() {
         return this.userInputMode;
     }
 
@@ -1748,7 +1758,7 @@ public class InputHandler {
      *
      * @param b the value of input mode
      */
-    public void setUserInputMode(boolean b) {
+    public final void setUserInputMode(boolean b) {
         this.userInputMode = b;
     }
 
@@ -1757,7 +1767,7 @@ public class InputHandler {
      *
      * @return the input description
      */
-    public String getUserInputDesc() {
+    private String getUserInputDesc() {
         return this.userInputDesc;
     }
 
@@ -1766,15 +1776,15 @@ public class InputHandler {
      *
      * @param s the description of the input we expect to receive next
      */
-    public void setUserInputDesc(String s) {
+    public final void setUserInputDesc(String s) {
         this.userInputDesc = s;
     }
 
     /**
-     * Ends any custom threads such as youtube or bletchy
+     * Ends any custom threads such as YouTube or bletchy
      * that may have been invoked via this input handler.
      */
-    public void killThreads() {
+    public final void killThreads() {
         MasterYoutubeThread.killAll();
         BletchyThread.kill();
     }
@@ -1785,7 +1795,7 @@ public class InputHandler {
      * @return a String representation of this input handler object
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return ReflectionUtil.commonCyderToString(this);
     }
 
@@ -1794,15 +1804,20 @@ public class InputHandler {
     /**
      * Semaphore for adding objects to both consolePrintingList and consolePriorityPrintingList.
      */
-    private Semaphore makePrintingThreadsafeAgain = new Semaphore(1);
+    private final Semaphore makePrintingThreadsafeAgain = new Semaphore(1);
 
     /**
      * the printing list of non-important outputs.
-     * Directly adding to this list should not be performed. Instead use a print/println statement.
+     * Directly adding to this list should not be performed. Instead, use a print/println statement.
      * List is declared anonymously to allow for their add methods to be overridden to allow for
      * Semaphore usage implying thread safety when calling print statements.
      */
-    private LinkedList<Object> consolePrintingList = new LinkedList<>() {
+    private final LinkedList<Object> consolePrintingList = new LinkedList<>() {
+        @Override
+        public LinkedList<Object> clone() throws AssertionError {
+            throw new AssertionError();
+        }
+
         @Override
         public boolean add(Object e) {
             try {
@@ -1818,11 +1833,16 @@ public class InputHandler {
 
     /**
      * The priority printing list of important outputs.
-     * Directly adding to this list should not be performed. Instead use a print/println statement.
+     * Directly adding to this list should not be performed. Instead, use a print/println statement.
      * List is declared anonymously to allow for their add methods to be overridden to allow for
      * Semaphore usage implying thread safety when calling print statements.
      */
-    private LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
+    private final LinkedList<Object> consolePriorityPrintingList = new LinkedList<>() {
+        @Override
+        public LinkedList<Object> clone() throws AssertionError {
+            throw new AssertionError();
+        }
+
         @Override
         public boolean add(Object e) {
             try {
@@ -1837,7 +1857,7 @@ public class InputHandler {
     };
 
     /**
-     * Boolean describing whether or not the console printing animation thread has been invoked and begun.
+     * Boolean describing whether the console printing animation thread has been invoked and begun.
      */
     private boolean printingAnimationInvoked = false;
 
@@ -1845,7 +1865,7 @@ public class InputHandler {
      * Begins the printing animation for the linked JTextPane. The typing animation is only
      * used if the user preference is enabled.
      */
-    public void startConsolePrintingAnimation() {
+    public final void startConsolePrintingAnimation() {
         if (printingAnimationInvoked)
             return;
 
@@ -1917,6 +1937,7 @@ public class InputHandler {
                                             innerConsolePrint(c);
 
                                             if (!finishPrinting)
+                                                //noinspection BusyWait
                                                 Thread.sleep(charTimeout);
                                         }
                                         outputArea.getSemaphore().release();
@@ -1944,6 +1965,7 @@ public class InputHandler {
                     }
 
                     if (!finishPrinting && typingAnimationLocal)
+                        //noinspection BusyWait
                         Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {
@@ -1961,7 +1983,7 @@ public class InputHandler {
     /**
      * The frequency at which we should play a printing animation sound.
      */
-    private static int playRate = 2;
+    private static final int playRate = 2;
 
     /**
      * Appends the provided char to the linked JTextPane and plays
@@ -2001,7 +2023,7 @@ public class InputHandler {
      *
      * @param icon the icon to print to the linked JTextPane
      */
-    public void printlnImage(ImageIcon icon) {
+    public final void printlnImage(ImageIcon icon) {
         consolePrintingList.add(icon);
         consolePrintingList.add("\n");
     }
@@ -2011,7 +2033,7 @@ public class InputHandler {
      *
      * @param icon the icon to print to the linked JTextPane
      */
-    public void printImage(ImageIcon icon) {
+    public final void printImage(ImageIcon icon) {
         consolePrintingList.add(icon);
     }
 
@@ -2020,7 +2042,7 @@ public class InputHandler {
      *
      * @param filename the filename of the image to print to the JTextPane
      */
-    public void printlnImage(String filename) {
+    private void printlnImage(String filename) {
         consolePrintingList.add(new ImageIcon(filename));
         consolePrintingList.add("\n");
     }
@@ -2030,7 +2052,7 @@ public class InputHandler {
      *
      * @param filename the filename of the image to print to the JTextPane
      */
-    public void printImage(String filename) {
+    public final void printImage(String filename) {
         consolePrintingList.add(new ImageIcon(filename));
     }
 
@@ -2039,7 +2061,7 @@ public class InputHandler {
      *
      * @param c the component to print to the JTextPane
      */
-    public void printlnComponent(Component c) {
+    public final void printlnComponent(Component c) {
         consolePrintingList.add(c);
         consolePrintingList.add("\n");
     }
@@ -2049,7 +2071,7 @@ public class InputHandler {
      *
      * @param c the component to print to the JTextPane
      */
-    public void printComponent(Component c) {
+    public final void printComponent(Component c) {
         consolePrintingList.add(c);
     }
 
@@ -2058,7 +2080,7 @@ public class InputHandler {
      *
      * @param usage the string to print to the JTextPane
      */
-    public void print(String usage) {
+    public final void print(String usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage);
         else
@@ -2070,7 +2092,7 @@ public class InputHandler {
      *
      * @param usage the int to print to the JTextPane
      */
-    public void print(int usage) {
+    public final void print(int usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Integer.toString(usage));
         else
@@ -2082,7 +2104,7 @@ public class InputHandler {
      *
      * @param usage the double to print to the JTextPane
      */
-    public void print(double usage) {
+    public final void print(double usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Double.toString(usage));
         else
@@ -2094,7 +2116,7 @@ public class InputHandler {
      *
      * @param usage the boolean to print to the JTextxPane
      */
-    public void print(boolean usage) {
+    public final void print(boolean usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Boolean.toString(usage));
         else
@@ -2106,7 +2128,7 @@ public class InputHandler {
      *
      * @param usage the float to print to the JTextPane
      */
-    public void print(float usage) {
+    public final void print(float usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Float.toString(usage));
         else
@@ -2118,7 +2140,7 @@ public class InputHandler {
      *
      * @param usage the long to print to the JTextPane
      */
-    public void print(long usage) {
+    public final void print(long usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(Long.toString(usage));
         else
@@ -2131,7 +2153,7 @@ public class InputHandler {
      *
      * @param usage the char to print to the JTextPane
      */
-    public void print(char usage) {
+    public final void print(char usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(String.valueOf(usage));
         else
@@ -2143,7 +2165,7 @@ public class InputHandler {
      *
      * @param usage the object to print to the JTextPane
      */
-    public void print(Object usage) {
+    public final void print(Object usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
             consolePriorityPrintingList.add(usage.toString());
         else
@@ -2155,7 +2177,7 @@ public class InputHandler {
      *
      * @param usage the string to print to the JTextPane
      */
-    public void println(String usage) {
+    public final void println(String usage) {
         print(usage + "\n");
     }
 
@@ -2164,7 +2186,7 @@ public class InputHandler {
      *
      * @param usage the int to print to the JTextPane
      */
-    public void println(int usage) {
+    public final void println(int usage) {
         print(usage + "\n");
     }
 
@@ -2173,7 +2195,7 @@ public class InputHandler {
      *
      * @param usage the double to print to the JTextPane
      */
-    public void println(double usage) {
+    public final void println(double usage) {
         print(usage + "\n");
     }
 
@@ -2182,7 +2204,7 @@ public class InputHandler {
      *
      * @param usage the boolean to print to the JTextPane
      */
-    public void println(boolean usage) {
+    public final void println(boolean usage) {
         print(usage + "\n");
     }
 
@@ -2191,7 +2213,7 @@ public class InputHandler {
      *
      * @param usage the float to print to the JTextPane
      */
-    public void println(float usage) {
+    public final void println(float usage) {
         print(usage + "\n");
     }
 
@@ -2200,7 +2222,7 @@ public class InputHandler {
      *
      * @param usage the long to print to the JTextPane
      */
-    public void println(long usage) {
+    public final void println(long usage) {
         print(usage + "\n");
     }
 
@@ -2209,7 +2231,7 @@ public class InputHandler {
      *
      * @param usage the char to print to the JTextPane
      */
-    public void println(char usage) {
+    public final void println(char usage) {
         print(usage + "\n");
     }
 
@@ -2218,7 +2240,7 @@ public class InputHandler {
      *
      * @param usage the object to print to the JTextPane
      */
-    public void println(Object usage) {
+    public final void println(Object usage) {
         print(usage + "\n");
     }
 
@@ -2229,7 +2251,7 @@ public class InputHandler {
      *
      * @param lines the lines to print to the JTextPane
      */
-    public void printlns(String[] lines) {
+    public final void printlns(String[] lines) {
         for (String line : lines)
             println(line);
     }
@@ -2239,7 +2261,7 @@ public class InputHandler {
      *
      * @param icon the icon to print to the JTextPane
      */
-    public void printlnImagePriority(ImageIcon icon) {
+    public final void printlnImagePriority(ImageIcon icon) {
         consolePrintingList.add(icon);
         consolePrintingList.add("\n");
     }
@@ -2249,7 +2271,7 @@ public class InputHandler {
      *
      * @param icon the icon to print to the JTextPane
      */
-    public void printImagePriority(ImageIcon icon) {
+    public final void printImagePriority(ImageIcon icon) {
         consolePriorityPrintingList.add(icon);
     }
 
@@ -2258,7 +2280,7 @@ public class InputHandler {
      *
      * @param filename the filename of the icon to print to the JTextPane
      */
-    public void printlnImagePriority(String filename) {
+    public final void printlnImagePriority(String filename) {
         consolePriorityPrintingList.add(new ImageIcon(filename));
         consolePriorityPrintingList.add("\n");
     }
@@ -2268,7 +2290,7 @@ public class InputHandler {
      *
      * @param filename the filename of the icon to print to the JTextPane
      */
-    public void printImagePriority(String filename) {
+    public final void printImagePriority(String filename) {
         consolePriorityPrintingList.add(new ImageIcon(filename));
     }
 
@@ -2277,7 +2299,7 @@ public class InputHandler {
      *
      * @param c the component to print to the JTextPane
      */
-    public void printlnComponentPriority(Component c) {
+    public final void printlnComponentPriority(Component c) {
         consolePriorityPrintingList.add(c);
         consolePriorityPrintingList.add("\n");
     }
@@ -2287,7 +2309,7 @@ public class InputHandler {
      *
      * @param c the component to print to the JTextPane
      */
-    public void printComponentPriority(Component c) {
+    public final void printComponentPriority(Component c) {
         consolePriorityPrintingList.add(c);
     }
 
@@ -2296,7 +2318,7 @@ public class InputHandler {
      *
      * @param usage the string to print to the JTextPane
      */
-    public void printPriority(String usage) {
+    private void printPriority(String usage) {
         consolePriorityPrintingList.add(usage);
     }
 
@@ -2305,7 +2327,7 @@ public class InputHandler {
      *
      * @param usage the int to print to the JTextPane
      */
-    public void printPriority(int usage) {
+    public final void printPriority(int usage) {
         consolePriorityPrintingList.add(Integer.toString(usage));
     }
 
@@ -2314,7 +2336,7 @@ public class InputHandler {
      *
      * @param usage the double to print to the JTextPane
      */
-    public void printPriority(double usage) {
+    public final void printPriority(double usage) {
         consolePriorityPrintingList.add(Double.toString(usage));
     }
 
@@ -2323,7 +2345,7 @@ public class InputHandler {
      *
      * @param usage the boolean to print to the JTextPane
      */
-    public void printPriority(boolean usage) {
+    public final void printPriority(boolean usage) {
         consolePriorityPrintingList.add(Boolean.toString(usage));
     }
 
@@ -2332,7 +2354,7 @@ public class InputHandler {
      *
      * @param usage the float to print to the JTextPane
      */
-    public void printPriority(float usage) {
+    public final void printPriority(float usage) {
         consolePriorityPrintingList.add(Float.toString(usage));
     }
 
@@ -2341,7 +2363,7 @@ public class InputHandler {
      *
      * @param usage the long to print to the JTextPane
      */
-    public void printPriority(long usage) {
+    public final void printPriority(long usage) {
         consolePriorityPrintingList.add(Long.toString(usage));
     }
 
@@ -2350,7 +2372,7 @@ public class InputHandler {
      *
      * @param usage the char to print to the JTextPane
      */
-    public void printPriority(char usage) {
+    public final void printPriority(char usage) {
         consolePriorityPrintingList.add(String.valueOf(usage));
     }
 
@@ -2359,7 +2381,7 @@ public class InputHandler {
      *
      * @param usage the object to print to the JTextPane
      */
-    public void printPriority(Object usage) {
+    public final void printPriority(Object usage) {
         consolePriorityPrintingList.add(usage.toString());
     }
 
@@ -2368,7 +2390,7 @@ public class InputHandler {
      *
      * @param usage the string to print to the JTextPane
      */
-    public void printlnPriority(String usage) {
+    private void printlnPriority(String usage) {
         printPriority(usage + "\n");
     }
 
@@ -2377,7 +2399,7 @@ public class InputHandler {
      *
      * @param usage the provided int to print to the JTextPane
      */
-    public void printlnPriority(int usage) {
+    public final void printlnPriority(int usage) {
         printPriority(usage + "\n");
     }
 
@@ -2386,7 +2408,7 @@ public class InputHandler {
      *
      * @param usage the double to print to the JTextPane
      */
-    public void printlnPriority(double usage) {
+    public final void printlnPriority(double usage) {
         printPriority(usage + "\n");
     }
 
@@ -2395,7 +2417,7 @@ public class InputHandler {
      *
      * @param usage the boolean to print to the JTextPane
      */
-    public void printlnPriority(boolean usage) {
+    public final void printlnPriority(boolean usage) {
         printPriority(usage + "\n");
     }
 
@@ -2404,7 +2426,7 @@ public class InputHandler {
      *
      * @param usage the float to print to the JTextPane
      */
-    public void printlnPriority(float usage) {
+    public final void printlnPriority(float usage) {
         printPriority(usage + "\n");
     }
 
@@ -2413,7 +2435,7 @@ public class InputHandler {
      *
      * @param usage the long to print to the JTextPane
      */
-    public void printlnPriority(long usage) {
+    public final void printlnPriority(long usage) {
         printPriority(usage + "\n");
     }
 
@@ -2422,7 +2444,7 @@ public class InputHandler {
      *
      * @param usage the char to print to the JTextPane
      */
-    public void printlnPriority(char usage) {
+    public final void printlnPriority(char usage) {
         printPriority(usage + "\n");
     }
 
@@ -2431,7 +2453,7 @@ public class InputHandler {
      *
      * @param usage the object to print to the JTextPane
      */
-    public void printlnPriority(Object usage) {
+    public final void printlnPriority(Object usage) {
         printPriority(usage + "\n");
     }
 
@@ -2459,7 +2481,7 @@ public class InputHandler {
      *  In more detail, this method figures out what it'll be removing and then determines how many calls
      *   are needed to {@link StringUtil#removeLastLine()}
      */
-    public void removeLast() {
+    public final void removeLast() {
         try {
             boolean removeTwoLines = false;
 
@@ -2507,11 +2529,11 @@ public class InputHandler {
 
     /**
      * Returns the last line of text on the linked JTextPane.
-     * Text is easier to get and return as opposedto general components.
+     * Text is easier to get and return as opposed to general components.
      *
      * @return the last line of text on the linked JTextPane
      */
-    public String getLastTextLine() {
+    public final String getLastTextLine() {
         return outputArea.getStringUtil().getLastTextLine();
     }
 
@@ -2519,7 +2541,7 @@ public class InputHandler {
      * Removes the last line added to the linked JTextPane. This could appear to remove nothing,
      *  but really be removing just a newline (line break) character.
      */
-    public void removeLastLine() {
+    private void removeLastLine() {
        outputArea.getStringUtil().removeLastLine();
     }
 
@@ -2530,7 +2552,7 @@ public class InputHandler {
      * be written to the redirectionFile are written to it.
      * This also ensures that multiple redirections
      */
-    Semaphore redirectionSem = new Semaphore(1);
+    private final Semaphore redirectionSem = new Semaphore(1);
 
     /**
      * Writes the provided object to the redirection file instead of the JTextPane.
@@ -2554,7 +2576,7 @@ public class InputHandler {
      * Stops all threads invoked, sets the userInputMode to false,
      * stops any audio playing, and finishes printing anything in the printing lists.
      */
-    public void escapeThreads() {
+    public final void escapeThreads() {
         //exit user input mode if in it
         setUserInputMode(false);
 
