@@ -51,6 +51,7 @@ public class FrameUtil {
      *
      * @return a list of non CyderFrame frame objects opened by this instance
      */
+    @SuppressWarnings("unused") /* for consistency purposes */
     public static ArrayList<Frame> getNonCyderFrames() {
         ArrayList<Frame> ret = new ArrayList<>();
 
@@ -78,7 +79,7 @@ public class FrameUtil {
      * Saves a screenshot of the CyderFrame with the provided name to the user's Files/ directory.
      *
      * @param cyderFrameName the name of the CyderFrame to screenshot
-     * @return whether or not the screenshot was successfully saved
+     * @return whether the screenshot was successfully saved
      */
     public static boolean screenshotCyderFrame(String cyderFrameName) {
         CyderFrame refFrame = null;
@@ -107,23 +108,22 @@ public class FrameUtil {
      * Saves a screenshot of the CyderFrame with the provided name to the user's Files/ directory.
      *
      * @param cyderFrame the CyderFrame to screenshot
-     * @return whether or not the screenshot was successfully saved
      */
-    public static boolean screenshotCyderFrame(CyderFrame cyderFrame) {
+    public static void screenshotCyderFrame(CyderFrame cyderFrame) {
         if (cyderFrame == null)
             throw new IllegalArgumentException("Valid CyderFrame with provided name does not exist");
 
         String saveName = cyderFrame.getTitle().substring(0,
                 Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length()));
         File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime() + ".png");
-        return screenshotCyderFrame(cyderFrame, refFile);
+        screenshotCyderFrame(cyderFrame, refFile);
     }
 
     /**
      * Saves a screenshot of the provided CyderFrame to the provided reference file.
      *
      * @param frame the CyderFrame to take a screenshot of
-     * @return whether or not the screenshot was successfully saved
+     * @return whether the screenshot was successfully saved
      */
     public static boolean screenshotCyderFrame(CyderFrame frame, File saveFile) {
         if (frame == null)
@@ -143,15 +143,6 @@ public class FrameUtil {
     }
 
     /**
-     * Pushes the provided frame fully onto the monitor it is currently displayed on, if possible.
-     *
-     * @param frame the frame to push completely into bounds
-     */
-    public static void pushFrameIntoBounds(CyderFrame frame) {
-        requestFramePosition(frame.getMonitor(), frame.getX(), frame.getY(), frame);
-    }
-
-    /**
      * Attempts to set the provided frame to the monitor specified,
      * if valid, with the provided starting location.
      *
@@ -165,7 +156,7 @@ public class FrameUtil {
                                             int requestedY, CyderFrame frame) {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] screenDevices = graphicsEnvironment.getScreenDevices();
-        Rectangle requestedScreenBounds = null;
+        Rectangle requestedScreenBounds;
 
         //if the monitor is valid, use its bounds
         if (requestedMonitor > -1 && requestedMonitor < screenDevices.length) {
@@ -208,6 +199,7 @@ public class FrameUtil {
     /**
      * Closes all instances of Frame.
      */
+    @SuppressWarnings("unused") /* for consistency purposes */
     public static void closeAllFrames() {
         for (Frame frame : Frame.getFrames()) {
             frame.dispose();
@@ -218,7 +210,7 @@ public class FrameUtil {
      * Closes all instances of Frame. If a frame is an instance of CyderFrame,
      * fastClose follows the value provided.
      *
-     * @param fastClose whether or not to fastClose any instances of CyderFrame
+     * @param fastClose whether to fastClose any instances of CyderFrame
      * @param ignoreFrames frames to not dispose if encountered
      */
     public static void closeAllFrames(boolean fastClose, Frame... ignoreFrames) {
@@ -249,7 +241,7 @@ public class FrameUtil {
      * Closes all instances of Frame. If a frame is an instance of CyderFrame,
      * fastClose follows the value provided.
      *
-     * @param fastClose whether or not to fastClose any instances of CyderFrame
+     * @param fastClose whether to fastClose any instances of CyderFrame
      */
     public static void closeAllFrames(boolean fastClose) {
         for (Frame frame : Frame.getFrames()) {
@@ -264,6 +256,7 @@ public class FrameUtil {
     /**
      * Closes all instances of CyderFrame.
      */
+    @SuppressWarnings("unused") /* for consistency purposes */
     public static void closeAllCyderFrames() {
         closeAllCyderFrames(false);
     }
@@ -287,16 +280,10 @@ public class FrameUtil {
     }
 
     /**
-     * Repaints all valid instances of Frame.
-     */
-    public static void repaintFrames() {
-        for (Frame frame : getFrames())
-            frame.repaint();
-    }
-
-    /**
      * Minimizes all CyderFrames.
      */
+
+    @SuppressWarnings("unused") /* for consistency purposes */
     public static void minimizeAllCyderFrames() {
         ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
 

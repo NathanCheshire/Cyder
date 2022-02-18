@@ -1,0 +1,142 @@
+[18-43-11] [ENTRY]: [Nathan]
+[18-43-12] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-43-12] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-43-12] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-43-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-43-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-43-13] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-43-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-43-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-43-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-43-13] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-43-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-43-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-43-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-43-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-43-13] [SYSTEM_IO]: Userdata requested: InputFill
+[18-43-13] [THREAD STARTED]: High Ping Checker
+[18-43-13] [THREAD STARTED]: Hourly Chime Checker
+[18-43-13] [THREAD STARTED]: Console Clock Updater
+[18-43-13] [THREAD STARTED]: Cyder Busy Checker
+[18-43-13] [THREAD STARTED]: Json Data Saver
+[18-43-13] [ACTION]: Console loaded in 2448ms
+[18-43-13] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-43-13] [ENTRY]: [TESTING MODE]
+[18-43-13] [SYSTEM_IO]: Userdata requested: laststart
+[18-43-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1429618275], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-43-14] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2448ms
+[18-43-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-43-18] [CLIENT]: widgets
+[18-43-18] [SYSTEM_IO]: Userdata requested: filterchat
+[18-43-19] [HANDLE]: GENERAL COMMAND HANDLED
+[18-43-19] [HANDLE]: PRIMARY HANDLE
+[18-43-19] [CONSOLE_OUT]: [STRING] Found 31 widgets:
+[18-43-19] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-20] [CONSOLE_OUT]: [STRING] Triggers: [hangman]
+Description: A hangman game
+[18-43-21] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-22] [CONSOLE_OUT]: [STRING] Triggers: [ttt, tic tac toe]
+Description: A TicTacToe widget
+[18-43-23] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-24] [CONSOLE_OUT]: [STRING] Triggers: [mp3, music]
+Description: An audio playing widget
+[18-43-25] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-26] [CONSOLE_OUT]: [STRING] Triggers: [dir]
+Description: A directory navigator widget
+[18-43-27] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-28] [CONSOLE_OUT]: [STRING] Triggers: [login, pin]
+Description: A widget to switch between Cyder users
+[18-43-30] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-31] [CONSOLE_OUT]: [STRING] Triggers: [createuser]
+Description: A user creating widget
+[18-43-32] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-33] [CONSOLE_OUT]: [STRING] Triggers: [prefs, edit user]
+Description: A widget to edit your user preferences and files
+[18-43-34] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-35] [CONSOLE_OUT]: [STRING] Triggers: [youtube, thumbnail]
+Description: A widget to steal youtube thumbnails
+[18-43-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-38] [CONSOLE_OUT]: [STRING] Triggers: [calculator, calc]
+Description: A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.
+[18-43-40] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-41] [CONSOLE_OUT]: [STRING] Triggers: [FathersDay card 2021]
+Description: Fathers day card for the year of 2021
+[18-43-43] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-44] [CONSOLE_OUT]: [STRING] Triggers: [Christmas card 2021]
+Description: Christmas card for the year of 2021
+[18-43-45] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-46] [CONSOLE_OUT]: [STRING] Triggers: [Christmas card 2020]
+Description: Christmas card for the year of 2020
+[18-43-48] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-48] [CONSOLE_OUT]: [STRING] Triggers: [Birthday card 2021]
+Description: Birthday card for my dad for the year 2021
+[18-43-50] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-51] [CONSOLE_OUT]: [STRING] Triggers: [click me]
+Description: A troll widget that pops open a new window every time it is clicked
+[18-43-53] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-54] [CONSOLE_OUT]: [STRING] Triggers: [clock]
+Description: A clock widget capable of spawning mini widgets and changing the time zone
+[18-43-56] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-43-56] [CONSOLE_OUT]: [STRING] Triggers: [color converter, color]
+Description: A color converter widget to convert from rgb to hex and vice versa
+[18-44-00] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-01] [CONSOLE_OUT]: [STRING] Triggers: [convex hull]
+Description: A convex hull algorithm visualizer
+[18-44-02] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-03] [CONSOLE_OUT]: [STRING] Triggers: [file signature]
+Description: A widget to read the raw file hex data and determine if the file signature matches the provided extension
+[18-44-06] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-06] [CONSOLE_OUT]: [STRING] Triggers: [conway]
+Description: Conway's game of life visualizer
+[18-44-08] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-09] [CONSOLE_OUT]: [STRING] Triggers: [hash, hasher]
+Description: A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1
+[18-44-13] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:2011)
+From line: 2011
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:2011)
+at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$12(InputHandler.java:1939)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[18-44-13] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-14] [CONSOLE_OUT]: [STRING] Triggers: [average images, average pictures]
+Description: A widget that adds multiple images together and divides by the total to obtain an average base image
+[18-44-18] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-19] [CONSOLE_OUT]: [STRING] Triggers: [pixelate picture, pixelate image]
+Description: A simple image pixelator widget that transforms the image into an image depicted of the specified number of pixels
+[18-44-22] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-23] [CONSOLE_OUT]: [STRING] Triggers: [resize pictures, resize images]
+Description: An image resizing widget to resize images
+[18-44-25] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-26] [CONSOLE_OUT]: [STRING] Triggers: [minecraft]
+Description: A minecraft widget that copies from the Mojang home page
+[18-44-28] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-29] [CONSOLE_OUT]: [STRING] Triggers: [note, notes]
+Description: A note taking widget that can save and display multiple notes
+[18-44-31] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-31] [CONSOLE_OUT]: [STRING] Triggers: [path, pathfinder]
+Description: A pathfinding visualizer for A* and Dijkstras algorithms
+[18-44-33] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:2011)
+From line: 2011
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.InputHandler.innerConsolePrint(InputHandler.java:2011)
+at cyder.handlers.internal.InputHandler.lambda$startConsolePrintingAnimation$12(InputHandler.java:1939)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[18-44-33] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-34] [CONSOLE_OUT]: [STRING] Triggers: [perlin]
+Description: Perlin noise visualizer/open simplex noise visualizer
+[18-44-36] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-37] [CONSOLE_OUT]: [STRING] Triggers: [phone]
+Description: A phone emulating widget
+[18-44-38] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-39] [CONSOLE_OUT]: [STRING] Triggers: [pizza]
+Description: A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit
+[18-44-41] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-42] [CONSOLE_OUT]: [STRING] Triggers: [temperature, temp]
+Description: A temperature conversion widget for the three standard temperature units
+[18-44-44] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-44-45] [CONSOLE_OUT]: [STRING] Triggers: [weather]
+Description: A widget that displays weather data for the current city you are in. The location is also changeable
+[18-44-48] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-47-31] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 2

@@ -1,0 +1,40 @@
+[18-39-37] [ENTRY]: [Nathan]
+[18-39-39] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-39-39] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-39-39] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-39-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-39-39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-39-39] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-39-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-39-40] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-39-40] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-39-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-39-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-39-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-39-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-39-40] [SYSTEM_IO]: Userdata requested: InputFill
+[18-39-40] [THREAD STARTED]: High Ping Checker
+[18-39-40] [THREAD STARTED]: Hourly Chime Checker
+[18-39-40] [THREAD STARTED]: Console Clock Updater
+[18-39-40] [THREAD STARTED]: Cyder Busy Checker
+[18-39-40] [THREAD STARTED]: Json Data Saver
+[18-39-40] [ACTION]: Console loaded in 2786ms
+[18-39-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-39-40] [ENTRY]: [TESTING MODE]
+[18-39-40] [SYSTEM_IO]: Userdata requested: laststart
+[18-39-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1041233458], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-39-40] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2786ms
+[18-39-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-39-47] [CLIENT]: widgets
+[18-39-47] [SYSTEM_IO]: Userdata requested: filterchat
+[18-39-47] [HANDLE]: GENERAL COMMAND HANDLED
+[18-39-47] [HANDLE]: PRIMARY HANDLE
+[18-39-47] [CONSOLE_OUT]: [STRING] Found 0 widgets:
+[18-39-47] [CONSOLE_OUT]: [STRING] -------------------------------------
+[18-39-48] [CONSOLE_OUT]: [STRING] Escaped
+[18-39-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-39-49] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1431, 267, 996, 655)], hash = [138776324], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-39-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-39-49] [EXIT]: [RUNTIME] 11s
+[18-39-49] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
