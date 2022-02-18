@@ -344,9 +344,6 @@ public class UserCreator implements WidgetBase {
             return false;
         }
 
-        //trim data
-        name = name.trim();
-
         //generate the user uuid and ensure it is unique
         String uuid = SecurityUtil.generateUUID();
         File folder = new File(OSUtil.buildPath("dynamic", "users",uuid));
@@ -365,12 +362,15 @@ public class UserCreator implements WidgetBase {
         for (File f : folder.getParentFile().listFiles()) {
             File jsonFile = new File(OSUtil.buildPath(f.getAbsolutePath(), UserFile.USERDATA.getName()));
 
+            // user files might remain without a user json
             if (!jsonFile.exists())
                 continue;
 
-            String currentName = UserUtil.extractUserData(jsonFile, "name");
+            // just to be safe
+            if (!f.isDirectory())
+                continue;
 
-            if (currentName.equalsIgnoreCase(newUserName.getText())) {
+            if (UserUtil.extractUser(f.getName()).getName().equalsIgnoreCase(newUserName.getText().trim())) {
                 userNameExists = true;
                 break;
             }

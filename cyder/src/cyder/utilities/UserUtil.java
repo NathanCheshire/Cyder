@@ -22,6 +22,9 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
+/**
+ * Utilities regarding a user, their json file, and IO to/from that json file.
+ */
 public class UserUtil {
     /**
      * Instantiation of util method not allowed.
@@ -33,7 +36,21 @@ public class UserUtil {
     //the semaphore to use when reading or writing userdata
     private static final Semaphore userIOSemaphore = new Semaphore(1);
 
-    //getter so exiting method can make sure jsonIOSem is not locked
+    /**
+     * The user used for IO to the user's json every {@link UserUtil#IO_TIMEOUT}
+     */
+    private static User cyderUser = getDefaultUser();
+
+    /**
+     * The timeout between writes to the user json file in ms.
+     */
+    public static final int IO_TIMEOUT = 3000;
+
+    /**
+     * Returns the semaphore used for IO to/from the user's JSON file.
+     *
+     * @return the semaphore used for IO to/from the user's JSON file
+     */
     public static Semaphore getUserIOSemaphore() {
         return userIOSemaphore;
     }
@@ -49,7 +66,6 @@ public class UserUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-
     }
 
     /**
@@ -75,7 +91,8 @@ public class UserUtil {
     }
 
     /**
-     * Sets the user data of the provided file using the given data and name
+     * Sets the user data of the provided file using the given data and name.
+     *
      * @param f the file to write the json data to
      * @param name the data name
      * @param value the value of the data to update
@@ -361,7 +378,7 @@ public class UserUtil {
     }
 
     /**
-     * Extracts the user from the provided json file.
+     * Extracts the user from the json file corresponding to the provided UUID.
      *
      * @param UUID the uuid if the user we want to obtain
      * @return the resulting user object
@@ -391,7 +408,7 @@ public class UserUtil {
     }
 
     /**
-     * Extracts the user from the the currently logged in user.
+     * Extracts the user from the currently logged-in user.
      *
      * @return the resulting user object
      */
@@ -425,22 +442,7 @@ public class UserUtil {
     }
 
     /**
-     * Extracts the requested data from the provided json file
-     * @param f the json file to extract data from
-     * @param name the data to extract from the file
-     * @return the requested data
-     */
-    public static String extractUserData(File f, String name) {
-        if (!FileUtil.getExtension(f).equals(".json"))
-            throw new IllegalArgumentException("File is not a json type");
-        if (!f.exists())
-            throw new IllegalArgumentException("File does not exist");
-
-        return extractUserData(extractUser(f), name);
-    }
-
-    /**
-     * Gets the requested data from the currently logged in user.
+     * Gets the requested data from the currently logged-in user.
      * This method exists purely for legacy calls such as getUserData("foreground").
      * Ideally the call should be extractUser().getForeground()
      * @param name the ID of the data we want to obtain
@@ -492,7 +494,7 @@ public class UserUtil {
      * @param name the data id for which to return
      * @return the requested data
      */
-    public static String extractUserData(User u, String name) {
+    private static String extractUserData(User u, String name) {
         if (u == null || u.getClass() == null || u.getClass().getMethods() == null)
             throw new IllegalArgumentException("Something is null :/\nUser: " + u + "\nName: " + name);
 
@@ -520,7 +522,7 @@ public class UserUtil {
     }
 
     /**
-     * @return a user object with all the default values found in {@code GenesisShare}
+     * @return a user object with all the default values found in {@code GenesisShare}.
      */
     public static User getDefaultUser() {
         User ret = new User();
@@ -708,11 +710,11 @@ public class UserUtil {
     }
 
     /**
-     * After a user's json file was deleted due to it being un-parsable, null, or any othe reason,
+     * After a user's json file was deleted due to it being un-parsable, null, or any other reason,
      * this method informs the user that a user was corrupted and attempts to tell the user
      * which user it was by listing the files associated with the corrupted user.
      *
-     * This method should be utilized anywhere a userdata file is deleted duriong Cyder runtime.
+     * This method should be utilized anywhere a userdata file is deleted during Cyder runtime.
      *
      * @param UUID the uuid of the corrupted user
      */
@@ -916,7 +918,7 @@ public class UserUtil {
     }
 
     /**
-     * Searches through the users directory and finds the first logged-in user.
+     * Searches through the users/ directory and finds the first logged-in user.
      *
      * @return the uuid of the first logged-in user
      */
@@ -940,7 +942,7 @@ public class UserUtil {
         //default background is creating an image gradient
         Image img = CyderIcons.defaultBackground.getImage();
 
-        BufferedImage bi = null;
+        BufferedImage bi;
 
         //try to get default image that isn't bundled with Cyder
         try {
