@@ -1316,36 +1316,37 @@ public final class ConsoleFrame {
         }, "Cyder Busy Checker");
 
         CyderThreadRunner.submit(() -> {
+            final int timeout = 3000;
+
             try {
                 // initial delay
-                Thread.sleep(5000);
+                Thread.sleep(timeout);
 
                 OUTER:
                 while (true) {
-                    User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
+                    // extract user
+                    User user = UserUtil.extractUser();
 
+                    // get and set screen size
+                    User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
                     screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
                     screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
-
                     screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
-
                     screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
                             .getDevice().getIDstring().replaceAll("[^0-9]", "")));
-
                     screenStat.setConsoleX(consoleCyderFrame.getX());
                     screenStat.setConsoleY(consoleCyderFrame.getY());
-
-                    User user = UserUtil.extractUser();
                     user.setScreenStat(screenStat);
 
-                    //just to be safe
+                    // todo get and set other vars that need to be saved
+
+                    // just to be safe
                     if (!isClosed()) {
                         UserUtil.setUserData(user);
                     }
 
-                    //sleep 3000 ms
                     int i = 0;
-                    while (i < 3000) {
+                    while (i < timeout) {
                         //noinspection BusyWait
                         Thread.sleep(50);
                         if (consoleFrameClosed) {
@@ -1357,8 +1358,7 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Json Data Saver");
-        // todo save more details such as all user settings
+        }, "JSON Data Saver");
     }
 
     //one time run things such as notifying due to special days, debug properties,

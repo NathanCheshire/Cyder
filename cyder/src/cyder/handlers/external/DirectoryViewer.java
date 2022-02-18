@@ -29,16 +29,14 @@ public class DirectoryViewer implements WidgetBase {
     private static CyderTextField dirField;
     private static CyderScrollList cyderScrollList;
     private static JLabel dirScrollLabel;
-    private static CyderButton last;
-    private static CyderButton next;
 
     //corresponding lists
-    private static LinkedList<String> directoryNameList = new LinkedList<>();
-    private static LinkedList<File> directoryFileList = new LinkedList<>();
+    private static final LinkedList<String> directoryNameList = new LinkedList<>();
+    private static final LinkedList<File> directoryFileList = new LinkedList<>();
 
     //stacks for traversal
-    private static Stack<File> backward = new Stack<>();
-    private static Stack<File> forward = new Stack<>();
+    private static final Stack<File> backward = new Stack<>();
+    private static final Stack<File> forward = new Stack<>();
 
     //where we currently are
     private static File currentDirectory = new File("c:\\users\\"
@@ -79,14 +77,14 @@ public class DirectoryViewer implements WidgetBase {
         dirFrame.getContentPane().add(dirField);
 
         //last setup
-        last = new CyderButton(" < ");
+        CyderButton last = new CyderButton(" < ");
         last.setFocusPainted(false);
         last.setForeground(CyderColors.navy);
         last.setBackground(CyderColors.regularRed);
         last.setFont(CyderFonts.segoe20);
         last.setBorder(new LineBorder(CyderColors.navy,5,false));
         last.addActionListener(e -> {
-            //we may only go back if there's something in the back and it's different from where we are now
+            //we may only go back if there's something in the back, and it's different from where we are now
             if (backward != null && !backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
                 //traversing so push where we are to forward
                 forward.push(currentDirectory);
@@ -102,7 +100,7 @@ public class DirectoryViewer implements WidgetBase {
         dirFrame.getContentPane().add(last);
 
         //next setup
-        next = new CyderButton(" > ");
+        CyderButton next = new CyderButton(" > ");
         next.setFocusPainted(false);
         next.setForeground(CyderColors.navy);
         next.setBackground(CyderColors.regularRed);
@@ -143,7 +141,7 @@ public class DirectoryViewer implements WidgetBase {
             int finalI = i;
             class thisAction implements CyderScrollList.ScrollAction {
                 @Override
-                public void fire() {
+                public final void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
                         refreshBasedOnDir(directoryFileList.get(finalI), true);
                     } else {
@@ -191,7 +189,7 @@ public class DirectoryViewer implements WidgetBase {
             int finalI = i;
             class thisAction implements CyderScrollList.ScrollAction {
                 @Override
-                public void fire() {
+                public final void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
                         refreshBasedOnDir(directoryFileList.get(finalI), true);
                     } else {

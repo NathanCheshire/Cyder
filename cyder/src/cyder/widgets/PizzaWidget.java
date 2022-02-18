@@ -27,11 +27,6 @@ public class PizzaWidget implements WidgetBase {
 
     private static CyderScrollList pizzaToppingsScroll;
     private static CyderScrollList crustTypeScroll;
-    private static JLabel pizzaToppingsLabel;
-    private static JLabel crustTypeLabel;
-
-    private static LinkedList<String> pizzaToppingsList;
-    private static LinkedList<String> crustTypeList;
 
     private static JTextArea orderComments;
 
@@ -39,14 +34,15 @@ public class PizzaWidget implements WidgetBase {
     private static CyderCheckbox salad;
     private static CyderCheckbox soda;
 
-    private static CyderButton placeOrder;
-    private static CyderButton resetValues;
-
+    /**
+     * Restrict default constructor.
+     */
     private PizzaWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit")
+    @Widget(trigger = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. " +
+            "that I rewrote using the Cyder toolkit")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "PIZZA");
 
@@ -114,7 +110,7 @@ public class PizzaWidget implements WidgetBase {
         pizzaFrame.getContentPane().add(largeLabel);
 
         smallPizza = new CyderCheckbox();
-        smallPizza.setHorizontalAlignment(JLabel.CENTER);
+        smallPizza.setHorizontalAlignment(SwingConstants.CENTER);
         smallPizza.setNotSelected();
         smallPizza.addMouseListener(new MouseAdapter() {
             @Override
@@ -127,7 +123,7 @@ public class PizzaWidget implements WidgetBase {
         pizzaFrame.getContentPane().add(smallPizza);
 
         mediumPizza = new CyderCheckbox();
-        mediumPizza.setHorizontalAlignment(JLabel.CENTER);
+        mediumPizza.setHorizontalAlignment(SwingConstants.CENTER);
         mediumPizza.setSelected();
         mediumPizza.addMouseListener(new MouseAdapter() {
             @Override
@@ -140,7 +136,7 @@ public class PizzaWidget implements WidgetBase {
         pizzaFrame.getContentPane().add(mediumPizza);
 
         largePizza = new CyderCheckbox();
-        largePizza.setHorizontalAlignment(JLabel.CENTER);
+        largePizza.setHorizontalAlignment(SwingConstants.CENTER);
         largePizza.setNotSelected();
         largePizza.addMouseListener(new MouseAdapter() {
             @Override
@@ -171,7 +167,7 @@ public class PizzaWidget implements WidgetBase {
             crustTypeScroll.addElement(crustType, null);
         }
 
-        crustTypeLabel = crustTypeScroll.generateScrollList();
+        JLabel crustTypeLabel = crustTypeScroll.generateScrollList();
         crustTypeLabel.setBounds(80,250,160,200);
         pizzaFrame.getContentPane().add(crustTypeLabel);
 
@@ -184,7 +180,7 @@ public class PizzaWidget implements WidgetBase {
             pizzaToppingsScroll.addElement(pizzaTopping, null);
         }
 
-        pizzaToppingsLabel = pizzaToppingsScroll.generateScrollList();
+        JLabel pizzaToppingsLabel = pizzaToppingsScroll.generateScrollList();
         pizzaToppingsLabel.setBounds(320,250,200,200);
         pizzaFrame.getContentPane().add(pizzaToppingsLabel);
 
@@ -194,14 +190,14 @@ public class PizzaWidget implements WidgetBase {
         Extra.setBounds(40,510,130,30);
         pizzaFrame.getContentPane().add(Extra);
 
-        JLabel breadsticksLabel = new JLabel("Breadsticks");
-        breadsticksLabel.setFont(CyderFonts.segoe20);
-        breadsticksLabel.setForeground(CyderColors.navy);
-        breadsticksLabel.setBounds(130,470,150,30);
-        pizzaFrame.getContentPane().add(breadsticksLabel);
+        JLabel breadSticksLabel = new JLabel("Bread Sticks");
+        breadSticksLabel.setFont(CyderFonts.segoe20);
+        breadSticksLabel.setForeground(CyderColors.navy);
+        breadSticksLabel.setBounds(130,470,150,30);
+        pizzaFrame.getContentPane().add(breadSticksLabel);
 
         breadSticks = new CyderCheckbox();
-        breadSticks.setHorizontalAlignment(JLabel.CENTER);
+        breadSticks.setHorizontalAlignment(SwingConstants.CENTER);
         breadSticks.setNotSelected();
         breadSticks.setBounds(165,505,50,50);
         pizzaFrame.getContentPane().add(breadSticks);
@@ -213,7 +209,7 @@ public class PizzaWidget implements WidgetBase {
         pizzaFrame.getContentPane().add(saladLabel);
 
         salad = new CyderCheckbox();
-        salad.setHorizontalAlignment(JLabel.CENTER);
+        salad.setHorizontalAlignment(SwingConstants.CENTER);
         salad.setNotSelected();
         salad.setBounds(315,505,50,50);
         pizzaFrame.getContentPane().add(salad);
@@ -225,7 +221,7 @@ public class PizzaWidget implements WidgetBase {
         pizzaFrame.getContentPane().add(sodaLabel);
 
         soda = new CyderCheckbox();
-        soda.setHorizontalAlignment(JLabel.CENTER);
+        soda.setHorizontalAlignment(SwingConstants.CENTER);
         soda.setNotSelected();
         soda.setBounds(445,505,50,50);
         pizzaFrame.getContentPane().add(soda);
@@ -245,8 +241,8 @@ public class PizzaWidget implements WidgetBase {
         orderComments.setBorder(new LineBorder(new Color(0, 0, 0)));
 
         CyderScrollPane orderCommentsScroll = new CyderScrollPane(orderComments,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         orderCommentsScroll.setThumbColor(CyderColors.regularRed);
         orderCommentsScroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         orderCommentsScroll.getViewport().setBorder(null);
@@ -297,7 +293,7 @@ public class PizzaWidget implements WidgetBase {
                 String Extras = "";
 
                 if (breadSticks.isSelected())
-                    Extras += "Breadsticks<br/>";
+                    Extras += "Bread Sticks<br/>";
 
                 if (salad.isSelected())
                     Extras += "Salad<br/>";

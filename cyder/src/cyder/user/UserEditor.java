@@ -695,7 +695,7 @@ public class UserEditor implements WidgetBase {
         switchingLabel.add(FontLabel);
 
         CyderScrollList fontScrollList = new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE);
-        fontScrollList.setItemAlignemnt(StyleConstants.ALIGN_LEFT);
+        fontScrollList.setItemAlignment(StyleConstants.ALIGN_LEFT);
 
         AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
 

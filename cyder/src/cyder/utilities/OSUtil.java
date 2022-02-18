@@ -541,9 +541,6 @@ public class OSUtil {
     //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
     // to push it into bounds or something with that function
 
-    //todo WidgetPackages.json will go away since we're going to use guava to get all widgets from all packages
-    // throughout Cyder
-
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
     //todo make this a command to regenerate the list of valid commands

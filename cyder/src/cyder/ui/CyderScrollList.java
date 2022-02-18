@@ -18,16 +18,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+@SuppressWarnings("unused")
 public class CyderScrollList {
     private int width;
     private int height;
 
     private JTextPane listPane;
 
-    private int itemAlignemnt = StyleConstants.ALIGN_LEFT;
+    private int itemAlignment = StyleConstants.ALIGN_LEFT;
 
-    public void setItemAlignemnt(int itemAlignment) {
-        this.itemAlignemnt = itemAlignment;
+    public final void setItemAlignment(int itemAlignment) {
+        this.itemAlignment = itemAlignment;
     }
 
     private LinkedList<JLabel> elements;
@@ -55,24 +56,24 @@ public class CyderScrollList {
 
     private Font scrollFont = CyderFonts.segoe20;
 
-    public Font getScrollFont() {
+    public final Font getScrollFont() {
         return this.scrollFont;
     }
 
-    public void setScrollFont(Font f) {
+    public final void setScrollFont(Font f) {
         this.scrollFont = f;
     }
 
     private Border border = new LineBorder(CyderColors.navy,5,false);
 
-    public void setBorder(Border border) {
+    public final void setBorder(Border border) {
         this.border = border;
     }
 
     /**
-     * The list of scroll lists craeted in the current instance of Cyder.
+     * The list of scroll lists created in the current instance of Cyder.
      */
-    private static ArrayList<CyderScrollList> scrollLists = new ArrayList<>();
+    private static final ArrayList<CyderScrollList> scrollLists = new ArrayList<>();
 
     /**
      * Refreshes all CyderScrollLists that have been created this instance of Cyder.
@@ -93,9 +94,9 @@ public class CyderScrollList {
     }
 
     /**
-     * Refreshses the list belonging to this instance of CyderScrollList.
+     * Refreshes the list belonging to this instance of CyderScrollList.
      */
-    public void refreshList() {
+    public final void refreshList() {
         boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
 
         CyderOutputPane cop = new CyderOutputPane(listPane);
@@ -115,7 +116,7 @@ public class CyderScrollList {
      *
      * @return a label based on the currently set width and height containing the CyderScrollList
      */
-    public JLabel generateScrollList() {
+    public final JLabel generateScrollList() {
         Font menuFont = scrollFont;
         int fontHeight = StringUtil.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
@@ -133,9 +134,9 @@ public class CyderScrollList {
         listPane.setOpaque(false);
         listPane.setBackground(CyderColors.vanila);
 
-        SimpleAttributeSet attribs = new SimpleAttributeSet();
-        StyleConstants.setAlignment(attribs, itemAlignemnt);
-        listPane.setParagraphAttributes(attribs, true);
+        SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
+        StyleConstants.setAlignment(simpleAttributeSet, itemAlignment);
+        listPane.setParagraphAttributes(simpleAttributeSet, true);
 
         refreshList();
         scrollLists.add(this);
@@ -161,15 +162,15 @@ public class CyderScrollList {
 
     private CyderScrollPane scrollPane;
 
-    public CyderScrollPane getScrollPane() {
+    public final CyderScrollPane getScrollPane() {
         return scrollPane;
     }
 
-    public void addElement(String labelText, ScrollAction sa) {
+    public final void addElement(String labelText, ScrollAction sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
         add.setFont(CyderFonts.segoe20);
-        add.setVerticalAlignment(JLabel.CENTER);
+        add.setVerticalAlignment(SwingConstants.CENTER);
         add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -185,11 +186,11 @@ public class CyderScrollList {
         elements.add(add);
     }
 
-    public void addElementWithSingleCLickAction(String labelText, @NotNull ScrollAction sa) {
+    public final void addElementWithSingleCLickAction(String labelText, @NotNull ScrollAction sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
         add.setFont(CyderFonts.segoe20);
-        add.setVerticalAlignment(JLabel.CENTER);
+        add.setVerticalAlignment(SwingConstants.CENTER);
         add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -205,11 +206,11 @@ public class CyderScrollList {
         void fire();
     }
 
-    public void removeAllElements() {
+    public final void removeAllElements() {
         this.elements = new LinkedList<>();
     }
 
-    public void removeElement(String labelText) {
+    public final void removeElement(String labelText) {
         for (JLabel element : elements) {
             if (element.getText().equals(labelText)) {
                 elements.remove(element);
@@ -244,7 +245,7 @@ public class CyderScrollList {
         }
     }
 
-    public LinkedList<String> getSelectedElements() {
+    public final LinkedList<String> getSelectedElements() {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
@@ -256,7 +257,7 @@ public class CyderScrollList {
         return ret;
     }
 
-    public String getSelectedElement() {
+    public final String getSelectedElement() {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
@@ -272,31 +273,31 @@ public class CyderScrollList {
         return retString;
     }
 
-    public int getWidth() {
+    public final int getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    public final int getHeight() {
         return height;
     }
 
-    public SelectionPolicy getSelectionPolicy() {
+    public final SelectionPolicy getSelectionPolicy() {
         return selectionPolicy;
     }
 
-    public void setWidth(int width) {
+    public final void setWidth(int width) {
         this.width = width;
     }
 
-    public void setHeight(int height) {
+    public final void setHeight(int height) {
         this.height = height;
     }
 
-    public JTextPane getListPane() {
+    public final JTextPane getListPane() {
         return listPane;
     }
 
-    public void setSelectionPolicy(SelectionPolicy selectionPolicy) {
+    public final void setSelectionPolicy(SelectionPolicy selectionPolicy) {
         this.selectionPolicy = selectionPolicy;
     }
 
@@ -313,7 +314,7 @@ public class CyderScrollList {
         return sepLabel;
     }
 
-    public void clearSelectedElements() {
+    public final void clearSelectedElements() {
         for (JLabel element : elements) {
             element.setForeground(CyderColors.navy);
         }

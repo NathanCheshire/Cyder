@@ -11,7 +11,10 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
-import cyder.utilities.*;
+import cyder.utilities.FileUtil;
+import cyder.utilities.GetterUtil;
+import cyder.utilities.IOUtil;
+import cyder.utilities.ImageUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -164,7 +167,7 @@ public class ImageAveragerWidget implements WidgetBase {
             imagesScroll.addElement(files.get(j).getName(), action);
         }
 
-        imagesScroll.setItemAlignemnt(StyleConstants.ALIGN_LEFT);
+        imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);
         imagesScrollLabel = imagesScroll.generateScrollList();
         imagesScrollLabel.setBounds(10, 10, 400, 400);
         imageScrollLabelHolder.setBackground(CyderColors.vanila);
