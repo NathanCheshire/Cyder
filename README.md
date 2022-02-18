@@ -29,11 +29,11 @@ tl;dr Cyder is a virtual assistant and chatbot that performs tasks you might nee
 
 ## Screenshots
 
-### Console with AudioPlayer open
+![Insomnia Cyder _2022-02-17](https://user-images.githubusercontent.com/60986919/154597225-75b1ae4f-6382-4a4a-a4c7-4d07819d8f03.png)
 
-Cyder can download any youtube video. Along with the video, the thumbnail is downloaded to be used as album art for both the OS' taskbar and Cyder's taskbar.
+![Dallas' weather_2022-02-17](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
 
-<img src="https://i.imgur.com/UhGWurZ.png" data-canonical-src="https://i.imgur.com/UhGWurZ.png" width=75% height=75%/>
+![Twillzzz - Lord_2022-02-17](https://user-images.githubusercontent.com/60986919/154597231-7a5e4e68-585c-45d7-b18d-503d65fd04c5.png)
 
 ### Pathfinder
 
