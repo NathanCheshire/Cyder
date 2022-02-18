@@ -22,7 +22,7 @@ import java.awt.*;
 /**
  * A calculator widget to parse mathematical expressions.
  */
-public class CalculatorWidget implements WidgetBase {
+public class CalculatorWidget {
 
     /**
      * Prevent illegal class instantiation.
@@ -32,7 +32,7 @@ public class CalculatorWidget implements WidgetBase {
     }
 
     /**
-     * ShowGUI method per WidgetBase standard
+     * ShowGUI method standard.
      */
     @Widget(trigger = {"calculator", "calc"}, description =
             "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")

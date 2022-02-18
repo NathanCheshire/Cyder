@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class PizzaWidget implements WidgetBase {
+public class PizzaWidget {
     private static CyderFrame pizzaFrame;
     private static CyderTextField nameField;
     private static CyderCheckbox smallPizza;

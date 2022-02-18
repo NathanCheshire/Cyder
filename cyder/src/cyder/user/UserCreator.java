@@ -12,7 +12,6 @@ import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.ui.*;
 import cyder.utilities.*;
-import cyder.widgets.WidgetBase;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,7 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class UserCreator implements WidgetBase {
+public class UserCreator {
     /**
      * The user creator frame.
      */
@@ -34,7 +33,7 @@ public class UserCreator implements WidgetBase {
     /**
      * The password field to confirm the new user's password.
      */
-    private static CyderPasswordField newUserPasswordconf;
+    private static CyderPasswordField newUserPasswordConf;
 
     /**
      * The password field for the user's password.
@@ -56,7 +55,7 @@ public class UserCreator implements WidgetBase {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "createuser", description = "A user creating widget")
+    @Widget(trigger = {"createuser", "create"}, description = "A user creating widget")
     public static void showGUI() {
         if (createUserFrame != null)
             createUserFrame.dispose();
@@ -69,11 +68,11 @@ public class UserCreator implements WidgetBase {
         createUserFrame.setTitle("Create User");
 
 
-        JLabel namelabel = new JLabel("Username: ", SwingConstants.CENTER);
-        namelabel.setFont(CyderFonts.segoe20);
-        namelabel.setForeground(CyderColors.navy);
-        namelabel.setBounds(120, 30, 121, 30);
-        createUserFrame.getContentPane().add(namelabel);
+        JLabel nameLabel = new JLabel("Username: ", SwingConstants.CENTER);
+        nameLabel.setFont(CyderFonts.segoe20);
+        nameLabel.setForeground(CyderColors.navy);
+        nameLabel.setBounds(120, 30, 121, 30);
+        createUserFrame.getContentPane().add(nameLabel);
 
         //initialize here since we need to update its tooltip
         CyderButton createNewUser = new CyderButton("Create User");
@@ -116,7 +115,7 @@ public class UserCreator implements WidgetBase {
         newUserPassword.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordConf.getPassword())) {
                     matchPasswords.setText("Passwords match");
                     matchPasswords.setForeground(CyderColors.regularGreen);
                 } else {
@@ -136,11 +135,11 @@ public class UserCreator implements WidgetBase {
         passwordLabelConf.setBounds(60, 210, 240, 30);
         createUserFrame.getContentPane().add(passwordLabelConf);
 
-        newUserPasswordconf = new CyderPasswordField();
-        newUserPasswordconf.addKeyListener(new KeyAdapter() {
+        newUserPasswordConf = new CyderPasswordField();
+        newUserPasswordConf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordconf.getPassword())) {
+                if (Arrays.equals(newUserPassword.getPassword(), newUserPasswordConf.getPassword())) {
                     matchPasswords.setText("Passwords match");
                     matchPasswords.setForeground(CyderColors.regularGreen);
                 } else {
@@ -149,8 +148,8 @@ public class UserCreator implements WidgetBase {
                 }
             }
         });
-        newUserPasswordconf.setBounds(60, 250, 240, 40);
-        createUserFrame.getContentPane().add(newUserPasswordconf);
+        newUserPasswordConf.setBounds(60, 250, 240, 40);
+        createUserFrame.getContentPane().add(newUserPasswordConf);
 
         matchPasswords.setFont(CyderFonts.segoe20);
         matchPasswords.setForeground(CyderColors.regularGreen);
@@ -209,7 +208,7 @@ public class UserCreator implements WidgetBase {
             public void mouseReleased(MouseEvent e) {
                 try {
                     if (!createUser(newUserName.getText(), newUserPassword.getPassword(),
-                            newUserPasswordconf.getPassword(), createUserBackground)) {
+                            newUserPasswordConf.getPassword(), createUserBackground)) {
                         createUserFrame.notify("Failed to create user");
 
                         if (lastGeneratedUUID != null) {
@@ -280,7 +279,7 @@ public class UserCreator implements WidgetBase {
     }
 
     /**
-     * Closes the create user frame if open.
+     * Closes the createUserFrame if open.
      */
     public static void close() {
         if (createUserFrame != null)
@@ -312,14 +311,14 @@ public class UserCreator implements WidgetBase {
         if (!Arrays.equals(password, passwordConf)) {
             createUserFrame.notify("Passwords are not equal");
             newUserPassword.setText("");
-            newUserPasswordconf.setText("");
+            newUserPasswordConf.setText("");
             return false;
         }
 
         if (password.length < 5 || passwordConf.length < 5) {
             createUserFrame.notify("Password length must be at least 5 characters");
             newUserPassword.setText("");
-            newUserPasswordconf.setText("");
+            newUserPasswordConf.setText("");
             return false;
         }
 
@@ -340,7 +339,7 @@ public class UserCreator implements WidgetBase {
             createUserFrame.notify("Password must contain at least one number," +
                     " one letter, and be 5 characters long");
             newUserPassword.setText("");
-            newUserPasswordconf.setText("");
+            newUserPasswordConf.setText("");
             return false;
         }
 
@@ -473,7 +472,7 @@ public class UserCreator implements WidgetBase {
                 y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
             }
         }
-        //otherwise default monitor stats
+        // otherwise, default monitor stats
         else {
             x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
             y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;

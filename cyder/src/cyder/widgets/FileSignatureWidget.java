@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-public class FileSignatureWidget implements WidgetBase {
+public class FileSignatureWidget {
     private static File currentFile = null;
     private static CyderFrame signatureFrame;
     private static CyderTextField signatureField;

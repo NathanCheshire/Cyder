@@ -17,7 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
-public class TemperatureWidget implements WidgetBase {
+public class TemperatureWidget {
     private CyderFrame temperatureFrame;
     private CyderTextField startingValue;
 

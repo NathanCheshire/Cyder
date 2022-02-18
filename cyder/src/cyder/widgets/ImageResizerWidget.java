@@ -25,7 +25,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class ImageResizerWidget implements WidgetBase {
+public class ImageResizerWidget {
 
     private static CyderTextField xdim;
     private static CyderTextField ydim;

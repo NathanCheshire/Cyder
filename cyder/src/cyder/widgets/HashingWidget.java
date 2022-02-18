@@ -5,8 +5,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.Logger;
+import cyder.handlers.internal.PopupHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
@@ -18,7 +18,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 
-public class HashingWidget implements WidgetBase {
+public class HashingWidget {
     private CyderButton hashButton;
     private CyderPasswordField hashField;
     private int algorithmIndex = 0;

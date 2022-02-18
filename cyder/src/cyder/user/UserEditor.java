@@ -16,7 +16,6 @@ import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
 import cyder.widgets.ColorConverterWidget;
-import cyder.widgets.WidgetBase;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -41,13 +40,8 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class UserEditor implements WidgetBase {
+public class UserEditor {
     private static CyderFrame editUserFrame;
-
-    private static CyderButton addFile;
-    private static CyderButton openFile;
-    private static CyderButton deleteFile;
-    private static CyderButton renameFile;
 
     private static List<String> filesNameList;
     private static List<File> filesList;
@@ -55,12 +49,9 @@ public class UserEditor implements WidgetBase {
     private static JLabel filesLabel;
     private static CyderScrollList filesScroll;
 
-    private static LinkedList<String> fontList = new LinkedList<>();
+    private static final LinkedList<String> fontList = new LinkedList<>();
 
     private static CyderButton changePassword;
-
-    private static CyderButton forwardButton;
-    private static CyderButton backwardButton;
 
     private static JLabel switchingLabel;
     private static int prefsPanelIndex;
@@ -99,14 +90,14 @@ public class UserEditor implements WidgetBase {
 
         revalidateBasedOnIndex();
 
-        backwardButton = new CyderButton("<");
+        CyderButton backwardButton = new CyderButton("<");
         backwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         backwardButton.setFont(CyderFonts.segoe30);
         backwardButton.addActionListener(e -> lastEditUser());
         backwardButton.setBounds(20, 50 + 125, 50, 250);
         editUserFrame.getContentPane().add(backwardButton);
 
-        forwardButton = new CyderButton(">");
+        CyderButton forwardButton = new CyderButton(">");
         forwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         forwardButton.setFont(CyderFonts.segoe30);
         forwardButton.addActionListener(e -> nextEditUser());
@@ -145,7 +136,6 @@ public class UserEditor implements WidgetBase {
         }
 
         String[] BackgroundsArray = new String[filesNameList.size()];
-        BackgroundsArray = filesNameList.toArray(BackgroundsArray);
     }
 
     private static void nextEditUser() {
@@ -226,11 +216,11 @@ public class UserEditor implements WidgetBase {
         editUserFrame.getContentPane().add(filesLabel);
         switchingLabel.add(filesLabel);
 
-        addFile = new CyderButton("Add");
-        addFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        addFile.setFocusPainted(false);
-        addFile.setBackground(CyderColors.regularRed);
-        addFile.addActionListener(e -> {
+        CyderButton addFile1 = new CyderButton("Add");
+        addFile1.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        addFile1.setFocusPainted(false);
+        addFile1.setBackground(CyderColors.regularRed);
+        addFile1.addActionListener(e -> {
             try {
                 new Thread(() -> {
                     try {
@@ -248,7 +238,7 @@ public class UserEditor implements WidgetBase {
                         }
 
                         Path copyPath = new File(addFile.getAbsolutePath()).toPath();
-                        String folderName = null;
+                        String folderName;
 
                         if (FileUtil.isSupportedImageExtension(addFile)) {
                             folderName = UserFile.BACKGROUNDS.getName();
@@ -275,11 +265,11 @@ public class UserEditor implements WidgetBase {
                 ExceptionHandler.handle(exc);
             }
         });
-        addFile.setFont(CyderFonts.segoe20);
-        addFile.setBounds(20, 440, 155, 40);
-        switchingLabel.add(addFile);
+        addFile1.setFont(CyderFonts.segoe20);
+        addFile1.setBounds(20, 440, 155, 40);
+        switchingLabel.add(addFile1);
 
-        openFile = new CyderButton("Open");
+        CyderButton openFile = new CyderButton("Open");
         openFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
         openFile.setFocusPainted(false);
         openFile.setBackground(CyderColors.regularRed);
@@ -297,7 +287,7 @@ public class UserEditor implements WidgetBase {
         openFile.setBounds(20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(openFile);
 
-        renameFile = new CyderButton("Rename");
+        CyderButton renameFile = new CyderButton("Rename");
         renameFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
         renameFile.addActionListener(e -> new Thread(() -> {
             try {
@@ -391,7 +381,7 @@ public class UserEditor implements WidgetBase {
         renameFile.setBounds(20 + 155 + 20 + 155 + 20, 440, 155, 40);
         switchingLabel.add(renameFile);
 
-        deleteFile = new CyderButton("Delete");
+        CyderButton deleteFile = new CyderButton("Delete");
         deleteFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteFile.addActionListener(e -> {
             if (!filesScroll.getSelectedElements().isEmpty()) {
@@ -436,6 +426,7 @@ public class UserEditor implements WidgetBase {
                             for (File f : new File("dynamic/users/"
                                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
                                 if (FileUtil.getFilename(f).equals(name)) {
+                                    //noinspection ResultOfMethodCallIgnored
                                     f.delete();
                                     break;
                                 }
@@ -533,11 +524,10 @@ public class UserEditor implements WidgetBase {
         foregroundField.setText(UserUtil.getUserData("Foreground"));
         foregroundField.setFont(CyderFonts.segoe30);
         foregroundField.setToolTipText("Console input/output text color");
-        JTextField finalHexField1 = foregroundField;
         foregroundField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    Color c = ColorUtil.hextorgbColor(finalHexField1.getText());
+                    Color c = ColorUtil.hextorgbColor(foregroundField.getText());
                     foregroundColorBlock.setBackground(c);
                     UserUtil.setUserData("Foreground", foregroundField.getText());
                     Color updateC = ColorUtil.hextorgbColor(foregroundField.getText());

@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class ImagePixelatorWidget implements WidgetBase {
+public class ImagePixelatorWidget {
     private static ImageIcon displayIcon;
     private static ImageIcon originalIcon;
     private static File currentFile;

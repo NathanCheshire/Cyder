@@ -14,7 +14,7 @@ import cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class PhoneWidget implements WidgetBase {
+public class PhoneWidget {
     private static JLabel numberLabel;
     private static String phoneNum;
 

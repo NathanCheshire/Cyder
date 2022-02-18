@@ -11,7 +11,7 @@ import cyder.ui.CyderGrid;
 /**
  * Convexhull widget that solve a convexhull problem using a CyderGrid as the drawing label.
  */
-public class ConvexHullWidget implements WidgetBase {
+public class ConvexHullWidget {
 
     /**
      * The CyderFrame to use for the convex hull widget.

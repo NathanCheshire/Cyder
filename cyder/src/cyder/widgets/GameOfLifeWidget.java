@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.Arrays;
 
-public class GameOfLifeWidget implements WidgetBase {
+public class GameOfLifeWidget {
     private static int[][] grid;
     private static boolean simulationRunning;
 

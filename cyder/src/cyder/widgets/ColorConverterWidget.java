@@ -17,7 +17,7 @@ import java.awt.event.KeyAdapter;
 
 import static cyder.constants.CyderColors.navy;
 
-public class ColorConverterWidget implements WidgetBase {
+public class ColorConverterWidget {
     private ColorConverterWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

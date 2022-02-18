@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ClickWidget implements WidgetBase {
+public class ClickWidget {
     private ClickWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

@@ -18,7 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-public class PerlinWidget implements WidgetBase {
+public class PerlinWidget {
     private PerlinWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }

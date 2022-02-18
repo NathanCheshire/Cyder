@@ -3,10 +3,10 @@ package cyder.widgets;
 
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
-import cyder.user.User;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
+import cyder.user.User;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.UserUtil;
@@ -15,7 +15,7 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MinecraftWidget implements WidgetBase {
+public class MinecraftWidget {
     private static CyderFrame minecraftFrame;
     private static JLabel realmsLabel;
     private static JLabel chestLabel;

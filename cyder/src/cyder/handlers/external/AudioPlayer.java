@@ -13,7 +13,6 @@ import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.*;
-import cyder.widgets.WidgetBase;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.JavaLayerException;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 /**
  * An audio playing widget that only supports mp3 files at the moment.
  */
-public class AudioPlayer implements WidgetBase {
+public class AudioPlayer {
     /**
      * An enum dictating the last button the user pressed.
      */
