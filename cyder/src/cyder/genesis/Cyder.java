@@ -7,10 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
-import cyder.utilities.FileUtil;
-import cyder.utilities.IOUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 import test.java.ManualTests;
 
 import javax.swing.*;
@@ -36,10 +33,10 @@ public class Cyder {
 
     /**
      * Setup and start the best program ever made :D
-     * @param CA possible command line args passed in. They serve no purpose yet,
+     * @param ca possible command line args passed in. They serve no purpose yet,
      *           but we shall log them regardless (just like Big Brother would want)
      */
-    public static void main(String[] CA)  {
+    public static void main(String[] ca) {
         // set start time, this should be the first call always
         CyderCommon.setAbsoluteStartTime(System.currentTimeMillis());
 
@@ -94,16 +91,25 @@ public class Cyder {
             return;
         }
 
-        //necessary subroutines to complete with success before continuing
-        setLoadingMessage("Fixing users");
-        IOUtil.fixUsers();
-        setLoadingMessage("Cleaning users");
-        IOUtil.cleanUsers();
+        // necessary subroutines to complete with success before continuing
+        try {
+            setLoadingMessage("Fixing users");
+            IOUtil.fixUsers();
+            setLoadingMessage("Cleaning users");
+            IOUtil.cleanUsers();
+            setLoadingMessage("Validating widgets");
+            ReflectionUtil.validateWidgets();
+        } catch (Exception e) {
+            ExceptionHandler.exceptionExit("Exception thrown from subroutine. "
+                    + e.getMessage(), "Subroutine Exception", -120);
+            return;
+        }
+
 
         //IOUtil secondary subroutines that can be executed when program has started essentially
         new Thread(() -> {
             setLoadingMessage("Logging JVM args");
-            IOUtil.logArgs(CA);
+            IOUtil.logArgs(ca);
 
             IOUtil.cleanSandbox();
             IOUtil.deleteTempDir();

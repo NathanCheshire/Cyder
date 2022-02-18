@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -192,9 +194,39 @@ public class ReflectionUtil {
      * Finds all widgets within Cyder by looking for methods annotated with {@link Widget}.
      * The annotated method MUST take no parameters, be named "showGUI()",
      * contain a valid description, and contain at least one trigger.
+     *
+     * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
      */
-    public static void validateWidgets() {
-        //todo maybe check for a CyderFrame instance being created and visible in the method too?
+    public static void validateWidgets() throws IllegalMethodException {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> classer = classInfo.load();
+
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(Widget.class)) {
+                    String[] triggers = m.getAnnotation(Widget.class).triggers();
+                    String description = m.getAnnotation(Widget.class).description();
+
+                    if (!m.getName().equals("showGUI")) {
+                        Logger.log(Logger.Tag.DEBUG_PRINT, "Method annotated with @Widget is not named" +
+                                " showGUI(); name: " + m.getName());
+                    }
+
+                    if (StringUtil.isNull(description)) {
+                        throw new IllegalMethodException("Method annotated with @Widget has empty description");
+                    }
+
+                    if (triggers.length == 0) {
+                        throw new IllegalMethodException("Method annotated with @Widget has empty triggers");
+                    }
+
+                    for (String trigger : triggers) {
+                        if (StringUtil.isNull(trigger)) {
+                            throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
