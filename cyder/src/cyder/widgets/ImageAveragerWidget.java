@@ -69,7 +69,7 @@ public class ImageAveragerWidget {
     /**
      * Shows the image averaging widget.
      */
-    @Widget(trigger = {"average images", "average pictures"}, description = "A widget that adds multiple images " +
+    @Widget(triggers = {"average images", "average pictures"}, description = "A widget that adds multiple images " +
             "together and divides by the total to obtain an average base image")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "AVERAGE IMAGES");

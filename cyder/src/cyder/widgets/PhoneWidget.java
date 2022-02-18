@@ -22,7 +22,7 @@ public class PhoneWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "phone", description = "A phone emulating widget")
+    @Widget(triggers = "phone", description = "A phone emulating widget")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "PHONE");
 

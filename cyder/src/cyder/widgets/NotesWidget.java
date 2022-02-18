@@ -48,7 +48,7 @@ public class NotesWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     } //no objects
 
-    @Widget(trigger = {"note", "notes"}, description = "A note taking widget that can save and display multiple notes")
+    @Widget(triggers = {"note", "notes"}, description = "A note taking widget that can save and display multiple notes")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "NOTE");
 

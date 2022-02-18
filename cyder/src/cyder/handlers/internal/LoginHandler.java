@@ -195,7 +195,7 @@ public class LoginHandler {
         },"Login Input Caret Position Updater").start();
     }
 
-    @Widget(trigger = {"login","pin"}, description = "A widget to switch between Cyder users")
+    @Widget(triggers = {"login","pin"}, description = "A widget to switch between Cyder users")
     public static void showGUI() {
         showGUI(null);
     }

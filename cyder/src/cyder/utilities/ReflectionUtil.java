@@ -88,6 +88,12 @@ public class ReflectionUtil {
         return superName + ",hash = " + hash + ", reflection data = " + reflectedFields;
     }
 
+    /**
+     * A toString() replacement method used by most Cyder classes.
+     *
+     * @param obj the object to invoke toString() on
+     * @return a custom toString() representation of the provided object
+     */
     public static String commonCyderUIReflection(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
         String frameRep;
@@ -171,6 +177,7 @@ public class ReflectionUtil {
      */
     public static ImmutableSet<ClassPath.ClassInfo> cyderClasses;
 
+    // load cyder classes at runtime
     static {
         try {
             cyderClasses = ClassPath
@@ -182,7 +189,16 @@ public class ReflectionUtil {
     }
 
     /**
-     * Returns a list of descriptions of all the widgets found within Cyder.
+     * Finds all widgets within Cyder by looking for methods annotated with {@link Widget}.
+     * The annotated method MUST take no parameters, be named "showGUI()",
+     * contain a valid description, and contain at least one trigger.
+     */
+    public static void validateWidgets() {
+        //todo maybe check for a CyderFrame instance being created and visible in the method too?
+    }
+
+    /**
+     * Returns a list of names, descriptions, and triggers of all the widgets found within Cyder.
      *
      * @return a list of descriptions of all the widgets found within Cyder
      */
@@ -194,7 +210,7 @@ public class ReflectionUtil {
 
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
-                    String[] triggers = m.getAnnotation(Widget.class).trigger();
+                    String[] triggers = m.getAnnotation(Widget.class).triggers();
                     String description = m.getAnnotation(Widget.class).description();
                     ret.add(new WidgetDescription(classer.getName(), description, triggers));
                 }
@@ -218,7 +234,7 @@ public class ReflectionUtil {
 
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
-                    String[] widgetTriggers = m.getAnnotation(Widget.class).trigger();
+                    String[] widgetTriggers = m.getAnnotation(Widget.class).triggers();
 
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {

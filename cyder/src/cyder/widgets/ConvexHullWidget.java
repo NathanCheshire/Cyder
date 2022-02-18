@@ -30,7 +30,7 @@ public class ConvexHullWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "convex hull", description = "A convex hull algorithm visualizer")
+    @Widget(triggers = "convex hull", description = "A convex hull algorithm visualizer")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CONVEX HULL");
 

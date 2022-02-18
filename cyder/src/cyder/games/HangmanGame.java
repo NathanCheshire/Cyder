@@ -37,7 +37,7 @@ public class HangmanGame {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "hangman", description = "A hangman game")
+    @Widget(triggers = "hangman", description = "A hangman game")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "HANGMAN");
 

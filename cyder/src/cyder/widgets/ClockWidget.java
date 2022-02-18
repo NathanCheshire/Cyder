@@ -53,7 +53,7 @@ public class ClockWidget {
 
     private static CyderComboBox timezoneCombo;
 
-    @Widget(trigger = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone") //it's ya boi, Greenwich
+    @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone") //it's ya boi, Greenwich
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CLOCK");
 

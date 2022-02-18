@@ -34,7 +34,7 @@ public class CalculatorWidget {
     /**
      * ShowGUI method standard.
      */
-    @Widget(trigger = {"calculator", "calc"}, description =
+    @Widget(triggers = {"calculator", "calc"}, description =
             "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CALCULATOR");

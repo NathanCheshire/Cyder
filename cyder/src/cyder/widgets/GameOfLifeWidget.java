@@ -50,7 +50,7 @@ public class GameOfLifeWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "conway", description = "Conway's game of life visualizer")
+    @Widget(triggers = "conway", description = "Conway's game of life visualizer")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CONWAY");
 

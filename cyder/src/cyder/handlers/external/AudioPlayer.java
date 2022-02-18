@@ -213,7 +213,7 @@ public class AudioPlayer {
     /**
      * Method for widget finder to invoke by using reflection to find the Widget annotation
      */
-    @Widget(trigger = {"mp3", "music"}, description = "An audio playing widget")
+    @Widget(triggers = {"mp3", "music"}, description = "An audio playing widget")
     public static void showGUI() {
         //show the gui and attempmt to find audio files
         showGUI(null);

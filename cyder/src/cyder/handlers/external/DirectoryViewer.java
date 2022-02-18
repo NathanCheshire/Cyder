@@ -47,7 +47,7 @@ public class DirectoryViewer {
     }
 
     //as per standard, method
-    @Widget(trigger = "dir", description = "A directory navigator widget")
+    @Widget(triggers = "dir", description = "A directory navigator widget")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "DIRECTORY SEARCH");
 

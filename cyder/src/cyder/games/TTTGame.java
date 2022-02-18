@@ -65,7 +65,7 @@ public class TTTGame {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = {"ttt", "tic tac toe"}, description = "A TicTacToe widget")
+    @Widget(triggers = {"ttt", "tic tac toe"}, description = "A TicTacToe widget")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "TTT");
 

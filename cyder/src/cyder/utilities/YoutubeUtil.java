@@ -301,7 +301,7 @@ public class YoutubeUtil {
     /**
      * A widget for downloading a youtube video's thumbnail.
      */
-    @Widget(trigger = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
+    @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "YOUTUBE");
 

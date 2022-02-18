@@ -29,7 +29,7 @@ public class HashingWidget {
         //multiple widgets should be allowed
     }
 
-    @Widget(trigger = {"hash", "hasher"}, description =
+    @Widget(triggers = {"hash", "hasher"}, description =
             "A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1")
     public static void showGUI() {
         new HashingWidget().innerShowGUI();

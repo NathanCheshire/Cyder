@@ -28,7 +28,7 @@ public class CardWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     } //public for reflection for auto calls of cards
 
-    @Widget(trigger = "Christmas card 2020", description = "Christmas card for the year of 2020")
+    @Widget(triggers = "Christmas card 2020", description = "Christmas card for the year of 2020")
     public static void Christmas2020() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CHRISTMAS2020");
 
@@ -64,7 +64,7 @@ public class CardWidget {
         christmas2020Frame.setVisible(true);
     }
 
-    @Widget(trigger = "FathersDay card 2021", description = "Fathers day card for the year of 2021")
+    @Widget(triggers = "FathersDay card 2021", description = "Fathers day card for the year of 2021")
     public static void FathersDay2021() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "FATHERSDAY2021");
 
@@ -90,7 +90,7 @@ public class CardWidget {
         fathersDay2021Frame.setVisible(true);
     }
 
-    @Widget(trigger = "Birthday card 2021", description = "Birthday card for my dad for the year 2021")
+    @Widget(triggers = "Birthday card 2021", description = "Birthday card for my dad for the year 2021")
     public static void Birthday2021() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "BIRTHDAY2021");
 
@@ -128,7 +128,7 @@ public class CardWidget {
         }
     }
 
-    @Widget(trigger = "Christmas card 2021", description = "Christmas card for the year of 2021")
+    @Widget(triggers = "Christmas card 2021", description = "Christmas card for the year of 2021")
     public static void Christmas2021() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CHRISTMASCARD2021");
 

@@ -63,7 +63,7 @@ public class UserEditor {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = {"prefs", "edit user"}, description = "A widget to edit your user preferences and files")
+    @Widget(triggers = {"prefs", "edit user"}, description = "A widget to edit your user preferences and files")
     public static void showGUI() {
         showGUI(0);
     }

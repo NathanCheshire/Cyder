@@ -31,7 +31,7 @@ public class FileSignatureWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = "file signature", description = "A widget to read the raw file " +
+    @Widget(triggers = "file signature", description = "A widget to read the raw file " +
             "hex data and determine if the file signature matches the provided extension")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "FILE SIGNATURE");

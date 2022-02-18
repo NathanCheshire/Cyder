@@ -34,7 +34,7 @@ public class ImagePixelatorWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = {"pixelate picture", "pixelate image"}, description = "A simple image pixelator widget that transforms" +
+    @Widget(triggers = {"pixelate picture", "pixelate image"}, description = "A simple image pixelator widget that transforms" +
             " the image into an image depicted of the specified number of pixels")
     public static void showGUI() {
         showGUI(null);

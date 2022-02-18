@@ -61,7 +61,7 @@ public class PerlinWidget {
 
     private static boolean closed = true;
 
-    @Widget(trigger = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
+    @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "PERLIN");
 

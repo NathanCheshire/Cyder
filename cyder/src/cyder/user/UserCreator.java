@@ -55,7 +55,7 @@ public class UserCreator {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(trigger = {"createuser", "create"}, description = "A user creating widget")
+    @Widget(triggers = {"createuser", "create"}, description = "A user creating widget")
     public static void showGUI() {
         if (createUserFrame != null)
             createUserFrame.dispose();
