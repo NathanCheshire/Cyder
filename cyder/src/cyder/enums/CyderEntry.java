@@ -16,7 +16,7 @@ public enum CyderEntry {
     Login("Login","STD Login Success", "STD Login FAIL"),
 
     /**
-     * If the previous session was termianted without a logout.
+     * If the previous session was terminated without a logout.
      */
     PreviouslyLoggedIn("PreviouslyLoggedIn", "Previous Session Resumed",
             "No previously logged in users found");

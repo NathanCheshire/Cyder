@@ -1,0 +1,43 @@
+[22-07-00] [ENTRY]: [Nathan]
+[22-07-01] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-07-01] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-07-01] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-07-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-07-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-07-01] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-07-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-07-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-07-01] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-07-02] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-07-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-07-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-07-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-07-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-07-02] [SYSTEM_IO]: Userdata requested: InputFill
+[22-07-02] [THREAD STARTED]: High Ping Checker
+[22-07-02] [THREAD STARTED]: Hourly Chime Checker
+[22-07-02] [THREAD STARTED]: Console Clock Updater
+[22-07-02] [THREAD STARTED]: Cyder Busy Checker
+[22-07-02] [THREAD STARTED]: Json Data Saver
+[22-07-02] [ACTION]: Console loaded in 2223ms
+[22-07-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-07-02] [ENTRY]: [TESTING MODE]
+[22-07-02] [SYSTEM_IO]: Userdata requested: laststart
+[22-07-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [729281125], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-07-02] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2223ms
+[22-07-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-07-09] [CLIENT]: analyzecode
+[22-07-09] [SYSTEM_IO]: Userdata requested: filterchat
+[22-07-09] [HANDLE]: GENERAL COMMAND HANDLED
+[22-07-09] [HANDLE]: PRIMARY HANDLE
+[22-07-10] [CONSOLE_OUT]: [STRING] Total lines: 44645
+[22-07-11] [CONSOLE_OUT]: [STRING] Code lines: 30408
+[22-07-11] [CONSOLE_OUT]: [STRING] Blank lines: 6990
+[22-07-12] [CONSOLE_OUT]: [STRING] Comment lines: 7252
+[22-07-12] [CONSOLE_OUT]: [STRING] Java Files: 126
+[22-07-13] [CONSOLE_OUT]: [STRING] Code to comment ratio: 4.19
+[22-07-37] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-07-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1340, 169, 996, 655)], hash = [1991371192], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-07-37] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-07-37] [EXIT]: [RUNTIME] 37s
+[22-07-37] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

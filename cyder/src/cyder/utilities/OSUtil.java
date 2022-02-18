@@ -383,7 +383,7 @@ public class OSUtil {
      * Deletes the provided file/folder recursively.
      *
      * @param folder the folder/file to delete
-     * @return whether or not the folder/file was succesfully deleted
+     * @return whether the folder/file was successfully deleted
      */
     public static boolean deleteFolder(File folder) {
         File[] files = folder.listFiles();
@@ -526,8 +526,6 @@ public class OSUtil {
     //todo rename auto cyphering to debug hashes throughout program for consistency
 
     //todo extract out listeners of ConsoleFrame to listeners class
-
-    //todo need pwd command, eventually shell should emulate the os shell
 
     //todo utilize thread runner for threads and test for each before committing
 

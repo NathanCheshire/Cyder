@@ -1332,6 +1332,8 @@ public class InputHandler {
             opacitySlider.repaint();
 
             printlnComponent(opacitySlider);
+        } else if (commandIs("pwd")) {
+            println(System.getProperty("user.dir"));
         }
 
         else ret = false;
@@ -1369,7 +1371,7 @@ public class InputHandler {
     }
 
     /**
-     * Determines if the command was a simple evaluatable function such as floor() or pow().
+     * Determines if the command was a simple evaluable function such as floor() or pow().
      * Valid expressions:
      *      abs - 1 arg, returns the absolute value
      *      ceil - 1 arg, returns the ceiling
@@ -1384,7 +1386,7 @@ public class InputHandler {
      *      convert2 - 1 arg, converts the number to binary
      *
      * @param command the command to attempt to evaluate as a simple math library call
-     * @return whether or not the command was a simple math library call
+     * @return whether the command was a simple math library call
      */
     private boolean handleMath(String command) {
         boolean ret = true;
@@ -1450,7 +1452,7 @@ public class InputHandler {
      * Determines if the provided command was a mathematical expression and if so, evaluates it.
      *
      * @param command the command to attempt to evaluate as a mathematical expression
-     * @return whether or not the command was a mathematical expression
+     * @return whether the command was a mathematical expression
      */
     private boolean evaluateExpression(String command) {
         boolean ret = false;
