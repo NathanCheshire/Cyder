@@ -17,6 +17,7 @@ import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
 import cyder.utilities.*;
+import cyder.utilities.objects.WidgetDescription;
 import org.jetbrains.annotations.Nullable;
 import test.java.ManualTests;
 import test.java.UnitTests;
@@ -1220,21 +1221,24 @@ public class InputHandler {
                 println("Command usage: number2string YOUR_INTEGER");
             }
         } else if (commandIs("widgets")) {
-            ArrayList<ReflectionUtil.WidgetInformation> widgets = ReflectionUtil.findWidgets();
-            println("Found " + widgets.size() + " widgets:");
+            ArrayList<WidgetDescription> descriptions = ReflectionUtil.getWidgetDescriptions();
+
+            println("Found " + descriptions.size() + " widgets:");
             println("-------------------------------------");
 
-            for (ReflectionUtil.WidgetInformation widget : widgets) {
+            for (WidgetDescription description : descriptions) {
                 StringBuilder triggers = new StringBuilder();
 
-                for (int i = 0 ; i < widget.getTriggers().length ; i++) {
-                    triggers.append(widget.getTriggers()[i]);
+                for (int i = 0 ; i < description.getTriggers().length ; i++) {
+                    triggers.append(description.getTriggers()[i]);
 
-                    if (i != widget.getTriggers().length - 1)
+                    if (i != description.getTriggers().length - 1)
                         triggers.append(", ");
                 }
 
-                println("Triggers: [" + triggers.toString().trim() + "]\nDescription: " + widget.getDescription());
+                println("Name: " + description.getName());
+                println("Description: " + description.getDescription() + "\nTriggers: ["
+                        + triggers.toString().trim() + "]");
                 println("-------------------------------------");
             }
         } else if (commandIs("jarmode")) {

@@ -510,6 +510,8 @@ public class OSUtil {
      */
     public static double getUIScale(Dimension monitorDimensions) {
         double pixels = monitorDimensions.getWidth() * monitorDimensions.getHeight();
+
+        // I think this should be some kind of map
         double baseline = 2560.0 * 1440.0;
 
         if (pixels == baseline) {
@@ -520,6 +522,8 @@ public class OSUtil {
             return 3.0;
         }
     }
+
+    //todo rename auto cyphering to debug hashes throughout program for consistency
 
     //todo extract out listeners of ConsoleFrame to listeners class
 

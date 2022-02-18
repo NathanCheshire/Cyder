@@ -1,31 +1,46 @@
 package cyder.utilities;
 
-import com.google.gson.Gson;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.reflect.ClassPath;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
+import cyder.utilities.objects.WidgetDescription;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
+/**
+ * Utilities for methods regarding reflection.
+ */
+@SuppressWarnings("UnstableApiUsage") /* Guava Reflection */
 public class ReflectionUtil {
+    /**
+     * Prevent illegal class instantiation.
+     */
     private ReflectionUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    private static String toStringReflection(Object obj) {
+    /**
+     * Returns a String representation of the provided object
+     * using all public get() methods found.
+     *
+     * @param obj the object to build into a String
+     * @return the string representation of the object
+     */
+    private static String toStringFromGetters(Object obj) {
         StringBuilder ret = new StringBuilder();
 
         ret.append(obj.getClass().getName());
@@ -45,24 +60,25 @@ public class ReflectionUtil {
         }
 
         String retString = ret.toString();
-        //remove last two chars (space and ,) and add the closing parenthesis
-        retString = retString.substring(0, retString.length() - 3) + ")";
-        return retString;
+        return retString.substring(0, retString.length() - 3) + ")";
     }
 
     /**
-     * A common method utilized by near all top-level Cyder classes as the overridden logic for their toString() methods
+     * A common method utilized by near all top-level Cyder classes
+     * as the overridden logic for their toString() methods.
+     *
      * @param obj the obj to return a String representation for
-     * @return the String representation for the provided object detailing the classname, hashcode, and reflected data
+     * @return the String representation for the provided object
+     * detailing the classname, hashcode, and reflected data
      */
     public static String commonCyderToString(Object obj) {
         String superName = obj.getClass().getName();
         int hash = obj.hashCode();
 
-        String reflectedFields = ReflectionUtil.toStringReflection(obj);
+        String reflectedFields = ReflectionUtil.toStringFromGetters(obj);
 
         if (reflectedFields == null || reflectedFields.length() == 0)
-            reflectedFields = "No reflection data acquied";
+            reflectedFields = "No reflection data acquired";
 
         //remove anything after the $int if superName contains a $
         if (superName.contains("$")) {
@@ -74,7 +90,7 @@ public class ReflectionUtil {
 
     public static String commonCyderUIReflection(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
-        String frameRep = "";
+        String frameRep;
 
         if (topFrame != null) {
             frameRep = topFrame.getTitle();
@@ -139,28 +155,48 @@ public class ReflectionUtil {
            ExceptionHandler.handle(e);
         }
 
-        String build = "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
+        return "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
                 + obj.getY() + ", " + obj.getWidth() + ", " + obj.getHeight() + ")], hash = [" + hash + "], " +
                 "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "], tooltip text = [" +
                 getTooltipResult + "], title = [" + getTitleResult + "]";
-
-        return build;
     }
 
     /**
-     * Finds all classes annotated with the Widget annotation within the widgets package
+     * The top level package for Cyder.
      */
-    public static ArrayList<WidgetInformation> findWidgets() {
-        ArrayList<WidgetInformation> ret = new ArrayList<>();
+    public static final String TOP_LEVEL_PACKAGE = "cyder";
 
-        for (String widget : widgets.getPack()) {
-            for (Class classer : findAllClassesUsingClassLoader(widget)) {
-                for (Method m : classer.getMethods()) {
-                    if (m.isAnnotationPresent(Widget.class)) {
-                        String description = m.getAnnotation(Widget.class).description();
-                        String[] widgetTriggers = m.getAnnotation(Widget.class).trigger();
-                        ret.add(new WidgetInformation(widgetTriggers, description));
-                    }
+    /**
+     * A set of all classes contained within Cyder starting at {@link ReflectionUtil#TOP_LEVEL_PACKAGE}.
+     */
+    public static ImmutableSet<ClassPath.ClassInfo> cyderClasses;
+
+    static {
+        try {
+            cyderClasses = ClassPath
+                    .from(Thread.currentThread().getContextClassLoader())
+                    .getTopLevelClassesRecursive(TOP_LEVEL_PACKAGE);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Returns a list of descriptions of all the widgets found within Cyder.
+     *
+     * @return a list of descriptions of all the widgets found within Cyder
+     */
+    public static ArrayList<WidgetDescription> getWidgetDescriptions() {
+        ArrayList<WidgetDescription> ret = new ArrayList<>();
+
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> classer = classInfo.load();
+
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(Widget.class)) {
+                    String[] triggers = m.getAnnotation(Widget.class).trigger();
+                    String description = m.getAnnotation(Widget.class).description();
+                    ret.add(new WidgetDescription(classer.getName(), description, triggers));
                 }
             }
         }
@@ -169,31 +205,33 @@ public class ReflectionUtil {
     }
 
     /**
-     * Opens a widget with the same trigger as the one provided.
+     * Opens the widget with the same trigger as the one provided.
+     * If for some reason someone was an idiot and put a duplicate trigger
+     * for a widget in Cyder, the first occurrence will be invoked.
      *
      * @param trigger the trigger for the widget to open
-     * @return whether or not a widget was opened
+     * @return whether a widget was opened
      */
     public static boolean openWidget(String trigger) {
-        for (String widget : widgets.getPack()) {
-            for (Class classer : findAllClassesUsingClassLoader(widget)) {
-                for (Method m : classer.getMethods()) {
-                    if (m.isAnnotationPresent(Widget.class)) {
-                        String[] widgetTriggers = m.getAnnotation(Widget.class).trigger();
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> classer = classInfo.load();
 
-                        for (String widgetTrigger : widgetTriggers) {
-                            if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                                ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
-                                        + classer.getName());
-                                try {
-                                    if (m.getParameterCount() == 0) {
-                                        m.invoke(classer);
-                                        return true;
-                                    } else throw new IllegalStateException("Found widget showGUI()" +
-                                            " method with parameters: " + m.getName() + ", class: " + classer);
-                                } catch (Exception e) {
-                                    ExceptionHandler.handle(e);
-                                }
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(Widget.class)) {
+                    String[] widgetTriggers = m.getAnnotation(Widget.class).trigger();
+
+                    for (String widgetTrigger : widgetTriggers) {
+                        if (widgetTrigger.equalsIgnoreCase(trigger)) {
+                            ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
+                                    + classer.getName());
+                            try {
+                                if (m.getParameterCount() == 0) {
+                                    m.invoke(classer);
+                                    return true;
+                                } else throw new IllegalStateException("Found widget showGUI()" +
+                                        " method with parameters: " + m.getName() + ", class: " + classer);
+                            } catch (Exception e) {
+                                ExceptionHandler.handle(e);
                             }
                         }
                     }
@@ -204,31 +242,10 @@ public class ReflectionUtil {
         return false;
     }
 
-    //todo replace with Guava so that package name passing isn't necessary
-    private static Set<Class> findAllClassesUsingClassLoader(String packageName) {
-        InputStream stream = ClassLoader.getSystemClassLoader()
-                .getResourceAsStream(packageName.replaceAll("[.]", "/"));
-        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-        return reader.lines()
-                .filter(line -> line.endsWith(".class"))
-                .map(line -> getClass(line, packageName))
-                .collect(Collectors.toSet());
-    }
-
-    private static Class getClass(String className, String packageName) {
-        try {
-            return Class.forName(packageName + "." + className.substring(0, className.lastIndexOf('.')));
-        } catch (ClassNotFoundException e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return null;
-    }
-
     /**
-     * Executor service used to find a similar command utilizing commandFinder.py
+     * Executor service used to find a similar command utilizing commandFinder.py.
      */
-    private static ExecutorService executor = Executors.newSingleThreadExecutor(
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Similar Command Finder"));
 
     /**
@@ -245,84 +262,18 @@ public class ReflectionUtil {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
                         OSUtil.buildPath("cyder","src","cyder","scripts","commandFinder.py"), command};
+                //noinspection CallToRuntimeExec
                 Process proc = rt.exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new
                         InputStreamReader(proc.getInputStream()));
 
-                String s = null;
-                while ((s = stdInput.readLine()) != null) {
-                    ret = Optional.of(s);
-                    break;
-                }
-
+                ret = Optional.of(stdInput.readLine());
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
 
             return ret;
         });
-    }
-
-    public static WidgetHolder widgets = null;
-
-    static {
-        loadWidgets();
-    }
-
-    public static void loadWidgets() {
-        Gson gson = new Gson();
-
-        try (Reader reader = new FileReader("static/json/widgetpackages.json")) {
-            WidgetHolder ret = gson.fromJson(reader, WidgetHolder.class);
-
-            //if successful set as our suggestions object
-            widgets = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    //inner classes ---------------------
-    public static class WidgetHolder {
-        private ArrayList<String> pack;
-
-        public WidgetHolder(ArrayList<String> pack) {
-            this.pack = pack;
-        }
-
-        public ArrayList<String> getPack() {
-            return pack;
-        }
-
-        public void setPack(ArrayList<String> pack) {
-            this.pack = pack;
-        }
-    }
-
-    public static class WidgetInformation {
-        private String[] triggers;
-        private String description;
-
-        public WidgetInformation(String[] triggers, String description) {
-            this.triggers = triggers;
-            this.description = description;
-        }
-
-        public String[] getTriggers() {
-            return triggers;
-        }
-
-        public void setTriggers(String[] triggers) {
-            this.triggers = triggers;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
     }
 }
