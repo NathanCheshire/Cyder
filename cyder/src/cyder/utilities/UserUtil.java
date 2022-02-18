@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.Logger;
+import cyder.handlers.internal.PopupHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
 public class UserUtil {
@@ -30,7 +31,7 @@ public class UserUtil {
     }
 
     //the semaphore to use when reading or writing userdata
-    private static Semaphore userIOSemaphore = new Semaphore(1);
+    private static final Semaphore userIOSemaphore = new Semaphore(1);
 
     //getter so exiting method can make sure jsonIOSem is not locked
     public static Semaphore getUserIOSemaphore() {
@@ -41,17 +42,14 @@ public class UserUtil {
      * Blocks any future user IO by acquiring the semaphore and never releasing it.
      * This method blocks until the Io semaphore can be acquired.
      *
-     * @return whether or not the semaphore was acquired.
      */
-    public static synchronized boolean blockFutureIO() {
+    public static synchronized void blockFutureIO() {
         try {
             userIOSemaphore.acquire();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-            return false;
         }
 
-        return true;
     }
 
     /**
@@ -180,6 +178,8 @@ public class UserUtil {
         }
     }
 
+    // todo synchronized method for IO with file, everything else should just pull from the User object in memory
+
     /**
      * Writes the given user to the current user's Json file
      * @param u the user to serialize and write to a file
@@ -211,6 +211,7 @@ public class UserUtil {
      * Function called upon UUID being set for consoleFrame to attempt to fix any user data
      * in case it was corrupted. If we fail to correct any corrupted data, then we corrupt the user and exit
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored") /* making directories */
     public static void fixUser() {
         String UUID = ConsoleFrame.getConsoleFrame().getUUID();
 
@@ -311,6 +312,7 @@ public class UserUtil {
 
                 try (FileInputStream fi = new FileInputStream(f)) {
                     BufferedImage sourceImg = ImageIO.read(fi);
+                    //noinspection unused, need access to ensure image is valid
                     int w = sourceImg.getWidth();
                 } catch (Exception e) {
                     valid = false;
@@ -318,6 +320,7 @@ public class UserUtil {
                 }
 
                 if (!valid) {
+                    //noinspection ResultOfMethodCallIgnored
                     f.delete();
                 }
             }
@@ -348,12 +351,13 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
             userIOSemaphore.release();
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -377,12 +381,13 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
             userIOSemaphore.release();
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -410,12 +415,13 @@ public class UserUtil {
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
             userIOSemaphore.release();
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -441,7 +447,7 @@ public class UserUtil {
      * @return the resulting data
      */
     public static String getUserData(String name) {
-        String retData = "";
+        String retData;
         String defaultValue = "";
 
         try {
@@ -508,33 +514,13 @@ public class UserUtil {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return ret;
-        }
-    }
-
-    /**
-     * Determines whether the provided uuid is already logged in
-     * @param uuid the uuid to test for
-     * @return boolean describing whether or not the provided uuid assocaited with a cyder user is currently logged in
-     */
-    public static boolean isLoggedIn(String uuid) {
-        boolean ret = false;
-
-        File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.USERDATA.getName()));
-
-        //should be impossible to not exists but I'll still check it regardless
-        if (userJsonFile.exists()) {
-            User u = extractUser(userJsonFile);
-            ret = u.isLoggedin().equalsIgnoreCase("1");
         }
 
         return ret;
     }
 
     /**
-     * @return a user object with all of the default values found in {@code GenesisShare}
+     * @return a user object with all the default values found in {@code GenesisShare}
      */
     public static User getDefaultUser() {
         User ret = new User();
@@ -590,7 +576,7 @@ public class UserUtil {
         boolean ret = true;
 
         try {
-            //aquire sem
+            // acquire sem
             userIOSemaphore.acquire();
 
             //gson obj
@@ -598,7 +584,7 @@ public class UserUtil {
 
             //read into the object if parsable
             Reader reader = new FileReader(f);
-            User userObj = null;
+            User userObj;
 
             try {
                 userObj = gson.fromJson(reader, User.class);
@@ -648,11 +634,11 @@ public class UserUtil {
 
             //read contents into master String
             BufferedReader jsonReader = new BufferedReader(new FileReader(f));
-            String masterJson = jsonReader.readLine();
+            StringBuilder masterJson = new StringBuilder(jsonReader.readLine());
             jsonReader.close();
 
             //make sure contents are not null-like
-            if (masterJson == null || masterJson.trim().length() == 0 || masterJson.equalsIgnoreCase("null")) {
+            if (masterJson == null || masterJson.toString().trim().length() == 0 || masterJson.toString().equalsIgnoreCase("null")) {
                 userIOSemaphore.release();
                 reader.close();
                 writer.close();
@@ -661,34 +647,38 @@ public class UserUtil {
             }
 
             //remove closing curly brace
-            masterJson = masterJson.substring(0 ,masterJson.length() - 1);
+            masterJson = new StringBuilder(masterJson.substring(0, masterJson.length() - 1));
 
             //keep track of if we injected anything
             LinkedList<String> injections = new LinkedList<>();
 
-            //loop through default perferences
+            //loop through default preferences
             for (Preferences.Preference pref : Preferences.getPreferences()) {
-                //old json detected and we found a pref that doesn't exist
-                if (!masterJson.toLowerCase().contains(pref.getID().toLowerCase())) {
+                //old json detected, and we found a pref that doesn't exist
+                if (!masterJson.toString().toLowerCase().contains(pref.getID().toLowerCase())) {
                     //inject into json
-                    StringBuilder injectionBuilder = new StringBuilder();
-                    injectionBuilder.append("\"");
-                    injectionBuilder.append(pref.getID());
-                    injectionBuilder.append("\":\"");
-                    injectionBuilder.append(pref.getDefaultValue());
-                    injectionBuilder.append("\",");
-                    //adding a trailing comma is fine since it will be parsed away by gson upon
-                    // serialization of a user object
+                    String injectionBuilder = "\"" +
+                            pref.getID() +
+                            "\":\"" +
+                            pref.getDefaultValue() +
+
+                            //adding a trailing comma is fine since it will be parsed away by gson upon
+                            // serialization of a user object
+                            "\",";
+
+                    masterJson.append(injectionBuilder);
+
+                    // add what was injected so that we can log it
                     injections.add(pref.getID() + "=" + pref.getDefaultValue());
                 }
             }
 
             //add closing curly brace back in
-            masterJson += "}";
+            masterJson.append("}");
 
             //write back to file
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
-            jsonWriter.write(masterJson);
+            jsonWriter.write(masterJson.toString());
             jsonWriter.close();
 
             if (!injections.isEmpty()) {
@@ -736,13 +726,14 @@ public class UserUtil {
 
             //delete the json if it still exists for some reason
             if (userJson.exists())
+                //noinspection ResultOfMethodCallIgnored
                 userJson.delete();
 
             //if there's nothing left in the dir, delete the whole folder
             if (userDir.listFiles().length == 0)
                 OSUtil.deleteFolder(userDir);
             else {
-                //otherwise we need to figure out all the file names in each sub-dir, not recursive, and inform the user
+                //otherwise, we need to figure out all the file names in each sub-dir, not recursive, and inform the user
                 // that a json was deleted and tell them which files are remaining
 
                 String path = "Cyder/dynamic/" + UUID;
@@ -771,12 +762,13 @@ public class UserUtil {
                     }
 
                     informString += sb;
-
-                    PopupHandler.inform(informString, "Userdata Corruption");
-                    //log the corruption
-                    Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
-
                 }
+
+                //inform of message
+                PopupHandler.inform(informString, "Userdata Corruption");
+
+                //log the corruption
+                Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -798,6 +790,7 @@ public class UserUtil {
      * @param userFile the user file to return a reference to
      * @return the provided user file
      */
+    @SuppressWarnings("unused") /* for consistency purposes */
     public File getUserFile(UserFile userFile) {
         return getUserFile(userFile.getName());
     }
@@ -862,9 +855,9 @@ public class UserUtil {
     }
 
     /**
-     * Returns a list of valid uuis associated with Cyder users.
+     * Returns a list of valid uuids associated with Cyder users.
      *
-     * @return a list of valid uuis associated with Cyder users
+     * @return a list of valid uuids associated with Cyder users
      */
     public static ArrayList<String> getUserUUIDs() {
         ArrayList<String> uuids = new ArrayList<>();
@@ -904,6 +897,7 @@ public class UserUtil {
         File usersDir = new File(OSUtil.buildPath("dynamic","users"));
 
         if (!usersDir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             usersDir.mkdir();
             return;
         }
@@ -922,19 +916,17 @@ public class UserUtil {
     }
 
     /**
-     * Searches through the users directory and finds the first logged in user.
+     * Searches through the users directory and finds the first logged-in user.
      *
-     * @return the uuid of the first logged in user, null if none was found
+     * @return the uuid of the first logged-in user
      */
-    public static String getFirstLoggedInUser() {
+    public static Optional<String> getFirstLoggedInUser() {
         for (File userJSON : UserUtil.getUserJsons()) {
             if (UserUtil.extractUser(userJSON).getLoggedin().equals("1"))
-                return FileUtil.getFilename(userJSON.getParentFile().getName());
+                return Optional.of(FileUtil.getFilename(userJSON.getParentFile().getName()));
         }
 
-
-        //no logged in user was found
-        return null;
+        return Optional.empty();
     }
 
     /**

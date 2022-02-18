@@ -8,8 +8,7 @@
 [22-16-40] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-16-40] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-16-40] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-16-40] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-16-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-16-40] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-16-40] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-16-40] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-16-40] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -44,9 +43,7 @@
 [22-17-05] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 149, 28)], hash = [1800987111], parentFrame = [], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-17-05] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1803, 261, 153, 656)], hash = [1085404462], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-17-05] [SYSTEM_IO]: Userdata requested: closeanimation
-[22-17-06] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [890426336], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-17-07] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [890426336], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[22-17-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [890426336], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-17-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [890426336], parentFrame = [Pizza], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [22-17-13] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1196, 291, 600, 800)], hash = [65244031], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pizza]
 [22-17-13] [SYSTEM_IO]: Userdata requested: closeanimation
 [22-17-15] [SYSTEM_IO]: Userdata requested: minimizeonclose

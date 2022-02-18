@@ -1358,7 +1358,7 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "JSON Data Saver");
+        }, "ConsoleFrame Data Saver");
     }
 
     //one time run things such as notifying due to special days, debug properties,

@@ -20,14 +20,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  * A widget to log into Cyder or any other way that the ConsoleFrame might be invoked.
  */
 public class LoginHandler {
     /**
-     * Instances of LoginHandler not permited.
+     * Instances of LoginHandler not permitted.
      */
     private LoginHandler() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -44,7 +46,7 @@ public class LoginHandler {
     public static final int LOGIN_FRAME_HEIGHT = 400;
 
     /**
-     * The frame used for loggin into Cyder
+     * The frame used for logging into Cyder
      */
     private static CyderFrame loginFrame;
 
@@ -64,7 +66,7 @@ public class LoginHandler {
     private static int loginMode;
 
     /**
-     * The username of the user trying to login.
+     * The username of the user trying to log in.
      */
     private static String username;
 
@@ -74,7 +76,7 @@ public class LoginHandler {
     private static final String defaultBashString = OSUtil.getSystemUsername() + "@" + OSUtil.getComputerName() + ":~$ ";
 
     /**
-     * The bashstring currently being used.
+     * The BashString currently being used.
      */
     private static String currentBashString = defaultBashString;
 
@@ -86,12 +88,12 @@ public class LoginHandler {
     /**
      * The regular non-priority printing list for the login frame.
      */
-    private static LinkedList<String> printingList = new LinkedList<>();
+    private static final LinkedList<String> printingList = new LinkedList<>();
 
     /**
      * The priority printing list for the login frame.
      */
-    private static LinkedList<String> priorityPrintingList = new LinkedList<>();
+    private static final LinkedList<String> priorityPrintingList = new LinkedList<>();
 
     /**
      * Begins the login typing animation and printing thread.
@@ -133,6 +135,7 @@ public class LoginHandler {
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
+                            //noinspection BusyWait
                             Thread.sleep(charTimeout);
                         }
 
@@ -148,12 +151,14 @@ public class LoginHandler {
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
+                            //noinspection BusyWait
                             Thread.sleep(charTimeout);
                         }
 
                         referencePane.getSemaphore().release();
                     }
 
+                    //noinspection BusyWait
                     Thread.sleep(lineTimeout);
                 }
             }
@@ -179,6 +184,7 @@ public class LoginHandler {
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
+                    //noinspection BusyWait
                     Thread.sleep(50);
                 }
             }
@@ -251,8 +257,8 @@ public class LoginHandler {
         loginArea.setForeground(new Color(85,181,219));
         loginArea.setCaretColor(loginArea.getForeground());
         CyderScrollPane loginScroll = new CyderScrollPane(loginArea,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         loginScroll.setThumbColor(CyderColors.regularPink);
         loginScroll.setBounds(20, 40, 560, 280);
         loginScroll.getViewport().setOpaque(false);
@@ -398,9 +404,8 @@ public class LoginHandler {
 
                         }
 
-                        for (char c : input) {
-                            c = '\0';
-                        }
+                        // password security
+                        Arrays.fill(input, '\0');
 
                         break;
                     default:
@@ -477,18 +482,19 @@ public class LoginHandler {
             //log the start and show the login frame
             Logger.log(Logger.Tag.LOGIN, "CYDER STARTING IN RELEASED MODE");
 
-            String loggedInUUD = UserUtil.getFirstLoggedInUser();
+            Optional<String> optionalUUID = UserUtil.getFirstLoggedInUser();
 
-            if (loggedInUUD != null) {
+            if (optionalUUID.isPresent()) {
+                String loggedInUUID = optionalUUID.get();
+
                 UserUtil.logoutAllUsers();
 
-                ConsoleFrame.getConsoleFrame().setUUID(loggedInUUD);
+                ConsoleFrame.getConsoleFrame().setUUID(loggedInUUID);
 
                 Logger.log(Logger.Tag.LOGIN, "["
-                        + CyderEntry.PreviouslyLoggedIn.getName().toUpperCase() + "] " + loggedInUUD);
+                        + CyderEntry.PreviouslyLoggedIn.getName().toUpperCase() + "] " + loggedInUUID);
 
                 ConsoleFrame.getConsoleFrame().launch(CyderEntry.PreviouslyLoggedIn);
-
             } else {
                 showGUI();
             }
@@ -496,13 +502,13 @@ public class LoginHandler {
     }
 
     /**
-     * Attempts to login a user based on the provided
+     * Attempts to log in a user based on the provided
      * name and already hashed password.
      *
      * @param name the provided user account name
      * @param hashedPass the password already having been
      *                   hashed (we hash it again in checkPassword method)
-     * @return whether or not the name and pass combo was authenticated and logged in
+     * @return whether the name and pass combo was authenticated and logged in
      */
     public static boolean recognize(String name, String hashedPass, boolean autoCypherAttempt) {
         boolean ret = false;
@@ -537,23 +543,24 @@ public class LoginHandler {
                     loginFrame.dispose(true);
                 }
             }
-            //autocypher fail
+            // autocypher fail
             else if (autoCypherAttempt) {
                 Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
             }
-            //login frame fail
+            // login frame fail
             else if (loginFrame != null && loginFrame.isVisible()) {
                 Logger.log(Logger.Tag.LOGIN, "LOGIN FAIL");
                 loginField.requestFocusInWindow();
             }
 
-            //clean up calls
+            // reset vars
+            //noinspection UnusedAssignment
             autoCypherAttempt = false;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -579,13 +586,13 @@ public class LoginHandler {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             ret = false;
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
-     * Checks whether or not the given name/pass combo is valid and if so, returns the UUID matched.
+     * Checks whether the given name/pass combo is valid and if so, returns the UUID matched.
      * Otherwise, null is returned to represent that no user was found.
      *
      * @param name the username given
