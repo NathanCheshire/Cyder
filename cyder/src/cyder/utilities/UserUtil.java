@@ -72,12 +72,27 @@ public class UserUtil {
         }
     }
 
+    /**
+     * Sets the cyderUser's corresponding Json file.
+     *
+     * @param f the cyderUser's corresponding Json file
+     */
+    public static void setCyderUserFile(File f) {
+        if (!f.exists())
+            throw new IllegalArgumentException("File does not exist");
+        if (!FileUtil.getExtension(f).equals(".json"))
+            throw new IllegalArgumentException("File is not a json type");
+
+        cyderUserFile = f;
+    }
+
     //todo utilize every IO_TIMEOUT ms and block IO, or figure out way to update when cyderUser is updated
     /**
      * Refreshes the current user's json with the current state of {@link UserUtil#cyderUser}.
      */
     public static synchronized void writeUser() {
         setUserData(cyderUserFile, cyderUser);
+        //writeUser(); //todo
     }
 
     /**
@@ -87,6 +102,8 @@ public class UserUtil {
         cyderUser = extractUser(cyderUserFile);
     }
 
+    //todo this throws from this being called after extracting a user without the user json having been set yet
+    // either set that first and somehow force it or reduce method usage, maybe even remove
     /**
      * Sets the given user to the current Cyder user.
      *
@@ -94,6 +111,7 @@ public class UserUtil {
      */
     public static void setCyderUser(User u) {
         cyderUser = u;
+        //writeUser(); //todo
     }
 
     /**
@@ -112,18 +130,13 @@ public class UserUtil {
      * @param value the new value
      */
     public static void setUserData(String name, String value) {
-        File f = new File(OSUtil.buildPath("dynamic","users",
-                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
-
-        if (!f.exists())
-            throw new IllegalArgumentException("File does not exist");
-
         try {
             for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
                     m.invoke(cyderUser, value);
+                    writeUser(); //todo
                     break;
                 }
             }
@@ -758,7 +771,7 @@ public class UserUtil {
             if (jsonFile.exists() && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID())) {
                 User u = UserUtil.extractUser(jsonFile);
                 u.setLoggedin("0");
-                UserUtil.setUserData(jsonFile, u);
+                setUserData(jsonFile, u);
             }
         }
     }

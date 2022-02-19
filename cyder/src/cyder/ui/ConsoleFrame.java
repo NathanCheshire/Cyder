@@ -1316,7 +1316,7 @@ public final class ConsoleFrame {
         }, "Cyder Busy Checker");
 
         CyderThreadRunner.submit(() -> {
-            final int timeout = 3000;
+            final int timeout = UserUtil.IO_TIMEOUT;
 
             try {
                 // initial delay
@@ -1337,8 +1337,6 @@ public final class ConsoleFrame {
                     screenStat.setConsoleX(consoleCyderFrame.getX());
                     screenStat.setConsoleY(consoleCyderFrame.getY());
                     user.setScreenStat(screenStat);
-
-                    // todo get and set other vars that need to be saved
 
                     // just to be safe
                     if (!isClosed()) {
@@ -1853,8 +1851,11 @@ public final class ConsoleFrame {
 
         previousUuid = this.uuid;
         this.uuid = uuid;
-        UserUtil.setCyderUser(UserUtil.extractUser(OSUtil.buildFile(
-                "dynamic","users",uuid, UserFile.USERDATA.getName())));
+
+        File json = OSUtil.buildFile(
+                "dynamic","users",uuid, UserFile.USERDATA.getName());
+        UserUtil.setCyderUser(UserUtil.extractUser(json));
+        UserUtil.setCyderUserFile(json);
 
         //perform preference injection
         UserUtil.fixUser();

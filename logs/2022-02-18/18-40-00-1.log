@@ -12,8 +12,7 @@
 [18-40-02] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-40-02] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-40-02] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-40-02] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -56,8 +55,7 @@
 [18-40-32] [SYSTEM_IO]: Userdata requested: Background
 [18-40-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [599898868], parentFrame = [Eric Reprid - Lukewarm (feat. alexa)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-40-34] [SYSTEM_IO]: Userdata requested: Background
-[18-40-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-40-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [18-40-49] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [599898868], parentFrame = [Eric Reprid - Lukewarm (feat. alexa)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-41-00] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-41-34] [SYSTEM_IO]: Userdata requested: minimizeonclose

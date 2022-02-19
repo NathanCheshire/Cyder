@@ -310,17 +310,17 @@ public class UserEditor {
                                        .getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
-                        String oldname = FileUtil.getFilename(selectedFile);
+                        String oldName = FileUtil.getFilename(selectedFile);
                         String extension = FileUtil.getExtension(selectedFile);
                         GetterUtil gu = new GetterUtil();
                         gu.setRelativeFrame(editUserFrame);
-                        String newname = gu.getString("Rename","Enter any valid file name",
-                                "Submit", oldname);
+                        String newName = gu.getString("Rename","Enter any valid file name",
+                                "Submit", oldName);
 
-                        if (oldname.equals(newname) || newname.equals("NULL"))
+                        if (oldName.equals(newName) || newName.equals("NULL"))
                             return;
 
-                        File renameTo = new File(selectedFile.getParent() + "/" + newname + extension);
+                        File renameTo = new File(selectedFile.getParent() + "/" + newName + extension);
 
                         if (renameTo.exists())
                             throw new IOException("file exists");
@@ -340,11 +340,11 @@ public class UserEditor {
                                         + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
 
                                 if (albumArtDir.exists()) {
-                                    //try to find a file with the same name as oldname
+                                    //try to find a file with the same name as oldName
                                     File refFile = null;
 
                                     for (File f : albumArtDir.listFiles()) {
-                                        if (FileUtil.getFilename(f).equals(oldname)) {
+                                        if (FileUtil.getFilename(f).equals(oldName)) {
                                             refFile = f;
                                             break;
                                         }
@@ -353,7 +353,7 @@ public class UserEditor {
                                     //found corresponding album art so rename it as well
                                     if (refFile != null) {
                                         File artRename = new File("dynamic/users/" +
-                                                ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt/" + newname + ".png");
+                                                ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt/" + newName + ".png");
 
                                         if (artRename.exists())
                                             throw new IOException("album art file exists");
@@ -704,6 +704,7 @@ public class UserEditor {
                 class thisAction implements CyderScrollList.ScrollAction {
                     @Override
                     public void fire() {
+                        //noinspection MagicConstant
                         FontLabel.setFont(new Font(fontList.get(finalI),
                                 Integer.parseInt(UserUtil.extractUser().getFontmetric()),
                                 Integer.parseInt(UserUtil.extractUser().getFontsize())));
@@ -743,6 +744,7 @@ public class UserEditor {
 
             if (selectedFont != null) {
                 UserUtil.setUserData("Font", selectedFont);
+                //noinspection MagicConstant
                 Font ApplyFont = new Font(selectedFont,
                         Integer.parseInt(UserUtil.extractUser().getFontmetric()),
                         Integer.parseInt(UserUtil.extractUser().getFontsize()));
@@ -1078,9 +1080,8 @@ public class UserEditor {
             changePasswordField.setText("");
             changePasswordConfField.setText("");
 
-            for (char c : newPassword) {
-                c = '\0';
-            }
+            Arrays.fill(newPasswordConf, '\0');
+            Arrays.fill(newPassword, '\0');
         });
         printingUtil.printlnComponent(changePassword);
 
@@ -1132,7 +1133,7 @@ public class UserEditor {
                 SimpleDateFormat dateFormatter = new SimpleDateFormat(fieldText);
                 String formatted =  dateFormatter.format(Time);
 
-                //valid so write and refresh consoleclock
+                //valid so write and refresh ConsoleClock
                 UserUtil.setUserData("consoleclockformat", fieldText);
                 ConsoleFrame.getConsoleFrame().refreshClockText();
                 consoleDatePatternField.setText(fieldText);
@@ -1179,7 +1180,7 @@ public class UserEditor {
                         String path = parts[1].trim();
 
                         File pointerFile = new File(path);
-                        boolean validLink = false;
+                        boolean validLink;
 
                         try {
                             URL url = new URL(path);
@@ -1315,7 +1316,7 @@ public class UserEditor {
                     User user = UserUtil.extractUser();
                     user.setFfmpegpath(text);
                     UserUtil.setCyderUser(user);
-                    editUserFrame.notify("ffmpeg path sucessfully set");
+                    editUserFrame.notify("ffmpeg path successfully set");
                 } else {
                     editUserFrame.notify("ffmpeg does not exist at the provided path");
                     ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
@@ -1358,7 +1359,7 @@ public class UserEditor {
                     User user = UserUtil.extractUser();
                     user.setYoutubedlpath(text);
                     UserUtil.setCyderUser(user);
-                    editUserFrame.notify("youtube-dl path sucessfully set");
+                    editUserFrame.notify("youtube-dl path successfully set");
                 } else {
                     editUserFrame.notify("youtube-dl does not exist at the provided path");
                     youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
@@ -1405,6 +1406,7 @@ public class UserEditor {
                        }
 
                        File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
+                       //noinspection ResultOfMethodCallIgnored
                        old.renameTo(renamed);
 
                        Frame[] frames = Frame.getFrames();
@@ -1424,8 +1426,8 @@ public class UserEditor {
 
         printingUtil.print("\n\n");
 
-        CyderLabel weatherKeylabel = new CyderLabel("Weather Key (Click me to get a key)");
-        weatherKeylabel.addMouseListener(new MouseAdapter() {
+        CyderLabel weatherKeyLabel = new CyderLabel("Weather Key (Click me to get a key)");
+        weatherKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 NetworkUtil.internetConnect("https://home.openweathermap.org/users/sign_up");
@@ -1433,15 +1435,15 @@ public class UserEditor {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                weatherKeylabel.setForeground(CyderColors.regularRed);
+                weatherKeyLabel.setForeground(CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                weatherKeylabel.setForeground(CyderColors.navy);
+                weatherKeyLabel.setForeground(CyderColors.navy);
             }
         });
-        printingUtil.printlnComponent(weatherKeylabel);
+        printingUtil.printlnComponent(weatherKeyLabel);
 
         printingUtil.print("\n");
 
@@ -1473,6 +1475,7 @@ public class UserEditor {
 
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()));
+                    //noinspection ResultOfMethodCallIgnored
                     reader.read();
                     valid = true;
                     reader.close();
@@ -1568,6 +1571,7 @@ public class UserEditor {
         fontMetricField.setToolTipText("Font metrics: 0 = plain, 1 = bold, 2 = italic, 3 = bold + italic");
         fontMetricField.setBackground(CyderColors.vanila);
         fontMetricField.setSelectionColor(CyderColors.selectionColor);
+        //noinspection MagicConstant
         fontMetricField.setFont(new Font(
                 UserUtil.extractUser().getFont(),
                 Integer.parseInt(UserUtil.extractUser().getFontmetric()),
@@ -1593,8 +1597,10 @@ public class UserEditor {
 
                 UserUtil.setUserData("fontmetric", numbers);
 
+                //noinspection MagicConstant
                 fontMetricField.setFont(new Font(
-                        UserUtil.extractUser().getFont(), number,20));
+                        UserUtil.extractUser().getFont(), number,
+                        Integer.parseInt(UserUtil.extractUser().getFontsize())));
                 Preferences.invokeRefresh("fontmetric");
             } else {
                 fontMetricField.setText(UserUtil.extractUser().getFontmetric());
