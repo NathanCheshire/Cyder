@@ -1212,7 +1212,7 @@ public class UserEditor {
                                     LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
                                     currentExes.add(addExe);
                                     user.setExecutables(currentExes);
-                                    UserUtil.setUserData(user);
+                                    UserUtil.setCyderUser(user);
                                     editUserFrame.notify("Mapped exe successfully added");
                                     ConsoleFrame.getConsoleFrame().revalidateMenu();
                                 }
@@ -1269,7 +1269,7 @@ public class UserEditor {
                 if (found) {
                     User user = UserUtil.extractUser();
                     user.setExecutables(exes);
-                    UserUtil.setUserData(user);
+                    UserUtil.setCyderUser(user);
                     editUserFrame.notify("Map successfully removed");
                     ConsoleFrame.getConsoleFrame().revalidateMenu();
                 } else {
@@ -1314,7 +1314,7 @@ public class UserEditor {
                         FileUtil.getExtension(ffmpegMaybe).equals(".exe")) {
                     User user = UserUtil.extractUser();
                     user.setFfmpegpath(text);
-                    UserUtil.setUserData(user);
+                    UserUtil.setCyderUser(user);
                     editUserFrame.notify("ffmpeg path sucessfully set");
                 } else {
                     editUserFrame.notify("ffmpeg does not exist at the provided path");
@@ -1357,7 +1357,7 @@ public class UserEditor {
                         FileUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
                     User user = UserUtil.extractUser();
                     user.setYoutubedlpath(text);
-                    UserUtil.setUserData(user);
+                    UserUtil.setCyderUser(user);
                     editUserFrame.notify("youtube-dl path sucessfully set");
                 } else {
                     editUserFrame.notify("youtube-dl does not exist at the provided path");

@@ -1,0 +1,67 @@
+[18-40-00] [ENTRY]: [Nathan]
+[18-40-01] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-40-01] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-40-01] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-40-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-40-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-40-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-40-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-40-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-40-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-40-02] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-40-02] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-40-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-40-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-40-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-40-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-40-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-40-02] [SYSTEM_IO]: Userdata requested: InputFill
+[18-40-03] [THREAD STARTED]: High Ping Checker
+[18-40-03] [THREAD STARTED]: Hourly Chime Checker
+[18-40-03] [THREAD STARTED]: Console Clock Updater
+[18-40-03] [THREAD STARTED]: Cyder Busy Checker
+[18-40-03] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-40-03] [ACTION]: Console loaded in 3352ms
+[18-40-03] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-40-03] [ENTRY]: [TESTING MODE]
+[18-40-03] [SYSTEM_IO]: Userdata requested: laststart
+[18-40-03] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1326632102], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-40-03] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3352ms
+[18-40-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-40-06] [WIDGET OPENED]: PREFS
+[18-40-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1216191295], parentFrame = [Mood], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(992, 423, 800, 450)], hash = [868061574], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Mood]
+[18-40-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-40-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [398285601], parentFrame = [Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(992, 385, 800, 526)], hash = [1473734778], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Chillstep]
+[18-40-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-40-13] [WIDGET OPENED]: AUDIO PLAYER
+[18-40-14] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa).mp3
+[18-40-19] [CLIENT]: audiolength
+[18-40-19] [SYSTEM_IO]: Userdata requested: filterchat
+[18-40-19] [PREFERENCE REFRESH INVOKED]: key = audiolength
+[18-40-19] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-40-19] [HANDLE]: FINAL HANDLE
+[18-40-19] [CONSOLE_OUT]: [STRING] Show Audio Total Length set to false
+[18-40-21] [CLIENT]: audiolength
+[18-40-21] [SYSTEM_IO]: Userdata requested: filterchat
+[18-40-21] [PREFERENCE REFRESH INVOKED]: key = audiolength
+[18-40-21] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-40-21] [HANDLE]: FINAL HANDLE
+[18-40-21] [CONSOLE_OUT]: [STRING] Show Audio Total Length set to true
+[18-40-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [599898868], parentFrame = [Eric Reprid - Lukewarm (feat. alexa)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-32] [SYSTEM_IO]: Userdata requested: Background
+[18-40-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [599898868], parentFrame = [Eric Reprid - Lukewarm (feat. alexa)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-34] [SYSTEM_IO]: Userdata requested: Background
+[18-40-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-40-49] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [599898868], parentFrame = [Eric Reprid - Lukewarm (feat. alexa)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-41-00] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1379796007], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-41-34] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-41-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(78, 202, 996, 656)], hash = [1688782916], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-41-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-41-34] [EXIT]: [RUNTIME] 1m 34s
+[18-41-34] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0

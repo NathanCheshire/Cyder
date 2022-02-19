@@ -905,7 +905,7 @@ public final class ConsoleFrame {
                     User.ScreenStat screenStat = user.getScreenStat();
                     screenStat.setConsoleOnTop(false);
                     user.setScreenStat(screenStat);
-                    UserUtil.setUserData(user);
+                    UserUtil.setCyderUser(user);
 
                     pin.setIcon(CyderIcons.pinIcon);
                 } else {
@@ -915,7 +915,7 @@ public final class ConsoleFrame {
                     User.ScreenStat screenStat = user.getScreenStat();
                     screenStat.setConsoleOnTop(true);
                     user.setScreenStat(screenStat);
-                    UserUtil.setUserData(user);
+                    UserUtil.setCyderUser(user);
 
                     pin.setIcon(CyderIcons.pinIconHover);
                 }
@@ -1342,7 +1342,7 @@ public final class ConsoleFrame {
 
                     // just to be safe
                     if (!isClosed()) {
-                        UserUtil.setUserData(user);
+                        UserUtil.setCyderUser(user);
                     }
 
                     int i = 0;
@@ -1431,6 +1431,7 @@ public final class ConsoleFrame {
             return;
 
         try {
+            //noinspection InstantiationOfUtilityClass
             CardWidget cardWidget = new CardWidget();
 
             for (Method m : cardWidget.getClass().getMethods()) {
@@ -1852,6 +1853,8 @@ public final class ConsoleFrame {
 
         previousUuid = this.uuid;
         this.uuid = uuid;
+        UserUtil.setCyderUser(UserUtil.extractUser(OSUtil.buildFile(
+                "dynamic","users",uuid, UserFile.USERDATA.getName())));
 
         //perform preference injection
         UserUtil.fixUser();
@@ -3218,7 +3221,7 @@ public final class ConsoleFrame {
 
             User user = UserUtil.extractUser();
             user.setScreenStat(screenStat);
-            UserUtil.setUserData(user);
+            UserUtil.setCyderUser(user);
         }
     }
 

@@ -174,7 +174,7 @@ public class CyderCommon {
     /**
      * The release date of the current Cyder version.
      */
-    public static final String RELEASE_DATE = "21.2.16";
+    public static final String RELEASE_DATE = "22.2.20";
 
     /**
      * Whether components can be moved on their parent.

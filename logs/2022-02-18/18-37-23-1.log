@@ -1,0 +1,11 @@
+[18-37-23] [ENTRY]: [Nathan]
+[18-37-24] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-37-24] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[18-37-24] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-37-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-37-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-37-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-37-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-37-25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-37-25] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-40-00] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

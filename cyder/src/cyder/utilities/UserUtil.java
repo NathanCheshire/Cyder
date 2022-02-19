@@ -72,22 +72,37 @@ public class UserUtil {
         }
     }
 
-    // the only place IO to/from the cyderUser is performed ---------------------
-
+    //todo utilize every IO_TIMEOUT ms and block IO, or figure out way to update when cyderUser is updated
     /**
      * Refreshes the current user's json with the current state of {@link UserUtil#cyderUser}.
      */
     public static synchronized void writeUser() {
-
+        setUserData(cyderUserFile, cyderUser);
     }
-
-    //todo all other methods here will perform get/set on the userObject
 
     /**
      * Refreshes {@link UserUtil#cyderUser} with the data stored in the current user json.
      */
     public static synchronized void readUser() {
         cyderUser = extractUser(cyderUserFile);
+    }
+
+    /**
+     * Sets the given user to the current Cyder user.
+     *
+     * @param u the user to set as the current Cyder user
+     */
+    public static void setCyderUser(User u) {
+        cyderUser = u;
+    }
+
+    /**
+     * Returns the current cyderUser.
+     *
+     * @return the resulting user object
+     */
+    public static User extractUser() {
+        return cyderUser;
     }
 
     /**
@@ -103,22 +118,18 @@ public class UserUtil {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
 
-        User user = extractUser(f);
-
         try {
-            for (Method m : user.getClass().getMethods()) {
+            for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    m.invoke(user, value);
+                    m.invoke(cyderUser, value);
                     break;
                 }
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-
-        setUserData(user);
     }
 
     /**
@@ -145,17 +156,6 @@ public class UserUtil {
         } finally {
             userIOSemaphore.release();
         }
-    }
-
-    /**
-     * Writes the given user to the current user's Json file.
-     *
-     * @param u the user to serialize and write to a file
-     */
-    public static void setUserData(User u) {
-        File f = new File(OSUtil.buildPath("dynamic","users",
-                ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
-        setUserData(f, u);
     }
 
     /**
@@ -214,7 +214,7 @@ public class UserUtil {
 
                                     Object defaultValue = null;
 
-                                    //find corresponding default vaule
+                                    //find corresponding default vale
                                     for (Preferences.Preference pref : Preferences.getPreferences()) {
                                         if (pref.getID().toLowerCase().contains(getterMethod.getName()
                                                 .toLowerCase().replace("get",""))) {
@@ -294,40 +294,6 @@ public class UserUtil {
             throw new IllegalArgumentException("Provided file does not exist");
         if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("Provided file is not a json");
-
-        User ret = null;
-        Gson gson = new Gson();
-
-        try {
-            userIOSemaphore.acquire();
-            Reader reader = new FileReader(f);
-            ret = gson.fromJson(reader, User.class);
-            reader.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            userIOSemaphore.release();
-        }
-
-        return ret;
-    }
-
-    /**
-     * Extracts the user from the currently logged-in user.
-     *
-     * @return the resulting user object
-     */
-    public static User extractUser() {
-        String uuid = ConsoleFrame.getConsoleFrame().getUUID();
-
-        if (uuid == null)
-            throw new IllegalArgumentException("ConsoleFrame's UUID is not set");
-
-        File f = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.USERDATA.getName()));
-
-        if (!f.exists())
-            throw new IllegalArgumentException("Provided file does not exist");
 
         User ret = null;
         Gson gson = new Gson();
