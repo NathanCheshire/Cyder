@@ -1,0 +1,33 @@
+[22-54-23] [ENTRY]: [Nathan]
+[22-54-24] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-54-24] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-54-24] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-54-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-54-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-54-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-54-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-54-25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-54-25] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-54-26] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-54-26] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-54-26] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-54-26] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-54-26] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-54-26] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-54-26] [SYSTEM_IO]: Userdata requested: InputFill
+[22-54-26] [THREAD STARTED]: High Ping Checker
+[22-54-26] [THREAD STARTED]: Hourly Chime Checker
+[22-54-26] [THREAD STARTED]: Console Clock Updater
+[22-54-26] [THREAD STARTED]: Cyder Busy Checker
+[22-54-26] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-54-26] [ACTION]: Console loaded in 4139ms
+[22-54-26] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1723530847], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-54-26] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-54-26] [ENTRY]: [TESTING MODE]
+[22-54-26] [SYSTEM_IO]: Userdata requested: laststart
+[22-54-26] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 4139ms
+[22-54-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-57-08] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -10,6 +10,7 @@ import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.PopupHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.structs.CyderQueue;
@@ -31,7 +32,7 @@ public class ManualTests {
      */
     public static void launchTests() {
         try {
-
+            popupTest();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -110,28 +111,28 @@ public class ManualTests {
         CyderFrame testFrame = new CyderFrame(350,600, CyderIcons.defaultBackground);
         testFrame.setTitle("Notification Test");
 
-        int miliDelay = 3000;
+        int milliDelay = 3000;
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setBounds(100,50,150,40);
         testFrame.getContentPane().add(ctf);
 
-        CyderButton topNotifiy = new CyderButton("Top");
-        topNotifiy.setBounds(100,110,150,40);
-        topNotifiy.addActionListener(e -> {
+        CyderButton topNotify = new CyderButton("Top");
+        topNotify.setBounds(100,110,150,40);
+        topNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.TOP);
             notificationBuilder.setNotificationDirection(NotificationDirection.TOP);
             testFrame.notify(notificationBuilder);
         });
-        testFrame.getContentPane().add(topNotifiy);
+        testFrame.getContentPane().add(topNotify);
 
         CyderButton rightNotify = new CyderButton("Top Right");
         rightNotify.setBounds(100,170,150,40);
         rightNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.RIGHT);
             notificationBuilder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
             testFrame.notify(notificationBuilder);
@@ -142,7 +143,7 @@ public class ManualTests {
         bottomNotify.setBounds(100,230,150,40);
         bottomNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.BOTTOM);
             notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM);
             testFrame.notify(notificationBuilder);
@@ -153,7 +154,7 @@ public class ManualTests {
         leftNotify.setBounds(100,290,150,40);
         leftNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.LEFT);
             notificationBuilder.setNotificationDirection(NotificationDirection.TOP_LEFT);
             testFrame.notify(notificationBuilder);
@@ -164,7 +165,7 @@ public class ManualTests {
         centerLeftNotify.setBounds(100,350,150,40);
         centerLeftNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.LEFT);
             notificationBuilder.setNotificationDirection(NotificationDirection.LEFT);
             testFrame.notify(notificationBuilder);
@@ -175,7 +176,7 @@ public class ManualTests {
         centerRightNotify.setBounds(100,410,150,40);
         centerRightNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.RIGHT);
             notificationBuilder.setNotificationDirection(NotificationDirection.RIGHT);
             testFrame.notify(notificationBuilder);
@@ -186,7 +187,7 @@ public class ManualTests {
         bottomLeftNotify.setBounds(100,470,150,40);
         bottomLeftNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.LEFT);
             notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
             testFrame.notify(notificationBuilder);
@@ -197,7 +198,7 @@ public class ManualTests {
         bottomRightNotify.setBounds(100,530,170,40);
         bottomRightNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
-            notificationBuilder.setViewDuration(miliDelay);
+            notificationBuilder.setViewDuration(milliDelay);
             notificationBuilder.setArrowDir(Direction.RIGHT);
             notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_RIGHT);
             testFrame.notify(notificationBuilder);
@@ -356,7 +357,7 @@ public class ManualTests {
 
         JProgressBar jpb = new JProgressBar(0,500);
         jpb.setBounds(40,40,320,20);
-        jpb.setOrientation(JProgressBar.HORIZONTAL);
+        jpb.setOrientation(SwingConstants.HORIZONTAL);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         ui.setColors(new Color[]{CyderColors.regularBlue, CyderColors.regularPink});
@@ -392,7 +393,7 @@ public class ManualTests {
         CyderFrame testFrame = new CyderFrame(400,400);
         testFrame.setTitle("Cyder Slider Test");
 
-        JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+        JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
         CyderSliderUI UI = new CyderSliderUI(audioVolumeSlider);
         UI.setThumbDiameter(25);
         UI.setSliderShape(SliderShape.CIRCLE);
@@ -570,10 +571,10 @@ public class ManualTests {
         ccb.setBounds(40,40,200,40);
         testFrame.getContentPane().add(ccb);
 
-        CyderButton printbutton = new CyderButton("Print choice");
-        printbutton.setBounds(40,150,200,40);
-        testFrame.getContentPane().add(printbutton);
-        printbutton.addActionListener(e -> testFrame.notify(new NotificationBuilder(ccb.getValue())));
+        CyderButton printButton = new CyderButton("Print choice");
+        printButton.setBounds(40,150,200,40);
+        testFrame.getContentPane().add(printButton);
+        printButton.addActionListener(e -> testFrame.notify(new NotificationBuilder(ccb.getValue())));
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
@@ -710,7 +711,7 @@ public class ManualTests {
             CyderButton cb = new CyderButton("Test Button " + i);
             cb.setSize(200, 50);
             int finalI = i;
-            cb.addActionListener(e -> testFrame.notify(new NotificationBuilder(finalI + "button: " + cb)));
+            cb.addActionListener(e -> testFrame.notify(new NotificationBuilder(finalI + " button: " + cb)));
             layout.addComponent(cb);
         }
 
@@ -724,6 +725,24 @@ public class ManualTests {
         testFrame.setMaximumSize(new Dimension(2000,2000));
         testFrame.setMinimumSize(new Dimension(300,300));
         testFrame.setBackgroundResizing(true);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+    }
+
+    public static void popupTest() {
+        CyderFrame testFrame = new CyderFrame(400,120);
+        testFrame.setTitle("Popup Test");
+
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setBounds( 40,40, 320, 40);
+        ctf.addActionListener(e -> {
+            String text = ctf.getText();
+
+            if (text.length() > 0)
+                PopupHandler.inform(text);
+        });
+        testFrame.getContentPane().add(ctf);
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());

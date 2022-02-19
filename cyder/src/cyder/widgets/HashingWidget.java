@@ -7,22 +7,22 @@ import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
+import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
 import cyder.ui.CyderTextField;
+import cyder.utilities.OSUtil;
 import cyder.utilities.SecurityUtil;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 
 public class HashingWidget {
     private CyderButton hashButton;
     private CyderPasswordField hashField;
     private int algorithmIndex = 0;
-    private ArrayList<String> algorithms = new ArrayList<>();
+    private final ArrayList<String> algorithms = new ArrayList<>();
 
     //empty constructor
     public HashingWidget() {
@@ -63,25 +63,36 @@ public class HashingWidget {
             char[] Hash = hashField.getPassword();
 
             if (Hash.length > 0) {
-                if (algorithmIndex == 0) {
-                    String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-                    PopupHandler.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA256","", hashFrame);
-                    StringSelection selection = new StringSelection(PrintHash);
-                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                    clipboard.setContents(selection, selection);
-                } else if (algorithmIndex == 1) {
-                    String PrintHash = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
-                    PopupHandler.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by SHA1","", hashFrame);
-                    StringSelection selection = new StringSelection(PrintHash);
-                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                    clipboard.setContents(selection, selection);
-                } else if (algorithmIndex == 2) {
-                    String PrintHash = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
-                    PopupHandler.inform("Your hashed password is:<br/>" + PrintHash + "<br/>It has also been copied to your clipboard.<br/>Provided by MD5","", hashFrame);
-                    StringSelection selection = new StringSelection(PrintHash);
-                    java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-                    clipboard.setContents(selection, selection);
+                String hashResult;
+                String inform;
+                String algorithm;
+
+                switch (algorithmIndex) {
+                    case 0:
+                        algorithm = "SHA256";
+                        hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
+                        break;
+                    case 1:
+                        algorithm = "SHA1";
+                        hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
+                        break;
+                    case 2:
+                        algorithm = "MD5";
+                        hashResult = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid algorithm index: " + algorithmIndex);
                 }
+
+                inform = "Your hashed password is:<br/>" + hashResult
+                        + "<br/>It has also been copied to your clipboard.<br/>Provided by " + algorithm;
+
+                PopupBuilder builder = new PopupBuilder(inform);
+                builder.setTitle(algorithm + " Hash Result");
+                builder.setRelativeTo(hashFrame);
+                PopupHandler.inform(builder);
+
+                OSUtil.setClipboard(hashResult);
 
                 hashField.setText("");
             }

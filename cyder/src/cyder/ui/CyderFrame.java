@@ -6,6 +6,7 @@ import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
+import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.QueuedNotification;
 import cyder.utilities.*;
@@ -894,11 +895,11 @@ public class CyderFrame extends JFrame {
      * @param notificationBuilder the builder used to construct the notification
      */
     public void notify(NotificationBuilder notificationBuilder) {
-        if (StringUtil.getRawTextLength(notificationBuilder.getHtmltext()) < NotificationBuilder.MINIMUM_TEXT_LENGTH)
+        if (StringUtil.getRawTextLength(notificationBuilder.getHtmlText()) < NotificationBuilder.MINIMUM_TEXT_LENGTH)
             throw new IllegalArgumentException("Raw text must be 3 characters or greater");
 
         notificationList.add(new QueuedNotification(
-                notificationBuilder.getHtmltext(),
+                notificationBuilder.getHtmlText(),
                 notificationBuilder.getViewDuration(),
                 notificationBuilder.getArrowDir(),
                 notificationBuilder.getNotificationDirection(),
@@ -1137,7 +1138,10 @@ public class CyderFrame extends JFrame {
      * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
-        PopupHandler.inform(text, title, this);
+        PopupBuilder builder = new PopupBuilder(text);
+        builder.setTitle(title);
+        builder.setRelativeTo(this);
+        PopupHandler.inform(builder);
     }
 
     // -------------
@@ -1402,6 +1406,8 @@ public class CyderFrame extends JFrame {
 
                 if (this.getY() < 0) {
                     this.setLocation(this.getX(), 0);
+
+                    // now dancing is done, will be reset to false in ConsoleFrame method
                     this.dancingFinished = true;
                     dancingDirection = DancingDirection.LEFT;
                 }
@@ -1868,6 +1874,9 @@ public class CyderFrame extends JFrame {
      * @return whether dragging is permitted for this frame
      */
     public boolean draggingEnabled() {
+        if (getTopDragLabel() == null)
+            return false;
+
         return getTopDragLabel().isDraggingEnabled() &&
                 getBottomDragLabel().isDraggingEnabled() &&
                 getLeftDragLabel().isDraggingEnabled() &&
@@ -1891,6 +1900,9 @@ public class CyderFrame extends JFrame {
      * Enables dragging for this frame.
      */
     public void enableDragging() {
+        if (topDrag == null)
+            return;
+
         getTopDragLabel().enableDragging();
         getBottomDragLabel().enableDragging();
         getRightDragLabel().enableDragging();

@@ -14,12 +14,12 @@ import static cyder.utilities.StringUtil.TaggedString;
 import static cyder.utilities.StringUtil.TaggedStringType;
 
 /**
- * Utililty methods to calculate the needed space for a String of text.
+ * Utility methods to calculate the needed space for a String of text.
  */
 public class BoundsUtil {
 
     /**
-     * Restrict instanitation of class.
+     * Restrict instantiation of class.
      */
     private BoundsUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -40,7 +40,7 @@ public class BoundsUtil {
     }
 
     /**
-     * Calculates the needed height for an inform/dialog window given the prefered width and text.
+     * Calculates the needed height for an inform/dialog window given the preferred width and text.
      * @param text the string to display
      * @param maxWidth the maximum width allowed
      * @param font the font to be used
@@ -48,7 +48,7 @@ public class BoundsUtil {
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(final String text, int maxWidth, Font font) {
-        BoundsString ret = new BoundsString();
+        BoundsString ret;
 
         int widthAddition = 5;
         int heightAddition = 2;
@@ -105,7 +105,7 @@ public class BoundsUtil {
                     int fullLineWidth = (int) (font.getStringBounds(
                             taggedString.getText(), frc).getWidth() + widthAddition);
 
-                    //evluate if the line is too long
+                    //evaluate if the line is too long
                     if (fullLineWidth > maxWidth) {
                         //line is too long, figure out how many breaks to add
                         //first, how many multiples of current width does it take to get to max width?
@@ -156,7 +156,7 @@ public class BoundsUtil {
             for (int i = 0 ; i < lines.length ; i++) {
                 int fullLineWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
 
-                //evluate if the line is too long
+                //evaluate if the line is too long
                 if (fullLineWidth > maxWidth) {
                     //line is too long, figure out how many breaks to add
                     //first, how many multiples of current width does it take to get to max width?
@@ -208,7 +208,7 @@ public class BoundsUtil {
 
         String ret = rawText;
 
-        int splitEveryNthChar = (int) Math.ceil(rawText.length() / numLines);
+        int splitEveryNthChar = (int) Math.ceil((float) rawText.length() / (float) numLines);
         int numChars = rawText.length();
         int breakInsertionTol = 7;
 
@@ -336,6 +336,7 @@ public class BoundsUtil {
 
         @Override
         public String toString() {
+            //noinspection StringConcatenationMissingWhitespace
             return "[" + this.width + "x" + this.height + "]\nText:\n" + this.text;
         }
     }

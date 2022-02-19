@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
+import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
@@ -622,7 +623,9 @@ public class UserUtil {
                 }
 
                 //inform of message
-                PopupHandler.inform(informString, "Userdata Corruption");
+                PopupBuilder builder = new PopupBuilder(informString);
+                builder.setTitle("Userdata Corruption");
+                PopupHandler.inform(builder);
 
                 //log the corruption
                 Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);

@@ -10,6 +10,7 @@ import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.MonitorPoint;
+import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
@@ -1927,9 +1928,12 @@ public final class ConsoleFrame {
                 //inform the user we are changing the size of the image
                 boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
                         backgroundWidth < minWidth || backgroundHeight < minHeight;
-                if (resizeNeeded)
-                    PopupHandler.inform("Resizing the background image \"" + currentFile.getName() +
-                            "\"", "System Action");
+                if (resizeNeeded) {
+                    PopupBuilder builder = new PopupBuilder(
+                            "Resizing the background image \"" + currentFile.getName() + "\"");
+                    builder.setTitle("System Action");
+                    PopupHandler.inform(builder);
+                }
 
                 Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(minWidth,minHeight,maxWidth,maxHeight,currentImage);
                 int deltaWidth = (int) resizeDimensions.getWidth();
@@ -3285,7 +3289,7 @@ public final class ConsoleFrame {
         //reset frame's locations and dragging vars
         for (RestoreFrame f : restoreFrames) {
             f.frame.setLocation(f.restoreX, f.restoreY);
-            f.frame.setDancingFinished(false);
+
             if (f.draggingWasEnabled) {
                 f.frame.enableDragging();
             }
@@ -3303,6 +3307,7 @@ public final class ConsoleFrame {
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame) {
                 ((CyderFrame) f).setDancingDirection(CyderFrame.DancingDirection.INITIAL_UP);
+                ((CyderFrame) f).setDancingFinished(false);
             }
         }
     }

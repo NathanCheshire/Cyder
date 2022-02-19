@@ -5,6 +5,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.net.InetAddress;
 import java.nio.file.Files;
@@ -523,9 +524,18 @@ public class OSUtil {
         }
     }
 
-    //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
+    /**
+     * Sets the operating system's clipboard to the provided String.
+     *
+     * @param clipboardContents the String to set the operating system's clipboard to
+     */
+    public static void setClipboard(String clipboardContents) {
+        StringSelection selection = new StringSelection(clipboardContents);
+        java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(selection, selection);
+    }
 
-    //todo make popups centered in the frame no matter what, might have to use min height
+    //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
 
     //todo rename auto cyphering to debug hashes throughout program for consistency
 

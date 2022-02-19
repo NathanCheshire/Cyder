@@ -16,7 +16,7 @@ public final class NotificationBuilder {
     public static final int MINIMUM_TEXT_LENGTH = 2;
 
     //required params
-    private final String htmltext;
+    private final String htmlText;
 
     //optional params
     private int viewDuration = 5000;
@@ -35,7 +35,7 @@ public final class NotificationBuilder {
         if (htmlText == null || htmlText.length() < MINIMUM_TEXT_LENGTH)
             throw new IllegalArgumentException("Html text is null or less than " + MINIMUM_TEXT_LENGTH + " chars");
 
-        this.htmltext = htmlText;
+        this.htmlText = htmlText;
     }
 
     public void setViewDuration(int viewDuration) {
@@ -62,8 +62,8 @@ public final class NotificationBuilder {
         this.notificationBackground = notificationBackground;
     }
 
-    public String getHtmltext() {
-        return htmltext;
+    public String getHtmlText() {
+        return htmlText;
     }
 
     public int getViewDuration() {

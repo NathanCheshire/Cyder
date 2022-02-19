@@ -1,0 +1,89 @@
+[22-41-34] [ENTRY]: [Nathan]
+[22-41-36] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[22-41-36] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[22-41-36] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[22-41-36] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-41-36] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-41-36] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-41-36] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-41-36] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-41-36] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-41-37] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-41-37] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-41-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-41-37] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-41-37] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-41-37] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-41-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-41-37] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-41-37] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-41-37] [SYSTEM_IO]: Userdata requested: InputFill
+[22-41-37] [THREAD STARTED]: High Ping Checker
+[22-41-37] [THREAD STARTED]: Hourly Chime Checker
+[22-41-37] [THREAD STARTED]: Console Clock Updater
+[22-41-37] [THREAD STARTED]: Cyder Busy Checker
+[22-41-37] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-41-38] [ACTION]: Console loaded in 3861ms
+[22-41-38] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [91967333], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-41-38] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-41-38] [ENTRY]: [TESTING MODE]
+[22-41-38] [SYSTEM_IO]: Userdata requested: laststart
+[22-41-38] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3861ms
+[22-41-38] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-41-56] [CLIENT]: popuptest
+[22-41-56] [SYSTEM_IO]: Userdata requested: filterchat
+[22-41-56] [CONSOLE_OUT]: [STRING] Unknown command
+[22-41-56] [ACTION]: Similar command to "popuptest" found with tol of 0.61538464, command = "test"
+[22-41-57] [CLIENT]: test
+[22-41-57] [SYSTEM_IO]: Userdata requested: filterchat
+[22-41-57] [HANDLE]: GENERAL COMMAND HANDLED
+[22-41-57] [HANDLE]: PRIMARY HANDLE
+[22-41-59] [CLIENT]: tests
+[22-41-59] [SYSTEM_IO]: Userdata requested: filterchat
+[22-41-59] [HANDLE]: GENERAL COMMAND HANDLED
+[22-41-59] [HANDLE]: PRIMARY HANDLE
+[22-41-59] [CONSOLE_OUT]: [STRING] Valid tests to call:
+[22-41-59] [CONSOLE_OUT]: [STRING] Unit Tests:
+[22-41-59] [CONSOLE_OUT]: [STRING] testIsComment
+[22-41-59] [CONSOLE_OUT]: [STRING] testFileSignature
+[22-41-59] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[22-41-59] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[22-41-59] [CONSOLE_OUT]: [STRING] testPluralConversion
+[22-41-59] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[22-41-59] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[22-41-59] [CONSOLE_OUT]: [STRING] Manual tests:
+[22-41-59] [CONSOLE_OUT]: [STRING] launchTests
+[22-41-59] [CONSOLE_OUT]: [STRING] queueTest
+[22-41-59] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[22-41-59] [CONSOLE_OUT]: [STRING] stackTest
+[22-41-59] [CONSOLE_OUT]: [STRING] switchTest
+[22-41-59] [CONSOLE_OUT]: [STRING] progressBarTest
+[22-41-59] [CONSOLE_OUT]: [STRING] comboBoxTest
+[22-42-00] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[22-42-00] [CONSOLE_OUT]: [STRING] cyderGridTest
+[22-42-00] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[22-42-00] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[22-42-00] [CONSOLE_OUT]: [STRING] askewTest
+[22-42-00] [CONSOLE_OUT]: [STRING] notificationTest
+[22-42-00] [CONSOLE_OUT]: [STRING] checkboxTest
+[22-42-00] [CONSOLE_OUT]: [STRING] informTest
+[22-42-00] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[22-42-00] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[22-42-00] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[22-42-00] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[22-42-00] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[22-42-00] [CONSOLE_OUT]: [STRING] Escaped
+[22-42-03] [SYSTEM_IO]: Userdata requested: Background
+[22-42-25] [CLIENT]: ripplelabeltest
+[22-42-25] [SYSTEM_IO]: Userdata requested: filterchat
+[22-42-25] [HANDLE]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[22-42-25] [HANDLE]: FINAL HANDLE
+[22-42-25] [CONSOLE_OUT]: [STRING] Invoking manual test: rippleLabelTest
+[22-42-41] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1186498788], parentFrame = [Ripple Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-42-41] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(931, 381, 600, 600)], hash = [1130964011], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Ripple Test]
+[22-42-41] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-42-42] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-42-42] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(733, 354, 996, 655)], hash = [1390301622], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-42-42] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-42-43] [EXIT]: [RUNTIME] 1m 8s
+[22-42-43] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
