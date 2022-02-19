@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
+import cyder.enums.ExitCondition;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.internal.objects.MonitorPoint;
@@ -243,7 +244,7 @@ public class LoginHandler {
 
         //exit cyder frame on disposal call of login frame if ConsoleFrame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
-            loginFrame.addPostCloseAction(() -> CyderCommon.exit(25));
+            loginFrame.addPostCloseAction(() -> CyderCommon.exit(ExitCondition.GenesisControlledExit));
         }
 
         //printing animation output
@@ -361,7 +362,7 @@ public class LoginHandler {
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
                                 if (ConsoleFrame.getConsoleFrame().isClosed())
-                                    CyderCommon.exit(25);
+                                    CyderCommon.exit(ExitCondition.GenesisControlledExit);
 
                             } else if (inputString.equalsIgnoreCase("help")) {
                                 loginField.setText(currentBashString);
@@ -475,7 +476,7 @@ public class LoginHandler {
         }
         // otherwise, unreleased exit
         else if (!CyderCommon.isReleased()) {
-            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception",-600);
+            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception", ExitCondition.NotReleased);
         }
         // otherwise, if Cyder is released/usage is permitted
         else {

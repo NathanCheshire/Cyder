@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
+import cyder.enums.ExitCondition;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
@@ -1414,7 +1415,7 @@ public class UserEditor {
                        for (Frame f : frames)
                            f.dispose();
 
-                       CyderCommon.exit(-56);
+                       CyderCommon.exit(ExitCondition.UserDeleted);
                    } else {
                        deletePasswordField.setText("");
                        editUserFrame.notify("Account not deleted");

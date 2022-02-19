@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.ConsoleFrame;
@@ -117,12 +118,12 @@ public class ExceptionHandler {
      *
      * @param message the message of the popup
      * @param title the title of the popup
-     * @param code the exit code to log when exiting
+     * @param condition the exit condition to log when exiting
      */
-    public static void exceptionExit(String message, String title, int code) {
+    public static void exceptionExit(String message, String title, ExitCondition condition) {
         PopupBuilder builder = new PopupBuilder(message);
         builder.setTitle(title);
-        builder.setPostCloseAction(() -> CyderCommon.exit(code));
+        builder.setPostCloseAction(() -> CyderCommon.exit(condition));
         PopupHandler.inform(builder);
     }
 }

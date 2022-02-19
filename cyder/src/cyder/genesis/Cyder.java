@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
@@ -55,21 +56,24 @@ public class Cyder {
         if (!ensureCyderSingleInstance()) {
             Logger.log(Logger.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
-                    "Terminate other instances before launching a new one.", "Instance Exception", -450);
+                    "Terminate other instances before launching a new one.", "Instance Exception",
+                    ExitCondition.MultipleInstancesExit);
             return;
         }
 
         // check for fast testing
         if (CyderCommon.isFastTestingMode()) {
             ManualTests.launchTests();
-            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing", 50);
+            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
+                    ExitCondition.TestingModeExit);
             return;
         }
 
         // make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
             Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
-            ExceptionHandler.exceptionExit("Font required by system could not be loaded","Font failure", 278);
+            ExceptionHandler.exceptionExit("Font required by system could not be loaded","Font failure",
+                    ExitCondition.CorruptedSystemFiles);
             return;
         }
 
@@ -77,7 +81,8 @@ public class Cyder {
         if (OSUtil.isOSX()) {
             Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
             ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
-                    " install a dual boot or a VM or something.","OS Exception", 278);
+                    " install a dual boot or a VM or something.","OS Exception",
+                    ExitCondition.CorruptedSystemFiles);
             return;
         }
 
@@ -94,7 +99,7 @@ public class Cyder {
             ReflectionUtil.validateWidgets();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine. "
-                    + e.getMessage(), "Subroutine Exception", -120);
+                    + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);
             return;
         }
 

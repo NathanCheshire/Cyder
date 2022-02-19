@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
@@ -206,7 +207,7 @@ public class CyderSplash {
                             // clearly something is wrong so exit
                             PopupBuilder builder = new PopupBuilder("idk what happened but you screwed something up");
                             builder.setTitle("Startup Exception");
-                            builder.setPostCloseAction(() -> CyderCommon.exit(-100));
+                            builder.setPostCloseAction(() -> CyderCommon.exit(ExitCondition.FatalTimeout));
                             PopupHandler.inform(builder);
                         }
                     } catch (Exception e) {

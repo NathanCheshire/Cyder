@@ -4,6 +4,7 @@ import cyder.algorithoms.GeometryAlgorithms;
 import cyder.constants.*;
 import cyder.enums.CyderEntry;
 import cyder.enums.Direction;
+import cyder.enums.ExitCondition;
 import cyder.enums.ScreenPosition;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
@@ -356,7 +357,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.setBackground(Color.black);
 
             //more of a failsafe and not really necessary
-            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
+            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(ExitCondition.GenesisControlledExit));
 
             if (UserUtil.getUserData("fullscreen").equals("1")) {
                 consoleCyderFrame.disableDragging();
@@ -574,7 +575,7 @@ public final class ConsoleFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    CyderCommon.exit(-404);
+                    CyderCommon.exit(ExitCondition.ForcedImmediateExit);
                 }
             });
 
@@ -3179,7 +3180,7 @@ public final class ConsoleFrame {
 
         //dispose and set closed var as true
         if (exit) {
-            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(25));
+            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(ExitCondition.GenesisControlledExit));
         }
 
         consoleCyderFrame.dispose();

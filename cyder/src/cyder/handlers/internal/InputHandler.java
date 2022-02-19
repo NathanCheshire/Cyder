@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.enums.ScreenPosition;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
@@ -668,7 +669,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
-                CyderCommon.exit(25);
+                CyderCommon.exit(ExitCondition.GenesisControlledExit);
             }
         } else if (commandIs("define")) {
             if (args.size() > 0) {
@@ -1149,10 +1150,6 @@ public class InputHandler {
                     println("----------------------------------------");
                 }
             }, "GitHub issue printer").start();
-        } else if (commandIs("exitcodes")) {
-            for (IOUtil.ExitCondition exitCondition : IOUtil.getExitConditions()) {
-                println(exitCondition.getCode() + ": " + exitCondition.getDescription());
-            }
         } else if (commandIs("blackpanther")|| commandIs("chadwickboseman")) {
             new Thread(() -> {
                 clc();
