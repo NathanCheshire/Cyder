@@ -1,0 +1,45 @@
+[12-38-43] [ENTRY]: [Nathan]
+[12-38-45] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-38-45] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-38-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[12-38-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[12-38-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[12-38-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[12-38-45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-38-45] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-38-45] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[12-38-45] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[12-38-46] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-38-46] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-38-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-38-46] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-38-46] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-38-46] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-38-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-38-46] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-38-46] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-38-46] [SYSTEM_IO]: Userdata requested: InputFill
+[12-38-46] [THREAD STARTED]: High Ping Checker
+[12-38-46] [THREAD STARTED]: Hourly Chime Checker
+[12-38-46] [THREAD STARTED]: Console Clock Updater
+[12-38-46] [THREAD STARTED]: Cyder Busy Checker
+[12-38-46] [THREAD STARTED]: ConsoleFrame Data Saver
+[12-38-46] [ACTION]: Console loaded in 3175ms
+[12-38-46] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1807517917], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-38-46] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-38-46] [ENTRY]: [TESTING MODE]
+[12-38-46] [SYSTEM_IO]: Userdata requested: laststart
+[12-38-47] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3175ms
+[12-38-47] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-38-53] [CLIENT]: helpp
+[12-38-53] [SYSTEM_IO]: Userdata requested: filterchat
+[12-38-53] [CONSOLE_OUT]: [STRING] Unknown command
+[12-38-53] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.lambda$unknownInput$12(InputHandler.java:1611)
+From line: 1611
+Trace: java.lang.ArrayIndexOutOfBoundsException: 1
+at cyder.handlers.internal.InputHandler.lambda$unknownInput$12(InputHandler.java:1611)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[12-38-53] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[12-39-01] [SYSTEM_IO]: Userdata requested: Background [2x]
+[12-40-14] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

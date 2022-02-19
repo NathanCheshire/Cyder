@@ -65,13 +65,12 @@ def main():
 
                 if (ratio > correspondingRatio):
                     correspondingRatio = ratio
-                    similarCommand = op
+                    similarCommand = op.strip()
                             
 
-            print(similarCommand, ',', correspondingRatio if 
-                    len(similarCommand) > 0 else '', sep ='')  
+            print(similarCommand, ',', correspondingRatio, sep ='')
         else:
-            raise Exception('Commands.csv was not found')             
+            raise Exception('Commands.csv was not found, did you create it before building the Jar?')             
 
 if __name__ == "__main__":
     main()

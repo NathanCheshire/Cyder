@@ -11,8 +11,7 @@
 [12-16-06] [SYSTEM_IO]: Userdata requested: RandomBackground
 [12-16-06] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-16-06] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-16-06] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-16-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-16-06] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [12-16-06] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-16-06] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-16-06] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -30,3 +29,4 @@
 [12-16-06] [SYSTEM_IO]: Userdata requested: laststart
 [12-16-06] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3462ms
 [12-16-06] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-38-43] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -5,6 +5,7 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
@@ -26,7 +27,7 @@ import java.util.concurrent.Future;
 /**
  * Utilities for methods regarding reflection.
  */
-@SuppressWarnings("UnstableApiUsage") /* Guava Reflection */
+@SuppressWarnings({"UnstableApiUsage", "ConstantConditions"}) /* Guava Reflection */
 public class ReflectionUtil {
     /**
      * Prevent illegal class instantiation.
@@ -96,6 +97,7 @@ public class ReflectionUtil {
      * @param obj the object to invoke toString() on
      * @return a custom toString() representation of the provided object
      */
+    @SuppressWarnings("ConstantConditions") /* this is just due to limited usage */
     public static String commonCyderUIReflection(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
         String frameRep;
@@ -309,13 +311,14 @@ public class ReflectionUtil {
             try {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
-                        OSUtil.buildPath("cyder","src","cyder","python","commandFinder.py"), command};
+                        OSUtil.buildPath("cyder","src","cyder","python","commandFinder.py"),
+                        command, String.valueOf(CyderCommon.JAR_MODE)};
                 //noinspection CallToRuntimeExec
                 Process proc = rt.exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-                ret = Optional.of(stdInput.readLine());
+                String output = stdInput.readLine();
+                ret = Optional.of(output);
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }

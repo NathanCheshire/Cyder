@@ -570,7 +570,7 @@ public class OSUtil {
     // from InputHandler which the script will then look through
 
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
-    // most methods should be in image utils probably.
+    // most methods should be in image utils probably. Use a layout for this, separate window for tools
 
     //todo be able to drag the height of the console menu and
     // remember the relative percentage of the height in userdata
