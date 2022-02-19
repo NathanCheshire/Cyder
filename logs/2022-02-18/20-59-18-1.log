@@ -12,8 +12,7 @@
 [20-59-21] [SYSTEM_IO]: Userdata requested: RandomBackground
 [20-59-21] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-59-21] [SYSTEM_IO]: Userdata requested: fullscreen
-[20-59-21] [SYSTEM_IO]: Userdata requested: FullScreen
-[20-59-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-59-21] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [20-59-21] [SYSTEM_IO]: Userdata requested: OutputBorder
 [20-59-21] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-59-21] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -31,8 +30,7 @@
 [20-59-21] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1221619068], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [20-59-21] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2648ms
 [20-59-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[20-59-39] [SYSTEM_IO]: Userdata requested: Background
-[20-59-49] [SYSTEM_IO]: Userdata requested: Background
+[20-59-49] [SYSTEM_IO]: Userdata requested: Background [2x]
 [20-59-58] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [20-59-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(481, 145, 600, 600)], hash = [1817789863], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
 [20-59-58] [SYSTEM_IO]: Userdata requested: closeanimation

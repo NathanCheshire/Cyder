@@ -1130,8 +1130,8 @@ public final class ConsoleFrame {
 
             if (requestedConsoleWidth <= consoleFrameBackgroundWidth &&
                     requestedConsoleHeight <= consoleFrameBackgroundHeight &&
-                    requestedConsoleWidth > MINIMUM_SIZE.width &&
-                    requestedConsoleHeight > MINIMUM_SIZE.height) {
+                    requestedConsoleWidth >= MINIMUM_SIZE.width &&
+                    requestedConsoleHeight >= MINIMUM_SIZE.height) {
                 consoleCyderFrame.setSize(requestedConsoleWidth, requestedConsoleHeight);
                 consoleCyderFrame.refreshBackground();
             }
