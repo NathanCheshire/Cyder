@@ -9,8 +9,9 @@ import cyder.enums.ScreenPosition;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
-import cyder.scripts.PyExecutor;
+import cyder.python.PyExecutor;
 import cyder.threads.BletchyThread;
+import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
 import cyder.ui.*;
 import cyder.user.Preferences;
@@ -1209,7 +1210,23 @@ public class InputHandler {
                 println("Concluded");
             }, "Bad Word Code Searcher").start();
         } else if (commandIs("usb")) {
-            PyExecutor.executeUSBq();
+            CyderThreadRunner.submit(() -> {
+               try {
+                   Future<ArrayList<String>> futureLines = PyExecutor.executeUSBq();
+
+                   while (!futureLines.isDone()) {
+                       Thread.onSpinWait();
+                   }
+
+                   ArrayList<String> lines = futureLines.get();
+
+                   for (String line : lines)  {
+                       println(line);
+                   }
+               } catch (Exception ex) {
+                   ExceptionHandler.handle(ex);
+               }
+            }, "USB Device Finder");
         } else if (commandIs("number2string") || commandIs("number2word")) {
             if (checkArgsLength(1)) {
                 if (getArg(0).matches("[0-9]+")) {

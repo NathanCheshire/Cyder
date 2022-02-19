@@ -535,6 +535,8 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
+    //todo scrolling on output scroll doesn't work anymore?
+
     //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
 
     //todo rename auto cyphering to debug hashes throughout program for consistency

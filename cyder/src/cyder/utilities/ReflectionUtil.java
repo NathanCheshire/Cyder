@@ -309,12 +309,11 @@ public class ReflectionUtil {
             try {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
-                        OSUtil.buildPath("cyder","src","cyder","scripts","commandFinder.py"), command};
+                        OSUtil.buildPath("cyder","src","cyder","python","commandFinder.py"), command};
                 //noinspection CallToRuntimeExec
                 Process proc = rt.exec(commands);
 
-                BufferedReader stdInput = new BufferedReader(new
-                        InputStreamReader(proc.getInputStream()));
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
                 ret = Optional.of(stdInput.readLine());
             } catch (Exception e) {
