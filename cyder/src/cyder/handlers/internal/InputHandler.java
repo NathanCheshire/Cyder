@@ -356,7 +356,7 @@ public class InputHandler {
         } else if (commandIs("|")) {
             println("&");
         } else if (commandIs("espanol")) {
-            println("Tu Hablo Espanol? Yo estudio Espanol.");
+            println("Tu hablas Espanol? Yo estudio Espanol mas-o-menos. Hay tu mi amigo?");
         } else if (commandIs("look")) {
             println("L()()K ---->> !FREE STUFF! <<---- L()()K");
         } else if (commandIs("Cyder?")) {

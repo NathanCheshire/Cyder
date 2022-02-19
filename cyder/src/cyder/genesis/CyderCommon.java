@@ -1,6 +1,7 @@
 package cyder.genesis;
 
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
@@ -25,21 +26,21 @@ public class CyderCommon {
     /**
      * Controlled program exit that calls System.exit which will also invoke the shutdown hook.
      *
-     * @param code the exiting code to describe why the program exited (0 is standard
-     *             but for this program, the key/value pairs in exitconditions.json are followed)
+     * @param exitCondition the exiting code to describe why the program exited (0 is standard
+     *             but for this program, the key/value pairs in {@link ExitCondition} are followed)
      */
-    public static void exit(int code) {
+    public static void exit(ExitCondition exitCondition) {
         try {
             //ensures IO finishes and is not invoked again
             UserUtil.blockFutureIO();
 
             //log exit
-            Logger.log(Logger.Tag.EXIT, code);
+            Logger.log(Logger.Tag.EXIT, exitCondition);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        System.exit(code);
+        System.exit(exitCondition.getCode());
     }
 
     /**

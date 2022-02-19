@@ -84,13 +84,6 @@ public class Cyder {
         // launch splash screen since we will most likely be launching Cyder
         CyderSplash.showSplash();
 
-        setLoadingMessage("Checking for exit collisions");
-        if (IOUtil.checkForExitCollisions()) {
-            Logger.log(Logger.Tag.EXCEPTION, "DUPLICATE EXIT CODES");
-            ExceptionHandler.exceptionExit("You messed up exit codes :/","Exit Codes Exception", 278);
-            return;
-        }
-
         // necessary subroutines to complete with success before continuing
         try {
             setLoadingMessage("Fixing users");

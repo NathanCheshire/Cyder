@@ -586,69 +586,6 @@ public class IOUtil {
     }
 
     /**
-    * Used to test for Nathan being an idiot and having duplicate exit condition codes.
-    *
-    * @return - boolean describing whether or not Nathan messed up
-     */
-    public static boolean checkForExitCollisions() {
-        boolean ret = false;
-
-        //if there are exit conditions with the same number exit and inform
-        LinkedList<Integer> exitCodes = new LinkedList<>();
-
-        for (IOUtil.ExitCondition exitCondition : IOUtil.getExitConditions()) {
-            if (!exitCodes.contains(exitCondition.getCode())) {
-                exitCodes.add(exitCondition.getCode());
-            } else {
-                //you're an idiot
-                ret = true;
-                break;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Exit conditions ArrayList.
-     */
-    private static ArrayList<ExitCondition> exitConditions = null;
-
-    /**
-     * Returns the ArrayList of ExitCodes which contain the integer code and a description String.
-     *
-     * @return the ArrayList of ExitCodes which contain the integer code and a description String
-     */
-    public static ArrayList<ExitCondition> getExitConditions() {
-        return exitConditions;
-    }
-
-    static {
-        loadExitConditions();
-    }
-
-    /**
-     * Loads the exit conditions ArrayList into memory.
-     */
-    public static void loadExitConditions() {
-        ArrayList<ExitCondition> ret = null;
-        Gson gson = new Gson();
-
-        Logger.log(Logger.Tag.SYSTEM_IO, "Exit conditions pared in IOUtil's static block");
-
-        try (Reader reader = new FileReader("static/json/exitconditions.json")) {
-            Type exittype = new TypeToken<ArrayList<ExitCondition>>(){}.getType();
-
-            ret = gson.fromJson(reader, exittype);
-
-            //if successful set as our suggestions object
-            exitConditions = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * DebugHash ArrayList.
      */
     private static ArrayList<DebugHash> debugHashes = null;

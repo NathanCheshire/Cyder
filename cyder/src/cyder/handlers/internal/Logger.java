@@ -1,8 +1,13 @@
 package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
+import cyder.exceptions.FatalException;
 import cyder.ui.ConsoleFrame;
-import cyder.utilities.*;
+import cyder.utilities.FileUtil;
+import cyder.utilities.OSUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
 import javax.swing.text.Element;
@@ -88,7 +93,7 @@ public class Logger {
                     logBuilder.append("[ICON] ");
                     logBuilder.append(representation);
                 }
-                //jcomponent print outs
+                // JComponent prints
                 else if (representation instanceof JComponent) {
                     logBuilder.append("[JCOMPONENT] ");
                     logBuilder.append(representation);
@@ -100,7 +105,7 @@ public class Logger {
                 }
                 break;
             case EXCEPTION:
-                //any exceptions thrown are passed from errorhandler to here
+                //any exceptions thrown are passed from ExceptionHandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
                 break;
@@ -127,15 +132,13 @@ public class Logger {
                 logBuilder.append(representation);
                 break;
             case SYSTEM_IO:
-                //systemdata read or write
-                //[SYSTEM_IO]: [SET] [KEY] VERSION [VALUE] SOULTREE
-                //[SYSTEM_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
+                // General System IO
                 logBuilder.append("[SYSTEM_IO]: ");
                 logBuilder.append(representation);
                 break;
             case LOGIN:
                 //user logged in using recognize method
-                //[LOGIN]: [NATHAN] Autocyphered (STD Login)
+                //[LOGIN]: [NATHAN] AutoCyphered (STD Login)
                 logBuilder.append("[LOGIN]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
@@ -151,25 +154,25 @@ public class Logger {
                 logBuilder.append(representation);
                 break;
             case ENTRY:
-                //[ENTRY]: [WINUSER=NATHAN]
+                //[ENTRY]: [USER = NATHAN]
                 logBuilder.append("[ENTRY]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
             case EXIT:
-                //right before genesisshare.exit exits
+                //right before CyderCommon exits
                 //[EXIT]: [RUNTIME] 1h 24m 31s
                 logBuilder.append("[EXIT]: [RUNTIME] ");
                 logBuilder.append(getRuntime()).append("\n");
 
                 //end log
                 logBuilder.append("[").append(TimeUtil.logTime()).append("] [EOL]: Log completed, exiting Cyder with exit code: ");
-                logBuilder.append(representation);
-                logBuilder.append(" [");
-                logBuilder.append(getCodeDescription((int) representation));
-                logBuilder.append("]");
-                logBuilder.append(", exceptions thrown: ");
-                logBuilder.append(countExceptions());
+
+                ExitCondition cond = (ExitCondition) representation;
+
+                logBuilder.append(cond.getCode())
+                        .append(" [").append(cond.getDescription()).append("], exceptions thrown: ")
+                        .append(countExceptions());
 
                 //write
                 writeLine(logBuilder.toString());
@@ -179,7 +182,7 @@ public class Logger {
             case CORRUPTION:
                 //before user corruption method is called
                 //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
-                logBuilder.append("[CORRUPTION]: userdir saved to: ").append(representation);
+                logBuilder.append("[CORRUPTION]: User's files saved to: ").append(representation);
                 break;
             case UNKNOWN:
                 //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above
@@ -268,7 +271,8 @@ public class Logger {
     public static void initialize(File outputFile) {
         try {
             if (!outputFile.exists())
-                outputFile.createNewFile();
+                if (!outputFile.createNewFile())
+                    throw new FatalException("Log file could not be created");
 
             currentLog = outputFile;
         } catch (Exception e) {
@@ -303,9 +307,9 @@ public class Logger {
 
     /**
      * Creates the log file if it is not set/DNE
-     * @return whether or not the file was created successfully
      */
-    private static boolean generateAndSetLogFile() {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void generateAndSetLogFile() {
         try {
             File logsDir = new File("logs");
             logsDir.mkdir();
@@ -332,12 +336,10 @@ public class Logger {
             else
                 throw new RuntimeException("Log file not created");
 
-            return success;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        return false;
     }
 
     private static final Semaphore writingSemaphore = new Semaphore(1);
@@ -399,14 +401,14 @@ public class Logger {
     }
 
     private static String getRuntime() {
-        long milis = System.currentTimeMillis() - start;
+        long millis = System.currentTimeMillis() - start;
         int seconds = 0;
         int hours = 0;
         int minutes = 0;
 
-        while (milis > 1000) {
+        while (millis > 1000) {
             seconds++;
-            milis -= 1000;
+            millis -= 1000;
         }
 
         while (seconds > 60) {
@@ -433,25 +435,6 @@ public class Logger {
         return retString.length() == 0 ? "s" : retString;
     }
 
-    private static String getCodeDescription(int code) {
-        String ret = "UNKNOWN EXIT CODE";
-
-        try {
-            ArrayList<IOUtil.ExitCondition> conditions = IOUtil.getExitConditions();
-
-            for (IOUtil.ExitCondition condition : conditions) {
-                if (condition.getCode() == code) {
-                    ret = condition.getDescription();
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret;
-    }
-
     /**
      * Zips the log files of the past.
      */
@@ -459,6 +442,7 @@ public class Logger {
         File topLevelLogsDir = new File("logs");
 
         if (!topLevelLogsDir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             topLevelLogsDir.mkdir();
             return;
         }
@@ -493,6 +477,7 @@ public class Logger {
      *
      * @param file the file to consolidate duplicate lines of
      */
+    @SuppressWarnings("StringConcatenationMissingWhitespace") /* outputs [10x] or similar */
     public static void consolidateLines(File file) {
         if (!file.exists())
             throw new IllegalArgumentException("Provided file does not exist: " + file);
@@ -502,7 +487,7 @@ public class Logger {
         ArrayList<String> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = null;
+            String line;
 
             while ((line = br.readLine()) != null)
                 lines.add(line);
@@ -515,8 +500,8 @@ public class Logger {
 
         ArrayList<String> writeLines = new ArrayList<>();
 
-        String lastLine = lines.get(0);
-        String currentLine = lines.get(1);
+        String lastLine;
+        String currentLine;
         int currentCount = 1;
 
         for (int i = 0 ; i < lines.size() - 1; i++) {
