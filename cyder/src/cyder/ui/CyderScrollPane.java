@@ -11,13 +11,16 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/*
-    Credit: Philipp Danner from Stack Overflow
-    https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
-*/
+/**
+ * A custom implementation of a ScrollPane to give it a more modern feel.
+ *
+ * Credit: Philipp Danner from Stack Overflow
+ * https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
+ */
+@SuppressWarnings("unused")
 public class CyderScrollPane extends JScrollPane {
     private static int SCROLL_BAR_ALPHA_ROLLOVER = 100;
-    private static int SCROLL_BAR_ALPHA = 50;
+    private static int SCROLL_BAR_ALPHA = 60;
     private static int THUMB_SIZE = 8;
     private static int SB_SIZE = 10;
     private static Color THUMB_COLOR = new Color(120,120,120);
@@ -53,23 +56,23 @@ public class CyderScrollPane extends JScrollPane {
     }
 
     public void setScrollBarAlphaRollover(int alpha) {
-        this.SCROLL_BAR_ALPHA_ROLLOVER = alpha;
+        SCROLL_BAR_ALPHA_ROLLOVER = alpha;
     }
 
     public void setScrollBarAlpha(int alpha) {
-        this.SCROLL_BAR_ALPHA = alpha;
+        SCROLL_BAR_ALPHA = alpha;
     }
 
     public void setThumbSize(int size) {
-        this.THUMB_SIZE = size;
+        THUMB_SIZE = size;
     }
 
     public void setSBSize(int size) {
-        this.SB_SIZE = size;
+        SB_SIZE = size;
     }
 
     public void setThumbColor(Color c) {
-        this.THUMB_COLOR = c;
+        THUMB_COLOR = c;
     }
 
     public CyderScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
@@ -134,12 +137,19 @@ public class CyderScrollPane extends JScrollPane {
 
         viewport.setView(view);
     }
+
+    /**
+     * {@inheritDoc}
+     */
     private boolean isVerticalScrollBarfNecessary() {
         Rectangle viewRect = viewport.getViewRect();
         Dimension viewSize = viewport.getViewSize();
         return viewSize.getHeight() > viewRect.getHeight();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     private boolean isHorizontalScrollBarNecessary() {
         Rectangle viewRect = viewport.getViewRect();
         Dimension viewSize = viewport.getViewSize();
@@ -147,14 +157,14 @@ public class CyderScrollPane extends JScrollPane {
     }
 
     /**
-     * Class extending the BasicScrollBarUI and overrides all necessary methods
+     * Inner class extending the BasicScrollBarUI that overrides all necessary methods.
      */
     private static class ModernScrollBarUI extends BasicScrollBarUI {
 
-        private JScrollPane sp;
+        private final JScrollPane jScrollPane;
 
         public ModernScrollBarUI(CyderScrollPane sp) {
-            this.sp = sp;
+            this.jScrollPane = sp;
         }
 
         @Override
@@ -192,7 +202,7 @@ public class CyderScrollPane extends JScrollPane {
         @Override
         protected void setThumbBounds(int x, int y, int width, int height) {
             super.setThumbBounds(x, y, width, height);
-            sp.repaint();
+            jScrollPane.repaint();
         }
 
         //invisible buttons to hide scroll bar buttons - inner class

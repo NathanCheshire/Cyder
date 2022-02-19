@@ -11,6 +11,8 @@ import cyder.utilities.UserUtil;
 import org.jetbrains.annotations.Nullable;
 import test.java.ManualTests;
 
+import java.util.Objects;
+
 /**
  * Methods common to all Cyder that don't exactly belong in a utility class.
  */
@@ -49,7 +51,7 @@ public class CyderCommon {
      * @return the dominant frame for Cyder
      */
     public static @Nullable CyderFrame getDominantFrame() {
-        if (!ConsoleFrame.getConsoleFrame().isClosed() && ConsoleFrame.getConsoleFrame() != null) {
+        if (!ConsoleFrame.getConsoleFrame().isClosed()) {
             return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
         } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null){
             return LoginHandler.getLoginFrame();
@@ -137,7 +139,8 @@ public class CyderCommon {
     /**
      * Whether Cyder is being run as a compiled JAR file.
      */
-    public static final boolean JAR_MODE = Cyder.class.getResource("Cyder.class").toString().startsWith("jar:");
+    public static final boolean JAR_MODE = Objects.requireNonNull(
+            Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
 
     /**
      * Whether Cyder is currently released.

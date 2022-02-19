@@ -1,0 +1,406 @@
+[16-52-07] [ENTRY]: [Nathan]
+[16-52-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-52-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-52-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[16-52-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[16-52-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[16-52-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[16-52-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-52-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-52-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-52-09] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-52-09] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-52-09] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-52-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-52-10] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-52-10] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-52-10] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-52-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-52-10] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-52-10] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-52-10] [SYSTEM_IO]: Userdata requested: InputFill
+[16-52-10] [THREAD STARTED]: High Ping Checker
+[16-52-10] [THREAD STARTED]: Hourly Chime Checker
+[16-52-10] [THREAD STARTED]: Console Clock Updater
+[16-52-10] [THREAD STARTED]: Cyder Busy Checker
+[16-52-10] [THREAD STARTED]: ConsoleFrame Data Saver
+[16-52-10] [ACTION]: Console loaded in 2895ms
+[16-52-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-52-10] [ENTRY]: [TESTING MODE]
+[16-52-10] [SYSTEM_IO]: Userdata requested: laststart
+[16-52-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [252843534], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-52-10] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2895ms
+[16-52-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-52-23] [CLIENT]: hi
+[16-52-23] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-23] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-23] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-23] [HANDLE]: PRIMARY HANDLE
+[16-52-24] [CLIENT]: hi
+[16-52-24] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-24] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-24] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-24] [HANDLE]: PRIMARY HANDLE
+[16-52-24] [CLIENT]: hi
+[16-52-24] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-24] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-24] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-24] [HANDLE]: PRIMARY HANDLE
+[16-52-24] [CLIENT]: hi
+[16-52-24] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-24] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[16-52-24] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-24] [HANDLE]: PRIMARY HANDLE
+[16-52-25] [CLIENT]: hi
+[16-52-25] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-25] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-25] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-25] [HANDLE]: PRIMARY HANDLE
+[16-52-25] [CLIENT]: hi
+[16-52-25] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-25] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-25] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-25] [HANDLE]: PRIMARY HANDLE
+[16-52-25] [CLIENT]: hi
+[16-52-25] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-25] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-25] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-25] [HANDLE]: PRIMARY HANDLE
+[16-52-25] [CLIENT]: hi
+[16-52-25] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-25] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-25] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-25] [HANDLE]: PRIMARY HANDLE
+[16-52-25] [CLIENT]: hi
+[16-52-25] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-25] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-25] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-25] [HANDLE]: PRIMARY HANDLE
+[16-52-26] [CLIENT]: hi
+[16-52-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-26] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-26] [HANDLE]: PRIMARY HANDLE
+[16-52-26] [CLIENT]: hi
+[16-52-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-26] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-26] [HANDLE]: PRIMARY HANDLE
+[16-52-26] [CLIENT]: hi
+[16-52-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-26] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-26] [HANDLE]: PRIMARY HANDLE
+[16-52-26] [CLIENT]: hi
+[16-52-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-26] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-26] [HANDLE]: PRIMARY HANDLE
+[16-52-26] [CLIENT]: hi
+[16-52-26] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-26] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-26] [HANDLE]: PRIMARY HANDLE
+[16-52-27] [CLIENT]: hi
+[16-52-27] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-27] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-27] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-27] [HANDLE]: PRIMARY HANDLE
+[16-52-27] [CLIENT]: hi
+[16-52-27] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-27] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-27] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-27] [HANDLE]: PRIMARY HANDLE
+[16-52-27] [CLIENT]: hi
+[16-52-27] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-27] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-27] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-27] [HANDLE]: PRIMARY HANDLE
+[16-52-27] [CLIENT]: hi
+[16-52-27] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-27] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-27] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-27] [HANDLE]: PRIMARY HANDLE
+[16-52-27] [CLIENT]: hi
+[16-52-27] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-27] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-27] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-27] [HANDLE]: PRIMARY HANDLE
+[16-52-28] [CLIENT]: hi
+[16-52-28] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-28] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-28] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-28] [HANDLE]: PRIMARY HANDLE
+[16-52-28] [CLIENT]: hi
+[16-52-28] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-28] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-28] [CONSOLE_OUT]: [STRING] Go ahead...
+[16-52-28] [HANDLE]: PRIMARY HANDLE
+[16-52-28] [CLIENT]: hi
+[16-52-28] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-28] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-28] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-28] [HANDLE]: PRIMARY HANDLE
+[16-52-28] [CLIENT]: hi
+[16-52-28] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-28] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-28] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-28] [HANDLE]: PRIMARY HANDLE
+[16-52-28] [CLIENT]: hi
+[16-52-28] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-28] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-28] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-28] [HANDLE]: PRIMARY HANDLE
+[16-52-29] [CLIENT]: hi
+[16-52-29] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-29] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-29] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-29] [HANDLE]: PRIMARY HANDLE
+[16-52-29] [CLIENT]: hi
+[16-52-29] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-29] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-29] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-29] [HANDLE]: PRIMARY HANDLE
+[16-52-29] [CLIENT]: hi
+[16-52-29] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-29] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-29] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-29] [HANDLE]: PRIMARY HANDLE
+[16-52-29] [CLIENT]: hi
+[16-52-29] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-29] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-29] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-29] [HANDLE]: PRIMARY HANDLE
+[16-52-29] [CLIENT]: hi
+[16-52-29] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-29] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-29] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-29] [HANDLE]: PRIMARY HANDLE
+[16-52-30] [CLIENT]: hi
+[16-52-30] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-30] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-30] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-30] [HANDLE]: PRIMARY HANDLE
+[16-52-30] [CLIENT]: hi
+[16-52-30] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-30] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-30] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-30] [HANDLE]: PRIMARY HANDLE
+[16-52-30] [CLIENT]: hi
+[16-52-30] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-30] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-30] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-30] [HANDLE]: PRIMARY HANDLE
+[16-52-30] [CLIENT]: hi
+[16-52-30] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-30] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-30] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-30] [HANDLE]: PRIMARY HANDLE
+[16-52-30] [CLIENT]: hi
+[16-52-30] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-30] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-30] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-30] [HANDLE]: PRIMARY HANDLE
+[16-52-31] [CLIENT]: hi
+[16-52-31] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-31] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-31] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-31] [HANDLE]: PRIMARY HANDLE
+[16-52-31] [CLIENT]: hi
+[16-52-31] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-31] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[16-52-31] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-31] [HANDLE]: PRIMARY HANDLE
+[16-52-31] [CLIENT]: hi
+[16-52-31] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-31] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-31] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-31] [HANDLE]: PRIMARY HANDLE
+[16-52-31] [CLIENT]: hi
+[16-52-31] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-31] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-31] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-31] [HANDLE]: PRIMARY HANDLE
+[16-52-32] [CLIENT]: hi
+[16-52-32] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-32] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-32] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-32] [HANDLE]: PRIMARY HANDLE
+[16-52-32] [CLIENT]: hi
+[16-52-32] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-32] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-32] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-32] [HANDLE]: PRIMARY HANDLE
+[16-52-32] [CLIENT]: hi
+[16-52-32] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-32] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-32] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-32] [HANDLE]: PRIMARY HANDLE
+[16-52-32] [CLIENT]: hi
+[16-52-32] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-32] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-32] [CONSOLE_OUT]: [STRING] Go ahead...
+[16-52-32] [HANDLE]: PRIMARY HANDLE
+[16-52-32] [CLIENT]: hi
+[16-52-32] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-32] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-32] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[16-52-32] [HANDLE]: PRIMARY HANDLE
+[16-52-33] [CLIENT]: hi
+[16-52-33] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-33] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-33] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-33] [HANDLE]: PRIMARY HANDLE
+[16-52-33] [CLIENT]: hi
+[16-52-33] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-33] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-33] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-33] [HANDLE]: PRIMARY HANDLE
+[16-52-33] [CLIENT]: hi
+[16-52-33] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-33] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-33] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-33] [HANDLE]: PRIMARY HANDLE
+[16-52-33] [CLIENT]: hi
+[16-52-33] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-33] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-33] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-33] [HANDLE]: PRIMARY HANDLE
+[16-52-33] [CLIENT]: hi
+[16-52-33] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-33] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-33] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-33] [HANDLE]: PRIMARY HANDLE
+[16-52-34] [CLIENT]: hi
+[16-52-34] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-34] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-34] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-34] [HANDLE]: PRIMARY HANDLE
+[16-52-34] [CLIENT]: hi
+[16-52-34] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-34] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-34] [CONSOLE_OUT]: [STRING] Go ahead...
+[16-52-34] [HANDLE]: PRIMARY HANDLE
+[16-52-34] [CLIENT]: hi
+[16-52-34] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-34] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-34] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-34] [HANDLE]: PRIMARY HANDLE
+[16-52-34] [CLIENT]: hi
+[16-52-34] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-34] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-34] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-34] [HANDLE]: PRIMARY HANDLE
+[16-52-34] [CLIENT]: hi
+[16-52-34] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-34] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-34] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-34] [HANDLE]: PRIMARY HANDLE
+[16-52-35] [CLIENT]: hi
+[16-52-35] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-35] [CONSOLE_OUT]: [STRING] Go ahead...
+[16-52-35] [HANDLE]: PRIMARY HANDLE
+[16-52-35] [CLIENT]: hi
+[16-52-35] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-35] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-35] [HANDLE]: PRIMARY HANDLE
+[16-52-35] [CLIENT]: hi
+[16-52-35] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-35] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-35] [HANDLE]: PRIMARY HANDLE
+[16-52-35] [CLIENT]: hi
+[16-52-35] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-35] [CONSOLE_OUT]: [STRING] Go ahead...
+[16-52-35] [HANDLE]: PRIMARY HANDLE
+[16-52-36] [CLIENT]: hi
+[16-52-36] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-36] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-36] [HANDLE]: PRIMARY HANDLE
+[16-52-36] [CLIENT]: hi
+[16-52-36] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-36] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-36] [HANDLE]: PRIMARY HANDLE
+[16-52-36] [CLIENT]: hi
+[16-52-36] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-36] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-36] [HANDLE]: PRIMARY HANDLE
+[16-52-36] [CLIENT]: hi
+[16-52-36] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-36] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-36] [HANDLE]: PRIMARY HANDLE
+[16-52-36] [CLIENT]: hi
+[16-52-36] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-36] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-36] [HANDLE]: PRIMARY HANDLE
+[16-52-37] [CLIENT]: hi
+[16-52-37] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-37] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-37] [HANDLE]: PRIMARY HANDLE
+[16-52-37] [CLIENT]: hi
+[16-52-37] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-37] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[16-52-37] [HANDLE]: PRIMARY HANDLE
+[16-52-37] [CLIENT]: hi
+[16-52-37] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-37] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[16-52-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-37] [HANDLE]: PRIMARY HANDLE
+[16-52-37] [CLIENT]: hi
+[16-52-37] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-37] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[16-52-37] [HANDLE]: PRIMARY HANDLE
+[16-52-37] [CLIENT]: hi
+[16-52-37] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-37] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[16-52-37] [HANDLE]: PRIMARY HANDLE
+[16-52-38] [CLIENT]: hi
+[16-52-38] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-38] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-38] [HANDLE]: PRIMARY HANDLE
+[16-52-38] [CLIENT]: hi
+[16-52-38] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-38] [CONSOLE_OUT]: [STRING] I'm here....
+[16-52-38] [HANDLE]: PRIMARY HANDLE
+[16-52-38] [CLIENT]: hi
+[16-52-38] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-38] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-38] [HANDLE]: PRIMARY HANDLE
+[16-52-38] [CLIENT]: hi
+[16-52-38] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-38] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-38] [HANDLE]: PRIMARY HANDLE
+[16-52-39] [CLIENT]: hi
+[16-52-39] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-39] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[16-52-39] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-39] [HANDLE]: PRIMARY HANDLE
+[16-52-39] [CLIENT]: hi
+[16-52-39] [SYSTEM_IO]: Userdata requested: filterchat
+[16-52-39] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[16-52-39] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[16-52-39] [HANDLE]: PRIMARY HANDLE
+[16-53-28] [SYSTEM_IO]: Userdata requested: Background
+[16-53-30] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[16-53-30] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1403, 320, 996, 655)], hash = [2059592603], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[16-53-30] [SYSTEM_IO]: Userdata requested: closeanimation
+[16-53-31] [EXIT]: [RUNTIME] 1m 23s
+[16-53-31] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[16-53-31] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-53-31] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

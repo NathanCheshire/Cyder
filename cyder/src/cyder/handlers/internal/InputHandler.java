@@ -46,7 +46,8 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
-@SuppressWarnings("unused") /* some methods have yet to be utilized */
+@SuppressWarnings({"unused", "ConstantConditions"})
+/* some methods have yet to be utilized, arg lengths are always checked before accessing*/
 public class InputHandler {
     /**
      * The linked CyderOutputPane.
@@ -162,9 +163,11 @@ public class InputHandler {
         }
 
         //check for requested redirection
+        //noinspection ConstantConditions, safe due to checking arg size
         if (args.size() > 1 && getArg(0).equals(">")) {
             String filename = getArg(1);
 
+            //noinspection ConstantConditions, safe due to checking arg size
             if (filename.trim().length() > 0) {
                 //check for validity of requested filename
                 if (OSUtil.isValidFilename(filename)) {
@@ -284,7 +287,7 @@ public class InputHandler {
                     if (TimeUtil.isEvening())
                         println("Good evening, " + UserUtil.extractUser().getName() + ". How can I help?");
                     else if (TimeUtil.isMorning())
-                        println("Good monring, " + UserUtil.extractUser().getName() + ". How can I help?");
+                        println("Good morning, " + UserUtil.extractUser().getName() + ". How can I help?");
                     else
                         println("Good afternoon, " + UserUtil.extractUser().getName() + ". How can I help?");
                     break;
@@ -1121,7 +1124,7 @@ public class InputHandler {
             if (args.size() > 0) {
                if (getArg(0).equalsIgnoreCase("frames")) {
                    FrameUtil.screenshotCyderFrames();
-                   println("Successfully saved to yoru Files directory");
+                   println("Successfully saved to your Files directory");
                } else {
                    if (!FrameUtil.screenshotCyderFrame(argsToString())) {
                        println("CyderFrame not found");
@@ -1486,7 +1489,7 @@ public class InputHandler {
      * The user may include 1, true, 0, or false with the command to specify the value of the targeted preference.
      *
      * @param targetedPreference the preference to change
-     * @return whether or not a preference was toggled/handled
+     * @return whether a preference was toggled/handled
      */
     private boolean preferenceCheck(String targetedPreference) {
         boolean ret = false;
@@ -1553,7 +1556,7 @@ public class InputHandler {
      * Determines if the command intended to invoke a unit test.
      *
      * @param command the unit test to invoke if recognized from unit tests
-     * @return whether or not the command was recognized as a unit test call
+     * @return whether the command was recognized as a unit test call
      */
     private boolean unitTestCheck(String command) {
         boolean ret = false;
@@ -1935,7 +1938,7 @@ public class InputHandler {
                         }
                     }
                     //regular will perform a typing animation on strings if no method
-                    // is currently running, such as random youtube or bletchy, that would cause
+                    // is currently running, such as random YouTube or bletchy, that would cause
                     // concurrency issues
                     else if (consolePrintingList.size() > 0) {
                         Object line = consolePrintingList.removeFirst();
@@ -1979,7 +1982,9 @@ public class InputHandler {
                                 println("[UNKNOWN OBJECT]: " + line);
                             }
                         }
-                    } else if (consolePrintingList.isEmpty() && consolePriorityPrintingList.isEmpty()) {
+                    }
+                    // lists are empty
+                    else {
                         //fix possible escape from last command
                         finishPrinting = false;
                     }
@@ -2134,7 +2139,7 @@ public class InputHandler {
     /**
      * Prints the provided boolean to the linked JTextPane.
      *
-     * @param usage the boolean to print to the JTextxPane
+     * @param usage the boolean to print to the JTextPane
      */
     public final void print(boolean usage) {
         if (MasterYoutubeThread.isActive() || BletchyThread.isActive())
@@ -2480,7 +2485,7 @@ public class InputHandler {
     /**
      * Determines if the current command equals the provided text ignoring case.
      *
-     * @param compare the string to check for case insensitive equalty to command
+     * @param compare the string to check for case-insensitive equality to command
      * @return if the current command equals the provided text ignoring case
      */
     private boolean commandIs(String compare) {
@@ -2495,8 +2500,8 @@ public class InputHandler {
     }
 
     /**
-     * Removes the last "thing" addeed to the JTextPane whether it's a component,
-     *  icon, or string of multi-llined text.
+     * Removes the last "thing" added to the JTextPane whether it's a component,
+     *  icon, or string of multi-lined text.
      *
      *  In more detail, this method figures out what it'll be removing and then determines how many calls
      *   are needed to {@link StringUtil#removeLastLine()}

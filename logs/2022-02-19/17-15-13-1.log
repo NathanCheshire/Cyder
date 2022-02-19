@@ -1,0 +1,51 @@
+[17-15-13] [ENTRY]: [Nathan]
+[17-15-14] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-15-14] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-15-15] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-15-15] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-15-15] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-15-15] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-15-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-15-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-15-15] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-15-15] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-15-15] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-15-15] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-15-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-15-15] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-15-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-15-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-15-16] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-15-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-15-16] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-15-16] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-15-16] [SYSTEM_IO]: Userdata requested: InputFill
+[17-15-16] [THREAD STARTED]: High Ping Checker
+[17-15-16] [THREAD STARTED]: Hourly Chime Checker
+[17-15-16] [THREAD STARTED]: Console Clock Updater
+[17-15-16] [THREAD STARTED]: Cyder Busy Checker
+[17-15-16] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-15-16] [ACTION]: Console loaded in 2638ms
+[17-15-16] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2004063352], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-15-16] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-15-16] [ENTRY]: [TESTING MODE]
+[17-15-16] [SYSTEM_IO]: Userdata requested: laststart
+[17-15-16] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2638ms
+[17-15-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-15-26] [CLIENT]: randomyoutube
+[17-15-26] [SYSTEM_IO]: Userdata requested: filterchat
+[17-15-26] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-15-26] [HANDLE]: PRIMARY HANDLE
+[17-15-26] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[17-15-26] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-15-32] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Time left: seconds: -34359738
+[17-15-32] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-16-16] [CONSOLE_OUT]: [STRING] Escaped
+[17-16-17] [CLIENT]: randomyoutube
+[17-16-17] [SYSTEM_IO]: Userdata requested: filterchat
+[17-16-17] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-16-17] [HANDLE]: PRIMARY HANDLE
+[17-16-17] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[17-16-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-16-19] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Time left: seconds: -34359738
+[17-16-19] [SYSTEM_IO]: Userdata requested: persistentnotifications

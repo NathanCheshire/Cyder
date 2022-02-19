@@ -1,0 +1,129 @@
+[16-57-38] [ENTRY]: [Nathan]
+[16-57-39] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[16-57-39] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[16-57-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[16-57-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[16-57-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[16-57-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[16-57-40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-57-40] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-57-40] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-57-40] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-57-40] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-57-40] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-57-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-57-40] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-57-40] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-57-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-57-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-57-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-57-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-57-40] [SYSTEM_IO]: Userdata requested: InputFill
+[16-57-40] [THREAD STARTED]: High Ping Checker
+[16-57-40] [THREAD STARTED]: Hourly Chime Checker
+[16-57-40] [THREAD STARTED]: Console Clock Updater
+[16-57-40] [THREAD STARTED]: Cyder Busy Checker
+[16-57-40] [THREAD STARTED]: ConsoleFrame Data Saver
+[16-57-41] [ACTION]: Console loaded in 2627ms
+[16-57-41] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1399949777], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-57-41] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-57-41] [ENTRY]: [TESTING MODE]
+[16-57-41] [SYSTEM_IO]: Userdata requested: laststart
+[16-57-41] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2627ms
+[16-57-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-57-41] [SYSTEM_IO]: Userdata requested: Background
+[16-57-44] [CLIENT]: h
+[16-57-44] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-44] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-44] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-44] [SYSTEM_IO]: Userdata requested: Background
+[16-57-48] [CLIENT]: h
+[16-57-48] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-48] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-48] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-48] [CLIENT]: h
+[16-57-48] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-48] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-48] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-48] [CLIENT]: h
+[16-57-48] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-48] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-48] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-48] [CLIENT]: h
+[16-57-48] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-48] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-49] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-49] [CLIENT]: h
+[16-57-49] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-49] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-49] [CLIENT]: h
+[16-57-49] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-49] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-49] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi" [2x]
+[16-57-49] [CLIENT]: h
+[16-57-49] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-49] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-49] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-49] [CLIENT]: h
+[16-57-49] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-49] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-49] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-49] [CLIENT]: h
+[16-57-49] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-49] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-50] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-50] [CLIENT]: h
+[16-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-50] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-50] [CLIENT]: h
+[16-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-50] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-50] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-50] [CLIENT]: h
+[16-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-50] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-50] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-50] [CLIENT]: h
+[16-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-50] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-50] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-50] [CLIENT]: h
+[16-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-50] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-50] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-50] [CLIENT]: h
+[16-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-50] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-51] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi" [2x]
+[16-57-51] [CLIENT]: h
+[16-57-51] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-51] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-51] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-51] [CLIENT]: h
+[16-57-51] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-51] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-51] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-51] [CLIENT]: h
+[16-57-51] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-51] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-51] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-51] [CLIENT]: h
+[16-57-51] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-51] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-52] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-52] [CLIENT]: h
+[16-57-52] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-52] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-52] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-52] [CLIENT]: h
+[16-57-52] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-52] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-52] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-52] [CLIENT]: h
+[16-57-52] [SYSTEM_IO]: Userdata requested: filterchat
+[16-57-52] [CONSOLE_OUT]: [STRING] Unknown command
+[16-57-52] [ACTION]: Similar command to "h" found with tol of 0.5, command = "hi"
+[16-57-58] [SYSTEM_IO]: Userdata requested: Background [2x]
+[17-00-36] [SYSTEM_IO]: Userdata requested: HourlyChimes
+[17-00-36] [ACTION]: [SYSTEM AUDIO] static/audio/chime.mp3
+[17-01-03] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

@@ -1,0 +1,111 @@
+[17-01-03] [ENTRY]: [Nathan]
+[17-01-04] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-01-04] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-01-04] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-01-04] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-01-04] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-01-04] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-01-04] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-01-04] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-01-04] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-01-04] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-01-05] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-01-05] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-01-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-01-05] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-01-05] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-01-05] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-01-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-01-05] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-01-05] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-01-05] [SYSTEM_IO]: Userdata requested: InputFill
+[17-01-05] [THREAD STARTED]: High Ping Checker
+[17-01-05] [THREAD STARTED]: Hourly Chime Checker
+[17-01-05] [THREAD STARTED]: Console Clock Updater
+[17-01-05] [THREAD STARTED]: Cyder Busy Checker
+[17-01-05] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-01-05] [ACTION]: Console loaded in 2709ms
+[17-01-05] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-01-05] [ENTRY]: [TESTING MODE]
+[17-01-05] [SYSTEM_IO]: Userdata requested: laststart
+[17-01-05] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1792176520], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-01-05] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2709ms
+[17-01-05] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-01-10] [SYSTEM_IO]: Userdata requested: Background [2x]
+[17-01-12] [CLIENT]: hi
+[17-01-12] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-12] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-12] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[17-01-12] [HANDLE]: PRIMARY HANDLE
+[17-01-13] [CLIENT]: hi
+[17-01-13] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-13] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-13] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[17-01-13] [HANDLE]: PRIMARY HANDLE
+[17-01-13] [CLIENT]: hi
+[17-01-13] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-13] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-13] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[17-01-13] [HANDLE]: PRIMARY HANDLE
+[17-01-13] [CLIENT]: hi
+[17-01-13] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-13] [CONSOLE_OUT]: [STRING] I'm here....
+[17-01-13] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-13] [HANDLE]: PRIMARY HANDLE
+[17-01-13] [CLIENT]: hi
+[17-01-13] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-13] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[17-01-13] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-13] [HANDLE]: PRIMARY HANDLE
+[17-01-14] [CLIENT]: hi
+[17-01-14] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-14] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-14] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[17-01-14] [HANDLE]: PRIMARY HANDLE
+[17-01-14] [CLIENT]: hi
+[17-01-14] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-14] [CONSOLE_OUT]: [STRING] I'm here....
+[17-01-14] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-14] [HANDLE]: PRIMARY HANDLE
+[17-01-14] [CLIENT]: hi
+[17-01-14] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-14] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[17-01-14] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-14] [HANDLE]: PRIMARY HANDLE
+[17-01-14] [CLIENT]: hi
+[17-01-14] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-14] [CONSOLE_OUT]: [STRING] Greetings, Nathan.
+[17-01-14] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-14] [HANDLE]: PRIMARY HANDLE
+[17-01-15] [CLIENT]: hi
+[17-01-15] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-15] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-15] [CONSOLE_OUT]: [STRING] I'm here....
+[17-01-15] [HANDLE]: PRIMARY HANDLE
+[17-01-15] [CLIENT]: hi
+[17-01-15] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-15] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-15] [CONSOLE_OUT]: [STRING] Go ahead...
+[17-01-15] [HANDLE]: PRIMARY HANDLE
+[17-01-15] [CLIENT]: hi
+[17-01-15] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-15] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-15] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[17-01-15] [HANDLE]: PRIMARY HANDLE
+[17-01-15] [CLIENT]: hi
+[17-01-15] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-15] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-15] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[17-01-15] [HANDLE]: PRIMARY HANDLE
+[17-01-15] [CLIENT]: hi
+[17-01-15] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-15] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[17-01-15] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-15] [HANDLE]: PRIMARY HANDLE
+[17-01-16] [CLIENT]: hi
+[17-01-16] [SYSTEM_IO]: Userdata requested: filterchat
+[17-01-16] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-01-16] [CONSOLE_OUT]: [STRING] Go ahead...
+[17-01-16] [HANDLE]: PRIMARY HANDLE
+[17-01-17] [SYSTEM_IO]: Userdata requested: Background
+[17-01-36] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

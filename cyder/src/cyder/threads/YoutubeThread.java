@@ -16,14 +16,14 @@ import java.net.URL;
 
 public class YoutubeThread {
     /**
-     * Boolean used for killing the youtube threads.
+     * Boolean used for killing the YouTube threads.
      */
     private boolean exit = false;
 
     /**
      * StringUtil to append text to the linked JTextPane.
      */
-    private StringUtil stringUtil;
+    private final StringUtil stringUtil;
 
     /**
      * The uuid we are currently on
@@ -31,17 +31,17 @@ public class YoutubeThread {
     private String uuid;
 
     /**
-     * Base URL for a youtube video without the uuid.
+     * Base URL for a YouTube video without the uuid.
      */
     String baseURL = "https://www.youtube.com/watch?v=";
 
     /**
-     * Base URL for a youtube video's HQ default thumbnail.
+     * Base URL for a YouTube video's HQ default thumbnail.
      */
     String thumbnailBaseURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
     /**
-     * Youtube's base 64 system used for UUID construction.
+     * YouTube's base 64 system used for UUID construction.
      */
     public static final char[] validChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
             'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -50,11 +50,11 @@ public class YoutubeThread {
             '3', '4', '5', '6', '7', '8', '9', '-', '_'};
 
     /**
-     * Starts generating UUIDs and checking them against youtube for a valid uuid.
+     * Starts generating UUIDs and checking them against YouTube for a valid uuid.
      * Text is appended to the provided JTextPane.
      *
      * @param jTextPane the JTextPane to print to
-     * @param threadNumber the number this thread is in the youtube thread list
+     * @param threadNumber the number this thread is in the YouTube thread list
      */
     public YoutubeThread(JTextPane jTextPane, int threadNumber) {
         this.stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
@@ -72,7 +72,6 @@ public class YoutubeThread {
                 ExceptionHandler.handle(e);
             }
 
-            long accTime = 0;
             int runs = 0;
 
             while (!exit) {
@@ -87,6 +86,7 @@ public class YoutubeThread {
                     MasterYoutubeThread.getSemaphore().acquire();
                     stringUtil.println("Checked UUID: " + uuid);
                     MasterYoutubeThread.getSemaphore().release();
+                    //noinspection StringConcatenationInLoop
                     baseURL = baseURL + uuid;
 
                     BufferedImage Thumbnail = ImageIO.read(new URL(thumbnailBaseURL.replace("REPLACE", uuid)));
@@ -118,7 +118,7 @@ public class YoutubeThread {
                     thumbnailFrame.setVisible(true);
                     thumbnailFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
                 } catch (Exception ignored) {
-                    //invalid UUID so we ingnore the exception and increment the UUID here to ensure we checked it
+                    //invalid UUID, so we ignore the exception and increment the UUID here to ensure we checked it
                     try {
                         uuid = String.valueOf(incrementUUID(uuid.toCharArray(), 10));
                     } catch (Exception e) {
@@ -127,13 +127,9 @@ public class YoutubeThread {
                 }
 
                 if (runs <= 10) {
-                    long time = System.currentTimeMillis() - start;
-                    accTime += time;
                     runs++;
-
                     if (runs == 10) {
                         //accTime is avg time, this is what we will divide the remaining UUIDs by
-                        accTime /= 10;
                         //array to work backwards through
                         char[] uuidArr = uuid.toCharArray();
 
@@ -153,10 +149,12 @@ public class YoutubeThread {
                             }
                         }
 
-                        int avgMsPerCheck = 200; //we could make this actually calculate but...
+                        long time = System.currentTimeMillis() - start;
+
+                        int avgMsPerCheck = (int) ((time - start) / 10.0);
                         long msTimeLeft = (long) ((totalUUIDs - completedUUIDs) / avgMsPerCheck);
                         ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Time left: "
-                                + TimeUtil.milisToFormattedString(msTimeLeft));
+                                + TimeUtil.millisToFormattedString(msTimeLeft));
                     }
                 }
             }
@@ -164,7 +162,7 @@ public class YoutubeThread {
     }
 
     /**
-     * Complex logic to increment the provided UUID based on youtube's base 64 character set.
+     * Complex logic to increment the provided UUID based on YouTube's base 64 character set.
      *
      * @param uuid the uuid to increment in char array form
      * @param pos the position to add to (needed since this method is recursive)
@@ -173,28 +171,28 @@ public class YoutubeThread {
      */
     private char[] incrementUUID(char[] uuid, int pos)  {
         //init ret array
-        char[] ret = uuid.clone();
+        char[] ret;
 
-        //get the character at the position we ant
-        char charac = uuid[pos];
+        //get the character at the position we want
+        char charizard = uuid[pos];
 
         //is it equal to the last in the master list of chars?
-        if (charac == validChars[validChars.length - 1]) {
+        if (charizard == validChars[validChars.length - 1]) {
             //use recursion to add to next column
             if (pos - 1 < 0)
                 throw new IllegalArgumentException("YouTube thread overflow");
             else
                 ret = incrementUUID(uuid, pos - 1);
-        } else { //otherwise we just add to it and return
+        } else { //otherwise, we just add to it and return
             //find the char's position in the master list of chars
-            int index = findIndex(validChars, charac);
+            int index = findIndex(charizard);
             //add to index
             index++;
-            //set charac equal to new char
-            charac = validChars[index];
-            //sub in charac in array
+            //set charizard equal to new char
+            charizard = validChars[index];
+            //sub in charizard in array
             char[] cp = uuid.clone();
-            cp[pos] = charac;
+            cp[pos] = charizard;
 
             //if rolling to new column, reset this column
             if (pos + 1 <= 10)
@@ -209,18 +207,17 @@ public class YoutubeThread {
     /**
      * Finds the index of the provided char in the provided array.
      *
-     * @param arr the array to find the index of the character in
      * @param c the character to find in the provided array
      * @return the index of the provided char in the provided array
      */
-    private int findIndex(char arr[], char c) {
-        if (arr == null)
+    private int findIndex(char c) {
+        if (YoutubeThread.validChars == null)
             return -1;
 
         int i = 0;
 
-        while (i < arr.length)
-            if (arr[i] == c) {
+        while (i < YoutubeThread.validChars.length)
+            if (YoutubeThread.validChars[i] == c) {
                 return i;
             } else {
                 i = i + 1;

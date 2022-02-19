@@ -9,12 +9,12 @@ import java.util.concurrent.Semaphore;
 
 public class MasterYoutubeThread {
     /**
-     * The linked JTextPane to output youtube UUIDs to.
+     * The linked JTextPane to output YouTube UUIDs to.
      */
     private static JTextPane outputArea;
 
     /**
-     * Whether or not any instances of helper youtube threads are running.
+     * Whether any instances of helper YouTube threads are running.
      */
     private static boolean isActive = false;
 
@@ -35,10 +35,10 @@ public class MasterYoutubeThread {
     /**
      * Accessor list of helper threads that actually check the UUIDs.
      */
-    private static ArrayList<YoutubeThread> youtubeThreads = new ArrayList<>();
+    private static final ArrayList<YoutubeThread> youtubeThreads = new ArrayList<>();
 
     /**
-     * Sets the masteryoutube JTextPane and it's linked semaphore.
+     * Sets the master YouTube JTextPane, and its linked semaphore.
      *
      * @param _outputArea the JTextPane to use for appending text to
      * @param _semaphore the semaphore to use to block other text from being appended while thread is underway
@@ -49,7 +49,7 @@ public class MasterYoutubeThread {
     }
 
     /**
-     * Kills any instances of helper youtube threads that are currently running.
+     * Kills any instances of helper YouTube threads that are currently running.
      */
     public static void killAll() {
         for (YoutubeThread ytt : youtubeThreads)
@@ -59,7 +59,7 @@ public class MasterYoutubeThread {
     }
 
     /**
-     * Starts the provided number of youtube helper threads to check UUIDs.
+     * Starts the provided number of YouTube helper threads to check UUIDs.
      *
      * @param number the number of threads to start
      */
@@ -84,15 +84,15 @@ public class MasterYoutubeThread {
             youtubeThreads.add(current);
         }
 
-        //say how to sotp scripts
+        // say how to stop scripts
         ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
         isActive = true;
     }
 
     /**
-     * Returns whether or not this instance of the YouTube script is running.
+     * Returns whether this instance of the YouTube script is running.
      *
-     * @return whether or not this instance of the YouTube script is running
+     * @return whether this instance of the YouTube script is running
      */
     public static boolean isActive() {
         return isActive;

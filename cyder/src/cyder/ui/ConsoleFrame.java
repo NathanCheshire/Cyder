@@ -469,7 +469,7 @@ public final class ConsoleFrame {
             outputScroll.setThumbColor(CyderColors.regularPink);
             outputScroll.getViewport().setOpaque(false);
             outputScroll.setOpaque(false);
-            outputScroll.setFocusable(false);
+            outputScroll.setFocusable(true);
 
             if (UserUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
                 outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
@@ -1409,7 +1409,7 @@ public final class ConsoleFrame {
         }
 
         //last start time operations
-        if (TimeUtil.milisToDays(System.currentTimeMillis() -
+        if (TimeUtil.millisToDays(System.currentTimeMillis() -
                 Long.parseLong(UserUtil.getUserData("laststart"))) > 1) {
             consoleCyderFrame.notify("Welcome back, " + UserUtil.extractUser().getName() + "!");
         }
@@ -1814,7 +1814,7 @@ public final class ConsoleFrame {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
-    @SuppressWarnings("MagicConstant") /* Loaded font metric */
+    @SuppressWarnings("MagicConstant") /* Loading font metric */
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.extractUser().getFontsize());
@@ -1837,6 +1837,10 @@ public final class ConsoleFrame {
                 UserUtil.setUserData("fontsize", String.valueOf(size));
             } catch (Exception ignored) {}
             //sometimes this throws so ignore it
+        } else {
+            // don't disrupt original function
+            outputArea.getParent().dispatchEvent(e);
+            inputField.getParent().dispatchEvent(e);
         }
     };
 

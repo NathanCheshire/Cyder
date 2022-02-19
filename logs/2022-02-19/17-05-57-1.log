@@ -1,0 +1,72 @@
+[17-05-58] [ENTRY]: [Nathan]
+[17-05-59] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-05-59] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-05-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-05-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-05-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-05-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-05-59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-05-59] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-05-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-05-59] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-05-59] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-05-59] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-05-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-06-00] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-06-00] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-06-00] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-06-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-06-00] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-06-00] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-06-00] [SYSTEM_IO]: Userdata requested: InputFill
+[17-06-00] [THREAD STARTED]: High Ping Checker
+[17-06-00] [THREAD STARTED]: Hourly Chime Checker
+[17-06-00] [THREAD STARTED]: Console Clock Updater
+[17-06-00] [THREAD STARTED]: Cyder Busy Checker
+[17-06-00] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-06-00] [ACTION]: Console loaded in 2561ms
+[17-06-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1629272999], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-06-00] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-06-00] [ENTRY]: [TESTING MODE]
+[17-06-00] [SYSTEM_IO]: Userdata requested: laststart
+[17-06-00] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2561ms
+[17-06-00] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-06-01] [ACTION]: Component name = [cyder.ui.Notification], bounds = [(340, 29, 313, 67)], hash = [919447890], parentFrame = [Insomnia Cyder [Nathan]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-06-07] [CLIENT]: randomyoutube
+[17-06-07] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-07] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-06-07] [HANDLE]: PRIMARY HANDLE
+[17-06-07] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[17-06-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-06-14] [SYSTEM_IO]: Userdata requested: Background
+[17-06-18] [CLIENT]: hi
+[17-06-18] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-18] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-06-18] [CONSOLE_OUT]: [STRING] Good afternoon, Nathan. How can I help?
+[17-06-18] [HANDLE]: PRIMARY HANDLE
+[17-06-19] [CLIENT]: hi
+[17-06-19] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-19] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-06-19] [CONSOLE_OUT]: [STRING] Go ahead...
+[17-06-19] [HANDLE]: PRIMARY HANDLE
+[17-06-19] [CLIENT]: hi
+[17-06-19] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-19] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[17-06-19] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[17-06-19] [HANDLE]: PRIMARY HANDLE
+[17-06-22] [CLIENT]: stopscripts
+[17-06-22] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-22] [CONSOLE_OUT]: [STRING] Unknown command
+[17-06-22] [ACTION]: Similar command to "stopscripts" found with tol of 0.90909094, command = "stopscript"
+[17-06-22] [CONSOLE_OUT]: [STRING] Most similar command: "stopscript"
+[17-06-25] [CLIENT]: stopscript
+[17-06-25] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-25] [HANDLE]: GENERAL COMMAND HANDLED
+[17-06-25] [CONSOLE_OUT]: [STRING] YouTube scripts have been killed.
+[17-06-25] [HANDLE]: PRIMARY HANDLE
+[17-06-27] [CLIENT]: stopscript
+[17-06-27] [SYSTEM_IO]: Userdata requested: filterchat
+[17-06-27] [HANDLE]: GENERAL COMMAND HANDLED
+[17-06-27] [CONSOLE_OUT]: [STRING] YouTube scripts have been killed.
+[17-06-27] [HANDLE]: PRIMARY HANDLE
+[17-15-13] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

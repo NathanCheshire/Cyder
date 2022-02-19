@@ -16,6 +16,7 @@ import java.util.Date;
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
+@SuppressWarnings("unused") /* some methods unused still */
 public class TimeUtil {
 
     /**
@@ -56,9 +57,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns the time used for log sub directories.
+     * Returns the time used for log subdirectories.
      *
-     * @return the time used for log sub directories
+     * @return the time used for log subdirectories
      */
     public static String logSubDirTime() {
         return getTime("yyyy-MM-dd");
@@ -102,10 +103,10 @@ public class TimeUtil {
 
     /**
      * Returns the time formatted to the current console
-     * clock format as set by the currently logged in user.
+     * clock format as set by the currently logged-in user.
      *
      * @return the time formatted to the current console
-     * clock format as set by the currently logged in user
+     * clock format as set by the currently logged-in user
      */
     public static String consoleTime() {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
@@ -144,9 +145,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether the current day is christmas day.
+     * Returns whether the current day is Christmas day.
      *
-     * @return whether the current day is christmas day
+     * @return whether the current day is Christmas day
      */
     public static boolean isChristmas() {
         Calendar Checker = Calendar.getInstance();
@@ -180,9 +181,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether the current day is valentines day.
+     * Returns whether the current day is Valentine's day.
      *
-     * @return whether the current day is valentines day
+     * @return whether the current day is Valentine's day
      */
     public static boolean isValentinesDay() {
         Calendar Checker = Calendar.getInstance();
@@ -206,9 +207,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether the current day is april fools day.
+     * Returns whether the current day is April Fools' Day.
      *
-     * @return whether the current day is april fools day
+     * @return whether the current day is April Fools' Day
      */
     public static boolean isAprilFoolsDay() {
         Calendar Checker = Calendar.getInstance();
@@ -218,9 +219,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether or not the local time is past 6:00pm.
+     * Returns whether the local time is past 6:00pm.
      *
-     * @return whether or not the local time is past 6:00pm
+     * @return whether the local time is past 6:00pm
      */
     public static boolean isEvening() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -228,9 +229,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether or not the local time is before 12:00pm.
+     * Returns whether the local time is before 12:00pm.
      *
-     * @return whether or not the local time is before 12:00pm
+     * @return whether the local time is before 12:00pm
      */
     public static boolean isMorning() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -238,9 +239,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether or not the current time is between 12:00pm and 6:00pm.
+     * Returns whether the current time is between 12:00pm and 6:00pm.
      *
-     * @return whether or not the current time is between 12:00pm and 6:00pm
+     * @return whether the current time is between 12:00pm and 6:00pm
      */
     public static boolean isAfterNoon() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -253,9 +254,9 @@ public class TimeUtil {
      *
      * @param msTime the raw long of ms
      * @return a String detailing how many years/months/days...
-     *      are represented by the provided miliseconds.
+     *      are represented by the provided milliseconds.
      */
-    public static String milisToFormattedString(long msTime) {
+    public static String millisToFormattedString(long msTime) {
         StringBuilder sb = new StringBuilder();
 
         double years = 0;
@@ -263,9 +264,13 @@ public class TimeUtil {
         double days = 0;
         double hours = 0;
         double minutes = 0;
-        double seconds = 0;
+        double seconds;
 
-        seconds = msTime / 1000;
+        // reverse cardinality if negative
+        if (msTime < 0)
+            msTime *= -1;
+
+        seconds = msTime / 1000.0;
 
         while (seconds >= 60) {
             seconds -= 60;
@@ -315,62 +320,62 @@ public class TimeUtil {
     }
 
     /**
-     * Converts the provided miliseconds to seconds.
+     * Converts the provided milliseconds to seconds.
      *
-     * @param msTime the time represented in miliseconds
-     * @return the provided miliseconds to seconds
+     * @param msTime the time represented in milliseconds
+     * @return the provided milliseconds to seconds
      */
-    public static double milisToSeconds(long msTime) {
-        return msTime / 1000;
+    public static double millisToSeconds(long msTime) {
+        return msTime / 1000.0;
     }
 
     /**
-     * Converts the provided miliseconds to minutes.
+     * Converts the provided milliseconds to minutes.
      *
-     * @param msTime the time represented in miliseconds
-     * @return the provided miliseconds to minutes
+     * @param msTime the time represented in milliseconds
+     * @return the provided milliseconds to minutes
      */
-    public static double milisToMinutes(long msTime) {
-        return msTime / 1000 / 60;
+    public static double millisToMinutes(long msTime) {
+        return millisToSeconds(msTime) / 60.0;
     }
 
     /**
-     * Converts the provided miliseconds to hours.
+     * Converts the provided milliseconds to hours.
      *
-     * @param msTime the time represented in miliseconds
-     * @return the provided miliseconds to hours
+     * @param msTime the time represented in milliseconds
+     * @return the provided milliseconds to hours
      */
-    public static double milisToHours(long msTime) {
-        return msTime / 1000 / 60 / 60;
+    public static double millisToHours(long msTime) {
+        return millisToMinutes(msTime) / 60.0;
     }
 
     /**
-     * Converts the provided miliseconds to days.
+     * Converts the provided milliseconds to days.
      *
-     * @param msTime the time represented in miliseconds
-     * @return the provided miliseconds to days
+     * @param msTime the time represented in milliseconds
+     * @return the provided milliseconds to days
      */
-    public static double milisToDays(long msTime) {
-        return msTime / 1000 / 60 / 60 / 24;
+    public static double millisToDays(long msTime) {
+        return millisToHours(msTime) / 24.0;
     }
 
     /**
-     * Converts the provided miliseconds to months (30 day ones).
+     * Converts the provided milliseconds to months (30 days).
      *
-     * @param msTime the time represented in miliseconds
-     * @return the provided miliseconds to months
+     * @param msTime the time represented in milliseconds
+     * @return the provided milliseconds to months
      */
-    public static double milisToMonths(long msTime) {
-        return msTime / 1000 / 60 / 60 / 24 / 30;
+    public static double millisToMonths(long msTime) {
+        return millisToDays(msTime) / 30.0;
     }
 
     /**
-     * Converts the provided miliseconds to years.
+     * Converts the provided milliseconds to years.
      *
-     * @param msTime the time represented in miliseconds
-     * @return the provided miliseconds to years
+     * @param msTime the time represented in milliseconds
+     * @return the provided milliseconds to years
      */
-    public static double milisToYears(long msTime) {
-        return msTime / 1000 / 60 / 60 / 24 / 30 / 12;
+    public static double millisToYears(long msTime) {
+        return millisToMonths(msTime) / 12.0;
     }
 }

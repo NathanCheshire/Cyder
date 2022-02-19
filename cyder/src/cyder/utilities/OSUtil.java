@@ -543,13 +543,12 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo scrolling on output scroll doesn't work anymore?, also make scrolls have rounded caps and try out not being transparent?
-
     //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
 
     //todo rename auto cyphering to debug hashes throughout program for consistency
 
     //todo extract out listeners of ConsoleFrame to listeners class
+    // basically clean up console frame since the show gui method is crazy complex
 
     //todo utilize thread runner for threads and test for each before committing
 
@@ -563,17 +562,11 @@ public class OSUtil {
     //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
     // to push it into bounds or something with that function
 
-    //todo if not jar mode, remake the csv of valid ops, otherwise read from the csv
-    //todo command finder needs to be able to execute on it's own and take into a file which should be
-    // generated before jar compilation,
-    //todo make this a command to regenerate the list of valid commands
-    // from InputHandler which the script will then look through
+    //todo add prepare for jar mode command
+    // use this and test the similar command finder through
 
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably. Use a layout for this, separate window for tools
-
-    //todo be able to drag the height of the console menu and
-    // remember the relative percentage of the height in userdata
 
     //todo remember console orientation on exiting Cyder
 
