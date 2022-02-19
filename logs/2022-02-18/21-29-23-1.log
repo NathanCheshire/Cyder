@@ -1,0 +1,34 @@
+[21-29-23] [ENTRY]: [Nathan]
+[21-29-24] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-29-24] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-29-24] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-29-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[21-29-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[21-29-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[21-29-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[21-29-25] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-29-25] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-29-25] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-29-25] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-29-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-29-25] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-29-25] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[21-29-25] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-29-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-29-25] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-29-25] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-29-25] [SYSTEM_IO]: Userdata requested: InputFill
+[21-29-25] [THREAD STARTED]: High Ping Checker
+[21-29-25] [THREAD STARTED]: Hourly Chime Checker
+[21-29-25] [THREAD STARTED]: Console Clock Updater
+[21-29-25] [THREAD STARTED]: Cyder Busy Checker
+[21-29-25] [THREAD STARTED]: ConsoleFrame Data Saver
+[21-29-25] [ACTION]: Console loaded in 2583ms
+[21-29-25] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-29-25] [ENTRY]: [TESTING MODE]
+[21-29-25] [SYSTEM_IO]: Userdata requested: laststart
+[21-29-25] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [875772347], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-29-26] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2583ms
+[21-29-26] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-29-33] [SYSTEM_IO]: Userdata requested: Background [2x]
+[21-30-34] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

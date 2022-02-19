@@ -951,7 +951,7 @@ public class CyderFrame extends JFrame {
                     if (currentQueuedNotification.getContianer() == null) {
                         //set the text bounds to the proper x,y and theest
                         // calculated width and height
-                        text.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+                        text.setBounds(Notification.getTextXOffset(), Notification.getTextYOffset(), w, h);
 
                         currentNotification.setWidth(w);
                         currentNotification.setHeight(h);
@@ -961,7 +961,7 @@ public class CyderFrame extends JFrame {
                         currentNotification.add(text);
 
                         JLabel disposeLabel = new JLabel();
-                        disposeLabel.setBounds(currentNotification.getTextXOffset(), currentNotification.getTextYOffset(), w, h);
+                        disposeLabel.setBounds(Notification.getTextXOffset(), Notification.getTextYOffset(), w, h);
 
                         disposeLabel.setToolTipText("Notified at: " + currentQueuedNotification.getTime());
                         disposeLabel.addMouseListener(new MouseAdapter() {
@@ -997,16 +997,16 @@ public class CyderFrame extends JFrame {
                                     topDrag.getHeight());
                             break;
                         case BOTTOM:
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - Notification.getTextXOffset(),
                                     getHeight() - 5);
                             break;
                         case LEFT:
                             currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                    getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                                    getContentPane().getHeight() / 2 - (h / 2) - Notification.getTextYOffset());
                             break;
                         case RIGHT:
                             currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                    getContentPane().getHeight() / 2 - (h / 2) - currentNotification.getTextYOffset());
+                                    getContentPane().getHeight() / 2 - (h / 2) - Notification.getTextYOffset());
                             break;
                         case BOTTOM_LEFT:
                             //parent.getHeight() - this.getHeight() + 10
@@ -1018,7 +1018,7 @@ public class CyderFrame extends JFrame {
                                     getHeight() - currentNotification.getHeight() + 5);
                             break;
                         default:  //top
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - currentNotification.getTextXOffset(),
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - Notification.getTextXOffset(),
                                     DragLabel.getDefaultHeight() - currentNotification.getHeight());
                     }
 
@@ -1179,7 +1179,7 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(false);
             }
 
-            setState(JFrame.ICONIFIED);
+            setState(Frame.ICONIFIED);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1324,7 +1324,8 @@ public class CyderFrame extends JFrame {
     /**
      * How much the frame location is incremented each dance step.
      */
-    private int dancingIncrement = 10;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int dancingIncrement = 10;
 
     /**
      * Whether dancing has finished for this frame.
@@ -1336,6 +1337,7 @@ public class CyderFrame extends JFrame {
      *
      * @param dancingDirection the direction the frame is currently dancing in
      */
+    @SuppressWarnings("SameParameterValue")
     protected void setDancingDirection(DancingDirection dancingDirection) {
         this.dancingDirection = dancingDirection;
     }
@@ -2390,7 +2392,7 @@ public class CyderFrame extends JFrame {
         JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));
         ret.setForeground(CyderColors.vanila);
         ret.setFont(CyderFonts.defaultFontSmall);
-        ret.setVerticalAlignment(JLabel.CENTER);
+        ret.setVerticalAlignment(SwingConstants.CENTER);
         ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

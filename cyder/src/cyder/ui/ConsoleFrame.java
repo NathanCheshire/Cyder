@@ -2224,12 +2224,13 @@ public final class ConsoleFrame {
             oldBack = ImageUtil.resizeImage(oldBack, width, height);
 
             // change frame size and put the center in the same spot
-            Point originalPoint = consoleCyderFrame.getLocation();
+            Point originalCenter = consoleCyderFrame.getCenterPoint();
             consoleCyderFrame.setSize(width, height);
 
             // bump frame into bounds if resize pushes it out
             FrameUtil.requestFramePosition(consoleCyderFrame.getMonitor(),
-                    (int) originalPoint.getX(), (int) originalPoint.getY(), consoleCyderFrame);
+                    (int) originalCenter.getX() - width / 2,
+                    (int) originalCenter.getY() - height / 2, consoleCyderFrame);
 
             // stitch images
             ImageIcon combinedIcon;
@@ -2251,52 +2252,39 @@ public final class ConsoleFrame {
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
-            // set the stitched image
-            contentPane.setIcon(combinedIcon);
-
-            // set content pane's size
+            // set dimensions
             switch (lastSlideDirection) {
                 case LEFT:
-                    // sliding up
-                    consoleCyderFrame.getContentPane().setSize(
-                            consoleCyderFrame.getContentPane().getWidth(),
-                     consoleCyderFrame.getContentPane().getHeight() * 2);
-                    break;
                 case RIGHT:
                     // sliding down
-                    consoleCyderFrame.getContentPane().setBounds(
-                            0,-consoleCyderFrame.getHeight(),
+                    // sliding up
+                    consoleCyderFrame.getContentPane().setBounds(0,0,
                             consoleCyderFrame.getContentPane().getWidth(),
-                     consoleCyderFrame.getContentPane().getHeight() * 2);
+                            consoleCyderFrame.getContentPane().getHeight() * 2);
                     break;
                 case TOP:
+                case BOTTOM:
+                    // sliding left
                     // sliding right
                     consoleCyderFrame.getContentPane().setBounds(
                             -consoleCyderFrame.getContentPane().getWidth(),0,
-                      consoleCyderFrame.getContentPane().getWidth() * 2,
-                             consoleCyderFrame.getContentPane().getHeight());
-                    break;
-                case BOTTOM:
-                    // sliding left
-                    consoleCyderFrame.getContentPane().setBounds(0,0,
-                     consoleCyderFrame.getContentPane().getWidth() * 2,
+                            consoleCyderFrame.getContentPane().getWidth() * 2,
                             consoleCyderFrame.getContentPane().getHeight());
                     break;
                 default:
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
+            //todo bounds for contentPane and trueContentPane still don't work
+
+            // set to combined icon
+            contentPane.setIcon(combinedIcon);
+
             // disable dragging
             consoleCyderFrame.disableDragging();
 
             // restrict focus
             outputArea.setFocusable(false);
-
-            // todo doesn't work for bigger images for some reason :/
-            // todo also centering the frame on the new background doesn't work
-
-            //todo test case is to simply set it to the combined image and it should be the dimensions
-            // of the new image but have the resized old image visible
 
             // create and submit job for animation
             Runnable backgroundSwitcher = () -> {

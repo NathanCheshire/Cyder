@@ -9,6 +9,7 @@ import cyder.utilities.BoundsUtil;
 
 import java.awt.*;
 
+//todo use builder pattern
 public class PopupHandler {
     private PopupHandler() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -16,6 +17,10 @@ public class PopupHandler {
 
     public static void inform() {
         inform("Empty text", "Empty title");
+    }
+
+    public static void inform(String text) {
+        inform(text, "Empty title");
     }
 
     public static void inform(String text, String title) {

@@ -1,0 +1,37 @@
+[21-19-11] [ENTRY]: [Nathan]
+[21-19-12] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[21-19-12] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[21-19-12] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[21-19-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[21-19-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[21-19-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[21-19-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[21-19-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-19-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-19-13] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-19-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-19-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-19-13] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[21-19-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-19-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-19-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-19-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-19-13] [SYSTEM_IO]: Userdata requested: InputFill
+[21-19-13] [THREAD STARTED]: High Ping Checker
+[21-19-13] [THREAD STARTED]: Hourly Chime Checker
+[21-19-13] [THREAD STARTED]: Console Clock Updater
+[21-19-13] [THREAD STARTED]: Cyder Busy Checker
+[21-19-13] [THREAD STARTED]: ConsoleFrame Data Saver
+[21-19-13] [ACTION]: Console loaded in 2617ms
+[21-19-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1767475610], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-19-13] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-19-13] [ENTRY]: [TESTING MODE]
+[21-19-13] [SYSTEM_IO]: Userdata requested: laststart
+[21-19-13] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2617ms
+[21-19-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-19-17] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-19-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1325, 182, 1235, 638)], hash = [1677568775], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[21-19-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-19-17] [EXIT]: [RUNTIME] 6s
+[21-19-17] [EOL]: Log completed, exiting Cyder with exit code: 25 [Genesis Controlled Exit], exceptions thrown: 0
