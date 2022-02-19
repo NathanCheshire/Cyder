@@ -59,6 +59,9 @@ public class CyderSplash {
                 splashFrame = CyderFrame.getBorderlessFrame(600,600);
                 splashFrame.setTitle("Cyder Splash");
 
+                // set AlwaysOnTop, this will be quickly turned off
+                splashFrame.setAlwaysOnTop(true);
+
                 new Thread(() -> {
                     try {
                         JLabel cBlock = new JLabel(new ImageIcon("static/pictures/C.png"));
@@ -165,6 +168,9 @@ public class CyderSplash {
                             creatorLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
                             Thread.sleep(5);
                         }
+
+                        // animation finished so remove on top mode
+                        splashFrame.setAlwaysOnTop(false);
 
                         Thread.sleep(800);
 

@@ -1,4 +1,4 @@
-package cyder.structs;
+package cyder.structures;
 
 public class CyderQueue<T> {
     transient Node front;

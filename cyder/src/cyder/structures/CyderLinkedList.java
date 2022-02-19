@@ -1,4 +1,4 @@
-package cyder.structs;
+package cyder.structures;
 
 public class CyderLinkedList<T> {
     transient public Node front;

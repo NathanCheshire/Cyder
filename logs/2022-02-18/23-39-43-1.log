@@ -12,8 +12,7 @@
 [23-39-46] [SYSTEM_IO]: Userdata requested: RandomBackground
 [23-39-46] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-39-47] [SYSTEM_IO]: Userdata requested: fullscreen
-[23-39-47] [SYSTEM_IO]: Userdata requested: FullScreen
-[23-39-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-39-47] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [23-39-47] [SYSTEM_IO]: Userdata requested: OutputBorder
 [23-39-47] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-39-47] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -98,8 +97,7 @@
 [23-40-18] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-18] [CLIENT]: what
 [23-40-18] [SYSTEM_IO]: Userdata requested: filterchat
-[23-40-19] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-19] [CONSOLE_OUT]: [STRING] Unknown command
+[23-40-19] [CONSOLE_OUT]: [STRING] Unknown command [2x]
 [23-40-19] [CLIENT]: what
 [23-40-19] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-19] [CLIENT]: what
@@ -110,18 +108,14 @@
 [23-40-19] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-20] [CLIENT]: what
 [23-40-20] [SYSTEM_IO]: Userdata requested: filterchat
-[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
+[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command [4x]
 [23-40-20] [CLIENT]: what
 [23-40-20] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
 [23-40-20] [ACTION]: Similar command to "what" found with tol of 0.5714286, command = "why"
 [23-40-20] [CLIENT]: what
 [23-40-20] [SYSTEM_IO]: Userdata requested: filterchat
-[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
+[23-40-20] [CONSOLE_OUT]: [STRING] Unknown command [2x]
 [23-40-20] [CLIENT]: what
 [23-40-20] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-20] [CONSOLE_OUT]: [STRING] Unknown command
@@ -129,14 +123,12 @@
 [23-40-21] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-21] [CLIENT]: what
 [23-40-21] [SYSTEM_IO]: Userdata requested: filterchat
-[23-40-21] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-21] [CONSOLE_OUT]: [STRING] Unknown command
+[23-40-21] [CONSOLE_OUT]: [STRING] Unknown command [2x]
 [23-40-22] [CLIENT]: what
 [23-40-22] [SYSTEM_IO]: Userdata requested: filterchat
 [23-40-22] [CLIENT]: what
 [23-40-22] [SYSTEM_IO]: Userdata requested: filterchat
-[23-40-22] [CONSOLE_OUT]: [STRING] Unknown command
-[23-40-22] [CONSOLE_OUT]: [STRING] Unknown command
+[23-40-22] [CONSOLE_OUT]: [STRING] Unknown command [2x]
 [23-40-24] [SYSTEM_IO]: Userdata requested: Background
 [23-40-27] [ACTION]: Similar command to "what" found with tol of 0.5714286, command = "why"
 [23-40-27] [SYSTEM_IO]: Userdata requested: minimizeonclose

@@ -1,4 +1,4 @@
-package cyder.structs;
+package cyder.structures;
 
 import java.util.EmptyStackException;
 
