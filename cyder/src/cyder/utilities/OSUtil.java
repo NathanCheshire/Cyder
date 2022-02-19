@@ -545,8 +545,6 @@ public class OSUtil {
 
     //todo address YoutubeUtil bugs
 
-    //todo do away with widget base and do with the annotation fully
-
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class
 
@@ -559,11 +557,6 @@ public class OSUtil {
     // generated before jar compilation,
     //todo make this a command to regenerate the list of valid commands
     // from InputHandler which the script will then look through
-
-    //todo load user in memory and access that object, write to
-    // file ever 3s or so, make a final var for the timeout,
-    // on controlled exists make sure to save just like screen stats
-    // everything here should be in UserUtil
 
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably.

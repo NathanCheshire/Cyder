@@ -32,7 +32,7 @@ public class ManualTests {
      */
     public static void launchTests() {
         try {
-            popupTest();
+
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
