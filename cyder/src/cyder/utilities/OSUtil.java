@@ -535,7 +535,7 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo scrolling on output scroll doesn't work anymore?
+    //todo scrolling on output scroll doesn't work anymore?, also make scrolls have rounded caps and try out not being transparent?
 
     //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
 
@@ -555,6 +555,7 @@ public class OSUtil {
     //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
     // to push it into bounds or something with that function
 
+    //todo if not jar mode, remake the csv of valid ops, otherwise read from the csv
     //todo command finder needs to be able to execute on it's own and take into a file which should be
     // generated before jar compilation,
     //todo make this a command to regenerate the list of valid commands
