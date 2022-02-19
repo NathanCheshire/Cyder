@@ -98,7 +98,7 @@ public class Logger {
                     logBuilder.append("[JCOMPONENT] ");
                     logBuilder.append(representation);
                 }
-                //other console print outs
+                //other console prints
                 else {
                     logBuilder.append("[UNKNOWN CONSOLE_OUT TYPE] ");
                     logBuilder.append(representation);
@@ -447,9 +447,17 @@ public class Logger {
             return;
         }
 
-        for (File subLogDir : topLevelLogsDir.listFiles()) {
+        File[] subLogDirs = topLevelLogsDir.listFiles();
+
+        if (subLogDirs == null || subLogDirs.length == 0)
+            return;
+
+        // for all sub log dirs
+        for (File subLogDir : subLogDirs) {
+            // if it's not the current log and is not a zip file
             if (!FileUtil.getFilename(subLogDir.getName()).equals(TimeUtil.logSubDirTime())
                     && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
+                // if a zip file for the directory exists, delete the dir
                 if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
                     OSUtil.deleteFolder(subLogDir);
                 } else {
@@ -460,14 +468,29 @@ public class Logger {
     }
 
     /**
-     * Consolidates the lines of all non-zipped files within the logs directory.
+     * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
     public static void consolidateLines() {
-        for (File subLogDir : new File("logs").listFiles()) {
+        File logsDir = new File("logs");
+
+        if (!logsDir.exists())
+            return;
+
+        File[] subLogDirs = logsDir.listFiles();
+
+        if (subLogDirs == null || subLogDirs.length == 0)
+            return;
+
+        for (File subLogDir : subLogDirs) {
             if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
                 continue;
 
-            for (File logFile : subLogDir.listFiles())
+            File[] logFiles = subLogDir.listFiles();
+
+            if (logFiles == null || logFiles.length == 0)
+                continue;
+
+            for (File logFile : logFiles)
                 consolidateLines(logFile);
         }
     }
@@ -562,17 +585,32 @@ public class Logger {
     }
 
     /**
-     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1)
+     * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1 )
      * as a result of an IDE stop or OS Task Manager Stop.
      */
     public static void fixLogs() {
         try {
-            for (File logDir : new File("logs").listFiles()) {
+            File logDir = new File("logs");
+
+            if (!logDir.exists())
+                return;
+
+            File[] logDirs = logDir.listFiles();
+
+            if (logDirs == null || logDirs.length == 0)
+                return;
+
+            for (File subLogDir : logDirs) {
                 //for all directories of days of logs
-                if (FileUtil.getExtension(logDir).equalsIgnoreCase(".zip"))
+                if (FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip"))
                     continue;
 
-                for (File log : logDir.listFiles()) {
+                File[] logs = subLogDir.listFiles();
+
+                if (logs == null || logs.length == 0)
+                    return;
+
+                for (File log : logs) {
                     if (!log.equals(Logger.getCurrentLog())) {
                         BufferedReader br = new BufferedReader(new FileReader(log));
                         String line;

@@ -5,6 +5,7 @@ package cyder.enums;
  */
 public enum ExitCondition {
     // exception exits
+    NotReleased(-2, "Cyder Not Released"),
     SubroutineException(-11, "Subroutine Exception"),
     MultipleInstancesExit(-10, "Multiple Instances Exit"),
     ExternalStop(-9, "External Stop"),
@@ -15,7 +16,9 @@ public enum ExitCondition {
     CorruptedUser(-4, "Corrupted User"),
     UserDeleted(-3, "User Deleted"),
     ForcedImmediateExit(-2, "Forced Immediate Exit"),
-    NotReleased(-1, "Not Released"),
+
+    // reserved as this indicates something specific to JVM exits
+    TrueExternalStop(-1, "THIS SHOULDN'T BE USED"),
 
     /**
      * The standard Cyder exit.

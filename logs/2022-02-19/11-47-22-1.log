@@ -11,8 +11,7 @@
 [11-47-25] [SYSTEM_IO]: Userdata requested: RandomBackground
 [11-47-25] [SYSTEM_IO]: Userdata requested: FullScreen
 [11-47-25] [SYSTEM_IO]: Userdata requested: fullscreen
-[11-47-25] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-47-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-47-25] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [11-47-26] [SYSTEM_IO]: Userdata requested: OutputBorder
 [11-47-26] [SYSTEM_IO]: Userdata requested: FullScreen
 [11-47-26] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -48,3 +47,13 @@
 [11-48-18] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me.mp3
 [11-48-38] [SYSTEM_IO]: Userdata requested: minimizeanimation
 [11-48-38] [SYSTEM_IO]: Userdata requested: Background
+[11-54-43] [ACTION]: [AUDIO PLAYER] Juice WRLD -  Lean Wit Me.mp3 [2x]
+[11-54-47] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [2114369132], parentFrame = [Juice WRLD -  Lean Wit Me], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[11-54-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1729, 336, 500, 225)], hash = [784332533], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Juice WRLD -  Lean Wit Me]
+[11-54-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-54-48] [SYSTEM_IO]: Userdata requested: Background
+[11-54-50] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[11-54-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1492, 348, 996, 656)], hash = [1123236701], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[11-54-50] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-54-50] [EXIT]: [RUNTIME] 7m 28s
+[11-54-50] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

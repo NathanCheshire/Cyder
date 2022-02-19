@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
 
 import java.awt.*;
@@ -387,6 +388,8 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     public static boolean deleteFolder(File folder) {
+        Logger.log(Logger.Tag.ACTION, "Requested deletion of: " + folder.getAbsolutePath());
+
         File[] files = folder.listFiles();
 
         if (files != null) {
@@ -405,7 +408,12 @@ public class OSUtil {
             }
         }
 
-        return folder.delete();
+        boolean ret = folder.delete();
+
+        if (!ret)
+            Logger.log(Logger.Tag.ACTION, "[DELETION FAILED] " + folder.getAbsolutePath());
+
+        return ret;
     }
 
     /**
