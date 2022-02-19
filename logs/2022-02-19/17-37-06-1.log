@@ -1,0 +1,28 @@
+[17-37-06] [ENTRY]: [Nathan]
+[17-37-07] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-37-07] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-37-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-37-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-37-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-37-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-37-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-37-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-37-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-37-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-37-07] [LOGIN]: [AUTOCYPHER FAIL]
+[17-37-07] [LOGIN]: [AUTOCYPHER FAIL]
+[17-37-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [624394904], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-37-21] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ hi
+[17-37-23] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ create
+[17-37-23] [WIDGET OPENED]: USER CREATED
+[17-37-28] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 352, 28)], hash = [1417183603], parentFrame = [Create User], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-37-28] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1795, 379, 356, 473)], hash = [2015201639], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[17-37-28] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-37-28] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1839168128], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-37-28] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1673, 415, 600, 400)], hash = [1603696865], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[17-37-28] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-37-28] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1795, -461, 356, 473)], hash = [2015201639], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[17-37-28] [EXIT]: [RUNTIME] 22s
+[17-37-28] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[17-37-28] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-37-28] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

@@ -1,0 +1,76 @@
+[17-25-07] [ENTRY]: [Nathan]
+[17-25-08] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-25-08] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-25-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-25-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-25-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-25-09] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-25-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-25-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-25-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-25-09] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-25-09] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-25-09] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-25-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-25-09] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-25-09] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-25-09] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-25-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-25-09] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-25-09] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-25-09] [SYSTEM_IO]: Userdata requested: InputFill
+[17-25-09] [THREAD STARTED]: High Ping Checker
+[17-25-09] [THREAD STARTED]: Hourly Chime Checker
+[17-25-09] [THREAD STARTED]: Console Clock Updater
+[17-25-09] [THREAD STARTED]: Cyder Busy Checker
+[17-25-09] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-25-10] [ACTION]: Console loaded in 2489ms
+[17-25-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1671018319], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-25-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-25-10] [ENTRY]: [TESTING MODE]
+[17-25-10] [SYSTEM_IO]: Userdata requested: laststart
+[17-25-10] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2489ms
+[17-25-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-25-12] [CLIENT]: randomyoutube
+[17-25-12] [SYSTEM_IO]: Userdata requested: filterchat
+[17-25-12] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-25-12] [HANDLE]: PRIMARY HANDLE
+[17-25-15] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[17-25-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-25-37] [SYSTEM_IO]: Userdata requested: Background [2x]
+[17-25-38] [CLIENT]: scripts
+[17-25-38] [SYSTEM_IO]: Userdata requested: filterchat
+[17-25-38] [CONSOLE_OUT]: [STRING] Unknown command
+[17-25-38] [ACTION]: Similar command to "scripts" found with tol of 0.6666667, command = "stopscript"
+[17-25-40] [CLIENT]: scripts
+[17-25-40] [SYSTEM_IO]: Userdata requested: filterchat
+[17-25-40] [CONSOLE_OUT]: [STRING] Unknown command
+[17-25-40] [ACTION]: Similar command to "scripts" found with tol of 0.6666667, command = "stopscript"
+[17-25-44] [CLIENT]: threads
+[17-25-44] [SYSTEM_IO]: Userdata requested: filterchat
+[17-25-44] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[17-25-44] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-25-44] [HANDLE]: PRIMARY HANDLE
+[17-25-44] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[17-25-44] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[17-25-44] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[17-25-44] [CONSOLE_OUT]: [STRING] High Ping Checker
+[17-25-44] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[17-25-44] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[17-25-44] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[17-25-44] [CONSOLE_OUT]: [STRING] ConsoleFrame Data Saver
+[17-25-44] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[17-25-44] [CONSOLE_OUT]: [STRING] Random youtube thread #0
+[17-25-44] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[17-25-50] [CONSOLE_OUT]: [STRING] Escaped
+[17-25-51] [CLIENT]: clear
+[17-25-51] [SYSTEM_IO]: Userdata requested: filterchat
+[17-25-51] [HANDLE]: GENERAL COMMAND HANDLED
+[17-25-51] [HANDLE]: PRIMARY HANDLE
+[17-25-53] [CLIENT]: randomyoutube
+[17-25-53] [SYSTEM_IO]: Userdata requested: filterchat
+[17-25-53] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-25-53] [HANDLE]: PRIMARY HANDLE
+[17-25-53] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[17-25-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-26-30] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

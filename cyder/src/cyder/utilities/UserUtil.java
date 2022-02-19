@@ -26,6 +26,7 @@ import java.util.concurrent.Semaphore;
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
+@SuppressWarnings("unused")
 public class UserUtil {
     /**
      * Instantiation of util method not allowed.
@@ -203,7 +204,7 @@ public class UserUtil {
         User user = extractUser(userJsonFile);
 
         try {
-            //this handles data who's ID is still there
+            //this handles data whose ID is still there
             for (Method getterMethod : user.getClass().getMethods()) {
                 if (getterMethod.getName().startsWith("get")
                         && getterMethod.getParameterTypes().length == 0) {

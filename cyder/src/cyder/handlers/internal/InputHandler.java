@@ -1739,7 +1739,7 @@ public class InputHandler {
 
             //tests on desc which should have been set from the first handle method
             if (desc.equals("YOUR PREVIOUSLY SET DESC") && StringUtil.hasWord(input, "YOUR WORD")) {
-                System.out.println();
+                println("");
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

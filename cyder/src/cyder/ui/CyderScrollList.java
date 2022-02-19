@@ -87,7 +87,6 @@ public class CyderScrollList {
 
                 if (list != null && !parentFrame.isDisposed()) {
                     list.refreshList();
-                    System.out.println("Refreshing: " + list);
                 }
             }
         }

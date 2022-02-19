@@ -18,7 +18,7 @@ public enum ExitCondition {
     ForcedImmediateExit(-2, "Forced Immediate Exit"),
 
     // reserved as this indicates something specific to JVM exits
-    TrueExternalStop(-1, "THIS SHOULDN'T BE USED"),
+    TrueExternalStop(-1, "THIS SHOULD NOT BE USED"),
 
     /**
      * The standard Cyder exit.

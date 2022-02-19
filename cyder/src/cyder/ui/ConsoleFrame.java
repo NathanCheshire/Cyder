@@ -2048,7 +2048,6 @@ public final class ConsoleFrame {
         int index = -1;
 
         for (int i = 0 ; i < backgrounds.size() ; i++) {
-            System.out.println(backgrounds.get(i).getReferenceFile());
             if (backgrounds.get(i).getReferenceFile().getAbsolutePath()
                     .equals(backgroundFile.getAbsolutePath())) {
                 index = i;

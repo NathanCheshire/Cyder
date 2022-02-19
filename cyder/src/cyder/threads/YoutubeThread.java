@@ -73,10 +73,9 @@ public class YoutubeThread {
             }
 
             int runs = 0;
+            long start = System.currentTimeMillis();
 
             while (!exit) {
-                long start = System.currentTimeMillis();
-
                 try {
                     if (uuid == null)
                         throw new Exception("UUID is null");
@@ -150,9 +149,9 @@ public class YoutubeThread {
                         }
 
                         long time = System.currentTimeMillis() - start;
-
-                        int avgMsPerCheck = (int) ((time - start) / 10.0);
+                        double avgMsPerCheck = time / 10.0;
                         long msTimeLeft = (long) ((totalUUIDs - completedUUIDs) / avgMsPerCheck);
+
                         ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Time left: "
                                 + TimeUtil.millisToFormattedString(msTimeLeft));
                     }

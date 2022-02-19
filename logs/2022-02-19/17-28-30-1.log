@@ -1,0 +1,40 @@
+[17-28-31] [ENTRY]: [Nathan]
+[17-28-32] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-28-32] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-28-32] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-28-32] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-28-32] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-28-32] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-28-32] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-28-32] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-28-32] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-28-32] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-28-33] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-28-33] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-28-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-28-33] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-28-33] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-28-33] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-28-33] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-28-33] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-28-33] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-28-33] [SYSTEM_IO]: Userdata requested: InputFill
+[17-28-33] [THREAD STARTED]: High Ping Checker
+[17-28-33] [THREAD STARTED]: Hourly Chime Checker
+[17-28-33] [THREAD STARTED]: Console Clock Updater
+[17-28-33] [THREAD STARTED]: Cyder Busy Checker
+[17-28-33] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-28-33] [ACTION]: Console loaded in 3105ms
+[17-28-33] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1265567574], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-28-33] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-28-33] [ENTRY]: [TESTING MODE]
+[17-28-33] [SYSTEM_IO]: Userdata requested: laststart
+[17-28-34] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3105ms
+[17-28-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-28-39] [CLIENT]: randomyoutube
+[17-28-39] [SYSTEM_IO]: Userdata requested: filterchat
+[17-28-39] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[17-28-39] [HANDLE]: PRIMARY HANDLE
+[17-28-39] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[17-28-39] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-34-28] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 0

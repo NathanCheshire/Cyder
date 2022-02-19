@@ -181,8 +181,7 @@ public class Logger {
                 return;
             case CORRUPTION:
                 //before user corruption method is called
-                //[CORRUPTION]: [FILE] c:/users/nathan/downloads/CyderCorruptedUserData.zip
-                logBuilder.append("[CORRUPTION]: User's files saved to: ").append(representation);
+                logBuilder.append("[CORRUPTION]: ").append(representation);
                 break;
             case UNKNOWN:
                 //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above
@@ -346,6 +345,7 @@ public class Logger {
 
     /**
      * Writes the line to the current log file and releases resources once done.
+     *
      * @param line the single line to write
      */
     private static void writeLine(String line) {
@@ -374,6 +374,7 @@ public class Logger {
         } catch(Exception e) {
             ExceptionHandler.handle(e);
         } finally {
+            // print to standard output
             System.out.println(line.trim());
         }
     }
@@ -635,7 +636,9 @@ public class Logger {
                             // which is why this says "crashed unexpectedly"
                             String logBuilder = "[" + TimeUtil.logTime() + "] [EOL]: " +
                                     "Log completed, Cyder crashed unexpectedly: " +
-                                    "exit code: -200 [External Stop], exceptions thrown: " + exceptions;
+                                    "exit code: " + ExitCondition.ExternalStop.getCode() +
+                                    " " + ExitCondition.ExternalStop.getDescription() +
+                                    ", exceptions thrown: " + exceptions;
 
                             Files.write(Paths.get(log.getAbsolutePath()),
                                     (logBuilder).getBytes(), StandardOpenOption.APPEND);

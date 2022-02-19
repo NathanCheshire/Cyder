@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
-@SuppressWarnings("unused") /* some methods unused still */
+@SuppressWarnings({"unused", "SpellCheckingInspection"}) /* some methods unused still, date patterns */
 public class TimeUtil {
 
     /**
@@ -181,9 +181,9 @@ public class TimeUtil {
     }
 
     /**
-     * Returns whether the current day is Valentine's day.
+     * Returns whether the current day is Valentine's Day.
      *
-     * @return whether the current day is Valentine's day
+     * @return whether the current day is Valentine's Day
      */
     public static boolean isValentinesDay() {
         Calendar Checker = Calendar.getInstance();
@@ -300,23 +300,25 @@ public class TimeUtil {
         DecimalFormat format = new DecimalFormat("#.##");
 
         if (years != 0)
-            sb.append("years: ").append(format.format(years));
+            sb.append(format.format(years)).append("y ");
         if (months != 0)
-            sb.append(", months: ").append(format.format(months));
+            sb.append(format.format(months)).append("mo ");
         if (days != 0)
-            sb.append(", days: ").append(format.format(days));
+            sb.append(format.format(days)).append("d ");
         if (hours != 0)
-            sb.append(", hours: ").append(format.format(hours));
+            sb.append(format.format(hours)).append("h ");
         if (minutes != 0)
-            sb.append(", minutes: ").append(format.format(minutes));
+            sb.append(format.format(minutes)).append("m ");
         if (seconds != 0)
-            sb.append(", seconds: ").append(format.format(seconds));
+            sb.append(format.format(seconds)).append("s ");
 
         String ret = sb.toString();
 
+        // remove comma if starting with
         if (ret.startsWith(","))
             ret = ret.substring(1);
-        return ret.trim();
+
+        return StringUtil.getTrimmedText(ret).trim();
     }
 
     /**
