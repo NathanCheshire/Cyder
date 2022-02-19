@@ -762,17 +762,17 @@ public class UserEditor {
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
             //foreground
-            UserUtil.setUserData("foreground",UserUtil.getDefaultUser().getForeground());
-            foregroundColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getForeground()));
-            foregroundField.setText(UserUtil.getDefaultUser().getForeground());
-            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setForeground(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getForeground())));
+            UserUtil.setUserData("foreground",UserUtil.buildDefaultUser().getForeground());
+            foregroundColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
+            foregroundField.setText(UserUtil.buildDefaultUser().getForeground());
+            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setForeground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground())));
 
             //font
-            UserUtil.setUserData("font",UserUtil.getDefaultUser().getFont());
-            Font ApplyFont = new Font(UserUtil.getDefaultUser().getFont(), Font.BOLD, 30);
+            UserUtil.setUserData("font",UserUtil.buildDefaultUser().getFont());
+            Font ApplyFont = new Font(UserUtil.buildDefaultUser().getFont(), Font.BOLD, 30);
             ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
             ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
             if (fontScrollList != null)
@@ -780,9 +780,9 @@ public class UserEditor {
             FontLabel.setFont(ApplyFont);
 
             //background
-            UserUtil.setUserData("background",UserUtil.getDefaultUser().getBackground());
-            fillColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getBackground()));
-            fillField.setText(UserUtil.getDefaultUser().getBackground());
+            UserUtil.setUserData("background",UserUtil.buildDefaultUser().getBackground());
+            fillColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getBackground()));
+            fillField.setText(UserUtil.buildDefaultUser().getBackground());
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getOutputArea()
@@ -801,11 +801,11 @@ public class UserEditor {
             }
 
             //windowcolor
-            UserUtil.setUserData("windowcolor",UserUtil.getDefaultUser().getWindowColor());
-            windowColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getWindowColor()));
-            windowField.setText(UserUtil.getDefaultUser().getWindowColor());
-            windowColorBlock.setBackground((ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getWindowColor())));
-            CyderColors.setGuiThemeColor((ColorUtil.hextorgbColor(UserUtil.getDefaultUser().getWindowColor())));
+            UserUtil.setUserData("windowcolor",UserUtil.buildDefaultUser().getWindowColor());
+            windowColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getWindowColor()));
+            windowField.setText(UserUtil.buildDefaultUser().getWindowColor());
+            windowColorBlock.setBackground((ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getWindowColor())));
+            CyderColors.setGuiThemeColor((ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getWindowColor())));
 
             for (Frame f : Frame.getFrames()) {
                 if (f instanceof CyderFrame)

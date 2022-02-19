@@ -39,7 +39,12 @@ public class UserUtil {
     /**
      * The user used for IO to the user's json every {@link UserUtil#IO_TIMEOUT}
      */
-    private static User cyderUser = getDefaultUser();
+    private static User cyderUser = buildDefaultUser();
+
+    /**
+     * The corresponding file for cyderUser.
+     */
+    private static File cyderUserFile;
 
     /**
      * The timeout between writes to the user json file in ms.
@@ -57,8 +62,7 @@ public class UserUtil {
 
     /**
      * Blocks any future user IO by acquiring the semaphore and never releasing it.
-     * This method blocks until the Io semaphore can be acquired.
-     *
+     * This method blocks until the IO semaphore can be acquired.
      */
     public static synchronized void blockFutureIO() {
         try {
@@ -68,71 +72,30 @@ public class UserUtil {
         }
     }
 
+    // the only place IO to/from the cyderUser is performed ---------------------
+
     /**
-     * Sets the given user's data using the provided name and data value.
-     *
-     * @param user the user object to call the setter on
-     * @param name the name of the data to change
-     * @param value the data value to set it to
+     * Refreshes the current user's json with the current state of {@link UserUtil#cyderUser}.
      */
-    public static void setUserData(User user, String name, String value) {
-        try {
-            for (Method m : user.getClass().getMethods()) {
-                if (m.getName().startsWith("set")
-                        && m.getParameterTypes().length == 1
-                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                        m.invoke(user, value);
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+    public static synchronized void writeUser() {
+
+    }
+
+    //todo all other methods here will perform get/set on the userObject
+
+    /**
+     * Refreshes {@link UserUtil#cyderUser} with the data stored in the current user json.
+     */
+    public static synchronized void readUser() {
+        cyderUser = extractUser(cyderUserFile);
     }
 
     /**
-     * Sets the user data of the provided file using the given data and name.
+     * Sets the key for the current user to the provided data.
      *
-     * @param f the file to write the json data to
-     * @param name the data name
-     * @param value the value of the data to update
+     * @param name the name of the data to set
+     * @param value the new value
      */
-    public static void setUserData(File f, String name, String value) {
-        if (!f.exists())
-            throw new IllegalArgumentException("File does not exist");
-        if (!FileUtil.getExtension(f).equals(".json"))
-            throw new IllegalArgumentException("File is not a json type");
-
-        User user = extractUser(f);
-
-        try {
-            for (Method m : user.getClass().getMethods()) {
-                if (m.getName().startsWith("set")
-                        && m.getParameterTypes().length == 1
-                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    m.invoke(user, value);
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        Gson gson = new Gson();
-
-
-        try  {
-            FileWriter writer = new FileWriter(f);
-            userIOSemaphore.acquire();
-            gson.toJson(user, writer);
-            writer.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            userIOSemaphore.release();
-        }
-    }
-
     public static void setUserData(String name, String value) {
         File f = new File(OSUtil.buildPath("dynamic","users",
                 ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
@@ -155,22 +118,11 @@ public class UserUtil {
             ExceptionHandler.handle(e);
         }
 
-        Gson gson = new Gson();
-
-        try  {
-            FileWriter writer = new FileWriter(f);
-            userIOSemaphore.acquire();
-            gson.toJson(user, writer);
-            writer.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            userIOSemaphore.release();
-        }
+        setUserData(user);
     }
 
     /**
-     * Writes the provided user after being converted to JSON format to the provided file.
+     * Writes the provided user to the provided file.
      *
      * @param f the file to write to
      * @param u the user object to write to the file
@@ -195,33 +147,15 @@ public class UserUtil {
         }
     }
 
-    // todo synchronized method for IO with file, everything else should just pull from the User object in memory
-
     /**
-     * Writes the given user to the current user's Json file
+     * Writes the given user to the current user's Json file.
+     *
      * @param u the user to serialize and write to a file
      */
     public static void setUserData(User u) {
         File f = new File(OSUtil.buildPath("dynamic","users",
                 ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
-
-        if (!f.exists())
-            throw new IllegalArgumentException("File does not exist");
-        if (!FileUtil.getExtension(f).equals(".json"))
-            throw new IllegalArgumentException("File is not a json type");
-
-        Gson gson = new Gson();
-
-        try  {
-            FileWriter writer = new FileWriter(f);
-            userIOSemaphore.acquire();
-            gson.toJson(u, writer);
-            writer.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            userIOSemaphore.release();
-        }
+        setUserData(f, u);
     }
 
     /**
@@ -256,7 +190,7 @@ public class UserUtil {
         User user = extractUser(userJsonFile);
 
         try {
-            //this handles data whos ID is still there
+            //this handles data who's ID is still there
             for (Method getterMethod : user.getClass().getMethods()) {
                 if (getterMethod.getName().startsWith("get")
                         && getterMethod.getParameterTypes().length == 0) {
@@ -317,7 +251,7 @@ public class UserUtil {
 
     /**
      * Attempts to read backgrounds that Cyder would use for a user.
-     * If failure, the image is corrupted so we delete it in the calling function.
+     * If failure, the image is corrupted, so we delete it in the calling function.
      */
     public static void deleteInvalidBackgrounds() {
         try {
@@ -350,7 +284,8 @@ public class UserUtil {
     }
 
     /**
-     * Extracts the user from the provided json file
+     * Extracts the user from the provided json file.
+     *
      * @param f the json file to extract a user object from
      * @return the resulting user object
      */
@@ -359,36 +294,6 @@ public class UserUtil {
             throw new IllegalArgumentException("Provided file does not exist");
         if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("Provided file is not a json");
-
-        User ret = null;
-        Gson gson = new Gson();
-
-        try {
-            userIOSemaphore.acquire();
-            Reader reader = new FileReader(f);
-            ret = gson.fromJson(reader, User.class);
-            reader.close();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            userIOSemaphore.release();
-        }
-
-        return ret;
-    }
-
-    /**
-     * Extracts the user from the json file corresponding to the provided UUID.
-     *
-     * @param UUID the uuid if the user we want to obtain
-     * @return the resulting user object
-     */
-    public static User extractUser(String UUID) {
-        File f = new File(OSUtil.buildPath("dynamic","users",
-                UUID, UserFile.USERDATA.getName()));
-
-        if (!f.exists())
-            throw new IllegalArgumentException("Provided file does not exist");
 
         User ret = null;
         Gson gson = new Gson();
@@ -444,47 +349,17 @@ public class UserUtil {
     /**
      * Gets the requested data from the currently logged-in user.
      * This method exists purely for legacy calls such as getUserData("foreground").
-     * Ideally the call should be extractUser().getForeground()
+     * Ideally the call should be extractUser().getForeground().
+     *
      * @param name the ID of the data we want to obtain
      * @return the resulting data
      */
     public static String getUserData(String name) {
-        String retData;
-        String defaultValue = "";
-
-        try {
-            //find default value as a fail safe
-            for (Preferences.Preference pref : Preferences.getPreferences()) {
-                if (pref.getID().equalsIgnoreCase(name)) {
-                    defaultValue = pref.getDefaultValue();
-                    break;
-                }
-            }
-
-            //data not set to return default
-            if (ConsoleFrame.getConsoleFrame().getUUID() == null) {
-                return defaultValue;
-            }
-
-            File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
-                    ConsoleFrame.getConsoleFrame().getUUID(), UserFile.USERDATA.getName()));
-
-            if (!userJsonFile.exists())
-                throw new IllegalArgumentException("userdata file does not exist");
-
-            User user = extractUser(userJsonFile);
-            retData = extractUserData(user, name);
-            return retData;
-
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-        }
-
-        return defaultValue;
+        return extractUserData(extractUser(), name);
     }
 
     /**
-     * Assuming the corresponding getter and setter functions exist in User.java,
+     * Assuming the corresponding getter function exist in User.java,
      * this method will call the getter method that matches the provided data.
      * This method exists purely for legacy calls such as extractUserData("font")
      * Ideally this method should be done away with if possible, perhaps adding a default function
@@ -494,7 +369,7 @@ public class UserUtil {
      * @param name the data id for which to return
      * @return the requested data
      */
-    private static String extractUserData(User u, String name) {
+    public static String extractUserData(User u, String name) {
         if (u == null || u.getClass() == null || u.getClass().getMethods() == null)
             throw new IllegalArgumentException("Something is null :/\nUser: " + u + "\nName: " + name);
 
@@ -522,9 +397,10 @@ public class UserUtil {
     }
 
     /**
-     * @return a user object with all the default values found in {@code GenesisShare}.
+     * @return a user object with all the default
+     * {@link Preferences} found in {@code GenesisShare}.
      */
-    public static User getDefaultUser() {
+    public static User buildDefaultUser() {
         User ret = new User();
 
         //for all the preferences
@@ -557,7 +433,7 @@ public class UserUtil {
             }
         }
 
-        //exernal things stored in a user aside from preferences
+        //external things stored in a user aside from preferences
         ret.setExecutables(null);
 
         return ret;
@@ -566,6 +442,7 @@ public class UserUtil {
     /**
      * Injects new preferences and their default values into an old json
      * if it is found to not contain all the required user data.
+     *
      * @param f the file to check for corrections
      */
     public static boolean updateOldJson(File f) {
@@ -912,8 +789,11 @@ public class UserUtil {
         for (File user : users) {
             File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
-            if (jsonFile.exists() && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID()))
-                UserUtil.setUserData(jsonFile, "loggedin","0");
+            if (jsonFile.exists() && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID())) {
+                User u = UserUtil.extractUser(jsonFile);
+                u.setLoggedin("0");
+                UserUtil.setUserData(jsonFile, u);
+            }
         }
     }
 

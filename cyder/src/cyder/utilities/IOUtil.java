@@ -277,7 +277,6 @@ public class IOUtil {
 
             if (json.exists()) {
                 //attempt to update the json
-
                 boolean success = UserUtil.updateOldJson(json);
 
                 //if it fails then delete the json

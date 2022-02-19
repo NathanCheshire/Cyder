@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -369,7 +370,7 @@ public class UserCreator {
             if (!f.isDirectory())
                 continue;
 
-            if (UserUtil.extractUser(f.getName()).getName().equalsIgnoreCase(newUserName.getText().trim())) {
+            if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
                 userNameExists = true;
                 break;
             }
@@ -428,12 +429,25 @@ public class UserCreator {
         user.setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
                 SecurityUtil.toHexString(SecurityUtil.getSHA256(password)).toCharArray())));
 
-        //default preferences
+        // default preferences
         for (Preferences.Preference pref : Preferences.getPreferences()) {
             //as per convention, IGNORE for tooltip means ignore when creating user
             // whilst IGNORE for default value means ignore for edit user
-            if (!pref.getTooltip().equals("IGNORE"))
-                UserUtil.setUserData(user, pref.getID(), pref.getDefaultValue());
+            if (!pref.getTooltip().equals("IGNORE")) {
+                for (Method m : user.getClass().getMethods()) {
+                    if (m.getName().startsWith("set")
+                            && m.getParameterTypes().length == 1
+                            && m.getName().replace("set","").equalsIgnoreCase(name)) {
+                        try {
+                            m.invoke(user, pref.getDefaultValue());
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
+
+                        break;
+                    }
+                }
+            }
         }
 
         BufferedImage background;
