@@ -2,7 +2,6 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 
 import javax.imageio.ImageIO;
@@ -280,24 +279,9 @@ public class FrameUtil {
     }
 
     /**
-     * Minimizes all CyderFrames.
-     */
-
-    @SuppressWarnings("unused") /* for consistency purposes */
-    public static void minimizeAllCyderFrames() {
-        ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
-
-        for (CyderFrame f : getCyderFrames()) {
-            f.minimizeAnimation();
-        }
-    }
-
-    /**
      * Minimizes all Frames.
      */
     public static void minimizeAllFrames() {
-        ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
-
         for (Frame f : getFrames()) {
             if (f instanceof CyderFrame) {
                 ((CyderFrame) f).minimizeAnimation();

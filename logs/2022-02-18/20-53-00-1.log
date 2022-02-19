@@ -1,0 +1,25 @@
+[20-53-00] [ENTRY]: [Nathan]
+[20-53-01] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[20-53-01] [SYSTEM_IO]: Exit conditions pared in IOUtil's static block
+[20-53-01] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[20-53-02] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-53-02] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-53-02] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-53-02] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-53-02] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-53-02] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-53-02] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.setUserData(UserUtil.java:154)
+From line: 154
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.setUserData(UserUtil.java:154)
+at cyder.utilities.UserUtil.writeUser(UserUtil.java:96)
+at cyder.utilities.UserUtil.setCyderUser(UserUtil.java:113)
+at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1857)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:524)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:581)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:466)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[20-53-02] [LOGIN]: [AUTOCYPHER FAIL]
+[20-53-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [246186908], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-53-28] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -200 [External Stop], exceptions thrown: 1

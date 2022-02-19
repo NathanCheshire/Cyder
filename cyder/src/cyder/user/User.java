@@ -4,7 +4,13 @@ import cyder.utilities.ReflectionUtil;
 
 import java.util.LinkedList;
 
+@SuppressWarnings("UnusedReturnValue") /* lots of things are simply setting */
 public class User {
+    // ------------------------------------
+    // primitive data types. In the future, allow this to be anything
+    // which will require methods that use generic classes and instanceof operators.
+    // ------------------------------------
+
     private String name;
     private String pass;
     private String font;
@@ -46,15 +52,29 @@ public class User {
     private String minimizeAnimation;
     private String compactTextMode;
 
-    //non primitive types
+    // -------------------
+    // non primitive types
+    // -------------------
+
+    /**
+     * The screen stat object which holds the console frame's position,
+     * size, pinned, monitor, and rotation vars.
+     */
     private ScreenStat screenStat;
 
-    //lists of non primitive types
+    // -------------------
+    // non primitive lists
+    // -------------------
+
+    /**
+     * List of mapped executables that map a string to a file path.
+     */
     private LinkedList<MappedExecutable> executables;
 
-    public User() {
-        //this is mainly used by GSON and when creating a user via the user creator
-    }
+    /**
+     * Default constructor not restricted due to GSON json parsing.
+     */
+    public User() {}
 
     public String getName() {
         return name;
@@ -368,8 +388,9 @@ public class User {
         return screenStat;
     }
 
-    public void setScreenStat(ScreenStat screenStat) {
+    public User setScreenStat(ScreenStat screenStat) {
         this.screenStat = screenStat;
+        return this;
     }
 
     public String getCompactTextMode() {
@@ -408,8 +429,8 @@ public class User {
      * Class representing a name and a path to an executable/link to open.
      */
     public static class MappedExecutable {
-        private String name;
-        private String filepath;
+        private final String name;
+        private final String filepath;
 
         public MappedExecutable(String name, String filepath) {
             this.name = name;
@@ -424,14 +445,6 @@ public class User {
             return filepath;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setFilepath(String filepath) {
-            this.filepath = filepath;
-        }
-
         @Override
         public boolean equals(Object o) {
             if (o instanceof MappedExecutable) {
@@ -444,7 +457,14 @@ public class User {
 
         @Override
         public String toString() {
-            return "name = " + this.name + ", filepath = " + this.filepath;
+            return ReflectionUtil.commonCyderToString(this);
+        }
+
+        @Override
+        public int hashCode() {
+            int ret = this.name.hashCode();
+            ret = 31 * ret + filepath.hashCode();
+            return ret;
         }
     }
 

@@ -1155,6 +1155,10 @@ public class CyderFrame extends JFrame {
      */
     public void minimizeAnimation() {
         try {
+            // if we are the ConsoleFrame, save position vars
+            if (this == ConsoleFrame.getConsoleFrame().getConsoleCyderFrame())
+                ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
+
             //set restore vars here
             setRestoreX(getX());
             setRestoreY(getY());

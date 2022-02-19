@@ -523,6 +523,8 @@ public class OSUtil {
         }
     }
 
+    //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
+
     //todo make popups centered in the frame no matter what, might have to use min height
 
     //todo rename auto cyphering to debug hashes throughout program for consistency

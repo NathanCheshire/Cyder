@@ -8,18 +8,18 @@
 [18-57-25] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
 [18-57-25] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [18-57-25] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
-[18-57-25] [EXCEPTION]: 
+[18-57-25] [EXCEPTION]:
 Exception origin: cyder.utilities.UserUtil.setUserData(UserUtil.java:159)
 From line: 159
 Trace: java.lang.NullPointerException
-	at cyder.utilities.UserUtil.setUserData(UserUtil.java:159)
-	at cyder.utilities.UserUtil.writeUser(UserUtil.java:94)
-	at cyder.utilities.UserUtil.setCyderUser(UserUtil.java:112)
-	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1857)
-	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:524)
-	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:581)
-	at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:466)
-	at cyder.genesis.Cyder.main(Cyder.java:119)
+at cyder.utilities.UserUtil.setUserData(UserUtil.java:159)
+at cyder.utilities.UserUtil.writeUser(UserUtil.java:94)
+at cyder.utilities.UserUtil.setCyderUser(UserUtil.java:112)
+at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1857)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:524)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:581)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:466)
+at cyder.genesis.Cyder.main(Cyder.java:119)
 [18-57-25] [LOGIN]: [AUTOCYPHER FAIL]
 [18-57-25] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [98850364], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [18-57-57] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1357700757], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]

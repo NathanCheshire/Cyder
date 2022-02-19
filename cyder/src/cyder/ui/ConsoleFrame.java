@@ -2295,6 +2295,9 @@ public final class ConsoleFrame {
             // todo doesn't work for bigger images for some reason :/
             // todo also centering the frame on the new background doesn't work
 
+            //todo test case is to simply set it to the combined image and it should be the dimensions
+            // of the new image but have the resized old image visible
+
             // create and submit job for animation
             Runnable backgroundSwitcher = () -> {
                 // set delay and increment for the animation
