@@ -86,12 +86,12 @@ public class CyderFrame extends JFrame {
     /**
      * This CyderFrame's width.
      */
-    private int width = DEFAULT_WIDTH;
+    private int width;
 
     /**
      * This CyderFrame's height.
      */
-    private int height = DEFAULT_HEIGHT;
+    private int height;
 
     /**
      * Whether threads that were spawned by this instance of CyderFrame have been killed yet.
@@ -145,12 +145,12 @@ public class CyderFrame extends JFrame {
     private DragLabel rightDrag;
 
     /**
-     * The x position of the frame to set to after frame deiconification actions.
+     * The x position of the frame to set to after frame de-iconification actions.
      */
     private int restoreX = Integer.MAX_VALUE;
 
     /**
-     * The y position of the frame to set to after frame deiconification actions.
+     * The y position of the frame to set to after frame de-iconification actions.
      */
     private int restoreY = Integer.MIN_VALUE;
 
@@ -168,14 +168,14 @@ public class CyderFrame extends JFrame {
      * The "content pane" of the CyderFrame. This is what is returned
      * when a getContentPane() call is invoked and is what components are added to.
      */
-    private JLabel iconLabel;
+    private final JLabel iconLabel;
 
     /**
      * The true content pane of the CyderFrame. This is necessary so we can do layering
-     * between the components, the background, the background image, notfications,
+     * between the components, the background, the background image, notifications,
      * drag labels, etc.
      */
-    private JLayeredPane contentLabel;
+    private final JLayeredPane contentLabel;
 
     /**
      * Another layered pane that the content label is added to for layering purposes.
@@ -197,13 +197,13 @@ public class CyderFrame extends JFrame {
     /**
      * The list of notifications that have yet to be pulled and notified via this frame.
      */
-    private ArrayList<QueuedNotification> notificationList = new ArrayList<>();
+    private final ArrayList<QueuedNotification> notificationList = new ArrayList<>();
 
     /**
      * The area exposed to allow frame resizing. The maximum is 5 since
      * 5 is the border of the frame.
      */
-    private static int frameResizingLen = 2;
+    private static final int frameResizingLen = 2;
 
     /**
      * The size of the border drawn around the frame.
@@ -230,7 +230,7 @@ public class CyderFrame extends JFrame {
         this.background = background;
         currentOrigIcon = background;
 
-        //border color for consoleframe menu pane set in instantiation of object
+        //border color for ConsoleFrame menu pane set in instantiation of object
         taskbarIconBorderColor = getTaskbarBorderColor();
 
         //this . methods
@@ -259,7 +259,7 @@ public class CyderFrame extends JFrame {
             }
         });
 
-        //master contentlabel
+        //master ContentLabel
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
@@ -423,7 +423,7 @@ public class CyderFrame extends JFrame {
         setShape(new RoundRectangle2D.Double(0, 0,
                 getWidth(), getHeight(), 30, 30));
 
-        //master contentlabel
+        //master contentLabel
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
@@ -541,7 +541,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * The CyderPanel associated with this CyderFrame which dictates
-     * how the components on the content pane are layed out.
+     * how the components on the content pane are laid out.
      */
     private CyderPanel cyderPanel;
 
@@ -549,7 +549,7 @@ public class CyderFrame extends JFrame {
      * Adds the provided CyderPanel on top of the content pane which is also resized on
      * CyderFrame resize events.
      * 
-     * @param cyderPanel the CyderPanel with an approprite CyderLayout
+     * @param cyderPanel the CyderPanel with an appropriate CyderLayout
      */
     public void setContentPanel(CyderPanel cyderPanel) {
         //removing a panel and setting it to null
@@ -683,9 +683,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns the ttile position of this frame.
+     * Returns the tile position of this frame.
      *
-     * @return the ttile position of this frame
+     * @return the tile position of this frame
      */
     public TitlePosition getTitlePosition() {
         return this.titlePosition;
@@ -949,7 +949,7 @@ public class CyderFrame extends JFrame {
                     }
 
                     if (currentQueuedNotification.getContianer() == null) {
-                        //set the text bounds to the proper x,y and theest
+                        //set the text bounds to the proper x,y and the
                         // calculated width and height
                         text.setBounds(Notification.getTextXOffset(), Notification.getTextYOffset(), w, h);
 
@@ -1270,7 +1270,7 @@ public class CyderFrame extends JFrame {
                     }
                 }
 
-                //remove from consoleframe
+                //remove from ConsoleFrame
                 ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
 
                 super.dispose();
@@ -1402,7 +1402,7 @@ public class CyderFrame extends JFrame {
 
                 if (this.getY() < 0) {
                     this.setLocation(this.getX(), 0);
-                    dancingFinished = true;
+                    this.dancingFinished = true;
                     dancingDirection = DancingDirection.LEFT;
                 }
                 break;
@@ -1558,6 +1558,7 @@ public class CyderFrame extends JFrame {
         if (getCurrentNotification() != null)
             switch (getCurrentNotification().getArrow()) {
                 case TOP:
+                case BOTTOM:
                     currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
                         currentNotification.getY());
                     break;
@@ -1568,15 +1569,11 @@ public class CyderFrame extends JFrame {
                 case LEFT:
                     currentNotification.setLocation(5, currentNotification.getY());
                     break;
-                case BOTTOM:
-                    currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
-                        currentNotification.getY());
-                    break;
             }
     }
 
     /**
-     * The minimum allowable width for a CydreFrame.
+     * The minimum allowable width for a CyderFrame.
      */
     public static final int MINIMUM_WIDTH = 100;
 
@@ -1800,7 +1797,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Kills all threads associated with this CyderFrame instance. This
-     * method is actomatically called when {@link CyderFrame#dispose()} is invoked.
+     * method is automatically called when {@link CyderFrame#dispose()} is invoked.
      * As such, correct features should not be expected to function properly after this method
      * or dispose() are called.
      */
@@ -2186,7 +2183,13 @@ public class CyderFrame extends JFrame {
     /**
      * The possible border colors to use for the taskbar icon
      */
-    public static final ArrayList<Color> TASKBAR_BORDER_COLORS = new ArrayList<>() {{
+    public static final ArrayList<Color> TASKBAR_BORDER_COLORS = new ArrayList<>() {
+        @Override
+        public ArrayList<Color> clone() throws AssertionError {
+            throw new AssertionError();
+        }
+
+        {
         add(new Color(22,124,237));
         add(new Color(254,49,93));
         add(new Color(249,122,18));
@@ -2215,7 +2218,7 @@ public class CyderFrame extends JFrame {
     /**
      * Returns whether to use the default taskbar component or the custom one.
      *
-     * @return whether to use the default taskbar component or the custom onec
+     * @return whether to use the default taskbar component or the custom one
      */
     public boolean isUseCustomTaskbarIcon() {
         return useCustomTaskbarIcon;
@@ -2239,9 +2242,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Constructs the custom taskbar icon based on the currently set custom taskbar imageicon.
+     * Constructs the custom taskbar icon based on the currently set custom taskbar ImageIcon.
      *
-     * @return the custom taskbar icon based on the currently set custom taskbar imageicon
+     * @return the custom taskbar icon based on the currently set custom taskbar ImageIcon
      */
     public JLabel getCustomTaskbarIcon() {
         JLabel customLabel = new JLabel();
@@ -2301,9 +2304,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns the color to be associated with this CydrFrame's taskbar border color.
+     * Returns the color to be associated with this CyderFrame's taskbar border color.
      *
-     * @return the color to be associated with this CydrFrame's taskbar border color
+     * @return the color to be associated with this CyderFrame's taskbar border color
      */
     private Color getTaskbarBorderColor() {
         Color ret = TASKBAR_BORDER_COLORS.get(colorIndex);
@@ -2336,11 +2339,11 @@ public class CyderFrame extends JFrame {
     public static final int taskbarBorderLength = 5;
 
     /**
-     * Returns a compact taskbar component for this cyderframe instance.
+     * Returns a compact taskbar component for this CyderFrame instance.
      *
-     * @return a compact taskbar component for this cyderframe instance
+     * @return a compact taskbar component for this CyderFrame instance
      */
-    public JLabel getComapctTaskbarButton() {
+    public JLabel getCompactTaskbarButton() {
        return generateDefaultCompactTaskbarComponent(this.getTitle(), () -> {
            if (getState() == 0) {
                minimizeAnimation();
@@ -2363,7 +2366,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns taskbar component with the specifiecd border
+     * Returns taskbar component with the specified border
      * color which minimizes the frame upon click actions.
      *
      * @param borderColor the color of the taskbar border
@@ -2455,8 +2458,8 @@ public class CyderFrame extends JFrame {
 
         //draw darker image
 
-        BufferedImage darkerBufferdImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
-        Graphics g2 = darkerBufferdImage.getGraphics();
+        BufferedImage darkerBufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = darkerBufferedImage.getGraphics();
 
         //set border color
         g2.setColor(borderColor.darker());
@@ -2487,7 +2490,7 @@ public class CyderFrame extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ret.setIcon(new ImageIcon(darkerBufferdImage));
+                ret.setIcon(new ImageIcon(darkerBufferedImage));
             }
 
             @Override
@@ -2518,7 +2521,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Sets the frame's visibility attrbite and adds the frame to the ConsoleFrame taskbar list.
+     * Sets the frame's visibility attribute and adds the frame to the ConsoleFrame taskbar list.
      *
      * @param b whether to set the frame to be visible
      */

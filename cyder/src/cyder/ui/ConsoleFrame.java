@@ -1542,7 +1542,7 @@ public final class ConsoleFrame {
                 CyderFrame currentFrame = menuTaskbarFrames.get(i);
 
                 if (compactMode) {
-                    printingUtil.printlnComponent(currentFrame.getComapctTaskbarButton());
+                    printingUtil.printlnComponent(currentFrame.getCompactTaskbarButton());
                 } else {
                     if (currentFrame.isUseCustomTaskbarIcon()) {
                         printingUtil.printlnComponent(currentFrame.getCustomTaskbarIcon());
