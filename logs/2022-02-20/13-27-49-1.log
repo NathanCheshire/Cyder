@@ -1,0 +1,59 @@
+[13-27-49] [ENTRY]: [Nathan]
+[13-27-50] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[13-27-51] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[13-27-51] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[13-27-51] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[13-27-51] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[13-27-51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-27-51] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-27-51] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[13-27-51] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[13-27-51] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-27-52] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-27-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-27-52] [SYSTEM_IO]: Userdata requested: fullscreen
+[13-27-52] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[13-27-52] [THREAD STARTED]: Console Printing Animation
+[13-27-52] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-27-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-27-52] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-27-52] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-27-52] [SYSTEM_IO]: Userdata requested: InputFill
+[13-27-52] [THREAD STARTED]: High Ping Checker
+[13-27-52] [THREAD STARTED]: Hourly Chime Checker
+[13-27-52] [THREAD STARTED]: Console Clock Updater
+[13-27-52] [THREAD STARTED]: Cyder Busy Checker
+[13-27-52] [THREAD STARTED]: ConsoleFrame Data Saver
+[13-27-52] [ACTION]: Console loaded in 2769ms
+[13-27-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-27-52] [ENTRY]: [TESTING MODE]
+[13-27-52] [SYSTEM_IO]: Userdata requested: laststart
+[13-27-52] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [805572262], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-27-52] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2769ms
+[13-27-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-27-59] [CLIENT]: clear
+[13-27-59] [SYSTEM_IO]: Userdata requested: filterchat
+[13-27-59] [HANDLE]: GENERAL COMMAND HANDLED
+[13-27-59] [HANDLE]: PRIMARY HANDLE
+[13-28-03] [CLIENT]: threads
+[13-28-03] [SYSTEM_IO]: Userdata requested: filterchat
+[13-28-03] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[13-28-03] [HANDLE]: PRIMARY HANDLE
+[13-28-03] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer
+[13-28-04] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[13-28-04] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[13-28-04] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[13-28-04] [CONSOLE_OUT]: [STRING] High Ping Checker
+[13-28-04] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[13-28-04] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[13-28-04] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[13-28-04] [CONSOLE_OUT]: [STRING] ConsoleFrame Data Saver
+[13-28-04] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[13-28-04] [CONSOLE_OUT]: [STRING] Escaped
+[13-28-09] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[13-28-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(396, 462, 996, 655)], hash = [207546206], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[13-28-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-28-09] [EXIT]: [RUNTIME] 19s
+[13-28-09] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[13-28-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[13-28-09] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

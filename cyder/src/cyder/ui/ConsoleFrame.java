@@ -2,10 +2,7 @@ package cyder.ui;
 
 import cyder.algorithoms.GeometryAlgorithms;
 import cyder.constants.*;
-import cyder.enums.CyderEntry;
-import cyder.enums.Direction;
-import cyder.enums.ExitCondition;
-import cyder.enums.ScreenPosition;
+import cyder.enums.*;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
@@ -1268,15 +1265,13 @@ public final class ConsoleFrame {
                         Thread[] printThreads = new Thread[num];
                         threadGroup.enumerate(printThreads);
 
-                        ArrayList<String> ignoreThreads = IOUtil.getIgnoreThreads().getIgnorethreads();
-
                         int busyThreads = 0;
 
                         for (int i = 0; i < num; i++) {
                             boolean contains = false;
 
-                            for (String ignoreThread : ignoreThreads) {
-                                if (ignoreThread.equalsIgnoreCase(printThreads[i].getName())) {
+                            for (IgnoreThread ignoreThread : IgnoreThread.values()) {
+                                if (ignoreThread.getName().equalsIgnoreCase(printThreads[i].getName())) {
                                     contains = true;
                                     break;
                                 }

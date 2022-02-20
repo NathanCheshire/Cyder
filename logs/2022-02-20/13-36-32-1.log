@@ -1,0 +1,134 @@
+[13-36-32] [ENTRY]: [Nathan]
+[13-36-33] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[13-36-34] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[13-36-34] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[13-36-34] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[13-36-34] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[13-36-34] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-36-34] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-36-34] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[13-36-34] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[13-36-34] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-36-34] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-36-34] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-36-35] [SYSTEM_IO]: Userdata requested: fullscreen
+[13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-36-35] [THREAD STARTED]: Console Printing Animation
+[13-36-35] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-36-35] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-36-35] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-36-35] [SYSTEM_IO]: Userdata requested: InputFill
+[13-36-35] [THREAD STARTED]: High Ping Checker
+[13-36-35] [THREAD STARTED]: Hourly Chime Checker
+[13-36-35] [THREAD STARTED]: Console Clock Updater
+[13-36-35] [THREAD STARTED]: Cyder Busy Checker
+[13-36-35] [THREAD STARTED]: ConsoleFrame Data Saver
+[13-36-35] [ACTION]: Console loaded in 2513ms
+[13-36-35] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [797974097], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-36-35] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-36-35] [ENTRY]: [TESTING MODE]
+[13-36-35] [SYSTEM_IO]: Userdata requested: laststart
+[13-36-35] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2513ms
+[13-36-35] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-36-41] [CLIENT]: issues
+[13-36-41] [SYSTEM_IO]: Userdata requested: filterchat
+[13-36-41] [THREAD STARTED]: GitHub Issue Getter
+[13-36-41] [HANDLE]: GENERAL COMMAND HANDLED
+[13-36-41] [HANDLE]: PRIMARY HANDLE
+[13-36-41] [CONSOLE_OUT]: [STRING] 16 issues found:
+[13-36-42] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-36-43] [CONSOLE_OUT]: [STRING] Issue #79
+[13-36-43] [CONSOLE_OUT]: [STRING] Curl command
+[13-36-43] [CONSOLE_OUT]: [STRING] Add a curl command into Cyder.
+
+Also be able to curl a repo and calculate how many lines of code are in that repo (you'll need to figure out the valid languages of the repo and all that).
+[13-36-47] [CLIENT]: printinganimation
+[13-36-47] [SYSTEM_IO]: Userdata requested: filterchat
+[13-36-47] [THREAD STARTED]: Unknown Input Handler
+[13-36-47] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-36-47] [ACTION]: Similar command to "printinganimation" found with tol of 0.48, command = "println"
+[13-36-47] [CONSOLE_OUT]: [STRING] Issue #78
+[13-36-48] [CONSOLE_OUT]: [STRING] What's playing?
+[13-36-48] [CONSOLE_OUT]: [STRING] The chrome extension you have that tells you what audio is playing should be able to be done in cyder.
+[13-36-50] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-36-51] [CONSOLE_OUT]: [STRING] Issue #77
+[13-36-51] [CONSOLE_OUT]: [STRING] Similar command finder shutdown
+[13-36-52] [CONSOLE_OUT]: [STRING] Similar command finder executor does not end after starting. Fix this by using executor.shutdown(). Also make sure it's not running after "unknown command" prints out.
+[13-36-55] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-36-56] [CONSOLE_OUT]: [STRING] Issue #76
+[13-36-56] [CLIENT]: showbusyicon
+[13-36-56] [SYSTEM_IO]: Userdata requested: filterchat
+[13-36-56] [PREFERENCE REFRESH INVOKED]: key = showbusyicon
+[13-36-56] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[13-36-56] [HANDLE]: FINAL HANDLE
+[13-36-56] [CONSOLE_OUT]: [STRING] Size argument
+[13-36-56] [CONSOLE_OUT]: [STRING] Surround a command with size() and instead of the input being output or even handled, the size of the resultant command is output. Example: user enters "size(hi)", result: Cyder prints "1"
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #74
+[13-37-00] [CONSOLE_OUT]: [STRING] Notification bounds
+[13-37-00] [CONSOLE_OUT]: [STRING] Sometimes notifications overflow the CyderFrame if the width is too short and the notification text is long. Recreate this bug and fix.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #73
+[13-37-00] [CONSOLE_OUT]: [STRING] TOX messaging protocol
+[13-37-00] [CONSOLE_OUT]: [STRING] Make a messaging app using the TOX protocol which is Peer-to-peer architecture.
+
+If a user attempts to close Cyder without a message having been sent, inform the user of this since we WILL NOT store the message to send later.
+
+Use Console Commands exclusively for this since we're going to be shifting away from a super-friendly program to a truly CMI experience.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #72
+[13-37-00] [CONSOLE_OUT]: [STRING] OutputArea border focus
+[13-37-00] [CONSOLE_OUT]: [STRING] Fix OutputArea being focused upon dispose call. Also fix it shifting text when focused.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #67
+[13-37-00] [CONSOLE_OUT]: [STRING] Reset Buttons
+[13-37-00] [CONSOLE_OUT]: [STRING] Add a reset to initial state vs reset board button for Conways game of life and Pathfinding.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #65
+[13-37-00] [CONSOLE_OUT]: [STRING] SpotifyAPI
+[13-37-00] [CONSOLE_OUT]: [STRING] Use the Spotify API to stream audio and download album art. You'll also need a place to put keys for this in the user editor. Perhaps making a method to generate a label along with a field to control a preference after validation (pass in a lambda) would be beneficial at this point.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #63
+[13-37-00] [CONSOLE_OUT]: [STRING] CyderIconLabel
+[13-37-00] [CONSOLE_OUT]: [STRING] All the labels that act as buttons should be a cyder component with common methods. Also so that you can log the actions performed on them.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #61
+[13-37-00] [CONSOLE_OUT]: [STRING] Logs dir
+[13-37-00] [CONSOLE_OUT]: [STRING] Be able to change the logs dir through the preference editor
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #51
+[13-37-00] [CONSOLE_OUT]: [STRING] Jenkins
+[13-37-00] [CONSOLE_OUT]: [STRING] Link up server to auto-run unit tests and determine whether or not a build is passing or failing.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #46
+[13-37-00] [CONSOLE_OUT]: [STRING] Email client
+[13-37-00] [CONSOLE_OUT]: [STRING] Make an email client using CyderComponents and using javax.mail library. Should be able to add attachments and view formatted content of the email. Use JTextPane possibly.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #44
+[13-37-00] [CONSOLE_OUT]: [STRING] Flags for showcasing
+[13-37-00] [CONSOLE_OUT]: [STRING] Figure out how to flag stuff that you should showcase in the README/Widget Showcases/YouTube videos. I tried using an annotation but this did not work.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #35
+[13-37-00] [CONSOLE_OUT]: [STRING] Spectrum Analyzer
+[13-37-00] [CONSOLE_OUT]: [STRING] Implement a simple spectrum analyzer.
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Issue #33
+[13-37-00] [CONSOLE_OUT]: [STRING] Dark Mode
+[13-37-00] [CONSOLE_OUT]: [STRING] Implement a dark/light mode preference
+[13-37-00] [CONSOLE_OUT]: [STRING] ----------------------------------------
+[13-37-00] [CONSOLE_OUT]: [STRING] Unknown command
+[13-37-00] [CONSOLE_OUT]: [STRING] Show Cyder Busy Icon set to false
+[13-37-00] [CONSOLE_OUT]: [STRING] Escaped
+[13-37-01] [CLIENT]: clear
+[13-37-01] [SYSTEM_IO]: Userdata requested: filterchat
+[13-37-01] [HANDLE]: GENERAL COMMAND HANDLED
+[13-37-01] [HANDLE]: PRIMARY HANDLE
+[13-37-15] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[13-37-15] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1468, 247, 996, 655)], hash = [1389509050], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[13-37-15] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-37-15] [EXIT]: [RUNTIME] 42s
+[13-37-15] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[13-37-15] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[13-37-15] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

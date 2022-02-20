@@ -157,31 +157,32 @@ pwd
 download
 curl
 ttt
-tic tac toe
+tictactoe
 mp3
 music
 login
 pin
 create
 prefs
-edit user
+edituser
 youtube
 thumbnail
 calculator
 calc
-color converter
+colorconverter
 color
 hash
 hasher
-average images
-average pictures
-pixelate picture
-pixelate image
-resize pictures
-resize images
+averageimages
+averagepictures
+pixelatepicture
+pixelateimage
+pixelator
+resizepictures
+resizeimages
 resize
-resize iamge
-resize picture
+resizeiamge
+resizepicture
 note
 notes
 path

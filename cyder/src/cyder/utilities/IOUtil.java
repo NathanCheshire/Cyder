@@ -22,10 +22,8 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-@SuppressWarnings("UnnecessaryLocalVariable") /* ensure gson parses first before setting ret */
 public class IOUtil {
     /**
      * No objects of util methods allowed.
@@ -635,75 +633,6 @@ public class IOUtil {
 
             return sug.getResult().equals(this.getResult())
                     && sug.getCommand().equals(this.getCommand());
-        }
-    }
-
-    /**
-     * ExitCondition used for exiting Cyder in a controlled way.
-     */
-    public static class ExitCondition {
-        private int code;
-        private String description;
-
-        public int getCode() {
-            return code;
-        }
-
-        public void setCode(int code) {
-            this.code = code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        @Override
-        public String toString() {
-            return "[code: " + this.code + ", desc: " + this.description + "]";
-        }
-    }
-
-    //read once on compile time
-    private static IgnoreThread ignoreThreads = null;
-
-    public static IgnoreThread getIgnoreThreads() {
-        return ignoreThreads;
-    }
-
-    static {
-        loadIgnoreThreads();
-    }
-
-    public static void loadIgnoreThreads() {
-        Gson gson = new Gson();
-
-        try (Reader reader = new FileReader("static/json/ignorethreads.json")) {
-            IgnoreThread ret = gson.fromJson(reader, IgnoreThread.class);
-
-            //if successful set as our suggestions object
-            ignoreThreads = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    public static class IgnoreThread {
-        private ArrayList<String> ignorethreads;
-
-        public IgnoreThread(ArrayList<String> ignorethreads) {
-            this.ignorethreads = ignorethreads;
-        }
-
-        public ArrayList<String> getIgnorethreads() {
-            return ignorethreads;
-        }
-
-        public void setIgnorethreads(ArrayList<String> ignorethreads) {
-            this.ignorethreads = ignorethreads;
         }
     }
 }

@@ -207,7 +207,7 @@ public class Cyder {
                 ExceptionHandler.handle(e);
                 ret.set(false);
             }
-        }, "Singular Cyder Instance Ensurer Thread").start();
+        }, "Singular Cyder Instance Ensurer").start();
 
         try {
             Thread.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
