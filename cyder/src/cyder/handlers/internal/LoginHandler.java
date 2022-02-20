@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
+import cyder.enums.DebugHash;
 import cyder.enums.ExitCondition;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
@@ -20,7 +21,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -566,20 +566,16 @@ public class LoginHandler {
 
     /**
      * Used for debugging, automatically logs the developer
-     * in if their account exists, otherwise the program continues as normal.
+     * in if their account exists, otherwise the program proceeds as normal.
      */
     public static boolean autoCypher() {
         boolean ret = false;
 
-        //try block ensure something is always returned
+        // try block to ensure something is always returned
         try {
-            //get all hashes
-            ArrayList<IOUtil.DebugHash> cypherHashes = IOUtil.getDebugHashes();
-
-            //for all cypher hashes, attempt to log in using one
-            for (IOUtil.DebugHash hash : cypherHashes) {
+            for (DebugHash hash : DebugHash.values()) {
                 //if the login works, stop trying hashes
-                if (recognize(hash.getName(), hash.getHashpass(), true)) {
+                if (recognize(hash.getName(), hash.getPass(), true)) {
                     ret = true;
                     break;
                 }

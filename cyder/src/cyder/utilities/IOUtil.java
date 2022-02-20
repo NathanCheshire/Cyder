@@ -25,6 +25,7 @@ import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+@SuppressWarnings("UnnecessaryLocalVariable") /* ensure gson parses first before setting ret */
 public class IOUtil {
     /**
      * No objects of util methods allowed.
@@ -67,7 +68,7 @@ public class IOUtil {
      * @param fileOrLink the link/file to open
      */
     public static void openOutsideProgram(String fileOrLink) {
-        boolean validLink = false;
+        boolean validLink;
 
         try {
             URL url = new URL(fileOrLink);
@@ -97,11 +98,13 @@ public class IOUtil {
             File tmpDir = new File("cyder/src/cyder/tmp");
 
             if (!tmpDir.exists())
+                //noinspection ResultOfMethodCallIgnored
                 tmpDir.mkdir();
 
             File tmpFile = new File(tmpDir + "/" + filename + extension);
 
             if (!tmpFile.exists())
+                //noinspection ResultOfMethodCallIgnored
                 tmpFile.createNewFile();
 
             BufferedWriter tmpFileWriter = new BufferedWriter(new FileWriter(tmpFile));
@@ -184,7 +187,7 @@ public class IOUtil {
     /**
      * The path to helps.json
      */
-    private static String helpFilePath = "static/json/helps.json";
+    private static final String helpFilePath = "static/json/helps.json";
 
     static {
         loadSuggestions();
@@ -194,7 +197,7 @@ public class IOUtil {
      * Loads the suggestions into memory.
      */
     private static void loadSuggestions() {
-        LinkedList<Suggestion> ret = null;
+        LinkedList<Suggestion> ret;
         Gson gson = new Gson();
 
         Logger.log(Logger.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
@@ -248,6 +251,7 @@ public class IOUtil {
         File users = new File(OSUtil.buildPath("dynamic","users"));
 
         if (!users.exists()) {
+            //noinspection ResultOfMethodCallIgnored
             users.mkdirs();
         } else {
             File[] UUIDs = users.listFiles();
@@ -281,6 +285,7 @@ public class IOUtil {
 
                 //if it fails then delete the json
                 if (!success) {
+                    //noinspection ResultOfMethodCallIgnored
                     json.delete();
                     UserUtil.userJsonDeleted(FileUtil.getFilename(user));
                 }
@@ -569,6 +574,7 @@ public class IOUtil {
             File sandbox = new File("static/sandbox");
 
             if (!sandbox.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 sandbox.mkdir();
             }
         }
@@ -582,45 +588,6 @@ public class IOUtil {
 
         if (sandbox.exists()) {
             OSUtil.deleteFolder(sandbox);
-        }
-    }
-
-    /**
-     * DebugHash ArrayList.
-     */
-    private static ArrayList<DebugHash> debugHashes = null;
-
-    /**
-     * Returns the ArrayList of DebugHashes.
-     *
-     * @return the ArrayList of DebugHashes
-     */
-    public static ArrayList<DebugHash> getDebugHashes() {
-        return debugHashes;
-    }
-
-    static {
-        loadDebugHashes();
-    }
-
-    /**
-     * Loads the exit conditions ArrayList into memory.
-     */
-    public static void loadDebugHashes() {
-        ArrayList<DebugHash> ret = null;
-        Gson gson = new Gson();
-
-        Logger.log(Logger.Tag.SYSTEM_IO, "DebugHashes pared in IOUtil's static block");
-
-        try (Reader reader = new FileReader("static/json/debughashes.json")) {
-            Type debughash = new TypeToken<ArrayList<DebugHash>>(){}.getType();
-
-            ret = gson.fromJson(reader, debughash);
-
-            //if successful set as our suggestions object
-            debugHashes = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
         }
     }
 
@@ -697,32 +664,6 @@ public class IOUtil {
         @Override
         public String toString() {
             return "[code: " + this.code + ", desc: " + this.description + "]";
-        }
-    }
-
-    public static class DebugHash {
-        private String name;
-        private String hashpass;
-
-        public DebugHash(String name, String hashpass) {
-            this.name = name;
-            this.hashpass = hashpass;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getHashpass() {
-            return hashpass;
-        }
-
-        public void setHashpass(String hashpass) {
-            this.hashpass = hashpass;
         }
     }
 

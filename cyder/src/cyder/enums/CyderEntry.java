@@ -5,7 +5,7 @@ package cyder.enums;
  */
 public enum CyderEntry {
     /**
-     * Hashes within debughashes.json.
+     * DebugHashes within DebugHash.
      */
     AutoCypher("AutoCypher","AutoCypher Success", "AutoCypher Fail"),
 
