@@ -376,19 +376,13 @@ public class Preferences {
      * Invokes the onChangeFunction() of the preference with the provided ID, if found.
      *
      * @param preferenceID the onChangeFunction() of the preference with the provided ID
-     * @return whether the function was found and invoked properly
      */
-    public static boolean invokeRefresh(String preferenceID) {
-        boolean ret = false;
-
+    public static void invokeRefresh(String preferenceID) {
         for (Preference pref : prefs) {
             if (pref.getID().equalsIgnoreCase(preferenceID)) {
                 pref.onChangeFunction.apply(null);
-                ret = true;
             }
         }
-
-        return ret;
     }
 
     /**

@@ -1,0 +1,29 @@
+[18-00-24] [ENTRY]: [Nathan]
+[18-00-25] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-00-26] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-00-26] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-00-26] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-00-26] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-00-26] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-00-26] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-00-26] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-00-26] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[18-00-26] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[18-00-26] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[18-00-26] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [835789148], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-01-01] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ create
+[18-01-01] [WIDGET OPENED]: USER CREATED
+[18-01-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 390, 240, 40)], hash = [1283601189], parentFrame = [Create User], associated text = [Create User], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-01-07] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1505, 467, 356, 473)], hash = [1783638327], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[18-01-07] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-01-11] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 426, 28)], hash = [2011229075], parentFrame = [Creation Success], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-01-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1468, 653, 430, 100)], hash = [362800183], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Creation Success]
+[18-01-11] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-01-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [1495608502], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-01-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1383, 503, 600, 400)], hash = [12905860], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-01-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-01-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1505, -463, 356, 473)], hash = [1783638327], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[18-01-12] [EXIT]: [RUNTIME] 47s
+[18-01-12] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[18-01-12] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[18-01-12] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

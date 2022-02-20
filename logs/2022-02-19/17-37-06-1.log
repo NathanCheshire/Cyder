@@ -9,8 +9,7 @@
 [17-37-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [17-37-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
 [17-37-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
-[17-37-07] [LOGIN]: [AUTOCYPHER FAIL]
-[17-37-07] [LOGIN]: [AUTOCYPHER FAIL]
+[17-37-07] [LOGIN]: [AUTOCYPHER FAIL] [2x]
 [17-37-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [624394904], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [17-37-21] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ hi
 [17-37-23] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ create

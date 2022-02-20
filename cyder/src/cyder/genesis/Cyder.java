@@ -108,7 +108,6 @@ public class Cyder {
         new Thread(() -> {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(ca);
-
             IOUtil.cleanSandbox();
             IOUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();

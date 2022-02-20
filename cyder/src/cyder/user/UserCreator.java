@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class UserCreator {
     /**
@@ -441,7 +442,7 @@ public class UserCreator {
                 for (Method m : user.getClass().getMethods()) {
                     if (m.getName().startsWith("set")
                             && m.getParameterTypes().length == 1
-                            && m.getName().replace("set","").equalsIgnoreCase(name)) {
+                            && m.getName().replace("set","").equalsIgnoreCase(pref.getID())) {
                         try {
                             m.invoke(user, pref.getDefaultValue());
                         } catch (Exception e) {
@@ -500,7 +501,7 @@ public class UserCreator {
                 background.getHeight(), monitorNum, false));
 
         // executables
-        user.setExecutables(null);
+        user.setExecutables(new LinkedList<>());
 
         // write all data
         UserUtil.setUserData(new File(OSUtil.buildPath(

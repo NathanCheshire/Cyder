@@ -1,0 +1,334 @@
+[17-45-11] [ENTRY]: [Nathan]
+[17-45-12] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-45-12] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-45-12] [ACTION]: User b9416cd4-ca52-337b-933e-0dcc239c571a was found to have an outdated userdata file; preference injection was attempted on the following: [font=Agency FB, foreground=f0f0f0, background=101010, intromusic=0, debugwindows=0, randombackground=0, outputborder=0, inputborder=0, hourlychimes=1, silenceerrors=1, outputfill=0, inputfill=0, clockonconsole=1, showseconds=1, filterchat=1, laststart=1645314312603, minimizeonclose=0, typinganimation=1, typingsound=1, showbusyicon=0, ffmpegpath=, youtubedlpath=, roundedwindows=0, windowcolor=1A2033, consoleclockformat=EEEEEEEEE h:mmaa, youtubeuuid=aaaaaaaaaaa, ipkey=, weatherkey=, capsmode=0, audiolength=1, persistentnotifications=0, minimizeanimation=1, closeanimation=1, compacttextmode=0, fontmetric=1, fontsize=30]
+[17-45-13] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-45-13] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-45-13] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-45-13] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-45-13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-45-13] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-45-13] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-45-13] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-45-13] [EXCEPTION]:
+Exception origin: line 1 column 242 path $.screenStat
+From line: 1006
+Trace: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.Gson.fromJson(Gson.java:1006)
+at com.google.gson.Gson.fromJson(Gson.java:929)
+at cyder.utilities.UserUtil.extractUser(UserUtil.java:320)
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:608)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:582)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:467)
+at cyder.genesis.Cyder.main(Cyder.java:117)
+Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.stream.JsonReader.syntaxError(JsonReader.java:1597)
+at com.google.gson.stream.JsonReader.doPeek(JsonReader.java:491)
+at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
+at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:215)
+at com.google.gson.Gson.fromJson(Gson.java:991)
+... 7 more
+[17-45-13] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+From line: 611
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:582)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:467)
+at cyder.genesis.Cyder.main(Cyder.java:117)
+[17-45-13] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[17-45-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1562938538], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-45-15] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[17-45-15] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[17-45-16] [EXCEPTION]:
+Exception origin: line 1 column 242 path $.screenStat
+From line: 1006
+Trace: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.Gson.fromJson(Gson.java:1006)
+at com.google.gson.Gson.fromJson(Gson.java:929)
+at cyder.utilities.UserUtil.extractUser(UserUtil.java:320)
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:608)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:395)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.stream.JsonReader.syntaxError(JsonReader.java:1597)
+at com.google.gson.stream.JsonReader.doPeek(JsonReader.java:491)
+at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
+at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:215)
+at com.google.gson.Gson.fromJson(Gson.java:991)
+... 39 more
+[17-45-16] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+From line: 611
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:395)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17-45-16] [LOGIN]: [LOGIN FAIL]
+[17-45-18] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[17-45-19] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[17-45-20] [EXCEPTION]:
+Exception origin: line 1 column 242 path $.screenStat
+From line: 1006
+Trace: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.Gson.fromJson(Gson.java:1006)
+at com.google.gson.Gson.fromJson(Gson.java:929)
+at cyder.utilities.UserUtil.extractUser(UserUtil.java:320)
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:608)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:395)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.stream.JsonReader.syntaxError(JsonReader.java:1597)
+at com.google.gson.stream.JsonReader.doPeek(JsonReader.java:491)
+at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
+at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:215)
+at com.google.gson.Gson.fromJson(Gson.java:991)
+... 39 more
+[17-45-20] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+From line: 611
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:395)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17-45-20] [LOGIN]: [LOGIN FAIL]
+[17-45-22] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[17-45-23] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[17-45-31] [EXCEPTION]:
+Exception origin: line 1 column 242 path $.screenStat
+From line: 1006
+Trace: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.Gson.fromJson(Gson.java:1006)
+at com.google.gson.Gson.fromJson(Gson.java:929)
+at cyder.utilities.UserUtil.extractUser(UserUtil.java:320)
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:608)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:395)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 242 path $.screenStat
+at com.google.gson.stream.JsonReader.syntaxError(JsonReader.java:1597)
+at com.google.gson.stream.JsonReader.doPeek(JsonReader.java:491)
+at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
+at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:215)
+at com.google.gson.Gson.fromJson(Gson.java:991)
+... 39 more
+[17-45-31] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+From line: 611
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.LoginHandler.checkPassword(LoginHandler.java:611)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:521)
+at cyder.handlers.internal.LoginHandler$3.keyTyped(LoginHandler.java:395)
+at java.desktop/java.awt.Component.processKeyEvent(Component.java:6533)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2850)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[17-45-31] [LOGIN]: [LOGIN FAIL]
+[17-46-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [599782425], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-46-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(497, 304, 600, 400)], hash = [1446001495], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[17-46-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-46-39] [EXIT]: [RUNTIME] 1m 28s
+[17-46-39] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 8
+[17-46-39] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-46-39] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

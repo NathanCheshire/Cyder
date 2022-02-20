@@ -1,0 +1,32 @@
+[17-58-16] [ENTRY]: [Nathan]
+[17-58-17] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[17-58-17] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[17-58-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-58-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-58-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-58-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-58-17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-58-17] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-58-17] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[17-58-17] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-58-17] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-58-18] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [398593473], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-58-24] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[17-58-26] [CLIENT_IO]: [LOGIN FRAME] Username: l
+[17-58-26] [LOGIN]: [LOGIN FAIL]
+[17-58-28] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ create
+[17-58-28] [WIDGET OPENED]: USER CREATED
+[17-58-37] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 390, 240, 40)], hash = [1172927295], parentFrame = [Create User], associated text = [Create User], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-58-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [1812785116], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[17-58-37] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-59-55] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 426, 28)], hash = [823270210], parentFrame = [Creation Success], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-59-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1065, 646, 430, 100)], hash = [1870144721], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Creation Success]
+[17-59-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-59-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [769132147], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-59-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [1422273905], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[17-59-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-59-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, -470, 356, 473)], hash = [1812785116], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[17-59-56] [EXIT]: [RUNTIME] 1m 40s
+[17-59-56] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[17-59-56] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-59-56] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

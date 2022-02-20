@@ -1,0 +1,207 @@
+[18-06-34] [ENTRY]: [Nathan]
+[18-06-35] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[18-06-35] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[18-06-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-06-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-06-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-06-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-06-35] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-06-35] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-06-35] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[18-06-35] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[18-06-35] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[18-06-35] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1819515526], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-06-37] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ create
+[18-06-37] [WIDGET OPENED]: USER CREATED
+[18-07-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 390, 240, 40)], hash = [854224351], parentFrame = [Create User], associated text = [Create User], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-08] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, 460, 356, 473)], hash = [320706226], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[18-07-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 426, 28)], hash = [1567961461], parentFrame = [Creation Success], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1065, 646, 430, 100)], hash = [357658743], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Creation Success]
+[18-07-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-21] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[18-07-22] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[18-07-24] [LOGIN]: [[STD LOGIN]: fae52825-8770-3a35-b67c-2a7b6d576f34]
+[18-07-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-07-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-07-24] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-07-24] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-07-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-07-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-07-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-07-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-07-24] [SYSTEM_IO]: Userdata requested: InputFill
+[18-07-24] [THREAD STARTED]: High Ping Checker
+[18-07-24] [THREAD STARTED]: Hourly Chime Checker
+[18-07-24] [THREAD STARTED]: Console Clock Updater
+[18-07-24] [THREAD STARTED]: Cyder Busy Checker
+[18-07-24] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-07-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [12905860], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-07-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1102, -470, 356, 473)], hash = [320706226], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[18-07-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1065, -89, 430, 100)], hash = [357658743], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Creation Success]
+[18-07-24] [ACTION]: Console loaded in 50415ms
+[18-07-24] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 496, 600, 400)], hash = [12905860], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-07-24] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-07-24] [ENTRY]: [TESTING MODE]
+[18-07-24] [SYSTEM_IO]: Userdata requested: laststart
+[18-07-28] [WIDGET OPENED]: PREFS
+[18-07-30] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1906336425], parentFrame = [Default], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-30] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(880, 320, 800, 800)], hash = [1304126864], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Default]
+[18-07-30] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-30] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1936137986], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-30] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(830, 430, 900, 580)], hash = [804157055], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[18-07-30] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-07-33] [SYSTEM_IO]: Userdata requested: Background [2x]
+[18-07-35] [CLIENT]: hi
+[18-07-35] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-35] [HANDLE]: PRIMARY HANDLE
+[18-07-35] [CONSOLE_OUT]: [STRING] I'm here....
+[18-07-35] [CLIENT]: hi
+[18-07-35] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-35] [HANDLE]: PRIMARY HANDLE
+[18-07-35] [CLIENT]: hi
+[18-07-35] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-35] [HANDLE]: PRIMARY HANDLE
+[18-07-35] [CONSOLE_OUT]: [STRING] Greetings, nathan.
+[18-07-35] [CLIENT]: hi
+[18-07-35] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-35] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-35] [HANDLE]: PRIMARY HANDLE
+[18-07-36] [CLIENT]: hi
+[18-07-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-36] [HANDLE]: PRIMARY HANDLE
+[18-07-36] [CLIENT]: hi
+[18-07-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-36] [HANDLE]: PRIMARY HANDLE
+[18-07-36] [CONSOLE_OUT]: [STRING] What's up, nathan?
+[18-07-36] [CLIENT]: hi
+[18-07-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-36] [HANDLE]: PRIMARY HANDLE
+[18-07-36] [CLIENT]: hi
+[18-07-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-36] [HANDLE]: PRIMARY HANDLE
+[18-07-36] [CLIENT]: hi
+[18-07-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-36] [HANDLE]: PRIMARY HANDLE
+[18-07-36] [CONSOLE_OUT]: [STRING] Good evening, nathan. How can I help?
+[18-07-36] [CLIENT]: hi
+[18-07-36] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-36] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-36] [HANDLE]: PRIMARY HANDLE
+[18-07-37] [CLIENT]: hi
+[18-07-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-37] [HANDLE]: PRIMARY HANDLE
+[18-07-37] [CLIENT]: hi
+[18-07-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-37] [HANDLE]: PRIMARY HANDLE
+[18-07-37] [CLIENT]: hi
+[18-07-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-37] [HANDLE]: PRIMARY HANDLE
+[18-07-37] [CLIENT]: hi
+[18-07-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-37] [HANDLE]: PRIMARY HANDLE
+[18-07-37] [CONSOLE_OUT]: [STRING] What's up, nathan?
+[18-07-37] [CLIENT]: hi
+[18-07-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-37] [HANDLE]: PRIMARY HANDLE
+[18-07-37] [CLIENT]: hi
+[18-07-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-37] [HANDLE]: PRIMARY HANDLE
+[18-07-38] [CLIENT]: hi
+[18-07-38] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-38] [HANDLE]: PRIMARY HANDLE
+[18-07-38] [CONSOLE_OUT]: [STRING] Hello, nathan.
+[18-07-38] [CLIENT]: hi
+[18-07-38] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-38] [HANDLE]: PRIMARY HANDLE
+[18-07-38] [CLIENT]: hi
+[18-07-38] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-38] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[18-07-38] [HANDLE]: PRIMARY HANDLE
+[18-07-38] [CONSOLE_OUT]: [STRING] Hello, nathan.
+[18-07-39] [CONSOLE_OUT]: [STRING] What's up, nathan?
+[18-07-39] [CONSOLE_OUT]: [STRING] I'm here....
+[18-07-39] [CONSOLE_OUT]: [STRING] How are you doing, nathan?
+[18-07-41] [CONSOLE_OUT]: [STRING] I'm here.... [2x]
+[18-07-41] [CONSOLE_OUT]: [STRING] Go ahead... [2x]
+[18-07-42] [CLIENT]: typinganimation
+[18-07-42] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-42] [PREFERENCE REFRESH INVOKED]: key = typinganimation
+[18-07-42] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-07-42] [HANDLE]: FINAL HANDLE
+[18-07-42] [CONSOLE_OUT]: [STRING] How are you doing, nathan? [2x]
+[18-07-43] [CLIENT]: typingsound
+[18-07-43] [SYSTEM_IO]: Userdata requested: filterchat
+[18-07-43] [CONSOLE_OUT]: [STRING] What's up, nathan?
+[18-07-43] [CONSOLE_OUT]: [STRING] Greetings, nathan.
+[18-07-43] [CONSOLE_OUT]: [STRING] What's up, nathan?
+[18-07-43] [CONSOLE_OUT]: [STRING] Typing Animation set to false
+[18-07-43] [PREFERENCE REFRESH INVOKED]: key = typingsound
+[18-07-43] [CONSOLE_OUT]: [STRING] Typing Animation Sound set to false
+[18-07-43] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[18-07-43] [HANDLE]: FINAL HANDLE
+[18-07-55] [CONSOLE_OUT]: [STRING] Manual tests:
+[18-07-55] [CONSOLE_OUT]: [STRING] launchTests
+[18-07-55] [CONSOLE_OUT]: [STRING] dragLabelButtonTest
+[18-07-55] [CONSOLE_OUT]: [STRING] frameTitleLengthTest
+[18-07-55] [CONSOLE_OUT]: [STRING] iconLabelSlidingTest
+[18-07-55] [CONSOLE_OUT]: [STRING] buttonAndTitlePosTest
+[18-07-55] [CONSOLE_OUT]: [STRING] cyderGridLayoutTest
+[18-07-55] [CONSOLE_OUT]: [STRING] askewTest
+[18-07-55] [CONSOLE_OUT]: [STRING] checkboxTest
+[18-07-55] [CONSOLE_OUT]: [STRING] notificationTest
+[18-07-55] [CONSOLE_OUT]: [STRING] comboBoxTest
+[18-07-55] [CONSOLE_OUT]: [STRING] checkboxGroupTest
+[18-07-55] [CONSOLE_OUT]: [STRING] cyderGridTest
+[18-07-55] [CONSOLE_OUT]: [STRING] stackTest
+[18-07-55] [CONSOLE_OUT]: [STRING] popupTest
+[18-07-55] [CONSOLE_OUT]: [STRING] cyderSliderTest
+[18-07-55] [CONSOLE_OUT]: [STRING] progressBarTest
+[18-07-55] [CONSOLE_OUT]: [STRING] queueTest
+[18-07-55] [CONSOLE_OUT]: [STRING] rippleLabelTest
+[18-07-55] [CONSOLE_OUT]: [STRING] switchTest
+[18-07-55] [CONSOLE_OUT]: [STRING] informTest
+[18-07-55] [CONSOLE_OUT]: [STRING] flowLayoutTest
+[18-07-55] [CONSOLE_OUT]: [STRING] Unit Tests:
+[18-07-55] [CONSOLE_OUT]: [STRING] testIsComment
+[18-07-55] [CONSOLE_OUT]: [STRING] testFileSignature
+[18-07-55] [CONSOLE_OUT]: [STRING] testInsertBreaks
+[18-07-55] [CONSOLE_OUT]: [STRING] testWindBearingDirection
+[18-07-55] [CONSOLE_OUT]: [STRING] testIPv4RegexMatcher
+[18-07-55] [CONSOLE_OUT]: [STRING] testPluralConversion
+[18-07-55] [CONSOLE_OUT]: [STRING] testPhoneNumberPattern
+[18-07-55] [CONSOLE_OUT]: [JCOMPONENT] Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 0, 0)], hash = [1979903649], parentFrame = [No associated frame], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-07-55] [CONSOLE_OUT]: [STRING]
+[18-07-58] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 215, 38)], hash = [1979903649], parentFrame = [Insomnia Cyder [nathan]], associated text = [Make a Suggestion], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-08-00] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1136, 334, 400, 170)], hash = [393615552], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Suggestion]
+[18-08-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [664319133], parentFrame = [Suggestion], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-08-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-08-07] [CLIENT]: randomyoutube
+[18-08-07] [SYSTEM_IO]: Userdata requested: filterchat
+[18-08-07] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[18-08-07] [HANDLE]: PRIMARY HANDLE
+[18-08-07] [ACTION]: [Insomnia Cyder [nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[18-08-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-08-14] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-08-14] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(780, 220, 1000, 1000)], hash = [1966797681], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [nathan]]
+[18-08-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-08-14] [EXIT]: [RUNTIME] 1m 40s
+[18-08-14] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[18-08-14] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[18-08-14] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

@@ -250,14 +250,16 @@ public class UserUtil {
             LinkedList<User.MappedExecutable> exes = user.getExecutables();
             LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
 
-            for (User.MappedExecutable me : exes) {
-                if (!nonDuplicates.contains(me)) {
-                    nonDuplicates.add(me);
+            if (!exes.isEmpty()) {
+                for (User.MappedExecutable me : exes) {
+                    if (!nonDuplicates.contains(me)) {
+                        nonDuplicates.add(me);
+                    }
                 }
-            }
 
-            user.setExecutables(nonDuplicates);
-            setUserData(userJsonFile, user);
+                user.setExecutables(nonDuplicates);
+                setUserData(userJsonFile, user);
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
