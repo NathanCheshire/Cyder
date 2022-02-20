@@ -10,13 +10,14 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 
 public class CyderButton extends JButton {
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
     private boolean threadsKilled = false;
-    private Color backgroundColor = CyderColors.buttonColor;
 
     public CyderButton() {
         this("NULL TEXT");
@@ -30,7 +31,6 @@ public class CyderButton extends JButton {
         addActionListener(e -> Logger.log(Logger.Tag.ACTION, this));
 
         setFont(CyderFonts.segoe20);
-        setBackground(backgroundColor);
         setColors(CyderColors.buttonColor);
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
@@ -40,12 +40,35 @@ public class CyderButton extends JButton {
                 return Color.black;
             }
         });
+
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+
+                if (isEnabled()) {
+                    setBackground(hoverBackgroundColor);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+
+                if (isEnabled()) {
+                    setBackground(CyderColors.buttonColor);
+                }
+            }
+        });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(Graphics g) {
         this.setFocusPainted(false);
-        this.setBorder(new LineBorder(new Color(26, 32, 51),5,false));
+        this.setBorder(new LineBorder(CyderColors.navy,5,false));
         if (getModel().isPressed()) {
             g.setColor(pressedBackgroundColor);
         } else if (getModel().isRollover()) {
@@ -53,14 +76,31 @@ public class CyderButton extends JButton {
         } else {
             g.setColor(getBackground());
         }
+
         g.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
     }
 
     @Override
     public void setContentAreaFilled(boolean b) {
+        // nothing since this is useless
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setBackground(Color color) {
+        super.setBackground(color);
+        this.pressedBackgroundColor = color.darker().darker();
+        this.hoverBackgroundColor = color.darker();
+    }
+
+    /**
+     * Sets the colors of the pressed, hover, and background color.
+     *
+     * @param c the color to use for the outlined properties
+     */
     public void setColors(Color c) {
         this.pressedBackgroundColor = c.darker().darker();
         this.hoverBackgroundColor = c.darker();
@@ -99,6 +139,9 @@ public class CyderButton extends JButton {
                         killThreads();
                         return;
                     }
+
+                    if (threadsKilled)
+                        return;
                 }
             }
 

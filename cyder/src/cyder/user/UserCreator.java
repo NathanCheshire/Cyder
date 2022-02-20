@@ -81,6 +81,7 @@ public class UserCreator {
         CyderButton createNewUser = new CyderButton("Create User");
 
         newUserName = new CyderTextField(0);
+
         newUserName.setBackground(Color.white);
         newUserName.setFont(CyderFonts.segoe20);
         newUserName.setBorder(new LineBorder(new Color(0, 0, 0)));
