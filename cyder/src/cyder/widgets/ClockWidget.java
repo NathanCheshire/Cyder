@@ -24,7 +24,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * A clock widget for displaying the current time in a fancy and minimalistic format.
+ */
+@SuppressWarnings({"FieldMayBeFinal", "UnnecessaryLocalVariable"}) /* use of arrays on purpose, readability */
 public class ClockWidget {
+
+    /**
+     * Supress default constructor.
+     */
     private ClockWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
@@ -36,9 +44,6 @@ public class ClockWidget {
 
     private static boolean showSecondHand = true;
     private static boolean paintHourLabels = true;
-
-    private static CyderSwitch paintHourLabelsSwitch;
-    private static CyderSwitch showSecondHandSwitch;
 
     private static Color clockColor = CyderColors.navy;
 
@@ -178,16 +183,15 @@ public class ClockWidget {
                 }
 
                 //current theta, and x,y pair to draw from the center to
-                theta = (currentHour[0] / 12.0) * Math.PI * 2.0 + Math.PI * 1.5;
 
                 //hour hand is decreased by 30%
                 r = (int) (r * 0.70);
 
-                double x = r * Math.cos(theta);
-                double y = r * Math.sin(theta);
+                double x;
+                double y;
 
-                int drawToX = (int) Math.round(x);
-                int drawToY = - (int) Math.round(y);
+                int drawToX;
+                int drawToY;
 
                 g.setColor(clockColor);
                 ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
@@ -275,9 +279,7 @@ public class ClockWidget {
 
         new Thread(() -> {
             try {
-                for (;;) {
-                    if (!update)
-                        break;
+                while (update) {
                     Thread.sleep(1000);
 
                     //increment seconds
@@ -305,7 +307,7 @@ public class ClockWidget {
             }
         },"Clock Widget Updater").start();
 
-        paintHourLabelsSwitch = new CyderSwitch(320,50);
+        CyderSwitch paintHourLabelsSwitch = new CyderSwitch(320, 50);
         paintHourLabelsSwitch.setOnText("Labels");
         paintHourLabelsSwitch.setOffText("No Labels");
         paintHourLabelsSwitch.setToolTipText("Paint Hours");
@@ -316,7 +318,7 @@ public class ClockWidget {
 
         paintHourLabelsSwitch.getSwitchButton().addActionListener(e -> paintHourLabels = !paintHourLabels);
 
-        showSecondHandSwitch = new CyderSwitch(320,50);
+        CyderSwitch showSecondHandSwitch = new CyderSwitch(320, 50);
         showSecondHandSwitch.setOnText("Seconds");
         showSecondHandSwitch.setOffText("No Seconds");
         showSecondHandSwitch.setToolTipText("Show Second hand");
@@ -389,7 +391,7 @@ public class ClockWidget {
                             possibleLocation + "&appid=" + key + "&units=imperial";
 
                     Gson gson = new Gson();
-                    WeatherWidget.WeatherData wd = null;
+                    WeatherWidget.WeatherData wd;
 
                     try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
                         wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
@@ -436,7 +438,8 @@ public class ClockWidget {
             }
         };
 
-        miniFrame.setTitle("Time: " + "(GMT" + currentGMTOffset + ")");
+        miniFrame.setTitle("Timezone: " + "(GMT" + currentGMTOffset + ")");
+        System.out.println(miniFrame.getTitle());
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset), SwingConstants.CENTER);
@@ -446,8 +449,13 @@ public class ClockWidget {
         miniFrame.getContentPane().add(currentTimeLabel);
 
         if (currentLocation.trim().length() > 0) {
-            JLabel locationLabel = new JLabel((currentLocation.trim().length() == 0 ?
-                    ("(GMT" + currentGMTOffset + ")") : currentLocation + " " + ("(GMT" + currentGMTOffset + ")")), SwingConstants.CENTER);
+            String labelText = "(GMT" + currentGMTOffset + ")";
+
+            if (currentLocation.trim().length() > 0) {
+                labelText = StringUtil.formatCommas(currentLocation) + " " + ("(GMT" + currentGMTOffset + ")");
+            }
+
+            JLabel locationLabel = new JLabel(labelText, SwingConstants.CENTER);
             locationLabel.setForeground(CyderColors.navy);
             locationLabel.setFont(CyderFonts.segoe20);
             locationLabel.setBounds(0, 80, 600, 30);
@@ -457,16 +465,14 @@ public class ClockWidget {
         new Thread(() -> {
             try {
                 final int effectivelyFinal = currentGMTOffset;
-                for (;;) {
-                    if (!updateMiniClock[0])
-                        break;
+                while (updateMiniClock[0]) {
                     Thread.sleep(500);
                     currentTimeLabel.setText(getWeatherTime(effectivelyFinal));
                 }
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
-        },"Mini Clock Updater [" + currentGMTOffset + "]").start();
+        },"Mini Clock Updater [GMT" + currentGMTOffset + "]").start();
 
         miniFrame.setVisible(true);
         miniFrame.setLocationRelativeTo(clockFrame);
@@ -483,9 +489,9 @@ public class ClockWidget {
             cal.add(Calendar.HOUR, gmtOffsetInHours);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return dateFormatter.format(cal.getTime());
         }
+
+        return dateFormatter.format(cal.getTime());
     }
 
     private static int getUnitForCurrentGMT(String unit) {
@@ -498,9 +504,9 @@ public class ClockWidget {
             cal.add(Calendar.HOUR, currentGMTOffset);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return Integer.parseInt(dateFormatter.format(cal.getTime()));
         }
+
+        return Integer.parseInt(dateFormatter.format(cal.getTime()));
     }
 
     private static int gmtBasedOffLocation() {
@@ -520,7 +526,7 @@ public class ClockWidget {
                 currentLocation + "&appid=" + key + "&units=imperial";
 
         Gson gson = new Gson();
-        WeatherWidget.WeatherData wd = null;
+        WeatherWidget.WeatherData wd;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
             wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);

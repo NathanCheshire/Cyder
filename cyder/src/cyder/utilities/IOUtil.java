@@ -147,7 +147,9 @@ public class IOUtil {
                 argsString.append(cyderArgs[i]);
             }
 
+            // todo fastAPI python host?
             // todo make backend that accepts post that will return the location for an IP
+
             String append = "[LOCATION] " + (!CyderCommon.isReleased() ?
                     "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));

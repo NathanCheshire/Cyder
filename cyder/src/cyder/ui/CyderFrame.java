@@ -214,7 +214,12 @@ public class CyderFrame extends JFrame {
     /**
      * The degree angle increment used for the barrel roll animation.
      */
-    public static final  double BARREL_ROLL_DELTA = 2.0;
+    public static final double BARREL_ROLL_DELTA = 2.0;
+
+    /**
+     * The maximum width of the title label ratio to the CyderFrame width.
+     */
+    public static final float MAX_TITLE_LENGTH_RATIO = 0.75f;
 
     /**
      * Constructs an instance of CyderFrame with the specified width, height, and
@@ -824,11 +829,11 @@ public class CyderFrame extends JFrame {
     public void setTitle(String title) {
         super.setTitle(paintSuperTitle ? title : "");
 
-        if (paintWindowTitle && title != null && title.length() != 0 && titleLabel != null) {
+        if (paintWindowTitle && !StringUtil.isNull(title) && titleLabel != null) {
             int titleWidth = StringUtil.getMinWidth(title, titleLabel.getFont());
             String shortenedTitle = title;
 
-            while (titleWidth > this.width * 0.70) {
+            while (titleWidth > this.width * MAX_TITLE_LENGTH_RATIO) {
                 shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
                 titleWidth = StringUtil.getMinWidth(shortenedTitle + "...", titleLabel.getFont());
             }
@@ -1360,6 +1365,7 @@ public class CyderFrame extends JFrame {
      *
      * @param dancingFinished whether dancing has concluded
      */
+    @SuppressWarnings("SameParameterValue") /* inspection being dumb */
     protected void setDancingFinished(boolean dancingFinished) {
         this.dancingFinished = dancingFinished;
     }

@@ -1061,6 +1061,7 @@ public final class ConsoleFrame {
             //console clock
             Font consoleClockLabelFont = CyderFonts.segoe20.deriveFont(Font.BOLD, 21.0f);
             consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
+            consoleClockLabel.setSize(0,StringUtil.getAbsoluteMinHeight("143 ;)",consoleClockLabelFont));
             consoleClockLabel.setFont(consoleClockLabelFont);
             consoleClockLabel.setForeground(CyderColors.vanila);
             consoleCyderFrame.getTopDragLabel().add(consoleClockLabel);
@@ -1237,9 +1238,9 @@ public final class ConsoleFrame {
                         try {
                             refreshClockText();
 
-                            // sleep 500 ms
+                            // sleep 200 ms
                             int i = 0;
-                            while (i < 500) {
+                            while (i < 200) {
                                 //noinspection BusyWait
                                 Thread.sleep(50);
                                 if (consoleFrameClosed) {
@@ -3125,14 +3126,16 @@ public final class ConsoleFrame {
                return;
            }
 
-           //the user set time
+           // get pattern
            String pattern = UserUtil.extractUser().getConsoleclockformat();
+
+           //get time according to the pattern
            String time = TimeUtil.getTime(pattern);
 
            String regularSecondTime = TimeUtil.consoleSecondTime();
            String regularNoSecondTime = TimeUtil.consoleNoSecondTime();
 
-           //no custom pattern so take into account showSeconds
+           // no custom pattern so take into account showSeconds
            if (time.equalsIgnoreCase(regularSecondTime) || time.equalsIgnoreCase(regularNoSecondTime)) {
                if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
                    time = regularSecondTime;
@@ -3141,11 +3144,11 @@ public final class ConsoleFrame {
                }
            }
 
-           int w = StringUtil.getMinWidth(time, consoleClockLabel.getFont());
-           int h = StringUtil.getAbsoluteMinHeight(time, consoleClockLabel.getFont());
-           consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2,
-                   0, w, h);
            consoleClockLabel.setText(time);
+
+           int w = StringUtil.getMinWidth(time, consoleClockLabel.getFont());
+           consoleClockLabel.setBounds(consoleCyderFrame.getWidth() / 2 - w / 2,
+                   0, w, consoleClockLabel.getHeight());
        } catch (Exception ignored) {}
        //sometimes extracting user throws, so we will ignore exceptions thrown from this method
     }

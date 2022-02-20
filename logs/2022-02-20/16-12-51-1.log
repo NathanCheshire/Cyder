@@ -1,0 +1,71 @@
+[16-12-51] [ENTRY]: [Nathan]
+[16-12-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[16-12-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[16-12-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[16-12-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[16-12-52] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-12-52] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-12-52] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-12-52] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-12-53] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-12-53] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-12-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-12-53] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-12-53] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-12-53] [THREAD STARTED]: Console Printing Animation
+[16-12-53] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-12-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-12-53] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-12-53] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-12-53] [SYSTEM_IO]: Userdata requested: InputFill
+[16-12-53] [THREAD STARTED]: High Ping Checker
+[16-12-53] [THREAD STARTED]: Hourly Chime Checker
+[16-12-53] [THREAD STARTED]: Console Clock Updater
+[16-12-53] [THREAD STARTED]: Cyder Busy Checker
+[16-12-53] [THREAD STARTED]: ConsoleFrame Data Saver
+[16-12-53] [ACTION]: Console loaded in 2322ms
+[16-12-53] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-12-53] [ENTRY]: [TESTING MODE]
+[16-12-53] [SYSTEM_IO]: Userdata requested: laststart
+[16-12-53] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [625611292], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-12-53] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2322ms
+[16-12-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-12-55] [CLIENT]: help
+[16-12-55] [SYSTEM_IO]: Userdata requested: filterchat
+[16-12-55] [HANDLE]: GENERAL COMMAND HANDLED
+[16-12-55] [HANDLE]: PRIMARY HANDLE
+[16-12-55] [CONSOLE_OUT]: [STRING] Try typing:
+[16-12-55] [CONSOLE_OUT]: [STRING] •	pathfinder
+Description: open an A* and Dijkstras algorithm path finding visualizer
+[16-12-57] [CONSOLE_OUT]: [STRING] •	e^pi
+Description: calculate e^pi using the command line mathematical expression parser
+[16-12-58] [CONSOLE_OUT]: [STRING] •	mp3
+Description: open Cyder's custom MP3 audio player
+[16-12-59] [CONSOLE_OUT]: [STRING] •	prefs
+Description: open up the preference editor
+[16-13-00] [CONSOLE_OUT]: [STRING] •	weather
+Description: open up the weather widget
+[16-13-01] [CONSOLE_OUT]: [STRING] •	curl
+Description: curl a url just like linux
+[16-13-02] [CONSOLE_OUT]: [STRING] •	play
+Description: downloads a youtube video's audio and plays it using the audio player
+[16-13-34] [CLIENT]: showseconds
+[16-13-34] [SYSTEM_IO]: Userdata requested: filterchat
+[16-13-34] [PREFERENCE REFRESH INVOKED]: key = showseconds
+[16-13-34] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[16-13-34] [HANDLE]: FINAL HANDLE
+[16-13-34] [CONSOLE_OUT]: [STRING] Show Seconds set to false
+[16-13-36] [CLIENT]: showseconds
+[16-13-36] [SYSTEM_IO]: Userdata requested: filterchat
+[16-13-36] [PREFERENCE REFRESH INVOKED]: key = showseconds
+[16-13-36] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[16-13-36] [HANDLE]: FINAL HANDLE
+[16-13-36] [CONSOLE_OUT]: [STRING] Show Seconds set to true
+[16-13-41] [CLIENT]: clock
+[16-13-41] [SYSTEM_IO]: Userdata requested: filterchat
+[16-13-41] [WIDGET OPENED]: CLOCK
+[16-13-41] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.ClockWidget
+[16-13-42] [HANDLE]: PRIMARY HANDLE
+[16-13-59] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [210144188], parentFrame = [Clock], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-14-00] [SYSTEM_IO]: Userdata requested: minimizeanimation [2x]
+[16-18-07] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

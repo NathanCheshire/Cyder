@@ -1800,7 +1800,7 @@ public class InputHandler {
 
         for (Suggestion suggestion : Suggestion.values()) {
             println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
-                    + ": Description: " + suggestion.getDescription());
+                    + "\n\tDescription: " + suggestion.getDescription());
         }
     }
 
