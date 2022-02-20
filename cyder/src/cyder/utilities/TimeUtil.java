@@ -248,6 +248,8 @@ public class TimeUtil {
         return hour > 11 && hour < 17;
     }
 
+    //todo why does this return negative shit for random youtube?
+
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      * are represented by the given input parameter.
@@ -266,36 +268,48 @@ public class TimeUtil {
         double minutes = 0;
         double seconds;
 
-        // reverse cardinality if negative
-        if (msTime < 0)
-            msTime *= -1;
-
+        // seconds
         seconds = msTime / 1000.0;
 
-        while (seconds >= 60) {
-            seconds -= 60;
-            minutes++;
+        // convert seconds to minutes
+        if (seconds >= 60) {
+            minutes = Math.floor(seconds / 60.0);
         }
 
-        while (minutes >= 60) {
-            minutes -= 60;
-            hours++;
+        // take away seconds that were converted
+        seconds -=minutes * 60;
+
+        // convert minutes to hours
+        if (minutes >= 60) {
+            hours = Math.floor(minutes / 60.0);
         }
 
-        while (hours >= 24) {
-            hours -= 24;
-            days++;
+        // take a way minutes that were converted
+        minutes -= hours * 60;
+
+        // convert hours to days
+        if (hours >= 24) {
+            days = Math.floor(hours / 24.0);
         }
 
-        while (days >= 30) {
-            days -= 30;
-            months++;
+        // take away hours that were converted
+        hours -= days * 24;
+
+        // convert days to months
+        if (days >= 30) {
+            months = Math.floor(days / 30.0);
         }
 
-        while (months >= 12) {
-            months -= 12;
-            years++;
+        // take away days that were converted
+        days -= months * 30;
+
+        // convert months to years
+        if (months >= 12) {
+            years = Math.floor(months / 12.0);
         }
+
+        // take away months that were converted
+        months -= years * 12;
 
         DecimalFormat format = new DecimalFormat("#.##");
 

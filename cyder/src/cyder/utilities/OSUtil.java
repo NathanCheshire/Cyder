@@ -543,10 +543,6 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo need a validate password method for changing password too
-
-    //todo initialize field of create user frame with user's name for os if that user for cyder doesn't already exist
-
     //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
 
     //todo rename auto cyphering to debug hashes throughout program for consistency

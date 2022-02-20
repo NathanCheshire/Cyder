@@ -1063,7 +1063,24 @@ public class UserEditor {
             char[] newPassword = changePasswordField.getPassword();
             char[] newPasswordConf = changePasswordConfField.getPassword();
 
-            if (newPassword.length > 4) {
+            boolean alphabet = false;
+            boolean number = false;
+
+            for (char c : newPassword) {
+                if (Character.isDigit(c))
+                    number = true;
+                else if (Character.isAlphabetic(c))
+                    alphabet = true;
+
+                if (number && alphabet)
+                    break;
+            }
+
+            if (newPassword.length < 5 || !number || !alphabet) {
+                editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName()
+                        + ", " + "but your password must contain at least"
+                        + " one number, one letter, and be 5 characters long");
+            } else {
                 if (!Arrays.equals(newPasswordConf,newPassword)) {
                     editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
                             "but your provided passwords were not equal");
@@ -1073,9 +1090,6 @@ public class UserEditor {
                     IOUtil.changePassword(newPassword);
                     editUserFrame.notify("Password successfully changed");
                 }
-            } else {
-                editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
-                        "but your password must be greater than 4 characters for security reasons.");
             }
 
             changePasswordField.setText("");

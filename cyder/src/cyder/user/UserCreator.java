@@ -105,6 +105,22 @@ public class UserCreator {
         newUserName.setBounds(60, 70, 240, 40);
         createUserFrame.getContentPane().add(newUserName);
 
+        // set with windows username if not already used
+        String osUserName = OSUtil.getSystemUsername();
+        boolean exists = false;
+
+        for (File userJson : UserUtil.getUserJsons()) {
+            User u = UserUtil.extractUser(userJson);
+            if (u.getName().equalsIgnoreCase(osUserName)) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (!exists) {
+            newUserName.setText(osUserName);
+        }
+
         JLabel passwordLabel = new JLabel("Password: ", SwingConstants.CENTER);
         passwordLabel.setFont(CyderFonts.segoe20);
         passwordLabel.setForeground(CyderColors.navy);

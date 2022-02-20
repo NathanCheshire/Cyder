@@ -1,0 +1,58 @@
+[19-13-19] [ENTRY]: [Nathan]
+[19-13-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-13-20] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-13-20] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-13-20] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-13-20] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-13-20] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-13-20] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-13-20] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-13-20] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[19-13-20] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[19-13-21] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-13-21] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-13-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-13-21] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-13-21] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-13-21] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-13-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-13-21] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-13-21] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-13-21] [SYSTEM_IO]: Userdata requested: InputFill
+[19-13-21] [THREAD STARTED]: High Ping Checker
+[19-13-21] [THREAD STARTED]: Hourly Chime Checker
+[19-13-21] [THREAD STARTED]: Console Clock Updater
+[19-13-21] [THREAD STARTED]: Cyder Busy Checker
+[19-13-21] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-13-21] [ACTION]: Console loaded in 2714ms
+[19-13-21] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-13-21] [ENTRY]: [TESTING MODE]
+[19-13-21] [SYSTEM_IO]: Userdata requested: laststart
+[19-13-21] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [707310830], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-13-21] [ACTION]: [Insomnia Cyder [nathan]] [NOTIFICATION] Console loaded in 2714ms
+[19-13-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-13-26] [CLIENT]: randomyoutube
+[19-13-26] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-26] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[19-13-26] [HANDLE]: PRIMARY HANDLE
+[19-13-27] [ACTION]: [Insomnia Cyder [nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[19-13-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-13-32] [ACTION]: [Insomnia Cyder [nathan]] [NOTIFICATION] Time left:
+[19-13-32] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-13-47] [SYSTEM_IO]: Userdata requested: Background [2x]
+[19-13-48] [CONSOLE_OUT]: [STRING] Escaped
+[19-13-50] [CLIENT]: randomyoutube
+[19-13-50] [SYSTEM_IO]: Userdata requested: filterchat
+[19-13-50] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[19-13-50] [HANDLE]: PRIMARY HANDLE
+[19-13-50] [ACTION]: [Insomnia Cyder [nathan]] [NOTIFICATION] Type "stopscript" or press ctrl + c to stop the YouTube thread.
+[19-13-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-13-55] [ACTION]: [Insomnia Cyder [nathan]] [NOTIFICATION] Time left:
+[19-13-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-14-01] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-14-01] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(780, 220, 996, 655)], hash = [1544614339], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [nathan]]
+[19-14-01] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-14-02] [EXIT]: [RUNTIME] 43s
+[19-14-02] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[19-14-02] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[19-14-02] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

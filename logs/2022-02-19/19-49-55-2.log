@@ -1,0 +1,24 @@
+[19-49-56] [ENTRY]: [Nathan]
+[19-49-56] [EXCEPTION]:
+Exception origin: java.base/java.net.DualStackPlainSocketImpl.bind0(Native Method)
+From line: -2
+Trace: java.net.BindException: Address already in use: NET_Bind
+at java.base/java.net.DualStackPlainSocketImpl.bind0(Native Method)
+at java.base/java.net.DualStackPlainSocketImpl.socketBind(DualStackPlainSocketImpl.java:106)
+at java.base/java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:437)
+at java.base/java.net.PlainSocketImpl.bind(PlainSocketImpl.java:174)
+at java.base/java.net.ServerSocket.bind(ServerSocket.java:381)
+at java.base/java.net.ServerSocket.<init>(ServerSocket.java:243)
+at java.base/java.net.ServerSocket.<init>(ServerSocket.java:135)
+at cyder.genesis.Cyder.lambda$ensureCyderSingleInstance$2(Cyder.java:205)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[19-49-56] [EXCEPTION]: ATTEMPTED MULTIPLE CYDER INSTANCES
+[19-50-20] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 762, 28)], hash = [1263668904], parentFrame = [Instance Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-50-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(897, 646, 766, 100)], hash = [403170294], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Instance Exception]
+[19-50-20] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[19-50-20] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[19-50-20] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-50-20] [EXIT]: [RUNTIME] 24s
+[19-50-20] [EOL]: Log completed, exiting Cyder with exit code: -10 [Multiple Instances Exit], exceptions thrown: 2
+[19-50-20] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[19-50-20] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

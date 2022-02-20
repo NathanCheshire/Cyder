@@ -9,8 +9,7 @@
 [18-08-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-08-39] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
 [18-08-39] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
-[18-08-39] [LOGIN]: [AUTOCYPHER FAIL]
-[18-08-39] [LOGIN]: [AUTOCYPHER FAIL]
+[18-08-39] [LOGIN]: [AUTOCYPHER FAIL] [2x]
 [18-08-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1399949777], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [18-08-43] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
 [18-08-44] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
@@ -18,8 +17,7 @@
 [18-08-45] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-08-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-08-45] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-08-45] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-08-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-08-45] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-08-45] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-08-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-08-45] [SYSTEM_IO]: Userdata requested: InputBorder
@@ -44,10 +42,8 @@
 [18-08-47] [SYSTEM_IO]: Userdata requested: youtubedlpath
 [18-08-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [276074685], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-08-48] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
-[18-08-51] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(0, 0, 701, 42)], hash = [693707804], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-08-53] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(0, 0, 701, 42)], hash = [693707804], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-09-01] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(0, 0, 701, 42)], hash = [693707804], parentFrame = [Preferences], associated text = [13201320a], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[18-09-01] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(0, 0, 701, 42)], hash = [693707804], parentFrame = [Preferences], associated text = [13201320a], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-08-53] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(0, 0, 701, 42)], hash = [693707804], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[18-09-01] [ACTION]: Component name = [cyder.ui.CyderPasswordField], bounds = [(0, 0, 701, 42)], hash = [693707804], parentFrame = [Preferences], associated text = [13201320a], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [18-09-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 256, 38)], hash = [638129033], parentFrame = [Preferences], associated text = [    Change Password    ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-09-04] [ACTION]: [Preferences] [NOTIFICATION] Password successfully changed
 [18-09-04] [SYSTEM_IO]: Userdata requested: persistentnotifications
@@ -72,8 +68,7 @@
 [18-09-19] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-09-19] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-09-19] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-09-19] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-09-19] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-09-19] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-09-19] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-09-19] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-09-19] [SYSTEM_IO]: Userdata requested: InputBorder
