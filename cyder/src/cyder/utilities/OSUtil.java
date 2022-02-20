@@ -596,7 +596,9 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo be able to download a google drive link, if extension for file put in files dir otherwise the default
+    //todo getting title of url like https://en.memesrandom.com/wp-content/uploads/2021/10/image-139.png
+    // doesn't work, it's weird because we can download the file and inspect it using Chrome
+    // and see a valid dom and html, but we can't get the title tag using Jsoup?! Doesn't make sense
 
     //todo do away with jsons dir and make enums for them
 

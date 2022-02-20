@@ -1350,7 +1350,6 @@ public class InputHandler {
             println(System.getProperty("user.dir"));
         } else if (commandIs("download")) {
             if (checkArgsLength(1)) {
-                //https://drive.google.com/file/d/1ui7RORDPkmNW9F3zKsUhK8WhVV2YxSE-/view?usp=sharing
                 if (NetworkUtil.isURL(getArg(0))) {
                     String responseName = NetworkUtil.getURLTitle(getArg(0));
                     String saveName = SecurityUtil.generateUUID();
