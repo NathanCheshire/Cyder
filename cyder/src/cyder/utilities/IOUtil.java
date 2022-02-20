@@ -1,7 +1,5 @@
 package cyder.utilities;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
@@ -15,14 +13,12 @@ import javazoom.jl.player.Player;
 
 import java.awt.*;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
-import java.util.LinkedList;
 
 public class IOUtil {
     /**
@@ -162,82 +158,6 @@ public class IOUtil {
 
             Logger.log(Logger.Tag.JAVA_ARGS, append);
         } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Returns the linked list of suggestions loaded from helps.json
-     *
-     * @return a linked list of Suggestion objects
-     */
-    public static LinkedList<Suggestion> getSuggestions() {
-        if (suggestions == null)
-            loadSuggestions();
-        return suggestions;
-    }
-
-    /**
-     * Suggestions list of suggestions to prompt a user.
-     */
-    private static LinkedList<Suggestion> suggestions = null;
-
-    /**
-     * The path to helps.json
-     */
-    private static final String helpFilePath = "static/json/helps.json";
-
-    static {
-        loadSuggestions();
-    }
-
-    /**
-     * Loads the suggestions into memory.
-     */
-    private static void loadSuggestions() {
-        LinkedList<Suggestion> ret;
-        Gson gson = new Gson();
-
-        Logger.log(Logger.Tag.SYSTEM_IO, "Suggestions pared in IOUtil's static block");
-
-        try (Reader reader = new FileReader(helpFilePath)) {
-            Type helpType = new TypeToken<LinkedList<Suggestion>>(){}.getType();
-
-            ret = gson.fromJson(reader, helpType);
-
-            //if successful set as our suggestions object
-            suggestions = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Adds a suggestion to the helps.json file, should never be invoked by a user.
-     * Make this method public when needing access to add suggestions.
-     *
-     * @param suggestion the suggestion to add to helps.json
-     */
-    private static void addSuggestion(Suggestion suggestion) {
-        Gson gson = new Gson();
-
-        loadSuggestions();
-
-        if (suggestions == null)
-            suggestions = new LinkedList<>();
-
-        if (suggestions.contains(suggestion))
-            return;
-
-        suggestions.add(suggestion);
-
-        try (FileWriter writer = new FileWriter(helpFilePath)) {
-            gson.toJson(suggestions, writer);
-            Logger.log(Logger.Tag.SYSTEM_IO, "Suggestions had " + suggestion + " added.");
-
-            //now update suggestions
-            loadSuggestions();
-        } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
     }

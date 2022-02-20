@@ -12,8 +12,7 @@
 [13-36-34] [SYSTEM_IO]: Userdata requested: RandomBackground
 [13-36-34] [SYSTEM_IO]: Userdata requested: FullScreen
 [13-36-35] [SYSTEM_IO]: Userdata requested: fullscreen
-[13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [13-36-35] [THREAD STARTED]: Console Printing Animation
 [13-36-35] [SYSTEM_IO]: Userdata requested: OutputBorder
 [13-36-35] [SYSTEM_IO]: Userdata requested: FullScreen

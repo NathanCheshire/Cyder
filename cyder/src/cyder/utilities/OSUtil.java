@@ -596,6 +596,8 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
+    //todo make gifs like devon crawford's A* readme
+
     //todo getting title of url like https://en.memesrandom.com/wp-content/uploads/2021/10/image-139.png
     // doesn't work, it's weird because we can download the file and inspect it using Chrome
     // and see a valid dom and html, but we can't get the title tag using Jsoup?! Doesn't make sense
@@ -611,8 +613,6 @@ public class OSUtil {
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class
-
-    //todo make gifs like devon crawford's A* readme
 
     //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
     // to push it into bounds or something with that function

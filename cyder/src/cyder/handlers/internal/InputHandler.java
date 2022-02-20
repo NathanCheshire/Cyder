@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.enums.ScreenPosition;
 import cyder.enums.SliderShape;
+import cyder.enums.Suggestion;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.python.PyExecutor;
@@ -1797,9 +1798,9 @@ public class InputHandler {
     private void help() {
         println("Try typing: ");
 
-        for (IOUtil.Suggestion suggestion : IOUtil.getSuggestions()) {
+        for (Suggestion suggestion : Suggestion.values()) {
             println(CyderStrings.bulletPoint + "\t" + suggestion.getCommand()
-                    + ": Result: " + suggestion.getResult());
+                    + ": Description: " + suggestion.getDescription());
         }
     }
 
