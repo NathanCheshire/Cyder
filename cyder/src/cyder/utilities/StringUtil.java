@@ -26,7 +26,7 @@ public class StringUtil {
     /**
      * The output pane to print to in the case an object is created.
      */
-    private CyderOutputPane linkedCyderPane = null;
+    private final CyderOutputPane linkedCyderPane;
 
     /**
      * StringUtil instantiation not allowed unless a valid CyderOutputPane is provided.
@@ -639,7 +639,7 @@ public class StringUtil {
         }
 
         userInput = userInput.toLowerCase();
-        findWord.toLowerCase();
+        findWord = findWord.toLowerCase();
 
         return userInput.startsWith(findWord + ' ') || //first word
                userInput.endsWith(' ' + findWord) || //last word
@@ -728,7 +728,7 @@ public class StringUtil {
      * @return the definition of the requested word if found
      */
     public static String getDefinition(String word) {
-        String ret = null;
+        String ret;
 
         try {
             Document doc = Jsoup.connect("https://www.dictionary.com/browse/" + word).get();

@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.IgnoreData;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
@@ -348,24 +349,33 @@ public class UserUtil {
      * o the {@code Preference} object could lead to a new path of thinking about user prefs/data.
      *
      * @param u the initialized user containing the data we want to obtain
-     * @param name the data id for which to return
+     * @param id the data id for which to return
      * @return the requested data
      */
-    public static String extractUserData(User u, String name) {
+    public static String extractUserData(User u, String id) {
         if (u == null || u.getClass() == null || u.getClass().getMethods() == null)
-            throw new IllegalArgumentException("Something is null :/\nUser: " + u + "\nName: " + name);
+            throw new IllegalArgumentException("Something is null :/\nUser: " + u + "\nID: " + id);
 
         String ret = null;
 
-        //log handler calls that aren't spammed
-        if (!IOUtil.ignoreLogData(name))
-            Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + name);
+        //log handler calls unless set to be ignored (due to lots of calls)
+        boolean in = false;
+
+        for (IgnoreData ignoreData : IgnoreData.values()) {
+            if (ignoreData.getId().equalsIgnoreCase(id)) {
+                in = true;
+                break;
+            }
+        }
+
+        if (!in)
+            Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);
 
         try {
             for (Method m : u.getClass().getMethods()) {
                 if (m.getName().startsWith("get")
                         && m.getParameterTypes().length == 0
-                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                        && m.getName().toLowerCase().contains(id.toLowerCase())) {
                     final Object r = m.invoke(u);
                     ret = (String) r;
                     break;

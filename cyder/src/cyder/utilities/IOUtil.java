@@ -668,51 +668,6 @@ public class IOUtil {
     }
 
     //read once on compile time
-    private static IgnoreData ignoreDatas = null;
-
-    static {
-        loadIgnoreDatas();
-    }
-
-    public static void loadIgnoreDatas() {
-        Gson gson = new Gson();
-
-        try (Reader reader = new FileReader("static/json/ignoredatas.json")) {
-            IgnoreData ret = gson.fromJson(reader, IgnoreData.class);
-
-            //if successful set as our suggestions object
-            ignoreDatas = ret;
-        } catch (IOException e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * @param dataid the id of the data we wish to obtain from userdata file
-     *
-     * @return boolean detemrining whether or not this data should be ignored by the SessionLogger
-     */
-    public static boolean ignoreLogData(String dataid) {
-        return ignoreDatas.getIgnoreData().contains(dataid);
-    }
-
-    private static class IgnoreData {
-        private ArrayList<String> ignorelogdata;
-
-        public IgnoreData(ArrayList<String> ignorelogdata) {
-            this.ignorelogdata = ignorelogdata;
-        }
-
-        public ArrayList<String> getIgnoreData() {
-            return ignorelogdata;
-        }
-
-        public void setIgnoreData(ArrayList<String> ignorelogdata) {
-            this.ignorelogdata = ignorelogdata;
-        }
-    }
-
-    //read once on compile time
     private static IgnoreThread ignoreThreads = null;
 
     public static IgnoreThread getIgnoreThreads() {
