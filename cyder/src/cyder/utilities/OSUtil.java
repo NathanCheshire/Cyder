@@ -598,8 +598,6 @@ public class OSUtil {
 
     //todo make gifs like devon crawford's A* readme
 
-    //todo clock mini title is too small
-
     //todo getting title of url like https://en.memesrandom.com/wp-content/uploads/2021/10/image-139.png
     // doesn't work, it's weird because we can download the file and inspect it using Chrome
     // and see a valid dom and html, but we can't get the title tag using Jsoup?! Doesn't make sense
