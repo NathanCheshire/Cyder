@@ -32,7 +32,7 @@ def main():
             # the ops to write to the csv we are generating
             ops = []
 
-            # get all lines in file
+            # get all lines in inputHandler
             for part in lines:
 
                 # sep at the ors if any
@@ -44,7 +44,31 @@ def main():
                         comp = re.compile(regex)
 
                         for match in comp.findall(line):
-                            ops.append(match)
+                            if match not in ops:
+                                ops.append(match)
+
+            # now check for widgets recursively
+            # now check for widgets recursively
+            for file in findFiles('cyder', extensions = '.java', recursive = True):
+                # current java file
+                javaFile = open(file, "r")
+
+                # current file lines
+                lines = javaFile.readlines()
+                javaFile.close()
+
+                for line in lines:
+                    search = re.search('@Widget\((.*)', line, re.DOTALL)
+                    if search:
+                        search = re.search('triggers = {(.*)},', search.group(1), re.DOTALL)
+                        if search:
+                            triggers = search.group(1)
+
+                            for trigger in triggers.split(','):
+                                trigger = trigger.replace('"','').strip()
+                                
+                                if trigger not in ops:
+                                    ops.append(trigger)
 
             file = open(COMMANDS_PATH, 'w+')
 
@@ -71,6 +95,31 @@ def main():
             print(similarCommand, ',', correspondingRatio, sep ='')
         else:
             raise Exception('Commands.csv was not found, did you create it before building the Jar?')             
+
+def findFiles(startingDirectory, extensions = [], recursive = False):
+    '''
+    Finds all files within the provided directory that 
+    end in one of the provided extensions.
+    '''
+
+    ret = []
+
+    if len(extensions) == 0:
+        print('Error: must provide valid extensions')
+        return
+
+    if os.path.isdir(startingDirectory):
+        for subDir in os.listdir(startingDirectory):
+            if recursive:
+                ret = ret + findFiles(os.path.join(startingDirectory, subDir), extensions, recursive)
+            else:
+                ret.append(os.path.join(startingDirectory, subDir))
+    else:
+        for extension in extensions:
+            if startingDirectory.endswith(extension):
+                ret.append(startingDirectory)
+                
+    return ret
 
 if __name__ == "__main__":
     main()
