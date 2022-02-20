@@ -284,17 +284,17 @@ public class YoutubeUtil {
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
         environmentVariableHelp.addActionListener(e ->
-                NetworkUtil.internetConnect("https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/"));
+                NetworkUtil.openUrl("https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/"));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
         downloadFFMPEG.addActionListener(e ->
-                NetworkUtil.internetConnect("https://www.wikihow.com/Install-FFmpeg-on-Windows"));
+                NetworkUtil.openUrl("https://www.wikihow.com/Install-FFmpeg-on-Windows"));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
-                NetworkUtil.internetConnect("https://github.com/ytdl-org/youtube-dl#installation"));
+                NetworkUtil.openUrl("https://github.com/ytdl-org/youtube-dl#installation"));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 
@@ -368,7 +368,7 @@ public class YoutubeUtil {
                 CyderButton openVideo = new CyderButton("Open Video");
                 openVideo.setBounds(20 + addToBackgrounds.getWidth(),
                         thumbnail.getHeight() + 10, (thumbnail.getWidth() - 30) / 2, 40);
-                openVideo.addActionListener(e1 -> NetworkUtil.internetConnect(
+                openVideo.addActionListener(e1 -> NetworkUtil.openUrl(
                         buildYoutubeURL(inputField.getText().trim())));
                 thumbnailFrame.add(openVideo);
 

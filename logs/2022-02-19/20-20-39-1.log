@@ -1,0 +1,292 @@
+[20-20-39] [ENTRY]: [Nathan]
+[20-20-40] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[20-20-40] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[20-20-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-20-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-20-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-20-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-20-41] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-20-41] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-20-41] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-20-41] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-20-41] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-20-42] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-20-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-20-42] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-20-42] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-20-42] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-20-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-20-42] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-20-42] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-20-42] [SYSTEM_IO]: Userdata requested: InputFill
+[20-20-42] [THREAD STARTED]: High Ping Checker
+[20-20-42] [THREAD STARTED]: Hourly Chime Checker
+[20-20-42] [THREAD STARTED]: Console Clock Updater
+[20-20-42] [THREAD STARTED]: Cyder Busy Checker
+[20-20-42] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-20-42] [ACTION]: Console loaded in 3325ms
+[20-20-42] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-20-42] [ENTRY]: [TESTING MODE]
+[20-20-42] [SYSTEM_IO]: Userdata requested: laststart
+[20-20-42] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [885263114], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-20-42] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3325ms
+[20-20-42] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-20-45] [CLIENT]: prefs
+[20-20-45] [SYSTEM_IO]: Userdata requested: filterchat
+[20-20-45] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[20-20-45] [WIDGET OPENED]: PREFS
+[20-20-45] [HANDLE]: PRIMARY HANDLE
+[20-20-51] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 713, 28)], hash = [719638390], parentFrame = [Noelle], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-20-51] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(960, 243, 717, 800)], hash = [1617816384], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Noelle]
+[20-20-51] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-21-12] [THREAD STARTED]: Background Switcher [2x]
+[20-21-25] [CLIENT]: resizeimage
+[20-21-25] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-25] [CONSOLE_OUT]: [STRING] Unknown command
+[20-21-25] [ACTION]: Similar command to "resizeimage" found with tol of 0.5, command = "triangle"
+[20-21-29] [CLIENT]: resizes
+[20-21-29] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-29] [CONSOLE_OUT]: [STRING] Unknown command
+[20-21-29] [ACTION]: Similar command to "resizes" found with tol of 0.7058824, command = "filesizes"
+[20-21-33] [CLIENT]: resizepictures
+[20-21-33] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-33] [CONSOLE_OUT]: [STRING] Unknown command
+[20-21-33] [ACTION]: Similar command to "resizepictures" found with tol of 0.5, command = "filesizes"
+[20-21-34] [CLIENT]: resizer
+[20-21-34] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-34] [CONSOLE_OUT]: [STRING] Unknown command
+[20-21-34] [ACTION]: Similar command to "resizer" found with tol of 0.5882353, command = "filesizes"
+[20-21-35] [CONSOLE_OUT]: [STRING] Escaped
+[20-21-36] [CLIENT]: clear
+[20-21-36] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-36] [HANDLE]: GENERAL COMMAND HANDLED
+[20-21-36] [HANDLE]: PRIMARY HANDLE
+[20-21-37] [CLIENT]: widgets
+[20-21-37] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-37] [CONSOLE_OUT]: [STRING] Found 31 widgets:
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.games.HangmanGame
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A hangman game
+Triggers: [hangman]
+[20-21-37] [HANDLE]: GENERAL COMMAND HANDLED
+[20-21-37] [HANDLE]: PRIMARY HANDLE
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.games.TTTGame
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A TicTacToe widget
+Triggers: [ttt, tic tac toe]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.handlers.external.AudioPlayer
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: An audio playing widget
+Triggers: [mp3, music]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.handlers.external.DirectoryViewer
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A directory navigator widget
+Triggers: [dir]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.handlers.internal.LoginHandler
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A widget to switch between Cyder users
+Triggers: [login, pin]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.user.UserCreator
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A user creating widget
+Triggers: [createuser, create]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.user.UserEditor
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A widget to edit your user preferences and files
+Triggers: [prefs, edit user]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.utilities.YoutubeUtil
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A widget to steal youtube thumbnails
+Triggers: [youtube, thumbnail]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.CalculatorWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.
+Triggers: [calculator, calc]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.CardWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: Christmas card for the year of 2020
+Triggers: [Christmas card 2020]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.CardWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: Birthday card for my dad for the year 2021
+Triggers: [Birthday card 2021]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.CardWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: Christmas card for the year of 2021
+Triggers: [Christmas card 2021]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.CardWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: Fathers day card for the year of 2021
+Triggers: [FathersDay card 2021]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ClickWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A troll widget that pops open a new window every time it is clicked
+Triggers: [click me]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ClockWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A clock widget capable of spawning mini widgets and changing the time zone
+Triggers: [clock]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ColorConverterWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A color converter widget to convert from rgb to hex and vice versa
+Triggers: [color converter, color]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ConvexHullWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A convex hull algorithm visualizer
+Triggers: [convex hull]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.FileSignatureWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A widget to read the raw file hex data and determine if the file signature matches the provided extension
+Triggers: [file signature]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.GameOfLifeWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: Conway's game of life visualizer
+Triggers: [conway]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.HashingWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1
+Triggers: [hash, hasher]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ImageAveragerWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A widget that adds multiple images together and divides by the total to obtain an average base image
+Triggers: [average images, average pictures]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ImagePixelatorWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A simple image pixelator widget that transforms the image into an image depicted of the specified number of pixels
+Triggers: [pixelate picture, pixelate image]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.ImageResizerWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: An image resizing widget to resize images
+Triggers: [resize pictures, resize images]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.MinecraftWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A minecraft widget that copies from the Mojang home page
+Triggers: [minecraft]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.NotesWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A note taking widget that can save and display multiple notes
+Triggers: [note, notes]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.PathFinderWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A pathfinding visualizer for A* and Dijkstras algorithms
+Triggers: [path, pathfinder]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.PerlinWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: Perlin noise visualizer/open simplex noise visualizer
+Triggers: [perlin]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.PhoneWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A phone emulating widget
+Triggers: [phone]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.PizzaWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A very old widget I built using Swing in 2017 for AP Comp. Sci. that I rewrote using the Cyder toolkit
+Triggers: [pizza]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.TemperatureWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A temperature conversion widget for the three standard temperature units
+Triggers: [temperature, temp]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-37] [CONSOLE_OUT]: [STRING] Name: cyder.widgets.WeatherWidget
+[20-21-37] [CONSOLE_OUT]: [STRING] Description: A widget that displays weather data for the current city you are in. The location is also changeable
+Triggers: [weather]
+[20-21-37] [CONSOLE_OUT]: [STRING] -------------------------------------
+[20-21-46] [CLIENT]: fixforeground
+[20-21-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-21-47] [PREFERENCE REFRESH INVOKED]: key = foreground
+[20-21-47] [CONSOLE_OUT]: [STRING] Foreground fixed
+[20-21-47] [HANDLE]: GENERAL COMMAND HANDLED
+[20-21-47] [HANDLE]: PRIMARY HANDLE
+[20-22-04] [CLIENT]: image
+[20-22-04] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-04] [CONSOLE_OUT]: [STRING] Unknown command
+[20-22-04] [ACTION]: Similar command to "image" found with tol of 0.6666667, command = "age"
+[20-22-06] [CLIENT]: resizeimages
+[20-22-06] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-06] [CONSOLE_OUT]: [STRING] Unknown command
+[20-22-06] [ACTION]: Similar command to "resizeimages" found with tol of 0.54545456, command = "filesizes"
+[20-22-07] [CLIENT]: resizeimage
+[20-22-07] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-07] [CONSOLE_OUT]: [STRING] Unknown command
+[20-22-07] [ACTION]: Similar command to "resizeimage" found with tol of 0.5, command = "triangle"
+[20-22-09] [CLIENT]: resizepicture
+[20-22-09] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-09] [CONSOLE_OUT]: [STRING] Unknown command
+[20-22-09] [ACTION]: Similar command to "resizepicture" found with tol of 0.47619048, command = "repaint"
+[20-22-10] [CLIENT]: resizepictures
+[20-22-10] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-11] [CONSOLE_OUT]: [STRING] Unknown command
+[20-22-11] [ACTION]: Similar command to "resizepictures" found with tol of 0.5, command = "filesizes"
+[20-22-12] [CLIENT]: pictureresize
+[20-22-12] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-12] [CONSOLE_OUT]: [STRING] Unknown command
+[20-22-13] [ACTION]: Similar command to "pictureresize" found with tol of 0.5217391, command = "filesizes"
+[20-22-54] [CLIENT]: resize
+[20-22-54] [SYSTEM_IO]: Userdata requested: filterchat
+[20-22-54] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.ImageResizerWidget
+[20-22-54] [WIDGET OPENED]: IMAGE RESIZER
+[20-22-54] [HANDLE]: PRIMARY HANDLE
+[20-23-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(310, 40, 180, 40)], hash = [1053268091], parentFrame = [Image Resizer], associated text = [Choose Image], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-23-24] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(60, 40, 500, 40)], hash = [1888242033], parentFrame = [Nathan], associated text = [c:\users\Nathan], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-23-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(827, 310, 630, 510)], hash = [1929731842], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Backgrounds]
+[20-23-40] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-23-43] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(125, 100, 100, 40)], hash = [383617556], parentFrame = [Image Resizer], associated text = [1125], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[20-23-44] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(375, 90, 50, 50)], hash = [1749272833], parentFrame = [Image Resizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[20-23-45] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(125, 100, 100, 40)], hash = [383617556], parentFrame = [Image Resizer], associated text = [1125], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[20-23-49] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(125, 100, 100, 40)], hash = [383617556], parentFrame = [Image Resizer], associated text = [800], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[20-23-53] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(310, 745, 180, 40)], hash = [142217813], parentFrame = [Image Resizer], associated text = [Approve Image], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-23-53] [ACTION]: [Image Resizer] [NOTIFICATION] The image "Noelle.jpg" was successfully resized to 750x837
+[20-23-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-23-58] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [36325824], parentFrame = [Image Resizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-23-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(599, 242, 800, 800)], hash = [1057202622], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Image Resizer]
+[20-23-58] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-24-03] [THREAD STARTED]: Background Switcher [2x]
+[20-24-06] [CLIENT]: clear
+[20-24-06] [SYSTEM_IO]: Userdata requested: filterchat
+[20-24-06] [HANDLE]: GENERAL COMMAND HANDLED
+[20-24-06] [HANDLE]: PRIMARY HANDLE
+[20-24-08] [CLIENT]: fixforeground
+[20-24-08] [SYSTEM_IO]: Userdata requested: filterchat
+[20-24-08] [PREFERENCE REFRESH INVOKED]: key = foreground
+[20-24-08] [HANDLE]: GENERAL COMMAND HANDLED
+[20-24-08] [CONSOLE_OUT]: [STRING] Foreground fixed
+[20-24-08] [HANDLE]: PRIMARY HANDLE
+[20-25-09] [CLIENT]: pixelate
+[20-25-09] [SYSTEM_IO]: Userdata requested: filterchat
+[20-25-10] [HANDLE]: GENERAL COMMAND HANDLED
+[20-25-10] [HANDLE]: PRIMARY HANDLE
+[20-25-11] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1037, 559, 400, 170)], hash = [961574388], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[20-25-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1766191247], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-25-11] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-25-12] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[20-25-15] [CLIENT]: clear
+[20-25-15] [SYSTEM_IO]: Userdata requested: filterchat
+[20-25-15] [HANDLE]: GENERAL COMMAND HANDLED
+[20-25-15] [HANDLE]: PRIMARY HANDLE
+[20-25-18] [THREAD STARTED]: Background Switcher
+[20-25-21] [CLIENT]: prefs
+[20-25-21] [SYSTEM_IO]: Userdata requested: filterchat
+[20-25-21] [WIDGET OPENED]: PREFS
+[20-25-21] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[20-25-21] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1451, 286, 900, 580)], hash = [484961885], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[20-25-21] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-25-21] [HANDLE]: PRIMARY HANDLE
+[20-25-23] [CONSOLE_OUT]: [STRING] File: Noelle_Pixelated_Pixel_Size_2 successfully deleted.
+[20-25-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1192018492], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[20-25-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [118549019], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-25-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [611890798], parentFrame = [Rename], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-25-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1037, 559, 400, 170)], hash = [837452609], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename] [2x]
+[20-25-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [162964489], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-25-27] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-25-29] [CONSOLE_OUT]: [STRING] File: Noelle successfully deleted.
+[20-25-29] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1192018492], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-25-46] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1015466736], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-25-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(787, 354, 900, 580)], hash = [678821342], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[20-25-46] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-25-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-25-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(620, 325, 1235, 638)], hash = [1202220987], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[20-25-46] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-25-46] [EXIT]: [RUNTIME] 5m 7s
+[20-25-46] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[20-25-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-25-46] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

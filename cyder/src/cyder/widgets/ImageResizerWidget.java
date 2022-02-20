@@ -33,7 +33,6 @@ public class ImageResizerWidget {
     private static double aspectRatio;
 
     private static JLabel previewLabel;
-    private static CyderCheckbox maintainAspectRatioLab;
 
     private static File resizeImage;
 
@@ -44,7 +43,8 @@ public class ImageResizerWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(triggers = {"resize pictures", "resize images"}, description = "An image resizing widget to resize images")
+    @Widget(triggers = {"resize pictures", "resize images", "resize", "resize iamge", "resize picture"},
+            description = "An image resizing widget to resize images")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "IMAGE RESIZER");
 
@@ -138,7 +138,7 @@ public class ImageResizerWidget {
         xdim.setBounds(125,100, 100, 40);
         resizeFrame.getContentPane().add(xdim);
 
-        maintainAspectRatioLab = new CyderCheckbox();
+        CyderCheckbox maintainAspectRatioLab = new CyderCheckbox();
         maintainAspectRatioLab.setToolTipText("Maintain Aspect Ratio");
         maintainAspectRatioLab.addMouseListener(new MouseAdapter() {
             @Override

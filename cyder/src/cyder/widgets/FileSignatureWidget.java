@@ -52,7 +52,7 @@ public class FileSignatureWidget {
         referenceLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.internetConnect("https://en.wikipedia.org/wiki/List_of_file_signatures");
+                NetworkUtil.openUrl("https://en.wikipedia.org/wiki/List_of_file_signatures");
             }
 
             @Override
@@ -74,7 +74,7 @@ public class FileSignatureWidget {
             try {
                 new Thread(() -> {
                     try {
-                        File temp = new GetterUtil().getFile("Choose file to resize");
+                        File temp = new GetterUtil().getFile("Choose file to validate");
 
                         if (temp != null) {
                             currentFile = temp;
@@ -114,7 +114,7 @@ public class FileSignatureWidget {
                 String byteSignature = signatureField.getText().trim()
                         .replace(" ","").replace("0x","");
                 InputStream inputStream = new FileInputStream(currentFile);
-                int numberOfColumns = (int) Math.ceil(byteSignature.length() / 2);
+                int numberOfColumns = (int) Math.ceil(byteSignature.length() / 2.0);
                 StringBuilder sb = new StringBuilder();
 
                 long streamPtr = 0;

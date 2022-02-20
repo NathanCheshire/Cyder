@@ -33,10 +33,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.time.DayOfWeek;
@@ -522,7 +519,7 @@ public class InputHandler {
                 String input = getArg(0);
                 String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
                 browse = browse.replace("REPLACE", input).replace(" ", "+");
-                NetworkUtil.internetConnect(browse);
+                NetworkUtil.openUrl(browse);
             } else {
                 println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");
             }
@@ -540,38 +537,38 @@ public class InputHandler {
             OSUtil.openShell();
             Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
         } else if (commandIs("desmos")) {
-            NetworkUtil.internetConnect("https://www.desmos.com/calculator");
+            NetworkUtil.openUrl("https://www.desmos.com/calculator");
         } else if (commandIs("404")) {
-            NetworkUtil.internetConnect("http://google.com/=");
+            NetworkUtil.openUrl("http://google.com/=");
         } else if (commandIs("coffee")) {
-            NetworkUtil.internetConnect("https://www.google.com/search?q=coffe+shops+near+me");
+            NetworkUtil.openUrl("https://www.google.com/search?q=coffe+shops+near+me");
         } else if (commandIs("quake3")) {
-            NetworkUtil.internetConnect("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
+            NetworkUtil.openUrl("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
         } else if (commandIs("triangle")) {
-            NetworkUtil.internetConnect("https://www.triangle-calculator.com/");
+            NetworkUtil.openUrl("https://www.triangle-calculator.com/");
         } else if (commandIs("board")) {
-            NetworkUtil.internetConnect("http://gameninja.com//games//fly-squirrel-fly.html");
+            NetworkUtil.openUrl("http://gameninja.com//games//fly-squirrel-fly.html");
         }else if (commandIs("arduino")) {
-            NetworkUtil.internetConnect("https://www.arduino.cc/");
+            NetworkUtil.openUrl("https://www.arduino.cc/");
         } else if (commandIs("rasberrypi")) {
-            NetworkUtil.internetConnect("https://www.raspberrypi.org/");
+            NetworkUtil.openUrl("https://www.raspberrypi.org/");
         }else if (commandIs("vexento")) {
-            NetworkUtil.internetConnect("https://www.youtube.com/user/Vexento/videos");
+            NetworkUtil.openUrl("https://www.youtube.com/user/Vexento/videos");
         }else if (commandIs("papersplease")) {
-            NetworkUtil.internetConnect("http://papersplea.se/");
+            NetworkUtil.openUrl("http://papersplea.se/");
         }else if (commandIs("donut")) {
-            NetworkUtil.internetConnect("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
+            NetworkUtil.openUrl("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
         }else if (commandIs("bai")) {
-            NetworkUtil.internetConnect("http://www.drinkbai.com");
+            NetworkUtil.openUrl("http://www.drinkbai.com");
         } else if (commandIs("occamrazor")) {
-            NetworkUtil.internetConnect("http://en.wikipedia.org/wiki/Occam%27s_razor");
+            NetworkUtil.openUrl("http://en.wikipedia.org/wiki/Occam%27s_razor");
         } else if (commandIs("paint")) {
             throw new IllegalCallerException("Unimplemented yet; custom paint program coming soon");
         } else if (commandIs("rickandmorty")) {
             println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
-            NetworkUtil.internetConnect("https://www.youtube.com/watch?v=s_1lP4CBKOg");
+            NetworkUtil.openUrl("https://www.youtube.com/watch?v=s_1lP4CBKOg");
         } else if (commandIs("about:blank")) {
-            NetworkUtil.internetConnect("about:blank");
+            NetworkUtil.openUrl("about:blank");
         } else ret = false;
 
         if (ret)
@@ -800,9 +797,9 @@ public class InputHandler {
                 ConsoleFrame.getConsoleFrame().closeConsoleFrame(true, false);
             }
         } else if (commandIs("monitors")) {
-            println(NetworkUtil.getMonitorStatsString());
+            println(OSUtil.getMonitorStatsString());
         } else if (commandIs("networkdevices")) {
-            println(NetworkUtil.getNetworkDevicesString());
+            println(OSUtil.getNetworkDevicesString());
         } else if (commandIs("bindump")) {
             if (checkArgsLength(2)) {
                 if (!getArg(0).equals("-f")) {
@@ -1351,6 +1348,56 @@ public class InputHandler {
             printlnComponent(opacitySlider);
         } else if (commandIs("pwd")) {
             println(System.getProperty("user.dir"));
+        } else if (commandIs("download")) {
+            if (checkArgsLength(1)) {
+                //https://drive.google.com/file/d/1ui7RORDPkmNW9F3zKsUhK8WhVV2YxSE-/view?usp=sharing
+                if (NetworkUtil.isURL(getArg(0))) {
+                    String responseName = NetworkUtil.getURLTitle(getArg(0));
+                    String saveName = SecurityUtil.generateUUID();
+
+                    if (responseName != null) {
+                        if (responseName.length() > 0) {
+                            saveName = responseName;
+                        }
+                    }
+
+                    File saveFile = new File(OSUtil.buildPath("dynamic","users",
+                            ConsoleFrame.getConsoleFrame().getUUID(), UserFile.FILES.getName(), saveName));
+
+                    // clear text as soon as possible
+                    ConsoleFrame.getConsoleFrame().getInputField().setText("");
+
+                    println("Saving file: " + saveName + " to files directory");
+
+                    CyderThreadRunner.submit(() -> {
+                        if (NetworkUtil.downloadResource(getArg(0), saveFile)) {
+                            println("Successfully saved");
+                        } else {
+                            println("Error: could not download at this time");
+                        }
+                    }, "File URL Downloader");
+                } else {
+                    println("Invalid url");
+                }
+            } else {
+                println("download usage: download [YOUR LINK]");
+            }
+        } else if (commandIs("curl")) {
+            if (checkArgsLength(1)) {
+                if (NetworkUtil.isURL(getArg(0))) {
+                    URL url = new URL(getArg(0));
+                    HttpURLConnection http = (HttpURLConnection) url.openConnection();
+
+                    println(NetworkUtil.readUrl(getArg(0)));
+                    println("Response: " + http.getResponseCode() + " " + http.getResponseMessage());
+
+                    http.disconnect();
+                } else {
+                    println("Invalid url");
+                }
+            } else {
+                println("Curl command usage: curl URL");
+            }
         }
 
         else ret = false;
@@ -1376,7 +1423,7 @@ public class InputHandler {
             URL url = new URL(command);
             url.openConnection();
             ret = true;
-            NetworkUtil.internetConnect(command);
+            NetworkUtil.openUrl(command);
         } catch (Exception ignored) {}
 
         // log before returning

@@ -79,7 +79,7 @@ public class IOUtil {
         }
 
         if (validLink) {
-            NetworkUtil.internetConnect(fileOrLink);
+            NetworkUtil.openUrl(fileOrLink);
         } else {
             openFileOutsideProgram(fileOrLink);
         }

@@ -41,7 +41,7 @@ public class MinecraftWidget {
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.internetConnect("https://my.minecraft.net/en-us/store/minecraft/");
+                NetworkUtil.openUrl("https://my.minecraft.net/en-us/store/minecraft/");
             }
 
             @Override
@@ -65,7 +65,7 @@ public class MinecraftWidget {
         realmsLabel = new JLabel(new ImageIcon("static/pictures/minecraft/Realms.png"));
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) { NetworkUtil.internetConnect("https://minecraft.net/en-us/realms/?ref=m");
+            public void mouseReleased(MouseEvent e) { NetworkUtil.openUrl("https://minecraft.net/en-us/realms/?ref=m");
             }
 
             @Override
@@ -89,7 +89,7 @@ public class MinecraftWidget {
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.internetConnect("https://minecraft.net/en-us/store/?ref=m");
+                NetworkUtil.openUrl("https://minecraft.net/en-us/store/?ref=m");
             }
 
             @Override
@@ -113,7 +113,7 @@ public class MinecraftWidget {
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.internetConnect("https://minecraft.net/en-us/?ref=m");
+                NetworkUtil.openUrl("https://minecraft.net/en-us/?ref=m");
             }
 
             @Override

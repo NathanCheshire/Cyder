@@ -1,0 +1,40 @@
+[20-44-41] [ENTRY]: [Nathan]
+[20-44-42] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[20-44-42] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[20-44-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-44-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-44-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-44-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-44-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-44-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-44-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-44-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-44-43] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-44-43] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-44-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-44-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-44-43] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-44-43] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-44-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-44-43] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-44-43] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-44-43] [SYSTEM_IO]: Userdata requested: InputFill
+[20-44-43] [THREAD STARTED]: High Ping Checker
+[20-44-43] [THREAD STARTED]: Hourly Chime Checker
+[20-44-43] [THREAD STARTED]: Console Clock Updater
+[20-44-43] [THREAD STARTED]: Cyder Busy Checker
+[20-44-43] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-44-43] [ACTION]: Console loaded in 2914ms
+[20-44-43] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-44-43] [ENTRY]: [TESTING MODE]
+[20-44-43] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [271791152], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-44-43] [SYSTEM_IO]: Userdata requested: laststart
+[20-44-44] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2914ms
+[20-44-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-44-53] [CONSOLE_OUT]: [STRING] Escaped
+[20-44-54] [CLIENT]: googledrive
+[20-44-54] [SYSTEM_IO]: Userdata requested: filterchat
+[20-44-54] [CONSOLE_OUT]: [STRING] Saving file: IMG_7205.jpg to Files
+[20-44-54] [HANDLE]: GENERAL COMMAND HANDLED
+[20-44-54] [HANDLE]: PRIMARY HANDLE
+[20-47-34] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

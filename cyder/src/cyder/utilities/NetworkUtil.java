@@ -7,18 +7,21 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.*;
-import java.util.Collections;
-import java.util.Enumeration;
 
+/**
+ * Utility methods revolving around networking, urls, servers, etc.
+ */
 public class NetworkUtil {
+    /**
+     * Suppress default constructor.
+     */
     private NetworkUtil() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
-    } //private constructor to avoid object creation
+    }
 
-    public static void internetConnect(String URL) {
+    public static void openUrl(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
@@ -28,60 +31,12 @@ public class NetworkUtil {
         }
     }
 
-    public static String getMonitorStatsString() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gs = ge.getScreenDevices();
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < gs.length; i++) {
-            DisplayMode dm = gs[i].getDisplayMode();
-            sb.append(i);
-            sb.append(", width: ");
-            sb.append(dm.getWidth());
-            sb.append(", height: ");
-            sb.append(dm.getHeight());
-            sb.append(", bit depth: ");
-            sb.append(dm.getBitDepth());
-            sb.append(", refresh rate: ");
-            sb.append(dm.getRefreshRate());
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
-
-    public static String getNetworkDevicesString() {
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
-
-            for (NetworkInterface netint : Collections.list(nets)) {
-                sb.append("Display name:").append(netint.getDisplayName()).append("\n");
-                sb.append("Name:").append(netint.getName()).append("\n");
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return sb.toString();
-    }
-
-    public static Enumeration<NetworkInterface> getNetworkDevices() throws SocketException {
-        return NetworkInterface.getNetworkInterfaces();
-    }
-
-    public static void internetConnect(URI URI) {
-        Desktop Internet = Desktop.getDesktop();
-        try {
-            Internet.browse(URI);
-            Logger.log(Logger.Tag.LINK, URI.getPath());
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
-        }
-    }
-
+    /**
+     * Attempts to ping the provided url until it responds.
+     *
+     * @param URL the url to ping
+     * @return whether the url responded
+     */
     public static boolean siteReachable(String URL) {
         Process Ping;
 
@@ -91,15 +46,19 @@ public class NetworkUtil {
             if (ReturnValue == 0) {
                 return false;
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         return true;
     }
 
+    /**
+     * Returns the latency of the host system to google.com.
+     *
+     * @param timeout the time in ms to wait before timing out
+     * @return the latency in ms between the host and google.com
+     */
     public static int latency(int timeout) {
         Socket Sock = new Socket();
         SocketAddress Address = new InetSocketAddress("www.google.com", 80);
@@ -168,9 +127,15 @@ public class NetworkUtil {
         return false;
     }
 
+    /**
+     * Reads from the provided url and returned the response.
+     *
+     * @param urlString the string of the url to ping and get contents from
+     * @return the resulting url response
+     */
     public static String readUrl(String urlString) {
         String ret = null;
-        BufferedReader reader = null;
+        BufferedReader reader;
         StringBuilder sb = null;
 
         try {
@@ -187,11 +152,17 @@ public class NetworkUtil {
                 reader.close();
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);
-        } finally {
-            return sb.toString();
         }
+
+        return sb.toString();
     }
 
+    /**
+     * Returns the title of the provided url.
+     *
+     * @param URL the url to get the title of.
+     * @return the title of the provided url
+     */
     public static String getURLTitle(String URL) {
         String ret = null;
 
@@ -200,13 +171,19 @@ public class NetworkUtil {
             ret = document.title();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
+    /**
+     * Returns whether the provided url is valid.
+     *
+     * @param URL the url to check for validity
+     * @return whether the provided url is valid
+     */
     public static boolean isURL(String URL) {
-        boolean ret = false;
+        boolean ret;
 
         try {
             URL url = new URL(URL);
@@ -220,4 +197,44 @@ public class NetworkUtil {
 
         return ret;
     }
-}
+
+    /**
+     * Downloads the resource at the provided link and save it to the provided file.
+     *
+     * @param urlResource the link to download the file from
+     * @param referenceFile the file to save the resource to
+     * @return whether the downloading concluded without errors
+     */
+    public static boolean downloadResource(String urlResource, File referenceFile) {
+        if (referenceFile == null)
+            throw new IllegalArgumentException("The provided reference file is null");
+        if (urlResource == null || !isURL(urlResource))
+            throw new IllegalArgumentException("The provided url is null or not a valid url");
+
+        if (!referenceFile.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                referenceFile.createNewFile();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                return false;
+            }
+        }
+
+        try (BufferedInputStream in = new BufferedInputStream(new URL(urlResource).openStream());
+             FileOutputStream fileOutputStream = new FileOutputStream(referenceFile)) {
+
+            byte[] dataBuffer = new byte[1024];
+            int bytesRead;
+
+            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                fileOutputStream.write(dataBuffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
+
+        return true;
+    }
+ }

@@ -9,11 +9,14 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -533,6 +536,56 @@ public class OSUtil {
     }
 
     /**
+     * Returns a string representation of all the network devices connected to the host.
+     *
+     * @return a string representation of all the network devices connected to the host
+     */
+    public static String getNetworkDevicesString() {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+
+            for (NetworkInterface netint : Collections.list(nets)) {
+                sb.append("Display name:").append(netint.getDisplayName()).append("\n");
+                sb.append("Name:").append(netint.getName()).append("\n");
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Returns a string representation of all the monitors connected to the host.
+     *
+     * @return a string representation of all the monitors connected to the host
+     */
+    public static String getMonitorStatsString() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] gs = ge.getScreenDevices();
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < gs.length; i++) {
+            DisplayMode dm = gs[i].getDisplayMode();
+            sb.append(i);
+            sb.append(", width: ");
+            sb.append(dm.getWidth());
+            sb.append(", height: ");
+            sb.append(dm.getHeight());
+            sb.append(", bit depth: ");
+            sb.append(dm.getBitDepth());
+            sb.append(", refresh rate: ");
+            sb.append(dm.getRefreshRate());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
      * Sets the operating system's clipboard to the provided String.
      *
      * @param clipboardContents the String to set the operating system's clipboard to
@@ -543,9 +596,9 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo make script which pulls, runs gradle, and executes Cyder at top level for quick access when Jar isn't built
+    //todo be able to download a google drive link, if extension for file put in files dir otherwise the default
 
-    //todo rename auto cyphering to debug hashes throughout program for consistency
+    //todo do away with jsons dir and make enums for them
 
     //todo extract out listeners of ConsoleFrame to listeners class
     // basically clean up console frame since the show gui method is crazy complex

@@ -1,0 +1,104 @@
+[20-47-34] [ENTRY]: [Nathan]
+[20-47-35] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[20-47-35] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[20-47-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-47-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-47-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-47-35] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-47-35] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-47-35] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-47-35] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-47-35] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[20-47-36] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-47-36] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-47-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-47-36] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-47-36] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-47-36] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-47-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-47-36] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-47-36] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-47-36] [SYSTEM_IO]: Userdata requested: InputFill
+[20-47-36] [THREAD STARTED]: High Ping Checker
+[20-47-36] [THREAD STARTED]: Hourly Chime Checker
+[20-47-36] [THREAD STARTED]: Console Clock Updater
+[20-47-36] [THREAD STARTED]: Cyder Busy Checker
+[20-47-36] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-47-36] [ACTION]: Console loaded in 2686ms
+[20-47-36] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1230669590], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-47-36] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-47-36] [ENTRY]: [TESTING MODE]
+[20-47-36] [SYSTEM_IO]: Userdata requested: laststart
+[20-47-37] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2686ms
+[20-47-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-47-43] [CLIENT]: drive
+[20-47-43] [SYSTEM_IO]: Userdata requested: filterchat
+[20-47-44] [CONSOLE_OUT]: [STRING] Saving file: IMG_7205.jpg to files directory
+[20-47-44] [EXCEPTION]:
+Exception origin: cyder.utilities.NetworkUtil.downloadResource(NetworkUtil.java:212)
+From line: 212
+Trace: java.lang.IllegalArgumentException: The provided reference file does not exist: dynamic\users\e5a50641-21d1-3654-b738-c0e4b2dc61b1\Files\IMG_7205.jpg
+at cyder.utilities.NetworkUtil.downloadResource(NetworkUtil.java:212)
+at cyder.handlers.internal.InputHandler.generalCommandCheck(InputHandler.java:1374)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:231)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:631)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[20-47-44] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[20-48-34] [CLIENT]: okay
+[20-48-34] [SYSTEM_IO]: Userdata requested: filterchat
+[20-48-34] [CONSOLE_OUT]: [STRING] Unknown command
+[20-48-34] [ACTION]: Similar command to "okay" found with tol of 0.5, command = "opacity"
+[20-48-38] [CLIENT]: threads
+[20-48-38] [SYSTEM_IO]: Userdata requested: filterchat
+[20-48-38] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[20-48-38] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer Thread
+[20-48-38] [HANDLE]: PRIMARY HANDLE
+[20-48-38] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[20-48-38] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[20-48-38] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[20-48-38] [CONSOLE_OUT]: [STRING] High Ping Checker
+[20-48-38] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[20-48-38] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[20-48-38] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[20-48-38] [CONSOLE_OUT]: [STRING] ConsoleFrame Data Saver
+[20-48-38] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[20-48-38] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[20-50-24] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

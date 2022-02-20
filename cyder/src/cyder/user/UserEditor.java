@@ -1106,7 +1106,7 @@ public class UserEditor {
         consoleDatePatternLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.internetConnect("https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html");
+                NetworkUtil.openUrl("https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html");
             }
 
             @Override
@@ -1445,7 +1445,7 @@ public class UserEditor {
         weatherKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.internetConnect("https://home.openweathermap.org/users/sign_up");
+                NetworkUtil.openUrl("https://home.openweathermap.org/users/sign_up");
             }
 
             @Override
@@ -1515,7 +1515,7 @@ public class UserEditor {
         ipKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.internetConnect("https://ipdata.co/");
+                NetworkUtil.openUrl("https://ipdata.co/");
             }
 
             @Override

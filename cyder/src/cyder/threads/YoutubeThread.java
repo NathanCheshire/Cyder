@@ -107,7 +107,7 @@ public class YoutubeThread {
                     pictureLabel.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            NetworkUtil.internetConnect(video);
+                            NetworkUtil.openUrl(video);
                         }
                     });
 
