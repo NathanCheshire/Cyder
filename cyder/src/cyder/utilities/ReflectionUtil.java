@@ -224,6 +224,9 @@ public class ReflectionUtil {
                     for (String trigger : triggers) {
                         if (StringUtil.isNull(trigger)) {
                             throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
+                        } else if (trigger.contains(" ")) {
+                            throw new IllegalMethodException("Method annotated with " +
+                                    "@Widget has triggers which contain spaces: \"" + trigger + "\"");
                         }
                     }
                 }

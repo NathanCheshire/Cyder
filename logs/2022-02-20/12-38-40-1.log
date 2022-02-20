@@ -1,0 +1,8 @@
+[12-38-40] [ENTRY]: [Nathan]
+[12-38-41] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-38-41] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-38-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[12-38-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[12-38-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[12-38-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[12-39-11] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

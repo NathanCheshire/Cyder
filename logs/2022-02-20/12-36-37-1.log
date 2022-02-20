@@ -1,0 +1,10 @@
+[12-36-37] [ENTRY]: [Nathan]
+[12-36-38] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-36-38] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-36-42] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 883, 28)], hash = [633326333], parentFrame = [Subroutine Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-36-42] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(837, 646, 887, 100)], hash = [2048537720], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Subroutine Exception]
+[12-36-42] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-36-42] [EXIT]: [RUNTIME] 4s
+[12-36-42] [EOL]: Log completed, exiting Cyder with exit code: -11 [Subroutine Exception], exceptions thrown: 0
+[12-36-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[12-36-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

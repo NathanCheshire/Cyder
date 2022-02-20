@@ -43,7 +43,7 @@ public class ImageResizerWidget {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    @Widget(triggers = {"resize pictures", "resize images", "resize", "resize iamge", "resize picture"},
+    @Widget(triggers = {"resizepictures", "resizeimages", "resize", "resizeiamge", "resizepicture"},
             description = "An image resizing widget to resize images")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "IMAGE RESIZER");

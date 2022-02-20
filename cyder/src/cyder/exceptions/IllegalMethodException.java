@@ -1,6 +1,6 @@
 package cyder.exceptions;
 
-public class IllegalMethodException extends Exception {
+public class IllegalMethodException extends IllegalArgumentException {
     public IllegalMethodException(String errorMessage) {
         super(errorMessage);
     }
