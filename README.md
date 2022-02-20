@@ -39,7 +39,7 @@ tl;dr Cyder is a virtual assistant and chatbot that performs tasks you might nee
 
 Cyder comes with a path finding visualizer for Dijkstra's and A* with Euclidean and Manhattan distances as heuristics.
 
-<img src="https://i.imgur.com/cRlfyQR.png" data-canonical-src="https://i.imgur.com/cRlfyQR.png" width=75% height=75%/>
+https://user-images.githubusercontent.com/60986919/154868578-133588ec-5af9-4f40-9f75-550ff85febec.mp4
 
 ### Self Analyzer
 
