@@ -18,6 +18,7 @@ public class CyderButton extends JButton {
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
     private boolean threadsKilled = false;
+    private Color originalColor;
 
     public CyderButton() {
         this("NULL TEXT");
@@ -47,7 +48,7 @@ public class CyderButton extends JButton {
                 super.focusGained(e);
 
                 if (isEnabled()) {
-                    setBackground(hoverBackgroundColor);
+                    setBackground(originalColor.darker());
                 }
             }
 
@@ -56,7 +57,7 @@ public class CyderButton extends JButton {
                 super.focusLost(e);
 
                 if (isEnabled()) {
-                    setBackground(CyderColors.buttonColor);
+                    setBackground(originalColor);
                 }
             }
         });
@@ -102,6 +103,8 @@ public class CyderButton extends JButton {
      * @param c the color to use for the outlined properties
      */
     public void setColors(Color c) {
+        this.originalColor = c;
+
         this.pressedBackgroundColor = c.darker().darker();
         this.hoverBackgroundColor = c.darker();
         this.setBackground(c);

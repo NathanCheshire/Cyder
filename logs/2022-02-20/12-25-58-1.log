@@ -1,0 +1,53 @@
+[12-25-58] [ENTRY]: [Nathan]
+[12-25-59] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[12-25-59] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[12-25-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[12-25-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[12-25-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[12-25-59] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[12-25-59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-25-59] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-25-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[12-25-59] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[12-26-00] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-26-00] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-26-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-26-00] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-26-00] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-26-00] [THREAD STARTED]: Console Printing Animation
+[12-26-00] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-26-00] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-26-00] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-26-00] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-26-00] [SYSTEM_IO]: Userdata requested: InputFill
+[12-26-00] [THREAD STARTED]: High Ping Checker
+[12-26-00] [THREAD STARTED]: Hourly Chime Checker
+[12-26-00] [THREAD STARTED]: Console Clock Updater
+[12-26-00] [THREAD STARTED]: Cyder Busy Checker
+[12-26-00] [THREAD STARTED]: ConsoleFrame Data Saver
+[12-26-00] [ACTION]: Console loaded in 2510ms
+[12-26-00] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1270613105], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-26-00] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-26-00] [ENTRY]: [TESTING MODE]
+[12-26-00] [SYSTEM_IO]: Userdata requested: laststart
+[12-26-00] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2510ms
+[12-26-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-26-19] [CLIENT]: weatherr
+[12-26-19] [SYSTEM_IO]: Userdata requested: filterchat
+[12-26-19] [THREAD STARTED]: Unknown Input Handler
+[12-26-19] [CONSOLE_OUT]: [STRING] Unknown command
+[12-26-19] [ACTION]: Similar command to "weatherr" found with tol of 0.875, command = "weather"
+[12-26-19] [CONSOLE_OUT]: [STRING] Most similar command: "weather"
+[12-26-24] [CLIENT]: tictactoe
+[12-26-24] [SYSTEM_IO]: Userdata requested: filterchat
+[12-26-24] [THREAD STARTED]: Unknown Input Handler
+[12-26-24] [CONSOLE_OUT]: [STRING] Unknown command
+[12-26-24] [ACTION]: Similar command to "tictactoe" found with tol of 0.85714287, command = "tic tac toe"
+[12-26-24] [CONSOLE_OUT]: [STRING] Most similar command: "tic tac toe"
+[12-26-26] [CLIENT]: tic
+[12-26-26] [SYSTEM_IO]: Userdata requested: filterchat
+[12-26-26] [WIDGET OPENED]: TTT
+[12-26-26] [CONSOLE_OUT]: [STRING] Opening widget: cyder.games.TTTGame
+[12-26-26] [HANDLE]: PRIMARY HANDLE
+[12-26-36] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[12-27-55] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
