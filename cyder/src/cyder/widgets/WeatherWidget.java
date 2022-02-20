@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.TimeZone;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class WeatherWidget {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;
@@ -88,14 +89,14 @@ public class WeatherWidget {
     private double minTemp;
     private double maxTemp;
 
-    private int timeOffset;
     private int currentLocationGMTOffset;
     private boolean GMTset;
 
-    //nothing on constructor
-    public WeatherWidget() {
-        //multiple widgets are allowed
-    }
+    /**
+     * Creates a new weather widget initialized to the user's current location.
+     */
+    public WeatherWidget() {}
+
     //show gui method as per standard
     @Widget(triggers = {"weather"}, description = "A widget that displays weather data for the current " +
             "city you are in. The location is also changeable")
@@ -103,7 +104,11 @@ public class WeatherWidget {
         new WeatherWidget().innerShowGUI();
     }
 
-    public void innerShowGUI() {
+    /**
+     * Shows the UI since we need to allow multiple instances of weather widget
+     * while still having the public static showGUI() method with the @Widget annotation.
+     */
+    private void innerShowGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "WEATHER");
 
         if (CyderCommon.isHighLatency()) {
@@ -365,6 +370,7 @@ public class WeatherWidget {
 
         new Thread(() -> {
             try {
+                //noinspection ConditionalBreakInInfiniteLoop
                 for (;;) {
                     if (!update)
                         break;
@@ -388,13 +394,13 @@ public class WeatherWidget {
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         try {
-            timeOffset = Integer.parseInt(gmtOffset) / 3600;
+            int timeOffset = Integer.parseInt(gmtOffset) / 3600;
             cal.add(Calendar.HOUR, timeOffset);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return dateFormatter.format(cal.getTime());
         }
+
+        return dateFormatter.format(cal.getTime());
     }
 
     private void refreshWeather() {
@@ -494,7 +500,7 @@ public class WeatherWidget {
                         locationString + "&appid=" + key + "&units=imperial";
 
                 Gson gson = new Gson();
-                WeatherData wd = null;
+                WeatherData wd;
 
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
                     wd = gson.fromJson(reader, WeatherData.class);

@@ -688,7 +688,7 @@ public class InputHandler {
                 println("Silly " + UserUtil.extractUser().getName() + "; your background " +
                         "is a solid color :P");
             } else {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     String input =
                             new GetterUtil().getString("Pixel size","Enter any integer", "Pixelate");
 
@@ -718,46 +718,50 @@ public class InputHandler {
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
-                },"Image Pixelator Getter thread").start();
+                }, "Image Pixelator");
             }
         } else if (commandIs("hide")) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
-            if (checkArgsLength(0) || checkArgsLength(1)) {
-                File startDir = new File("cyder");
-
-                if (checkArgsLength(1)) {
-                    startDir = new File(getArg(0));
-
-                    if (!startDir.exists()) {
-                        println("Invalid root directory");
-                        startDir = null;
-                    }
-                }
-
-                File finalStartDir = startDir;
-
-                new Thread(() -> {
-                    if (finalStartDir != null) {
-                        int totalLines = StatUtil.totalLines(finalStartDir);
-                        int codeLines = StatUtil.totalJavaLines(finalStartDir);
-                        int blankLines = StatUtil.totalBlankLines(finalStartDir);
-                        int commentLines = StatUtil.totalComments(finalStartDir);
-                        int javaFiles = StatUtil.totalJavaFiles(finalStartDir);
-
-                        println("Total lines: " + totalLines);
-                        println("Code lines: " + codeLines);
-                        println("Blank lines: " + blankLines);
-                        println("Comment lines: " + commentLines);
-                        println("Java Files: " + javaFiles);
-
-                        double ratio = ((double) codeLines / (double) commentLines);
-                        println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
-                    }
-                }, "Code Analyzer").start();
+            if (CyderCommon.JAR_MODE) {
+                println("Code analyzing is not available when in Jar mode");
             } else {
-                println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
-                        "(leave path blank to analyze Cyder)");
+                if (checkArgsLength(0) || checkArgsLength(1)) {
+                    File startDir = new File("cyder");
+
+                    if (checkArgsLength(1)) {
+                        startDir = new File(getArg(0));
+
+                        if (!startDir.exists()) {
+                            println("Invalid root directory");
+                            startDir = new File("cyder");
+                        }
+                    }
+
+                    File finalStartDir = startDir;
+
+                   CyderThreadRunner.submit(() -> {
+                       if (finalStartDir != null) {
+                           int totalLines = StatUtil.totalLines(finalStartDir);
+                           int codeLines = StatUtil.totalJavaLines(finalStartDir);
+                           int blankLines = StatUtil.totalBlankLines(finalStartDir);
+                           int commentLines = StatUtil.totalComments(finalStartDir);
+                           int javaFiles = StatUtil.totalJavaFiles(finalStartDir);
+
+                           println("Total lines: " + totalLines);
+                           println("Code lines: " + codeLines);
+                           println("Blank lines: " + blankLines);
+                           println("Comment lines: " + commentLines);
+                           println("Java Files: " + javaFiles);
+
+                           double ratio = ((double) codeLines / (double) commentLines);
+                           println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
+                       }
+                   }, "Code Analyzer");
+                } else {
+                    println("analyzecode usage: analyzecode [path/to/the/root/directory] " +
+                            "(leave path blank to analyze Cyder)");
+                }
             }
         } else if (commandIs("f17")) {
             new Robot().keyPress(KeyEvent.VK_F17);
@@ -765,13 +769,12 @@ public class InputHandler {
             StatUtil.allStats();
         } else if (commandIs("binary")) {
             if (checkArgsLength(1) && getArg(0).matches("[0-9]+")) {
-                new Thread(() -> {
-                    try {
-                        println(getArg(0) + " converted to binary equals: "
-                                + Integer.toBinaryString(Integer.parseInt(getArg(0))));
-                    } catch (Exception ignored) {}
-                },"Binary Converter Getter Thread").start();
-
+                 CyderThreadRunner.submit(() -> {
+                     try {
+                         println(getArg(0) + " converted to binary equals: "
+                                 + Integer.toBinaryString(Integer.parseInt(getArg(0))));
+                     } catch (Exception ignored) {}
+                 }, "Binary Converter");
             } else {
                 println("Your value must only contain numbers.");
             }
@@ -998,74 +1001,74 @@ public class InputHandler {
             }
 
             if (isURL) {
-                new Thread(() -> {
-                    try {
-                        if (YoutubeUtil.isPlaylist(input)) {
-                            String playlistID = input.replace("https://www.youtube.com/playlist?list=","");
+               CyderThreadRunner.submit(() -> {
+                   try {
+                       if (YoutubeUtil.isPlaylist(input)) {
+                           String playlistID = input.replace("https://www.youtube.com/playlist?list=","");
 
-                            println("Starting download of playlist: " +
-                                    NetworkUtil.getURLTitle(input));
-                            Future<ArrayList<java.io.File>> downloadedFiles =
-                                    YoutubeUtil.downloadPlaylist(playlistID,"dynamic/users/"
-                                            + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                           println("Starting download of playlist: " +
+                                   NetworkUtil.getURLTitle(input));
+                           Future<ArrayList<java.io.File>> downloadedFiles =
+                                   YoutubeUtil.downloadPlaylist(playlistID,"dynamic/users/"
+                                           + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-                            //wait for all music to be downloaded
-                            while (!downloadedFiles.isDone()) {
-                                Thread.onSpinWait();
-                            }
+                           //wait for all music to be downloaded
+                           while (!downloadedFiles.isDone()) {
+                               Thread.onSpinWait();
+                           }
 
-                            if (downloadedFiles.get() != null && !downloadedFiles.get().isEmpty()) {
-                                println("Download complete; all songs added to mp3 queue");
+                           if (downloadedFiles.get() != null && !downloadedFiles.get().isEmpty()) {
+                               println("Download complete; all songs added to mp3 queue");
 
-                                //play the songs
-                                for (File song : downloadedFiles.get()) {
-                                    AudioPlayer.addToMp3Queue(song);
-                                }
-                            }
-                        } else {
-                            if (!input.contains("youtube.com/watch?v=")) {
-                                println("Invalid youtube video URL");
-                                return;
-                            }
+                               //play the songs
+                               for (File song : downloadedFiles.get()) {
+                                   AudioPlayer.addToMp3Queue(song);
+                               }
+                           }
+                       } else {
+                           if (!input.contains("youtube.com/watch?v=")) {
+                               println("Invalid youtube video URL");
+                               return;
+                           }
 
-                            String[] parts = input.split("watch\\?v=");
+                           String[] parts = input.split("watch\\?v=");
 
-                            if (parts.length != 2) {
-                                println("Invalid youtube video URL");
-                                return;
-                            }
+                           if (parts.length != 2) {
+                               println("Invalid youtube video URL");
+                               return;
+                           }
 
-                            String uuid = parts[parts.length - 1];
+                           String uuid = parts[parts.length - 1];
 
-                            if (uuid.length() != 11) {
-                                println("Invalid youtube UUID: " + uuid);
-                                return;
-                            }
+                           if (uuid.length() != 11) {
+                               println("Invalid youtube UUID: " + uuid);
+                               return;
+                           }
 
-                            Future<java.io.File> downloadedFile = YoutubeUtil.download(input, "dynamic/users/"
-                                    + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                           Future<java.io.File> downloadedFile = YoutubeUtil.download(input, "dynamic/users/"
+                                   + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
 
-                            String videoTitle = NetworkUtil.getURLTitle(input)
-                                    .replaceAll("(?i) - YouTube", "").trim();
-                            println("Starting download of: " + videoTitle);
+                           String videoTitle = NetworkUtil.getURLTitle(input)
+                                   .replaceAll("(?i) - YouTube", "").trim();
+                           println("Starting download of: " + videoTitle);
 
-                            while (!downloadedFile.isDone()) {
-                                Thread.onSpinWait();
-                            }
+                           while (!downloadedFile.isDone()) {
+                               Thread.onSpinWait();
+                           }
 
-                            if (downloadedFile.get() != null && downloadedFile.get().exists()) {
-                                println("Download complete and added to mp3 queue");
+                           if (downloadedFile.get() != null && downloadedFile.get().exists()) {
+                               println("Download complete and added to mp3 queue");
 
-                                //play the song
-                                AudioPlayer.addToMp3Queue(downloadedFile.get());
-                            }
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "Youtube Audio Download Waiter").start();
+                               //play the song
+                               AudioPlayer.addToMp3Queue(downloadedFile.get());
+                           }
+                       }
+                   } catch (Exception e) {
+                       ExceptionHandler.handle(e);
+                   }
+               }, "YouTube Audio Extractor");
             } else {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
 
                         println("Searching youtube for: " + input);
@@ -1090,7 +1093,7 @@ public class InputHandler {
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
-                }, "Youtube Audio Download Waiter").start();
+                }, "YouTube Audio Extractor");
             }
         }  else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
@@ -1138,7 +1141,7 @@ public class InputHandler {
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playAudio("static/audio/x.mp3");
         } else if (commandIs("issues")) {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 GitHubUtil.Issue[] issues = GitHubUtil.getIssues();
                 println(issues.length + " issue" + (issues.length == 1 ? "" : "s") + " found:\n");
                 println("----------------------------------------");
@@ -1149,9 +1152,9 @@ public class InputHandler {
                     println(issue.body);
                     println("----------------------------------------");
                 }
-            }, "GitHub issue printer").start();
+            }, "GitHub Issue Getter");
         } else if (commandIs("blackpanther")|| commandIs("chadwickboseman")) {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 clc();
 
                 IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
@@ -1167,9 +1170,9 @@ public class InputHandler {
                 }
 
                 outputArea.getJTextPane().setFont(oldFont);
-            },"Chadwick Boseman Thread").start();
+            }, "Chadwick Boseman Easteregg");
         } else if (commandIs("dst")) {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 String location = IPUtil.getIpdata().getCity() + ", "
                         + IPUtil.getIpdata().getRegion() + ", "
                         +  IPUtil.getIpdata().getCountry_name();
@@ -1179,7 +1182,7 @@ public class InputHandler {
                 } else {
                     println("No, DST is not underway in " + location + ".");
                 }
-            }, "DST Checker").start();
+            }, "DST Checker");
         } else if (commandIs("test")) {
             ManualTests.launchTests();
         } else if (commandIs("tests")) {
@@ -1201,11 +1204,11 @@ public class InputHandler {
         } else if (commandIs("filesizes")) {
             StatUtil.fileSizes();
         } else if (commandIs("badwords") ) {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 println("Finding bad words:");
                 StatUtil.findBadWords();
                 println("Concluded");
-            }, "Bad Word Code Searcher").start();
+            }, "Bad Word Finder");
         } else if (commandIs("usb")) {
             CyderThreadRunner.submit(() -> {
                try {
@@ -1263,7 +1266,7 @@ public class InputHandler {
                 println("Supported git commands: clone");
             } else {
                 if (getArg(0).equalsIgnoreCase("clone")) {
-                    new Thread(() -> {
+                    CyderThreadRunner.submit(() -> {
                         try {
                             Future<Optional<Boolean>> cloned = GitHubUtil.cloneRepoToDirectory(
                                     getArg(1), UserUtil.getUserFile(UserFile.FILES.getName()));
@@ -1283,7 +1286,7 @@ public class InputHandler {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    }, "Git clone waiter, repo: " + getArg(1)).start();
+                    }, "Git Cloner, repo: " + getArg(1));
                 } else {
                     println("Supported git commands: clone");
                 }
@@ -1635,45 +1638,41 @@ public class InputHandler {
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
-        try {
-            new Thread(() -> {
-                try {
-                    println("Unknown command");
-                    ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
+        CyderThreadRunner.submit(() -> {
+            try {
+                println("Unknown command");
+                ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
 
-                    Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
+                Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
 
-                    //wait for script to finish
-                    while (!similarCommand.isDone()) {
-                        Thread.onSpinWait();
-                    }
+                //wait for script to finish
+                while (!similarCommand.isDone()) {
+                    Thread.onSpinWait();
+                }
 
-                    //if future returned and not null/empty value
-                    if (similarCommand.get().isPresent()) {
-                        String simCom = similarCommand.get().get();
+                //if future returned and not null/empty value
+                if (similarCommand.get().isPresent()) {
+                    String simCom = similarCommand.get().get();
 
-                        if (!StringUtil.isNull(simCom)) {
-                            assert simCom.contains(",");
-                            String[] parts = simCom.split(",");
-                            assert parts.length == 2;
+                    if (!StringUtil.isNull(simCom)) {
+                        assert simCom.contains(",");
+                        String[] parts = simCom.split(",");
+                        assert parts.length == 2;
 
-                            float tol = Float.parseFloat(parts[1]);
+                        float tol = Float.parseFloat(parts[1]);
 
-                            Logger.log(Logger.Tag.ACTION, "Similar command to \""
-                                    + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
+                        Logger.log(Logger.Tag.ACTION, "Similar command to \""
+                                + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
-                            if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
-                                println("Most similar command: \"" + parts[0] + "\"");
-                            }
+                        if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
+                            println("Most similar command: \"" + parts[0] + "\"");
                         }
                     }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
                 }
-            },"Unknown Input Thread").start();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "Unknown Input Handler");
     }
 
     //end handle methods --------------------------------
@@ -1946,7 +1945,7 @@ public class InputHandler {
         int charTimeout = 15;
         int lineTimeout = 200;
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 boolean typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
                 long lastPull = System.currentTimeMillis();
@@ -2042,7 +2041,7 @@ public class InputHandler {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Console Printing Animation").start();
+        }, "Console Printing Animation");
     }
 
     /**

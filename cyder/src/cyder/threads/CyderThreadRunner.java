@@ -6,8 +6,6 @@ import cyder.handlers.internal.Logger;
  * A class used to submit runnables and executors.
  */
 public final class CyderThreadRunner {
-    //todo use this for all thread invokes so that we can log them
-
     /**
      * Immediately starts a thread with the provided
      * runnable named with the provided name.
@@ -19,4 +17,6 @@ public final class CyderThreadRunner {
         Logger.log(Logger.Tag.THREAD, name);
         new Thread(runnable, name).start();
     }
+
+    //todo add in executor services
 }

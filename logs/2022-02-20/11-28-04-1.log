@@ -1,0 +1,117 @@
+[11-28-05] [ENTRY]: [Nathan]
+[11-28-06] [SYSTEM_IO]: Suggestions pared in IOUtil's static block
+[11-28-06] [SYSTEM_IO]: DebugHashes pared in IOUtil's static block
+[11-28-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[11-28-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[11-28-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[11-28-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[11-28-06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-28-06] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[11-28-06] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[11-28-06] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[11-28-07] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[11-28-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-28-07] [SYSTEM_IO]: Userdata requested: fullscreen
+[11-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-28-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-28-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-28-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-28-07] [SYSTEM_IO]: Userdata requested: InputFill
+[11-28-07] [THREAD STARTED]: High Ping Checker
+[11-28-07] [THREAD STARTED]: Hourly Chime Checker
+[11-28-07] [THREAD STARTED]: Console Clock Updater
+[11-28-07] [THREAD STARTED]: Cyder Busy Checker
+[11-28-07] [THREAD STARTED]: ConsoleFrame Data Saver
+[11-28-07] [ACTION]: Console loaded in 2955ms
+[11-28-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1404977607], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-28-07] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-28-07] [ENTRY]: [TESTING MODE]
+[11-28-07] [SYSTEM_IO]: Userdata requested: laststart
+[11-28-08] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2955ms
+[11-28-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-28-09] [CLIENT]: weather
+[11-28-09] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-09] [WIDGET OPENED]: WEATHER
+[11-28-10] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.WeatherWidget
+[11-28-10] [HANDLE]: PRIMARY HANDLE
+[11-28-11] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[11-28-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-28-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [798439745], parentFrame = [Starkville's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[11-28-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.widgets.WeatherWidget], bounds = [(1662, 336, 480, 640)], hash = [1953541609], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather]
+[11-28-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-28-13] [CLIENT]: dst
+[11-28-13] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-13] [THREAD STARTED]: DST Checker
+[11-28-13] [HANDLE]: GENERAL COMMAND HANDLED
+[11-28-13] [HANDLE]: PRIMARY HANDLE
+[11-28-13] [CONSOLE_OUT]: [STRING] No, DST is not underway in Starkville, Mississippi, United States.
+[11-28-20] [CLIENT]: whereami
+[11-28-20] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-20] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[11-28-20] [CONSOLE_OUT]: [STRING] You are currently in Starkville, Mississippi and your Internet Service Provider is Pavlov Media Inc
+[11-28-20] [HANDLE]: PRIMARY HANDLE
+[11-28-23] [CLIENT]: isp
+[11-28-23] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-23] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-23] [ACTION]: Similar command to "isp" found with tol of 0.6666667, command = "ip"
+[11-28-25] [CLIENT]: whoami
+[11-28-25] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-25] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-25] [ACTION]: Similar command to "whoami" found with tol of 0.6666667, command = "whereami"
+[11-28-35] [CLIENT]: pwd
+[11-28-35] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-35] [CONSOLE_OUT]: [STRING] C:\Users\Nathan\Documents\IntelliJava\Cyder
+[11-28-35] [HANDLE]: GENERAL COMMAND HANDLED
+[11-28-35] [HANDLE]: PRIMARY HANDLE
+[11-28-38] [CLIENT]: cd
+[11-28-38] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-38] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-38] [ACTION]: Similar command to "cd" found with tol of 0.6666667, command = "cmd"
+[11-28-39] [CLIENT]: cd
+[11-28-39] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-39] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-39] [ACTION]: Similar command to "cd" found with tol of 0.6666667, command = "cmd"
+[11-28-41] [CLIENT]: clear
+[11-28-41] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-41] [HANDLE]: GENERAL COMMAND HANDLED
+[11-28-41] [HANDLE]: PRIMARY HANDLE
+[11-28-44] [CLIENT]: weatherr
+[11-28-44] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-44] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-44] [ACTION]: Similar command to "weatherr" found with tol of 0.53333336, command = "center"
+[11-28-51] [CLIENT]: weatherr
+[11-28-51] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-51] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-51] [ACTION]: Similar command to "weatherr" found with tol of 0.53333336, command = "center"
+[11-28-56] [CLIENT]: weathe
+[11-28-56] [SYSTEM_IO]: Userdata requested: filterchat
+[11-28-56] [CONSOLE_OUT]: [STRING] Unknown command
+[11-28-57] [ACTION]: Similar command to "weathe" found with tol of 0.53333336, command = "pixelate"
+[11-29-13] [CLIENT]: groovyy
+[11-29-13] [SYSTEM_IO]: Userdata requested: filterchat
+[11-29-13] [CONSOLE_OUT]: [STRING] Unknown command
+[11-29-13] [ACTION]: Similar command to "groovyy" found with tol of 0.85714287, command = "groovy"
+[11-29-13] [CONSOLE_OUT]: [STRING] Most similar command: "groovy"
+[11-36-08] [CLIENT]: badword
+[11-36-08] [SYSTEM_IO]: Userdata requested: filterchat
+[11-36-08] [CONSOLE_OUT]: [STRING] Unknown command
+[11-36-08] [ACTION]: Similar command to "badword" found with tol of 0.875, command = "badwords"
+[11-36-08] [CONSOLE_OUT]: [STRING] Most similar command: "badwords"
+[11-36-12] [CLIENT]: badwords
+[11-36-12] [SYSTEM_IO]: Userdata requested: filterchat
+[11-36-12] [HANDLE]: GENERAL COMMAND HANDLED
+[11-36-12] [CONSOLE_OUT]: [STRING] Finding bad words:
+[11-36-12] [HANDLE]: PRIMARY HANDLE
+[11-36-15] [CONSOLE_OUT]: [STRING] TimeUtil: //todo why does this return negative shit for random youtube?
+[11-36-15] [CONSOLE_OUT]: [STRING] UserUtil: // if so, we're fucked so delete the file
+[11-36-15] [CONSOLE_OUT]: [STRING] Concluded
+[11-36-20] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[11-36-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1404, 329, 996, 655)], hash = [1242688388], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[11-36-20] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-36-21] [EXIT]: [RUNTIME] 8m 16s
+[11-36-21] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[11-36-21] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[11-36-21] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp

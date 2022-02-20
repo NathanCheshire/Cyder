@@ -1567,6 +1567,9 @@ public class UserEditor {
                 if (valid) {
                     UserUtil.setUserData("ipkey",text);
                     editUserFrame.notify("IP key validated and set");
+
+                    // pull data from the IP key
+                    IPUtil.parseData();
                 } else {
                     editUserFrame.notify("Invalid IP key");
                     ipKeyField.setText("");

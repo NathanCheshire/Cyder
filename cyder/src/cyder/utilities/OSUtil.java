@@ -596,6 +596,8 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
+    //todo scraping needs to happen for @widget annotations too so that we can suggest the command for those
+
     //todo getting title of url like https://en.memesrandom.com/wp-content/uploads/2021/10/image-139.png
     // doesn't work, it's weird because we can download the file and inspect it using Chrome
     // and see a valid dom and html, but we can't get the title tag using Jsoup?! Doesn't make sense
