@@ -1627,6 +1627,57 @@ public class UserEditor {
             }
         });
 
+        printingUtil.println("\n\n");
+
+        CyderLabel youtubeKeyLabel = new CyderLabel("YouTubeAPI3 Key (Click me to get a key)");
+        youtubeKeyLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NetworkUtil.openUrl("https://developers.google.com/youtube/v3/getting-started");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ipKeyLabel.setForeground(CyderColors.regularRed);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ipKeyLabel.setForeground(CyderColors.navy);
+            }
+        });
+        printingUtil.printlnComponent(youtubeKeyLabel);
+
+        printingUtil.print("\n\n");
+
+        JTextField youtubeAPI3Field = new JTextField(0);
+        CyderButton validateYoutubeAPI = new CyderButton("   Validate Key  ");
+        youtubeAPI3Field.setToolTipText("Your personal YouTubeAPI3 key");
+        youtubeAPI3Field.setBackground(CyderColors.vanila);
+        youtubeAPI3Field.setSelectionColor(CyderColors.selectionColor);
+        youtubeAPI3Field.setFont(CyderFonts.segoe20);
+        youtubeAPI3Field.setForeground(CyderColors.navy);
+        youtubeAPI3Field.setCaretColor(CyderColors.navy);
+        youtubeAPI3Field.setCaret(new CyderCaret(CyderColors.navy));
+        youtubeAPI3Field.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        youtubeAPI3Field.setOpaque(true);
+        printingUtil.printlnComponent(youtubeAPI3Field);
+        youtubeAPI3Field.setText(UserUtil.extractUser().getYouTubeAPI3Key());
+
+        printingUtil.print("\n");
+
+        validateYoutubeAPI.addActionListener(e -> CyderThreadRunner.submit(() -> {
+            String text = ipKeyField.getText().trim();
+
+            if (text.length() > 0) {
+                //todo validate
+                UserUtil.setUserData("youtubeapi3key", text);
+            }
+        }, "YouTubeAPI3 key validator"));
+        printingUtil.printlnComponent(validateYoutubeAPI);
+
+        printingUtil.print("\n");
+
         //more labels, fields, and if applicable, validation buttons here
         //format: \n\n to separate sections, \n to separate components within a section
 

@@ -51,6 +51,7 @@ public class User {
     private String closeAnimation;
     private String minimizeAnimation;
     private String compactTextMode;
+    private String youTubeAPI3Key;
 
     // -------------------
     // non primitive types
@@ -415,6 +416,14 @@ public class User {
 
     public void setFontsize(String fontsize) {
         this.fontsize = fontsize;
+    }
+
+    public String getYouTubeAPI3Key() {
+        return youTubeAPI3Key;
+    }
+
+    public void setYouTubeAPI3Key(String youTubeAPI3Key) {
+        this.youTubeAPI3Key = youTubeAPI3Key;
     }
 
     /**

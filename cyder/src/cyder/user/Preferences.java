@@ -290,6 +290,12 @@ public class Preferences {
             //no action required
             return null;
         }));
+        ret.add(new Preference("youtubeapi3key","IGNORE",
+                "","",(optionalParam) -> {
+            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = youtubeapi3key");
+            //no update required
+            return null;
+        }));
         ret.add(new Preference("capsmode","Capital Letters Mode",
                 "Capitalize all console output","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = capsmode");

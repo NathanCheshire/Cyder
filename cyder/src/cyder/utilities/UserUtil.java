@@ -528,19 +528,15 @@ public class UserUtil {
                 //old json detected, and we found a pref that doesn't exist
                 if (!masterJson.toString().toLowerCase().contains(pref.getID().toLowerCase())) {
                     //inject into json
-                    String injectionBuilder = "\"" +
+                    String injectionBuilder = ",\"" +
                             pref.getID() +
                             "\":\"" +
-                            pref.getDefaultValue() +
-
-                            //adding a trailing comma is fine since it will be parsed away by gson upon
-                            // serialization of a user object
-                            "\",";
+                            pref.getDefaultValue() + "\"";
 
                     masterJson.append(injectionBuilder);
 
                     // add what was injected so that we can log it
-                    injections.add(pref.getID() + "=" + pref.getDefaultValue());
+                    injections.add(pref.getID() + " = " + pref.getDefaultValue());
                 }
             }
 
