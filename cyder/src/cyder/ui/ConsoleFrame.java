@@ -7,7 +7,6 @@ import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
-import cyder.handlers.internal.objects.MonitorPoint;
 import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.CyderBackground;
@@ -3234,7 +3233,7 @@ public final class ConsoleFrame {
         closeConsoleFrame(false, true);
         FrameUtil.closeAllFrames(true);
 
-        LoginHandler.showGUI(new MonitorPoint(centerPoint, monitor));
+        LoginHandler.showGUI();
     }
 
 

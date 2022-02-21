@@ -1,0 +1,84 @@
+[18-26-54] [ENTRY]: [Nathan]
+[18-26-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-26-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-26-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-26-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-26-56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-26-56] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-26-56] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-26-56] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-26-57] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-26-57] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-26-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-26-57] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-26-57] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-26-57] [THREAD STARTED]: Console Printing Animation
+[18-26-57] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-26-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-26-57] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-26-57] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-26-57] [SYSTEM_IO]: Userdata requested: InputFill
+[18-26-57] [THREAD STARTED]: High Ping Checker
+[18-26-57] [THREAD STARTED]: Hourly Chime Checker
+[18-26-57] [THREAD STARTED]: Console Clock Updater
+[18-26-57] [THREAD STARTED]: Cyder Busy Checker
+[18-26-57] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-26-57] [ACTION]: Console loaded in 2905ms
+[18-26-57] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1807564629], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-26-57] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-26-57] [ENTRY]: [TESTING MODE]
+[18-26-57] [SYSTEM_IO]: Userdata requested: laststart
+[18-26-57] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2905ms
+[18-26-57] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-26-59] [CLIENT]: logout
+[18-26-59] [SYSTEM_IO]: Userdata requested: filterchat
+[18-26-59] [LOGOUT]: [Nathan]
+[18-26-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-997, 167, 998, 657)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-26-59] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1807564629], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-26-59] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-997, 167, 998, 657)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-26-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-26-59] [HANDLE]: GENERAL COMMAND HANDLED
+[18-26-59] [HANDLE]: PRIMARY HANDLE
+[18-27-07] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[18-27-07] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[18-27-08] [LOGIN]: [[STD LOGIN]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-27-08] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-27-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-27-08] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-27-08] [THREAD STARTED]: Console Printing Animation
+[18-27-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-27-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-27-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-27-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-27-08] [SYSTEM_IO]: Userdata requested: InputFill
+[18-27-08] [THREAD STARTED]: High Ping Checker
+[18-27-08] [THREAD STARTED]: Hourly Chime Checker
+[18-27-08] [THREAD STARTED]: Console Clock Updater
+[18-27-08] [THREAD STARTED]: Cyder Busy Checker
+[18-27-08] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-27-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-996, -642, 1000, 660)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-27-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-901, 284, 600, 400)], hash = [1843429214], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-27-08] [ACTION]: Console loaded in 2905ms
+[18-27-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-901, 284, 600, 400)], hash = [1843429214], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-27-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-27-08] [ENTRY]: [TESTING MODE]
+[18-27-08] [SYSTEM_IO]: Userdata requested: laststart
+[18-27-10] [CLIENT]: logout
+[18-27-10] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-10] [LOGOUT]: [Nathan]
+[18-27-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-997, 167, 998, 657)], hash = [1671290671], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-27-10] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-27-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1807564629], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-27-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-901, 284, 600, 400)], hash = [1843429214], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-27-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(-997, 167, 998, 657)], hash = [1671290671], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-27-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-901, 284, 600, 400)], hash = [1843429214], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-27-10] [HANDLE]: GENERAL COMMAND HANDLED
+[18-27-10] [HANDLE]: PRIMARY HANDLE
+[18-27-19] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [345728952], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-27-19] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(-1008, 194, 600, 400)], hash = [807644862], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[18-27-19] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-27-19] [EXIT]: [RUNTIME] 25s
+[18-27-19] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[18-27-19] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-27-19] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp

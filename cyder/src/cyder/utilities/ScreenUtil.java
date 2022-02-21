@@ -76,6 +76,22 @@ public class ScreenUtil {
     }
 
     /**
+     * Returns the bounds and offsets of the monitor.
+     *
+     * @param monitorIndex the index of the monitor to return the bounds of
+     * @return the bounds and offsets of the monitor
+     */
+    public static Rectangle getMonitorBounds(int monitorIndex) {
+        GraphicsDevice[] devices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+
+        if (monitorIndex > 0 && monitorIndex < devices.length) {
+            return devices[monitorIndex].getDefaultConfiguration().getBounds();
+        }
+
+        throw new IllegalArgumentException("Provided monitor index is invalid");
+    }
+
+    /**
      * Returns the x offset of the monitor that the provided frame is on.
      *
      * @param frame the frame to find the monitors x offset of
