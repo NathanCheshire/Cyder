@@ -1,0 +1,64 @@
+[19-35-43] [ENTRY]: [Nathan]
+[19-35-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-35-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-35-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-35-45] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-35-45] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-35-45] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-35-45] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-35-45] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-35-46] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-35-46] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-35-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-35-46] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-35-46] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-35-46] [THREAD STARTED]: Console Printing Animation
+[19-35-46] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-35-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-35-46] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-35-46] [THREAD STARTED]: Console Input Caret Position Updater
+[19-35-46] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-35-46] [SYSTEM_IO]: Userdata requested: InputFill
+[19-35-46] [THREAD STARTED]: High Ping Checker
+[19-35-46] [THREAD STARTED]: Hourly Chime Checker
+[19-35-46] [THREAD STARTED]: Console Clock Updater
+[19-35-46] [THREAD STARTED]: Cyder Busy Checker
+[19-35-46] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-35-47] [ACTION]: Console loaded in 4001ms
+[19-35-47] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-35-47] [ENTRY]: [TESTING MODE]
+[19-35-47] [SYSTEM_IO]: Userdata requested: laststart
+[19-35-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [372499375], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-35-47] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 4001ms
+[19-35-47] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-54] [SYSTEM_IO]: Userdata requested: Background [2x]
+[19-35-56] [CLIENT]: no3'
+[19-35-56] [SYSTEM_IO]: Userdata requested: filterchat
+[19-35-56] [THREAD STARTED]: Unknown Input Handler
+[19-35-56] [THREAD STARTED]: Suggestion Button Flash
+[19-35-56] [CONSOLE_OUT]: [STRING] Unknown command
+[19-35-57] [ACTION]: Similar command to "no3'" found with tol of 0.5714286, command = "no"
+[19-35-57] [CLIENT]: mp3
+[19-35-57] [SYSTEM_IO]: Userdata requested: filterchat
+[19-35-57] [WIDGET OPENED]: AUDIO PLAYER
+[19-35-58] [HANDLE]: PRIMARY HANDLE
+[19-35-58] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[19-35-58] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[19-36-00] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1228389793], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>1s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-36-01] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[19-36-07] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [485592375], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [4x]
+[19-36-08] [THREAD STARTED]: Console Audio Menu Minimizer
+[19-36-13] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3 [2x]
+[19-36-14] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1228389793], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>0s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-36-14] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[19-36-15] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [485592375], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-36-15] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(787, 761, 500, 225)], hash = [1665134983], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Twillzzz - Lord Please]
+[19-36-16] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-36-16] [THREAD STARTED]: Console Audio Menu Minimizer
+[19-36-18] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-36-18] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(539, 546, 996, 655)], hash = [1803093683], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[19-36-18] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-36-19] [EXIT]: [RUNTIME] 35s
+[19-36-19] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[19-36-19] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-36-19] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp

@@ -1,5 +1,7 @@
 package cyder.ui;
 
+import cyder.utilities.StringUtil;
+
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -19,6 +21,15 @@ public class IconButton extends JButton {
     private ImageIcon hoverAndFocusIcon;
 
     public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
+        if (StringUtil.isNull(tooltipText))
+            throw new IllegalArgumentException("Tooltip text is null");
+        if (defaultIcon == null || hoverAndFocusIcon == null)
+            throw new IllegalArgumentException("Provided image is null");
+        if (defaultIcon == hoverAndFocusIcon)
+            throw new IllegalArgumentException("Provided hover image is the same as the default icon");
+        if (defaultIcon.getIconWidth() != hoverAndFocusIcon.getIconWidth() || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight())
+            throw new IllegalArgumentException("Provided icons are not equal in size");
+
         this.defaultIcon = defaultIcon;
         this.hoverAndFocusIcon = hoverAndFocusIcon;
         setToolTipText(tooltipText);
@@ -53,6 +64,7 @@ public class IconButton extends JButton {
         setOpaque(false);
         setContentAreaFilled(false);
         setBorderPainted(false);
+        setVisible(true);
     }
 
     public ImageIcon getDefaultIcon() {

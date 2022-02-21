@@ -11,8 +11,7 @@
 [19-10-21] [SYSTEM_IO]: Userdata requested: RandomBackground
 [19-10-21] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-10-21] [SYSTEM_IO]: Userdata requested: fullscreen
-[19-10-21] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-10-21] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-10-21] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [19-10-21] [THREAD STARTED]: Console Printing Animation
 [19-10-21] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-10-21] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -32,8 +31,7 @@
 [19-10-21] [SYSTEM_IO]: Userdata requested: laststart
 [19-10-21] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3061ms
 [19-10-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[19-10-26] [SYSTEM_IO]: Userdata requested: Background
-[19-10-30] [SYSTEM_IO]: Userdata requested: Background
+[19-10-30] [SYSTEM_IO]: Userdata requested: Background [2x]
 [19-10-32] [THREAD STARTED]: Suggestion Getter Waiter Thread
 [19-10-32] [CONSOLE_OUT]: [STRING] Manual tests:
 [19-10-33] [CONSOLE_OUT]: [STRING] queueTest

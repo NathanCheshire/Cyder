@@ -64,6 +64,12 @@ public class CyderIcons {
     public static final ImageIcon helpIconHover = new ImageIcon("static/pictures/icons/help2.png");
 
     /**
+     * Menu icons used for console menus.
+     */
+    public static final ImageIcon menuIcon = new ImageIcon("static/pictures/icons/menu1.png");
+    public static final ImageIcon menuIconHover = new ImageIcon("static/pictures/icons/menu2.png");
+
+    /**
      * A default image with dimensions 1000x1000
      */
     public static final ImageIcon defaultBackground = generateDefaultBackground(1000,1000);

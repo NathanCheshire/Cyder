@@ -13,12 +13,12 @@ import java.awt.event.*;
 import java.util.LinkedList;
 
 /**
- * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame
+ * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame.
  */
 public class DragLabel extends JLabel {
     private int width;
     private int height;
-    private CyderFrame effectFrame;
+    private final CyderFrame effectFrame;
 
     private int xOffset;
     private int yOffset;

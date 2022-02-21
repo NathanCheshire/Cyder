@@ -139,19 +139,9 @@ public final class ConsoleFrame {
     private JButton menuButton;
 
     /**
-     * The top drag label minimize button.
-     */
-    private JButton minimize;
-
-    /**
      * The top drag label pin button.
      */
     private JButton pin;
-
-    /**
-     * The top drag label background switch button.
-     */
-    private JButton alternateBackground;
 
     /**
      * The top drag label close button.
@@ -620,6 +610,10 @@ public final class ConsoleFrame {
             im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
+            menuLabel = new JLabel();
+            menuLabel.setFocusable(false);
+            menuLabel.setVisible(false);
+
             helpButton = new IconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
             helpButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                 //print tests in case the user was trying to invoke one
@@ -643,64 +637,15 @@ public final class ConsoleFrame {
             helpButton.setBounds(32, 4, 22, 22);
             consoleCyderFrame.getTopDragLabel().add(helpButton);
 
-            menuButton = new JButton("");
-            menuLabel = new JLabel();
-            menuLabel.setFocusable(false);
-            menuLabel.setVisible(false);
-            menuButton.setToolTipText("Menu");
-            menuButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
-                    } else {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide2.png"));
-                    }
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
-                    } else {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
-                    }
-                }
-            });
+            menuButton = new IconButton("Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover);
             menuButton.addActionListener(menuButtonListener);
             menuButton.setBounds(4, 4, 22, 22);
-            menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
             consoleCyderFrame.getTopDragLabel().add(menuButton);
-            menuButton.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
-                    } else {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide2.png"));
-                    }
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    if (menuLabel.isVisible()) {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
-                    } else {
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
-                    }
-                }
-            });
-            menuButton.setVisible(true);
-            menuButton.setFocusPainted(false);
-            menuButton.setOpaque(false);
-            menuButton.setContentAreaFilled(false);
-            menuButton.setBorderPainted(false);
 
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
 
-            toggleAudioControls = new JButton("");
-            toggleAudioControls.setToolTipText("Audio Controls");
+            toggleAudioControls = new IconButton("Audio Controls", CyderIcons.menuIcon, CyderIcons.menuIconHover);
             toggleAudioControls.addActionListener(e -> {
                 if (audioControlsLabel.isVisible()) {
                     animateOutAudioControls();
@@ -708,62 +653,18 @@ public final class ConsoleFrame {
                     animateInAudioControls();
                 }
             });
-
-            toggleAudioControls.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    toggleAudioControls.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    toggleAudioControls.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
-                }
-            });
-            toggleAudioControls.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
-            toggleAudioControls.setContentAreaFilled(false);
-            toggleAudioControls.setBorderPainted(false);
-            toggleAudioControls.setFocusPainted(false);
-            toggleAudioControls.setFocusable(false);
-            toggleAudioControls.setVisible(false);
             consoleDragButtonList.add(toggleAudioControls);
+            toggleAudioControls.setVisible(false);
 
-            minimize = new JButton("");
-            minimize.setToolTipText("Minimize");
+            IconButton minimize = new IconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
             minimize.addActionListener(e -> {
                 consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
                 consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
                 consoleCyderFrame.minimizeAnimation();
             });
-            minimize.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    minimize.setIcon(CyderIcons.minimizeIconHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    minimize.setIcon(CyderIcons.minimizeIcon);
-                }
-            });
-            minimize.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    minimize.setIcon(CyderIcons.minimizeIconHover);
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    minimize.setIcon(CyderIcons.minimizeIcon);
-                }
-            });
-            minimize.setIcon(CyderIcons.minimizeIcon);
-            minimize.setContentAreaFilled(false);
-            minimize.setBorderPainted(false);
-            minimize.setFocusPainted(false);
-            minimize.setFocusable(true);
             consoleDragButtonList.add(minimize);
 
+            //todo me if possible
             pin = new JButton("");
             pin.setToolTipText("Pin");
             pin.addActionListener(e -> {
@@ -823,28 +724,17 @@ public final class ConsoleFrame {
                     }
                 }
             });
-
-            pin.setIcon(UserUtil.extractUser().getScreenStat().isConsoleOnTop() ?
-                    CyderIcons.pinIconHover : CyderIcons.pinIcon);
+            pin.setFocusPainted(false);
+            pin.setOpaque(false);
             pin.setContentAreaFilled(false);
             pin.setBorderPainted(false);
-            pin.setFocusPainted(false);
-            pin.setFocusable(true);
+            pin.setVisible(true);
+            pin.setIcon(UserUtil.extractUser().getScreenStat().isConsoleOnTop() ?
+                    CyderIcons.pinIconHover : CyderIcons.pinIcon);
             consoleDragButtonList.add(pin);
 
-            alternateBackground = new JButton("");
-            alternateBackground.setToolTipText("Alternate Background");
-            alternateBackground.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    alternateBackground.setIcon(CyderIcons.changeSizeIconHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    alternateBackground.setIcon(CyderIcons.changeSizeIcon);
-                }
-            });
+            IconButton alternateBackground = new IconButton("Alternate Background",
+                    CyderIcons.changeSizeIcon, CyderIcons.changeSizeIconHover);
             alternateBackground.addActionListener(e -> {
                 loadBackgrounds();
 
@@ -863,26 +753,9 @@ public final class ConsoleFrame {
                     throw new IllegalArgumentException("Background DNE");
                 }
             });
-            alternateBackground.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    alternateBackground.setIcon(CyderIcons.changeSizeIconHover);
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    alternateBackground.setIcon(CyderIcons.changeSizeIcon);
-                }
-            });
-            alternateBackground.setIcon(CyderIcons.changeSizeIcon);
-            alternateBackground.setFocusPainted(false);
-            alternateBackground.setOpaque(false);
-            alternateBackground.setContentAreaFilled(false);
-            alternateBackground.setBorderPainted(false);
             consoleDragButtonList.add(alternateBackground);
 
-            close = new JButton("");
-            close.setToolTipText("Close");
+            close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
             close.addActionListener(e -> {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     FrameUtil.minimizeAllFrames();
@@ -890,33 +763,6 @@ public final class ConsoleFrame {
                     closeConsoleFrame(true, false);
                 }
             });
-            close.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    close.setIcon(CyderIcons.closeIconHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    close.setIcon(CyderIcons.closeIcon);
-                }
-            });
-            close.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    close.setIcon(CyderIcons.closeIconHover);
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    close.setIcon(CyderIcons.closeIcon);
-                }
-            });
-            close.setIcon(CyderIcons.closeIcon);
-            close.setContentAreaFilled(false);
-            close.setBorderPainted(false);
-            close.setFocusPainted(false);
-            close.setFocusable(true);
             consoleDragButtonList.add(close);
 
             //set top drag's button list and others to none
@@ -1400,7 +1246,7 @@ public final class ConsoleFrame {
 
                 menuLabel.setLocation(2, y);
 
-                menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
+                menuButton.setIcon(CyderIcons.menuIcon);
             },"minimize menu thread");
 
             CyderThreadRunner.submit(() -> {
@@ -1552,7 +1398,7 @@ public final class ConsoleFrame {
     private void generateConsoleMenu() {
         int menuHeight = consoleCyderFrame.getHeight() - DragLabel.getDefaultHeight() - 5;
 
-        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
+        menuButton.setIcon(CyderIcons.menuIcon);
 
         if (menuLabel != null) {
             menuLabel.setVisible(false);
@@ -1677,7 +1523,7 @@ public final class ConsoleFrame {
                 menuLabel.setLocation(-150, y);
 
                 menuLabel.setVisible(false);
-                menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
+                menuButton.setIcon(CyderIcons.menuIcon);
             },"minimize menu thread");
         }
     }
@@ -2769,13 +2615,13 @@ public final class ConsoleFrame {
 
         // revalidate bounds if needed and change icon
         if (menuLabel.isVisible()) {
-            menuButton.setIcon(new ImageIcon("static/pictures/icons/menu1.png"));
+            menuButton.setIcon(CyderIcons.menuIconHover);
             installMenuTaskbarIcons();
             menuLabel.setBounds(3, DragLabel.getDefaultHeight() - 2,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - DragLabel.getDefaultHeight() - 5);
         } else {
-            menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
+            menuButton.setIcon(CyderIcons.menuIcon);
             //no other actions needed
         }
 

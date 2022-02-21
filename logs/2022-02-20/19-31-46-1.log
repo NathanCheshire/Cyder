@@ -1,0 +1,46 @@
+[19-31-47] [ENTRY]: [Nathan]
+[19-31-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-31-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-31-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-31-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-31-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-31-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-31-48] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-31-48] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-31-48] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-31-49] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-31-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-31-49] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-31-49] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-31-49] [THREAD STARTED]: Console Printing Animation
+[19-31-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-31-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-31-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-31-49] [THREAD STARTED]: Console Input Caret Position Updater
+[19-31-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-31-49] [SYSTEM_IO]: Userdata requested: InputFill
+[19-31-49] [THREAD STARTED]: High Ping Checker
+[19-31-49] [THREAD STARTED]: Hourly Chime Checker
+[19-31-49] [THREAD STARTED]: Console Clock Updater
+[19-31-49] [THREAD STARTED]: Cyder Busy Checker
+[19-31-49] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-31-49] [ACTION]: Console loaded in 2852ms
+[19-31-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-31-49] [ENTRY]: [TESTING MODE]
+[19-31-49] [SYSTEM_IO]: Userdata requested: laststart
+[19-31-49] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1143552138], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-31-49] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2852ms
+[19-31-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-32-01] [SYSTEM_IO]: Userdata requested: Background [5x]
+[19-32-03] [THREAD STARTED]: minimize menu thread
+[19-32-05] [THREAD STARTED]: Console menu animator [2x]
+[19-32-07] [THREAD STARTED]: minimize menu thread [2x]
+[19-32-08] [THREAD STARTED]: Console menu animator [2x]
+[19-32-08] [THREAD STARTED]: minimize menu thread
+[19-33-12] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-33-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(60, 308, 996, 655)], hash = [1852661033], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[19-33-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-33-12] [EXIT]: [RUNTIME] 1m 25s
+[19-33-12] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[19-33-12] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-33-12] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
