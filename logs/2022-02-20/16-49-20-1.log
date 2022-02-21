@@ -1,0 +1,85 @@
+[16-49-20] [ENTRY]: [Nathan]
+[16-49-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[16-49-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[16-49-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[16-49-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[16-49-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-49-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[16-49-22] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-49-22] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[16-49-23] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[16-49-23] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-49-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-49-23] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-49-23] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-49-23] [THREAD STARTED]: Console Printing Animation
+[16-49-23] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-49-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-49-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-49-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-49-23] [SYSTEM_IO]: Userdata requested: InputFill
+[16-49-23] [THREAD STARTED]: High Ping Checker
+[16-49-23] [THREAD STARTED]: Hourly Chime Checker
+[16-49-23] [THREAD STARTED]: Console Clock Updater
+[16-49-23] [THREAD STARTED]: Cyder Busy Checker
+[16-49-23] [THREAD STARTED]: ConsoleFrame Data Saver
+[16-49-23] [ACTION]: Console loaded in 3136ms
+[16-49-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[16-49-23] [ENTRY]: [TESTING MODE]
+[16-49-23] [SYSTEM_IO]: Userdata requested: laststart
+[16-49-23] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [223963677], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[16-49-24] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3136ms
+[16-49-24] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[16-49-27] [CLIENT]: path
+[16-49-27] [SYSTEM_IO]: Userdata requested: filterchat
+[16-49-27] [WIDGET OPENED]: PATHFINDER
+[16-49-27] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.PathFinderWidget
+[16-49-27] [HANDLE]: PRIMARY HANDLE
+[16-52-13] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(240, 920, 50, 50)], hash = [109589531], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-52-14] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [961387949], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-52-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(145, 10, 135, 30)], hash = [1289145327], parentFrame = [Pathfinding visualizer], associated text = [Euclidean], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-52-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [961387949], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-53-33] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 890, 170, 40)], hash = [273885727], parentFrame = [Pathfinding visualizer], associated text = [Reset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-08] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(310, 920, 50, 50)], hash = [135604017], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-09] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(240, 920, 50, 50)], hash = [109589531], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [961387949], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-14] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(10, 10, 190, 30)], hash = [1323772023], parentFrame = [Pathfinding visualizer], associated text = [Dijkstras], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-54-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [961387949], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-58-49] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 996, 28)], hash = [531916573], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-58-49] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1307, 141, 1000, 1070)], hash = [1032239235], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pathfinding visualizer]
+[16-58-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-00-56] [CLIENT]: path
+[17-00-56] [SYSTEM_IO]: Userdata requested: filterchat
+[17-00-56] [WIDGET OPENED]: PATHFINDER
+[17-00-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1307, -1059, 1000, 1070)], hash = [1032239235], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pathfinding visualizer]
+[17-00-57] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.PathFinderWidget
+[17-00-57] [HANDLE]: PRIMARY HANDLE
+[17-02-31] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [1838983955], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-02-33] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 890, 170, 40)], hash = [1490858565], parentFrame = [Pathfinding visualizer], associated text = [Reset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-02-34] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(310, 920, 50, 50)], hash = [1437595047], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-02-37] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(240, 920, 50, 50)], hash = [730543348], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-02-39] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [1838983955], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-02-42] [SYSTEM_IO]: Userdata requested: HourlyChimes
+[17-02-43] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(310, 920, 50, 50)], hash = [1437595047], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-02-43] [ACTION]: [SYSTEM AUDIO] static/audio/chime.mp3
+[17-02-49] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [1838983955], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[17-03-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 890, 170, 40)], hash = [1490858565], parentFrame = [Pathfinding visualizer], associated text = [Reset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-03-08] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 996, 28)], hash = [1653958336], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-03-08] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1297, 152, 1000, 1070)], hash = [1856228280], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pathfinding visualizer]
+[17-03-08] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-03-08] [SYSTEM_IO]: Userdata requested: Background
+[17-03-10] [CLIENT]: path
+[17-03-10] [SYSTEM_IO]: Userdata requested: filterchat
+[17-03-10] [WIDGET OPENED]: PATHFINDER
+[17-03-10] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1297, -1063, 1000, 1070)], hash = [1856228280], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pathfinding visualizer]
+[17-03-10] [HANDLE]: PRIMARY HANDLE
+[17-03-10] [CONSOLE_OUT]: [STRING] Opening widget: cyder.widgets.PathFinderWidget
+[17-05-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [1114081729], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-05-49] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(240, 920, 50, 50)], hash = [1771197127], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-05-49] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [1114081729], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-05-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(145, 10, 135, 30)], hash = [1732306866], parentFrame = [Pathfinding visualizer], associated text = [Euclidean], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-05-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 940, 170, 40)], hash = [1114081729], parentFrame = [Pathfinding visualizer], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-07-26] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 996, 28)], hash = [763866029], parentFrame = [Pathfinding visualizer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-07-26] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1392, 145, 1000, 1070)], hash = [124297582], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pathfinding visualizer]
+[17-07-26] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-51-47] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

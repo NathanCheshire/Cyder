@@ -138,14 +138,10 @@ public class StatUtil {
                         "Network Interface Display Name: " + netIn.getDisplayName(),
                         "Network MTU: " + netIn.getMTU(),
                         "Host Address: " + address.getHostAddress(),
-                        "Local Host Address: " + address.getLocalHost(),
-                        "Loopback Address: " + address.getLoopbackAddress()};
+                        "Local Host Address: " + InetAddress.getLocalHost(),
+                        "Loopback Address: " + InetAddress.getLoopbackAddress()};
 
-                if (ConsoleFrame.getConsoleFrame().isClosed()) {
-                    IOUtil.createAndOpenTmpFile("DebugProperties",".txt",lines);
-                } else {
-                    ConsoleFrame.getConsoleFrame().getInputHandler().printlns(lines);
-                }
+                ConsoleFrame.getConsoleFrame().getInputHandler().printlns(lines);
             }
 
             catch (Exception e) {
@@ -155,16 +151,18 @@ public class StatUtil {
     }
 
     public static String fileByFileAnalyze(File startDir) {
-        String ret = "Numbers in order represent: code lines, comment lines, and blank lines respectively\n";
+        StringBuilder ret = new StringBuilder("Numbers in order represent: code lines, comment lines, and blank lines respectively\n");
 
         ArrayList<File> javaFiles = OSUtil.getFiles(startDir, ".java");
 
         for (File f : javaFiles) {
-            ret += f.getName().replace(".java","")+ ": " + totalLines(f) + ","
-                    + totalComments(f) + "," + totalBlankLines(f) + "\n";
+            ret.append(f.getName().replace(".java", ""))
+                    .append(": ").append(totalLines(f)).append(",")
+                    .append(totalComments(f)).append(",")
+                    .append(totalBlankLines(f)).append("\n");
         }
 
-        return ret;
+        return ret.toString();
     }
 
     /**
@@ -184,7 +182,7 @@ public class StatUtil {
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
+                String line;
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
@@ -221,7 +219,7 @@ public class StatUtil {
                 String line = "";
                 int localRet = 0;
 
-                while ((line = lineReader.readLine()) != null)
+                while (lineReader.readLine() != null)
                     localRet++;
 
                 return localRet;
@@ -265,7 +263,7 @@ public class StatUtil {
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
+                String line;
                 int localRet = 0;
 
                 boolean blockComment = false;
@@ -328,7 +326,7 @@ public class StatUtil {
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
+                String line;
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
@@ -393,7 +391,7 @@ public class StatUtil {
         } else if (startDir.getName().endsWith(".java")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
+                String line;
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null) {
@@ -505,7 +503,7 @@ public class StatUtil {
         } else if (startDir.isFile() && !FileUtil.getFilename(startDir.getName()).equals("v.txt")) {
             try {
                 BufferedReader lineReader = new BufferedReader(new FileReader(startDir));
-                String line = "";
+                String line;
 
                 while ((line = lineReader.readLine()) != null) {
                     if (isComment(line) && StringUtil.containsBlockedWords(line,false)) {

@@ -109,7 +109,7 @@ public class Cyder {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(ca);
             IOUtil.cleanSandbox();
-            IOUtil.deleteTempDir();
+            OSUtil.deleteTempDir();
         },"Cyder Start Secondary Subroutines").start();
 
         // Off-ship how to login to the LoginHandler since all subroutines finished
@@ -141,7 +141,7 @@ public class Cyder {
     private static void addExitHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             //noinspection Convert2MethodRef
-            IOUtil.deleteTempDir();
+            OSUtil.deleteTempDir();
         }, "common-exit-hook"));
     }
 

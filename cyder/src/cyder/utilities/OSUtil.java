@@ -260,6 +260,8 @@ public class OSUtil {
         throw new IllegalStateException("File could not be created at this time: " + name);
     }
 
+    public static final String TMP_DIR_PATH = buildPath("dynamic","tmp");
+
     /**
      * Creates the provided file in the tmp/ directory.
      *
@@ -269,18 +271,18 @@ public class OSUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored") /* Creating files */
     public static File createFileInSystemSpace(String name) {
-        File saveDir = new File("cyder" + FILE_SEP + "src"
-                + FILE_SEP + "cyder" + FILE_SEP + "tmp");
-        File createFile = new File(saveDir, name);
+        File tmpDir = new File(TMP_DIR_PATH);
 
-        if (!saveDir.exists())
-            saveDir.mkdir();
+        if (!tmpDir.exists())
+            tmpDir.mkdir();
+
+        File createFile = new File(TMP_DIR_PATH + FILE_SEP + name);
 
         if (createFile.exists())
             throw new IllegalStateException("Provided file already exists");
-
         try {
             createFile.createNewFile();
+            Logger.log(Logger.Tag.SYSTEM_IO, "Created temperatory file: " + name);
             return createFile;
         } catch (Exception e) {
             //this shouldn't happen typically
@@ -288,6 +290,17 @@ public class OSUtil {
         }
 
         throw new IllegalStateException("File could not be created at this time: " + name);
+    }
+
+    /**
+     * Deletes the temperary directory if it exists.
+     */
+    public static void deleteTempDir() {
+        try {
+            OSUtil.deleteFolder(new File(OSUtil.TMP_DIR_PATH));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
@@ -596,12 +609,6 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo make gifs like devon crawford's A* readme
-
-    //todo getting title of url like https://en.memesrandom.com/wp-content/uploads/2021/10/image-139.png
-    // doesn't work, it's weird because we can download the file and inspect it using Chrome
-    // and see a valid dom and html, but we can't get the title tag using Jsoup?! Doesn't make sense
-
     //todo extract out listeners of ConsoleFrame to listeners class
     // basically clean up console frame since the show gui method is crazy complex
 
@@ -615,15 +622,10 @@ public class OSUtil {
     //todo weird login frame big frame bug? I think this comes from setting size on restoration and trying
     // to push it into bounds or something with that function
 
-    //todo add prepare for jar mode command
-    // use this and test the similar command finder through
-
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably. Use a layout for this, separate window for tools
 
     //todo remember console orientation on exiting Cyder
-
-    //todo code analyzing and reflection and such needs to be disabled if JAR_MODE is on
 
     //todo finish CyderGrid methods and new convex hull
 }

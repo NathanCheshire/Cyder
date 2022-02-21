@@ -915,15 +915,19 @@ public class InputHandler {
         } else if (commandIs("help")) {
             help();
         } else if (commandIs("todos")) {
-            int total = StatUtil.totalTodos(new File("cyder"));
-
-            if (total > 0) {
-                println("Total todos: " + total);
-                println("Todos:");
-                println("----------------------------------------");
-                println(StatUtil.getTodos(new File("cyder")));
+            if (CyderCommon.JAR_MODE) {
+                println("Todos not available in jar mode");
             } else {
-                println("No todos found, good job");
+                int total = StatUtil.totalTodos(new File("cyder"));
+
+                if (total > 0) {
+                    println("Total todos: " + total);
+                    println("Todos:");
+                    println("----------------------------------------");
+                    println(StatUtil.getTodos(new File("cyder")));
+                } else {
+                    println("No todos found, good job");
+                }
             }
         } else if (commandIs("wipelogs")) {
             if (SecurityUtil.nathanLenovo()) {
@@ -1205,11 +1209,15 @@ public class InputHandler {
         } else if (commandIs("filesizes")) {
             StatUtil.fileSizes();
         } else if (commandIs("badwords") ) {
-            CyderThreadRunner.submit(() -> {
-                println("Finding bad words:");
-                StatUtil.findBadWords();
-                println("Concluded");
-            }, "Bad Word Finder");
+            if (CyderCommon.JAR_MODE) {
+                println("Bad words not available in jar mode");
+            } else {
+                CyderThreadRunner.submit(() -> {
+                    println("Finding bad words:");
+                    StatUtil.findBadWords();
+                    println("Concluded");
+                }, "Bad Word Finder");
+            }
         } else if (commandIs("usb")) {
             CyderThreadRunner.submit(() -> {
                try {

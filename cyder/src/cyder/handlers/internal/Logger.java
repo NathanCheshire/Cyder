@@ -108,6 +108,14 @@ public class Logger {
                 //any exceptions thrown are passed from ExceptionHandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
+
+                File writeTo = OSUtil.createFileInSystemSpace(TimeUtil.logTime() + ".stacktrace");
+
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(writeTo, false))) {
+                    bw.write(String.valueOf(representation).trim());
+                    bw.newLine();
+                } catch (Exception ignored) {}
+
                 break;
             case ACTION:
                 logBuilder.append("[ACTION]: ");

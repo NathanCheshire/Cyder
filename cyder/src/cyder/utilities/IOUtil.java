@@ -81,56 +81,6 @@ public class IOUtil {
     }
 
     /**
-     * Creates the provided temporary file in the temp directory and writes the given string lines to it.
-     *
-     * @param filename the name of the file to create
-     * @param extension the extension of the file to create
-     * @param lines the Strings to write to the file
-     */
-    public static void createAndOpenTmpFile(String filename, String extension, String[] lines) {
-        try {
-            File tmpDir = new File("cyder/src/cyder/tmp");
-
-            if (!tmpDir.exists())
-                //noinspection ResultOfMethodCallIgnored
-                tmpDir.mkdir();
-
-            File tmpFile = new File(tmpDir + "/" + filename + extension);
-
-            if (!tmpFile.exists())
-                //noinspection ResultOfMethodCallIgnored
-                tmpFile.createNewFile();
-
-            BufferedWriter tmpFileWriter = new BufferedWriter(new FileWriter(tmpFile));
-
-            for (String line : lines) {
-                tmpFileWriter.write(line);
-                tmpFileWriter.newLine();
-            }
-
-            tmpFileWriter.flush();
-            tmpFileWriter.close();
-
-            Logger.log(Logger.Tag.LINK, "[TEMP FILE] " + filename + "." + extension);
-            openFileOutsideProgram(tmpFile.getAbsolutePath());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * Deletes the temperary directory if it exists.
-     */
-    public static void deleteTempDir() {
-        try {
-            File tmpDir = new File("cyder/src/cyder/tmp");
-            OSUtil.deleteFolder(tmpDir);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Logs any possible command line arguments passed in to Cyder upon starting.
      * Appends JVM Command Line Arguments along with the start location to the log.
      *

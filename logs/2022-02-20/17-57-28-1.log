@@ -1,0 +1,35 @@
+[17-57-28] [ENTRY]: [Nathan]
+[17-57-30] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-57-30] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-57-30] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-57-30] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-57-30] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-57-30] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-57-30] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-57-30] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\cyder\src\cyder\tmp
+[17-57-31] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-57-31] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-57-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-57-31] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-57-31] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-57-31] [THREAD STARTED]: Console Printing Animation
+[17-57-31] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-57-31] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-57-31] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-57-31] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-57-31] [SYSTEM_IO]: Userdata requested: InputFill
+[17-57-31] [THREAD STARTED]: High Ping Checker
+[17-57-31] [THREAD STARTED]: Hourly Chime Checker
+[17-57-31] [THREAD STARTED]: Console Clock Updater
+[17-57-31] [THREAD STARTED]: Cyder Busy Checker
+[17-57-31] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-57-31] [ACTION]: Console loaded in 3078ms
+[17-57-31] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1143552138], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-57-31] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-57-31] [ENTRY]: [TESTING MODE]
+[17-57-31] [SYSTEM_IO]: Userdata requested: laststart
+[17-57-31] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3078ms
+[17-57-31] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-57-50] [CLIENT]: throw
+[17-57-50] [SYSTEM_IO]: Userdata requested: filterchat
+[17-59-12] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
