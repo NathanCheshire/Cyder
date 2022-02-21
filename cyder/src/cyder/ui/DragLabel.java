@@ -170,49 +170,17 @@ public class DragLabel extends JLabel {
      */
 
     private LinkedList<JButton> buttonsList = buildDefaultButtons();
-    private JButton minimize;
     private JButton pinButton;
-    private JButton close;
 
     //default order: mini, pin, close
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
-        minimize = new JButton("");
-        minimize.setToolTipText("Minimize");
+        IconButton minimize = new IconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
         minimize.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.minimizeAnimation();
         });
-
-        minimize.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                minimize.setIcon(CyderIcons.minimizeIconHover);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                minimize.setIcon(CyderIcons.minimizeIcon);
-            }
-        });
-        minimize.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                minimize.setIcon(CyderIcons.minimizeIconHover);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                minimize.setIcon(CyderIcons.minimizeIcon);
-            }
-        });
-
-        minimize.setIcon(CyderIcons.minimizeIcon);
-        minimize.setContentAreaFilled(false);
-        minimize.setBorderPainted(false);
-        minimize.setFocusPainted(false);
-        minimize.setFocusable(false);
         ret.add(minimize);
 
         pinButton = new JButton("");
@@ -257,7 +225,6 @@ public class DragLabel extends JLabel {
                 }
             }
         });
-
         pinButton.setIcon(CyderIcons.pinIcon);
         pinButton.setContentAreaFilled(false);
         pinButton.setBorderPainted(false);
@@ -265,40 +232,11 @@ public class DragLabel extends JLabel {
         pinButton.setFocusable(false);
         ret.add(pinButton);
 
-        close = new JButton("");
-        close.setToolTipText("Close");
+        IconButton close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
         close.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.dispose();
         });
-        close.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                close.setIcon(CyderIcons.closeIconHover);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                close.setIcon(CyderIcons.closeIcon);
-            }
-        });
-        close.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                close.setIcon(CyderIcons.closeIconHover);
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                close.setIcon(CyderIcons.closeIcon);
-            }
-        });
-
-        close.setIcon(CyderIcons.closeIcon);
-        close.setContentAreaFilled(false);
-        close.setBorderPainted(false);
-        close.setFocusPainted(false);
-        close.setFocusable(false);
         ret.add(close);
 
         return ret;

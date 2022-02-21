@@ -144,11 +144,6 @@ public final class ConsoleFrame {
     private JButton pin;
 
     /**
-     * The top drag label close button.
-     */
-    private JButton close;
-
-    /**
      * The top drag label audio menu toggle button.
      */
     private JButton toggleAudioControls;
@@ -755,7 +750,7 @@ public final class ConsoleFrame {
             });
             consoleDragButtonList.add(alternateBackground);
 
-            close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
+            IconButton close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
             close.addActionListener(e -> {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     FrameUtil.minimizeAllFrames();
