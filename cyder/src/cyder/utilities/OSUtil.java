@@ -609,11 +609,9 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo fix bug with file getter and freezing gui thread
+    //todo on start delete all .parts from all users music files
 
-    //todo EOL log tag needs to make it so that no other things will be written to the log no matter what
-
-    //todo address YoutubeUtil bugs
+    //todo most linked lists should be replaced with array lists
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

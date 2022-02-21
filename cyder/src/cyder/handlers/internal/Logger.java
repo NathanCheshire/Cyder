@@ -33,6 +33,11 @@ public class Logger {
     }
 
     /**
+     * Whether the current log should not be written to again.
+     */
+    private static boolean logConcluded = false;
+
+    /**
      * The file that is currently being written to on log calls.
      */
     private static File currentLog;
@@ -75,6 +80,11 @@ public class Logger {
      * @param <T> the object instance of representation
      */
     public static <T> void log(Tag tag, T representation) {
+        // ignore weird calls to here even after an EXIT tag was provided
+        // don't throw since that would cause an exception and a log call
+        if (logConcluded)
+            return;
+
         String initialTimeTag = "[" + TimeUtil.logTime() + "] ";
         StringBuilder logBuilder = new StringBuilder(initialTimeTag);
 
@@ -184,6 +194,8 @@ public class Logger {
 
                 //write
                 writeLine(logBuilder.toString());
+
+                logConcluded = true;
 
                 //return to caller to exit immediately
                 return;

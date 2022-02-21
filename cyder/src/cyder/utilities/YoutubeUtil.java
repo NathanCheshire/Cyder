@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -58,7 +57,7 @@ public class YoutubeUtil {
     /**
      * The executor used to download youtube videos using the youtube-dl wrapper.
      */
-    private static ExecutorService executor = Executors.newSingleThreadExecutor(
+    private static final ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Youtube Audio Extractor"));
 
     /**
@@ -79,40 +78,10 @@ public class YoutubeUtil {
                 }
 
                 try {
-                    //req build
-                    YoutubeDLRequest request =
-                            new YoutubeDLRequest( "https://www.youtube.com/playlist?list=" + playlistID, outputDir);
-                    request.setOption("ignore-errors");
-                    request.setOption("extract-audio");
-                    request.setOption("audio-format", "mp3");
-                    request.setOption("output", "%(title)s.%(ext)s");
-                    request.setOption("yes-playlist", "https://www.youtube.com/playlist?list=" + playlistID);
-
-                    //req and response ret
-                    YoutubeDLResponse response = YoutubeDL.execute(request);
-                    response.getOut();
-
-                    String[] outLines = response.getOut().split("\n");
-                    LinkedList<String> fileNames = new LinkedList<>();
-
-                    for (String line: outLines) {
-                        if (line.matches("^\\[youtube].*: Downloading webpage$")) {
-                            System.out.println(line.replace("[youtube]","")
-                                    .replace(": Downloading webpage","").trim());
-                        }
-
-                        if (line.contains("[ffmpeg] Destination:")) {
-                            String currentTitle = line.replace("[ffmpeg] Destination:","").trim();
-
-                            if (!fileNames.contains(currentTitle))
-                                fileNames.add(currentTitle);
-                        }
-                    }
-
-                    //build file objects to return
-                    for (String fileName : fileNames) {
-                        ret.add(new File(response.getDirectory() + fileName));
-                    }
+                    //todo
+                    // get uuids from the playlist id
+                    // download each individual video and inform when each is downloaded
+                    // look into some kind of progres bar for each video that you can update on the console
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
                     ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
@@ -124,10 +93,6 @@ public class YoutubeUtil {
             return ret;
         });
     }
-
-    //todo get title not working
-    //todo throws for no reason on completion of downloading playlist
-    //todo how to download thumbnails from playlist
 
     /**
      * Downloads the audio from the provided youtube URL provided it exists.
@@ -227,9 +192,9 @@ public class YoutubeUtil {
         } catch (Exception e) {
             ret = false;
             ExceptionHandler.silentHandle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -247,9 +212,9 @@ public class YoutubeUtil {
         } catch (Exception e) {
             ret = false;
             ExceptionHandler.silentHandle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
@@ -407,8 +372,7 @@ public class YoutubeUtil {
             if (w > 720) {
                 //crop to middle of w
                 int cropWStart = (w - 720) / 2;
-                BufferedImage croppedWidth = save.getSubimage(cropWStart, 0, 720, h);
-                save = croppedWidth;
+                save = save.getSubimage(cropWStart, 0, 720, h);
             }
 
             w = save.getWidth();
@@ -417,8 +381,7 @@ public class YoutubeUtil {
             if (h > 720) {
                 //crop to middle of h
                 int cropHStart = (h - 720) / 2;
-                BufferedImage croppedHeight = save.getSubimage(0, cropHStart, w, 720);
-                save = croppedHeight;
+                save = save.getSubimage(0, cropHStart, w, 720);
             }
 
             ret = save;

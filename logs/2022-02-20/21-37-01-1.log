@@ -15,8 +15,7 @@
 [21-37-03] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-37-03] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-37-03] [SYSTEM_IO]: Userdata requested: fullscreen
-[21-37-03] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-37-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-37-03] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-37-03] [THREAD STARTED]: Console Printing Animation
 [21-37-03] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-37-03] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -58,14 +57,11 @@
 [21-38-02] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please]
 [21-38-02] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please]
 [21-38-02] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
-[21-38-08] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [58571537], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[21-38-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [58571537], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-38-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [58571537], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [21-38-10] [SYSTEM_IO]: Userdata requested: Background
 [21-38-10] [THREAD STARTED]: minimize menu thread
-[21-38-10] [THREAD STARTED]: Console menu animator
-[21-38-11] [THREAD STARTED]: Console menu animator
-[21-38-11] [THREAD STARTED]: minimize menu thread
-[21-38-13] [THREAD STARTED]: minimize menu thread
+[21-38-11] [THREAD STARTED]: Console menu animator [2x]
+[21-38-13] [THREAD STARTED]: minimize menu thread [2x]
 [21-38-13] [THREAD STARTED]: Console menu animator
 [21-38-32] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [21-38-32] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1556, 351, 775, 600)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]

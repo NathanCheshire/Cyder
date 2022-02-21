@@ -1014,8 +1014,9 @@ public class InputHandler {
                            println("Starting download of playlist: " +
                                    NetworkUtil.getURLTitle(input));
                            Future<ArrayList<java.io.File>> downloadedFiles =
-                                   YoutubeUtil.downloadPlaylist(playlistID,"dynamic/users/"
-                                           + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                                   YoutubeUtil.downloadPlaylist(playlistID,
+                                           OSUtil.buildPath("dynamic","users"
+                                                   ,ConsoleFrame.getConsoleFrame().getUUID(), "Music"));
 
                            //wait for all music to be downloaded
                            while (!downloadedFiles.isDone()) {
@@ -1023,7 +1024,7 @@ public class InputHandler {
                            }
 
                            if (downloadedFiles.get() != null && !downloadedFiles.get().isEmpty()) {
-                               println("Download complete; all songs added to mp3 queue");
+                               println("Download of playlist complete; all songs added to mp3 queue");
 
                                //play the songs
                                for (File song : downloadedFiles.get()) {
@@ -1050,8 +1051,8 @@ public class InputHandler {
                                return;
                            }
 
-                           Future<java.io.File> downloadedFile = YoutubeUtil.download(input, "dynamic/users/"
-                                   + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
+                           Future<java.io.File> downloadedFile = YoutubeUtil.download(input, OSUtil.buildPath("dynamic","users",
+                                   ConsoleFrame.getConsoleFrame().getUUID(), "Music"));
 
                            String videoTitle = NetworkUtil.getURLTitle(input)
                                    .replaceAll("(?i) - YouTube", "").trim();
@@ -1062,7 +1063,7 @@ public class InputHandler {
                            }
 
                            if (downloadedFile.get() != null && downloadedFile.get().exists()) {
-                               println("Download complete and added to mp3 queue");
+                               println("Download complete; song added to mp3 queue");
 
                                //play the song
                                AudioPlayer.addToMp3Queue(downloadedFile.get());

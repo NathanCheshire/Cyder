@@ -1,0 +1,123 @@
+[21-47-14] [ENTRY]: [Nathan]
+[21-47-14] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-47-15] [THREAD STARTED]: Splash Loader
+[21-47-15] [THREAD STARTED]: Splash Animation
+[21-47-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[21-47-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[21-47-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[21-47-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[21-47-16] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[21-47-16] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-47-16] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-47-16] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-47-16] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-47-16] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-47-17] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-47-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-47-17] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-47-17] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[21-47-17] [THREAD STARTED]: Console Printing Animation
+[21-47-17] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-47-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-47-17] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-47-17] [THREAD STARTED]: Console Input Caret Position Updater
+[21-47-17] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-47-17] [SYSTEM_IO]: Userdata requested: InputFill
+[21-47-17] [THREAD STARTED]: High Ping Checker
+[21-47-17] [THREAD STARTED]: Hourly Chime Checker
+[21-47-17] [THREAD STARTED]: Console Clock Updater
+[21-47-17] [THREAD STARTED]: Cyder Busy Checker
+[21-47-17] [THREAD STARTED]: ConsoleFrame Data Saver
+[21-47-17] [ACTION]: Console loaded in 3348ms
+[21-47-17] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1556, 351, 775, 600)], hash = [1852661033], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[21-47-17] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1404977607], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-47-17] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[21-47-17] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-47-17] [ENTRY]: [TESTING MODE]
+[21-47-17] [SYSTEM_IO]: Userdata requested: laststart
+[21-47-17] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3348ms
+[21-47-17] [THREAD STARTED]: notification appear animation
+[21-47-17] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-47-17] [THREAD STARTED]: Notificaiton vanish animater -2015091641
+[21-47-20] [CLIENT]: dir
+[21-47-20] [SYSTEM_IO]: Userdata requested: filterchat
+[21-47-20] [WIDGET OPENED]: DIRECTORY SEARCH
+[21-47-20] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.DirectoryViewer
+[21-47-21] [HANDLE]: PRIMARY HANDLE
+[21-47-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(570, 40, 40, 40)], hash = [1476554983], parentFrame = [Downloads], associated text = [ > ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [1241024863], parentFrame = [Downloads], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, 396, 630, 510)], hash = [2071029399], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Downloads]
+[21-47-24] [THREAD STARTED]: Downloads CyderFrame dispose thread
+[21-47-24] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-25] [CLIENT]: mp3
+[21-47-25] [SYSTEM_IO]: Userdata requested: filterchat
+[21-47-25] [WIDGET OPENED]: AUDIO PLAYER
+[21-47-25] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please]
+[21-47-25] [HANDLE]: PRIMARY HANDLE
+[21-47-25] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[21-47-25] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please]
+[21-47-25] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[21-47-28] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1584429998], parentFrame = [Twillzzz - Lord Please], associated text = [<html><div style='text-align: center;'>1s played, 3m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-28] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please]
+[21-47-28] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please]
+[21-47-28] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[21-47-29] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-47-29] [THREAD STARTED]: inner wait thread for audio player file getter
+[21-47-29] [THREAD STARTED]: cyder.utilities.GetterUtil@58a5b1ba getFile thread
+[21-47-32] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [638235822], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-32] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1593, 533, 630, 510)], hash = [1131072833], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-32] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-32] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-33] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-47-33] [THREAD STARTED]: inner wait thread for audio player file getter
+[21-47-33] [THREAD STARTED]: cyder.utilities.GetterUtil@2791f5b2 getFile thread
+[21-47-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1593, -502, 630, 510)], hash = [1131072833], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-33] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-34] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [1858912018], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, 396, 630, 510)], hash = [790879388], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-34] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-35] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-47-35] [THREAD STARTED]: inner wait thread for audio player file getter
+[21-47-35] [THREAD STARTED]: cyder.utilities.GetterUtil@4c0c8b6 getFile thread
+[21-47-35] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, -504, 630, 510)], hash = [790879388], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-35] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [590821148], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, 396, 630, 510)], hash = [1760193107], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-36] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-36] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-37] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-47-37] [THREAD STARTED]: inner wait thread for audio player file getter
+[21-47-37] [THREAD STARTED]: cyder.utilities.GetterUtil@3dd41d41 getFile thread
+[21-47-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, -504, 630, 510)], hash = [1760193107], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-37] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [185901162], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, 396, 630, 510)], hash = [731742055], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-39] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-42] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-47-42] [THREAD STARTED]: inner wait thread for audio player file getter
+[21-47-42] [THREAD STARTED]: cyder.utilities.GetterUtil@1fbff840 getFile thread
+[21-47-42] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, -504, 630, 510)], hash = [731742055], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-42] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-44] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [592934577], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, 396, 630, 510)], hash = [556426846], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-44] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-45] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-47-45] [THREAD STARTED]: inner wait thread for audio player file getter
+[21-47-45] [THREAD STARTED]: cyder.utilities.GetterUtil@380426b0 getFile thread
+[21-47-45] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, -504, 630, 510)], hash = [556426846], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-45] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-47] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [19654985], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-47-47] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1628, 396, 630, 510)], hash = [2090745245], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[21-47-47] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[21-47-47] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-47-48] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1556, 351, 775, 600)], hash = [1852661033], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[21-47-48] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[21-47-48] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-47-48] [EXIT]: [RUNTIME] 34s
+[21-47-48] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[21-47-49] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-47-49] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp

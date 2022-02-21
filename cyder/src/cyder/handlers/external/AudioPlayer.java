@@ -324,18 +324,19 @@ public class AudioPlayer {
         selectAudioDirButton.setToolTipText("Select audio");
         selectAudioDirButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
-                File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
-                if (selectedChildFile != null) {
-                    if (!selectedChildFile.toString().endsWith("mp3")) {
-                        audioFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but that's not an mp3 file.");
-                    } else if (selectedChildFile != null){
-                        stopAudio();
-                        refreshAudioFiles(selectedChildFile);
-                        startAudio();
+                CyderThreadRunner.submit(() -> {
+                    File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
+                    if (selectedChildFile != null) {
+                        if (!selectedChildFile.toString().endsWith("mp3")) {
+                            audioFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but that's not an mp3 file.");
+                        } else if (selectedChildFile != null){
+                            stopAudio();
+                            refreshAudioFiles(selectedChildFile);
+                            startAudio();
+                        }
                     }
-                }
+                }, "inner wait thread for audio player file getter");
             } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
                 ExceptionHandler.handle(ex);
             } finally {
                 refreshAudioFiles(null);

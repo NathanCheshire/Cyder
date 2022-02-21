@@ -238,7 +238,6 @@ public class GetterUtil {
         this.relativeFrame = relativeFrame;
     }
 
-
     /*
     FILE GETTER
      */
@@ -273,8 +272,7 @@ public class GetterUtil {
                 forward = new Stack<>();
                 directoryFileList.clear();
                 directoryNameList.clear();
-                currentDirectory = new File("c:\\users\\"
-                        + OSUtil.getSystemUsername() + "\\");
+                currentDirectory = new File(System.getProperty("user.dir"));
 
                 //code copied from dir search widget
                 if (dirFrame != null)
