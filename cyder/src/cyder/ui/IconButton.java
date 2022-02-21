@@ -22,19 +22,35 @@ public class IconButton extends JButton {
         this(tooltipText, defaultIcon, hoverAndFocusIcon, null, null);
     }
 
+    public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon, MouseListener mouseListener) {
+        this(tooltipText, defaultIcon, hoverAndFocusIcon, mouseListener, new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+            }
+        });
+    }
+
     public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
                       MouseListener mouseListener, FocusListener focusListener) {
         if (StringUtil.isNull(tooltipText))
             throw new IllegalArgumentException("Tooltip text is null");
-        if (defaultIcon == null || hoverAndFocusIcon == null)
-            throw new IllegalArgumentException("Provided image is null");
-        if (defaultIcon == hoverAndFocusIcon)
+        if (defaultIcon != null && defaultIcon == hoverAndFocusIcon)
             throw new IllegalArgumentException("Provided hover image is the same as the default icon");
-        if (defaultIcon.getIconWidth() != hoverAndFocusIcon.getIconWidth() || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight())
+        if (defaultIcon != null && hoverAndFocusIcon != null && (defaultIcon.getIconWidth() != hoverAndFocusIcon.getIconWidth()
+                                || defaultIcon.getIconHeight() != hoverAndFocusIcon.getIconHeight()))
             throw new IllegalArgumentException("Provided icons are not equal in size");
 
-        this.defaultIcon = defaultIcon;
-        this.hoverAndFocusIcon = hoverAndFocusIcon;
+        if (defaultIcon != null)
+            this.defaultIcon = defaultIcon;
+        if (hoverAndFocusIcon != null)
+            this.hoverAndFocusIcon = hoverAndFocusIcon;
+
         setToolTipText(tooltipText);
 
         addMouseListener(Objects.requireNonNullElseGet(mouseListener, () -> new MouseAdapter() {

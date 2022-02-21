@@ -176,15 +176,39 @@ public class DragLabel extends JLabel {
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
-        IconButton minimize = new IconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
+        IconButton minimize = new IconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
         minimize.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.minimizeAnimation();
         });
         ret.add(minimize);
 
-        pinButton = new JButton("");
-        pinButton.setToolTipText("Pin Window/Pin to Console");
+        pinButton = new IconButton("Pin Window/Pin to Console", CyderIcons.pinIcon, null,
+                new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        if (effectFrame.getPinned()) {
+                            pinButton.setIcon(CyderIcons.pinIconHoverPink);
+                        } else if (effectFrame.isConsolePinned()) {
+                            pinButton.setIcon(CyderIcons.pinIcon);
+                        } else {
+                            pinButton.setIcon(CyderIcons.pinIconHover);
+
+                        }
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        if (effectFrame.getPinned()) {
+                            pinButton.setIcon(CyderIcons.pinIconHover);
+                        } else if (effectFrame.isConsolePinned()) {
+                            pinButton.setIcon(CyderIcons.pinIconHoverPink);
+                        } else {
+                            pinButton.setIcon(CyderIcons.pinIcon);
+
+                        }
+                    }
+                });
         pinButton.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
 
@@ -200,39 +224,9 @@ public class DragLabel extends JLabel {
                 pinButton.setIcon(CyderIcons.pinIconHover);
             }
         });
-        pinButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (effectFrame.getPinned()) {
-                    pinButton.setIcon(CyderIcons.pinIconHoverPink);
-                } else if (effectFrame.isConsolePinned()) {
-                    pinButton.setIcon(CyderIcons.pinIcon);
-                } else {
-                    pinButton.setIcon(CyderIcons.pinIconHover);
-
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (effectFrame.getPinned()) {
-                    pinButton.setIcon(CyderIcons.pinIconHover);
-                } else if (effectFrame.isConsolePinned()) {
-                    pinButton.setIcon(CyderIcons.pinIconHoverPink);
-                } else {
-                    pinButton.setIcon(CyderIcons.pinIcon);
-
-                }
-            }
-        });
-        pinButton.setIcon(CyderIcons.pinIcon);
-        pinButton.setContentAreaFilled(false);
-        pinButton.setBorderPainted(false);
-        pinButton.setFocusPainted(false);
-        pinButton.setFocusable(false);
         ret.add(pinButton);
 
-        IconButton close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
+        IconButton close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover, null);
         close.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.dispose();
