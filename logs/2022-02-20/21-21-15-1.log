@@ -1,0 +1,59 @@
+[21-21-15] [ENTRY]: [Nathan]
+[21-21-15] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-21-16] [THREAD STARTED]: Splash Loader
+[21-21-16] [THREAD STARTED]: Splash Animation
+[21-21-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[21-21-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[21-21-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[21-21-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[21-21-17] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[21-21-17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-21-17] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[21-21-17] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-21-17] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-21-17] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[21-21-18] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-21-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-21-18] [SYSTEM_IO]: Userdata requested: fullscreen
+[21-21-18] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[21-21-18] [THREAD STARTED]: Console Printing Animation
+[21-21-18] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-21-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-21-18] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-21-18] [THREAD STARTED]: Console Input Caret Position Updater
+[21-21-18] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-21-18] [SYSTEM_IO]: Userdata requested: InputFill
+[21-21-18] [THREAD STARTED]: High Ping Checker
+[21-21-18] [THREAD STARTED]: Hourly Chime Checker
+[21-21-18] [THREAD STARTED]: Console Clock Updater
+[21-21-18] [THREAD STARTED]: Cyder Busy Checker
+[21-21-18] [THREAD STARTED]: ConsoleFrame Data Saver
+[21-21-18] [ACTION]: Console loaded in 3478ms
+[21-21-18] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-21-18] [ENTRY]: [TESTING MODE]
+[21-21-18] [SYSTEM_IO]: Userdata requested: laststart
+[21-21-18] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [663018097], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[21-21-18] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3478ms
+[21-21-19] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-21-32] [CLIENT]: prefs
+[21-21-32] [SYSTEM_IO]: Userdata requested: filterchat
+[21-21-32] [WIDGET OPENED]: PREFS
+[21-21-32] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[21-21-32] [HANDLE]: PRIMARY HANDLE
+[21-21-35] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [1193595330], parentFrame = [Truth], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-21-35] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1544, 444, 800, 413)], hash = [1153481196], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Truth]
+[21-21-35] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-21-36] [WIDGET OPENED]: AUDIO PLAYER
+[21-21-37] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa).mp3
+[21-21-38] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [1267935910], parentFrame = [Eric Reprid - Lukewarm (feat. alexa)], associated text = [<html><div style='text-align: center;'>0s played, 5m 5s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-21-38] [ACTION]: [AUDIO PLAYER] Eric Reprid - Lukewarm (feat. alexa).mp3
+[21-21-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1203967021], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[21-21-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1494, 361, 900, 580)], hash = [2120829308], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[21-21-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-21-42] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-21-42] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1556, 351, 775, 600)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[21-21-42] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-21-42] [EXIT]: [RUNTIME] 27s
+[21-21-42] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[21-21-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-21-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp

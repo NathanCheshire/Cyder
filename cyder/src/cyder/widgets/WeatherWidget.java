@@ -9,6 +9,7 @@ import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -352,7 +353,7 @@ public class WeatherWidget {
 
         update = true;
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 EXIT:
                     for(;;) {
@@ -366,9 +367,9 @@ public class WeatherWidget {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Weather Stats Updater").start();
+        },"Weather Stats Updater");
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 //noinspection ConditionalBreakInInfiniteLoop
                 for (;;) {
@@ -380,7 +381,7 @@ public class WeatherWidget {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Weather Clock Updater").start();
+        },"Weather Clock Updater");
     }
 
     public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
@@ -478,7 +479,7 @@ public class WeatherWidget {
     }
 
     protected void repullWeatherStats() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 userCity = IPUtil.getIpdata().getCity();
                 userState = IPUtil.getIpdata().getRegion();
@@ -562,7 +563,7 @@ public class WeatherWidget {
             } finally {
                 refreshWeather();
             }
-        },"Weather Stats Updater").start();
+        },"Weather Stats Updater");
     }
 
     public static String getWindDirection(String wb) {

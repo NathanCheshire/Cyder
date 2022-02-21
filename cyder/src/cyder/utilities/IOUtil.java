@@ -7,6 +7,7 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.user.UserFile;
 import javazoom.jl.player.Player;
@@ -212,7 +213,7 @@ public class IOUtil {
             player = new Player(FileInputStream);
             Logger.log(Logger.Tag.ACTION,"[AUDIO] " + FilePath);
 
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     player.play();
                 } catch (Exception e) {
@@ -220,7 +221,7 @@ public class IOUtil {
                 } finally {
                     ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
                 }
-            }, "IOUtil audio thread").start();
+            }, "IOUtil audio thread");
 
             ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
         } catch (Exception e) {
@@ -250,13 +251,13 @@ public class IOUtil {
 
             if (!FilePath.equals("static/audio/Typing.mp3"))
                 Logger.log(Logger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     systemPlayer.play();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            }, "system audio thread").start();
+            }, "system audio thread");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

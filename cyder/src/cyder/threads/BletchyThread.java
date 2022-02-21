@@ -69,7 +69,7 @@ public class BletchyThread {
      */
     private static class BletchyAnimator {
         BletchyAnimator(String[] print, int miliDelay) {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     isActive = true;
 
@@ -103,7 +103,7 @@ public class BletchyThread {
                     ExceptionHandler.handle(e);
                     this.kill();
                 }
-            },"bletchy printing thread: finalString = " + print[print.length - 1]).start();
+            },"bletchy printing thread: finalString = " + print[print.length - 1]);
         }
 
         /**

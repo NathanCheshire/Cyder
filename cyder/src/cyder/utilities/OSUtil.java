@@ -609,9 +609,9 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo audio progress label black bar remove, change color gradient?
+    //todo fix bug with file getter and freezing gui thread
 
-    //todo utilize thread runner for threads and test for each before committing
+    //todo EOL log tag needs to make it so that no other things will be written to the log no matter what
 
     //todo address YoutubeUtil bugs
 

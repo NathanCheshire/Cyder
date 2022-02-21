@@ -5,6 +5,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class GetterUtil {
      * USAGE:
      *  <pre>
      *  {@code
-     *  new Thread(() -> {
+     *  CyderThreadRunner.submit(() -> {
      *      try {
      *          String input = new GetterUtil().getString("title","tooltip","button text");
      *          //other operations using input
@@ -53,7 +54,7 @@ public class GetterUtil {
     public String getString(String title, String tooltip, String buttonText) {
         AtomicReference<String> returnString = new AtomicReference<>();
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
@@ -87,7 +88,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + "getString thread").start();
+        }, this + "getString thread");
 
         try {
             while (returnString.get() == null) {
@@ -95,15 +96,15 @@ public class GetterUtil {
             }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
-        } finally {
-            return returnString.get();
         }
+
+        return returnString.get();
     }
 
     public String getString(String title, String tooltip, String buttonText, Color buttonColor) {
         AtomicReference<String> returnString = new AtomicReference<>();
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
@@ -138,7 +139,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + "getString thread").start();
+        }, this + "getString thread");
 
         try {
             while (returnString.get() == null) {
@@ -146,9 +147,9 @@ public class GetterUtil {
             }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
-        } finally {
-            return returnString.get();
         }
+
+        return returnString.get();
     }
 
     /** Custom getInput method, see usage below for how to setup so that the program doesn't
@@ -159,7 +160,7 @@ public class GetterUtil {
      * USAGE:
      *  <pre>
      *  {@code
-     *  new Thread(() -> {
+     *  CyderThreadRunner.submit(() -> {
      *      try {
      *          String input = new GetterUtil().getString("title","tooltip","button text","initial field value");
      *          //other operations using input
@@ -179,7 +180,7 @@ public class GetterUtil {
     public String getString(String title, String tooltip, String buttonText, String initialString) {
         AtomicReference<String> returnString = new AtomicReference<>();
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
@@ -214,7 +215,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + "getString thread").start();
+        }, this + "getString thread");
 
         try {
             while (returnString.get() == null) {
@@ -222,9 +223,9 @@ public class GetterUtil {
             }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
-        } finally {
-            return returnString.get();
         }
+
+        return returnString.get();
     }
 
     private CyderFrame relativeFrame = null;
@@ -249,7 +250,7 @@ public class GetterUtil {
      * USAGE:
      * <pre>
      * {@code
-     *   new Thread(() -> {
+     *   CyderThreadRunner.submit(() -> {
      *         try {
      *             File input = new GetterUtil().getFile("FileChooser title");
      *             //other operations using input
@@ -265,7 +266,7 @@ public class GetterUtil {
     public File getFile(String title) {
         AtomicReference<File> setOnFileChosen = new AtomicReference<>();
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 //reset needed vars in case an instance was already ran
                 backward = new Stack<>();
@@ -389,7 +390,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + " getFile thread").start();
+        }, this + " getFile thread");
 
         try {
             while (setOnFileChosen.get() == null)
@@ -398,8 +399,9 @@ public class GetterUtil {
             ExceptionHandler.handle(ex);
         } finally {
             dirFrame.dispose();
-            return setOnFileChosen.get().getName().equals("NULL") ? null : setOnFileChosen.get();
         }
+
+        return setOnFileChosen.get().getName().equals("NULL") ? null : setOnFileChosen.get();
     }
 
     /*
@@ -540,8 +542,8 @@ public class GetterUtil {
     private static CyderButton next;
 
     //corresponding lists
-    private static LinkedList<String> directoryNameList = new LinkedList<>();
-    private static LinkedList<File> directoryFileList = new LinkedList<>();
+    private static final LinkedList<String> directoryNameList = new LinkedList<>();
+    private static final LinkedList<File> directoryFileList = new LinkedList<>();
 
     //stacks for traversal
     private static Stack<File> backward = new Stack<>();
@@ -559,7 +561,7 @@ public class GetterUtil {
         final String[] retString = {null};
         final CyderFrame[] confirmationFrame = {null};
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
@@ -595,9 +597,10 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + "getConfirmation thread").start();
+        }, this + "getConfirmation thread");
 
         try {
+            //noinspection LoopConditionNotUpdatedInsideLoop
             while (retString[0] == null) {
                 Thread.onSpinWait();
             }
@@ -606,7 +609,8 @@ public class GetterUtil {
             ExceptionHandler.handle(ex);
         } finally {
             confirmationFrame[0].dispose();
-            return retString[0].equals("true");
         }
+
+        return retString[0].equals("true");
     }
 }

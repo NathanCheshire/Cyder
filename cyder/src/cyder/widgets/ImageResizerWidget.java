@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
@@ -59,7 +60,7 @@ public class ImageResizerWidget {
         chooseFile.setBackground(CyderColors.regularRed);
         chooseFile.addActionListener(e -> {
             try {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                   try {
                       File temp = new GetterUtil().getFile("Choose file to resize");
 
@@ -87,7 +88,7 @@ public class ImageResizerWidget {
                   } catch (Exception ex) {
                       ExceptionHandler.handle(ex);
                   }
-                }, "wait thread for GetterUtil().getFile()").start();
+                }, "wait thread for GetterUtil().getFile()");
             }
 
             catch (Exception ex) {

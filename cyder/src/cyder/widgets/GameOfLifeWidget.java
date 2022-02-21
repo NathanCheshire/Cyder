@@ -9,6 +9,7 @@ import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -23,10 +24,10 @@ public class GameOfLifeWidget {
     private static boolean simulationRunning;
 
     private static int iterationsPerSecond = 10;
-    private static int maxIterationsPerSecond = 50;
+    private static final int maxIterationsPerSecond = 50;
 
     private static final int defaultGridLen = 45;
-    private static int currentGridLen = defaultGridLen;
+    private static final int currentGridLen = defaultGridLen;
 
     private static JLabel gridLabel;
     private static CyderButton simulateButton;
@@ -38,7 +39,6 @@ public class GameOfLifeWidget {
 
     private static CyderButton resetButton;
 
-    private static CyderCheckbox oscillationDetector;
     private static boolean detectOscillations = false;
 
     private static int generationCount = 0;
@@ -109,8 +109,8 @@ public class GameOfLifeWidget {
             public void mouseClicked(MouseEvent e) {
                 //placing blocks or taking them away based on mouse clicks
                 if (!simulationRunning) {
-                    double x = Math.floor(((e.getX() + 2) / 20));
-                    double y = Math.floor(((e.getY() + 2) / 20));
+                    double x = Math.floor(((e.getX() + 2) / 20.0));
+                    double y = Math.floor(((e.getY() + 2) / 20.0));
 
                     if (x < currentGridLen - 1 && y < currentGridLen - 1 && x >= 1 && y >= 1) {
                         switch (grid[(int) x][(int) y]) {
@@ -135,8 +135,8 @@ public class GameOfLifeWidget {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (!simulationRunning) {
-                    double x = Math.floor(((e.getX() + 2) / 20));
-                    double y = Math.floor(((e.getY() + 2) / 20));
+                    double x = Math.floor(((e.getX() + 2) / 20.0));
+                    double y = Math.floor(((e.getY() + 2) / 20.0));
 
                     if (x < currentGridLen - 1 && y < currentGridLen - 1 && x >= 1 && y >= 1) {
                         grid[(int) x][(int) y] = 1;
@@ -163,7 +163,7 @@ public class GameOfLifeWidget {
 
         resetButton = new CyderButton("Reset");
         resetButton.addActionListener(e -> {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     simulateButton.setEnabled(false);
                     Thread.sleep(2L * iterationsPerSecond);
@@ -171,7 +171,7 @@ public class GameOfLifeWidget {
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
                 }
-            }, "Conway's Game of Life start button timeout").start();
+            }, "Conway's Game of Life start button timeout");
             simulateButton.setText("Simulate");
 
             simulationRunning = false;
@@ -191,7 +191,7 @@ public class GameOfLifeWidget {
             if (simulationRunning) {
                 simulateButton.setText("Simulate");
 
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
                         simulateButton.setEnabled(false);
                         Thread.sleep(2L * iterationsPerSecond);
@@ -199,7 +199,7 @@ public class GameOfLifeWidget {
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }
-                }, "Conway's Game of Life start button timeout").start();
+                }, "Conway's Game of Life start button timeout");
             } else {
                 start();
                 simulateButton.setText("Stop");
@@ -220,7 +220,7 @@ public class GameOfLifeWidget {
         setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(setPresetButton);
 
-        oscillationDetector = new CyderCheckbox();
+        CyderCheckbox oscillationDetector = new CyderCheckbox();
         oscillationDetector.setToolTipText("Detect oscillations");
         oscillationDetector.setBounds(60,70 + 30 + 902 + 55,50,50);
         oscillationDetector.setNotSelected();
@@ -366,7 +366,7 @@ public class GameOfLifeWidget {
 
     @SuppressWarnings("ForLoopReplaceableByForEach")
     private static void start() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
                     //update grids
@@ -415,7 +415,7 @@ public class GameOfLifeWidget {
                     ExceptionHandler.handle(e);
                 }
             }
-        },"Conway's Game of Life game thread").start();
+        },"Conway's Game of Life game thread");
     }
 
     private static int[][] nextGeneration(int[][] currentGeneration) {

@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 
@@ -116,13 +117,13 @@ public class CardWidget {
         birthday2021Frame.setVisible(true);
 
         try {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     Thread.sleep(10000);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },"Birthday card 2021 notification wait thread").start();
+            },"Birthday card 2021 notification wait thread");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

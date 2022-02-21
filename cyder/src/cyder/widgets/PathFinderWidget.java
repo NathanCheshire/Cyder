@@ -8,6 +8,7 @@ import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
 
@@ -27,7 +28,6 @@ public class PathFinderWidget {
     private static CyderCheckbox diagonalBox;
     private static CyderCheckbox deleteWallsCheckBox;
     private static CyderFrame pathFindingFrame;
-    private static CyderButton reset;
     private static CyderButton startButton;
     private static JSlider speedSlider;
 
@@ -41,7 +41,7 @@ public class PathFinderWidget {
 
     private static Timer timer;
     private static int timeoutMS = 50;
-    private static int maxTimeoutMs = 100;
+    private static final int maxTimeoutMs = 100;
 
     private static boolean eToggled;
     private static boolean sToggled;
@@ -56,7 +56,7 @@ public class PathFinderWidget {
     private static boolean performDijkstras;
 
     private static int heuristicIndex;
-    private static String[] heuristics = {"Manhattan","Euclidean"};
+    private static final String[] heuristics = {"Manhattan","Euclidean"};
 
     private PathFinderWidget() {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
@@ -95,8 +95,8 @@ public class PathFinderWidget {
                     int labelWidth = gridLabel.getWidth();
                     int labelHeight = gridLabel.getHeight();
 
-                    numSquares = (int) (Math.floor(labelWidth / squareLen));
-                    int drawTo = (int) ((Math.floor(labelWidth / squareLen)) * squareLen);
+                    numSquares = (int) (Math.floor(labelWidth / (float) squareLen));
+                    int drawTo = (int) ((Math.floor(labelWidth / (float) squareLen)) * squareLen);
 
                     int xOffset = (labelWidth - drawTo) / 2;
                     int yOffset = (labelHeight - drawTo) / 2;
@@ -273,8 +273,8 @@ public class PathFinderWidget {
                 if (timer.isRunning())
                     return;
 
-                int x = (int) Math.floor((1 + e.getX()) / squareLen);
-                int y = (int) Math.floor((1 + e.getY()) / squareLen);
+                int x = (int) Math.floor((1 + e.getX()) / (float) squareLen);
+                int y = (int) Math.floor((1 + e.getY()) / (float) squareLen);
 
                 if (x >= numSquares || y >= numSquares)
                     return;
@@ -342,8 +342,8 @@ public class PathFinderWidget {
                 if (timer.isRunning())
                     return;
 
-                int x = (int) Math.floor((1 + e.getX()) / squareLen);
-                int y = (int) Math.floor((1 + e.getY()) / squareLen);
+                int x = (int) Math.floor((1 + e.getX()) / (float) squareLen);
+                int y = (int) Math.floor((1 + e.getY()) / (float) squareLen);
 
                 if (x >= numSquares || y >= numSquares)
                     return;
@@ -414,7 +414,7 @@ public class PathFinderWidget {
         diagonalBox.setBounds(310, 920,50,50);
         pathFindingFrame.getContentPane().add(diagonalBox);
 
-        reset = new CyderButton("Reset");
+        CyderButton reset = new CyderButton("Reset");
         reset.setBounds(400,890, 170, 40);
         reset.addActionListener(e -> {
             timer.stop();
@@ -546,7 +546,7 @@ public class PathFinderWidget {
         pathLabelTimer.start();
     }
 
-    private static ActionListener pathDrawingAnimation = evt -> {
+    private static final ActionListener pathDrawingAnimation = evt -> {
         try {
             if (pathIndex + 1 < path.size())
                 pathIndex++;
@@ -559,7 +559,7 @@ public class PathFinderWidget {
         }
     };
 
-    private static ActionListener pathLabelAnimation = evt -> {
+    private static final ActionListener pathLabelAnimation = evt -> {
         try {
            if (pathColor == Color.darkGray)
                pathColor = ColorUtil.inverse(Color.darkGray);
@@ -622,7 +622,7 @@ public class PathFinderWidget {
         } else {
             //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
             // use a separate thread though to avoid lag
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 while (end.getParent() == null) {
                     pathStep();
                 }
@@ -632,7 +632,7 @@ public class PathFinderWidget {
                 } else {
                     pathNotFound();
                 }
-            },"Pathfinder Thread").start();
+            },"Pathfinder Thread");
         }
     }
 
@@ -763,9 +763,7 @@ public class PathFinderWidget {
     }
 
     private static double euclideanDistance(Node n1, Node n2) {
-        double distnace =
-                Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2) + Math.pow((n1.getY() - n2.getY()), 2));
-        return distnace;
+        return Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2) + Math.pow((n1.getY() - n2.getY()), 2));
     }
 
     private static double manhattanDistance(Node n1, Node n2) {
@@ -780,12 +778,7 @@ public class PathFinderWidget {
             else if (node1.getF() < node2.getF())
                 return -1;
             else {
-                if (node1.getH() > node2.getH())
-                    return 1;
-                else if (node1.getH() < node2.getH())
-                    return -1;
-                else
-                    return 0;
+                return Double.compare(node1.getH(), node2.getH());
             }
         }
     }

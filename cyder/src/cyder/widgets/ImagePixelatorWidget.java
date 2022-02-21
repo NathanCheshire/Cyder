@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -59,7 +60,7 @@ public class ImagePixelatorWidget {
         pixelFrame.getContentPane().add(chooseImage);
         chooseImage.addActionListener(e -> {
             try {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
                         File temp = new GetterUtil().getFile("Choose file to resize");
 
@@ -81,7 +82,7 @@ public class ImagePixelatorWidget {
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }
-                }, "wait thread for GetterUtil().getFile()").start();
+                }, "wait thread for GetterUtil().getFile()");
             }
 
             catch (Exception ex) {
@@ -188,9 +189,9 @@ public class ImagePixelatorWidget {
             ret = new ImageIcon(resizedImg);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     private static BufferedImage checkImageBi(File icon) {
@@ -207,9 +208,9 @@ public class ImagePixelatorWidget {
             ret = resizedImg;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     private double getAspectRatio(ImageIcon im) {

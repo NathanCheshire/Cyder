@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 
 import javax.swing.*;
@@ -89,7 +90,7 @@ public class AnimationUtil {
      */
     public static void componentUp(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getY() == start)
-            (new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 for (int i = start; i >= stop; i -= increment) {
                     try {
                         Thread.sleep(delay);
@@ -99,7 +100,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
-            },"component up thread")).start();
+            },"component up thread");
     }
 
     /**
@@ -112,7 +113,7 @@ public class AnimationUtil {
      */
     public static void componentDown(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getY() == start)
-            (new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 for (int i = start; i <= stop; i += increment) {
                     try {
                         Thread.sleep(delay);
@@ -122,7 +123,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(comp.getX(), stop);
-            },"component down thread")).start();
+            },"component down thread");
     }
 
     /**
@@ -135,7 +136,7 @@ public class AnimationUtil {
      */
     public static void componentLeft(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getX() == start)
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 for (int i = start; i >= stop; i -= increment) {
                     try {
                         Thread.sleep(delay);
@@ -145,7 +146,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(stop, comp.getY());
-            },"component left thread").start();
+            },"component left thread");
     }
 
     /**
@@ -158,7 +159,7 @@ public class AnimationUtil {
      */
     public static void componentRight(final int start, final int stop, final int delay, final int increment, final Component comp) {
         if (comp.getX() == start)
-            (new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 for (int i = start; i <= stop; i += increment) {
                     try {
                         Thread.sleep(delay);
@@ -168,7 +169,7 @@ public class AnimationUtil {
                     }
                 }
                 comp.setLocation(stop, comp.getY());
-            },"component right thread")).start();
+            },"component right thread");
     }
 
     /**

@@ -18,5 +18,14 @@ public final class CyderThreadRunner {
         new Thread(runnable, name).start();
     }
 
-    //todo add in executor services
+    /**
+     * Creates and returns a thread with the provided properties.
+     *
+     * @param runnable the runnable for the thread
+     * @param name the name for the thread
+     * @return the thread with the provided properties
+     */
+    public static Thread createThread(Runnable runnable, String name) {
+        return new Thread(runnable, name);
+    }
 }

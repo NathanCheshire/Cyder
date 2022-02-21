@@ -10,6 +10,7 @@ import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.*;
@@ -321,7 +322,7 @@ public class AudioPlayer {
         selectAudioDirButton.setContentAreaFilled(false);
         selectAudioDirButton.setBorderPainted(false);
         selectAudioDirButton.setToolTipText("Select audio");
-        selectAudioDirButton.addActionListener(e -> new Thread(() -> {
+        selectAudioDirButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
                 if (selectedChildFile != null) {
@@ -339,7 +340,7 @@ public class AudioPlayer {
             } finally {
                 refreshAudioFiles(null);
             }
-        }, "wait thread for GetterUtil().getFile()").start());
+        }, "wait thread for GetterUtil().getFile()"));
 
         selectAudioDirButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -603,6 +604,7 @@ public class AudioPlayer {
                 File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
                 if (!userAudioDir.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     userAudioDir.mkdir();
                     return;
                 }
@@ -724,10 +726,7 @@ public class AudioPlayer {
 
                 if (userMusicFiles.length > 0) {
                     refreshOnFile = userMusicFiles[0];
-                } else {
-                    refreshOnFile = null;
-                    return;
-                }
+                } else return;
             } else {
                 if (audioIndex > audioFiles.size() - 1) {
                     refreshOnFile = null;
@@ -978,7 +977,7 @@ public class AudioPlayer {
      */
     public static void startAudio() {
         //invoke thread since we are starting playing from the beginning of the current audio index
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 //make sure files are in order
                 refreshAudioFiles(null);
@@ -1003,6 +1002,7 @@ public class AudioPlayer {
                     audioLocation.kill();
 
                 //these occasionally throw NullPtrExep if the user spams buttons so we'll ignore that
+                //noinspection CatchMayIgnoreException
                 try {
                     //initialize player
                     player = new Player(bis);
@@ -1064,9 +1064,7 @@ public class AudioPlayer {
                     audioLocation.kill();
 
                 //based on the last action, determine if to play next audio
-                if (lastAction == LastAction.PAUSE || lastAction == LastAction.STOP) {
-                    //ended up here due to a pause or stop so no further action required
-                } else {
+                if (lastAction != LastAction.PAUSE && lastAction != LastAction.STOP) {
                     //close resources as if stop had been called
                     stopAudio();
 
@@ -1118,7 +1116,7 @@ public class AudioPlayer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+        },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
     }
 
     /**
@@ -1145,7 +1143,7 @@ public class AudioPlayer {
             startAudio();
         } else if (lastAction == LastAction.PAUSE) {
             lastAction = LastAction.RESUME;
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     refreshAudioFiles(null);
                     refreshAudio();
@@ -1192,9 +1190,7 @@ public class AudioPlayer {
                         audioLocation.kill();
                     audioLocation = null;
 
-                    if (lastAction == LastAction.PAUSE || lastAction == LastAction.STOP) {
-                        //paused/stopped for a reason so do nothing as of now
-                    } else {
+                    if (lastAction != LastAction.PAUSE && lastAction != LastAction.STOP) {
                         stopAudio();
                         refreshAudioFiles(null);
                         refreshAudio();
@@ -1232,7 +1228,7 @@ public class AudioPlayer {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+            },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
         }
     }
 
@@ -1240,16 +1236,14 @@ public class AudioPlayer {
      * Priver inner class for the audio location progress bar and label.
      */
     private static class AudioLocation {
-        private CyderProgressBar effectBar;
         boolean update;
         DecimalFormat format = new DecimalFormat("##.#");
 
         AudioLocation(CyderProgressBar effectBar) {
-            this.effectBar = effectBar;
             update = true;
             audioProgress.setStringPainted(true);
             try {
-                new Thread( () -> {
+                CyderThreadRunner.submit( () -> {
                     while (update) {
                         try {
                             if (totalLength == 0 || fis == null || !audioProgress.isVisible())
@@ -1283,7 +1277,7 @@ public class AudioPlayer {
                             ExceptionHandler.silentHandle(e);
                         }
                     }
-                },DEFAULT_TITLE + " Progress Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+                },DEFAULT_TITLE + " Progress Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1298,12 +1292,10 @@ public class AudioPlayer {
      * Private inner class for the scrolling audio label.
      */
     private static class ImprovedScrollLabel {
-        private JLabel effectLabel;
         boolean scroll;
 
         ImprovedScrollLabel(JLabel effectLabel) {
             scroll = true;
-            this.effectLabel = effectLabel;
 
             try {
                 String localTitle = FileUtil.getFilename(audioFiles.get(audioIndex).getName());
@@ -1326,7 +1318,7 @@ public class AudioPlayer {
                     int milipause = 5000;
                     int initialMiliPause = 3000;
 
-                    new Thread(() -> {
+                    CyderThreadRunner.submit(() -> {
                         try {
                             sleepWithChecks(initialMiliPause);
 
@@ -1358,7 +1350,7 @@ public class AudioPlayer {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    },DEFAULT_TITLE + " scrolling title thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]").start();
+                    },DEFAULT_TITLE + " scrolling title thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
                 } else {
                     String text = FileUtil.getFilename(audioFiles.get(audioIndex));
                     effectLabel.setText(text);
@@ -1403,7 +1395,7 @@ public class AudioPlayer {
      * @param b the boolean value of miniPlayer
      */
     public void setMiniPlayer(boolean b) {
-        this.miniPlayer = b;
+        miniPlayer = b;
     }
 
     /**
@@ -1412,7 +1404,7 @@ public class AudioPlayer {
      * @return miniPlayer value
      */
     public boolean getMiniPlayer() {
-        return this.miniPlayer;
+        return miniPlayer;
     }
 
     /**
@@ -1490,7 +1482,7 @@ public class AudioPlayer {
         float milisRet = 0;
 
         try {
-            Header h = null;
+            Header h;
             FileInputStream fis = new FileInputStream(audioFile);
             Bitstream bitstream = new Bitstream(fis);
             h = bitstream.readFrame();
@@ -1499,16 +1491,16 @@ public class AudioPlayer {
             float ms_per_frame = h.ms_per_frame();
             int maxSize = h.max_number_of_frames(10000);
             float t = h.total_ms(size);
-            long tn = 0;
+            long tn;
             tn = fis.getChannel().size();
 
             int min = h.min_number_of_frames(500);
             milisRet = h.total_ms((int) tn);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return milisRet;
         }
+
+        return milisRet;
     }
 
     /**
@@ -1602,6 +1594,7 @@ public class AudioPlayer {
      *
      * @return whether the button click should be allowed to to pass
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* intellij being dumb */
     private static boolean allowButtonClick() {
         if (System.currentTimeMillis() - lastActionTime > actionTimeoutMS) {
             lastActionTime = System.currentTimeMillis();

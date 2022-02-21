@@ -7,6 +7,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.QueuedNotification;
 import cyder.utilities.*;
@@ -595,7 +596,7 @@ public class CyderFrame extends JFrame {
 
         if (isVisible()) {
             if (titlePosition == CyderFrame.TitlePosition.LEFT) {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     //left
                     for (int i = titleLabel.getX() ; i > 4; i--) {
                         titleLabel.setLocation(i, 2);
@@ -608,9 +609,9 @@ public class CyderFrame extends JFrame {
                     }
                     titleLabel.setLocation(4, 2);
                     this.titlePosition = TitlePosition.LEFT;
-                },"title position animater").start();
+                },"title position animater");
             } else if (titlePosition == TitlePosition.CENTER){
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     switch (oldPosition) {
                         case RIGHT:
                             for (int i = titleLabel.getX() ; i > (getTopDragLabel().getWidth() / 2)
@@ -641,10 +642,10 @@ public class CyderFrame extends JFrame {
                             - (StringUtil.getMinWidth(this.title, titleLabel.getFont()) / 2), 2);
                     this.titlePosition = TitlePosition.CENTER;
                     //set final bounds
-                },"title position animater").start();
+                },"title position animater");
             } else {
                 //right
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     for (int i = titleLabel.getX() ; i < this.width
                             - StringUtil.getMinWidth(this.title, titleLabel.getFont()) - 8; i++) {
                         titleLabel.setLocation(i, 2);
@@ -658,7 +659,7 @@ public class CyderFrame extends JFrame {
                     titleLabel.setLocation(this.width
                             - StringUtil.getMinWidth(this.title, titleLabel.getFont()), 2);
                     this.titlePosition = TitlePosition.RIGHT;
-                },"title position animater").start();
+                },"title position animater");
             }
 
             if (buttonPosition == ButtonPosition.RIGHT && titlePosition == TitlePosition.RIGHT) {
@@ -914,7 +915,7 @@ public class CyderFrame extends JFrame {
                 TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
-            new Thread(notificationQueue, this + " notification queue checker").start();
+            CyderThreadRunner.submit(notificationQueue, this + " notification queue checker");
             notificationCheckerStarted = true;
         }
     }
@@ -1230,7 +1231,7 @@ public class CyderFrame extends JFrame {
     public void dispose(boolean fastClose) {
         Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: " + fastClose + ", CyderFrame: " + this);
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 if (this == null || this.disposed)
                     return;
@@ -1289,7 +1290,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this.getTitle() + " CyderFrame dispose thread").start();
+        }, this.getTitle() + " CyderFrame dispose thread");
     }
 
     /**

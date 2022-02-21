@@ -4,6 +4,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 
 import javax.imageio.ImageIO;
@@ -95,7 +96,7 @@ public class StatUtil {
     }
 
     public static void debugMenu() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 if (CyderCommon.isHighLatency()) {
                     throw new RuntimeException("Stable connection not established");
@@ -147,7 +148,7 @@ public class StatUtil {
             catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Debug Stat Thread").start();
+        },"Debug Stat Thread");
     }
 
     public static String fileByFileAnalyze(File startDir) {

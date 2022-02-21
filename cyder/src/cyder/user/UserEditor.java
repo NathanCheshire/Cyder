@@ -12,6 +12,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
@@ -223,7 +224,7 @@ public class UserEditor {
         addFile1.setBackground(CyderColors.regularRed);
         addFile1.addActionListener(e -> {
             try {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
                         //if this is too small or big, where is it resized and why is it too big?
                         File addFile = new GetterUtil().getFile("Choose file to add");
@@ -261,7 +262,7 @@ public class UserEditor {
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }
-                }, "wait thread for GetterUtil().getFile()").start();
+                }, "wait thread for GetterUtil().getFile()");
             } catch (Exception exc) {
                 ExceptionHandler.handle(exc);
             }
@@ -290,7 +291,7 @@ public class UserEditor {
 
         CyderButton renameFile = new CyderButton("Rename");
         renameFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        renameFile.addActionListener(e -> new Thread(() -> {
+        renameFile.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 if (!filesScroll.getSelectedElements().isEmpty()) {
                     String clickedSelection = filesScroll.getSelectedElements().get(0);
@@ -375,7 +376,7 @@ public class UserEditor {
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }, "Wait thread for getterUtil").start());
+        }, "Wait thread for getterUtil"));
 
         renameFile.setBackground(CyderColors.regularRed);
         renameFile.setFont(CyderFonts.segoe20);
@@ -696,7 +697,7 @@ public class UserEditor {
         builder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
         editUserFrame.notify(builder);
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             Collections.addAll(fontList, Fonts);
 
@@ -729,7 +730,7 @@ public class UserEditor {
                 notificationBuilder.setArrowDir(Direction.LEFT);
                 editUserFrame.notify(notificationBuilder);
             }
-        },"Preference Font Loader").start();
+        },"Preference Font Loader");
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -1403,7 +1404,7 @@ public class UserEditor {
                 editUserFrame.notify("Sorry, but the password you entered was incorrect; user not deleted");
                 deletePasswordField.setText("");
             } else {
-               new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                    boolean delete = new GetterUtil().getConfirmation("Final warning: you are about to" +
                            " delete your Cyder account. All files, pictures, downloaded music, notes, etc. will be deleted." +
                            " Are you ABSOLUTELY sure you wish to continue?", editUserFrame);
@@ -1434,7 +1435,7 @@ public class UserEditor {
                        deletePasswordField.setText("");
                        editUserFrame.notify("Account not deleted");
                    }
-               },"Account deletion confirmation").start();
+               },"Account deletion confirmation");
             }
         });
         printingUtil.printlnComponent(deleteUserButton);
@@ -1478,7 +1479,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        validateWeatherKey.addActionListener(e -> new Thread(() -> {
+        validateWeatherKey.addActionListener(e -> CyderThreadRunner.submit(() -> {
             String text = weatherKeyField.getText().trim();
 
             if (text.length() > 0) {
@@ -1506,7 +1507,7 @@ public class UserEditor {
                     weatherKeyField.setText("");
                 }
             }
-        }, "Weather key validator").start());
+        }, "Weather key validator"));
         printingUtil.printlnComponent(validateWeatherKey);
 
         printingUtil.print("\n\n");
@@ -1548,7 +1549,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        validateIpKey.addActionListener(e -> new Thread(() -> {
+        validateIpKey.addActionListener(e -> CyderThreadRunner.submit(() -> {
             String text = ipKeyField.getText().trim();
 
             if (text.length() > 0) {
@@ -1575,7 +1576,7 @@ public class UserEditor {
                     ipKeyField.setText("");
                 }
             }
-        }, "IP key validator").start());
+        }, "IP key validator"));
         printingUtil.printlnComponent(validateIpKey);
 
         printingUtil.print("\n\n");

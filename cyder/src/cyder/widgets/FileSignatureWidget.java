@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -72,7 +73,7 @@ public class FileSignatureWidget {
         getFile.setBounds(50,190,300,40);
         getFile.addActionListener(e -> {
             try {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
                         File temp = new GetterUtil().getFile("Choose file to validate");
 
@@ -83,7 +84,7 @@ public class FileSignatureWidget {
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }
-                }, "wait thread for GetterUtil().getFile()").start();
+                }, "wait thread for GetterUtil().getFile()");
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }

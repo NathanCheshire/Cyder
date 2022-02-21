@@ -15,6 +15,7 @@ import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.structures.CyderQueue;
 import cyder.structures.CyderStack;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.ImageUtil;
@@ -31,6 +32,7 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     public static void launchTests() {
+        //noinspection EmptyTryBlock
         try {
 
         } catch (Exception e) {
@@ -239,7 +241,7 @@ public class ManualTests {
 
         CyderButton slideUp = new CyderButton("UP");
         slideUp.setBounds(225,150,150,40);
-        slideUp.addActionListener(e -> new Thread(() -> {
+        slideUp.addActionListener(e -> CyderThreadRunner.submit(() -> {
             testFrame.getContentPane().setSize(600, 1200);
             ((JLabel) testFrame.getContentPane()).setIcon(theImage);
 
@@ -255,12 +257,12 @@ public class ManualTests {
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        }).start());
+        },""));
         testFrame.getContentPane().add(slideUp);
 
         CyderButton slideLeft = new CyderButton("LEFT");
         slideLeft.setBounds(225,200,150,40);
-        slideLeft.addActionListener(e -> new Thread(() -> {
+        slideLeft.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int y = testFrame.getContentPane().getY();
                 for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
@@ -273,12 +275,12 @@ public class ManualTests {
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        }).start());
+        },""));
         testFrame.getContentPane().add(slideLeft);
 
         CyderButton slideDown = new CyderButton("DOWN");
         slideDown.setBounds(225,250,150,40);
-        slideDown.addActionListener(e -> new Thread(() -> {
+        slideDown.addActionListener(e ->CyderThreadRunner.submit(() -> {
             try {
                 int x = testFrame.getContentPane().getX();
                 for (int i = 0 ; i < testFrame.getHeight() ; i++) {
@@ -291,12 +293,12 @@ public class ManualTests {
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        }).start());
+        },""));
         testFrame.getContentPane().add(slideDown);
 
         CyderButton slideRight = new CyderButton("RIGHT");
         slideRight.setBounds(225,300,150,40);
-        slideRight.addActionListener(e -> new Thread(() -> {
+        slideRight.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int y = testFrame.getContentPane().getY();
                 for (int i = 0 ; i < testFrame.getWidth() ; i++) {
@@ -309,7 +311,7 @@ public class ManualTests {
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        }).start());
+        },""));
         testFrame.getContentPane().add(slideRight);
 
         testFrame.setVisible(true);
@@ -368,7 +370,7 @@ public class ManualTests {
         cf.setVisible(true);
         cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
-        new Thread( () -> {
+        CyderThreadRunner.submit(() -> {
             for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
                 jpb.setValue(i);
                 try {
@@ -386,7 +388,7 @@ public class ManualTests {
                     ExceptionHandler.handle(e);
                 }
             }
-        }, "ProgressBar Animator").start();
+        }, "ProgressBar Animator");
     }
 
     public static void cyderSliderTest() {

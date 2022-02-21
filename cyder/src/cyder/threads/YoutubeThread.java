@@ -59,7 +59,7 @@ public class YoutubeThread {
     public YoutubeThread(JTextPane jTextPane, int threadNumber) {
         this.stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             //init as user's stored value
             uuid = UserUtil.extractUser().getYoutubeuuid();
 
@@ -157,7 +157,7 @@ public class YoutubeThread {
                     }
                 }
             }
-        },"Random youtube thread #" + threadNumber).start();
+        },"Random youtube thread #" + threadNumber);
     }
 
     /**

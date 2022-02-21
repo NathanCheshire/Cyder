@@ -11,6 +11,7 @@ import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.*;
 
@@ -284,7 +285,7 @@ public class UserCreator {
      *                       of the chosen background if a valid one is chosen
      */
     private static void chooseBackground(CyderButton referenceButton) {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 File temp = new GetterUtil().getFile("Choose new user's background file");
                 if (temp != null) {
@@ -298,7 +299,7 @@ public class UserCreator {
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }, "wait thread for GetterUtil().getFile()").start();
+        }, "wait thread for GetterUtil().getFile()");
     }
 
     /**

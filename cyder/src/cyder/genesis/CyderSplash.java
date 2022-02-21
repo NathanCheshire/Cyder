@@ -6,6 +6,7 @@ import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.StringUtil;
@@ -54,7 +55,7 @@ public class CyderSplash {
 
         splashShown = true;
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 splashFrame = CyderFrame.getBorderlessFrame(600,600);
                 splashFrame.setTitle("Cyder Splash");
@@ -62,7 +63,7 @@ public class CyderSplash {
                 // set AlwaysOnTop, this will be quickly turned off
                 splashFrame.setAlwaysOnTop(true);
 
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
                         JLabel cBlock = new JLabel(new ImageIcon("static/pictures/C.png"));
                         cBlock.setBounds(20,600 / 2 - 150 / 2, 150, 150);
@@ -219,14 +220,14 @@ public class CyderSplash {
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
-                },"Splash Animation").start();
+                },"Splash Animation");
 
                 splashFrame.setVisible(true);
                 splashFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Splash Loader").start();
+        },"Splash Loader");
     }
 
     /**

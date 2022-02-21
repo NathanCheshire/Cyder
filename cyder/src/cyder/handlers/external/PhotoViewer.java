@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
@@ -243,7 +244,7 @@ public class PhotoViewer {
             return;
         }
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
            try {
                String name = new GetterUtil().getString("Rename","Valid filename","Rename");
                if (!StringUtil.isNull(name)) {
@@ -270,7 +271,7 @@ public class PhotoViewer {
            } catch (Exception e) {
                ExceptionHandler.handle(e);
            }
-       }, "wait thread for GetterUtil().getString() " + this).start();
+       }, "wait thread for GetterUtil().getString() " + this);
     }
 
     @Override

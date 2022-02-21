@@ -8,6 +8,7 @@ import cyder.enums.DebugHash;
 import cyder.enums.ExitCondition;
 import cyder.genesis.CyderCommon;
 import cyder.genesis.CyderSplash;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.User;
 import cyder.user.UserCreator;
@@ -121,7 +122,7 @@ public class LoginHandler {
         final int lineTimeout = 400;
 
         //the actual thread that performs the printing animation
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 //while the animation should be performed
                 while (doLoginAnimations && loginFrame != null)  {
@@ -166,10 +167,10 @@ public class LoginHandler {
             catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Login printing animation").start();
+        },"Login printing animation");
 
         //thread to update the input field caret position
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 while (doLoginAnimations && loginFrame != null) {
                     //reset caret pos
@@ -192,7 +193,7 @@ public class LoginHandler {
             catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"Login Input Caret Position Updater").start();
+        },"Login Input Caret Position Updater");
     }
 
     /**

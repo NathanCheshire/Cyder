@@ -8,6 +8,7 @@ import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
 import test.java.ManualTests;
 
@@ -105,12 +106,12 @@ public class Cyder {
 
 
         //IOUtil secondary subroutines that can be executed when program has started essentially
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(ca);
             IOUtil.cleanSandbox();
             OSUtil.deleteTempDir();
-        },"Cyder Start Secondary Subroutines").start();
+        },"Cyder Start Secondary Subroutines");
 
         // Off-ship how to login to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
@@ -139,7 +140,7 @@ public class Cyder {
      * Adds the exiting hook to the JVM.
      */
     private static void addExitHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
             //noinspection Convert2MethodRef
             OSUtil.deleteTempDir();
         }, "common-exit-hook"));
@@ -197,7 +198,7 @@ public class Cyder {
     private static boolean ensureCyderSingleInstance() {
         AtomicBoolean ret = new AtomicBoolean(true);
 
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 //blocking method which also throws
 
@@ -207,7 +208,7 @@ public class Cyder {
                 ExceptionHandler.handle(e);
                 ret.set(false);
             }
-        }, "Singular Cyder Instance Ensurer").start();
+        }, "Singular Cyder Instance Ensurer");
 
         try {
             Thread.sleep(CyderNumbers.singleInstanceEnsurerTimeout);

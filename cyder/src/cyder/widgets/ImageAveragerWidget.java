@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -102,7 +103,7 @@ public class ImageAveragerWidget {
         CyderButton addButton = new CyderButton("Add Image");
         addButton.setBounds(90,480,420,40);
         cf.getContentPane().add(addButton);
-        addButton.addActionListener(e -> new Thread(() -> {
+        addButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 File input = new GetterUtil().getFile("select any image file");
 
@@ -115,7 +116,7 @@ public class ImageAveragerWidget {
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
-        }, "wait thread for GetterUtil().getFile()").start());
+        }, "wait thread for GetterUtil().getFile()"));
 
         CyderButton remove = new CyderButton("Remove Image");
         remove.setBounds(90,530,420,40);

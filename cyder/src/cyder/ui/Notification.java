@@ -5,6 +5,7 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
@@ -47,13 +48,13 @@ public class Notification extends JLabel {
     /**
      * The animation delay between the notification moving through its parent container.
      */
-    private static int delay = 8;
+    private static final int delay = 8;
 
     /**
      * The increment between setLocation calls for the
      * notification moving through its parent container.
      */
-    private static int increment = 8;
+    private static final int increment = 8;
 
     /**
      * The background color of the notification.
@@ -285,92 +286,94 @@ public class Notification extends JLabel {
      * @param notificationDirection the direction for the notification to enter and exit from.
      */
     public void appear(NotificationDirection notificationDirection, Component parent, int delay) {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 setVisible(true);
                 switch (notificationDirection) {
                     case TOP:
-                        for (int i = getY(); i < DragLabel.getDefaultHeight(); i += this.increment) {
+                        for (int i = getY(); i < DragLabel.getDefaultHeight(); i += increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(getX(), DragLabel.getDefaultHeight() - 1, getWidth(), getHeight());
                         break;
                     case TOP_RIGHT:
-                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
+                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(parent.getWidth() - this.getWidth() + 5, getY(), getWidth(), getHeight());
                         break;
                     case TOP_LEFT:
-                        for (int i = getX(); i < 5; i += this.increment) {
+                        for (int i = getX(); i < 5; i += increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(2, getY(), getWidth(), getHeight());
                         break;
                     case LEFT:
-                        for (int i = getX() ; i < 5 ; i+= this.increment) {
+                        for (int i = getX() ; i < 5 ; i+= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(2, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
                         break;
                     case RIGHT:
-                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
+                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(parent.getWidth() - this.getWidth() + 5,
                                 parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
                         break;
                     case BOTTOM:
-                        for (int i = getY(); i > parent.getHeight() - this.getHeight() + 5; i -= this.increment) {
+                        for (int i = getY(); i > parent.getHeight() - this.getHeight() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(getX(), parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
                     case BOTTOM_LEFT:
-                        for (int i = getX(); i < 5; i += this.increment) {
+                        for (int i = getX(); i < 5; i += increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(2, parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
                     case BOTTOM_RIGHT:
-                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= this.increment) {
+                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         setBounds(parent.getWidth() - this.getWidth() + 5,
                                 parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + notificationDirection);
                 }
 
                 //now that it's visible, call vanish with the proper delay if enabled
@@ -381,7 +384,7 @@ public class Notification extends JLabel {
             catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"notification appear animation").start();
+        },"notification appear animation");
     }
 
     /**
@@ -414,6 +417,7 @@ public class Notification extends JLabel {
      * @param parent the component the notification is on
      * @param delay the delay before vanishing
      */
+    @SuppressWarnings("SameParameterValue")
     protected void vanish(Component parent, int delay) {
         vanish(vanishDirection, parent, delay);
     }
@@ -427,49 +431,49 @@ public class Notification extends JLabel {
      * @param delay the delay before vanish
      */
     protected void vanish(NotificationDirection notificationDirection, Component parent, int delay) {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 Thread.sleep(delay);
 
                 switch(notificationDirection) {
                     case TOP:
-                        for (int i = getY() ; i > - getHeight() ; i -= this.increment) {
+                        for (int i = getY() ; i > - getHeight() ; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         break;
                     case BOTTOM:
-                        for (int i = getY() ; i < parent.getHeight() - 5 ; i += this.increment) {
+                        for (int i = getY() ; i < parent.getHeight() - 5 ; i += increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         break;
                     case TOP_LEFT:
                     case LEFT:
                     case BOTTOM_LEFT:
-                        for (int i = getX() ; i > -getWidth() + 5 ; i -= this.increment) {
+                        for (int i = getX() ; i > -getWidth() + 5 ; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         break;
                     case RIGHT:
                     case BOTTOM_RIGHT:
                     case TOP_RIGHT:
-                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += this.increment) {
+                        for (int i = getX() ; i < parent.getWidth() - 5 ; i += increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(this.delay);
+                            Thread.sleep(Notification.delay);
                         }
                         break;
                 }
@@ -483,7 +487,7 @@ public class Notification extends JLabel {
             catch (Exception e) {
                ExceptionHandler.handle(e);
             }
-        },"Notificaiton vanish animater " + this.hashCode()).start();
+        },"Notificaiton vanish animater " + this.hashCode());
     }
 
     /**
