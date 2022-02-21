@@ -659,9 +659,39 @@ public final class ConsoleFrame {
             });
             consoleDragButtonList.add(minimize);
 
-            //todo me if possible
-            pin = new JButton("");
-            pin.setToolTipText("Pin");
+            pin = new IconButton("Pin", CyderIcons.pinIcon, CyderIcons.pinIconHover, new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (consoleCyderFrame.isAlwaysOnTop()) {
+                        pin.setIcon(CyderIcons.pinIcon);
+                    } else {
+                        pin.setIcon(CyderIcons.pinIconHover);
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (consoleCyderFrame.isAlwaysOnTop()) {
+                        pin.setIcon(CyderIcons.pinIconHover);
+                    } else {
+                        pin.setIcon(CyderIcons.pinIcon);
+                    }
+                }
+            }, new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    pin.setIcon(CyderIcons.pinIconHover);
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (consoleCyderFrame.isAlwaysOnTop()) {
+                        pin.setIcon(CyderIcons.pinIconHover);
+                    } else {
+                        pin.setIcon(CyderIcons.pinIcon);
+                    }
+                }
+            });
             pin.addActionListener(e -> {
                 if (consoleCyderFrame.isAlwaysOnTop()) {
                     consoleCyderFrame.setAlwaysOnTop(false);
@@ -685,45 +715,6 @@ public final class ConsoleFrame {
                     pin.setIcon(CyderIcons.pinIconHover);
                 }
             });
-            pin.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(CyderIcons.pinIcon);
-                    } else {
-                        pin.setIcon(CyderIcons.pinIconHover);
-                    }
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(CyderIcons.pinIconHover);
-                    } else {
-                        pin.setIcon(CyderIcons.pinIcon);
-                    }
-                }
-            });
-            pin.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    pin.setIcon(CyderIcons.pinIconHover);
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    if (consoleCyderFrame.isAlwaysOnTop()) {
-                        pin.setIcon(CyderIcons.pinIconHover);
-                    } else {
-                        pin.setIcon(CyderIcons.pinIcon);
-                    }
-                }
-            });
-            pin.setFocusPainted(false);
-            pin.setOpaque(false);
-            pin.setContentAreaFilled(false);
-            pin.setBorderPainted(false);
-            pin.setVisible(true);
             pin.setIcon(UserUtil.extractUser().getScreenStat().isConsoleOnTop() ?
                     CyderIcons.pinIconHover : CyderIcons.pinIcon);
             consoleDragButtonList.add(pin);

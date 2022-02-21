@@ -3,10 +3,8 @@ package cyder.ui;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.Objects;
 
 /**
  * A button with an ImageIcon as the clickable component.
@@ -21,6 +19,11 @@ public class IconButton extends JButton {
     private ImageIcon hoverAndFocusIcon;
 
     public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
+        this(tooltipText, defaultIcon, hoverAndFocusIcon, null, null);
+    }
+
+    public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
+                      MouseListener mouseListener, FocusListener focusListener) {
         if (StringUtil.isNull(tooltipText))
             throw new IllegalArgumentException("Tooltip text is null");
         if (defaultIcon == null || hoverAndFocusIcon == null)
@@ -34,7 +37,7 @@ public class IconButton extends JButton {
         this.hoverAndFocusIcon = hoverAndFocusIcon;
         setToolTipText(tooltipText);
 
-        addMouseListener(new MouseAdapter() {
+        addMouseListener(Objects.requireNonNullElseGet(mouseListener, () -> new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 setIcon(hoverAndFocusIcon);
@@ -44,9 +47,9 @@ public class IconButton extends JButton {
             public void mouseExited(MouseEvent e) {
                 setIcon(defaultIcon);
             }
-        });
+        }));
 
-        addFocusListener(new FocusAdapter() {
+        addFocusListener(Objects.requireNonNullElseGet(focusListener, () -> new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 setIcon(hoverAndFocusIcon);
@@ -56,9 +59,10 @@ public class IconButton extends JButton {
             public void focusLost(FocusEvent e) {
                 setIcon(defaultIcon);
             }
-        });
+        }));
 
-        setIcon(defaultIcon);
+        if (defaultIcon != null)
+            setIcon(defaultIcon);
 
         setFocusPainted(false);
         setOpaque(false);

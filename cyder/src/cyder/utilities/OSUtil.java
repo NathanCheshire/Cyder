@@ -609,8 +609,7 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo extract out listeners of ConsoleFrame to listeners class
-    // basically clean up console frame since the show gui method is crazy complex
+    //todo audio progress label black bar remove, change color gradient?
 
     //todo utilize thread runner for threads and test for each before committing
 
