@@ -422,7 +422,8 @@ public final class ConsoleFrame {
             outputArea.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
             outputArea.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));
             outputArea.setAutoscrolls(true);
-            outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20, ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
+            outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20,
+                    ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
@@ -490,57 +491,7 @@ public final class ConsoleFrame {
             }
 
             //input field key listeners such as escaping and console rotations
-            inputField.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(java.awt.event.KeyEvent e) {
-                    //escaping
-                    if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
-                        try {
-                            inputHandler.escapeThreads();
-                        } catch (Exception exception) {
-                            ExceptionHandler.handle(exception);
-                        }
-                    }
-
-                    //direction switching
-                    if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                        int pos = outputArea.getCaretPosition();
-                        setConsoleDirection(Direction.BOTTOM);
-                        outputArea.setCaretPosition(pos);
-                    } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT)
-                            && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                        int pos = outputArea.getCaretPosition();
-                        setConsoleDirection(Direction.RIGHT);
-                        outputArea.setCaretPosition(pos);
-                    } else if ((e.getKeyCode() == KeyEvent.VK_UP)
-                            && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                        int pos = outputArea.getCaretPosition();
-                       setConsoleDirection(Direction.TOP);
-                        outputArea.setCaretPosition(pos);
-                    } else if ((e.getKeyCode() == KeyEvent.VK_LEFT)
-                            && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                            && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
-                        int pos = outputArea.getCaretPosition();
-                        setConsoleDirection(Direction.LEFT);
-                        outputArea.setCaretPosition(pos);
-                    }
-                }
-
-                @Override
-                public void keyTyped(java.awt.event.KeyEvent e) {
-                    // BashString checker
-                    if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
-                        if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
-                            e.consume();
-                            inputField.setText(consoleBashString);
-                        }
-                    }
-                }
-            });
-
+            inputField.addKeyListener(inputFieldKeyAdapter);
             inputField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "debuglines");
 
@@ -576,7 +527,7 @@ public final class ConsoleFrame {
             });
 
             //a bodge to update the caret position if it goes before an allowed index for console bash string
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 try {
                     while (!isClosed()) {
                         //if caret position is before the bash string
@@ -599,7 +550,7 @@ public final class ConsoleFrame {
                 catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },"Console Input Caret Position Updater").start();
+            },"Console Input Caret Position Updater");
 
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
@@ -664,22 +615,20 @@ public final class ConsoleFrame {
             inputField.addMouseWheelListener(fontSizerListener);
             outputArea.addMouseWheelListener(fontSizerListener);
 
-            helpButton = new JButton("");
-            helpButton.setToolTipText("Help");
-
             //instantiate enter listener for all buttons
             InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
             im.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
             im.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
-            helpButton.addActionListener(e -> new Thread(() -> {
+            helpButton = new IconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
+            helpButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                 //print tests in case the user was trying to invoke one
                 inputHandler.printManualTests();
                 inputHandler.printUnitTests();
 
                 CyderButton suggestionButton = new CyderButton("Make a Suggestion");
                 suggestionButton.setColors(CyderColors.regularPink);
-                suggestionButton.addActionListener(ex -> new Thread(() -> {
+                suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
                     String suggestion = new GetterUtil().getString("Suggestion",
                             "Cyder Suggestion", "Submit", CyderColors.regularPink);
 
@@ -687,39 +636,12 @@ public final class ConsoleFrame {
                         Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
                         inputHandler.println("Suggestion logged");
                     }
-                }, "Suggestion Getter Waiter Thread").start());
+                }, "Suggestion Getter Waiter Thread"));
 
                 inputHandler.printlnComponent(suggestionButton);
-            },"Suggestion Getter Waiter Thread").start());
-            helpButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    helpButton.setIcon(CyderIcons.helpIconHover);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    helpButton.setIcon(CyderIcons.helpIcon);
-                }
-            });
-            helpButton.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    helpButton.setIcon(CyderIcons.helpIconHover);
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    helpButton.setIcon(CyderIcons.helpIcon);
-                }
-            });
+            },"Suggestion Getter Waiter Thread"));
             helpButton.setBounds(32, 4, 22, 22);
-            helpButton.setIcon(CyderIcons.helpIcon);
             consoleCyderFrame.getTopDragLabel().add(helpButton);
-            helpButton.setFocusPainted(false);
-            helpButton.setOpaque(false);
-            helpButton.setContentAreaFilled(false);
-            helpButton.setBorderPainted(false);
 
             menuButton = new JButton("");
             menuLabel = new JLabel();
@@ -745,58 +667,7 @@ public final class ConsoleFrame {
                     }
                 }
             });
-            menuButton.addActionListener(e -> {
-                if (!menuLabel.isVisible()) {
-                    new Thread(() -> {
-                        menuLabel.setLocation(-150, DragLabel.getDefaultHeight() - 2);
-                        int y = menuLabel.getY();
-
-                        for (int i = -150 ; i < 2 ; i+= 8) {
-                            menuLabel.setLocation(i, y);
-                            try {
-                                Thread.sleep(10);
-                            } catch (InterruptedException ex) {
-                                ExceptionHandler.handle(ex);
-                            }
-                        }
-
-                        menuLabel.setLocation(2, y);
-
-                        menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
-                    },"minimize menu thread").start();
-
-                    new Thread(() -> {
-                        generateConsoleMenu();
-                        menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
-                        menuLabel.setVisible(true);
-
-                        int addX = 0;
-                        int width = consoleCyderFrame.getWidth();
-                        int height = consoleCyderFrame.getHeight();
-
-                        if (menuLabel.isVisible())
-                            addX = 2 + menuLabel.getWidth();
-
-                        int finalAddX = addX;
-
-                        for (int i = inputField.getX(); i < finalAddX + 15 ; i += 8) {
-                            outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
-                            inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
-                            try {
-                                Thread.sleep(10);
-                            } catch (Exception ex) {
-                                ExceptionHandler.handle(ex);
-                            }
-                        }
-
-                        outputScroll.setBounds(finalAddX + 15, 62, width - 40 - finalAddX, height - 204);
-                        inputField.setBounds(finalAddX + 15, 62 + outputScroll.getHeight() + 20,width - 40 - finalAddX,
-                                height - (62 + outputScroll.getHeight() + 20 + 20));
-                    },"Console field animator").start();
-                } else {
-                    minimizeMenu();
-                }
-            });
+            menuButton.addActionListener(menuButtonListener);
             menuButton.setBounds(4, 4, 22, 22);
             menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
             consoleCyderFrame.getTopDragLabel().add(menuButton);
@@ -1157,7 +1028,6 @@ public final class ConsoleFrame {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-
     }
 
     /**
@@ -1476,7 +1346,7 @@ public final class ConsoleFrame {
         // otherwise, no intro music so check for gray scale image/play startup sound if released
         else if (CyderCommon.isReleased()) {
             try {
-                new Thread(() -> {
+                CyderThreadRunner.submit(() -> {
                     try {
                         Image icon = new ImageIcon(ImageIO.read(getCurrentBackground().getReferenceFile())).getImage();
 
@@ -1506,12 +1376,65 @@ public final class ConsoleFrame {
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
-                },"Intro Music Checker").start();
+                },"Intro Music Checker");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }
     }
+
+    private final ActionListener menuButtonListener = e -> {
+        if (!menuLabel.isVisible()) {
+            CyderThreadRunner.submit(() -> {
+                menuLabel.setLocation(-150, DragLabel.getDefaultHeight() - 2);
+                int y = menuLabel.getY();
+
+                for (int i = -150 ; i < 2 ; i+= 8) {
+                    menuLabel.setLocation(i, y);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                        ExceptionHandler.handle(ex);
+                    }
+                }
+
+                menuLabel.setLocation(2, y);
+
+                menuButton.setIcon(new ImageIcon("static/pictures/icons/menu2.png"));
+            },"minimize menu thread");
+
+            CyderThreadRunner.submit(() -> {
+                generateConsoleMenu();
+                menuLabel.setLocation(-150,DragLabel.getDefaultHeight() - 2);
+                menuLabel.setVisible(true);
+
+                int addX = 0;
+                int width = consoleCyderFrame.getWidth();
+                int height = consoleCyderFrame.getHeight();
+
+                if (menuLabel.isVisible())
+                    addX = 2 + menuLabel.getWidth();
+
+                int finalAddX = addX;
+
+                for (int i = inputField.getX(); i < finalAddX + 15 ; i += 8) {
+                    outputScroll.setBounds(i, outputScroll.getY(), outputScroll.getWidth() + 1, outputScroll.getHeight());
+                    inputField.setBounds(i, inputField.getY(), inputField.getWidth() + 1, inputField.getHeight());
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception ex) {
+                        ExceptionHandler.handle(ex);
+                    }
+                }
+
+                outputScroll.setBounds(finalAddX + 15, 62, width - 40 - finalAddX, height - 204);
+                inputField.setBounds(finalAddX + 15, 62 + outputScroll.getHeight() + 20,width - 40 - finalAddX,
+                        height - (62 + outputScroll.getHeight() + 20 + 20));
+            },"Console menu animator");
+        } else {
+            minimizeMenu();
+        }
+    };
 
     /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
@@ -1718,7 +1641,7 @@ public final class ConsoleFrame {
      */
     private void minimizeMenu() {
         if (menuLabel.isVisible()) {
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 int width = consoleCyderFrame.getWidth();
                 int height = consoleCyderFrame.getHeight();
 
@@ -1736,9 +1659,9 @@ public final class ConsoleFrame {
                 outputScroll.setBounds(15, 62, width - 40, height - 204);
                 inputField.setBounds(15, 62 + outputScroll.getHeight() + 20,width - 40,
                         height - (62 + outputScroll.getHeight() + 20 + 20));
-            },"Console field animator").start();
+            },"Console menu animator");
 
-            new Thread(() -> {
+            CyderThreadRunner.submit(() -> {
                 menuLabel.setLocation(2, DragLabel.getDefaultHeight() - 2);
                 int y = menuLabel.getY();
 
@@ -1755,9 +1678,60 @@ public final class ConsoleFrame {
 
                 menuLabel.setVisible(false);
                 menuButton.setIcon(new ImageIcon("static/pictures/icons/menuSide1.png"));
-            },"minimize menu thread").start();
+            },"minimize menu thread");
         }
     }
+
+    private final KeyAdapter inputFieldKeyAdapter = new KeyAdapter() {
+        @Override
+        public void keyPressed(java.awt.event.KeyEvent e) {
+            //escaping
+            if ((e.getKeyCode() == KeyEvent.VK_C) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
+                try {
+                    inputHandler.escapeThreads();
+                } catch (Exception exception) {
+                    ExceptionHandler.handle(exception);
+                }
+            }
+
+            //direction switching
+            if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+                int pos = outputArea.getCaretPosition();
+                setConsoleDirection(Direction.BOTTOM);
+                outputArea.setCaretPosition(pos);
+            } else if ((e.getKeyCode() == KeyEvent.VK_RIGHT)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+                int pos = outputArea.getCaretPosition();
+                setConsoleDirection(Direction.RIGHT);
+                outputArea.setCaretPosition(pos);
+            } else if ((e.getKeyCode() == KeyEvent.VK_UP)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+                int pos = outputArea.getCaretPosition();
+                setConsoleDirection(Direction.TOP);
+                outputArea.setCaretPosition(pos);
+            } else if ((e.getKeyCode() == KeyEvent.VK_LEFT)
+                    && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
+                int pos = outputArea.getCaretPosition();
+                setConsoleDirection(Direction.LEFT);
+                outputArea.setCaretPosition(pos);
+            }
+        }
+
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent e) {
+            // BashString checker
+            if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
+                if (inputField.getPassword().length < consoleBashString.toCharArray().length) {
+                    e.consume();
+                    inputField.setText(consoleBashString);
+                }
+            }
+        }
+    };
 
     /**
      * The key listener for input field to control command scrolling.
@@ -2666,7 +2640,7 @@ public final class ConsoleFrame {
      * for "iterations" iterations each 600ms.
      */
     public void flashSuggestionButton(int iterations) {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             try {
                 for (int i = 0 ; i < iterations ; i++) {
                     helpButton.setIcon(CyderIcons.helpIconHover);
@@ -2677,7 +2651,7 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Suggestion Button Flash").start();
+        }, "Suggestion Button Flash");
     }
 
     /**
@@ -2826,7 +2800,7 @@ public final class ConsoleFrame {
      * Smoothly animates out the console audio controls.
      */
     private void animateOutAudioControls() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
@@ -2834,14 +2808,14 @@ public final class ConsoleFrame {
                 } catch (Exception ignored) {}
             }
             audioControlsLabel.setVisible(false);
-        }, "Console Audio Menu Minimizer").start();
+        }, "Console Audio Menu Minimizer");
     }
 
     /**
      * Smooth animates out and removes the audio controls button.
      */
     public void animateOutAndRemoveAudioControls() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             for (int i = audioControlsLabel.getY() ; i > -40 ; i -= 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
@@ -2850,14 +2824,14 @@ public final class ConsoleFrame {
             }
             audioControlsLabel.setVisible(false);
             removeAudioControls();
-        }, "Console Audio Menu Minimizer").start();
+        }, "Console Audio Menu Minimizer");
     }
 
     /**
      * Smoothly animates in the audio controls.
      */
     private void animateInAudioControls() {
-        new Thread(() -> {
+        CyderThreadRunner.submit(() -> {
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, -40);
             audioControlsLabel.setVisible(true);
             for (int i = -40 ; i < DragLabel.getDefaultHeight() - 2 ; i += 8) {
@@ -2868,7 +2842,7 @@ public final class ConsoleFrame {
                 } catch (Exception ignored) {}
             }
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, DragLabel.getDefaultHeight() - 2);
-        }, "Console Audio Menu Minimizer").start();
+        }, "Console Audio Menu Minimizer");
     }
 
     /**
