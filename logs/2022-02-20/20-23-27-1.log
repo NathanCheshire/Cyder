@@ -11,8 +11,7 @@
 [20-23-30] [SYSTEM_IO]: Userdata requested: RandomBackground
 [20-23-30] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-23-30] [SYSTEM_IO]: Userdata requested: fullscreen
-[20-23-30] [SYSTEM_IO]: Userdata requested: FullScreen
-[20-23-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-23-30] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [20-23-30] [THREAD STARTED]: Console Printing Animation
 [20-23-30] [SYSTEM_IO]: Userdata requested: OutputBorder
 [20-23-30] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -32,8 +31,7 @@
 [20-23-30] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1562938538], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
 [20-23-30] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3095ms
 [20-23-30] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[20-23-36] [SYSTEM_IO]: Userdata requested: Background
-[20-23-38] [SYSTEM_IO]: Userdata requested: Background
+[20-23-38] [SYSTEM_IO]: Userdata requested: Background [2x]
 [20-23-40] [CLIENT]: `clickme
 [20-23-40] [SYSTEM_IO]: Userdata requested: filterchat
 [20-23-40] [THREAD STARTED]: Unknown Input Handler
@@ -53,14 +51,7 @@
 [20-23-52] [HANDLE]: PRIMARY HANDLE
 [20-23-52] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
 [20-23-53] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
-[20-23-57] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-23-59] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-01] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-04] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-06] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-07] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-11] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-24-11] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [8x]
 [20-24-15] [CLIENT]: opacity
 [20-24-15] [SYSTEM_IO]: Userdata requested: filterchat
 [20-24-15] [HANDLE]: GENERAL COMMAND HANDLED
@@ -71,8 +62,7 @@
 [20-24-24] [SYSTEM_IO]: Userdata requested: filterchat
 [20-24-24] [HANDLE]: GENERAL COMMAND HANDLED
 [20-24-24] [HANDLE]: PRIMARY HANDLE
-[20-24-30] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[20-24-31] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-24-31] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [45841861], parentFrame = [Twillzzz - Lord Please], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [20-24-31] [SYSTEM_IO]: Userdata requested: minimizeanimation
 [20-24-32] [THREAD STARTED]: Console Audio Menu Minimizer
 [20-24-34] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3

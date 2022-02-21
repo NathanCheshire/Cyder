@@ -57,14 +57,14 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     //the image used for the animation
 
-    private BufferedImage barImage;
-
     public static BufferedImage createRippleImageHorizontal(Color darkColor, Color lightColor, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
-        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0,0), darkColor, new Point2D.Double(width/2, 0), lightColor);
-        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(width/2,0), lightColor, new Point2D.Double(width, 0), darkColor);
+        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0,0),
+                darkColor, new Point2D.Double(width / 2.0, 0), lightColor);
+        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(width / 2.0,0),
+                lightColor, new Point2D.Double(width, 0), darkColor);
         g2.setPaint(darkToLight);
         g2.fillRect(0, 0, width/2, height);
         g2.setPaint(lightToDark);
@@ -77,8 +77,10 @@ public class CyderProgressUI extends BasicProgressBarUI {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
 
-        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0,0), darkColor, new Point2D.Double(0, height/2), lightColor);
-        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(0,height/2), lightColor, new Point2D.Double(0, height), darkColor);
+        GradientPaint darkToLight = new GradientPaint(new Point2D.Double(0,0),
+                darkColor, new Point2D.Double(0, height / 2.0), lightColor);
+        GradientPaint lightToDark = new GradientPaint(new Point2D.Double(0,height / 2.0),
+                lightColor, new Point2D.Double(0, height), darkColor);
         g2.setPaint(darkToLight);
         g2.fillRect(0, 0, width, height/2);
         g2.setPaint(lightToDark);
@@ -134,6 +136,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
         if (this.shape == Shape.SQUARE) {
             c.setBackground(CyderColors.vanila);
 
+            BufferedImage barImage;
             if (progressBar.getOrientation() == JProgressBar.VERTICAL) {
                 barImage = createRippleImageVertical(colors[0], colors[1], c.getWidth(), c.getHeight());
 
@@ -152,7 +155,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 //set the clip at the point that it shouldn't extend past
                 g.setClip(b.left, b.top, barRectWidth, amountFull);
 
-                int offset = 0;
+                int offset;
                 //image drawing offset for completed percent
                 if (direction == AnimationDirection.TOP_TO_BOTTOM) {
                     offset = (int) (rangeMap(getAnimationIndex(), 0, numFrames, 0, barImage.getHeight()));
@@ -167,7 +170,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 }
             } else {
                 //get the image with the colors of proper width and height
-                barImage = createRippleImageHorizontal(colors[0], colors[1], c.getWidth(), c.getHeight());
+                barImage = createRippleImageHorizontal(colors[0], colors[1], c.getWidth() * 2, c.getHeight());
 
                 //get proper width and height accounting for insets as well
                 Insets b = progressBar.getInsets();
@@ -184,7 +187,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 //set the clip at the point that it shouldn't extend past
                 g.setClip(b.left, b.top, amountFull, barRectHeight);
 
-                int offset = 0;
+                int offset;
                 //right to left otherwise left to right, offset for progress image drawing
                 if (direction == AnimationDirection.RIGHT_TO_LEFT) {
                     offset = (int) (rangeMap(getAnimationIndex(), 0, numFrames, barImage.getWidth(), 0));
@@ -217,7 +220,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 int fullH = (outerHeight - oStrokeHeight);
                 int drawFill = (int) Math.min(fullH, prog);
 
-                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeHeight / 2, oStrokeHeight / 2,
+                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeHeight / 2.0, oStrokeHeight / 2.0,
                          outerWidth - oStrokeHeight, drawFill, outerWidth, outerWidth);
 
                 g2d.fill(fill);
@@ -231,7 +234,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 int width = c.getWidth();
                 int height = c.getHeight();
 
-                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokeHeight / 2, iStrokeHeight / 2,
+                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokeHeight / 2.0, iStrokeHeight / 2.0,
                         width - iStrokeHeight, height - iStrokeHeight, width, width);
 
                 g2d.draw(outline);
@@ -258,7 +261,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 int fullW = (outerWidth - oStrokeWidth);
                 int drawFill = (int) Math.min(fullW, prog);
 
-                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeWidth / 2, oStrokeWidth / 2,
+                RoundRectangle2D fill = new RoundRectangle2D.Double(oStrokeWidth / 2.0, oStrokeWidth / 2.0,
                         drawFill, outerHeight - oStrokeWidth, outerHeight, outerHeight);
 
                 g2d.fill(fill);
@@ -272,7 +275,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
                 int width = c.getWidth();
                 int height = c.getHeight();
 
-                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokWidth / 2, iStrokWidth / 2,
+                RoundRectangle2D outline = new RoundRectangle2D.Double(iStrokWidth / 2.0, iStrokWidth / 2.0,
                         width - iStrokWidth, height - iStrokWidth, height, height);
 
                 g2d.draw(outline);
@@ -285,16 +288,36 @@ public class CyderProgressUI extends BasicProgressBarUI {
         }
     }
 
-    //maps the given value in the first range to the corresponding value in the second range
+    /**
+     * Maps the provided value in the original range to the second range.
+     *
+     * @param value the value to map
+     * @param low1 the min value of the orignal range
+     * @param high1 the max value of the original range
+     * @param low2 the min value of the new range
+     * @param high2 the max value of the new range
+     * @return the mapped value
+     */
+    @SuppressWarnings("SameParameterValue") /* for readability */
     private static double rangeMap(double value, double low1, double high1, double low2, double high2) {
         return linearInterpolate(low2, high2, (value - low1) / (high1 - low1));
     }
 
-    //linearly interpolate between val1 and val2 where amt is the amount to interpolate between the two values
+    /**
+     * Linearly interpolates between val1 and val2 where amt is the amount to interpolate between the two values.
+     *
+     * @param value1 the first value
+     * @param value2 the second value
+     * @param amt the alpha value
+     * @return the linear interpolation
+     */
     private static double linearInterpolate(double value1, double value2, double amt) {
         return ((value2 - value1) * amt) + value1;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);

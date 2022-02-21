@@ -1,0 +1,40 @@
+[20-42-15] [ENTRY]: [Nathan]
+[20-42-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-42-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-42-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-42-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-42-16] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-42-16] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-42-16] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-42-16] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-42-17] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[20-42-17] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-42-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-42-17] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-42-17] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-42-17] [THREAD STARTED]: Console Printing Animation
+[20-42-17] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-42-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-42-17] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-42-17] [THREAD STARTED]: Console Input Caret Position Updater
+[20-42-17] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-42-17] [SYSTEM_IO]: Userdata requested: InputFill
+[20-42-17] [THREAD STARTED]: High Ping Checker
+[20-42-17] [THREAD STARTED]: Hourly Chime Checker
+[20-42-17] [THREAD STARTED]: Console Clock Updater
+[20-42-18] [THREAD STARTED]: Cyder Busy Checker
+[20-42-18] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-42-18] [ACTION]: Console loaded in 3504ms
+[20-42-18] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-42-18] [ENTRY]: [TESTING MODE]
+[20-42-18] [SYSTEM_IO]: Userdata requested: laststart
+[20-42-18] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [123359972], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-42-18] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3504ms
+[20-42-18] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-42-52] [CLIENT]: mp3
+[20-42-52] [SYSTEM_IO]: Userdata requested: filterchat
+[20-42-52] [WIDGET OPENED]: AUDIO PLAYER
+[20-42-52] [HANDLE]: PRIMARY HANDLE
+[20-42-52] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[20-42-52] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[20-44-34] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

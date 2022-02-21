@@ -162,8 +162,7 @@ public class ImageUtil {
         BufferedImage ReturnImage = null;
 
         try {
-            File CurrentConsole = imageFile;
-            Image ConsoleImage = ImageIO.read(CurrentConsole);
+            Image ConsoleImage = ImageIO.read(imageFile);
             Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             Graphics2D bGr = ReturnImage.createGraphics();
@@ -277,9 +276,9 @@ public class ImageUtil {
         BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = rotated.createGraphics();
         AffineTransform at = new AffineTransform();
-        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+        at.translate((newWidth - w) / 2.0, (newHeight - h) / 2.0);
 
-        at.rotate(rads, w / 2, h / 2);
+        at.rotate(rads, w / 2.0, h / 2.0);
         g2d.setTransform(at);
         g2d.drawImage(img, 0, 0, null);
         g2d.dispose();
@@ -315,9 +314,9 @@ public class ImageUtil {
         BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = rotated.createGraphics();
         AffineTransform at = new AffineTransform();
-        at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+        at.translate((newWidth - w) / 2.0, (newHeight - h) / 2.0);
 
-        at.rotate(rads, w / 2, h / 2);
+        at.rotate(rads, w / 2.0, h / 2.0);
         g2d.setTransform(at);
         g2d.drawImage(img, 0, 0, null);
         g2d.dispose();
@@ -331,9 +330,7 @@ public class ImageUtil {
      * @param bi the buffered image to display
      */
     public static void drawBufferedImage(BufferedImage bi) {
-        CyderFrame frame = new CyderFrame(bi.getWidth(), bi.getHeight(), new ImageIcon(bi));
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        drawImageIcon(new ImageIcon(bi));
     }
 
     /**
@@ -342,9 +339,12 @@ public class ImageUtil {
      * @param icon the icon to display
      */
     public static void drawImageIcon(ImageIcon icon) {
-        CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight(), icon);
-        frame.setTitle(icon.getDescription() == null || icon.getDescription().length() == 0 ? "" : icon.getDescription());
-        frame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+        CyderFrame frame = new CyderFrame(icon.getIconWidth() + 10, icon.getIconHeight() + 35);
+
+        JLabel label = new JLabel(icon);
+        label.setBounds(5, 30, icon.getIconWidth(), icon.getIconHeight());
+        frame.getContentPane().add(label);
+
         frame.setVisible(true);
         frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
@@ -409,10 +409,10 @@ public class ImageUtil {
             BufferedImage bi1 = toBufferedImage(oldImage);
             BufferedImage bi2 = toBufferedImage(newImage);
 
-            int width = 0;
-            int height = 0;
-            BufferedImage combined = null;
-            Graphics2D g2 = null;
+            int width;
+            int height;
+            BufferedImage combined;
+            Graphics2D g2;
 
             switch (dir) {
                 case LEFT:
@@ -635,9 +635,9 @@ public class ImageUtil {
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            return ret;
         }
+
+        return ret;
     }
 
     /**
