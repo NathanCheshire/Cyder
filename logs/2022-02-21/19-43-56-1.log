@@ -15,8 +15,7 @@
 [19-43-58] [SYSTEM_IO]: Userdata requested: RandomBackground
 [19-43-58] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-43-58] [SYSTEM_IO]: Userdata requested: fullscreen
-[19-43-58] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-43-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-43-58] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [19-43-58] [THREAD STARTED]: Console Printing Animation
 [19-43-59] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-43-59] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -45,3 +44,4 @@
 [19-44-01] [THREAD STARTED]: YouTube Download Progress Updater
 [19-44-01] [HANDLE]: GENERAL COMMAND HANDLED
 [19-44-01] [HANDLE]: PRIMARY HANDLE
+[19-45-24] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

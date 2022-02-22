@@ -1421,6 +1421,11 @@ public class InputHandler {
                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                    String s;
 
+                   //[download]   8.5% of 63.81MiB at 81.09KiB/s ETA 12:17
+                   //[download] xx.x% of numbers . numbers at numbers. numbers chars and such ETC space eta
+                   String regex = "\\[download]\\s*([0-9\\.%]+)\\s*of\\s*([0-9\\.A-Za-z])\\s*at\\s*([0-9\\.A-Za-z])\\s*ETA\\s*([0-9:])";
+                   //groups: percent complete, total space to download, download rate, eta
+
                    while ((s = stdInput.readLine()) != null) {
                        println(s);
                    }
