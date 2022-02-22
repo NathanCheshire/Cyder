@@ -524,28 +524,11 @@ public class OSUtil {
      * @return the UI scaling factor for the primary monitor
      */
     public static double getUIScale() {
-        return getUIScale(Toolkit.getDefaultToolkit().getScreenSize());
-    }
+        return 1.0;
+        //todo this is affected by the starting monitor so maybe allow the user to be able to change this
+        // requires a restart to try and think of a script for that?
 
-    /**
-     * Returns the scaling factor for the provided monitor size.
-     *
-     * @param monitorDimensions the dimensions of the monitor
-     * @return the scaling factor for the provided monitor size
-     */
-    public static double getUIScale(Dimension monitorDimensions) {
-        double pixels = monitorDimensions.getWidth() * monitorDimensions.getHeight();
-
-        // I think this should be some kind of map
-        double baseline = 2560.0 * 1440.0;
-
-        if (pixels == baseline) {
-            return 1.0;
-        } else if (pixels < baseline) {
-            return 2.0;
-        } else {
-            return 3.0;
-        }
+        //todo move to user util and init with 1? shouldn't both of my monitors return 1?
     }
 
     /**
@@ -609,13 +592,12 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo login frame resize bug comes from scalability issues. these were displayed at work
-    // too when transitioning between monitoirs and weird dragging bugs, maybe don't play with DPI
-
     //todo never delete a json just mark the user as invalid
 
     //todo most linked lists should be replaced with array lists
     // refresh on the difference and use case of each before hand
+    // linked list: needing manipulation
+    // array list: needing access
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

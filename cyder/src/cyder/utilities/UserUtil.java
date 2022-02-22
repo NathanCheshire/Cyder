@@ -198,7 +198,7 @@ public class UserUtil {
             userMusicFile.mkdir();
 
         if (!userJsonFile.exists()) {
-            userJsonDeleted(UUID);
+            userJsonCorruption(UUID);
             return;
         }
 
@@ -215,7 +215,7 @@ public class UserUtil {
                         //fatal data that results in the user being corrupted if it is corrupted
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
-                            userJsonDeleted(UUID);
+                            userJsonCorruption(UUID);
                             return;
                         }
                         //non-fatal data that we can restore from the default data
@@ -575,15 +575,39 @@ public class UserUtil {
     }
 
     /**
-     * After a user's json file was deleted due to it being un-parsable, null, or any other reason,
+     * The linked list of invalid users which this instance of Cyder will ignore.
+     */
+    private static final LinkedList<String> invalidUUIDs = new LinkedList<>();
+
+    /**
+     * Adds the provided uuid to the list of uuids to ignore throughout Cyder.
+     *
+     * @param uuid the uuid to ignore
+     */
+    public static void addInvalidUuid(String uuid) {
+        boolean in = false;
+
+        for (String aUuid : invalidUUIDs) {
+            if (uuid.equals(aUuid)) {
+                in = true;
+                break;
+            }
+        }
+
+        if (!in)
+            invalidUUIDs.add(uuid);
+    }
+
+    /**
+     * After a user's json file was marked as invalid due to it being un-parsable, null, or any other reason,
      * this method informs the user that a user was corrupted and attempts to tell the user
      * which user it was by listing the files associated with the corrupted user.
      *
-     * This method should be utilized anywhere a userdata file is deleted during Cyder runtime.
+     * This method should be utilized anywhere a userdata file is deemed invalid.
      *
      * @param UUID the uuid of the corrupted user
      */
-    public static void userJsonDeleted(String UUID) {
+    public static void userJsonCorruption(String UUID) {
         try {
             //create parent directory
             File userDir = new File(OSUtil.buildPath("dynamic","users",
@@ -591,12 +615,7 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     UUID, UserFile.USERDATA.getName()));
 
-            //delete the json if it still exists for some reason
-            if (userJson.exists())
-                //noinspection ResultOfMethodCallIgnored
-                userJson.delete();
-
-            //if there's nothing left in the dir, delete the whole folder
+            //if there's nothing left in the user dir for some reason, delete the whole folder
             if (userDir.listFiles().length == 0)
                 OSUtil.delete(userDir);
             else {

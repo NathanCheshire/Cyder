@@ -6,7 +6,7 @@ import cyder.widgets.WeatherWidget;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -71,7 +71,7 @@ public class UnitTests {
 
     @Test
     public void testIPv4RegexMatcher() {
-        LinkedList<String> ipv4Tests = new LinkedList<>();
+        ArrayList<String> ipv4Tests = new ArrayList<>();
         ipv4Tests.add("  127.045.04.1  ");
         ipv4Tests.add("  127.045.04.1");
         ipv4Tests.add("123");
@@ -105,7 +105,7 @@ public class UnitTests {
 
     @Test
     public void testPhoneNumberPattern() {
-        LinkedList<String> phoneNumbers = new LinkedList<>();
+        ArrayList<String> phoneNumbers = new ArrayList<>();
         phoneNumbers.add("456 0112");
         phoneNumbers.add("456-0112");
         phoneNumbers.add("456 - 0112");

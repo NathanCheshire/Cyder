@@ -168,11 +168,10 @@ public class IOUtil {
                 //attempt to update the json
                 boolean success = UserUtil.updateOldJson(json);
 
-                //if it fails then delete the json
+                //if it fails then invoke invalid on the json
                 if (!success) {
-                    //noinspection ResultOfMethodCallIgnored
-                    json.delete();
-                    UserUtil.userJsonDeleted(FileUtil.getFilename(user));
+                    UserUtil
+                    UserUtil.userJsonCorruption(FileUtil.getFilename(user));
                 }
             }
         }
