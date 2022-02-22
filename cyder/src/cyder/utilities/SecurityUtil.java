@@ -22,17 +22,6 @@ public class SecurityUtil {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    // todo remove, use !released or something
-    public static boolean nathanLenovo() {
-        try {
-            return true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return false;
-    }
-
     /**
      * Converts the given char array to a byte array without using string object.
      * This way any possible security issues that arise from the nature of String pool are avoided.

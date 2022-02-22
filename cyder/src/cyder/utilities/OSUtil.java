@@ -609,9 +609,10 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo never delete a json just mark the user as invalid
+    //todo login frame resize bug comes from scalability issues. these were displayed at work
+    // too when transitioning between monitoirs and weird dragging bugs, maybe don't play with DPI
 
-    //todo on start delete all .parts from all users music files (all non mp3 or dirs in side of Music)
+    //todo never delete a json just mark the user as invalid
 
     //todo most linked lists should be replaced with array lists
     // refresh on the difference and use case of each before hand

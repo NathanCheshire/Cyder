@@ -930,68 +930,49 @@ public class InputHandler {
                 }
             }
         } else if (commandIs("wipelogs")) {
-            if (SecurityUtil.nathanLenovo()) {
-                File[] logDirs = new File("logs").listFiles();
-                int count = 0;
+            File[] logDirs = new File("logs").listFiles();
+            int count = 0;
 
-                for (File logDir : logDirs) {
-                    for (File log : logDir.listFiles()) {
-                        if (FileUtil.getExtension(log).equals(".log")
-                                && !log.equals(Logger.getCurrentLog())) {
-                            //noinspection ResultOfMethodCallIgnored
-                            log.delete();
-                            count++;
-                        }
+            for (File logDir : logDirs) {
+                for (File log : logDir.listFiles()) {
+                    if (FileUtil.getExtension(log).equals(".log")
+                            && !log.equals(Logger.getCurrentLog())) {
+                        //noinspection ResultOfMethodCallIgnored
+                        log.delete();
+                        count++;
                     }
                 }
-
-                println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
-            } else {
-                println("Sorry, " + UserUtil.getUserData("name") + ", " +
-                        "but you do not have permission to perform that operation.");
             }
+
+            println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
         } else if (commandIs("countlogs")) {
-            if (SecurityUtil.nathanLenovo()) {
-                File[] logDirs = new File("logs").listFiles();
-                int count = 0;
-                int days = 0;
+            File[] logDirs = new File("logs").listFiles();
+            int count = 0;
+            int days = 0;
 
-                for (File logDir : logDirs) {
-                    days++;
-                    for (File log : logDir.listFiles()) {
-                        if (FileUtil.getExtension(log).equals(".log")
-                                && !logDir.equals(Logger.getCurrentLog())) {
-                            count++;
-                        }
+            for (File logDir : logDirs) {
+                days++;
+                for (File log : logDir.listFiles()) {
+                    if (FileUtil.getExtension(log).equals(".log")
+                            && !logDir.equals(Logger.getCurrentLog())) {
+                        count++;
                     }
                 }
-
-                println("Number of log dirs: " + days);
-                println("Number of logs: " + count);
-            } else {
-                println("Sorry, " + UserUtil.getUserData("name") + ", " +
-                        "but you do not have permission to perform that operation.");
             }
+
+            println("Number of log dirs: " + days);
+            println("Number of logs: " + count);
         } else if (commandIs("opencurrentlog")) {
-            if (SecurityUtil.nathanLenovo()) {
-                IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
-            } else {
-                println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
-                        "to perform that operation.");
-            }
+            IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
         } else if (commandIs("openlastlog")) {
-            if (SecurityUtil.nathanLenovo()) {
-                File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
+            File[] logs = Logger.getCurrentLog().getParentFile().listFiles();
 
-                if (logs.length == 1) {
-                    println("No previous logs found");
-                } else if (logs.length > 1) {
-                    IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
-                }
-            } else {
-                println("Sorry, " + UserUtil.getUserData("name") + ", but you do not have permission " +
-                        "to perform that operation.");
+            if (logs.length == 1) {
+                println("No previous logs found");
+            } else if (logs.length > 1) {
+                IOUtil.openFileOutsideProgram(logs[logs.length - 2].getAbsolutePath());
             }
+
         } else if (commandIs("play")) {
             boolean isURL = true;
 

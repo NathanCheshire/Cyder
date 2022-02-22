@@ -453,15 +453,11 @@ public class IOUtil {
      * or production mode.
      */
     public static void cleanSandbox() {
-        if (!SecurityUtil.nathanLenovo()) {
-            wipeSandbox();
-        } else {
-            File sandbox = new File("static/sandbox");
+        File sandbox = new File("static/sandbox");
 
-            if (!sandbox.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                sandbox.mkdir();
-            }
+        if (!sandbox.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            sandbox.mkdir();
         }
     }
 

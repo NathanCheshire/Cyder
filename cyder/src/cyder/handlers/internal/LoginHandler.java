@@ -436,23 +436,16 @@ public class LoginHandler {
      * Begins the login sequence to figure out how to enter Cyder.
      */
     public static void determineCyderEntry() {
-        //if on main development computer
-        if (SecurityUtil.nathanLenovo()) {
-            CyderSplash.setLoadingMessage("Checking for an AutoCypher");
+        CyderSplash.setLoadingMessage("Checking for an AutoCypher");
 
-            //if AutoCyphering is enabled, attempt all cyphers
-            if (CyderCommon.isAutoCypher()) {
-                Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
-                CyderSplash.setLoadingMessage("Auto Cyphering");
+        //if AutoCyphering is enabled, attempt all cyphers
+        if (CyderCommon.isAutoCypher()) {
+            Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
+            CyderSplash.setLoadingMessage("Auto Cyphering");
 
-                //if AutoCyphering fails, show the login gui
-                if (!autoCypher()) {
-                    Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
-                    showGUI();
-                }
-            }
-            // if main development computer but AutoCypher is disabled, show the login gui
-            else {
+            //if AutoCyphering fails, show the login gui
+            if (!autoCypher()) {
+                Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER FAIL");
                 showGUI();
             }
         }
