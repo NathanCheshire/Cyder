@@ -136,13 +136,9 @@ public class YoutubeUtil {
                             System.out.println("Completed and saved as " + response.getDirectory() + OSUtil.FILE_SEP + outName);
                         }
 
-                        //running youtube-dl UUID outputs a percentage so try and extract that
-                        // and update a progress bar on the console
-
+                        //todo since playlists just downloads individual videos too, is the thumbnail grabbed as well?
+                        //todo test downloading and playing playlists, test on this:
                         //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
-
-                        //todo look into some kind of progres bar for each video that you can update on the console
-                        //todo so is it possible to get the
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
                         ConsoleFrame.getConsoleFrame().getInputHandler().println("An exception occured while downloading playlist: " + playlistID);

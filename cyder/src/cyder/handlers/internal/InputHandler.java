@@ -1412,7 +1412,10 @@ public class InputHandler {
         } else if (commandIs("testerjester")) {
            CyderThreadRunner.submit(() -> {
                try {
+                   String saveDir = OSUtil.buildPath("dynamic","users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+
                    //todo need an argument for the path here too for where to save otherwise it's in top level cyder dir
+
                    Runtime rt = Runtime.getRuntime();
                    String[] commands = {"youtube-dl", "https://www.youtube.com/watch?v=mDlQ4QYsVhQ"};
 
@@ -1424,7 +1427,7 @@ public class InputHandler {
                    Pattern p  = Pattern.compile(
                            "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
 
-
+                   // progress label for this download to update
                    CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
                    CyderProgressUI ui = new CyderProgressUI();
                    ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});

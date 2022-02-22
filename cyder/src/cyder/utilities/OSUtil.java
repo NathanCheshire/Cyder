@@ -612,6 +612,7 @@ public class OSUtil {
     //todo on start delete all .parts from all users music files (all non mp3 or dirs in side of Music)
 
     //todo most linked lists should be replaced with array lists
+    // refresh on the difference and use case of each before hand
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

@@ -1669,8 +1669,8 @@ public class UserEditor {
         validateYoutubeAPI.addActionListener(e -> CyderThreadRunner.submit(() -> {
             String text = youtubeAPI3Field.getText().trim();
 
-            if (text.length() > 0) { //todo validate still
-
+            if (text.length() > 0) {
+                //todo validate before setting
 
                 UserUtil.setUserData("youtubeapi3key", text);
             }
