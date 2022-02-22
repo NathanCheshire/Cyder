@@ -1,0 +1,75 @@
+[12-33-39] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\logs\2022-02-21
+[12-33-39] [ENTRY]: [Nathan]
+[12-33-39] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-33-40] [THREAD STARTED]: Splash Loader
+[12-33-40] [THREAD STARTED]: Splash Animation
+[12-33-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[12-33-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[12-33-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[12-33-40] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[12-33-40] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[12-33-40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-33-40] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-33-40] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-33-41] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[12-33-41] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-33-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-33-41] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-33-41] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-33-41] [THREAD STARTED]: Console Printing Animation
+[12-33-41] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-33-41] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-33-41] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-33-41] [THREAD STARTED]: Console Input Caret Position Updater
+[12-33-41] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-33-41] [SYSTEM_IO]: Userdata requested: InputFill
+[12-33-41] [THREAD STARTED]: High Ping Checker
+[12-33-41] [THREAD STARTED]: Hourly Chime Checker
+[12-33-41] [THREAD STARTED]: Console Clock Updater
+[12-33-41] [THREAD STARTED]: Cyder Busy Checker
+[12-33-41] [THREAD STARTED]: ConsoleFrame Data Saver
+[12-33-42] [ACTION]: Console loaded in 3143ms
+[12-33-42] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-33-42] [ENTRY]: [TESTING MODE]
+[12-33-42] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(272, 214, 996, 655)], hash = [140404585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[12-33-42] [SYSTEM_IO]: Userdata requested: laststart
+[12-33-42] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1869394992], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-33-42] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[12-33-42] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3143ms
+[12-33-42] [THREAD STARTED]: notification appear animation
+[12-33-42] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-33-42] [THREAD STARTED]: Notificaiton vanish animater 93711597
+[12-33-46] [CLIENT]: prefs
+[12-33-46] [SYSTEM_IO]: Userdata requested: filterchat
+[12-33-46] [CONSOLE_OUT]: [STRING] Opening widget: cyder.user.UserEditor
+[12-33-46] [WIDGET OPENED]: PREFS
+[12-33-46] [HANDLE]: PRIMARY HANDLE
+[12-33-47] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[12-33-47] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[12-33-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [396573369], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-33-49] [THREAD STARTED]: YouTubeAPI3 key validator
+[12-33-49] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 179, 38)], hash = [548737847], parentFrame = [Preferences], associated text = [   Validate Key  ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-33-50] [SYSTEM_IO]: Created temperatory file: 12-33-50.stacktrace
+[12-33-50] [EXCEPTION]:
+Exception origin: java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1913)
+From line: 1913
+Trace: java.io.IOException: Server returned HTTP response code: 400 for URL: https://www.googleapis.com/youtube/v3/search?part=snippet&q=Chillstep&type=video&key=asdf
+at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1913)
+at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1509)
+at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:245)
+at java.base/java.net.URL.openStream(URL.java:1117)
+at cyder.utilities.NetworkUtil.readUrl(NetworkUtil.java:143)
+at cyder.user.UserEditor.lambda$switchToFieldInputs$34(UserEditor.java:1673)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[12-34-09] [THREAD STARTED]: YouTubeAPI3 key validator
+[12-34-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 179, 38)], hash = [548737847], parentFrame = [Preferences], associated text = [   Validate Key  ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-34-28] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [1624300358], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-34-28] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(128, 292, 900, 580)], hash = [1169512008], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[12-34-28] [THREAD STARTED]: Preferences CyderFrame dispose thread
+[12-34-28] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-34-33] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[12-34-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(272, 214, 996, 655)], hash = [140404585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[12-34-33] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[12-34-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-34-33] [EXIT]: [RUNTIME] 54s
+[12-34-33] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1

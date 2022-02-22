@@ -1670,9 +1670,16 @@ public class UserEditor {
             String text = youtubeAPI3Field.getText().trim();
 
             if (text.length() > 0) {
-                //todo validate before setting
-
-                UserUtil.setUserData("youtubeapi3key", text);
+                try {
+                    NetworkUtil.readUrl("https://www.googleapis.com/youtube/v3/search" +
+                            "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
+                    UserUtil.setUserData("youtubeapi3key", text);
+                    editUserFrame.notify("YouTubeAPI3 key successfully set");
+                } catch (Exception ex) {
+                    ExceptionHandler.handle(ex);
+                    editUserFrame.notify("Invalid api key");
+                    youtubeAPI3Field.setText(UserUtil.extractUser().getYouTubeAPI3Key());
+                }
             }
         }, "YouTubeAPI3 key validator"));
         printingUtil.printlnComponent(validateYoutubeAPI);
