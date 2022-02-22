@@ -1,0 +1,140 @@
+[22-26-46] [ENTRY]: [Nathan]
+[22-26-46] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-26-47] [THREAD STARTED]: Splash Loader
+[22-26-47] [THREAD STARTED]: Splash Animation
+[22-26-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-26-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-26-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-26-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-26-48] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-26-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-26-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-26-48] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-26-48] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-26-48] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-26-48] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-26-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-26-48] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-26-48] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-26-48] [THREAD STARTED]: Console Printing Animation
+[22-26-48] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-26-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-26-48] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-26-48] [THREAD STARTED]: Console Input Caret Position Updater
+[22-26-48] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-26-48] [SYSTEM_IO]: Userdata requested: InputFill
+[22-26-48] [THREAD STARTED]: High Ping Checker
+[22-26-48] [THREAD STARTED]: Hourly Chime Checker
+[22-26-48] [THREAD STARTED]: Console Clock Updater
+[22-26-48] [THREAD STARTED]: Cyder Busy Checker
+[22-26-48] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-26-48] [ACTION]: Console loaded in 2480ms
+[22-26-48] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-26-48] [ENTRY]: [TESTING MODE]
+[22-26-48] [SYSTEM_IO]: Userdata requested: laststart
+[22-26-48] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(120, 275, 996, 655)], hash = [140404585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-26-48] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [393338005], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-26-48] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-26-49] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2480ms
+[22-26-49] [THREAD STARTED]: notification appear animation
+[22-26-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-26-49] [THREAD STARTED]: Notificaiton vanish animater -762280982
+[22-27-00] [CLIENT]: testerjester
+[22-27-00] [SYSTEM_IO]: Userdata requested: filterchat
+[22-27-00] [THREAD STARTED]: YouTube Download Progress Updater
+[22-27-00] [HANDLE]: GENERAL COMMAND HANDLED
+[22-27-00] [HANDLE]: PRIMARY HANDLE
+[22-27-01] [CONSOLE_OUT]: [STRING] [youtube] mDlQ4QYsVhQ: Downloading webpage
+[22-27-02] [CONSOLE_OUT]: [STRING] [download] Resuming download at byte 9606170
+[22-27-02] [CONSOLE_OUT]: [STRING] [download] Destination: ChillstepAnima - You Are Truth-mDlQ4QYsVhQ.f137.mp4
+[22-27-02] [CONSOLE_OUT]: [STRING]
+[22-27-02] [CONSOLE_OUT]: [STRING] [download]  14.4% of 63.81MiB at  5.57KiB/s ETA 02:47:25
+[22-27-02] [CONSOLE_OUT]: [STRING] Percent comlete: 14.4%
+[22-27-02] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-02] [CONSOLE_OUT]: [STRING] Download rate: 5.57KiB/s
+[22-27-02] [CONSOLE_OUT]: [STRING] [download]  14.4% of 63.81MiB at 16.71KiB/s ETA 55:48
+[22-27-02] [CONSOLE_OUT]: [STRING] Percent comlete: 14.4%
+[22-27-02] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-02] [CONSOLE_OUT]: [STRING] Download rate: 16.71KiB/s
+[22-27-02] [CONSOLE_OUT]: [STRING] [download]  14.4% of 63.81MiB at 38.78KiB/s ETA 24:02
+[22-27-02] [CONSOLE_OUT]: [STRING] Percent comlete: 14.4%
+[22-27-02] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-02] [CONSOLE_OUT]: [STRING] Download rate: 38.78KiB/s
+[22-27-03] [CONSOLE_OUT]: [STRING] [download]  14.4% of 63.81MiB at 83.09KiB/s ETA 11:13
+[22-27-03] [CONSOLE_OUT]: [STRING] Percent comlete: 14.4%
+[22-27-03] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-03] [CONSOLE_OUT]: [STRING] Download rate: 83.09KiB/s
+[22-27-03] [CONSOLE_OUT]: [STRING] [download]  14.4% of 63.81MiB at 66.05KiB/s ETA 14:06
+[22-27-03] [CONSOLE_OUT]: [STRING] Percent comlete: 14.4%
+[22-27-03] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-03] [CONSOLE_OUT]: [STRING] Download rate: 66.05KiB/s
+[22-27-04] [CONSOLE_OUT]: [STRING] [download]  14.5% of 63.81MiB at 60.70KiB/s ETA 15:20
+[22-27-04] [CONSOLE_OUT]: [STRING] Percent comlete: 14.5%
+[22-27-04] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-04] [CONSOLE_OUT]: [STRING] Download rate: 60.70KiB/s
+[22-27-05] [CONSOLE_OUT]: [STRING] [download]  14.5% of 63.81MiB at 54.28KiB/s ETA 17:08
+[22-27-05] [CONSOLE_OUT]: [STRING] Percent comlete: 14.5%
+[22-27-05] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-05] [CONSOLE_OUT]: [STRING] Download rate: 54.28KiB/s
+[22-27-06] [CONSOLE_OUT]: [STRING] [download]  14.6% of 63.81MiB at 54.39KiB/s ETA 17:05
+[22-27-06] [CONSOLE_OUT]: [STRING] Percent comlete: 14.6%
+[22-27-06] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-06] [CONSOLE_OUT]: [STRING] Download rate: 54.39KiB/s
+[22-27-07] [CONSOLE_OUT]: [STRING] [download]  14.7% of 63.81MiB at 55.87KiB/s ETA 16:37
+[22-27-07] [CONSOLE_OUT]: [STRING] Percent comlete: 14.7%
+[22-27-07] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-07] [CONSOLE_OUT]: [STRING] Download rate: 55.87KiB/s
+[22-27-08] [CONSOLE_OUT]: [STRING] [download]  14.8% of 63.81MiB at 54.78KiB/s ETA 16:56
+[22-27-08] [CONSOLE_OUT]: [STRING] Percent comlete: 14.8%
+[22-27-08] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-08] [CONSOLE_OUT]: [STRING] Download rate: 54.78KiB/s
+[22-27-09] [CONSOLE_OUT]: [STRING] [download]  14.9% of 63.81MiB at 55.24KiB/s ETA 16:47
+[22-27-09] [CONSOLE_OUT]: [STRING] Percent comlete: 14.9%
+[22-27-09] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-09] [CONSOLE_OUT]: [STRING] Download rate: 55.24KiB/s
+[22-27-10] [CONSOLE_OUT]: [STRING] [download]  15.0% of 63.81MiB at 54.23KiB/s ETA 17:04
+[22-27-10] [CONSOLE_OUT]: [STRING] Percent comlete: 15.0%
+[22-27-10] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-10] [CONSOLE_OUT]: [STRING] Download rate: 54.23KiB/s
+[22-27-12] [CONSOLE_OUT]: [STRING] [download]  15.0% of 63.81MiB at 54.40KiB/s ETA 17:00
+[22-27-12] [CONSOLE_OUT]: [STRING] Percent comlete: 15.0%
+[22-27-12] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-12] [CONSOLE_OUT]: [STRING] Download rate: 54.40KiB/s
+[22-27-12] [CONSOLE_OUT]: [STRING] [download]  15.1% of 63.81MiB at 53.47KiB/s ETA 17:17
+[22-27-12] [CONSOLE_OUT]: [STRING] Percent comlete: 15.1%
+[22-27-12] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-12] [CONSOLE_OUT]: [STRING] Download rate: 53.47KiB/s
+[22-27-13] [CONSOLE_OUT]: [STRING] [download]  15.2% of 63.81MiB at 53.42KiB/s ETA 17:17
+[22-27-13] [CONSOLE_OUT]: [STRING] Percent comlete: 15.2%
+[22-27-13] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-13] [CONSOLE_OUT]: [STRING] Download rate: 53.42KiB/s
+[22-27-14] [CONSOLE_OUT]: [STRING] [download]  15.3% of 63.81MiB at 53.94KiB/s ETA 17:06
+[22-27-14] [CONSOLE_OUT]: [STRING] Percent comlete: 15.3%
+[22-27-14] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-14] [CONSOLE_OUT]: [STRING] Download rate: 53.94KiB/s
+[22-27-15] [CONSOLE_OUT]: [STRING] [download]  15.4% of 63.81MiB at 53.70KiB/s ETA 17:09
+[22-27-15] [CONSOLE_OUT]: [STRING] Percent comlete: 15.4%
+[22-27-15] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-15] [CONSOLE_OUT]: [STRING] Download rate: 53.70KiB/s
+[22-27-16] [CONSOLE_OUT]: [STRING] [download]  15.4% of 63.81MiB at 54.04KiB/s ETA 17:02
+[22-27-16] [CONSOLE_OUT]: [STRING] Percent comlete: 15.4%
+[22-27-16] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-16] [CONSOLE_OUT]: [STRING] Download rate: 54.04KiB/s
+[22-27-18] [CONSOLE_OUT]: [STRING] [download]  15.5% of 63.81MiB at 54.80KiB/s ETA 16:47
+[22-27-18] [CONSOLE_OUT]: [STRING] Percent comlete: 15.5%
+[22-27-18] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-18] [CONSOLE_OUT]: [STRING] Download rate: 54.80KiB/s
+[22-27-19] [CONSOLE_OUT]: [STRING] [download]  15.6% of 63.81MiB at 53.69KiB/s ETA 17:06
+[22-27-19] [CONSOLE_OUT]: [STRING] Percent comlete: 15.6%
+[22-27-19] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-19] [CONSOLE_OUT]: [STRING] Download rate: 53.69KiB/s
+[22-27-19] [CONSOLE_OUT]: [STRING] [download]  15.7% of 63.81MiB at 53.76KiB/s ETA 17:04
+[22-27-19] [CONSOLE_OUT]: [STRING] Percent comlete: 15.7%
+[22-27-19] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-19] [CONSOLE_OUT]: [STRING] Download rate: 53.76KiB/s
+[22-27-20] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-27-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(120, 275, 996, 655)], hash = [140404585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-27-20] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-27-20] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-27-20] [EXIT]: [RUNTIME] 34s
+[22-27-20] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

@@ -1,0 +1,125 @@
+[22-27-47] [ENTRY]: [Nathan]
+[22-27-47] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-27-47] [THREAD STARTED]: Splash Loader
+[22-27-48] [THREAD STARTED]: Splash Animation
+[22-27-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-27-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-27-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-27-48] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-27-48] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-27-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-27-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-27-48] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-27-48] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-27-48] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-27-48] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-27-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-27-49] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-27-49] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-27-49] [THREAD STARTED]: Console Printing Animation
+[22-27-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-27-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-27-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-27-49] [THREAD STARTED]: Console Input Caret Position Updater
+[22-27-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-27-49] [SYSTEM_IO]: Userdata requested: InputFill
+[22-27-49] [THREAD STARTED]: High Ping Checker
+[22-27-49] [THREAD STARTED]: Hourly Chime Checker
+[22-27-49] [THREAD STARTED]: Console Clock Updater
+[22-27-49] [THREAD STARTED]: Cyder Busy Checker
+[22-27-49] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-27-49] [ACTION]: Console loaded in 2499ms
+[22-27-49] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(120, 275, 996, 655)], hash = [109069556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-27-49] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [333071364], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-27-49] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-27-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-27-49] [ENTRY]: [TESTING MODE]
+[22-27-49] [SYSTEM_IO]: Userdata requested: laststart
+[22-27-49] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2499ms
+[22-27-49] [THREAD STARTED]: notification appear animation
+[22-27-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-27-49] [THREAD STARTED]: Notificaiton vanish animater 1013233431
+[22-27-53] [CLIENT]: testerjester
+[22-27-53] [SYSTEM_IO]: Userdata requested: filterchat
+[22-27-53] [THREAD STARTED]: YouTube Download Progress Updater
+[22-27-53] [HANDLE]: GENERAL COMMAND HANDLED
+[22-27-53] [HANDLE]: PRIMARY HANDLE
+[22-27-54] [CONSOLE_OUT]: [STRING] [youtube] mDlQ4QYsVhQ: Downloading webpage
+[22-27-55] [CONSOLE_OUT]: [STRING] [download] Destination: ChillstepAnima - You Are Truth-mDlQ4QYsVhQ.f137.mp4
+[22-27-55] [CONSOLE_OUT]: [STRING]
+[22-27-55] [CONSOLE_OUT]: [STRING] [download]   0.0% of 63.81MiB at  5.86KiB/s ETA 03:05:43
+[22-27-55] [CONSOLE_OUT]: [STRING] Percent comlete: 0.0%
+[22-27-55] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-55] [CONSOLE_OUT]: [STRING] Download rate: 5.86KiB/s
+[22-27-55] [CONSOLE_OUT]: [STRING] ETA: 03:05:43
+[22-27-55] [CONSOLE_OUT]: [STRING] [download]   0.0% of 63.81MiB at 17.59KiB/s ETA 01:01:54
+[22-27-55] [CONSOLE_OUT]: [STRING] Percent comlete: 0.0%
+[22-27-55] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-55] [CONSOLE_OUT]: [STRING] Download rate: 17.59KiB/s
+[22-27-55] [CONSOLE_OUT]: [STRING] ETA: 01:01:54
+[22-27-55] [CONSOLE_OUT]: [STRING] [download]   0.0% of 63.81MiB at 41.05KiB/s ETA 26:31
+[22-27-55] [CONSOLE_OUT]: [STRING] Percent comlete: 0.0%
+[22-27-55] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-55] [CONSOLE_OUT]: [STRING] Download rate: 41.05KiB/s
+[22-27-55] [CONSOLE_OUT]: [STRING] ETA: 26:31
+[22-27-55] [CONSOLE_OUT]: [STRING] [download]   0.0% of 63.81MiB at 87.95KiB/s ETA 12:22
+[22-27-55] [CONSOLE_OUT]: [STRING] Percent comlete: 0.0%
+[22-27-55] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-55] [CONSOLE_OUT]: [STRING] Download rate: 87.95KiB/s
+[22-27-55] [CONSOLE_OUT]: [STRING] ETA: 12:22
+[22-27-56] [CONSOLE_OUT]: [STRING] [download]   0.0% of 63.81MiB at 68.46KiB/s ETA 15:54
+[22-27-56] [CONSOLE_OUT]: [STRING] Percent comlete: 0.0%
+[22-27-56] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-56] [CONSOLE_OUT]: [STRING] Download rate: 68.46KiB/s
+[22-27-56] [CONSOLE_OUT]: [STRING] ETA: 15:54
+[22-27-57] [CONSOLE_OUT]: [STRING] [download]   0.1% of 63.81MiB at 59.93KiB/s ETA 18:09
+[22-27-57] [CONSOLE_OUT]: [STRING] Percent comlete: 0.1%
+[22-27-57] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-57] [CONSOLE_OUT]: [STRING] Download rate: 59.93KiB/s
+[22-27-57] [CONSOLE_OUT]: [STRING] ETA: 18:09
+[22-27-58] [CONSOLE_OUT]: [STRING] [download]   0.2% of 63.81MiB at 52.63KiB/s ETA 20:39
+[22-27-58] [CONSOLE_OUT]: [STRING] Percent comlete: 0.2%
+[22-27-58] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-58] [CONSOLE_OUT]: [STRING] Download rate: 52.63KiB/s
+[22-27-58] [CONSOLE_OUT]: [STRING] ETA: 20:39
+[22-27-59] [CONSOLE_OUT]: [STRING] [download]   0.2% of 63.81MiB at 52.48KiB/s ETA 20:42
+[22-27-59] [CONSOLE_OUT]: [STRING] Percent comlete: 0.2%
+[22-27-59] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-27-59] [CONSOLE_OUT]: [STRING] Download rate: 52.48KiB/s
+[22-27-59] [CONSOLE_OUT]: [STRING] ETA: 20:42
+[22-28-00] [CONSOLE_OUT]: [STRING] [download]   0.3% of 63.81MiB at 53.91KiB/s ETA 20:08
+[22-28-00] [CONSOLE_OUT]: [STRING] Percent comlete: 0.3%
+[22-28-00] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-28-00] [CONSOLE_OUT]: [STRING] Download rate: 53.91KiB/s
+[22-28-00] [CONSOLE_OUT]: [STRING] ETA: 20:08
+[22-28-01] [CONSOLE_OUT]: [STRING] [download]   0.4% of 63.81MiB at 52.83KiB/s ETA 20:31
+[22-28-01] [CONSOLE_OUT]: [STRING] Percent comlete: 0.4%
+[22-28-01] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-28-01] [CONSOLE_OUT]: [STRING] Download rate: 52.83KiB/s
+[22-28-01] [CONSOLE_OUT]: [STRING] ETA: 20:31
+[22-28-02] [CONSOLE_OUT]: [STRING] [download]   0.5% of 63.81MiB at 53.35KiB/s ETA 20:18
+[22-28-02] [CONSOLE_OUT]: [STRING] Percent comlete: 0.5%
+[22-28-02] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-28-02] [CONSOLE_OUT]: [STRING] Download rate: 53.35KiB/s
+[22-28-02] [CONSOLE_OUT]: [STRING] ETA: 20:18
+[22-28-03] [CONSOLE_OUT]: [STRING] [download]   0.6% of 63.81MiB at 54.68KiB/s ETA 19:48
+[22-28-03] [CONSOLE_OUT]: [STRING] Percent comlete: 0.6%
+[22-28-03] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-28-03] [CONSOLE_OUT]: [STRING] Download rate: 54.68KiB/s
+[22-28-03] [CONSOLE_OUT]: [STRING] ETA: 19:48
+[22-28-04] [CONSOLE_OUT]: [STRING] [download]   0.7% of 63.81MiB at 54.58KiB/s ETA 19:49
+[22-28-04] [CONSOLE_OUT]: [STRING] Percent comlete: 0.7%
+[22-28-04] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-28-04] [CONSOLE_OUT]: [STRING] Download rate: 54.58KiB/s
+[22-28-04] [CONSOLE_OUT]: [STRING] ETA: 19:49
+[22-28-05] [CONSOLE_OUT]: [STRING] [download]   0.8% of 63.81MiB at 53.45KiB/s ETA 20:13
+[22-28-05] [CONSOLE_OUT]: [STRING] Percent comlete: 0.8%
+[22-28-05] [CONSOLE_OUT]: [STRING] Total file size: 63.81MiB
+[22-28-05] [CONSOLE_OUT]: [STRING] Download rate: 53.45KiB/s
+[22-28-05] [CONSOLE_OUT]: [STRING] ETA: 20:13
+[22-28-06] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-28-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(120, 275, 996, 655)], hash = [109069556], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-28-06] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-28-06] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-28-06] [EXIT]: [RUNTIME] 19s
+[22-28-06] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

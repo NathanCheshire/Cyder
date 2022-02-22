@@ -5,10 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
-import cyder.enums.ExitCondition;
-import cyder.enums.ScreenPosition;
-import cyder.enums.SliderShape;
-import cyder.enums.Suggestion;
+import cyder.enums.*;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.python.PyExecutor;
@@ -27,6 +24,7 @@ import test.java.UnitTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -43,6 +41,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"unused", "ConstantConditions"})
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
@@ -1410,9 +1410,9 @@ public class InputHandler {
                 println("Curl command usage: curl URL");
             }
         } else if (commandIs("testerjester")) {
-           CyderThreadRunner.submit( () -> {
+           CyderThreadRunner.submit(() -> {
                try {
-                   //todo need an argument for the path here too
+                   //todo need an argument for the path here too for where to save otherwise it's in top level cyder dir
                    Runtime rt = Runtime.getRuntime();
                    String[] commands = {"youtube-dl", "https://www.youtube.com/watch?v=mDlQ4QYsVhQ"};
 
@@ -1421,13 +1421,43 @@ public class InputHandler {
                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                    String s;
 
-                   //[download]   8.5% of 63.81MiB at 81.09KiB/s ETA 12:17
-                   //[download] xx.x% of numbers . numbers at numbers. numbers chars and such ETC space eta
-                   String regex = "\\[download]\\s*([0-9\\.%]+)\\s*of\\s*([0-9\\.A-Za-z])\\s*at\\s*([0-9\\.A-Za-z])\\s*ETA\\s*([0-9:])";
-                   //groups: percent complete, total space to download, download rate, eta
+                   Pattern p  = Pattern.compile(
+                           "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
+
+
+                   CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+                   CyderProgressUI ui = new CyderProgressUI();
+                   ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
+                   ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+                   ui.setShape(CyderProgressUI.Shape.SQUARE);
+                   audioProgress.setUI(ui);
+                   audioProgress.setMinimum(0);
+                   audioProgress.setMaximum(10000);
+                   audioProgress.setBorder(new LineBorder(Color.black, 2));
+                   audioProgress.setBounds(0,0,400, 40);
+                   audioProgress.setVisible(true);
+                   audioProgress.setValue(0);
+                   audioProgress.setOpaque(false);
+                   audioProgress.setFocusable(false);
+                   audioProgress.repaint();
+                   printlnComponent(audioProgress);
+
+                   String fileSize = null;
 
                    while ((s = stdInput.readLine()) != null) {
-                       println(s);
+                       Matcher m = p.matcher(s);
+
+                       if (m.find()) {
+                           float progress = Float.parseFloat(m.group(1).replaceAll("[^0-9.]",""));
+                           audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
+
+                           if (fileSize == null) {
+                               fileSize = m.group(2);
+                               println("Download size: " + fileSize);
+                           }
+
+                           audioProgress.setToolTipText("Progress: " + progress + "%, Rate: " + m.group(3) + ", ETA: " + m.group(4));
+                       }
                    }
                } catch (Exception e) {
                    ExceptionHandler.handle(e);

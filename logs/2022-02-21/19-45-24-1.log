@@ -15,8 +15,7 @@
 [19-45-27] [SYSTEM_IO]: Userdata requested: RandomBackground
 [19-45-27] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-45-27] [SYSTEM_IO]: Userdata requested: fullscreen
-[19-45-27] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-45-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-45-27] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [19-45-27] [THREAD STARTED]: Console Printing Animation
 [19-45-27] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-45-27] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -150,8 +149,7 @@
 [19-47-02] [CONSOLE_OUT]: [STRING] [download]  10.7% of 63.81MiB at 80.74KiB/s ETA 12:02
 [19-47-03] [CONSOLE_OUT]: [STRING] [download]  10.9% of 63.81MiB at 80.76KiB/s ETA 12:00
 [19-47-04] [CONSOLE_OUT]: [STRING] [download]  11.0% of 63.81MiB at 80.83KiB/s ETA 11:59
-[19-47-05] [SYSTEM_IO]: Userdata requested: Background
-[19-47-05] [SYSTEM_IO]: Userdata requested: Background
+[19-47-05] [SYSTEM_IO]: Userdata requested: Background [2x]
 [19-47-05] [CONSOLE_OUT]: [STRING] [download]  11.2% of 63.81MiB at 80.76KiB/s ETA 11:58
 [19-47-06] [CONSOLE_OUT]: [STRING] [download]  11.3% of 63.81MiB at 80.72KiB/s ETA 11:58
 [19-47-06] [SYSTEM_IO]: Userdata requested: minimizeonclose
