@@ -34,3 +34,4 @@ dependencies {
     implementation group: 'com.fathzer', name: 'javaluator', version: '3.0.0'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 }
+

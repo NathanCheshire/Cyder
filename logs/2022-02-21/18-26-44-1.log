@@ -1,0 +1,66 @@
+[18-26-45] [ENTRY]: [Nathan]
+[18-26-45] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-26-46] [THREAD STARTED]: Splash Loader
+[18-26-46] [THREAD STARTED]: Splash Animation
+[18-26-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-26-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-26-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-26-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-26-46] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-26-46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-26-46] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-26-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-26-46] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-26-47] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-26-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-26-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-26-47] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-26-47] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-26-47] [THREAD STARTED]: Console Printing Animation
+[18-26-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-26-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-26-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-26-47] [THREAD STARTED]: Console Input Caret Position Updater
+[18-26-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-26-47] [SYSTEM_IO]: Userdata requested: InputFill
+[18-26-47] [THREAD STARTED]: High Ping Checker
+[18-26-47] [THREAD STARTED]: Hourly Chime Checker
+[18-26-47] [THREAD STARTED]: Console Clock Updater
+[18-26-47] [THREAD STARTED]: Cyder Busy Checker
+[18-26-47] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-26-47] [ACTION]: Console loaded in 2754ms
+[18-26-47] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-26-47] [ENTRY]: [TESTING MODE]
+[18-26-47] [SYSTEM_IO]: Userdata requested: laststart
+[18-26-47] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1416, 385, 996, 655)], hash = [140404585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[18-26-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2074724533], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-26-47] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[18-26-47] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2754ms
+[18-26-47] [THREAD STARTED]: notification appear animation
+[18-26-47] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-26-47] [THREAD STARTED]: Notificaiton vanish animater 615689758
+[18-27-02] [CLIENT]: play
+[18-27-02] [SYSTEM_IO]: Userdata requested: filterchat
+[18-27-03] [THREAD STARTED]: YouTube Audio Extractor
+[18-27-03] [HANDLE]: GENERAL COMMAND HANDLED
+[18-27-03] [HANDLE]: PRIMARY HANDLE
+[18-27-03] [CONSOLE_OUT]: [STRING] Starting download of playlist:
+[18-27-03] [SYSTEM_IO]: Created temperatory file: 18-27-03.stacktrace
+[18-27-03] [EXCEPTION]:
+Exception origin: java.base/java.util.regex.Matcher.group(Matcher.java:645)
+From line: 645
+Trace: java.lang.IllegalStateException: No match found
+at java.base/java.util.regex.Matcher.group(Matcher.java:645)
+at cyder.utilities.YoutubeUtil.lambda$downloadPlaylist$0(YoutubeUtil.java:95)
+at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+at java.base/java.lang.Thread.run(Thread.java:844)
+[18-27-04] [CONSOLE_OUT]: [STRING] Could not download video's audio at this time
+[18-29-27] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1
+[18-29-55] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-29-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1416, 385, 996, 655)], hash = [140404585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[18-29-55] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[18-29-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-29-55] [EXIT]: [RUNTIME] 3m 11s
+[18-29-55] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1

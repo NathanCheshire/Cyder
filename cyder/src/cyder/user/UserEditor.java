@@ -1638,12 +1638,12 @@ public class UserEditor {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                ipKeyLabel.setForeground(CyderColors.regularRed);
+                youtubeKeyLabel.setForeground(CyderColors.regularRed);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                ipKeyLabel.setForeground(CyderColors.navy);
+                youtubeKeyLabel.setForeground(CyderColors.navy);
             }
         });
         printingUtil.printlnComponent(youtubeKeyLabel);
@@ -1667,9 +1667,9 @@ public class UserEditor {
         printingUtil.print("\n");
 
         validateYoutubeAPI.addActionListener(e -> CyderThreadRunner.submit(() -> {
-            String text = ipKeyField.getText().trim();
+            String text = youtubeAPI3Field.getText().trim();
 
-            if (text.length() > 0) {
+            if (text.length() > 0) { //todo still testing getting, setting, validation, and pref injection
                 //todo validate
                 UserUtil.setUserData("youtubeapi3key", text);
             }

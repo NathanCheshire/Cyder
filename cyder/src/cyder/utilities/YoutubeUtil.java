@@ -78,6 +78,26 @@ public class YoutubeUtil {
                 }
 
                 try {
+                    String key = "";
+                    String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
+                            "part=snippet%2C+id&playlistId=" + playlistID + "&key=" + key;
+                    String jsonResponse = NetworkUtil.readUrl(link);
+
+                    Pattern p = Pattern.compile("\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
+                    Matcher m = p.matcher(jsonResponse);
+                    ArrayList<String> matches = new ArrayList<>();
+
+                    while (m.find()) {
+                        matches.add(m.group(1));
+                    }
+
+                    System.out.println("Found " + matches.size() " videos from playlist: " + playlistID);
+
+                    for (String match : matches)
+                        System.out.println("uuid: " + match);
+
+                    //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
+
                     //todo
                     // get uuids from the playlist id
                     // download each individual video and inform when each is downloaded
