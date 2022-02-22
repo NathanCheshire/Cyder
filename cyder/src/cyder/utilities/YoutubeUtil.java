@@ -136,6 +136,7 @@ public class YoutubeUtil {
                             System.out.println("Completed and saved as " + response.getDirectory() + OSUtil.FILE_SEP + outName);
                         }
 
+                        //todo also ensure thumbanils are downloaded after the video succeeds
                         //todo since playlists just downloads individual videos too, is the thumbnail grabbed as well?
                         //todo test downloading and playing playlists, test on this:
                         //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M

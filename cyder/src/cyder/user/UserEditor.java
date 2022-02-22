@@ -1411,7 +1411,7 @@ public class UserEditor {
 
                    if (delete) {
                        ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
-                       OSUtil.deleteFolder(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+                       OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                        String dep = SecurityUtil.getDeprecatedUUID();
 

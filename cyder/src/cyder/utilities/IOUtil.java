@@ -117,6 +117,7 @@ public class IOUtil {
 
     /**
      * Clean the users/ dir of any possibly corrupted or invalid user folders.
+     * Also removes any .part files from the user's Music/ directory
      */
     public static void cleanUsers() {
         File users = new File(OSUtil.buildPath("dynamic","users"));
@@ -130,8 +131,21 @@ public class IOUtil {
             for (File user : UUIDs) {
                 if (!user.isDirectory())
                     continue;
-                if (user.isDirectory() && (user.getName().contains("VoidUser") || user.listFiles().length < 2)) {
-                    OSUtil.deleteFolder(user);
+                if (user.isDirectory() && user.getName().contains("VoidUser")) {
+                    OSUtil.delete(user);
+                } else {
+                    File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music"));
+
+                    if (!musicDir.exists())
+                        continue;
+
+                    File[] files = musicDir.listFiles();
+
+                    // find part files and delete them
+                    for (File musicFile : files) {
+                        if (FileUtil.getExtension(musicFile).equals(".part"))
+                            OSUtil.delete(musicFile);
+                    }
                 }
             }
         }
@@ -458,7 +472,7 @@ public class IOUtil {
         File sandbox = new File("static/sandbox");
 
         if (sandbox.exists()) {
-            OSUtil.deleteFolder(sandbox);
+            OSUtil.delete(sandbox);
         }
     }
 

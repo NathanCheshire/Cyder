@@ -480,7 +480,7 @@ public class Logger {
                     && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
                 // if a zip file for the directory exists, delete the dir
                 if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
-                    OSUtil.deleteFolder(subLogDir);
+                    OSUtil.delete(subLogDir);
                 } else {
                     OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip");
                 }

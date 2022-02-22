@@ -1306,7 +1306,7 @@ public class InputHandler {
                         "dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(), getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
-                        if (OSUtil.deleteFolder(requestedDeleteFile)) {
+                        if (OSUtil.delete(requestedDeleteFile)) {
                             println("Successfully deleted: " + requestedDeleteFile.getAbsolutePath());
                         } else {
                             println("Could not delete folder at this time");

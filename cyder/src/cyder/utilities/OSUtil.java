@@ -297,7 +297,7 @@ public class OSUtil {
      */
     public static void deleteTempDir() {
         try {
-            OSUtil.deleteFolder(new File(OSUtil.TMP_DIR_PATH));
+            OSUtil.delete(new File(OSUtil.TMP_DIR_PATH));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -403,7 +403,7 @@ public class OSUtil {
      * @param folder the folder/file to delete
      * @return whether the folder/file was successfully deleted
      */
-    public static boolean deleteFolder(File folder) {
+    public static boolean delete(File folder) {
         Logger.log(Logger.Tag.ACTION, "Requested deletion of: " + folder.getAbsolutePath());
 
         File[] files = folder.listFiles();
@@ -411,7 +411,7 @@ public class OSUtil {
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()) {
-                    if (!deleteFolder(f)) {
+                    if (!delete(f)) {
                         return false;
                     }
                 }
@@ -608,6 +608,8 @@ public class OSUtil {
         java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
     }
+
+    //todo never delete a json just mark the user as invalid
 
     //todo on start delete all .parts from all users music files (all non mp3 or dirs in side of Music)
 
