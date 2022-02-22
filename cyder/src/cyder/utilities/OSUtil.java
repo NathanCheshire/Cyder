@@ -609,7 +609,7 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo on start delete all .parts from all users music files
+    //todo on start delete all .parts from all users music files (all non mp3 or dirs in side of Music)
 
     //todo most linked lists should be replaced with array lists
 

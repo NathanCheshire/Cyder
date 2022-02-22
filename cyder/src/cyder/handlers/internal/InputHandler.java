@@ -1011,8 +1011,7 @@ public class InputHandler {
                        if (YoutubeUtil.isPlaylist(input)) {
                            String playlistID = input.replace("https://www.youtube.com/playlist?list=","");
 
-                           println("Starting download of playlist: " +
-                                   NetworkUtil.getURLTitle(input));
+                           println("Starting download of playlist: " + playlistID);
                            Future<ArrayList<java.io.File>> downloadedFiles =
                                    YoutubeUtil.downloadPlaylist(playlistID,
                                            OSUtil.buildPath("dynamic","users"
@@ -1410,6 +1409,25 @@ public class InputHandler {
             } else {
                 println("Curl command usage: curl URL");
             }
+        } else if (commandIs("testerjester")) {
+           CyderThreadRunner.submit( () -> {
+               try {
+                   //todo need an argument for the path here too
+                   Runtime rt = Runtime.getRuntime();
+                   String[] commands = {"youtube-dl", "https://www.youtube.com/watch?v=mDlQ4QYsVhQ"};
+
+                   Process proc = rt.exec(commands);
+
+                   BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                   String s;
+
+                   while ((s = stdInput.readLine()) != null) {
+                       println(s);
+                   }
+               } catch (Exception e) {
+                   ExceptionHandler.handle(e);
+               }
+           }, "YouTube Download Progress Updater");
         }
 
         else ret = false;

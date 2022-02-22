@@ -72,39 +72,81 @@ public class YoutubeUtil {
             ArrayList<File> ret = null;
 
             if (ffmpegInstalled() && youtubedlInstalled()) {
-                String ydlPath = UserUtil.extractUser().getYoutubedlpath();
-                if (ydlPath != null && ydlPath.trim().length() > 0) {
-                    YoutubeDL.setExecutablePath(ydlPath);
-                }
+                //AIzaSyAmo7YogM-RR2OG2w_C207SacitOUiNPuw
+                if (StringUtil.isNull(UserUtil.extractUser().getYouTubeAPI3Key())) {
+                    ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                            "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
+                                    "to learn how to set this in order to download whole playlists. " +
+                                    "In order to download individual videos, simply use the same play " +
+                                    "command followed by a video URL or query");
+                } else {
+                    String ydlPath = UserUtil.extractUser().getYoutubedlpath();
 
-                try {
-                    String key = "";
-                    String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
-                            "part=snippet%2C+id&playlistId=" + playlistID + "&key=" + key;
-                    String jsonResponse = NetworkUtil.readUrl(link);
-
-                    Pattern p = Pattern.compile("\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
-                    Matcher m = p.matcher(jsonResponse);
-                    ArrayList<String> matches = new ArrayList<>();
-
-                    while (m.find()) {
-                        matches.add(m.group(1));
+                    if (ydlPath != null && ydlPath.trim().length() > 0) {
+                        YoutubeDL.setExecutablePath(ydlPath);
                     }
 
-                    System.out.println("Found " + matches.size() " videos from playlist: " + playlistID);
+                    try {
+                        String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
+                                "part=snippet%2C+id&playlistId=" + playlistID + "&key=" + UserUtil.extractUser().getYouTubeAPI3Key();
+                        String jsonResponse = NetworkUtil.readUrl(link);
 
-                    for (String match : matches)
-                        System.out.println("uuid: " + match);
+                        Pattern p = Pattern.compile(
+                                "\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
+                        Matcher m = p.matcher(jsonResponse);
+                        ArrayList<String> uuids = new ArrayList<>();
 
-                    //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
+                        while (m.find()) {
+                            uuids.add(m.group(1));
+                        }
 
-                    //todo
-                    // get uuids from the playlist id
-                    // download each individual video and inform when each is downloaded
-                    // look into some kind of progres bar for each video that you can update on the console
-                } catch (Exception e) {
-                    ExceptionHandler.silentHandle(e);
-                    ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
+                        System.out.println("Found " + uuids.size() + " videos from playlist: " + playlistID);
+
+                        for (String uuid : uuids) {
+                            String fullUrl = "https://www.youtube.com/watch?v=" + uuid;
+                            System.out.println("Downloading: " + NetworkUtil.getURLTitle(fullUrl));
+
+                            //req build
+                            YoutubeDLRequest request = new YoutubeDLRequest(fullUrl, outputDir);
+                            request.setOption("ignore-errors");
+                            request.setOption("extract-audio");
+                            request.setOption("audio-format","mp3");
+                            request.setOption("output", "%(title)s.%(ext)s");
+
+                            // req and response ret
+                            YoutubeDLResponse response = YoutubeDL.execute(request);
+                            response.getOut();
+
+                            response.getElapsedTime();
+
+                            // get the ffmpeg output
+                            String[] outLines = response.getOut().split("\n");
+                            String outName = "NULL";
+
+                            // find the save name
+                            for (String line : outLines) {
+                                if (line.contains("[ffmpeg] Destination:")) {
+                                    outName = line.replace("[ffmpeg] Destination:","").trim();
+                                    break;
+                                }
+                            }
+
+                            ret.add(new File(response.getDirectory() + outName));
+
+                            System.out.println("Completed and saved as " + response.getDirectory() + OSUtil.FILE_SEP + outName);
+                        }
+
+                        //running youtube-dl UUID outputs a percentage so try and extract that
+                        // and update a progress bar on the console
+
+                        //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
+
+                        //todo look into some kind of progres bar for each video that you can update on the console
+                        //todo so is it possible to get the
+                    } catch (Exception e) {
+                        ExceptionHandler.silentHandle(e);
+                        ConsoleFrame.getConsoleFrame().getInputHandler().println("An exception occured while downloading playlist: " + playlistID);
+                    }
                 }
             } else {
                 error();
