@@ -130,10 +130,13 @@ public class Cyder {
     }
 
     /**
-     * Initializes System.getProperty key/value pairs such as the ui scale
+     * Initializes System.getProperty key/value pairs such as the ui scale.
      */
     private static void initSystemKeys() {
-        System.setProperty("sun.java2d.uiScale", String.valueOf(OSUtil.getUIScale()));
+        System.setProperty("sun.java2d.uiScale.enabled", "true");
+        System.setProperty("sun.java2d.uiScale", "1.0");
+        System.setProperty("sun.java2d.uiScale.enabled", "true");
+        System.setProperty("ide.ui.scale", "1.0");
     }
 
     /**

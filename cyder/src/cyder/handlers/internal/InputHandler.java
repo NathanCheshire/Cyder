@@ -1396,6 +1396,7 @@ public class InputHandler {
                    String saveDir = OSUtil.buildPath("dynamic","users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
 
                    //todo need an argument for the path here too for where to save otherwise it's in top level cyder dir
+                   //todo why does it download whole video?
 
                    Runtime rt = Runtime.getRuntime();
                    String[] commands = {"youtube-dl", "https://www.youtube.com/watch?v=mDlQ4QYsVhQ"};

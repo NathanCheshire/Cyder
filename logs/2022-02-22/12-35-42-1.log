@@ -15,8 +15,7 @@
 [12-35-44] [SYSTEM_IO]: Userdata requested: RandomBackground
 [12-35-44] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-35-44] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-35-44] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-35-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-35-44] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [12-35-44] [THREAD STARTED]: Console Printing Animation
 [12-35-44] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-35-44] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -51,28 +50,27 @@
 [12-35-50] [THREAD STARTED]: YouTubeAPI3 key validator
 [12-35-50] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 179, 38)], hash = [1777723474], parentFrame = [Preferences], associated text = [   Validate Key  ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [12-35-51] [SYSTEM_IO]: Created temperatory file: 12-35-51.stacktrace
-[12-35-51] [EXCEPTION]: 
+[12-35-51] [EXCEPTION]:
 Exception origin: java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1913)
 From line: 1913
 Trace: java.io.IOException: Server returned HTTP response code: 400 for URL: https://www.googleapis.com/youtube/v3/search?part=snippet&q=Chillstep&type=video&key=asdf
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1913)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1509)
-	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:245)
-	at java.base/java.net.URL.openStream(URL.java:1117)
-	at cyder.utilities.NetworkUtil.readUrl(NetworkUtil.java:143)
-	at cyder.user.UserEditor.lambda$switchToFieldInputs$34(UserEditor.java:1674)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1913)
+at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1509)
+at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:245)
+at java.base/java.net.URL.openStream(URL.java:1117)
+at cyder.utilities.NetworkUtil.readUrl(NetworkUtil.java:143)
+at cyder.user.UserEditor.lambda$switchToFieldInputs$34(UserEditor.java:1674)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [12-35-51] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(320, 251, 900, 580)], hash = [1349220046], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
 [12-35-51] [ACTION]: [Preferences] [NOTIFICATION] Invalid api key
 [12-35-51] [THREAD STARTED]: notification appear animation
 [12-35-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[12-35-51] [THREAD STARTED]: Notificaiton vanish animater 431200442
-[12-35-52] [THREAD STARTED]: Notificaiton vanish animater 431200442
+[12-35-52] [THREAD STARTED]: Notificaiton vanish animater 431200442 [2x]
 [12-35-53] [THREAD STARTED]: YouTubeAPI3 key validator
 [12-35-53] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(0, 0, 179, 38)], hash = [1777723474], parentFrame = [Preferences], associated text = [   Validate Key  ], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [12-35-54] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(320, 251, 900, 580)], hash = [1349220046], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
 [12-35-54] [ACTION]: [Preferences] [NOTIFICATION] YouTubeAPI3 key successfully set
 [12-35-54] [THREAD STARTED]: notification appear animation
 [12-35-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[12-35-54] [THREAD STARTED]: Notificaiton vanish animater 431206859
-[12-35-55] [THREAD STARTED]: Notificaiton vanish animater 431206859
+[12-35-55] [THREAD STARTED]: Notificaiton vanish animater 431206859 [2x]
+[12-39-34] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1
