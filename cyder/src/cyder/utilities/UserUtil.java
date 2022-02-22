@@ -599,6 +599,16 @@ public class UserUtil {
     }
 
     /**
+     * Removes the specified uuid from the invalid uuids list.
+     *
+     * @param uuid the specified uuid to remove from the invalid uuids list
+     */
+    private static void removeInvalidUui(String uuid) {
+        //method purposefully left blank since this isn't something
+        // that should be fixed and revalidated at runtime.
+    }
+
+    /**
      * After a user's json file was marked as invalid due to it being un-parsable, null, or any other reason,
      * this method informs the user that a user was corrupted and attempts to tell the user
      * which user it was by listing the files associated with the corrupted user.

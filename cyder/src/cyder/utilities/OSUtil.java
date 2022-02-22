@@ -592,7 +592,10 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
+    //todo parse non-ascii out of frame titles
+
     //todo never delete a json just mark the user as invalid
+    // implies need to check wherever users/ dir is accessed and only access it through userutil
 
     //todo most linked lists should be replaced with array lists
     // refresh on the difference and use case of each before hand

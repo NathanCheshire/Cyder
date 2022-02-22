@@ -1395,11 +1395,14 @@ public class InputHandler {
                try {
                    String saveDir = OSUtil.buildPath("dynamic","users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
 
-                   //todo need an argument for the path here too for where to save otherwise it's in top level cyder dir
-                   //todo why does it download whole video?
-
                    Runtime rt = Runtime.getRuntime();
-                   String[] commands = {"youtube-dl", "https://www.youtube.com/watch?v=mDlQ4QYsVhQ"};
+                   String[] commands = {
+                           "youtube-dl",
+                           "https://www.youtube.com/watch?v=mDlQ4QYsVhQ",
+                           "--extract-audio",
+                           "--audio-format","mp3",
+                           "--output", new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP + "%(title)s.%(ext)s}"
+                   };
 
                    Process proc = rt.exec(commands);
 
@@ -1444,6 +1447,11 @@ public class InputHandler {
                            audioProgress.setToolTipText("Progress: " + progress + "%, Rate: " + m.group(3) + ", ETA: " + m.group(4));
                        }
                    }
+
+                   //todo print where saved
+                   //todo download thumbnail
+                   //todo
+                   System.out.println("Downloading complete: saved");
                } catch (Exception e) {
                    ExceptionHandler.handle(e);
                }

@@ -143,7 +143,7 @@ public class IOUtil {
 
                     // find part files and delete them
                     for (File musicFile : files) {
-                        if (FileUtil.getExtension(musicFile).equals(".part"))
+                        if (!FileUtil.getExtension(musicFile).equals(".mp3") && !musicFile.isDirectory())
                             OSUtil.delete(musicFile);
                     }
                 }
@@ -159,10 +159,10 @@ public class IOUtil {
         File users = new File(OSUtil.buildPath("dynamic","users"));
 
         //for all files
-        for (File user : users.listFiles()) {
+        for (File userFile : users.listFiles()) {
             //file userdata
             File json = new File(OSUtil.buildPath(
-                    user.getAbsolutePath(), UserFile.USERDATA.getName()));
+                    userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (json.exists()) {
                 //attempt to update the json
@@ -170,8 +170,8 @@ public class IOUtil {
 
                 //if it fails then invoke invalid on the json
                 if (!success) {
-                    UserUtil
-                    UserUtil.userJsonCorruption(FileUtil.getFilename(user));
+                    UserUtil.addInvalidUuid(userFile.getName());
+                    UserUtil.userJsonCorruption(FileUtil.getFilename(userFile));
                 }
             }
         }

@@ -72,7 +72,6 @@ public class YoutubeUtil {
             ArrayList<File> ret = null;
 
             if (ffmpegInstalled() && youtubedlInstalled()) {
-                //AIzaSyAmo7YogM-RR2OG2w_C207SacitOUiNPuw
                 if (StringUtil.isNull(UserUtil.extractUser().getYouTubeAPI3Key())) {
                     ConsoleFrame.getConsoleFrame().getInputHandler().println(
                             "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
@@ -104,7 +103,8 @@ public class YoutubeUtil {
 
                         for (String uuid : uuids) {
                             String fullUrl = "https://www.youtube.com/watch?v=" + uuid;
-                            System.out.println("Downloading: " + NetworkUtil.getURLTitle(fullUrl));
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("Downloading: " + NetworkUtil.getURLTitle(fullUrl));
 
                             //req build
                             YoutubeDLRequest request = new YoutubeDLRequest(fullUrl, outputDir);
@@ -131,14 +131,34 @@ public class YoutubeUtil {
                                 }
                             }
 
-                            ret.add(new File(response.getDirectory() + outName));
+                            File outputFile = new File(response.getDirectory() + outName);
+                            ret.add(outputFile);
 
-                            System.out.println("Completed and saved as " + response.getDirectory() + OSUtil.FILE_SEP + outName);
+                            // make sure the audio was downloaded
+                            if (outputFile.exists()) {
+                                try {
+                                    BufferedImage save = getSquareThumbnail(fullUrl);
+                                    String name = FileUtil.getFilename(outputFile.getName()) + ".png";
+
+                                    File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                                            + "/Music/AlbumArt");
+
+                                    if (!albumArtDir.exists())
+                                        albumArtDir.mkdir();
+
+                                    File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                                            + "/Music/AlbumArt/" + name);
+                                    ImageIO.write(save, "png", saveFile);
+                                } catch (Exception e) {
+                                    ExceptionHandler.handle(e);
+                                }
+                            }
+
+                            ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                                    "Completed and saved as " + response.getDirectory() + OSUtil.FILE_SEP + outName);
                         }
 
-                        //todo also ensure thumbanils are downloaded after the video succeeds
-                        //todo since playlists just downloads individual videos too, is the thumbnail grabbed as well?
-                        //todo test downloading and playing playlists, test on this:
+                        //todo test
                         //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
