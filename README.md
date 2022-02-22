@@ -33,7 +33,7 @@ tl;dr Cyder is a virtual assistant and chatbot that performs tasks you might nee
 
 ![Dallas' weather_2022-02-17](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
 
-![Twillzzz - Lord_2022-02-17](https://user-images.githubusercontent.com/60986919/154597231-7a5e4e68-585c-45d7-b18d-503d65fd04c5.png)
+![Twillzzz - Lord_2022-02-22](https://user-images.githubusercontent.com/60986919/155233169-a823bf1f-fe8d-415d-8af1-36e492b3bf32.png)
 
 ### Pathfinder
 
