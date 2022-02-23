@@ -7,7 +7,6 @@ import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
 import cyder.enums.*;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.external.AudioPlayer;
 import cyder.python.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -254,7 +253,8 @@ public class InputHandler {
             if (NumberUtil.randInt(1, 2) == 1) {
                 println("Glamis hath murdered sleep, and therefore Cawdor shall sleep no more, Macbeth shall sleep no more.");
             } else {
-                println("To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer the slings and arrows of "
+                println("To be, or not to be, that is the question: Whether 'tis nobler in " +
+                        "the mind to suffer the slings and arrows of "
                         + "outrageous fortune, or to take arms against a sea of troubles and by opposing end them.");
             }
         } else if (commandIs("asdf")) {
@@ -370,7 +370,8 @@ public class InputHandler {
         } else if (commandIs("loop")) {
             println("InputHandler.handle(\"loop\", true);");
         } else if (commandIs("story")) {
-            println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly " + UserUtil.extractUser().getName() + " started talking to Cyder."
+            println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly "
+                    + UserUtil.extractUser().getName() + " started talking to Cyder."
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
@@ -988,98 +989,15 @@ public class InputHandler {
 
             if (isURL) {
                CyderThreadRunner.submit(() -> {
-                   try {
-                       if (YoutubeUtil.isPlaylist(input)) {
-                           String playlistID = input.replace("https://www.youtube.com/playlist?list=","");
-
-                           println("Starting download of playlist: " + playlistID);
-                           Future<ArrayList<java.io.File>> downloadedFiles =
-                                   YoutubeUtil.downloadPlaylist(playlistID,
-                                           OSUtil.buildPath("dynamic","users"
-                                                   ,ConsoleFrame.getConsoleFrame().getUUID(), "Music"));
-
-                           //wait for all music to be downloaded
-                           while (!downloadedFiles.isDone()) {
-                               Thread.onSpinWait();
-                           }
-
-                           if (downloadedFiles.get() != null && !downloadedFiles.get().isEmpty()) {
-                               println("Download of playlist complete; all songs added to mp3 queue");
-
-                               //play the songs
-                               for (File song : downloadedFiles.get()) {
-                                   AudioPlayer.addToMp3Queue(song);
-                               }
-                           }
-                       } else {
-                           if (!input.contains("youtube.com/watch?v=")) {
-                               println("Invalid youtube video URL");
-                               return;
-                           }
-
-                           String[] parts = input.split("watch\\?v=");
-
-                           if (parts.length != 2) {
-                               println("Invalid youtube video URL");
-                               return;
-                           }
-
-                           String uuid = parts[parts.length - 1];
-
-                           if (uuid.length() != 11) {
-                               println("Invalid youtube UUID: " + uuid);
-                               return;
-                           }
-
-                           Future<java.io.File> downloadedFile = YoutubeUtil.download(input, OSUtil.buildPath("dynamic","users",
-                                   ConsoleFrame.getConsoleFrame().getUUID(), "Music"));
-
-                           String videoTitle = NetworkUtil.getURLTitle(input)
-                                   .replaceAll("(?i) - YouTube", "").trim();
-                           println("Starting download of: " + videoTitle);
-
-                           while (!downloadedFile.isDone()) {
-                               Thread.onSpinWait();
-                           }
-
-                           if (downloadedFile.get() != null && downloadedFile.get().exists()) {
-                               println("Download complete; song added to mp3 queue");
-
-                               //play the song
-                               AudioPlayer.addToMp3Queue(downloadedFile.get());
-                           }
-                       }
+                  try {
+                      //todo new logic here
                    } catch (Exception e) {
                        ExceptionHandler.handle(e);
+                       println("An exception occured while attempting to download: " + argsToString());
                    }
-               }, "YouTube Audio Extractor");
+               }, "YouTube-dl Audio Extractor");
             } else {
-                CyderThreadRunner.submit(() -> {
-                    try {
-
-                        println("Searching youtube for: " + input);
-                        String UUID = YoutubeUtil.getFirstUUID(input);
-                        String videoURL = "https://www.youtube.com/watch?v=" + UUID;
-                        Future<java.io.File> downloadedFile = YoutubeUtil.download(videoURL, "dynamic/users/"
-                                + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/");
-
-                        String videoTitle = NetworkUtil.getURLTitle(videoURL)
-                                .replaceAll("(?i) - YouTube", "").trim();
-                        println("Starting download of: " + videoTitle);
-
-                        while (!downloadedFile.isDone()) {
-                            Thread.onSpinWait();
-                        }
-
-                        if (downloadedFile.get() != null && downloadedFile.get().exists()) {
-                            println("Download complete and added to mp3 queue");
-
-                            AudioPlayer.addToMp3Queue(downloadedFile.get());
-                        }
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                }, "YouTube Audio Extractor");
+                println("Play usage: Play [video URL supported by youtube-dl]");
             }
         }  else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
@@ -1146,7 +1064,8 @@ public class InputHandler {
                 IOUtil.playAudio("static/audio/Kendrick Lamar - All The Stars.mp3");
                 Font oldFont = outputArea.getJTextPane().getFont();
                 outputArea.getJTextPane().setFont(new Font("BEYNO", Font.BOLD, oldFont.getSize()));
-                BletchyThread.bletchy("RIP CHADWICK BOSEMAN",false, 15, false);
+                BletchyThread.bletchy("RIP CHADWICK BOSEMAN",
+                        false, 15, false);
 
                 try {
                     //wait to reset font to original font
@@ -1299,7 +1218,8 @@ public class InputHandler {
                             println("Unable to delete file at this time");
                         }
                     } else {
-                        throw new IllegalStateException("File is not a file nor directory. " + CyderStrings.europeanToymaker);
+                        throw new IllegalStateException(
+                                "File is not a file nor directory. " + CyderStrings.europeanToymaker);
                     }
                 } else {
                     println("Requested file does not exist: " + requestedDeleteFile.getAbsolutePath());
@@ -1393,12 +1313,14 @@ public class InputHandler {
         } else if (commandIs("testerjester")) {
            CyderThreadRunner.submit(() -> {
                try {
-                   String saveDir = OSUtil.buildPath("dynamic","users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+                   String saveDir = OSUtil.buildPath("dynamic",
+                           "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
 
                    Runtime rt = Runtime.getRuntime();
+
                    String[] commands = {
                            "youtube-dl",
-                           "https://www.youtube.com/watch?v=mDlQ4QYsVhQ",
+                           "https://www.youtube.com/watch?v=Zf0MBnHPpKs",
                            "--extract-audio",
                            "--audio-format","mp3",
                            "--output", new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP + "%(title)s.%(ext)s}"
@@ -1407,10 +1329,6 @@ public class InputHandler {
                    Process proc = rt.exec(commands);
 
                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                   String s;
-
-                   Pattern p  = Pattern.compile(
-                           "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
 
                    // progress label for this download to update
                    CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
@@ -1430,28 +1348,49 @@ public class InputHandler {
                    audioProgress.repaint();
                    printlnComponent(audioProgress);
 
+                   Pattern updatePattern  = Pattern.compile(
+                           "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
+                                   "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
+
                    String fileSize = null;
+                   String outputPath = null;
 
-                   while ((s = stdInput.readLine()) != null) {
-                       Matcher m = p.matcher(s);
+                   Pattern savePattern  = Pattern.compile("\\s*\\[ffmpeg]\\s*Destination:\\s*(.*)\\s*");
+                   String outputString;
 
-                       if (m.find()) {
-                           float progress = Float.parseFloat(m.group(1).replaceAll("[^0-9.]",""));
+                   while ((outputString = stdInput.readLine()) != null) {
+                       Matcher updateMatcher = updatePattern.matcher(outputString);
+
+                       if (updateMatcher.find()) {
+                           float progress = Float.parseFloat(updateMatcher.group(1)
+                                   .replaceAll("[^0-9.]",""));
                            audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
 
                            if (fileSize == null) {
-                               fileSize = m.group(2);
+                               fileSize = updateMatcher.group(2);
                                println("Download size: " + fileSize);
                            }
 
-                           audioProgress.setToolTipText("Progress: " + progress + "%, Rate: " + m.group(3) + ", ETA: " + m.group(4));
+                           audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
+                                   + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
+                       }
+
+                       Matcher destinationMatcher = savePattern.matcher(outputString);
+
+                       if (destinationMatcher.matches()) {
+                           outputPath = destinationMatcher.group(1);
                        }
                    }
 
-                   //todo print where saved
-                   //todo download thumbnail
-                   //todo
-                   System.out.println("Downloading complete: saved");
+                   if (outputPath != null) {
+                       File output = new File(outputPath);
+
+                       //todo download thumbnail
+
+                       println("Downloading complete: saved as " + output.getName());
+                   }
+
+                   audioProgress.setVisible(false);
                } catch (Exception e) {
                    ExceptionHandler.handle(e);
                }

@@ -173,6 +173,8 @@ public class YoutubeUtil {
         });
     }
 
+    //todo what if we jsut pass anything to youytube-dl, any link given and if it throws then say sorry
+    //todo replace with new one from input handler, then fit into above
     /**
      * Downloads the audio from the provided youtube URL provided it exists.
      *
