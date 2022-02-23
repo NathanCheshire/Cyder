@@ -1,7 +1,6 @@
 package cyder.utilities;
 
 import com.sapher.youtubedl.YoutubeDL;
-import com.sapher.youtubedl.YoutubeDLException;
 import com.sapher.youtubedl.YoutubeDLRequest;
 import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.annotations.Widget;
@@ -60,6 +59,9 @@ public class YoutubeUtil {
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Youtube Audio Extractor"));
 
+    //todo move new method from InputHandler here to offship to util
+
+    //todo use new method in InputHandler, youtube-dl can download a playlist itself, experiemnt with that
     /**
      * Downloads the youtube playlist provided the playlistID exists.
      *
@@ -173,90 +175,7 @@ public class YoutubeUtil {
         });
     }
 
-    //todo what if we jsut pass anything to youytube-dl, any link given and if it throws then say sorry
-    //todo replace with new one from input handler, then fit into above
-    /**
-     * Downloads the audio from the provided youtube URL provided it exists.
-     *
-     * @param videoURL the url of the youtube video to download
-     * @param outputDir the directory to output the downloaded audio file
-     * @return a future file
-     */
-    public static Future<File> download(String videoURL, String outputDir) {
-        return executor.submit(() -> {
-            File ret = null;
-
-            if (ffmpegInstalled() && youtubedlInstalled()) {
-                String ydlPath = UserUtil.extractUser().getYoutubedlpath();
-                if (ydlPath != null && ydlPath.trim().length() > 0) {
-                    YoutubeDL.setExecutablePath(ydlPath);
-                }
-
-                try {
-                    //req build
-                    YoutubeDLRequest request = new YoutubeDLRequest(videoURL, outputDir);
-                    request.setOption("ignore-errors");
-                    request.setOption("extract-audio");
-                    request.setOption("audio-format","mp3");
-                    request.setOption("output", "%(title)s.%(ext)s");
-
-                    //req and response ret
-                    YoutubeDLResponse response = YoutubeDL.execute(request);
-                    response.getOut();
-
-                    String[] outLines = response.getOut().split("\n");
-                    String outName = "NULL";
-
-                    for (String line: outLines) {
-                        if (line.contains("[ffmpeg] Destination:")) {
-                            outName = line.replace("[ffmpeg] Destination:","").trim();
-                            break;
-                        }
-                    }
-
-                    ret = new File(response.getDirectory() + outName);
-                } catch (YoutubeDLException e) {
-                    ExceptionHandler.silentHandle(e);
-                    ConsoleFrame.getConsoleFrame().getInputHandler().println("Could not download video's audio at this time");
-                }
-            } else {
-                error();
-            }
-
-            //make sure the audio was downloaded
-            if (ret.exists()) {
-                try {
-                    BufferedImage save = getSquareThumbnail(videoURL);
-                    String name = FileUtil.getFilename(ret) + ".png";
-
-                    File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                            + "/Music/AlbumArt");
-
-                    if (!albumArtDir.exists())
-                        albumArtDir.mkdir();
-
-                    File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                            + "/Music/AlbumArt/" + name);
-                    ImageIO.write(save, "png", saveFile);
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }
-
-            return ret;
-        });
-    }
-
-    /**
-     * Returns whether the provided string matches the pattern of a youtube playlist.
-     * This does not necessarily mean the resource is valid, however.
-     *
-     * @param youtubeURL the url of the playlist to validate for correct syntax
-     * @return whether the playlist url is formatted correctly
-     */
-    public static boolean isPlaylist(String youtubeURL) {
-        return youtubeURL.startsWith("https://www.youtube.com/playlist?list=");
-    }
+    //todo download thumbnail and pass in reference file to save as, method
 
     /**
      * Returns whether ffmpeg is installed.

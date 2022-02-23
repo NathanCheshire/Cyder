@@ -978,25 +978,129 @@ public class InputHandler {
         } else if (commandIs("play")) {
             boolean isURL = true;
 
-            String input = argsToString();
+            String url = argsToString();
 
             try {
-                URL url = new URL(input);
-                URLConnection conn = url.openConnection();
+                URL urlObj = new URL(url);
+                URLConnection conn = urlObj.openConnection();
                 conn.connect();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
                 isURL = false;
             }
 
+            // it is a valid url so let youtube-dl try to download it
             if (isURL) {
-               CyderThreadRunner.submit(() -> {
-                  try {
-                      //todo new logic here
-                   } catch (Exception e) {
-                       ExceptionHandler.handle(e);
-                       println("An exception occured while attempting to download: " + argsToString());
-                   }
-               }, "YouTube-dl Audio Extractor");
+                String saveDir = OSUtil.buildPath("dynamic",
+                        "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+                String extension = ".mp3";
+
+                Runtime rt = Runtime.getRuntime();
+
+                String parsedAsciiSaveName =
+                        StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                                .replace("- YouTube","").trim();
+
+                println("Downloading audio as: " + parsedAsciiSaveName + extension);
+
+                // remove trailing periods
+                while (parsedAsciiSaveName.endsWith("."))
+                    parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
+
+                // if for some reason this case happens, account for it
+                if (parsedAsciiSaveName.length() == 0)
+                    parsedAsciiSaveName = SecurityUtil.generateUUID();
+
+                final String finalParsedAsciiSaveName = parsedAsciiSaveName;
+
+                String[] commands = {
+                        "youtube-dl",
+                        url,
+                        "--extract-audio",
+                        "--audio-format","mp3",
+                        "--output", new File(saveDir).getAbsolutePath()
+                        + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
+                };
+
+                CyderThreadRunner.submit(() -> {
+                    try {
+                        Process proc = rt.exec(commands);
+
+                        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+                        // progress label for this download to update
+                        CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+                        CyderProgressUI ui = new CyderProgressUI();
+                        ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
+                        ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+                        ui.setShape(CyderProgressUI.Shape.SQUARE);
+                        audioProgress.setUI(ui);
+                        audioProgress.setMinimum(0);
+                        audioProgress.setMaximum(10000);
+                        audioProgress.setBorder(new LineBorder(Color.black, 2));
+                        audioProgress.setBounds(0,0,400, 40);
+                        audioProgress.setVisible(true);
+                        audioProgress.setValue(0);
+                        audioProgress.setOpaque(false);
+                        audioProgress.setFocusable(false);
+                        audioProgress.repaint();
+                        printlnComponent(audioProgress);
+
+                        Pattern updatePattern  = Pattern.compile(
+                                "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
+                                        "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
+
+                        String fileSize = null;
+
+                        String outputString;
+
+                        while ((outputString = stdInput.readLine()) != null) {
+                            Matcher updateMatcher = updatePattern.matcher(outputString);
+
+                            if (updateMatcher.find()) {
+                                float progress = Float.parseFloat(updateMatcher.group(1)
+                                        .replaceAll("[^0-9.]",""));
+                                audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
+
+                                if (fileSize == null) {
+                                    fileSize = updateMatcher.group(2);
+                                    println("Download size: " + fileSize);
+                                }
+
+                                // todo try and display in a better way
+                                audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
+                                        + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
+                            }
+                        }
+
+                        File savedFile = new File(OSUtil.buildPath(saveDir, finalParsedAsciiSaveName + extension));
+
+                        // get thumbnail url and file name to save it as
+                        BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
+                        String name = finalParsedAsciiSaveName + ".png";
+
+                        // init album art dir
+                        File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                                + "/Music/AlbumArt");
+
+                        // create if not there
+                        if (!albumArtDir.exists())
+                            albumArtDir.mkdir();
+
+                        // create the reference file and save to it
+                        File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                                + "/Music/AlbumArt/" + name);
+                        ImageIO.write(save, "png", saveAlbumArt);
+
+                        println("Download complete: saved as " + finalParsedAsciiSaveName + extension
+                                + " and added to mp3 queue");
+                        AudioPlayer.addToMp3Queue(savedFile);
+
+                        ui.stopAnimationTimer();
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                        println("An exception occured while attempting to download: " + argsToString());
+                    }
+                }, "YouTube Download Progress Updater");
             } else {
                 println("Play usage: Play [video URL supported by youtube-dl]");
             }
@@ -1311,116 +1415,6 @@ public class InputHandler {
             } else {
                 println("Curl command usage: curl URL");
             }
-        } else if (commandIs("testerjester")) {
-            String url = "https://www.youtube.com/watch?v=Zf0MBnHPpKs";
-
-            String saveDir = OSUtil.buildPath("dynamic",
-                    "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
-            String extension = ".mp3";
-
-            Runtime rt = Runtime.getRuntime();
-
-            String parsedAsciiSaveName =
-                    StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                            .replace("- YouTube","").trim();
-
-            // remove trailing periods
-            while (parsedAsciiSaveName.endsWith("."))
-                parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
-
-            // if for some reason this case happens, account for it
-            if (parsedAsciiSaveName.length() == 0)
-                parsedAsciiSaveName = SecurityUtil.generateUUID();
-
-            final String finalParsedAsciiSaveName = parsedAsciiSaveName;
-
-            String[] commands = {
-                    "youtube-dl",
-                    url,
-                    "--extract-audio",
-                    "--audio-format","mp3",
-                    "--output", new File(saveDir).getAbsolutePath()
-                    + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
-            };
-
-            CyderThreadRunner.submit(() -> {
-               try {
-                   Process proc = rt.exec(commands);
-
-                   BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-                   // progress label for this download to update
-                   CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
-                   CyderProgressUI ui = new CyderProgressUI();
-                   ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
-                   ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-                   ui.setShape(CyderProgressUI.Shape.SQUARE);
-                   audioProgress.setUI(ui);
-                   audioProgress.setMinimum(0);
-                   audioProgress.setMaximum(10000);
-                   audioProgress.setBorder(new LineBorder(Color.black, 2));
-                   audioProgress.setBounds(0,0,400, 40);
-                   audioProgress.setVisible(true);
-                   audioProgress.setValue(0);
-                   audioProgress.setOpaque(false);
-                   audioProgress.setFocusable(false);
-                   audioProgress.repaint();
-                   printlnComponent(audioProgress);
-
-                   Pattern updatePattern  = Pattern.compile(
-                           "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
-                                   "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
-
-                   String fileSize = null;
-
-                   String outputString;
-
-                   while ((outputString = stdInput.readLine()) != null) {
-                       Matcher updateMatcher = updatePattern.matcher(outputString);
-
-                       if (updateMatcher.find()) {
-                           float progress = Float.parseFloat(updateMatcher.group(1)
-                                   .replaceAll("[^0-9.]",""));
-                           audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
-
-                           if (fileSize == null) {
-                               fileSize = updateMatcher.group(2);
-                               println("Download size: " + fileSize);
-                           }
-
-                           audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
-                                   + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
-                       }
-                   }
-
-                   File savedFile = new File(OSUtil.buildPath(saveDir, finalParsedAsciiSaveName + extension));
-
-                   // get thumbnail url and file name to save it as
-                   BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
-                   String name = finalParsedAsciiSaveName + ".png";
-
-                   // init album art dir
-                   File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                           + "/Music/AlbumArt");
-
-                   // create if not there
-                   if (!albumArtDir.exists())
-                       albumArtDir.mkdir();
-
-                   // create the reference file and save to it
-                   File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                           + "/Music/AlbumArt/" + name);
-                   ImageIO.write(save, "png", saveAlbumArt);
-
-                   println("Download complete: saved as " + finalParsedAsciiSaveName + extension
-                           + " and added to mp3 queue");
-                   AudioPlayer.addToMp3Queue(savedFile);
-
-                   ui.stopAnimationTimer();
-               } catch (Exception e) {
-                   ExceptionHandler.handle(e);
-               }
-           }, "YouTube Download Progress Updater");
         }
 
         else ret = false;

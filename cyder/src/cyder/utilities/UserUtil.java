@@ -574,6 +574,7 @@ public class UserUtil {
         return ret;
     }
 
+    //todo utilized?
     /**
      * The linked list of invalid users which this instance of Cyder will ignore.
      */
