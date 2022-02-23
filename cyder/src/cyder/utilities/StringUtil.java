@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.CharMatcher;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import org.jsoup.Jsoup;
@@ -1059,5 +1060,25 @@ public class StringUtil {
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         return (int) f.getStringBounds(title, frc).getHeight();
+    }
+
+    /**
+     * Parses out all non-ascii characters from the provided string.
+     *
+     * @param nonAsciiContaining the string containing non-ascii characters
+     * @return the string with the non-ascii characters removed
+     */
+    public static String parseNonAscii(String nonAsciiContaining) {
+        return nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", "");
+    }
+
+    /**
+     * Returns whether the provided string contains non-ascii characters.
+     *
+     * @param nonAsciiContaining the string which may contain non-ascii characters
+     * @return whether the provided string contains non-ascii characters
+     */
+    public static boolean containsNonAscii(String nonAsciiContaining) {
+        return CharMatcher.ascii().matchesAllOf(nonAsciiContaining);
     }
 }

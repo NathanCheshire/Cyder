@@ -1312,29 +1312,31 @@ public class InputHandler {
                 println("Curl command usage: curl URL");
             }
         } else if (commandIs("testerjester")) {
-           CyderThreadRunner.submit(() -> {
+            String url = "https://www.youtube.com/watch?v=Zf0MBnHPpKs";
+
+            String saveDir = OSUtil.buildPath("dynamic",
+                    "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+            String extension = ".mp3";
+
+            Runtime rt = Runtime.getRuntime();
+
+            String parsedAsciiSaveName =
+                    StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                            .replace("- YouTube","").trim();
+
+            //todo maybe if ending in period remove until it doesn't
+
+            String[] commands = {
+                    "youtube-dl",
+                    url,
+                    "--extract-audio",
+                    "--audio-format","mp3",
+                    "--output", new File(saveDir).getAbsolutePath()
+                    + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
+            };
+
+            CyderThreadRunner.submit(() -> {
                try {
-                   String url = "https://www.youtube.com/watch?v=Zf0MBnHPpKs";
-
-                   String saveDir = OSUtil.buildPath("dynamic",
-                           "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
-
-                   Runtime rt = Runtime.getRuntime();
-
-                   //todo method for non ascii
-                   String parsedAsciiSaveName = NetworkUtil.getURLTitle(url)
-                           .replaceAll("[^\\x00-\\x7F]", "")
-                           .replace("- YouTube","").trim();
-
-                   String[] commands = {
-                           "youtube-dl",
-                           url,
-                           "--extract-audio",
-                           "--audio-format","mp3",
-                           "--output", new File(saveDir).getAbsolutePath()
-                           + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
-                   };
-
                    Process proc = rt.exec(commands);
 
                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -1383,11 +1385,26 @@ public class InputHandler {
                        }
                    }
 
-                   File savedFile = new File(OSUtil.buildPath(saveDir, parsedAsciiSaveName + ".mp3"));
+                   File savedFile = new File(OSUtil.buildPath(saveDir, parsedAsciiSaveName + extension));
 
-                   //todo download thumbnail
+                   // get thumbnail url and file name to save it as
+                   BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
+                   String name = parsedAsciiSaveName + ".png";
 
-                   println("Download complete: saved as " + parsedAsciiSaveName + ".mp3"
+                   // init album art dir
+                   File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                           + "/Music/AlbumArt");
+
+                   // create if not there
+                   if (!albumArtDir.exists())
+                       albumArtDir.mkdir();
+
+                   // create the reference file and save to it
+                   File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                           + "/Music/AlbumArt/" + name);
+                   ImageIO.write(save, "png", saveAlbumArt);
+
+                   println("Download complete: saved as " + parsedAsciiSaveName + extension
                            + " and added to mp3 queue");
                    AudioPlayer.addToMp3Queue(savedFile);
 
