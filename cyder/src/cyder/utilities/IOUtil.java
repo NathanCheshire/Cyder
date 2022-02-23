@@ -20,6 +20,7 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
+import java.util.ArrayList;
 
 public class IOUtil {
     /**
@@ -116,8 +117,9 @@ public class IOUtil {
     }
 
     /**
-     * Clean the users/ dir of any possibly corrupted or invalid user folders.
-     * Also removes any .part files from the user's Music/ directory
+     * Clean the users/ dir. Currently this entails deleting
+     * possibly VoidUsers, deleting non mp3 files from the Music/ directory,
+     * and removing music album art that is not linked to an mp3.
      */
     public static void cleanUsers() {
         File users = new File(OSUtil.buildPath("dynamic","users"));
@@ -131,20 +133,42 @@ public class IOUtil {
             for (File user : UUIDs) {
                 if (!user.isDirectory())
                     continue;
+                // take care of void users
                 if (user.isDirectory() && user.getName().contains("VoidUser")) {
                     OSUtil.delete(user);
                 } else {
                     File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music"));
 
-                    if (!musicDir.exists())
+                    if (!musicDir.exists()) {
                         continue;
+                    }
 
                     File[] files = musicDir.listFiles();
+                    ArrayList<String> validMusicFileNames = new ArrayList<>();
 
-                    // find part files and delete them
+                    // delete all non mp3 files
                     for (File musicFile : files) {
-                        if (!FileUtil.getExtension(musicFile).equals(".mp3") && !musicFile.isDirectory())
+                        if (!FileUtil.getExtension(musicFile).equals(".mp3") && !musicFile.isDirectory()) {
                             OSUtil.delete(musicFile);
+                        } else {
+                            validMusicFileNames.add(FileUtil.getFilename(musicFile));
+                        }
+                    }
+
+                    File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music", "AlbumArt"));
+
+                    if (!albumArtDirectory.exists())
+                        continue;
+
+                    File[] albumArtFiles = albumArtDirectory.listFiles();
+
+                    // for all album art files
+                    for (File albumArt : albumArtFiles) {
+
+                        // if the albumart file name does not match to a music file name, delete it
+                        if (!StringUtil.in(FileUtil.getFilename(albumArt), true, validMusicFileNames)) {
+                           albumArt.delete();
+                        }
                     }
                 }
             }
