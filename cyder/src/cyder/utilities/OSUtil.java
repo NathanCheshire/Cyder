@@ -592,7 +592,7 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo parse non-ascii out of frame titles
+    //todo on startup, ensure music directories don't have album-art that isn't attached to an mp3
 
     //todo never delete a json just mark the user as invalid
     // implies need to check wherever users/ dir is accessed and only access it through userutil

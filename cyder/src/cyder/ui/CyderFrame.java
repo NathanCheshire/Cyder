@@ -827,12 +827,16 @@ public class CyderFrame extends JFrame {
      * @param title the String representing the chosen CyderFrame title
      */
     @Override
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
+        // super call, super title will alway be provided title
         super.setTitle(paintSuperTitle ? title : "");
 
         if (paintWindowTitle && !StringUtil.isNull(title) && titleLabel != null) {
-            int titleWidth = StringUtil.getMinWidth(title, titleLabel.getFont());
-            String shortenedTitle = title;
+            // inner title needs to have ascii parsed away
+            String innerTitle = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
+
+            int titleWidth = StringUtil.getMinWidth(innerTitle, titleLabel.getFont());
+            String shortenedTitle = innerTitle;
 
             while (titleWidth > this.width * MAX_TITLE_LENGTH_RATIO) {
                 shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
