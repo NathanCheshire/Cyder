@@ -14,8 +14,7 @@
 [23-16-56] [SYSTEM_IO]: Userdata requested: RandomBackground
 [23-16-56] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-16-56] [SYSTEM_IO]: Userdata requested: fullscreen
-[23-16-56] [SYSTEM_IO]: Userdata requested: FullScreen
-[23-16-56] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-16-56] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [23-16-56] [THREAD STARTED]: Console Printing Animation
 [23-16-56] [SYSTEM_IO]: Userdata requested: OutputBorder
 [23-16-56] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -54,8 +53,7 @@
 [23-17-24] [THREAD STARTED]: Flash Player Progress Thread[Funk Bros intro  panthurr - i love u.]
 [23-17-24] [ACTION]: [AUDIO PLAYER] Funk Bros intro  panthurr - i love u..mp3
 [23-17-31] [THREAD STARTED]: minimize menu thread
-[23-17-31] [THREAD STARTED]: Console menu animator
-[23-17-32] [THREAD STARTED]: Console menu animator
+[23-17-32] [THREAD STARTED]: Console menu animator [2x]
 [23-17-32] [THREAD STARTED]: minimize menu thread
 [23-17-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [1281776214], parentFrame = [Funk Bros intro  panthurr - i love u.], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [23-17-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1053, 598, 500, 225)], hash = [689623384], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Funk Bros intro  panthurr - i love u.]

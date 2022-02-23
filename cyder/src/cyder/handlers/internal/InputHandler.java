@@ -1324,7 +1324,15 @@ public class InputHandler {
                     StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                             .replace("- YouTube","").trim();
 
-            //todo maybe if ending in period remove until it doesn't
+            // remove trailing periods
+            while (parsedAsciiSaveName.endsWith("."))
+                parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
+
+            // if for some reason this case happens, account for it
+            if (parsedAsciiSaveName.length() == 0)
+                parsedAsciiSaveName = SecurityUtil.generateUUID();
+
+            final String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
             String[] commands = {
                     "youtube-dl",
@@ -1332,7 +1340,7 @@ public class InputHandler {
                     "--extract-audio",
                     "--audio-format","mp3",
                     "--output", new File(saveDir).getAbsolutePath()
-                    + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
+                    + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
             };
 
             CyderThreadRunner.submit(() -> {
@@ -1385,11 +1393,11 @@ public class InputHandler {
                        }
                    }
 
-                   File savedFile = new File(OSUtil.buildPath(saveDir, parsedAsciiSaveName + extension));
+                   File savedFile = new File(OSUtil.buildPath(saveDir, finalParsedAsciiSaveName + extension));
 
                    // get thumbnail url and file name to save it as
                    BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
-                   String name = parsedAsciiSaveName + ".png";
+                   String name = finalParsedAsciiSaveName + ".png";
 
                    // init album art dir
                    File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
@@ -1404,7 +1412,7 @@ public class InputHandler {
                            + "/Music/AlbumArt/" + name);
                    ImageIO.write(save, "png", saveAlbumArt);
 
-                   println("Download complete: saved as " + parsedAsciiSaveName + extension
+                   println("Download complete: saved as " + finalParsedAsciiSaveName + extension
                            + " and added to mp3 queue");
                    AudioPlayer.addToMp3Queue(savedFile);
 
