@@ -1072,28 +1072,14 @@ public class InputHandler {
                             }
                         }
 
-                        File savedFile = new File(OSUtil.buildPath(saveDir, finalParsedAsciiSaveName + extension));
+                        //todo need to ensure youtube-dl and ffmpeg are installed here
+                        // how about we bundle them with Cyder?
 
-                        // get thumbnail url and file name to save it as
-                        BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
-                        String name = finalParsedAsciiSaveName + ".png";
-
-                        // init album art dir
-                        File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                + "/Music/AlbumArt");
-
-                        // create if not there
-                        if (!albumArtDir.exists())
-                            albumArtDir.mkdir();
-
-                        // create the reference file and save to it
-                        File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                + "/Music/AlbumArt/" + name);
-                        ImageIO.write(save, "png", saveAlbumArt);
-
+                        YoutubeUtil.downloadThumbnail(url);
                         println("Download complete: saved as " + finalParsedAsciiSaveName + extension
                                 + " and added to mp3 queue");
-                        AudioPlayer.addToMp3Queue(savedFile);
+                        AudioPlayer.addToMp3Queue(new File(OSUtil.buildPath(
+                                saveDir, finalParsedAsciiSaveName + extension)));
 
                         ui.stopAnimationTimer();
                     } catch (Exception e) {

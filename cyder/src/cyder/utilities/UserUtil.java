@@ -198,7 +198,6 @@ public class UserUtil {
             userMusicFile.mkdir();
 
         if (!userJsonFile.exists()) {
-            userJsonCorruption(UUID);
             return;
         }
 
@@ -574,7 +573,6 @@ public class UserUtil {
         return ret;
     }
 
-    //todo utilized?
     /**
      * The linked list of invalid users which this instance of Cyder will ignore.
      */
@@ -604,7 +602,7 @@ public class UserUtil {
      *
      * @param uuid the specified uuid to remove from the invalid uuids list
      */
-    private static void removeInvalidUui(String uuid) {
+    private static void removeInvalidUuid(String uuid) {
         //method purposefully left blank since this isn't something
         // that should be fixed and revalidated at runtime.
     }
@@ -742,7 +740,7 @@ public class UserUtil {
         ArrayList<File> userJsons = new ArrayList<>();
 
         for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
-            if (user.isDirectory()) {
+            if (user.isDirectory() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
                 File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
                 if (json.exists())
@@ -764,7 +762,7 @@ public class UserUtil {
         for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
             File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
-            if (json.exists())
+            if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
                 uuids.add(user.getName());
         }
 
@@ -782,7 +780,7 @@ public class UserUtil {
         for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
             File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
-            if (json.exists())
+            if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
                 userFiles.add(json);
         }
 
@@ -809,7 +807,9 @@ public class UserUtil {
         for (File user : users) {
             File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
-            if (jsonFile.exists() && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID())) {
+            if (jsonFile.exists()
+                    && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID())
+                    && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
                 User u = UserUtil.extractUser(jsonFile);
                 u.setLoggedin("0");
                 setUserData(jsonFile, u);

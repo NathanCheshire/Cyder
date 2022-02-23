@@ -1010,6 +1010,24 @@ public class StringUtil {
     }
 
     /**
+     * Returns whether the provided string is in the listed strings.
+     *
+     * @param lookFor the string to look for
+     * @param strings the list of strings
+     * @param ignoreCase whether to ignore the case of the words
+     * @return whether the provided string is in the list of strings
+     */
+    public static boolean in(String lookFor, boolean ignoreCase, LinkedList<String> strings) {
+        for (String look : strings) {
+            if ((ignoreCase && lookFor.equalsIgnoreCase(look)) || lookFor.equals(look)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns the minimum width required for the given String using the given font.
      *
      * @param title the text you want to determine the width of

@@ -1,8 +1,6 @@
 package cyder.utilities;
 
 import com.sapher.youtubedl.YoutubeDL;
-import com.sapher.youtubedl.YoutubeDLRequest;
-import com.sapher.youtubedl.YoutubeDLResponse;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
@@ -10,19 +8,16 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
-import cyder.threads.CyderThreadFactory;
 import cyder.ui.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,12 +48,6 @@ public class YoutubeUtil {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    /**
-     * The executor used to download youtube videos using the youtube-dl wrapper.
-     */
-    private static final ExecutorService executor = Executors.newSingleThreadExecutor(
-            new CyderThreadFactory("Youtube Audio Extractor"));
-
     //todo move new method from InputHandler here to offship to util
 
     //todo use new method in InputHandler, youtube-dl can download a playlist itself, experiemnt with that
@@ -66,116 +55,130 @@ public class YoutubeUtil {
      * Downloads the youtube playlist provided the playlistID exists.
      *
      * @param playlistID the ID of the playlist to download
-     * @param outputDir the directory to output the downloaded audio files fo
-     * @return a list of files that were downloaded
      */
-    public static Future<ArrayList<File>> downloadPlaylist(String playlistID, String outputDir) {
-        return executor.submit(() -> {
-            ArrayList<File> ret = null;
-
-            if (ffmpegInstalled() && youtubedlInstalled()) {
-                if (StringUtil.isNull(UserUtil.extractUser().getYouTubeAPI3Key())) {
-                    ConsoleFrame.getConsoleFrame().getInputHandler().println(
-                            "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
-                                    "to learn how to set this in order to download whole playlists. " +
-                                    "In order to download individual videos, simply use the same play " +
-                                    "command followed by a video URL or query");
-                } else {
-                    String ydlPath = UserUtil.extractUser().getYoutubedlpath();
-
-                    if (ydlPath != null && ydlPath.trim().length() > 0) {
-                        YoutubeDL.setExecutablePath(ydlPath);
-                    }
-
-                    try {
-                        String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
-                                "part=snippet%2C+id&playlistId=" + playlistID + "&key=" + UserUtil.extractUser().getYouTubeAPI3Key();
-                        String jsonResponse = NetworkUtil.readUrl(link);
-
-                        Pattern p = Pattern.compile(
-                                "\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
-                        Matcher m = p.matcher(jsonResponse);
-                        ArrayList<String> uuids = new ArrayList<>();
-
-                        while (m.find()) {
-                            uuids.add(m.group(1));
-                        }
-
-                        System.out.println("Found " + uuids.size() + " videos from playlist: " + playlistID);
-
-                        for (String uuid : uuids) {
-                            String fullUrl = "https://www.youtube.com/watch?v=" + uuid;
-                            ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("Downloading: " + NetworkUtil.getURLTitle(fullUrl));
-
-                            //req build
-                            YoutubeDLRequest request = new YoutubeDLRequest(fullUrl, outputDir);
-                            request.setOption("ignore-errors");
-                            request.setOption("extract-audio");
-                            request.setOption("audio-format","mp3");
-                            request.setOption("output", "%(title)s.%(ext)s");
-
-                            // req and response ret
-                            YoutubeDLResponse response = YoutubeDL.execute(request);
-                            response.getOut();
-
-                            response.getElapsedTime();
-
-                            // get the ffmpeg output
-                            String[] outLines = response.getOut().split("\n");
-                            String outName = "NULL";
-
-                            // find the save name
-                            for (String line : outLines) {
-                                if (line.contains("[ffmpeg] Destination:")) {
-                                    outName = line.replace("[ffmpeg] Destination:","").trim();
-                                    break;
-                                }
-                            }
-
-                            File outputFile = new File(response.getDirectory() + outName);
-                            ret.add(outputFile);
-
-                            // make sure the audio was downloaded
-                            if (outputFile.exists()) {
-                                try {
-                                    BufferedImage save = getSquareThumbnail(fullUrl);
-                                    String name = FileUtil.getFilename(outputFile.getName()) + ".png";
-
-                                    File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                            + "/Music/AlbumArt");
-
-                                    if (!albumArtDir.exists())
-                                        albumArtDir.mkdir();
-
-                                    File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                                            + "/Music/AlbumArt/" + name);
-                                    ImageIO.write(save, "png", saveFile);
-                                } catch (Exception e) {
-                                    ExceptionHandler.handle(e);
-                                }
-                            }
-
-                            ConsoleFrame.getConsoleFrame().getInputHandler().println(
-                                    "Completed and saved as " + response.getDirectory() + OSUtil.FILE_SEP + outName);
-                        }
-
-                        //todo test
-                        //https://www.youtube.com/playlist?list=PL0Aya996ytNbxJmUbWk3VTbJfoPRu9k1M
-                    } catch (Exception e) {
-                        ExceptionHandler.silentHandle(e);
-                        ConsoleFrame.getConsoleFrame().getInputHandler().println("An exception occured while downloading playlist: " + playlistID);
-                    }
-                }
+    public static void downloadPlaylist(String playlistID) {
+        if (ffmpegInstalled() && youtubedlInstalled()) {
+            if (StringUtil.isNull(UserUtil.extractUser().getYouTubeAPI3Key())) {
+                ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                        "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
+                                "to learn how to set this in order to download whole playlists. " +
+                                "In order to download individual videos, simply use the same play " +
+                                "command followed by a video URL or query");
             } else {
-                error();
-            }
+                String ydlPath = UserUtil.extractUser().getYoutubedlpath();
 
-            return ret;
-        });
+                if (ydlPath != null && ydlPath.trim().length() > 0) {
+                    YoutubeDL.setExecutablePath(ydlPath);
+                }
+
+                try {
+                    String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
+                            "part=snippet%2C+id&playlistId=" + playlistID + "&key="
+                            + UserUtil.extractUser().getYouTubeAPI3Key();
+
+                    String jsonResponse = NetworkUtil.readUrl(link);
+
+                    Pattern p = Pattern.compile(
+                            "\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"" +
+                                    "videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
+                    Matcher m = p.matcher(jsonResponse);
+                    ArrayList<String> uuids = new ArrayList<>();
+
+                    while (m.find()) {
+                        uuids.add(m.group(1));
+                    }
+
+                    String parsedAsciiSaveName = "NULL";
+
+                    for (String uuid : uuids) {
+
+
+                        try {
+                            String url = buildYoutubeURL(uuid);
+
+                            parsedAsciiSaveName =
+                                    StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                                            .replace("- YouTube","").trim();
+
+                            //todo other logic here
+                        } catch (Exception ex) {
+                            ExceptionHandler.handle(ex);
+                            ConsoleFrame.getConsoleFrame().getInputHandler()
+                                    .println("An exception occured while downloading: " + parsedAsciiSaveName);
+                        }
+                    }
+                } catch (Exception e) {
+                    ExceptionHandler.silentHandle(e);
+                    ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                            "An exception occured while downloading playlist: " + playlistID);
+                }
+            }
+        } else {
+            error();
+        }
     }
 
-    //todo download thumbnail and pass in reference file to save as, method
+    /**
+     * The default resolution of thumbnails to download when the play command is invoked.
+     */
+    public static final Dimension DEFAULT_THUMBNAIL_DIMENSION = new Dimension(720, 720);
+
+    /**
+     * Downloads the youtube video's thumbnail with the provided
+     * uuid to the current user's album art directory.
+     *
+     * @param uuid the uuid of the youtube video to download
+     */
+    public static void downloadThumbnail(String uuid) {
+        downloadThumbnail(uuid, DEFAULT_THUMBNAIL_DIMENSION);
+    }
+
+    /**
+     * Downloads the youtube video's thumbnail with the provided
+     * uuid to the current user's album aart directory.
+     *
+     * @param uuid the uuid of the youtube video to download
+     * @param dimension the dimensions to crop the image to
+     */
+    public static void downloadThumbnail(String uuid, Dimension dimension) {
+        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+            throw new IllegalStateException("No user is associated with Cyder");
+
+        String url = buildYoutubeURL(uuid);
+
+        // get thumbnail url and file name to save it as
+        BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
+        String parsedAsciiSaveName =
+                StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                        .replace("- YouTube","").trim() + ".png";
+
+        // remove trailing periods
+        while (parsedAsciiSaveName.endsWith("."))
+            parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
+
+        // if for some reason this case happens, account for it
+        if (parsedAsciiSaveName.length() == 0)
+            parsedAsciiSaveName = SecurityUtil.generateUUID();
+
+        final String finalParsedAsciiSaveName = parsedAsciiSaveName;
+
+        // init album art dir
+        File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                + "/Music/AlbumArt");
+
+        // create if not there
+        if (!albumArtDir.exists())
+            albumArtDir.mkdir();
+
+        // create the reference file and save to it
+        File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                + "/Music/AlbumArt/" + parsedAsciiSaveName);
+        try {
+            ImageIO.write(save, "png", saveAlbumArt);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
 
     /**
      * Returns whether ffmpeg is installed.

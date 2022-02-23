@@ -177,6 +177,7 @@ public class IOUtil {
 
     /**
      * Attempts to fix any user files that may be outdated via preference injection.
+     * Any users which fail are added to the invalid uuis list.
      */
     public static void fixUsers() {
         //all users
