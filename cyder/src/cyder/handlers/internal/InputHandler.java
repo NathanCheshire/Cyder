@@ -7,6 +7,7 @@ import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
 import cyder.enums.*;
 import cyder.genesis.CyderCommon;
+import cyder.handlers.external.AudioPlayer;
 import cyder.python.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -1313,17 +1314,25 @@ public class InputHandler {
         } else if (commandIs("testerjester")) {
            CyderThreadRunner.submit(() -> {
                try {
+                   String url = "https://www.youtube.com/watch?v=Zf0MBnHPpKs";
+
                    String saveDir = OSUtil.buildPath("dynamic",
                            "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
 
                    Runtime rt = Runtime.getRuntime();
 
+                   //todo method for non ascii
+                   String parsedAsciiSaveName = NetworkUtil.getURLTitle(url)
+                           .replaceAll("[^\\x00-\\x7F]", "")
+                           .replace("- YouTube","").trim();
+
                    String[] commands = {
                            "youtube-dl",
-                           "https://www.youtube.com/watch?v=Zf0MBnHPpKs",
+                           url,
                            "--extract-audio",
                            "--audio-format","mp3",
-                           "--output", new File(saveDir).getAbsolutePath() + OSUtil.FILE_SEP + "%(title)s.%(ext)s}"
+                           "--output", new File(saveDir).getAbsolutePath()
+                           + OSUtil.FILE_SEP + parsedAsciiSaveName + ".%(ext)s"
                    };
 
                    Process proc = rt.exec(commands);
@@ -1353,9 +1362,7 @@ public class InputHandler {
                                    "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
 
                    String fileSize = null;
-                   String outputPath = null;
 
-                   Pattern savePattern  = Pattern.compile("\\s*\\[ffmpeg]\\s*Destination:\\s*(.*)\\s*");
                    String outputString;
 
                    while ((outputString = stdInput.readLine()) != null) {
@@ -1374,23 +1381,17 @@ public class InputHandler {
                            audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
                                    + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
                        }
-
-                       Matcher destinationMatcher = savePattern.matcher(outputString);
-
-                       if (destinationMatcher.matches()) {
-                           outputPath = destinationMatcher.group(1);
-                       }
                    }
 
-                   if (outputPath != null) {
-                       File output = new File(outputPath);
+                   File savedFile = new File(OSUtil.buildPath(saveDir, parsedAsciiSaveName + ".mp3"));
 
-                       //todo download thumbnail
+                   //todo download thumbnail
 
-                       println("Downloading complete: saved as " + output.getName());
-                   }
+                   println("Download complete: saved as " + parsedAsciiSaveName + ".mp3"
+                           + " and added to mp3 queue");
+                   AudioPlayer.addToMp3Queue(savedFile);
 
-                   audioProgress.setVisible(false);
+                   ui.stopAnimationTimer();
                } catch (Exception e) {
                    ExceptionHandler.handle(e);
                }

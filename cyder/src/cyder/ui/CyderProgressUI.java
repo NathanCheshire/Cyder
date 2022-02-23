@@ -28,6 +28,10 @@ public class CyderProgressUI extends BasicProgressBarUI {
         startAnimationTimer();
     }
 
+    public void stopAnimationTimer() {
+        super.stopAnimationTimer();
+    }
+
     //frames for animation, more frames means slower animation
 
     private int numFrames = 100;
