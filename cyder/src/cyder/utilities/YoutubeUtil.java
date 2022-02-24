@@ -68,7 +68,8 @@ public class YoutubeUtil {
 
             String parsedAsciiSaveName =
                     StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                            .replace("- YouTube","").trim();
+                            .replace("- YouTube","")
+                            .replaceAll("[*?|/\":<>\\\\']+","").trim();
 
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Downloading audio as: " + parsedAsciiSaveName + extension);
@@ -136,7 +137,7 @@ public class YoutubeUtil {
                             if (fileSize == null) {
                                 fileSize = updateMatcher.group(2);
                                 ConsoleFrame.getConsoleFrame().getInputHandler()
-                                        .println("Download size: " + fileSize);
+                                        .println("\"finalParsedAsciiSaveName\" file size: " + fileSize);
                             }
 
                             // todo try and display in a better way
@@ -241,7 +242,8 @@ public class YoutubeUtil {
         BufferedImage save = YoutubeUtil.getSquareThumbnail(url, dimension);
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                        .replace("- YouTube","").trim() + ".png";
+                        .replace("- YouTube","")
+                        .replaceAll("[*?|/\":<>\\\\']+","").trim() + ".png";
 
         // remove trailing periods
         while (parsedAsciiSaveName.endsWith("."))
@@ -254,8 +256,8 @@ public class YoutubeUtil {
         final String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
         // init album art dir
-        File albumArtDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
-                + "/Music/AlbumArt");
+        File albumArtDir = new File(OSUtil.buildPath("dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(),
+                "Music","AlbumArt"));
 
         // create if not there
         if (!albumArtDir.exists())

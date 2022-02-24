@@ -1,0 +1,8 @@
+Exception origin: java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
+From line: 1551
+Trace: javax.imageio.IIOException: Can't create an ImageOutputStream!
+	at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
+	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
+	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
+	at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
+	at java.base/java.lang.Thread.run(Thread.java:844)

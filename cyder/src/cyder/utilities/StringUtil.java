@@ -1087,7 +1087,7 @@ public class StringUtil {
      * @return the string with the non-ascii characters removed
      */
     public static String parseNonAscii(String nonAsciiContaining) {
-        return nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", "");
+        return getTrimmedText(nonAsciiContaining.replaceAll("[^\\x00-\\x7F]", " "));
     }
 
     /**
