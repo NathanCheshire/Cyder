@@ -6,6 +6,7 @@ import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
+import cyder.utilities.objects.FileSize;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -434,37 +435,11 @@ public class StatUtil {
 
     private static final class FileComparator implements Comparator<FileSize>{
         public int compare(FileSize fs1, FileSize fs2) {
-            if (fs1.size < fs2.size)
+            if (fs1.getSize() < fs2.getSize())
                 return 1;
-            else if (fs1.size > fs2.size)
+            else if (fs1.getSize() > fs2.getSize())
                 return -1;
             return 0;
-        }
-    }
-
-    private static class FileSize {
-        private long size;
-        private String name;
-
-        public FileSize(String name, long size) {
-            this.size = size;
-            this.name = name;
-        }
-
-        public long getSize() {
-            return size;
-        }
-
-        public void setSize(long size) {
-            this.size = size;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
         }
     }
 
