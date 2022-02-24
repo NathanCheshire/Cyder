@@ -1,0 +1,62 @@
+[22-28-35] [ENTRY]: [Nathan]
+[22-28-36] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-28-36] [THREAD STARTED]: Splash Loader
+[22-28-36] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\users\e5a50641-21d1-3654-b738-c0e4b2dc61b1\Music\?Chillstep?Anima - You Are Truth.mp4}.mkv
+[22-28-37] [THREAD STARTED]: Splash Animation
+[22-28-37] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-28-37] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-28-37] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-28-37] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-28-37] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-28-37] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-28-37] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-28-37] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-28-37] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-28-37] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-28-37] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-28-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-37] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-28-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-38] [THREAD STARTED]: Console Printing Animation
+[22-28-38] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-28-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-38] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-28-38] [THREAD STARTED]: Console Input Caret Position Updater
+[22-28-38] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-28-38] [SYSTEM_IO]: Userdata requested: InputFill
+[22-28-38] [THREAD STARTED]: High Ping Checker
+[22-28-38] [THREAD STARTED]: Hourly Chime Checker
+[22-28-38] [THREAD STARTED]: Console Clock Updater
+[22-28-38] [THREAD STARTED]: Cyder Busy Checker
+[22-28-38] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-28-38] [ACTION]: Console loaded in 3001ms
+[22-28-38] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1331, 266, 996, 655)], hash = [1805164661], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-28-38] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [582099569], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-28-38] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-28-38] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-28-38] [ENTRY]: [TESTING MODE]
+[22-28-38] [SYSTEM_IO]: Userdata requested: laststart
+[22-28-38] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3001ms
+[22-28-38] [THREAD STARTED]: notification appear animation
+[22-28-38] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-28-38] [THREAD STARTED]: Notificaiton vanish animater -1225029267
+[22-28-41] [CLIENT]: mp3
+[22-28-41] [SYSTEM_IO]: Userdata requested: filterchat
+[22-28-41] [WIDGET OPENED]: AUDIO PLAYER
+[22-28-41] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[22-28-41] [THREAD STARTED]: Flash Player Audio Thread[Neutralize - Lost  Chillstep]
+[22-28-41] [HANDLE]: PRIMARY HANDLE
+[22-28-41] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep]
+[22-28-41] [ACTION]: [AUDIO PLAYER] Neutralize - Lost  Chillstep.mp3
+[22-28-48] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [1075547280], parentFrame = [Neutralize - Lost  Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-28-48] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1579, 481, 500, 225)], hash = [1439693884], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Neutralize - Lost  Chillstep]
+[22-28-48] [THREAD STARTED]: Neutralize - Lost  Chillstep CyderFrame dispose thread
+[22-28-48] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-28-48] [THREAD STARTED]: Console Audio Menu Minimizer
+[22-28-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-28-49] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1331, 266, 996, 655)], hash = [1805164661], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-28-49] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-28-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-28-49] [EXIT]: [RUNTIME] 14s
+[22-28-49] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

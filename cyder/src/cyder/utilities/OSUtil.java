@@ -593,8 +593,6 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo skip icons should jsut be triangle with bar on end
-
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class
 
