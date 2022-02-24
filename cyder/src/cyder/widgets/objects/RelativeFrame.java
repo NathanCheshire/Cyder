@@ -3,7 +3,7 @@ package cyder.widgets.objects;
 import cyder.ui.CyderFrame;
 
 /**
- * A CyderFrame wrapper class used to store it's position relative to some other component.
+ * A wrapper used to store it's position relative to some other component.
  */
 public class RelativeFrame {
     /**

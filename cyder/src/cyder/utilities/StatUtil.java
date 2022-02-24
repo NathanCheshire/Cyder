@@ -22,7 +22,7 @@ import java.util.*;
 
 public class StatUtil {
     private StatUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     public static void javaProperties() {

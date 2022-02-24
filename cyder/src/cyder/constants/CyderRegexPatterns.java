@@ -50,7 +50,7 @@ public final class CyderRegexPatterns {
      * Illegal class instantiation
      */
     private CyderRegexPatterns() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     public static final String openGroup = "(";

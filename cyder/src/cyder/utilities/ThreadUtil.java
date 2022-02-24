@@ -5,7 +5,7 @@ import cyder.ui.ConsoleFrame;
 
 public class ThreadUtil {
     private ThreadUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     public static int getDaemonThreadCount() {

@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class GeometryAlgorithms {
     private GeometryAlgorithms(){
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

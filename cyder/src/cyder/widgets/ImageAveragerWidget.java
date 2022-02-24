@@ -64,7 +64,7 @@ public class ImageAveragerWidget {
      * Instantiation of class not permitted.
      */
     private ImageAveragerWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

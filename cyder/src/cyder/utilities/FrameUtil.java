@@ -18,7 +18,7 @@ public class FrameUtil {
      * Instantiation of frame util not allowed.
      */
     private FrameUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

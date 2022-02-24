@@ -34,7 +34,7 @@ public class ClockWidget {
      * Supress default constructor.
      */
     private ClockWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     private static CyderFrame clockFrame;

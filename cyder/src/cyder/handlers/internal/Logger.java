@@ -29,7 +29,7 @@ public class Logger {
      * Instances of Logger not allowed.
      */
     private Logger() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

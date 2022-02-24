@@ -33,7 +33,7 @@ public class UserUtil {
      * Instantiation of util method not allowed.
      */
     private UserUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     //the semaphore to use when reading or writing userdata

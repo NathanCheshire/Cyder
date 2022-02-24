@@ -16,7 +16,7 @@ public class PopupHandler {
      * Prevent illegal instantiation.
      */
     private PopupHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

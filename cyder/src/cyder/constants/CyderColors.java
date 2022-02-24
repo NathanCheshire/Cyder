@@ -137,7 +137,7 @@ public class CyderColors {
      * Instantiation of the CyderColors class is not allowed
      */
     private CyderColors() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

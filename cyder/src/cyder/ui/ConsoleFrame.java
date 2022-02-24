@@ -72,7 +72,7 @@ public final class ConsoleFrame {
      */
     private ConsoleFrame() {
         if (singletonCreated)
-            throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+            throw new IllegalStateException(CyderStrings.attemptedInstantiation);
 
         singletonCreated = true;
     }

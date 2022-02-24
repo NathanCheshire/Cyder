@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 
 public class GitHubUtil {
     private GitHubUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     public static Issue[] getIssues() {

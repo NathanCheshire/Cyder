@@ -38,7 +38,7 @@ public class PizzaWidget {
      * Restrict default constructor.
      */
     private PizzaWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. " +

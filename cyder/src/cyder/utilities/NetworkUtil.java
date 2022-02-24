@@ -18,7 +18,7 @@ public class NetworkUtil {
      * Suppress default constructor.
      */
     private NetworkUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     public static void openUrl(String URL) {

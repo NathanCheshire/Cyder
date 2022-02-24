@@ -45,7 +45,7 @@ public class NotesWidget {
     private static LinkedList<CyderFrame> noteFrames;
 
     private NotesWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     } //no objects
 
     @Widget(triggers = {"note", "notes"}, description = "A note taking widget that can save and display multiple notes")

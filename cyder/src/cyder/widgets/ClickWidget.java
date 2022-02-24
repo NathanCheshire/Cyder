@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 
 public class ClickWidget {
     private ClickWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")

@@ -7,7 +7,7 @@ import cyder.constants.CyderStrings;
  */
 public class GeneralMath {
     private GeneralMath() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

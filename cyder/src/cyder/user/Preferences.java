@@ -32,7 +32,7 @@ public class Preferences {
      * Instantiation of Preferences not allowed.
      */
     private Preferences() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

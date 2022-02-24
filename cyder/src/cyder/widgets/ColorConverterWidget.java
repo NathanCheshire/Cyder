@@ -19,7 +19,7 @@ import static cyder.constants.CyderColors.navy;
 
 public class ColorConverterWidget {
     private ColorConverterWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"colorconverter", "color"}, description = "A color converter widget to convert from rgb to hex and vice versa")

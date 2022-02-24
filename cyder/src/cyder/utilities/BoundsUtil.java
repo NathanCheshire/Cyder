@@ -22,7 +22,7 @@ public class BoundsUtil {
      * Restrict instantiation of class.
      */
     private BoundsUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

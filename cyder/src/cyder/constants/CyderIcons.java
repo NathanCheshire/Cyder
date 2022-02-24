@@ -85,7 +85,7 @@ public class CyderIcons {
      * Instantiation of images class not allowed
      */
     private CyderIcons() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

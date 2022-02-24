@@ -24,7 +24,7 @@ public class CyderStrings {
     /**
      * Error message for static classes upon attempted instantiation.
      */
-    public static final String attemptedClassInstantiation = "States are not available for static classes";
+    public static final String attemptedInstantiation = "States are not available for static classes";
 
     /**
      * The standard separator string used for printing within the standard output area.
@@ -45,6 +45,6 @@ public class CyderStrings {
      * Instantiation of constants class not allowed.
      */
     private CyderStrings() {
-        throw new IllegalStateException(attemptedClassInstantiation);
+        throw new IllegalStateException(attemptedInstantiation);
     }
 }

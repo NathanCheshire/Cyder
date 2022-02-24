@@ -93,7 +93,7 @@ public class InputHandler {
      * Private constructor to avoid incorrect instantiation.
      */
     private InputHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

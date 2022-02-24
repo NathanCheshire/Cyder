@@ -51,7 +51,7 @@ public class YoutubeUtil {
      * Restrict instantiation of class.
      */
     private YoutubeUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

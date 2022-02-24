@@ -32,7 +32,7 @@ public class ImagePixelatorWidget {
     private static CyderTextField integerField;
 
     private ImagePixelatorWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"pixelatepicture", "pixelateimage", "pixelator"}, description = "A simple image pixelator widget that transforms" +

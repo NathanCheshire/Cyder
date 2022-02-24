@@ -29,7 +29,7 @@ public class FileSignatureWidget {
     private static CyderLabel resultLabel;
 
     private FileSignatureWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "filesignature", description = "A widget to read the raw file " +

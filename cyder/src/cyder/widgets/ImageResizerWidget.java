@@ -41,7 +41,7 @@ public class ImageResizerWidget {
     private static boolean maintainAspectRatio = true;
 
     private ImageResizerWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"resizepictures", "resizeimages", "resize", "resizeiamge", "resizepicture"},

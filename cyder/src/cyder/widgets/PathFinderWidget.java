@@ -59,7 +59,7 @@ public class PathFinderWidget {
     private static final String[] heuristics = {"Manhattan","Euclidean"};
 
     private PathFinderWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"path","pathfinder"}, description = "A pathfinding visualizer for A* and Dijkstras algorithms")

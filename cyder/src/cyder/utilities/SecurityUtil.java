@@ -19,7 +19,7 @@ public class SecurityUtil {
      * Prevent illegal class instantiation.
      */
     private SecurityUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

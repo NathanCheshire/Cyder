@@ -16,7 +16,7 @@ public class ColorUtil {
      * Instantiation of util class not allowed.
      */
     private ColorUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

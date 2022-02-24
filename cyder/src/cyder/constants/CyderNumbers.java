@@ -40,6 +40,6 @@ public class CyderNumbers {
      * Instantiation of CyderInts is not allowed
      */
     private CyderNumbers() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 }

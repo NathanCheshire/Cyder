@@ -26,7 +26,7 @@ public class CardWidget {
     private static CyderFrame birthday2021Frame;
 
     public CardWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     } //public for reflection for auto calls of cards
 
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")

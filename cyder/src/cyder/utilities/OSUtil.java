@@ -24,7 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Methods that depend on the Operating System Cyder is running on are placed in this class.
+ * Helper methods to sort out differences between operating systems Cyder might be running on.
  */
 @SuppressWarnings({"unused", "WeakerAccess"}) /* Some methods have no use still, some methods aren't used yet */
 public class OSUtil {
@@ -64,7 +64,7 @@ public class OSUtil {
      * Prevent illegal class instantiation.
      */
     public OSUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

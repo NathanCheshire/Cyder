@@ -19,7 +19,7 @@ public class NumberUtil {
      * Instantiation of NumberUtil is not allowed
      */
     private NumberUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

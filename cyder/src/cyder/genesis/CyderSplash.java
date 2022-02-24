@@ -42,7 +42,7 @@ public class CyderSplash {
      * Instantiation of CyderSplash is not allowed
      */
     private CyderSplash() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

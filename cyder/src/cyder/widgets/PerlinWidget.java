@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class PerlinWidget {
     private PerlinWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     //ui
@@ -32,38 +32,41 @@ public class PerlinWidget {
 
     private static CyderTextField dimensionField;
     private static CyderButton dimensionSwitchButton;
-    private static String[] dimensions = {"2D","3D"};
+    private static final String[] dimensions = {"2D","3D"};
 
     //open simplex vars
     private static double FEATURE_SIZE = 24.0;
     private static OpenSimplexAlgorithms noise;
     private static double timeStep = 0;
     private static JSlider featureSlider;
-    private static double minFeatureSize = 24.0;
-    private static double maxFeatureSize = minFeatureSize * 2.0;
+    private static final double minFeatureSize = 24.0;
+    private static final double maxFeatureSize = minFeatureSize * 2.0;
 
     private static JSlider speedSlider;
     private static int sliderValue = 500;
-    private static int sliderMaxValue = 1000;
-    private static int sliderMaxDelay = 500; //ms
+    private static final int sliderMaxValue = 1000;
+    private static final int sliderMaxDelay = 500; //ms
 
-    private static int resolution = 512;
+    private static final int resolution = 512;
     private static Node[][] _3DNoise;
     private static float[] _2DNoise;
-    private static boolean _2DMode = true;
+    private static final boolean _2DMode = true;
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
     private static Timer timer;
 
     private static float[][] instanceSeed;
     private static int octaves = 1;
-    private static int maxOctaves = 10;
+    private static final int maxOctaves = 10;
 
     private static boolean closed = true;
 
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "PERLIN");
+
+        if (perlinFrame != null)
+            perlinFrame.dispose(true);
 
         //set closed
         closed = false;
@@ -136,6 +139,7 @@ public class PerlinWidget {
 
                 int labelWidth = noiseLabel.getWidth();
                 int labelHeight = noiseLabel.getHeight();
+                //noinspection UnnecessaryLocalVariable
                 int drawTo = labelWidth;
 
                 //draw noise
@@ -423,7 +427,7 @@ public class PerlinWidget {
         return ret;
     }
 
-    private static ActionListener animationAction = evt -> {
+    private static final ActionListener animationAction = evt -> {
         if (closed)
             return;
 

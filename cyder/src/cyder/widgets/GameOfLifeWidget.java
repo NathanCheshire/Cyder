@@ -47,7 +47,7 @@ public class GameOfLifeWidget {
     private static int maxPopulationGeneration = 0;
 
     private GameOfLifeWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "conway", description = "Conway's game of life visualizer")

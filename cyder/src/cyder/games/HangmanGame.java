@@ -34,7 +34,7 @@ public class HangmanGame {
     private static String chosenLetters = "";
 
     private HangmanGame() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "hangman", description = "A hangman game")

@@ -42,6 +42,6 @@ public class CyderFonts {
      * No class instantiation allowed for CyderFonts
      */
     private CyderFonts() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 }

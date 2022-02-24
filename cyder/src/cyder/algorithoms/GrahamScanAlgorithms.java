@@ -2,12 +2,13 @@ package cyder.algorithoms;
 
 import cyder.constants.CyderStrings;
 
-import java.awt.Point;
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 
 public final class GrahamScanAlgorithms {
     private GrahamScanAlgorithms() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     protected enum Turn {

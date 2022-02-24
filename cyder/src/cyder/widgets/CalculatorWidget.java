@@ -28,7 +28,7 @@ public class CalculatorWidget {
      * Prevent illegal class instantiation.
      */
     private CalculatorWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

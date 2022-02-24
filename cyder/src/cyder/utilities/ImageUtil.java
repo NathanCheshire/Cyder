@@ -24,7 +24,7 @@ public class ImageUtil {
      * Prevent class instantiation.
      */
     private ImageUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

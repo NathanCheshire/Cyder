@@ -29,7 +29,7 @@ public class CyderGridLayout extends CyderBaseLayout {
      * Class instantiation is not allowed unless the cells are specified
      */
     public CyderGridLayout() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

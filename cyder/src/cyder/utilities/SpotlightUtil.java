@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 
 public class SpotlightUtil {
     private SpotlightUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

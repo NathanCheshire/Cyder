@@ -30,7 +30,7 @@ public class Cyder {
      * Instantiation of the Cyder class is not allowed.
      */
     private Cyder() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

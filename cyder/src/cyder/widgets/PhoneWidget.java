@@ -19,7 +19,7 @@ public class PhoneWidget {
     private static String phoneNum;
 
     private PhoneWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "phone", description = "A phone emulating widget")

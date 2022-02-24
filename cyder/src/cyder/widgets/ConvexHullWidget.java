@@ -27,7 +27,7 @@ public class ConvexHullWidget {
      * Instantiation of convex hull not allowed.
      */
     private ConvexHullWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "convexhull", description = "A convex hull algorithm visualizer")

@@ -58,7 +58,7 @@ public class AudioPlayer {
     private static ImprovedScrollLabel audioScroll;
 
     /**
-     * The audio location progress bar class which controls/updates the audio progress bar.
+     * The audio location progress bar.
      */
     private static AudioLocation audioLocation;
 
@@ -208,7 +208,7 @@ public class AudioPlayer {
      * Instantiation of AudioPlayer not allowed.
      */
     private AudioPlayer() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

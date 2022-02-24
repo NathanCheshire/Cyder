@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class ExceptionHandler {
     private ExceptionHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

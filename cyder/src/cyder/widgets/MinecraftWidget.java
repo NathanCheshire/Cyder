@@ -23,7 +23,7 @@ public class MinecraftWidget {
     private static JLabel blockLabel;
 
     private MinecraftWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")

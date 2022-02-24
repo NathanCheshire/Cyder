@@ -22,7 +22,7 @@ public class CyderCommon {
      * Instantiation of CyderCommon class not allowed
      */
     private CyderCommon() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

@@ -23,7 +23,7 @@ public class TimeUtil {
      * Instantiation of TimeUtil class is not allowed.
      */
     public TimeUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

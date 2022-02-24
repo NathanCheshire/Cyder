@@ -27,7 +27,7 @@ public class IOUtil {
      * No objects of util methods allowed.
      */
     private IOUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**

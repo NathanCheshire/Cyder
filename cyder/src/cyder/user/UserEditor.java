@@ -62,7 +62,7 @@ public class UserEditor {
      * No instances of user editor are allowed
      */
     private UserEditor() {
-        throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"prefs", "edituser"}, description = "A widget to edit your user preferences and files")
