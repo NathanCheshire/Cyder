@@ -575,6 +575,17 @@ public class LoginHandler {
         String ret = null;
 
         try {
+            LinkedList<String> userNames = new LinkedList<>();
+
+            for (File userJsonFile : UserUtil.getUserJsons()) {
+                userNames.add(UserUtil.extractUser(userJsonFile).getName());
+            }
+
+            if (!StringUtil.in(name, true, userNames)) {
+                priorityPrintingList.add("Username not found\n");
+                return ret;
+            }
+
             for (File userJsonFile : UserUtil.getUserJsons()) {
                 User user = UserUtil.extractUser(userJsonFile);
 
@@ -585,6 +596,8 @@ public class LoginHandler {
                     break;
                 }
             }
+
+            priorityPrintingList.add("Incorrect password\n");
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
