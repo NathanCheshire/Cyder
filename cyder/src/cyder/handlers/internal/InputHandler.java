@@ -978,17 +978,23 @@ public class InputHandler {
             }
 
         } else if (commandIs("play")) {
-            String url = argsToString();
+            CyderThreadRunner.submit(() -> {
+                String url = argsToString();
 
-            if (!NetworkUtil.isURL(argsToString())) {
-                println("Play usage: Play [video URL supported by youtube-dl]");
-            } else {
                 if (YoutubeUtil.isPlaylistUrl(url)) {
                     YoutubeUtil.downloadPlaylist(url);
                 } else {
+                    String extractedUuid = argsToString().replace("https://www.youtube.com/watch?v=","");
+
+                    if (extractedUuid.replace(" ", "").length() != 11) {
+                        println("Searching youtube for: " + url);
+                        String uuid = YoutubeUtil.getFirstUUID(url);
+                        url = "https://www.youtube.com/watch?v=" + uuid;
+                    }
+
                     YoutubeUtil.downloadVideo(url);
                 }
-            }
+            }, "YouTube Download Initializer Thread");
         }  else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {
                 String urlString;

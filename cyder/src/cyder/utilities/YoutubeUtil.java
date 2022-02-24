@@ -145,7 +145,7 @@ public class YoutubeUtil {
                         }
                     }
 
-                    YoutubeUtil.downloadThumbnail(url);
+                    downloadThumbnail(url);
                     ConsoleFrame.getConsoleFrame().getInputHandler()
                             .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
                             + " and added to mp3 queue");
@@ -218,29 +218,27 @@ public class YoutubeUtil {
 
     /**
      * Downloads the youtube video's thumbnail with the provided
-     * uuid to the current user's album art directory.
+     * url to the current user's album art directory.
      *
-     * @param uuid the uuid of the youtube video to download
+     * @param url the url of the youtube video to download
      */
-    public static void downloadThumbnail(String uuid) {
-        downloadThumbnail(uuid, DEFAULT_THUMBNAIL_DIMENSION);
+    public static void downloadThumbnail(String url) {
+        downloadThumbnail(url, DEFAULT_THUMBNAIL_DIMENSION);
     }
 
     /**
      * Downloads the youtube video's thumbnail with the provided
-     * uuid to the current user's album aart directory.
+     * url to the current user's album aart directory.
      *
-     * @param uuid the uuid of the youtube video to download
+     * @param url the url of the youtube video to download
      * @param dimension the dimensions to crop the image to
      */
-    public static void downloadThumbnail(String uuid, Dimension dimension) {
+    public static void downloadThumbnail(String url, Dimension dimension) {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             throw new IllegalStateException("No user is associated with Cyder");
 
-        String url = buildYoutubeURL(uuid);
-
         // get thumbnail url and file name to save it as
-        BufferedImage save = YoutubeUtil.getSquareThumbnail(url);
+        BufferedImage save = YoutubeUtil.getSquareThumbnail(url, dimension);
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                         .replace("- YouTube","").trim() + ".png";
@@ -452,9 +450,10 @@ public class YoutubeUtil {
      * Returns a square, 720x720 image of the provided youtube video's thumbnail.
      *
      * @param videoURL the url of the youtube video to query
+     * @param dimension the dimension of the resulting image
      * @return a square image of the thumbnail
      */
-    public static BufferedImage getSquareThumbnail(String videoURL) {
+    public static BufferedImage getSquareThumbnail(String videoURL, Dimension dimension) {
         String uuid = getYoutubeUUID(videoURL);
 
         String thumbnailURL = buildThumbnailURL(uuid);
@@ -465,19 +464,19 @@ public class YoutubeUtil {
             int w = save.getWidth();
             int h = save.getHeight();
 
-            if (w > 720) {
+            if (w > dimension.getWidth()) {
                 //crop to middle of w
-                int cropWStart = (w - 720) / 2;
-                save = save.getSubimage(cropWStart, 0, 720, h);
+                int cropWStart = (int) ((w - dimension.getWidth()) / 2.0);
+                save = save.getSubimage(cropWStart, 0, (int) dimension.getWidth(), h);
             }
 
             w = save.getWidth();
             h = save.getHeight();
 
-            if (h > 720) {
+            if (h > dimension.getHeight()) {
                 //crop to middle of h
-                int cropHStart = (h - 720) / 2;
-                save = save.getSubimage(0, cropHStart, w, 720);
+                int cropHStart = (int) ((h - dimension.getHeight()) / 2);
+                save = save.getSubimage(0, cropHStart, w, (int) dimension.getHeight());
             }
 
             ret = save;

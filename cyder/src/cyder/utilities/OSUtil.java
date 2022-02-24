@@ -592,8 +592,9 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo never delete a json just mark the user as invalid
-    // implies need to check wherever users/ dir is accessed and only access it through userutil
+    //todo skip icons should jsut be triangle with bar on end
+
+    //todo parsing non-ascii should replace them with spaces and return a string util trimmed version of it
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class
