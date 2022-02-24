@@ -5,9 +5,11 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
-import cyder.enums.*;
+import cyder.enums.ExitCondition;
+import cyder.enums.ScreenPosition;
+import cyder.enums.SliderShape;
+import cyder.enums.Suggestion;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.external.AudioPlayer;
 import cyder.python.PyExecutor;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -24,7 +26,6 @@ import test.java.UnitTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -32,7 +33,10 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.URL;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.time.DayOfWeek;
@@ -41,8 +45,6 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @SuppressWarnings({"unused", "ConstantConditions"})
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
@@ -976,119 +978,16 @@ public class InputHandler {
             }
 
         } else if (commandIs("play")) {
-            boolean isURL = true;
-
             String url = argsToString();
 
-            try {
-                URL urlObj = new URL(url);
-                URLConnection conn = urlObj.openConnection();
-                conn.connect();
-            } catch (Exception ignored) {
-                isURL = false;
-            }
-
-            // it is a valid url so let youtube-dl try to download it
-            if (isURL) {
-                String saveDir = OSUtil.buildPath("dynamic",
-                        "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
-                String extension = ".mp3";
-
-                Runtime rt = Runtime.getRuntime();
-
-                String parsedAsciiSaveName =
-                        StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                                .replace("- YouTube","").trim();
-
-                println("Downloading audio as: " + parsedAsciiSaveName + extension);
-
-                // remove trailing periods
-                while (parsedAsciiSaveName.endsWith("."))
-                    parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
-
-                // if for some reason this case happens, account for it
-                if (parsedAsciiSaveName.length() == 0)
-                    parsedAsciiSaveName = SecurityUtil.generateUUID();
-
-                final String finalParsedAsciiSaveName = parsedAsciiSaveName;
-
-                String[] commands = {
-                        "youtube-dl",
-                        url,
-                        "--extract-audio",
-                        "--audio-format","mp3",
-                        "--output", new File(saveDir).getAbsolutePath()
-                        + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
-                };
-
-                CyderThreadRunner.submit(() -> {
-                    try {
-                        Process proc = rt.exec(commands);
-
-                        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-                        // progress label for this download to update
-                        CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
-                        CyderProgressUI ui = new CyderProgressUI();
-                        ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
-                        ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-                        ui.setShape(CyderProgressUI.Shape.SQUARE);
-                        audioProgress.setUI(ui);
-                        audioProgress.setMinimum(0);
-                        audioProgress.setMaximum(10000);
-                        audioProgress.setBorder(new LineBorder(Color.black, 2));
-                        audioProgress.setBounds(0,0,400, 40);
-                        audioProgress.setVisible(true);
-                        audioProgress.setValue(0);
-                        audioProgress.setOpaque(false);
-                        audioProgress.setFocusable(false);
-                        audioProgress.repaint();
-                        printlnComponent(audioProgress);
-
-                        Pattern updatePattern  = Pattern.compile(
-                                "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
-                                        "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
-
-                        String fileSize = null;
-
-                        String outputString;
-
-                        while ((outputString = stdInput.readLine()) != null) {
-                            Matcher updateMatcher = updatePattern.matcher(outputString);
-
-                            if (updateMatcher.find()) {
-                                float progress = Float.parseFloat(updateMatcher.group(1)
-                                        .replaceAll("[^0-9.]",""));
-                                audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
-
-                                if (fileSize == null) {
-                                    fileSize = updateMatcher.group(2);
-                                    println("Download size: " + fileSize);
-                                }
-
-                                // todo try and display in a better way
-                                audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
-                                        + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
-                            }
-                        }
-
-                        //todo need to ensure youtube-dl and ffmpeg are installed here
-                        // how about we bundle them with Cyder?
-
-                        YoutubeUtil.downloadThumbnail(url);
-                        println("Download complete: saved as " + finalParsedAsciiSaveName + extension
-                                + " and added to mp3 queue");
-                        AudioPlayer.addToMp3Queue(new File(OSUtil.buildPath(
-                                saveDir, finalParsedAsciiSaveName + extension)));
-
-                        ui.stopAnimationTimer();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                        println("An exception occured while attempting to download: " + argsToString());
-                    }
-                }, "YouTube Download Progress Updater");
-            } else {
+            if (!NetworkUtil.isURL(argsToString())) {
                 println("Play usage: Play [video URL supported by youtube-dl]");
+            } else {
+                if (YoutubeUtil.isPlaylistUrl(url)) {
+                    YoutubeUtil.downloadPlaylist(url);
+                } else {
+                    YoutubeUtil.downloadVideo(url);
+                }
             }
         }  else if (commandIs("pastebin")) {
             if (checkArgsLength(1)) {

@@ -1,21 +1,26 @@
 package cyder.utilities;
 
-import com.sapher.youtubedl.YoutubeDL;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.AnimationDirection;
 import cyder.genesis.CyderCommon;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -48,16 +53,126 @@ public class YoutubeUtil {
         throw new IllegalStateException(CyderStrings.attemptedClassInstantiation);
     }
 
-    //todo move new method from InputHandler here to offship to util
-
-    //todo use new method in InputHandler, youtube-dl can download a playlist itself, experiemnt with that
     /**
-     * Downloads the youtube playlist provided the playlistID exists.
+     * Downloads the youtube video with the provided url.
      *
-     * @param playlistID the ID of the playlist to download
+     * @param url the url of the video to download
      */
-    public static void downloadPlaylist(String playlistID) {
+    public static void downloadVideo(String url) {
         if (ffmpegInstalled() && youtubedlInstalled()) {
+            String saveDir = OSUtil.buildPath("dynamic",
+                    "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+            String extension = ".mp3";
+
+            Runtime rt = Runtime.getRuntime();
+
+            String parsedAsciiSaveName =
+                    StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
+                            .replace("- YouTube","").trim();
+
+            ConsoleFrame.getConsoleFrame().getInputHandler()
+                    .println("Downloading audio as: " + parsedAsciiSaveName + extension);
+
+            // remove trailing periods
+            while (parsedAsciiSaveName.endsWith("."))
+                parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
+
+            // if for some reason this case happens, account for it
+            if (parsedAsciiSaveName.length() == 0)
+                parsedAsciiSaveName = SecurityUtil.generateUUID();
+
+            final String finalParsedAsciiSaveName = parsedAsciiSaveName;
+
+            String[] commands = {
+                    "youtube-dl",
+                    url,
+                    "--extract-audio",
+                    "--audio-format","mp3",
+                    "--output", new File(saveDir).getAbsolutePath()
+                    + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
+            };
+
+            CyderThreadRunner.submit(() -> {
+                try {
+                    Process proc = rt.exec(commands);
+
+                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+                    // progress label for this download to update
+                    CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+                    CyderProgressUI ui = new CyderProgressUI();
+                    ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
+                    ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+                    ui.setShape(CyderProgressUI.Shape.SQUARE);
+                    audioProgress.setUI(ui);
+                    audioProgress.setMinimum(0);
+                    audioProgress.setMaximum(10000);
+                    audioProgress.setBorder(new LineBorder(Color.black, 2));
+                    audioProgress.setBounds(0,0,400, 40);
+                    audioProgress.setVisible(true);
+                    audioProgress.setValue(0);
+                    audioProgress.setOpaque(false);
+                    audioProgress.setFocusable(false);
+                    audioProgress.repaint();
+                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                            .printlnComponent(audioProgress);
+
+                    Pattern updatePattern  = Pattern.compile(
+                            "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
+                                    "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
+
+                    String fileSize = null;
+
+                    String outputString;
+
+                    while ((outputString = stdInput.readLine()) != null) {
+                        Matcher updateMatcher = updatePattern.matcher(outputString);
+
+                        if (updateMatcher.find()) {
+                            float progress = Float.parseFloat(updateMatcher.group(1)
+                                    .replaceAll("[^0-9.]",""));
+                            audioProgress.setValue((int) ((progress / 100.0) * audioProgress.getMaximum()));
+
+                            if (fileSize == null) {
+                                fileSize = updateMatcher.group(2);
+                                ConsoleFrame.getConsoleFrame().getInputHandler()
+                                        .println("Download size: " + fileSize);
+                            }
+
+                            // todo try and display in a better way
+                            audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
+                                    + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
+                        }
+                    }
+
+                    YoutubeUtil.downloadThumbnail(url);
+                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                            .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
+                            + " and added to mp3 queue");
+                    AudioPlayer.addToMp3Queue(new File(OSUtil.buildPath(
+                            saveDir, finalParsedAsciiSaveName + extension)));
+
+                    ui.stopAnimationTimer();
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                            .println("An exception occured while attempting to download: " + url);
+                }
+            }, "YouTube Download Progress Updater");
+        } else {
+            noFfmpegOrYoutubedl();
+        }
+    }
+
+    /**
+     * Downloads the youtube playlist provided the playlist exists.
+     *
+     * @param playlist the url of the playlist to download
+     */
+    public static void downloadPlaylist(String playlist) {
+        if (ffmpegInstalled() && youtubedlInstalled()) {
+            String playlistID = extractPlaylistId(playlist);
+
             if (StringUtil.isNull(UserUtil.extractUser().getYouTubeAPI3Key())) {
                 ConsoleFrame.getConsoleFrame().getInputHandler().println(
                         "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
@@ -65,12 +180,6 @@ public class YoutubeUtil {
                                 "In order to download individual videos, simply use the same play " +
                                 "command followed by a video URL or query");
             } else {
-                String ydlPath = UserUtil.extractUser().getYoutubedlpath();
-
-                if (ydlPath != null && ydlPath.trim().length() > 0) {
-                    YoutubeDL.setExecutablePath(ydlPath);
-                }
-
                 try {
                     String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
                             "part=snippet%2C+id&playlistId=" + playlistID + "&key="
@@ -88,24 +197,8 @@ public class YoutubeUtil {
                         uuids.add(m.group(1));
                     }
 
-                    String parsedAsciiSaveName = "NULL";
-
                     for (String uuid : uuids) {
-
-
-                        try {
-                            String url = buildYoutubeURL(uuid);
-
-                            parsedAsciiSaveName =
-                                    StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                                            .replace("- YouTube","").trim();
-
-                            //todo other logic here
-                        } catch (Exception ex) {
-                            ExceptionHandler.handle(ex);
-                            ConsoleFrame.getConsoleFrame().getInputHandler()
-                                    .println("An exception occured while downloading: " + parsedAsciiSaveName);
-                        }
+                       downloadVideo(buildYoutubeURL(uuid));
                     }
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
@@ -114,7 +207,7 @@ public class YoutubeUtil {
                 }
             }
         } else {
-            error();
+            noFfmpegOrYoutubedl();
         }
     }
 
@@ -241,9 +334,9 @@ public class YoutubeUtil {
     }
 
     /**
-     * Outputs instructions to the ConsoleFrame due to an error.
+     * Outputs instructions to the ConsoleFrame due to youtube-dl or ffmpeg not being installed.
      */
-    private static void error() {
+    private static void noFfmpegOrYoutubedl() {
         ConsoleFrame.getConsoleFrame().getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
                 "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
                 " variable");
@@ -394,6 +487,39 @@ public class YoutubeUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * The header that all youtube playlists start with.
+     */
+    public static final String PLAYLIST_HEADER = "https://www.youtube.com/playlist?list=";
+
+    /**
+     * Returns whether the provided url is a playlist url.
+     *
+     * @param url the url
+     * @return whether the provided url references a YouTube playlist
+     */
+    public static boolean isPlaylistUrl(String url) {
+        if (StringUtil.isNull(url))
+            throw new IllegalArgumentException("Provided url is null");
+
+        return url.startsWith(PLAYLIST_HEADER);
+    }
+
+    /**
+     * Extracts the YouTube playlist id from the provided playlist url.
+     *
+     * @param url the url
+     * @return the youtube playlist url
+     */
+    public static String extractPlaylistId(String url) {
+        if (StringUtil.isNull(url))
+            throw new IllegalArgumentException("Provided url is null");
+        else if (!isPlaylistUrl(url))
+            throw new IllegalArgumentException("Provided url is not a youtube playlist");
+
+        return url.replace(PLAYLIST_HEADER, "").trim();
     }
 
     /**
