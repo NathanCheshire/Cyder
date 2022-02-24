@@ -1,0 +1,71 @@
+[19-07-07] [ENTRY]: [Nathan]
+[19-07-07] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-07-08] [THREAD STARTED]: Splash Loader
+[19-07-08] [THREAD STARTED]: Splash Animation
+[19-07-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-07-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-07-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-07-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-07-08] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-07-08] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-07-08] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-07-08] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-07-08] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-07-09] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-07-09] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-07-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-07-09] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-07-09] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-07-09] [THREAD STARTED]: Console Printing Animation
+[19-07-09] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-07-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-07-09] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-07-09] [THREAD STARTED]: Console Input Caret Position Updater
+[19-07-09] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-07-09] [SYSTEM_IO]: Userdata requested: InputFill
+[19-07-09] [THREAD STARTED]: High Ping Checker
+[19-07-09] [THREAD STARTED]: Hourly Chime Checker
+[19-07-09] [THREAD STARTED]: Console Clock Updater
+[19-07-09] [THREAD STARTED]: Cyder Busy Checker
+[19-07-09] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-07-09] [ACTION]: Console loaded in 2778ms
+[19-07-09] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(476, 351, 996, 655)], hash = [415565467], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-07-09] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1676529900], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-07-09] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-07-09] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-07-09] [ENTRY]: [TESTING MODE]
+[19-07-09] [SYSTEM_IO]: Userdata requested: laststart
+[19-07-10] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2778ms
+[19-07-10] [THREAD STARTED]: notification appear animation
+[19-07-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-07-10] [THREAD STARTED]: Notificaiton vanish animater 995822516
+[19-07-12] [CLIENT]: mp3
+[19-07-12] [SYSTEM_IO]: Userdata requested: filterchat
+[19-07-12] [WIDGET OPENED]: AUDIO PLAYER
+[19-07-12] [THREAD STARTED]: Flash Player Audio Thread[Neutralize - Lost  Chillstep]
+[19-07-12] [HANDLE]: PRIMARY HANDLE
+[19-07-12] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep]
+[19-07-12] [ACTION]: [AUDIO PLAYER] Neutralize - Lost  Chillstep.mp3
+[19-07-12] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[19-07-14] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [1521666466], parentFrame = [Neutralize - Lost  Chillstep], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-14] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(972, 566, 500, 225)], hash = [2130264536], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Neutralize - Lost  Chillstep]
+[19-07-14] [THREAD STARTED]: Neutralize - Lost  Chillstep CyderFrame dispose thread
+[19-07-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-07-14] [THREAD STARTED]: Console Audio Menu Minimizer
+[19-07-14] [SYSTEM_IO]: Userdata requested: Background
+[19-07-17] [CLIENT]: frametitlelengthtest
+[19-07-17] [SYSTEM_IO]: Userdata requested: filterchat
+[19-07-17] [HANDLE]: CONSOLE MANUAL TEST REFLECTION FIRE HANDLED
+[19-07-17] [CONSOLE_OUT]: [STRING] Invoking manual test: frameTitleLengthTest
+[19-07-17] [HANDLE]: FINAL HANDLE
+[19-07-18] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 520, 40)], hash = [49373263], parentFrame = [Title Length Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 520, 40)], hash = [1003957848], parentFrame = [asasdfasdfasdfasdfasdf], associated text = [Set Title], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-20] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 520, 40)], hash = [49373263], parentFrame = [asasdfasdfasdfasdfasdf], associated text = [asasdfasdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 520, 40)], hash = [1003957848], parentFrame = [asasdfasdfasdfasdfasdfasdfasdfasdf], associated text = [Set Title], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-21] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 520, 40)], hash = [49373263], parentFrame = [asasdfasdfasdfasdfasdfasdfasdfasdf], associated text = [asasdfasdfasdfasdfasdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 520, 40)], hash = [1003957848], parentFrame = [asasdfasdfasdfasdfasdfasdfasdfasdf], associated text = [Set Title], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-22] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 520, 40)], hash = [49373263], parentFrame = [asasdfasdfasdfasdfasdfasdfasdfasdf], associated text = [asasdfasdfasdfasdfasdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 520, 40)], hash = [1003957848], parentFrame = [asasdfasdfasdfasdfasdfasdfasasasdfasdfasdfasdfasdfasdfasdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfdfasdf], associated text = [Set Title], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-24] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 520, 40)], hash = [49373263], parentFrame = [asasdfasdfasdfasdfasdfasdfasasasdfasdfasdfasdfasdfasdfasdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfdfasdf], associated text = [asasdfasdfasdfasdfasdfasdfasasasdfasdfasdfasdfasdfasdfasdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-07-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 520, 40)], hash = [1003957848], parentFrame = [asasdfasdfasdfasdfasdfasdfasasasdfasdfasdfasdfasdfasdfasdfasdfasasdfasdfasdfasdfasasasdfasdfasdfasdfasdfasdfasdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfdfasdfasdfasdfdfasdf], associated text = [Set Title], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-08-07] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

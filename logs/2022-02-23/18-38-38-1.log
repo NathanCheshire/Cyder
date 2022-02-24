@@ -15,8 +15,7 @@
 [18-38-40] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-38-40] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-38-40] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-38-40] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-38-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-38-40] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-38-40] [THREAD STARTED]: Console Printing Animation
 [18-38-40] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-38-40] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -112,15 +111,15 @@
 [18-40-06] [CONSOLE_OUT]: [STRING] Screenshot command usage: screenshot [FRAMES or FRAME_NAME]
 [18-40-06] [HANDLE]: PRIMARY HANDLE
 [18-40-09] [SYSTEM_IO]: Created temperatory file: 18-40-09.stacktrace
-[18-40-09] [EXCEPTION]: 
+[18-40-09] [EXCEPTION]:
 Exception origin: java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
 From line: 1551
 Trace: javax.imageio.IIOException: Can't create an ImageOutputStream!
-	at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
-	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
-	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
-	at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
+at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
+at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
+at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [18-40-09] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [18-40-09] [CONSOLE_OUT]: [STRING] Download complete: saved as Chillstep | Wayr - Against Fate.mp3 and added to mp3 queue
 [18-40-09] [WIDGET OPENED]: AUDIO PLAYER
@@ -135,27 +134,27 @@ Trace: javax.imageio.IIOException: Can't create an ImageOutputStream!
 [18-40-38] [THREAD STARTED]: minimize menu thread
 [18-40-38] [THREAD STARTED]: Console menu animator
 [18-40-49] [SYSTEM_IO]: Created temperatory file: 18-40-49.stacktrace
-[18-40-49] [EXCEPTION]: 
+[18-40-49] [EXCEPTION]:
 Exception origin: java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
 From line: 1551
 Trace: javax.imageio.IIOException: Can't create an ImageOutputStream!
-	at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
-	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
-	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
-	at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
+at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
+at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
+at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [18-40-49] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [18-40-49] [CONSOLE_OUT]: [STRING] Download complete: saved as Chillstep | Wayr - Follow the Light.mp3 and added to mp3 queue
 [18-41-19] [SYSTEM_IO]: Created temperatory file: 18-41-19.stacktrace
-[18-41-19] [EXCEPTION]: 
+[18-41-19] [EXCEPTION]:
 Exception origin: java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
 From line: 1551
 Trace: javax.imageio.IIOException: Can't create an ImageOutputStream!
-	at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
-	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
-	at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
-	at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at java.desktop/javax.imageio.ImageIO.write(ImageIO.java:1551)
+at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:268)
+at cyder.utilities.YoutubeUtil.downloadThumbnail(YoutubeUtil.java:226)
+at cyder.utilities.YoutubeUtil.lambda$downloadVideo$0(YoutubeUtil.java:148)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [18-41-19] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [18-41-19] [CONSOLE_OUT]: [STRING] Download complete: saved as Neutralize - Lost | Chillstep.mp3 and added to mp3 queue
 [18-41-24] [CONSOLE_OUT]: [STRING] Download complete: saved as ChillstepAnima - You Are Truth.mp3 and added to mp3 queue
@@ -181,3 +180,4 @@ Trace: javax.imageio.IIOException: Can't create an ImageOutputStream!
 [18-42-27] [THREAD STARTED]: Chillstep # Wayr - Follow the Light CyderFrame dispose thread
 [18-42-27] [SYSTEM_IO]: Userdata requested: closeanimation
 [18-42-27] [THREAD STARTED]: Console Audio Menu Minimizer
+[18-47-50] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 3

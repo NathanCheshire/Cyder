@@ -42,6 +42,11 @@ public final class CyderRegexPatterns {
     public static final String commentPattern = "\\s*[/]{2}.*|\\s*[/][*].*|\\s*[*].*|\\s*.*[*][/]\\s*";
 
     /**
+     * Regex of all invalid characters for a filename on Windows.
+     */
+    public static final String windowsInvalidFilenameChars = "[*?|/\":<>\\\\']+";
+
+    /**
      * Illegal class instantiation
      */
     private CyderRegexPatterns() {

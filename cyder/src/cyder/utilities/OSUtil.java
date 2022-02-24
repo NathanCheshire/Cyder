@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -83,7 +84,7 @@ public class OSUtil {
                 return filename.contains("/") || filename.contains("\0");
             case WINDOWS:
                 //invalid chars for Windows in a filename
-                if (filename.matches("[*?|/\":<>\\\\']+"))
+                if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars))
                     return false;
 
                 //invalid filenames for windows, reserved names for backwards compatibility reasons
@@ -593,8 +594,6 @@ public class OSUtil {
     }
 
     //todo skip icons should jsut be triangle with bar on end
-
-    //todo parsing non-ascii should replace them with spaces and return a string util trimmed version of it
 
     //todo all class.subclass should be in an objects package within that package
     // since they're needed by something outside of the class

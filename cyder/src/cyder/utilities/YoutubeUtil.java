@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.genesis.CyderCommon;
@@ -69,7 +70,7 @@ public class YoutubeUtil {
             String parsedAsciiSaveName =
                     StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                             .replace("- YouTube","")
-                            .replaceAll("[*?|/\":<>\\\\']+","").trim();
+                            .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim();
 
             ConsoleFrame.getConsoleFrame().getInputHandler()
                     .println("Downloading audio as: " + parsedAsciiSaveName + extension);
@@ -137,9 +138,10 @@ public class YoutubeUtil {
                             if (fileSize == null) {
                                 fileSize = updateMatcher.group(2);
                                 ConsoleFrame.getConsoleFrame().getInputHandler()
-                                        .println("\"finalParsedAsciiSaveName\" file size: " + fileSize);
+                                        .println("\"" + finalParsedAsciiSaveName + "\" file size: " + fileSize);
                             }
 
+                            //todo use label like on Audio Player
                             // todo try and display in a better way
                             audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
                                     + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
@@ -243,7 +245,7 @@ public class YoutubeUtil {
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                         .replace("- YouTube","")
-                        .replaceAll("[*?|/\":<>\\\\']+","").trim() + ".png";
+                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim() + ".png";
 
         // remove trailing periods
         while (parsedAsciiSaveName.endsWith("."))

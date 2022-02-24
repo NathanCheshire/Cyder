@@ -276,7 +276,7 @@ public class ReflectionUtil {
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
                             ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
-                                    + classer.getName());
+                                    + classer.getName().split("\\.")[classer.getName().split("\\.").length - 1]);
                             try {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(classer);

@@ -835,21 +835,25 @@ public class CyderFrame extends JFrame {
             // inner title needs to have ascii parsed away
             String innerTitle = StringUtil.getTrimmedText(StringUtil.parseNonAscii(title));
 
+            // get the width and the shortened title if we need to shorten it
             int titleWidth = StringUtil.getMinWidth(innerTitle, titleLabel.getFont());
             String shortenedTitle = innerTitle;
 
+            // while the title is too long, remove a char and add ... and calculate new length
             while (titleWidth > this.width * MAX_TITLE_LENGTH_RATIO) {
                 shortenedTitle = shortenedTitle.substring(0, shortenedTitle.length() - 1);
                 titleWidth = StringUtil.getMinWidth(shortenedTitle + "...", titleLabel.getFont());
             }
 
-            if (titleWidth != StringUtil.getMinWidth(title, titleLabel.getFont()))
+            // if the width is not equal to the original one
+            if (StringUtil.getMinWidth(title, titleLabel.getFont()) > this.width * MAX_TITLE_LENGTH_RATIO
+                    && !shortenedTitle.equalsIgnoreCase(title))
                 shortenedTitle += "...";
 
             this.title = shortenedTitle;
             titleLabel.setText(this.title);
 
-            titleWidth = StringUtil.getAbsoluteMinWidth(this.title, titleLabel.getFont());
+            titleWidth = StringUtil.getMinWidth(this.title, titleLabel.getFont());
 
             switch (titlePosition) {
                 case CENTER:

@@ -1,0 +1,66 @@
+[18-56-55] [ENTRY]: [Nathan]
+[18-56-55] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-56-56] [THREAD STARTED]: Splash Loader
+[18-56-56] [THREAD STARTED]: Splash Animation
+[18-56-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[18-56-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[18-56-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[18-56-56] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[18-56-56] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-56-56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-56-56] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-56-56] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-56-56] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-56-57] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[18-56-57] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-56-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-56-57] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-56-57] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-56-57] [THREAD STARTED]: Console Printing Animation
+[18-56-57] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-56-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-56-57] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-56-57] [THREAD STARTED]: Console Input Caret Position Updater
+[18-56-57] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-56-57] [SYSTEM_IO]: Userdata requested: InputFill
+[18-56-57] [THREAD STARTED]: High Ping Checker
+[18-56-57] [THREAD STARTED]: Hourly Chime Checker
+[18-56-57] [THREAD STARTED]: Console Clock Updater
+[18-56-57] [THREAD STARTED]: Cyder Busy Checker
+[18-56-57] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-56-57] [ACTION]: Console loaded in 2751ms
+[18-56-58] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(154, 228, 996, 655)], hash = [2016828666], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[18-56-58] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1713561313], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-56-58] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[18-56-58] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-56-58] [ENTRY]: [TESTING MODE]
+[18-56-58] [SYSTEM_IO]: Userdata requested: laststart
+[18-56-58] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2751ms
+[18-56-58] [THREAD STARTED]: notification appear animation
+[18-56-58] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-56-58] [THREAD STARTED]: Notificaiton vanish animater 1619586165
+[18-57-05] [CLIENT]: mp3
+[18-57-05] [SYSTEM_IO]: Userdata requested: filterchat
+[18-57-05] [WIDGET OPENED]: AUDIO PLAYER
+[18-57-05] [CONSOLE_OUT]: [STRING] Opening widget: cyder.handlers.external.AudioPlayer
+[18-57-05] [THREAD STARTED]: Flash Player Audio Thread[Neutralize - Lost  Chillstep]
+[18-57-05] [HANDLE]: PRIMARY HANDLE
+[18-57-05] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep]
+[18-57-05] [ACTION]: [AUDIO PLAYER] Neutralize - Lost  Chillstep.mp3
+[18-57-09] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Against Fate]
+[18-57-09] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate]
+[18-57-09] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Against Fate.mp3
+[18-57-10] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[18-57-10] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[18-57-10] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[18-57-11] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[18-57-11] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[18-57-11] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[18-57-12] [THREAD STARTED]: Flash Player Audio Thread[Neutralize - Lost  Chillstep]
+[18-57-12] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep]
+[18-57-12] [ACTION]: [AUDIO PLAYER] Neutralize - Lost  Chillstep.mp3
+[18-57-28] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 190, 385, 25)], hash = [2055480999], parentFrame = [Neutralize - Lost  Chillstep], associated text = [<html><div style='text-align: center;'>14s played, 6m 37s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-57-28] [THREAD STARTED]: Flash Player Audio Thread[Neutralize - Lost  Chillstep]
+[18-57-28] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep]
+[18-57-28] [ACTION]: [AUDIO PLAYER] Neutralize - Lost  Chillstep.mp3
+[18-58-59] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
