@@ -116,8 +116,15 @@ public class YoutubeUtil {
                     audioProgress.setOpaque(false);
                     audioProgress.setFocusable(false);
                     audioProgress.repaint();
+
+                    CyderLabel printLabel = new CyderLabel("\"" + finalParsedAsciiSaveName + "\" file size: ");
+                    printLabel.setForeground(ConsoleFrame.getConsoleFrame().getInputField().getForeground());
+                    printLabel.setFont(ConsoleFrame.getConsoleFrame().getInputField().getFont());
+
                     ConsoleFrame.getConsoleFrame().getInputHandler()
                             .printlnComponent(audioProgress);
+                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                            .printlnComponent(printLabel);
 
                     Pattern updatePattern  = Pattern.compile(
                             "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
@@ -137,14 +144,17 @@ public class YoutubeUtil {
 
                             if (fileSize == null) {
                                 fileSize = updateMatcher.group(2);
-                                ConsoleFrame.getConsoleFrame().getInputHandler()
-                                        .println("\"" + finalParsedAsciiSaveName + "\" file size: " + fileSize);
                             }
 
-                            //todo use label like on Audio Player
-                            // todo try and display in a better way
-                            audioProgress.setToolTipText("Progress: " + progress + "%, Rate: "
-                                    + updateMatcher.group(3) + ", ETA: " + updateMatcher.group(4));
+                            String updateText = "\"" + finalParsedAsciiSaveName
+                                    + "\" file size: " + fileSize + ", progress: " + progress + "%, rate: "
+                                    + updateMatcher.group(3) + ", eta: " + updateMatcher.group(4);
+
+                            System.out.println(updateText);
+
+                            printLabel.setText(updateText);
+                            printLabel.revalidate();
+                            printLabel.repaint();
                         }
                     }
 
