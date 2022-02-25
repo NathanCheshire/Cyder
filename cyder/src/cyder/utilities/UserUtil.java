@@ -161,7 +161,7 @@ public class UserUtil {
 
         Gson gson = new Gson();
 
-        try  {
+        try {
             FileWriter writer = new FileWriter(f);
             userIOSemaphore.acquire();
             gson.toJson(u, writer);

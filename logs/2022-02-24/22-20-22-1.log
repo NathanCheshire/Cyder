@@ -1,0 +1,155 @@
+[22-20-22] [ENTRY]: [Nathan]
+[22-20-22] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-20-23] [THREAD STARTED]: Splash Loader
+[22-20-23] [ACTION]: User e5a50641-21d1-3654-b738-c0e4b2dc61b1 was found to have an outdated userdata file; preference injection was attempted on the following: [wrapterminal = 0]
+[22-20-23] [THREAD STARTED]: Splash Animation
+[22-20-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-20-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-20-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-20-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-20-24] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-20-24] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-20-24] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-20-24] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-20-24] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-20-24] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-20-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-20-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-20-24] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-20-24] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-20-24] [THREAD STARTED]: Console Printing Animation
+[22-20-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-20-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-20-25] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-20-25] [THREAD STARTED]: Console Input Caret Position Updater
+[22-20-25] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-20-25] [SYSTEM_IO]: Userdata requested: InputFill
+[22-20-25] [THREAD STARTED]: High Ping Checker
+[22-20-25] [THREAD STARTED]: Hourly Chime Checker
+[22-20-25] [THREAD STARTED]: Console Clock Updater
+[22-20-25] [THREAD STARTED]: Cyder Busy Checker
+[22-20-25] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-20-25] [ACTION]: Console loaded in 3051ms
+[22-20-25] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1331, 266, 996, 655)], hash = [892931811], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-20-25] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [415952827], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-20-25] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-20-25] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-20-25] [ENTRY]: [TESTING MODE]
+[22-20-25] [SYSTEM_IO]: Userdata requested: laststart
+[22-20-25] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3051ms
+[22-20-25] [THREAD STARTED]: notification appear animation
+[22-20-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-20-25] [THREAD STARTED]: Notificaiton vanish animater -1059532216
+[22-20-58] [CLIENT]: hello
+[22-20-58] [SYSTEM_IO]: Userdata requested: filterchat
+[22-20-58] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[22-20-58] [CONSOLE_OUT]: [STRING] What's up, Nathan?
+[22-20-58] [HANDLE]: PRIMARY HANDLE
+[22-21-01] [CLIENT]: wrapterminal
+[22-21-01] [SYSTEM_IO]: Userdata requested: filterchat
+[22-21-01] [SYSTEM_IO]: Userdata requested: wrapterminal
+[22-21-01] [SYSTEM_IO]: Created temperatory file: 22-21-01.stacktrace
+[22-21-01] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.preferenceCheck(InputHandler.java:1461)
+From line: 1461
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.InputHandler.preferenceCheck(InputHandler.java:1461)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:238)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:563)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-21-01] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-21-37] [CLIENT]: hi
+[22-21-37] [SYSTEM_IO]: Userdata requested: filterchat
+[22-21-37] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[22-21-37] [CONSOLE_OUT]: [STRING] Good evening, Nathan. How can I help?
+[22-21-37] [HANDLE]: PRIMARY HANDLE
+[22-21-38] [CLIENT]: wrapterminal
+[22-21-38] [SYSTEM_IO]: Userdata requested: filterchat
+[22-21-38] [SYSTEM_IO]: Userdata requested: wrapterminal
+[22-21-38] [SYSTEM_IO]: Created temperatory file: 22-21-38.stacktrace
+[22-21-38] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.preferenceCheck(InputHandler.java:1461)
+From line: 1461
+Trace: java.lang.NullPointerException
+at cyder.handlers.internal.InputHandler.preferenceCheck(InputHandler.java:1461)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:238)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:563)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-21-38] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-24-45] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 2

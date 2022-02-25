@@ -1,0 +1,117 @@
+[22-57-52] [ENTRY]: [Nathan]
+[22-57-52] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-57-53] [THREAD STARTED]: Splash Loader
+[22-57-53] [THREAD STARTED]: Splash Animation
+[22-57-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-57-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-57-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-57-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-57-53] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-57-53] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-57-53] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-57-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-57-53] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-57-53] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[22-57-54] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-57-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-57-54] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-57-54] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-57-54] [THREAD STARTED]: Console Printing Animation
+[22-57-54] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-57-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-57-54] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-57-54] [THREAD STARTED]: Console Input Caret Position Updater
+[22-57-54] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-57-54] [SYSTEM_IO]: Userdata requested: InputFill
+[22-57-54] [THREAD STARTED]: High Ping Checker
+[22-57-54] [THREAD STARTED]: Hourly Chime Checker
+[22-57-54] [THREAD STARTED]: Console Clock Updater
+[22-57-54] [THREAD STARTED]: Cyder Busy Checker
+[22-57-54] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-57-54] [ACTION]: Console loaded in 2879ms
+[22-57-54] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(367, 379, 996, 655)], hash = [1803093683], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-57-54] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [284338046], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-57-54] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-57-54] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-57-54] [ENTRY]: [TESTING MODE]
+[22-57-54] [SYSTEM_IO]: Userdata requested: laststart
+[22-57-54] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2879ms
+[22-57-54] [THREAD STARTED]: notification appear animation
+[22-57-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-57-54] [THREAD STARTED]: Notificaiton vanish animater -8619057
+[22-58-04] [CLIENT]: wrapterminal
+[22-58-04] [SYSTEM_IO]: Userdata requested: filterchat
+[22-58-04] [SYSTEM_IO]: Userdata requested: wrapterminal
+[22-58-04] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[22-58-04] [CONSOLE_OUT]: [STRING] Wrap Terminal set to true
+[22-58-04] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-58-04] [HANDLE]: FINAL HANDLE
+[22-58-06] [CLIENT]: wrapterminal
+[22-58-06] [SYSTEM_IO]: Userdata requested: filterchat
+[22-58-06] [SYSTEM_IO]: Userdata requested: wrapterminal
+[22-58-06] [CONSOLE_OUT]: [STRING] Wrap Terminal set to false
+[22-58-06] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[22-58-06] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-58-06] [HANDLE]: FINAL HANDLE
+[22-58-08] [CLIENT]: wrapterminal
+[22-58-08] [SYSTEM_IO]: Userdata requested: filterchat
+[22-58-08] [SYSTEM_IO]: Userdata requested: wrapterminal
+[22-58-08] [CONSOLE_OUT]: [STRING] Wrap Terminal set to true
+[22-58-08] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[22-58-08] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-58-08] [HANDLE]: FINAL HANDLE
+[22-58-20] [CLIENT]: helloo
+[22-58-20] [SYSTEM_IO]: Userdata requested: filterchat
+[22-58-20] [THREAD STARTED]: Unknown Input Handler
+[22-58-20] [CONSOLE_OUT]: [STRING] Unknown command
+[22-58-20] [THREAD STARTED]: Suggestion Button Flash
+[22-58-20] [ACTION]: Similar command to "helloo" found with tol of 0.8333333, command = "hello"
+[22-58-20] [CONSOLE_OUT]: [STRING] unknowm command
+[22-58-20] [CONSOLE_OUT]: [STRING] Most similar command: "hello"
+[22-58-54] [CLIENT]: hello
+[22-58-54] [SYSTEM_IO]: Userdata requested: filterchat
+[22-58-54] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[22-58-54] [CONSOLE_OUT]: [STRING] How are you doing, Nathan?
+[22-58-54] [HANDLE]: PRIMARY HANDLE
+[22-58-57] [CLIENT]: hellllooooo
+[22-58-57] [SYSTEM_IO]: Userdata requested: filterchat
+[22-58-57] [THREAD STARTED]: Unknown Input Handler
+[22-58-57] [CONSOLE_OUT]: [STRING] Unknown command
+[22-58-57] [THREAD STARTED]: Suggestion Button Flash
+[22-58-57] [ACTION]: Similar command to "hellllooooo" found with tol of 0.5882353, command = "hello"
+[22-58-57] [SYSTEM_IO]: Created temperatory file: 22-58-57.stacktrace
+[22-58-57] [EXCEPTION]:
+Exception origin: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+From line: 1128
+Trace: java.io.IOException: Cannot run program "hellllooooo": CreateProcess error=2, The system cannot find the file specified
+at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+at java.base/java.lang.Runtime.exec(Runtime.java:635)
+at java.base/java.lang.Runtime.exec(Runtime.java:459)
+at java.base/java.lang.Runtime.exec(Runtime.java:356)
+at cyder.handlers.internal.InputHandler.lambda$unknownInput$12(InputHandler.java:1577)
+at java.base/java.lang.Thread.run(Thread.java:844)
+Caused by: java.io.IOException: CreateProcess error=2, The system cannot find the file specified
+at java.base/java.lang.ProcessImpl.create(Native Method)
+at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:420)
+at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:151)
+at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+... 6 more
+[22-58-57] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-59-18] [CLIENT]: echo
+[22-59-18] [SYSTEM_IO]: Userdata requested: filterchat
+[22-59-18] [CONSOLE_OUT]: [STRING] hi
+[22-59-18] [HANDLE]: EXTERNAL OPENER COMMAND HANDLED
+[22-59-18] [HANDLE]: PRIMARY HANDLE
+[22-59-22] [CLIENT]: netstat
+[22-59-22] [SYSTEM_IO]: Userdata requested: filterchat
+[22-59-22] [THREAD STARTED]: Unknown Input Handler
+[22-59-22] [THREAD STARTED]: Suggestion Button Flash
+[22-59-22] [CONSOLE_OUT]: [STRING] Unknown command
+[22-59-23] [ACTION]: Similar command to "netstat" found with tol of 0.5555556, command = "debugstats"
+[22-59-36] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-59-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(210, 398, 996, 655)], hash = [1803093683], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-59-36] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-59-36] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-59-36] [EXIT]: [RUNTIME] 1m 45s
+[22-59-36] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 1

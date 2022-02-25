@@ -1,0 +1,15 @@
+[22-49-17] [ENTRY]: [Nathan]
+[22-49-18] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-49-18] [THREAD STARTED]: Splash Loader
+[22-49-19] [ACTION]: User e5a50641-21d1-3654-b738-c0e4b2dc61b1 was found to have an outdated userdata file; preference injection was attempted on the following: [wrapterminal = 0]
+[22-49-19] [THREAD STARTED]: Splash Animation
+[22-49-19] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-49-19] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-49-19] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-49-19] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-49-19] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-49-19] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-49-19] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-49-36] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-49-36] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-51-59] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

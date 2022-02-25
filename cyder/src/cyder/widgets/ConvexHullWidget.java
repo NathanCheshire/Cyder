@@ -1,12 +1,16 @@
 package cyder.widgets;
 
 import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.Direction;
+import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
+import cyder.ui.objects.NotificationBuilder;
 
 /**
  * Convexhull widget that solve a convexhull problem using a CyderGrid as the drawing label.
@@ -41,14 +45,15 @@ public class ConvexHullWidget {
         hullFrame = new CyderFrame(800,850);
         hullFrame.setTitle("Convex hull");
 
-        gridComponent = new CyderGrid(30,700);
-        //gridComponent.setDrawGridLines(false);
+        gridComponent = new CyderGrid(100,700);
+        gridComponent.setDrawGridLines(false);
         gridComponent.setBounds(50, 50,700, 700);
         hullFrame.getContentPane().add(gridComponent);
-        gridComponent.setDrawExtendedBorder(true);
-        gridComponent.setResizable(true);
-        gridComponent.setMinNodes(20);
+        gridComponent.setDrawExtendedBorder(false);
+        gridComponent.setResizable(false);
+        gridComponent.setDefultNodeColor(CyderColors.regularPink);
         gridComponent.installClickPlacer();
+        gridComponent.installDragPlacer();
 
         CyderButton solveButton = new CyderButton("Solve");
         solveButton.setBounds(50, 700 + 80,325, 40);
@@ -77,7 +82,12 @@ public class ConvexHullWidget {
         if (gridComponent.getNodeCount() == 0)
             return;
 
-        hullFrame.notify("Cleared " + gridComponent.getNodeCount() + " nodes");
+        NotificationBuilder builder = new NotificationBuilder("Cleared " + gridComponent.getNodeCount() + " nodes");
+        builder.setViewDuration(2000);
+        builder.setArrowDir(Direction.RIGHT);
+        builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
+
+        hullFrame.notify(builder);
         gridComponent.clear();
     }
 }

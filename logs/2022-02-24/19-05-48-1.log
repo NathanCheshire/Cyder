@@ -1,0 +1,42 @@
+[19-05-49] [ENTRY]: [Nathan]
+[19-05-49] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-05-50] [THREAD STARTED]: Splash Loader
+[19-05-50] [THREAD STARTED]: Splash Animation
+[19-05-50] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-05-50] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-05-50] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-05-50] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-05-50] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-05-50] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-05-50] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-05-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-05-50] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-05-51] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[19-05-51] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-05-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-05-51] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-05-51] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-05-51] [THREAD STARTED]: Console Printing Animation
+[19-05-51] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-05-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-05-51] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-05-51] [THREAD STARTED]: Console Input Caret Position Updater
+[19-05-51] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-05-51] [SYSTEM_IO]: Userdata requested: InputFill
+[19-05-51] [THREAD STARTED]: High Ping Checker
+[19-05-51] [THREAD STARTED]: Hourly Chime Checker
+[19-05-51] [THREAD STARTED]: Console Clock Updater
+[19-05-51] [THREAD STARTED]: Cyder Busy Checker
+[19-05-51] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-05-51] [ACTION]: Console loaded in 2663ms
+[19-05-51] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-05-51] [ENTRY]: [TESTING MODE]
+[19-05-51] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1331, 266, 996, 655)], hash = [1431710377], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-05-51] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [33646818], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-05-51] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-05-51] [SYSTEM_IO]: Userdata requested: laststart
+[19-05-51] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2663ms
+[19-05-51] [THREAD STARTED]: notification appear animation
+[19-05-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-05-51] [THREAD STARTED]: Notificaiton vanish animater -1345588126
+[19-06-34] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

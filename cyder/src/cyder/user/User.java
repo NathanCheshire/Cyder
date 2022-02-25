@@ -52,6 +52,7 @@ public class User {
     private String minimizeAnimation;
     private String compactTextMode;
     private String youTubeAPI3Key;
+    private String wrapterminal;
 
     // -------------------
     // non primitive types
@@ -424,6 +425,14 @@ public class User {
 
     public void setYouTubeAPI3Key(String youTubeAPI3Key) {
         this.youTubeAPI3Key = youTubeAPI3Key;
+    }
+
+    public String getWrapterminal() {
+        return wrapterminal;
+    }
+
+    public void setWrapterminal(String wrapterminal) {
+        this.wrapterminal = wrapterminal;
     }
 
     /**

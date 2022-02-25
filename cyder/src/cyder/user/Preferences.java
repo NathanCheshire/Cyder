@@ -360,6 +360,15 @@ public class Preferences {
 
             return null;
         }));
+        ret.add(new Preference("wrapterminal","Wrap Terminal",
+                "Wrap the native shell by passing unrecognized commands to it and allowing it to process them",
+                "0", (optionalParam) -> {
+            Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = wrapterminal");
+
+            //no action required
+
+            return null;
+        }));
 
         // IGNORE for display name means ignore for UserEditor,
         // IGNORE for tooltip means don't write when creating user since it was already set
@@ -369,7 +378,7 @@ public class Preferences {
         // you'll need to add the preference here and also the data in user.java
         // since gson parses the userdata file into a user object.
 
-        //EVERYTHING that is in userdata must be in this list
+        // EVERYTHING that is in userdata must be in this list
 
         // Some rare cases might require deeper manipulation such as the case for executables
         // where we don't add it here but add it for the user object and for user creation

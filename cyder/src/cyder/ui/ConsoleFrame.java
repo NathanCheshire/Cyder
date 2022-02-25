@@ -1664,7 +1664,7 @@ public final class ConsoleFrame {
         UserUtil.setCyderUser(UserUtil.extractUser(json));
         UserUtil.setCyderUserFile(json);
 
-        //perform preference injection
+        // ensure user directories exist
         UserUtil.fixUser();
 
         //log out all users that may have been left as logged in

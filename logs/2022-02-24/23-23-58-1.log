@@ -1,0 +1,589 @@
+[23-23-59] [ENTRY]: [Nathan]
+[23-23-59] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-24-00] [THREAD STARTED]: Splash Loader
+[23-24-00] [THREAD STARTED]: Splash Animation
+[23-24-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[23-24-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[23-24-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[23-24-01] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[23-24-01] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-24-01] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-24-01] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-24-01] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-24-01] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-24-01] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-24-01] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-24-01] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-24-02] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-24-02] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-24-02] [THREAD STARTED]: Console Printing Animation
+[23-24-02] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-24-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-24-02] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-24-02] [THREAD STARTED]: Console Input Caret Position Updater
+[23-24-02] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-24-02] [SYSTEM_IO]: Userdata requested: InputFill
+[23-24-02] [THREAD STARTED]: High Ping Checker
+[23-24-02] [THREAD STARTED]: Hourly Chime Checker
+[23-24-02] [THREAD STARTED]: Console Clock Updater
+[23-24-02] [THREAD STARTED]: Cyder Busy Checker
+[23-24-02] [THREAD STARTED]: ConsoleFrame Data Saver
+[23-24-02] [ACTION]: Console loaded in 3815ms
+[23-24-02] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-24-02] [ENTRY]: [TESTING MODE]
+[23-24-02] [SYSTEM_IO]: Userdata requested: laststart
+[23-24-02] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(248, 292, 996, 655)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-24-02] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1212641517], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-24-02] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-24-02] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3815ms
+[23-24-02] [THREAD STARTED]: notification appear animation
+[23-24-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-24-03] [THREAD STARTED]: Notificaiton vanish animater 612823009
+[23-24-08] [CLIENT]: netstat
+[23-24-08] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-08] [THREAD STARTED]: Unknown Input Handler
+[23-24-09] [ACTION]: Similar command to "netstat" found with tol of 0.5555556, command = "debugstats"
+[23-24-09] [THREAD STARTED]: Wrap Terminal Thread
+[23-24-09] [CONSOLE_OUT]: [STRING]
+[23-24-09] [CONSOLE_OUT]: [STRING] Active Connections
+[23-24-09] [CONSOLE_OUT]: [STRING]
+[23-24-09] [CONSOLE_OUT]: [STRING]   Proto  Local Address          Foreign Address        State
+[23-24-09] [CONSOLE_OUT]: [STRING]   TCP    10.183.19.101:55650    42:https               ESTABLISHED
+[23-24-10] [CONSOLE_OUT]: [STRING] Escaped
+[23-24-11] [CLIENT]: clear
+[23-24-11] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-11] [HANDLE]: GENERAL COMMAND HANDLED
+[23-24-11] [HANDLE]: PRIMARY HANDLE
+[23-24-12] [CLIENT]: threads
+[23-24-12] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-12] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[23-24-12] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer
+[23-24-12] [HANDLE]: PRIMARY HANDLE
+[23-24-12] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[23-24-12] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[23-24-12] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[23-24-12] [CONSOLE_OUT]: [STRING] High Ping Checker
+[23-24-12] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[23-24-12] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[23-24-12] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[23-24-12] [CONSOLE_OUT]: [STRING] ConsoleFrame Data Saver
+[23-24-12] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[23-24-12] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[23-24-12] [CONSOLE_OUT]: [STRING] Wrap Terminal Thread
+[23-24-13] [CLIENT]: clear
+[23-24-13] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-13] [HANDLE]: GENERAL COMMAND HANDLED
+[23-24-13] [HANDLE]: PRIMARY HANDLE
+[23-24-20] [CLIENT]: youtube-dl
+[23-24-20] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-20] [THREAD STARTED]: Unknown Input Handler
+[23-24-20] [ACTION]: Similar command to "youtube-dl" found with tol of 0.7777778, command = "youtube"
+[23-24-20] [THREAD STARTED]: Wrap Terminal Thread
+[23-24-21] [CONSOLE_OUT]: [STRING] Usage: youtube-dl [OPTIONS] URL [URL...]
+[23-24-21] [CONSOLE_OUT]: [STRING]
+[23-24-21] [CONSOLE_OUT]: [STRING] Options:
+[23-24-21] [CONSOLE_OUT]: [STRING]   General Options:
+[23-24-21] [CONSOLE_OUT]: [STRING]     -h, --help                           Print this help text and exit
+[23-24-21] [CONSOLE_OUT]: [STRING]     --version                            Print program version and exit
+[23-24-21] [CONSOLE_OUT]: [STRING]     -U, --update                         Update this program to latest version.
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          Make sure that you have sufficient
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          permissions (run with sudo if needed)
+[23-24-21] [CONSOLE_OUT]: [STRING]     -i, --ignore-errors                  Continue on download errors, for
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          example to skip unavailable videos in a
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          playlist
+[23-24-21] [CONSOLE_OUT]: [STRING]     --abort-on-error                     Abort downloading of further videos (in
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          the playlist or the command line) if an
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          error occurs
+[23-24-21] [CONSOLE_OUT]: [STRING]     --dump-user-agent                    Display the current browser
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          identification
+[23-24-21] [CONSOLE_OUT]: [STRING]     --list-extractors                    List all supported extractors
+[23-24-21] [CONSOLE_OUT]: [STRING]     --extractor-descriptions             Output descriptions of all supported
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          extractors
+[23-24-21] [CONSOLE_OUT]: [STRING]     --force-generic-extractor            Force extraction to use the generic
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          extractor
+[23-24-21] [CONSOLE_OUT]: [STRING]     --default-search PREFIX              Use this prefix for unqualified URLs.
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          For example "gvsearch2:" downloads two
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          videos from google videos for youtube-
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          dl "large apple". Use the value "auto"
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          to let youtube-dl guess ("auto_warning"
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          to emit a warning when guessing).
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          "error" just throws an error. The
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          default value "fixup_error" repairs
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          broken URLs, but emits an error if this
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          is not possible instead of searching.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --ignore-config                      Do not read configuration files. When
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          given in the global configuration file
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          /etc/youtube-dl.conf: Do not read the
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          user configuration in
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          ~/.config/youtube-dl/config
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          (%APPDATA%/youtube-dl/config.txt on
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          Windows)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --config-location PATH               Location of the configuration file;
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          either the path to the config or its
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          containing directory.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --flat-playlist                      Do not extract the videos of a
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          playlist, only list them.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --mark-watched                       Mark videos watched (YouTube only)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --no-mark-watched                    Do not mark videos watched (YouTube
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          only)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --no-color                           Do not emit color codes in output
+[23-24-21] [CONSOLE_OUT]: [STRING]
+[23-24-21] [CONSOLE_OUT]: [STRING]   Network Options:
+[23-24-21] [CONSOLE_OUT]: [STRING]     --proxy URL                          Use the specified HTTP/HTTPS/SOCKS
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          proxy. To enable SOCKS proxy, specify a
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          proper scheme. For example
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          socks5://127.0.0.1:1080/. Pass in an
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          empty string (--proxy "") for direct
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          connection
+[23-24-21] [CONSOLE_OUT]: [STRING]     --socket-timeout SECONDS             Time to wait before giving up, in
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          seconds
+[23-24-21] [CONSOLE_OUT]: [STRING]     --source-address IP                  Client-side IP address to bind to
+[23-24-21] [CONSOLE_OUT]: [STRING]     -4, --force-ipv4                     Make all connections via IPv4
+[23-24-21] [CONSOLE_OUT]: [STRING]     -6, --force-ipv6                     Make all connections via IPv6
+[23-24-21] [CONSOLE_OUT]: [STRING]
+[23-24-21] [CONSOLE_OUT]: [STRING]   Geo Restriction:
+[23-24-21] [CONSOLE_OUT]: [STRING]     --geo-verification-proxy URL         Use this proxy to verify the IP address
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          for some geo-restricted sites. The
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          default proxy specified by --proxy (or
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          none, if the option is not present) is
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          used for the actual downloading.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --geo-bypass                         Bypass geographic restriction via
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          faking X-Forwarded-For HTTP header
+[23-24-21] [CONSOLE_OUT]: [STRING]     --no-geo-bypass                      Do not bypass geographic restriction
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          via faking X-Forwarded-For HTTP header
+[23-24-21] [CONSOLE_OUT]: [STRING]     --geo-bypass-country CODE            Force bypass geographic restriction
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          with explicitly provided two-letter ISO
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          3166-2 country code
+[23-24-21] [CONSOLE_OUT]: [STRING]     --geo-bypass-ip-block IP_BLOCK       Force bypass geographic restriction
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          with explicitly provided IP block in
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          CIDR notation
+[23-24-21] [CONSOLE_OUT]: [STRING]
+[23-24-21] [CONSOLE_OUT]: [STRING]   Video Selection:
+[23-24-21] [CONSOLE_OUT]: [STRING]     --playlist-start NUMBER              Playlist video to start at (default is
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          1)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --playlist-end NUMBER                Playlist video to end at (default is
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          last)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --playlist-items ITEM_SPEC           Playlist video items to download.
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          Specify indices of the videos in the
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          playlist separated by commas like: "--
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          playlist-items 1,2,5,8" if you want to
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          download videos indexed 1, 2, 5, 8 in
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          the playlist. You can specify range: "
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          --playlist-items 1-3,7,10-13", it will
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          download the videos at index 1, 2, 3,
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          7, 10, 11, 12 and 13.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --match-title REGEX                  Download only matching titles (regex or
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          caseless sub-string)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --reject-title REGEX                 Skip download for matching titles
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          (regex or caseless sub-string)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --max-downloads NUMBER               Abort after downloading NUMBER files
+[23-24-21] [CONSOLE_OUT]: [STRING]     --min-filesize SIZE                  Do not download any videos smaller than
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          SIZE (e.g. 50k or 44.6m)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --max-filesize SIZE                  Do not download any videos larger than
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          SIZE (e.g. 50k or 44.6m)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --date DATE                          Download only videos uploaded in this
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          date
+[23-24-21] [CONSOLE_OUT]: [STRING]     --datebefore DATE                    Download only videos uploaded on or
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          before this date (i.e. inclusive)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --dateafter DATE                     Download only videos uploaded on or
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          after this date (i.e. inclusive)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --min-views COUNT                    Do not download any videos with less
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          than COUNT views
+[23-24-21] [CONSOLE_OUT]: [STRING]     --max-views COUNT                    Do not download any videos with more
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          than COUNT views
+[23-24-21] [CONSOLE_OUT]: [STRING]     --match-filter FILTER                Generic video filter. Specify any key
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          (see the "OUTPUT TEMPLATE" for a list
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          of available keys) to match if the key
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          is present, !key to check if the key is
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          not present, key > NUMBER (like
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          "comment_count > 12", also works with
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          >=, <, <=, !=, =) to compare against a
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          number, key = 'LITERAL' (like "uploader
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          = 'Mike Smith'", also works with !=) to
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          match against a string literal and & to
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          require multiple matches. Values which
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          are not known are excluded unless you
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          put a question mark (?) after the
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          operator. For example, to only match
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          videos that have been liked more than
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          100 times and disliked less than 50
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          times (or the dislike functionality is
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          not available at the given service),
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          but who also have a description, use
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          --match-filter "like_count > 100 &
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          dislike_count <? 50 & description" .
+[23-24-21] [CONSOLE_OUT]: [STRING]     --no-playlist                        Download only the video, if the URL
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          refers to a video and a playlist.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --yes-playlist                       Download the playlist, if the URL
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          refers to a video and a playlist.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --age-limit YEARS                    Download only videos suitable for the
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          given age
+[23-24-21] [CONSOLE_OUT]: [STRING]     --download-archive FILE              Download only videos not listed in the
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          archive file. Record the IDs of all
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          downloaded videos in it.
+[23-24-21] [CONSOLE_OUT]: [STRING]     --include-ads                        Download advertisements as well
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          (experimental)
+[23-24-21] [CONSOLE_OUT]: [STRING]
+[23-24-21] [CONSOLE_OUT]: [STRING]   Download Options:
+[23-24-21] [CONSOLE_OUT]: [STRING]     -r, --limit-rate RATE                Maximum download rate in bytes per
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          second (e.g. 50K or 4.2M)
+[23-24-21] [CONSOLE_OUT]: [STRING]     -R, --retries RETRIES                Number of retries (default is 10), or
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          "infinite".
+[23-24-21] [CONSOLE_OUT]: [STRING]     --fragment-retries RETRIES           Number of retries for a fragment
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          (default is 10), or "infinite" (DASH,
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          hlsnative and ISM)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --skip-unavailable-fragments         Skip unavailable fragments (DASH,
+[23-24-21] [CONSOLE_OUT]: [STRING]                                          hlsnative and ISM)
+[23-24-21] [CONSOLE_OUT]: [STRING]     --abort-on-unavailable-fragment      Abort downloading when some fragment is
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          not available
+[23-24-22] [CONSOLE_OUT]: [STRING]     --keep-fragments                     Keep downloaded fragments on disk after
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          downloading is finished; fragments are
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          erased by default
+[23-24-22] [CONSOLE_OUT]: [STRING]     --buffer-size SIZE                   Size of download buffer (e.g. 1024 or
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          16K) (default is 1024)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-resize-buffer                   Do not automatically adjust the buffer
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          size. By default, the buffer size is
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          automatically resized from an initial
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          value of SIZE.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --http-chunk-size SIZE               Size of a chunk for chunk-based HTTP
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          downloading (e.g. 10485760 or 10M)
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (default is disabled). May be useful
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          for bypassing bandwidth throttling
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          imposed by a webserver (experimental)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --playlist-reverse                   Download playlist videos in reverse
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          order
+[23-24-22] [CONSOLE_OUT]: [STRING]     --playlist-random                    Download playlist videos in random
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          order
+[23-24-22] [CONSOLE_OUT]: [STRING]     --xattr-set-filesize                 Set file xattribute ytdl.filesize with
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          expected file size
+[23-24-22] [CONSOLE_OUT]: [STRING]     --hls-prefer-native                  Use the native HLS downloader instead
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          of ffmpeg
+[23-24-22] [CONSOLE_OUT]: [STRING]     --hls-prefer-ffmpeg                  Use ffmpeg instead of the native HLS
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          downloader
+[23-24-22] [CONSOLE_OUT]: [STRING]     --hls-use-mpegts                     Use the mpegts container for HLS
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          videos, allowing to play the video
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          while downloading (some players may not
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          be able to play it)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --external-downloader COMMAND        Use the specified external downloader.
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          Currently supports aria2c,avconv,axel,c
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          url,ffmpeg,httpie,wget
+[23-24-22] [CONSOLE_OUT]: [STRING]     --external-downloader-args ARGS      Give these arguments to the external
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          downloader
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Filesystem Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     -a, --batch-file FILE                File containing URLs to download ('-'
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          for stdin), one URL per line. Lines
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          starting with '#', ';' or ']' are
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          considered as comments and ignored.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --id                                 Use only video ID in file name
+[23-24-22] [CONSOLE_OUT]: [STRING]     -o, --output TEMPLATE                Output filename template, see the
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          "OUTPUT TEMPLATE" for all the info
+[23-24-22] [CONSOLE_OUT]: [STRING]     --output-na-placeholder PLACEHOLDER  Placeholder value for unavailable meta
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          fields in output filename template
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (default is "NA")
+[23-24-22] [CONSOLE_OUT]: [STRING]     --autonumber-start NUMBER            Specify the start value for
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          %(autonumber)s (default is 1)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --restrict-filenames                 Restrict filenames to only ASCII
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          characters, and avoid "&" and spaces in
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          filenames
+[23-24-22] [CONSOLE_OUT]: [STRING]     -w, --no-overwrites                  Do not overwrite files
+[23-24-22] [CONSOLE_OUT]: [STRING]     -c, --continue                       Force resume of partially downloaded
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          files. By default, youtube-dl will
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          resume downloads if possible.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-continue                        Do not resume partially downloaded
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          files (restart from beginning)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-part                            Do not use .part files - write directly
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          into output file
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-mtime                           Do not use the Last-modified header to
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          set the file modification time
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-description                  Write video description to a
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          .description file
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-info-json                    Write video metadata to a .info.json
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          file
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-annotations                  Write video annotations to a
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          .annotations.xml file
+[23-24-22] [CONSOLE_OUT]: [STRING]     --load-info-json FILE                JSON file containing the video
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          information (created with the "--write-
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          info-json" option)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --cookies FILE                       File to read cookies from and dump
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          cookie jar in
+[23-24-22] [CONSOLE_OUT]: [STRING]     --cache-dir DIR                      Location in the filesystem where
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          youtube-dl can store some downloaded
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          information permanently. By default
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          $XDG_CACHE_HOME/youtube-dl or
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          ~/.cache/youtube-dl . At the moment,
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          only YouTube player files (for videos
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          with obfuscated signatures) are cached,
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          but that may change.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-cache-dir                       Disable filesystem caching
+[23-24-22] [CONSOLE_OUT]: [STRING]     --rm-cache-dir                       Delete all filesystem cache files
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Thumbnail Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-thumbnail                    Write thumbnail image to disk
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-all-thumbnails               Write all thumbnail image formats to
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          disk
+[23-24-22] [CONSOLE_OUT]: [STRING]     --list-thumbnails                    Simulate and list all available
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          thumbnail formats
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Verbosity / Simulation Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     -q, --quiet                          Activate quiet mode
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-warnings                        Ignore warnings
+[23-24-22] [CONSOLE_OUT]: [STRING]     -s, --simulate                       Do not download the video and do not
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          write anything to disk
+[23-24-22] [CONSOLE_OUT]: [STRING]     --skip-download                      Do not download the video
+[23-24-22] [CONSOLE_OUT]: [STRING]     -g, --get-url                        Simulate, quiet but print URL
+[23-24-22] [CONSOLE_OUT]: [STRING]     -e, --get-title                      Simulate, quiet but print title
+[23-24-22] [CONSOLE_OUT]: [STRING]     --get-id                             Simulate, quiet but print id
+[23-24-22] [CONSOLE_OUT]: [STRING]     --get-thumbnail                      Simulate, quiet but print thumbnail URL
+[23-24-22] [CONSOLE_OUT]: [STRING]     --get-description                    Simulate, quiet but print video
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          description
+[23-24-22] [CONSOLE_OUT]: [STRING]     --get-duration                       Simulate, quiet but print video length
+[23-24-22] [CONSOLE_OUT]: [STRING]     --get-filename                       Simulate, quiet but print output
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          filename
+[23-24-22] [CONSOLE_OUT]: [STRING]     --get-format                         Simulate, quiet but print output format
+[23-24-22] [CONSOLE_OUT]: [STRING]     -j, --dump-json                      Simulate, quiet but print JSON
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          information. See the "OUTPUT TEMPLATE"
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          for a description of available keys.
+[23-24-22] [CONSOLE_OUT]: [STRING]     -J, --dump-single-json               Simulate, quiet but print JSON
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          information for each command-line
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          argument. If the URL refers to a
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          playlist, dump the whole playlist
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          information in a single line.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --print-json                         Be quiet and print the video
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          information as JSON (video is still
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          being downloaded).
+[23-24-22] [CONSOLE_OUT]: [STRING]     --newline                            Output progress bar as new lines
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-progress                        Do not print progress bar
+[23-24-22] [CONSOLE_OUT]: [STRING]     --console-title                      Display progress in console titlebar
+[23-24-22] [CONSOLE_OUT]: [STRING]     -v, --verbose                        Print various debugging information
+[23-24-22] [CONSOLE_OUT]: [STRING]     --dump-pages                         Print downloaded pages encoded using
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          base64 to debug problems (very verbose)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-pages                        Write downloaded intermediary pages to
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          files in the current directory to debug
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          problems
+[23-24-22] [CONSOLE_OUT]: [STRING]     --print-traffic                      Display sent and read HTTP traffic
+[23-24-22] [CONSOLE_OUT]: [STRING]     -C, --call-home                      Contact the youtube-dl server for
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          debugging
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-call-home                       Do NOT contact the youtube-dl server
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          for debugging
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Workarounds:
+[23-24-22] [CONSOLE_OUT]: [STRING]     --encoding ENCODING                  Force the specified encoding
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (experimental)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-check-certificate               Suppress HTTPS certificate validation
+[23-24-22] [CONSOLE_OUT]: [STRING]     --prefer-insecure                    Use an unencrypted connection to
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          retrieve information about the video.
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (Currently supported only for YouTube)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --user-agent UA                      Specify a custom user agent
+[23-24-22] [CONSOLE_OUT]: [STRING]     --referer URL                        Specify a custom referer, use if the
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          video access is restricted to one
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          domain
+[23-24-22] [CONSOLE_OUT]: [STRING]     --add-header FIELD:VALUE             Specify a custom HTTP header and its
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          value, separated by a colon ':'. You
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          can use this option multiple times
+[23-24-22] [CONSOLE_OUT]: [STRING]     --bidi-workaround                    Work around terminals that lack
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          bidirectional text support. Requires
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          bidiv or fribidi executable in PATH
+[23-24-22] [CONSOLE_OUT]: [STRING]     --sleep-interval SECONDS             Number of seconds to sleep before each
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          download when used alone or a lower
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          bound of a range for randomized sleep
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          before each download (minimum possible
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          number of seconds to sleep) when used
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          along with --max-sleep-interval.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --max-sleep-interval SECONDS         Upper bound of a range for randomized
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          sleep before each download (maximum
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          possible number of seconds to sleep).
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          Must only be used along with --min-
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          sleep-interval.
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Video Format Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     -f, --format FORMAT                  Video format code, see the "FORMAT
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          SELECTION" for all the info
+[23-24-22] [CONSOLE_OUT]: [STRING]     --all-formats                        Download all available video formats
+[23-24-22] [CONSOLE_OUT]: [STRING]     --prefer-free-formats                Prefer free video formats unless a
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          specific one is requested
+[23-24-22] [CONSOLE_OUT]: [STRING]     -F, --list-formats                   List all available formats of requested
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          videos
+[23-24-22] [CONSOLE_OUT]: [STRING]     --youtube-skip-dash-manifest         Do not download the DASH manifests and
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          related data on YouTube videos
+[23-24-22] [CONSOLE_OUT]: [STRING]     --merge-output-format FORMAT         If a merge is required (e.g.
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          bestvideo+bestaudio), output to given
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          container format. One of mkv, mp4, ogg,
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          webm, flv. Ignored if no merge is
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          required
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Subtitle Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-sub                          Write subtitle file
+[23-24-22] [CONSOLE_OUT]: [STRING]     --write-auto-sub                     Write automatically generated subtitle
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          file (YouTube only)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --all-subs                           Download all the available subtitles of
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          the video
+[23-24-22] [CONSOLE_OUT]: [STRING]     --list-subs                          List all available subtitles for the
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          video
+[23-24-22] [CONSOLE_OUT]: [STRING]     --sub-format FORMAT                  Subtitle format, accepts formats
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          preference, for example: "srt" or
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          "ass/srt/best"
+[23-24-22] [CONSOLE_OUT]: [STRING]     --sub-lang LANGS                     Languages of the subtitles to download
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (optional) separated by commas, use
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          --list-subs for available language tags
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Authentication Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     -u, --username USERNAME              Login with this account ID
+[23-24-22] [CONSOLE_OUT]: [STRING]     -p, --password PASSWORD              Account password. If this option is
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          left out, youtube-dl will ask
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          interactively.
+[23-24-22] [CONSOLE_OUT]: [STRING]     -2, --twofactor TWOFACTOR            Two-factor authentication code
+[23-24-22] [CONSOLE_OUT]: [STRING]     -n, --netrc                          Use .netrc authentication data
+[23-24-22] [CONSOLE_OUT]: [STRING]     --video-password PASSWORD            Video password (vimeo, youku)
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Adobe Pass Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     --ap-mso MSO                         Adobe Pass multiple-system operator (TV
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          provider) identifier, use --ap-list-mso
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          for a list of available MSOs
+[23-24-22] [CONSOLE_OUT]: [STRING]     --ap-username USERNAME               Multiple-system operator account login
+[23-24-22] [CONSOLE_OUT]: [STRING]     --ap-password PASSWORD               Multiple-system operator account
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          password. If this option is left out,
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          youtube-dl will ask interactively.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --ap-list-mso                        List all supported multiple-system
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          operators
+[23-24-22] [CONSOLE_OUT]: [STRING]
+[23-24-22] [CONSOLE_OUT]: [STRING]   Post-processing Options:
+[23-24-22] [CONSOLE_OUT]: [STRING]     -x, --extract-audio                  Convert video files to audio-only files
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (requires ffmpeg/avconv and
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          ffprobe/avprobe)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --audio-format FORMAT                Specify audio format: "best", "aac",
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          "flac", "mp3", "m4a", "opus", "vorbis",
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          or "wav"; "best" by default; No effect
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          without -x
+[23-24-22] [CONSOLE_OUT]: [STRING]     --audio-quality QUALITY              Specify ffmpeg/avconv audio quality,
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          insert a value between 0 (better) and 9
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (worse) for VBR or a specific bitrate
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          like 128K (default 5)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --recode-video FORMAT                Encode the video to another format if
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          necessary (currently supported:
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          mp4|flv|ogg|webm|mkv|avi)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --postprocessor-args ARGS            Give these arguments to the
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          postprocessor
+[23-24-22] [CONSOLE_OUT]: [STRING]     -k, --keep-video                     Keep the video file on disk after the
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          post-processing; the video is erased by
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          default
+[23-24-22] [CONSOLE_OUT]: [STRING]     --no-post-overwrites                 Do not overwrite post-processed files;
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          the post-processed files are
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          overwritten by default
+[23-24-22] [CONSOLE_OUT]: [STRING]     --embed-subs                         Embed subtitles in the video (only for
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          mp4, webm and mkv videos)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --embed-thumbnail                    Embed thumbnail in the audio as cover
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          art
+[23-24-22] [CONSOLE_OUT]: [STRING]     --add-metadata                       Write metadata to the video file
+[23-24-22] [CONSOLE_OUT]: [STRING]     --metadata-from-title FORMAT         Parse additional metadata like song
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          title / artist from the video title.
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          The format syntax is the same as
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          --output. Regular expression with named
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          capture groups may also be used. The
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          parsed parameters replace existing
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          values. Example: --metadata-from-title
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          "%(artist)s - %(title)s" matches a
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          title like "Coldplay - Paradise".
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          Example (regex): --metadata-from-title
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          "(?P<artist>.+?) - (?P<title>.+)"
+[23-24-22] [CONSOLE_OUT]: [STRING]     --xattrs                             Write metadata to the video file's
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          xattrs (using dublin core and xdg
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          standards)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --fixup POLICY                       Automatically correct known faults of
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          the file. One of never (do nothing),
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          warn (only emit a warning),
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          detect_or_warn (the default; fix file
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          if we can, warn otherwise)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --prefer-avconv                      Prefer avconv over ffmpeg for running
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          the postprocessors
+[23-24-22] [CONSOLE_OUT]: [STRING]     --prefer-ffmpeg                      Prefer ffmpeg over avconv for running
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          the postprocessors (default)
+[23-24-22] [CONSOLE_OUT]: [STRING]     --ffmpeg-location PATH               Location of the ffmpeg/avconv binary;
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          either the path to the binary or its
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          containing directory.
+[23-24-22] [CONSOLE_OUT]: [STRING]     --exec CMD                           Execute a command on the file after
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          downloading and post-processing,
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          similar to find's -exec syntax.
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          Example: --exec 'adb push {}
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          /sdcard/Music/ && rm {}'
+[23-24-22] [CONSOLE_OUT]: [STRING]     --convert-subs FORMAT                Convert the subtitles to other format
+[23-24-22] [CONSOLE_OUT]: [STRING]                                          (currently supported: srt|ass|vtt|lrc)
+[23-24-23] [CONSOLE_OUT]: [STRING] Escaped
+[23-24-24] [CLIENT]: clear
+[23-24-24] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-24] [HANDLE]: GENERAL COMMAND HANDLED
+[23-24-24] [HANDLE]: PRIMARY HANDLE
+[23-24-27] [CLIENT]: ffmpeg
+[23-24-27] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-27] [THREAD STARTED]: Unknown Input Handler
+[23-24-27] [ACTION]: Similar command to "ffmpeg" found with tol of 0.46153846, command = "coffee"
+[23-24-27] [THREAD STARTED]: Wrap Terminal Thread
+[23-24-31] [CONSOLE_OUT]: [STRING] Escaped [4x]
+[23-24-31] [CLIENT]: clear
+[23-24-31] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-31] [HANDLE]: GENERAL COMMAND HANDLED
+[23-24-31] [HANDLE]: PRIMARY HANDLE
+[23-24-33] [CLIENT]: hello
+[23-24-33] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-33] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[23-24-33] [CONSOLE_OUT]: [STRING] Hello, Nathan.
+[23-24-33] [HANDLE]: PRIMARY HANDLE
+[23-24-34] [CONSOLE_OUT]: [STRING] Escaped
+[23-24-35] [CLIENT]: clear
+[23-24-35] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-35] [HANDLE]: GENERAL COMMAND HANDLED
+[23-24-35] [HANDLE]: PRIMARY HANDLE
+[23-24-38] [CLIENT]: ping
+[23-24-38] [SYSTEM_IO]: Userdata requested: filterchat
+[23-24-38] [THREAD STARTED]: Unknown Input Handler
+[23-24-38] [ACTION]: Similar command to "ping" found with tol of 0.75, command = "pin"
+[23-24-38] [THREAD STARTED]: Wrap Terminal Thread
+[23-25-06] [CLIENT]: clear
+[23-25-06] [SYSTEM_IO]: Userdata requested: filterchat
+[23-25-06] [HANDLE]: GENERAL COMMAND HANDLED
+[23-25-06] [HANDLE]: PRIMARY HANDLE
+[23-25-09] [CONSOLE_OUT]: [STRING] Escaped [3x]
+[23-25-10] [CLIENT]: clear
+[23-25-10] [SYSTEM_IO]: Userdata requested: filterchat
+[23-25-10] [HANDLE]: GENERAL COMMAND HANDLED
+[23-25-10] [HANDLE]: PRIMARY HANDLE
+[23-25-16] [CLIENT]: dir
+[23-25-16] [SYSTEM_IO]: Userdata requested: filterchat
+[23-25-16] [CONSOLE_OUT]: [STRING] Opening widget: DirectoryViewer
+[23-25-16] [WIDGET OPENED]: DIRECTORY SEARCH
+[23-25-17] [HANDLE]: PRIMARY HANDLE
+[23-25-20] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [1940917039], parentFrame = [Downloads], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-25-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1473, 451, 630, 510)], hash = [772873765], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Downloads]
+[23-25-20] [THREAD STARTED]: Downloads CyderFrame dispose thread
+[23-25-20] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-25-25] [CLIENT]: cd
+[23-25-25] [SYSTEM_IO]: Userdata requested: filterchat
+[23-25-25] [THREAD STARTED]: Unknown Input Handler
+[23-25-25] [ACTION]: Similar command to "cd" found with tol of 0.6666667, command = "cmd"
+[23-25-25] [THREAD STARTED]: Wrap Terminal Thread
+[23-25-25] [CONSOLE_OUT]: [STRING] Unknown command
+[23-25-25] [THREAD STARTED]: Suggestion Button Flash
+[23-26-17] [CLIENT]: start
+[23-26-17] [SYSTEM_IO]: Userdata requested: filterchat
+[23-26-17] [THREAD STARTED]: Unknown Input Handler
+[23-26-18] [ACTION]: Similar command to "start" found with tol of 0.71428573, command = "startrek"
+[23-26-18] [THREAD STARTED]: Wrap Terminal Thread
+[23-26-18] [THREAD STARTED]: Suggestion Button Flash
+[23-26-18] [CONSOLE_OUT]: [STRING] Unknown command
+[23-26-23] [CLIENT]: java
+[23-26-23] [SYSTEM_IO]: Userdata requested: filterchat
+[23-26-23] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[23-26-23] [CONSOLE_OUT]: [ICON] static/pictures/print/duke.png
+[23-26-23] [HANDLE]: PRIMARY HANDLE
+[23-26-23] [CONSOLE_OUT]: [STRING]
+[23-26-31] [CLIENT]: python
+[23-26-31] [SYSTEM_IO]: Userdata requested: filterchat
+[23-26-31] [THREAD STARTED]: Unknown Input Handler
+[23-26-32] [ACTION]: Similar command to "python" found with tol of 0.54545456, command = "thor"
+[23-26-32] [THREAD STARTED]: Wrap Terminal Thread
+[23-26-50] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-26-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1290, 379, 996, 655)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[23-26-50] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[23-26-50] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-26-50] [EXIT]: [RUNTIME] 2m 51s
+[23-26-50] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

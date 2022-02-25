@@ -516,7 +516,7 @@ public class InputHandler {
         return ret;
     }
 
-    private boolean externalOpenerCheck() throws Exception {
+    private boolean externalOpenerCheck() {
         boolean ret = true;
 
         if (commandIs("YoutubeWordSearch")) {
@@ -540,7 +540,6 @@ public class InputHandler {
             println(sb.toString());
         } else if (commandIs("cmd")) {
             OSUtil.openShell();
-            Desktop.getDesktop().open(new File("c:/windows/system32/cmd.exe"));
         } else if (commandIs("desmos")) {
             NetworkUtil.openUrl("https://www.desmos.com/calculator");
         } else if (commandIs("404")) {
@@ -1546,9 +1545,6 @@ public class InputHandler {
     private void unknownInput() {
         CyderThreadRunner.submit(() -> {
             try {
-                println("Unknown command");
-                ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
-
                 Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
 
                 //wait for script to finish
@@ -1571,14 +1567,56 @@ public class InputHandler {
                                 + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
                         if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
+                            println("Unknown command");
+                            ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
                             println("Most similar command: \"" + parts[0] + "\"");
+                        } else {
+                            wrapTerminalCheck();
                         }
                     }
-                }
+                } else wrapTerminalCheck();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, "Unknown Input Handler");
+    }
+
+    /**
+     * Used to escape the terminal wrapper.
+     */
+    private boolean escapeWrapTerminal = false;
+
+    /**
+     * Checks for wrap terminal mode and passes the args and command to the native termainl.
+     */
+    private void wrapTerminalCheck() {
+        if (UserUtil.extractUser().getWrapterminal().equalsIgnoreCase("1")) {
+            CyderThreadRunner.submit(() -> {
+                try {
+                    ProcessBuilder builder = new ProcessBuilder(command, argsToString());
+                    builder.redirectErrorStream(true);
+                    Process process = builder.start();
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        println(line);
+
+                        if (escapeWrapTerminal)
+                            break;
+                    }
+
+                    escapeWrapTerminal = false;
+                } catch (Exception ignored) {
+                    println("Unknown command");
+                    ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
+                }
+            }, "Wrap Terminal Thread");
+        } else {
+            println("Unknown command");
+            ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
+        }
     }
 
     //end handle methods --------------------------------
@@ -2558,6 +2596,9 @@ public class InputHandler {
 
         //kill threads
         killThreads();
+
+        //escape possible wrapped terminal call
+        escapeWrapTerminal = true;
 
         //stop music
         IOUtil.stopAudio();

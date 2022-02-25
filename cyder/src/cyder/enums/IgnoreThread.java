@@ -8,6 +8,7 @@ public enum IgnoreThread {
     HighPingChecker("High Ping Checker"),
     DestroyJavaVm("DestroyJavaVM"),
     ConsoleInputCaret("Console Input Caret Position Updater"),
+    ConsolePrintingAnimation("Console Printing Animation"),
     ConsoleDataSaver("ConsoleFrame Data Saver"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     SimilarCommandFinder("Similar Command Finder"),

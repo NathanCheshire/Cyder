@@ -1,0 +1,12 @@
+[22-47-20] [ENTRY]: [Nathan]
+[22-47-20] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-47-21] [THREAD STARTED]: Splash Loader
+[22-47-21] [ACTION]: User e5a50641-21d1-3654-b738-c0e4b2dc61b1 was found to have an outdated userdata file; preference injection was attempted on the following: [wrapterminal = 0]
+[22-47-21] [THREAD STARTED]: Splash Animation
+[22-47-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-47-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-47-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-47-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-47-22] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-47-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-48-19] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

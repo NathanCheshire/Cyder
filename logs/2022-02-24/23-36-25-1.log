@@ -1,0 +1,84 @@
+[23-36-25] [ENTRY]: [Nathan]
+[23-36-25] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-36-26] [THREAD STARTED]: Splash Loader
+[23-36-26] [THREAD STARTED]: Splash Animation
+[23-36-27] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[23-36-27] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[23-36-27] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[23-36-27] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[23-36-27] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-36-27] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-36-27] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-36-27] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-36-27] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-36-27] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-36-27] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-36-27] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-36-28] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-36-28] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-36-28] [THREAD STARTED]: Console Printing Animation
+[23-36-28] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-36-28] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-36-28] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-36-28] [THREAD STARTED]: Console Input Caret Position Updater
+[23-36-28] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-36-28] [SYSTEM_IO]: Userdata requested: InputFill
+[23-36-28] [THREAD STARTED]: High Ping Checker
+[23-36-28] [THREAD STARTED]: Hourly Chime Checker
+[23-36-28] [THREAD STARTED]: Console Clock Updater
+[23-36-28] [THREAD STARTED]: Cyder Busy Checker
+[23-36-28] [THREAD STARTED]: ConsoleFrame Data Saver
+[23-36-28] [ACTION]: Console loaded in 2872ms
+[23-36-28] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1267, 366, 996, 655)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-36-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1963234590], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-36-28] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-36-28] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-36-28] [ENTRY]: [TESTING MODE]
+[23-36-28] [SYSTEM_IO]: Userdata requested: laststart
+[23-36-28] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2872ms
+[23-36-28] [THREAD STARTED]: notification appear animation
+[23-36-28] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-36-28] [THREAD STARTED]: Notificaiton vanish animater 1827619213
+[23-36-31] [CLIENT]: python
+[23-36-31] [SYSTEM_IO]: Userdata requested: filterchat
+[23-36-31] [THREAD STARTED]: Unknown Input Handler
+[23-36-31] [ACTION]: Similar command to "python" found with tol of 0.54545456, command = "thor"
+[23-36-31] [THREAD STARTED]: Wrap Terminal Thread
+[23-36-31] [CONSOLE_OUT]: [STRING] Unknown command
+[23-36-31] [THREAD STARTED]: Suggestion Button Flash
+[23-36-34] [CLIENT]: python
+[23-36-34] [SYSTEM_IO]: Userdata requested: filterchat
+[23-36-34] [THREAD STARTED]: Unknown Input Handler
+[23-36-34] [ACTION]: Similar command to "python" found with tol of 0.54545456, command = "thor"
+[23-36-34] [THREAD STARTED]: Wrap Terminal Thread
+[23-36-34] [THREAD STARTED]: Suggestion Button Flash
+[23-36-34] [CONSOLE_OUT]: [STRING] Unknown command
+[23-36-35] [CLIENT]: python
+[23-36-35] [SYSTEM_IO]: Userdata requested: filterchat
+[23-36-35] [THREAD STARTED]: Unknown Input Handler
+[23-36-36] [ACTION]: Similar command to "python" found with tol of 0.54545456, command = "thor"
+[23-36-36] [THREAD STARTED]: Wrap Terminal Thread
+[23-36-36] [CONSOLE_OUT]: [STRING] Unknown command
+[23-36-36] [THREAD STARTED]: Suggestion Button Flash
+[23-36-37] [CLIENT]: wrapterminal
+[23-36-37] [SYSTEM_IO]: Userdata requested: filterchat
+[23-36-37] [SYSTEM_IO]: Userdata requested: wrapterminal
+[23-36-37] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[23-36-37] [CONSOLE_OUT]: [STRING] Wrap Terminal set to false
+[23-36-37] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-36-37] [HANDLE]: FINAL HANDLE
+[23-36-38] [CLIENT]: wrapterminal
+[23-36-38] [SYSTEM_IO]: Userdata requested: filterchat
+[23-36-38] [SYSTEM_IO]: Userdata requested: wrapterminal
+[23-36-38] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[23-36-38] [CONSOLE_OUT]: [STRING] Wrap Terminal set to true
+[23-36-38] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[23-36-38] [HANDLE]: FINAL HANDLE
+[23-36-38] [CLIENT]: python
+[23-36-38] [SYSTEM_IO]: Userdata requested: filterchat
+[23-36-38] [THREAD STARTED]: Unknown Input Handler
+[23-36-39] [ACTION]: Similar command to "python" found with tol of 0.54545456, command = "thor"
+[23-36-39] [THREAD STARTED]: Wrap Terminal Thread
+[23-36-39] [THREAD STARTED]: Suggestion Button Flash
+[23-36-39] [CONSOLE_OUT]: [STRING] Unknown command
+[23-37-15] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

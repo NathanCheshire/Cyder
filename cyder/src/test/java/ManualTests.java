@@ -30,23 +30,24 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     public static void launchTests() {
-        try {
-            CyderFrame cf = new CyderFrame(800,800);
-            cf.setTitle("Cyder Grid");
 
-            CyderGrid cg = new CyderGrid(50,600);
-            cg.setBounds(100,100,600,600);
-            cf.getContentPane().add(cg);
-            cg.setDrawExtendedBorder(true);
-            cg.setResizable(true);
-            cg.installClickPlacer();
-            cg.installDragPlacer();
+    }
 
-            cf.setVisible(true);
-            cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+    public static void cyderGridTest() {
+        CyderFrame cf = new CyderFrame(1000,1000);
+        cf.setTitle("Cyder Grid");
+
+        CyderGrid cg = new CyderGrid(200,800);
+        cg.setBounds(100,100,800,800);
+        cf.getContentPane().add(cg);
+        cg.setDrawExtendedBorder(true);
+        cg.setResizable(true);
+        cg.setDrawGridLines(false);
+        cg.installClickPlacer();
+        cg.installDragPlacer();
+
+        cf.setVisible(true);
+        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     //this was used on 7-1-21 to verify adding/removing buttons to/from drag labels

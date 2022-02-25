@@ -60,6 +60,11 @@ public class CyderGrid extends JLabel {
     private final LinkedList<GridNode> grid;
 
     /**
+     * The color to use for new nodes added to the grid.
+     */
+    private Color defultNodeColor = CyderColors.navy;
+
+    /**
      * An enum for adding/removing nodes from the grid.
      */
     public enum Mode {
@@ -92,13 +97,14 @@ public class CyderGrid extends JLabel {
         this.nodes = nodes;
         this.length = length;
 
+        // override add and remove methods to ensure duplicates aren't added
         grid = new LinkedList<>() {
             @Override
             public boolean add(GridNode gridNode) {
                 if (grid.contains(gridNode))
                     return false;
 
-                return grid.add(gridNode);
+                return super.add(gridNode);
             }
 
             @Override
@@ -111,7 +117,7 @@ public class CyderGrid extends JLabel {
                 if (!grid.contains(other)) {
                     return false;
                 } else {
-                    return grid.remove(other);
+                    return super.remove(other);
                 }
             }
         };
@@ -144,7 +150,7 @@ public class CyderGrid extends JLabel {
      * @param y the y value of the grid node to add
      */
     public void addNode(int x, int y) {
-        addNode(x, y, CyderColors.navy);
+        addNode(x, y, defultNodeColor);
     }
 
     /**
@@ -334,15 +340,13 @@ public class CyderGrid extends JLabel {
             if (x < 0 || y < 0 || x >= nodes || y >= nodes)
                 return;
 
-            GridNode node = new GridNode(CyderColors.navy, x, y);
+            GridNode node = new GridNode(defultNodeColor, x, y);
 
             if (grid.contains(node)) {
                 grid.remove(node);
             } else {
                 grid.add(node);
             }
-
-            System.out.println(grid.contains(node));
 
             revalidate();
             repaint();
@@ -365,8 +369,6 @@ public class CyderGrid extends JLabel {
             int clickX = e.getX();
             int clickY = e.getY();
 
-            System.out.println(clickX + ", " + clickY);
-
             int x = (int) ((clickX - offset) / (length / nodes));
             int y = (int) ((clickY - offset) / (length / nodes));
 
@@ -374,7 +376,7 @@ public class CyderGrid extends JLabel {
             if (x < 0 || y < 0 || x >= nodes || y >= nodes)
                 return;
 
-            GridNode node = new GridNode(CyderColors.navy, x, y);
+            GridNode node = new GridNode(defultNodeColor, x, y);
 
             if (grid.contains(node)) {
                 if (mode == Mode.DELETE)
@@ -458,11 +460,39 @@ public class CyderGrid extends JLabel {
     }
 
 
+    /**
+     * Returns the minimum number of nodes for a dimension for this instance.
+     *
+     * @return the minimum number of nodes for a dimension for this instance
+     */
     public int getMinNodes() {
         return minNodes;
     }
 
+    /**
+     * Sets the minimum number of nodes for a dimension of this instance.
+     *
+     * @param minNodes the minimum number of nodes for a dimension of this instance
+     */
     public void setMinNodes(int minNodes) {
         this.minNodes = minNodes;
+    }
+
+    /**
+     * Returns the default color to use for new nodes.
+     *
+     * @return the default color to use for new nodes
+     */
+    public Color getDefultNodeColor() {
+        return defultNodeColor;
+    }
+
+    /**
+     * Sets the default color to use for new nodes.
+     *
+     * @param defultNodeColor the default color to use for new nodes
+     */
+    public void setDefultNodeColor(Color defultNodeColor) {
+        this.defultNodeColor = defultNodeColor;
     }
 }

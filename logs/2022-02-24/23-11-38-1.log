@@ -1,0 +1,67 @@
+[23-11-38] [ENTRY]: [Nathan]
+[23-11-39] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-11-40] [THREAD STARTED]: Splash Loader
+[23-11-40] [THREAD STARTED]: Splash Animation
+[23-11-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[23-11-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[23-11-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[23-11-41] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[23-11-42] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-11-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-11-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-11-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-11-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-11-43] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-11-43] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-11-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-11-44] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-11-44] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-11-44] [THREAD STARTED]: Console Printing Animation
+[23-11-44] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-11-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-11-44] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-11-44] [THREAD STARTED]: Console Input Caret Position Updater
+[23-11-44] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-11-44] [SYSTEM_IO]: Userdata requested: InputFill
+[23-11-44] [THREAD STARTED]: High Ping Checker
+[23-11-44] [THREAD STARTED]: Hourly Chime Checker
+[23-11-44] [THREAD STARTED]: Console Clock Updater
+[23-11-44] [THREAD STARTED]: Cyder Busy Checker
+[23-11-44] [THREAD STARTED]: ConsoleFrame Data Saver
+[23-11-44] [ACTION]: Console loaded in 5912ms
+[23-11-44] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-11-44] [ENTRY]: [TESTING MODE]
+[23-11-44] [SYSTEM_IO]: Userdata requested: laststart
+[23-11-44] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(210, 398, 996, 655)], hash = [125644421], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-11-44] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1496127993], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-11-44] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-11-44] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 5912ms
+[23-11-44] [THREAD STARTED]: notification appear animation
+[23-11-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-11-47] [THREAD STARTED]: Notificaiton vanish animater 1811005512 [2x]
+[23-11-51] [CLIENT]: helloooo
+[23-11-51] [SYSTEM_IO]: Userdata requested: filterchat
+[23-11-51] [THREAD STARTED]: Unknown Input Handler
+[23-11-51] [THREAD STARTED]: Suggestion Button Flash
+[23-11-51] [ACTION]: Similar command to "helloooo" found with tol of 0.71428573, command = "hello"
+[23-11-51] [SYSTEM_IO]: Created temperatory file: 23-11-51.stacktrace
+[23-11-51] [EXCEPTION]:
+Exception origin: java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+From line: 1128
+Trace: java.io.IOException: Cannot run program "helloooo": CreateProcess error=2, The system cannot find the file specified
+at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+at java.base/java.lang.Runtime.exec(Runtime.java:635)
+at java.base/java.lang.Runtime.exec(Runtime.java:459)
+at java.base/java.lang.Runtime.exec(Runtime.java:356)
+at cyder.handlers.internal.InputHandler.wrapTerminalCheck(InputHandler.java:1592)
+at cyder.handlers.internal.InputHandler.lambda$unknownInput$12(InputHandler.java:1575)
+at java.base/java.lang.Thread.run(Thread.java:844)
+Caused by: java.io.IOException: CreateProcess error=2, The system cannot find the file specified
+at java.base/java.lang.ProcessImpl.create(Native Method)
+at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:420)
+at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:151)
+at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+... 7 more
+[23-11-51] [CONSOLE_OUT]: [STRING] Unknown command
+[23-12-07] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

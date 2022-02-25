@@ -1,7 +1,5 @@
 package cyder.ui.objects;
 
-import cyder.constants.CyderNumbers;
-
 import java.awt.*;
 
 /**
@@ -49,7 +47,7 @@ public final class GridNode {
     public boolean equals(Object node) {
         if (node == this)
             return true;
-        if (!(node instanceof CyderNumbers))
+        if (!(node instanceof GridNode))
             return false;
 
         GridNode other = (GridNode) node;

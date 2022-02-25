@@ -1,0 +1,80 @@
+[23-12-07] [ENTRY]: [Nathan]
+[23-12-07] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-12-08] [THREAD STARTED]: Splash Loader
+[23-12-08] [THREAD STARTED]: Splash Animation
+[23-12-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[23-12-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[23-12-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[23-12-08] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[23-12-08] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-12-09] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-12-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-12-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-12-09] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-12-09] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-12-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-09] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-12-09] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-12-09] [THREAD STARTED]: Console Printing Animation
+[23-12-09] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-12-09] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-09] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-12-09] [THREAD STARTED]: Console Input Caret Position Updater
+[23-12-09] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-12-09] [SYSTEM_IO]: Userdata requested: InputFill
+[23-12-09] [THREAD STARTED]: High Ping Checker
+[23-12-09] [THREAD STARTED]: Hourly Chime Checker
+[23-12-09] [THREAD STARTED]: Console Clock Updater
+[23-12-09] [THREAD STARTED]: Cyder Busy Checker
+[23-12-09] [THREAD STARTED]: ConsoleFrame Data Saver
+[23-12-10] [ACTION]: Console loaded in 2783ms
+[23-12-10] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-12-10] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(219, 206, 996, 655)], hash = [975033189], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-12-10] [ENTRY]: [TESTING MODE]
+[23-12-10] [SYSTEM_IO]: Userdata requested: laststart
+[23-12-10] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1047983417], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-12-10] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-12-10] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2783ms
+[23-12-10] [THREAD STARTED]: notification appear animation
+[23-12-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-12-10] [THREAD STARTED]: Notificaiton vanish animater -681822850
+[23-12-15] [CLIENT]: terminal
+[23-12-15] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-15] [THREAD STARTED]: Unknown Input Handler
+[23-12-15] [THREAD STARTED]: Suggestion Button Flash
+[23-12-15] [ACTION]: Similar command to "terminal" found with tol of 0.5882353, command = "triangle"
+[23-12-15] [CONSOLE_OUT]: [STRING] Unknown command
+[23-12-17] [CLIENT]: cooolliooo
+[23-12-17] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-17] [THREAD STARTED]: Unknown Input Handler
+[23-12-17] [THREAD STARTED]: Suggestion Button Flash
+[23-12-18] [ACTION]: Similar command to "cooolliooo" found with tol of 0.5, command = "color"
+[23-12-18] [CONSOLE_OUT]: [STRING] Unknown command
+[23-12-21] [CLIENT]: cool
+[23-12-21] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-21] [THREAD STARTED]: Unknown Input Handler
+[23-12-21] [THREAD STARTED]: Suggestion Button Flash
+[23-12-21] [ACTION]: Similar command to "cool" found with tol of 0.6, command = "color"
+[23-12-21] [CONSOLE_OUT]: [STRING] Unknown command
+[23-12-24] [CLIENT]: nope
+[23-12-24] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-24] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[23-12-24] [CONSOLE_OUT]: [STRING] yep
+[23-12-24] [HANDLE]: PRIMARY HANDLE
+[23-12-26] [CLIENT]: hi
+[23-12-26] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-26] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[23-12-26] [CONSOLE_OUT]: [STRING] Good evening, Nathan. How can I help?
+[23-12-26] [HANDLE]: PRIMARY HANDLE
+[23-12-27] [CLIENT]: clear
+[23-12-27] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-27] [HANDLE]: GENERAL COMMAND HANDLED
+[23-12-27] [HANDLE]: PRIMARY HANDLE
+[23-12-28] [CLIENT]: helloo
+[23-12-28] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-28] [THREAD STARTED]: Unknown Input Handler
+[23-12-28] [THREAD STARTED]: Suggestion Button Flash
+[23-12-28] [ACTION]: Similar command to "helloo" found with tol of 0.8333333, command = "hello"
+[23-12-28] [CONSOLE_OUT]: [STRING] unknowm command
+[23-12-28] [CONSOLE_OUT]: [STRING] Most similar command: "hello"
+[23-13-39] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

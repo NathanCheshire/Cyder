@@ -163,7 +163,7 @@ public class OSUtil {
      * @return whether the operating system is windows
      */
     public static boolean isWindows() {
-        return OPERATING_SYSTEM_NAME.contains("win");
+        return OPERATING_SYSTEM_NAME.toLowerCase().contains("win");
     }
 
     /**
@@ -183,9 +183,9 @@ public class OSUtil {
      * @return whether the operating system is unix based
      */
     public static boolean isUnix() {
-        return (OPERATING_SYSTEM_NAME.contains("nix")
-                || OPERATING_SYSTEM_NAME.contains("nux")
-                || OPERATING_SYSTEM_NAME.contains("aix"));
+        return (OPERATING_SYSTEM_NAME.toLowerCase().contains("nix")
+                || OPERATING_SYSTEM_NAME.toLowerCase().contains("nux")
+                || OPERATING_SYSTEM_NAME.toLowerCase().contains("aix"));
     }
 
     /**
@@ -194,7 +194,7 @@ public class OSUtil {
      * @return whether the operating system is Solaris
      */
     public static boolean isSolaris() {
-        return OPERATING_SYSTEM_NAME.contains("sunos");
+        return OPERATING_SYSTEM_NAME.toLowerCase().contains("sunos");
     }
 
     //end base operating system name/type setup logic
@@ -212,7 +212,7 @@ public class OSUtil {
                 case UNIX:
                     //fall through
                 case OSX:
-                    String[] args = new String[]{"/bin/bash", "-c", "your_command", "with", "args"};
+                    String[] args = new String[]{"/bin/bash", "-c"};
                     Process proc = new ProcessBuilder(args).start();
                     break;
                 case UNKNOWN:
@@ -593,8 +593,8 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
+    //todo gitme "message" to git add ., git commit -m, git push - u origin main
+
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably. Use a layout for this, separate window for tools
-
-    //todo finish CyderGrid methods and new convex hull
 }
