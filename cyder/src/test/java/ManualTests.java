@@ -40,6 +40,7 @@ public class ManualTests {
             cg.setDrawExtendedBorder(true);
             cg.setResizable(true);
             cg.installClickPlacer();
+            cg.installDragPlacer();
 
             cf.setVisible(true);
             cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
@@ -521,26 +522,6 @@ public class ManualTests {
             if (i != 4)
                 cbg.addCheckbox(cb);
         }
-
-        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
-        testFrame.setVisible(true);
-    }
-
-    public static void cyderGridTest() {
-        CyderFrame testFrame = new CyderFrame();
-        testFrame.setTitle("Zoomable Grid Test");
-
-        CyderGrid cg = new CyderGrid(37,620);
-        cg.setBounds(50,50,620,620);
-        cg.setBackgroundColor(CyderColors.vanila);
-        testFrame.getContentPane().add(cg);
-        cg.setResizable(true);
-        cg.setDrawGridLines(false);
-        cg.setDrawExtendedBorder(true);
-        cg.addNode(new CyderGrid.GridNode(CyderColors.regularPink, 20,20));
-        cg.addNode(new CyderGrid.GridNode(CyderColors.regularBlue, 21,21));
-        cg.addNode(new CyderGrid.GridNode(CyderColors.regularPink, 20,21));
-        cg.addNode(new CyderGrid.GridNode(CyderColors.regularBlue, 21,20));
 
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         testFrame.setVisible(true);

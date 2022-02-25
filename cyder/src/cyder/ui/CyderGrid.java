@@ -6,10 +6,7 @@ import cyder.utilities.ReflectionUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class CyderGrid extends JLabel {
@@ -20,43 +17,40 @@ public class CyderGrid extends JLabel {
     public static final int DEFAULT_NODES = 20;
 
     //the physical bounds of this
-    public static final int DEFAULT_WIDTH = 400;
-    public static final int MIN_WIDTH = 50;
-    private final int width;
+    public static final int DEFAULT_LENGTH = 400;
+    public static final int MIN_LENGTH = 50;
+    private final int length;
 
     //whether or not to allow resizing of the grid via mouse zoom in/out
     private boolean resizable = false;
 
-    private Color backgroundColor = null;
-
     //the actual grid data structure
     private final ArrayList<GridNode> grid;
 
+    public enum Mode {
+        ADD, DELETE
+    }
+
+    public Mode mode = Mode.ADD;
+
     public CyderGrid() {
-        this(DEFAULT_NODES, DEFAULT_WIDTH);
+        this(DEFAULT_NODES, DEFAULT_LENGTH);
     }
 
     /**
      * Default constructor for CyderGrid.
      * @param nodes the amount of nodes to initially draw: nodes x nodes
-     * @param width the physical width of this component on its parent container
+     * @param length the physical length of this component on its parent container
      */
-    public CyderGrid(int nodes, int width) {
-        if (width < MIN_WIDTH)
-            throw new IllegalArgumentException("Minimum width not met: width = "
-                    + width + ", min width = " + MIN_WIDTH);
+    public CyderGrid(int nodes, int length) {
+        if (length < MIN_LENGTH)
+            throw new IllegalArgumentException("Minimum length not met: length = "
+                    + length + ", length width = " + MIN_LENGTH);
 
         this.nodes = nodes;
-        this.width = width;
+        this.length = length;
 
-        grid = new ArrayList<>() {
-            @Override
-            public boolean add(GridNode e) {
-                if (!grid.contains(e))
-                    return super.add(e);
-                else return false;
-            }
-        };
+        grid = new ArrayList<>();
     }
 
     /**
@@ -154,7 +148,7 @@ public class CyderGrid extends JLabel {
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
-            int squareLen = this.width / this.nodes;
+            int squareLen = this.length / this.nodes;
 
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
@@ -165,13 +159,13 @@ public class CyderGrid extends JLabel {
             // the number of nodes is relatively high
 
             //keep the grid centered on its parent
-            int offset = (this.width - drawTo) / 2;
+            int offset = (this.length - drawTo) / 2;
             g2d.translate(offset, offset);
             this.offset = offset;
 
             //fill the background in if it is set
-            if (backgroundColor != null) {
-                g2d.setColor(backgroundColor);
+            if (this.getBackground() != null) {
+                g2d.setColor(this.getBackground());
                 g2d.fillRect(0,0, drawTo, drawTo);
             }
 
@@ -195,8 +189,11 @@ public class CyderGrid extends JLabel {
                     continue;
 
                 g2d.setColor(node.getColor());
-                g2d.fillRect((drawGridLines ? 2 : 0) + node.getX() * squareLen, (drawGridLines ? 2 : 0) + node.getY() * squareLen,
-                        squareLen - (drawGridLines ? 2 : 0), squareLen - (drawGridLines ? 2 : 0));
+
+                g2d.fillRect((drawGridLines ? 2 : 0) + node.getX() * squareLen,
+                        (drawGridLines ? 2 : 0) + node.getY() * squareLen,
+                        squareLen - (drawGridLines ? 2 : 0),
+                        squareLen - (drawGridLines ? 2 : 0));
             }
 
             g2d.setColor(CyderColors.navy);
@@ -212,15 +209,6 @@ public class CyderGrid extends JLabel {
                 super.setBorder(new LineBorder(CyderColors.navy, 3));
             }
         }
-    }
-
-    public Color getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-        this.repaint();
     }
 
     public boolean isResizable() {
@@ -249,9 +237,10 @@ public class CyderGrid extends JLabel {
             int clickX = e.getX();
             int clickY = e.getY();
 
-            int x = (int) ((clickX - offset) / (width / nodes));
-            int y = (int) ((clickY - offset) / (width / nodes));
+            int x = (int) ((clickX - offset) / (length / nodes));
+            int y = (int) ((clickY - offset) / (length / nodes));
 
+            // don't add nodes if out of bounds
             if (x < 0 || y < 0 || x >= nodes || y >= nodes)
                 return;
 
@@ -263,15 +252,43 @@ public class CyderGrid extends JLabel {
                 grid.add(node);
             }
 
+            System.out.println(grid.contains(node));
+
             revalidate();
             repaint();
         }
+    };
 
+    public void installDragPlacer() {
+        this.addMouseMotionListener(dragPlacer);
+    }
+
+    private final MouseMotionListener dragPlacer = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
-            //todo add node if not in list
+            int clickX = e.getX();
+            int clickY = e.getY();
 
-            //todo if in the list, remove it as long as this is not the cell we were in last
+            System.out.println(clickX + ", " + clickY);
+
+            int x = (int) ((clickX - offset) / (length / nodes));
+            int y = (int) ((clickY - offset) / (length / nodes));
+
+            // don't add nodes if out of bounds
+            if (x < 0 || y < 0 || x >= nodes || y >= nodes)
+                return;
+
+            GridNode node = new GridNode(CyderColors.navy, x, y);
+
+            if (grid.contains(node)) {
+                if (mode == Mode.DELETE)
+                    grid.remove(node);
+            } else {
+                grid.add(node);
+            }
+
+            revalidate();
+            repaint();
         }
     };
 
