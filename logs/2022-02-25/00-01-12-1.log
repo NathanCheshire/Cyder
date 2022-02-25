@@ -15,8 +15,7 @@
 [00-01-14] [SYSTEM_IO]: Userdata requested: RandomBackground
 [00-01-14] [SYSTEM_IO]: Userdata requested: FullScreen
 [00-01-14] [SYSTEM_IO]: Userdata requested: fullscreen
-[00-01-14] [SYSTEM_IO]: Userdata requested: FullScreen
-[00-01-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-01-14] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [00-01-14] [THREAD STARTED]: Console Printing Animation
 [00-01-14] [SYSTEM_IO]: Userdata requested: OutputBorder
 [00-01-14] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -42,3 +41,26 @@
 [00-01-15] [THREAD STARTED]: Notificaiton vanish animater 1237352512
 [00-01-20] [CLIENT]: gitme
 [00-01-20] [SYSTEM_IO]: Userdata requested: filterchat
+[00-01-20] [CONSOLE_OUT]: [STRING] [main d8a51c76] add and test gitme
+[00-01-20] [CONSOLE_OUT]: [STRING]  11 files changed, 523 insertions(+), 52 deletions(-)
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24.zip
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24/23-43-33-1.log
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24/23-44-45-1.log
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24/23-51-55-1.log
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24/23-54-21-1.log
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24/23-57-13-1.log
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-24/23-58-13-1.log
+[00-01-20] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-25/00-01-12-1.log
+[00-01-23] [CONSOLE_OUT]: [STRING] remote: This repository moved. Please use the new location:
+[00-01-23] [CONSOLE_OUT]: [STRING] remote:   https://github.com/NathanCheshire/Cyder.git
+[00-01-23] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[00-01-23] [CONSOLE_OUT]: [STRING] To https://github.com/nathancheshire/Cyder.git
+[00-01-23] [CONSOLE_OUT]: [STRING]    9bf8d6be..d8a51c76  main -> main
+[00-01-23] [HANDLE]: GENERAL COMMAND HANDLED
+[00-01-23] [HANDLE]: PRIMARY HANDLE
+[00-01-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[00-01-54] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1337, 259, 996, 655)], hash = [1279740095], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[00-01-54] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[00-01-54] [SYSTEM_IO]: Userdata requested: closeanimation
+[00-01-54] [EXIT]: [RUNTIME] 42s
+[00-01-54] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

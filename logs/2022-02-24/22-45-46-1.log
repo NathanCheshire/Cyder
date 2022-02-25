@@ -1,6 +1,0 @@
-[22-45-47] [ENTRY]: [Nathan]
-[22-45-47] [THREAD STARTED]: Singular Cyder Instance Ensurer
-[22-45-48] [THREAD STARTED]: Splash Loader
-[22-46-05] [THREAD STARTED]: Splash Animation
-[22-46-05] [ACTION]: User e5a50641-21d1-3654-b738-c0e4b2dc61b1 was found to have an outdated userdata file; preference injection was attempted on the following: [wrapterminal = 0]
-[22-46-51] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -630,8 +630,8 @@ public class OSUtil {
         }
     }
 
-    //todo gitme "message" to git add ., git commit -m, git push - u origin main
+    //todo paint widget, use a layout
 
-    //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
-    // most methods should be in image utils probably. Use a layout for this, separate window for tools
+    //todo put image average, image pixelator, and image resizer all in a image factory widget
+    // most methods should be in image utils probably
 }
