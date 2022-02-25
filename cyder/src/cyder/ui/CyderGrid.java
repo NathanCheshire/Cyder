@@ -1,44 +1,86 @@
 package cyder.ui;
 
 import cyder.constants.CyderColors;
+import cyder.ui.objects.GridNode;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
+/**
+ * A custom UI grid component.
+ */
 public class CyderGrid extends JLabel {
-    //how many nodes should be drawn on the grid
+    /**
+     * The number of one dimension of nodes on the grid.
+     */
     private int nodes;
+
+    /**
+     * The default dimensional number of nodes.
+     */
     public static final int DEFAULT_MIN_NODES = 2;
+
+    /**
+     * The minimum nodes associated with the current grid.
+     */
     private int minNodes = DEFAULT_MIN_NODES;
+
+    /**
+     * The dimension of nodes associated with the current grid.
+     */
     public static final int DEFAULT_NODES = 20;
 
-    //the physical bounds of this
+    /**
+     * The default physical length of the grid component.
+     */
     public static final int DEFAULT_LENGTH = 400;
+
+    /**
+     * The minimum length of the grid.
+     */
     public static final int MIN_LENGTH = 50;
+
+    /**
+     * The physical length of the grid component.
+     */
     private final int length;
 
-    //whether or not to allow resizing of the grid via mouse zoom in/out
+    /**
+     * Whether the grid is resizable via mouse actions.
+     */
     private boolean resizable = false;
 
-    //the actual grid data structure
-    private final ArrayList<GridNode> grid;
+    /**
+     * The list which holds the nodes to display on the grid.
+     */
+    private final LinkedList<GridNode> grid;
 
+    /**
+     * An enum for adding/removing nodes from the grid.
+     */
     public enum Mode {
         ADD, DELETE
     }
 
+    /**
+     * The current node placing mode.
+     */
     public Mode mode = Mode.ADD;
 
+    /**
+     * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
+     */
     public CyderGrid() {
         this(DEFAULT_NODES, DEFAULT_LENGTH);
     }
 
     /**
      * Default constructor for CyderGrid.
+     *
      * @param nodes the amount of nodes to initially draw: nodes x nodes
      * @param length the physical length of this component on its parent container
      */
@@ -50,11 +92,34 @@ public class CyderGrid extends JLabel {
         this.nodes = nodes;
         this.length = length;
 
-        grid = new ArrayList<>();
+        grid = new LinkedList<>() {
+            @Override
+            public boolean add(GridNode gridNode) {
+                if (grid.contains(gridNode))
+                    return false;
+
+                return grid.add(gridNode);
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                if (!(o instanceof GridNode))
+                    throw new IllegalArgumentException("Attempting to add non GridNode to grid");
+
+                GridNode other = (GridNode) o;
+
+                if (!grid.contains(other)) {
+                    return false;
+                } else {
+                    return grid.remove(other);
+                }
+            }
+        };
     }
 
     /**
-     * Finds whether or not the grid contains the specified node
+     * Finds whether or not the grid contains the specified node.
+     *
      * @param node the node to search for
      * @return whether or not the provided node was found on the grid
      */
@@ -73,6 +138,7 @@ public class CyderGrid extends JLabel {
 
     /**
      * Adds a node at the provided location if it is not already on the grid.
+     * The color given to the node is {@link CyderColors#navy}.
      *
      * @param x the x value of the grid node to add
      * @param y the y value of the grid node to add
@@ -93,7 +159,8 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Removes the specified node from the grid if it exists
+     * Removes the specified node from the grid if it exists.
+     *
      * @param node the node to remove
      */
     public void removeNode(GridNode node) {
@@ -126,15 +193,22 @@ public class CyderGrid extends JLabel {
         repaint();
     }
 
-    //standard
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
+    /**
+     * The offset of pixels by which we must translate to center the grid in it's provided area.
+     */
     private float offset = 0.0f;
 
-    //duh
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -211,10 +285,20 @@ public class CyderGrid extends JLabel {
         }
     }
 
+    /**
+     * Returns whether the grid is resizable.
+     *
+     * @return whether the grid is resizable
+     */
     public boolean isResizable() {
         return resizable;
     }
 
+    /**
+     * Sets whether the grid is resizable.
+     *
+     * @param resizable whether the grid is resizable
+     */
     public void setResizable(boolean resizable) {
         if (this.resizable != resizable) {
             if (resizable) {
@@ -227,10 +311,16 @@ public class CyderGrid extends JLabel {
         this.resizable = resizable;
     }
 
+    /**
+     * Adds the listener which allows nodes to be placed via click on the grid.
+     */
     public void installClickPlacer() {
         this.addMouseListener(clickPlacer);
     }
 
+    /**
+     * The listener which allows nodes to be placed on the grid via click.
+     */
     private final MouseAdapter clickPlacer = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -259,10 +349,16 @@ public class CyderGrid extends JLabel {
         }
     };
 
+    /**
+     * Adds the listener which allows nodes to be placed via drag events on the grid.
+     */
     public void installDragPlacer() {
         this.addMouseMotionListener(dragPlacer);
     }
 
+    /**
+     * The listener which allows nodes to be placed during drag events.
+     */
     private final MouseMotionListener dragPlacer = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
@@ -313,72 +409,54 @@ public class CyderGrid extends JLabel {
         }
     };
 
+    /**
+     * Whether to draw the actual bounds border of the component.
+     */
     private boolean drawExtendedBorder = false;
 
+    /**
+     * Returns whether to draw the extended border.
+     *
+     * @return whether to draw the extended border
+     */
     public boolean isDrawExtendedBorder() {
         return drawExtendedBorder;
     }
 
+    /**
+     * Sets whether to draw the extended border.
+     *
+     * @param drawExtendedBorder whether to draw the extended border
+     */
     public void setDrawExtendedBorder(boolean drawExtendedBorder) {
         this.drawExtendedBorder = drawExtendedBorder;
         repaint();
     }
 
+    /**
+     * Whether grid lines should be drawn.
+     */
     private boolean drawGridLines = true;
 
+    /**
+     * Returns whether grid lines should be drawn.
+     *
+     * @return whether grid lines should be drawn
+     */
     public boolean isDrawGridLines() {
         return drawGridLines;
     }
 
+    /**
+     * Sets whether grid lines should be drawn.
+     *
+     * @param drawGridLines whether grid lines should be drawn
+     */
     public void setDrawGridLines(boolean drawGridLines) {
         this.drawGridLines = drawGridLines;
         repaint();
     }
 
-    //nodes used for the Grid's 2D Array
-    public static final class GridNode {
-        private Color color;
-        private int x;
-        private int y;
-
-        public GridNode(Color color, int x, int y) {
-            this.color = color;
-            this.x = x;
-            this.y = y;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public void setColor(Color color) {
-            this.color = color;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        //a node is equal to another one if their x and y coordinates are equal
-        @Override
-        public boolean equals(Object node) {
-            if (node instanceof GridNode) {
-                return (this.x == ((GridNode) node).x && this.y == ((GridNode) node).y);
-            } else return false;
-        }
-    }
 
     public int getMinNodes() {
         return minNodes;
