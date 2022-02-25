@@ -1,0 +1,50 @@
+[17-45-20] [ENTRY]: [Nathan]
+[17-45-20] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-45-21] [THREAD STARTED]: Splash Loader
+[17-45-21] [THREAD STARTED]: Splash Animation
+[17-45-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[17-45-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[17-45-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[17-45-22] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[17-45-22] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-45-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-45-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-45-22] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-45-22] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-45-22] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[17-45-22] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-45-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-45-22] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-45-22] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-45-22] [THREAD STARTED]: Console Printing Animation
+[17-45-22] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-45-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-45-22] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-45-22] [THREAD STARTED]: Console Input Caret Position Updater
+[17-45-22] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-45-22] [SYSTEM_IO]: Userdata requested: InputFill
+[17-45-22] [THREAD STARTED]: High Ping Checker
+[17-45-22] [THREAD STARTED]: Hourly Chime Checker
+[17-45-22] [THREAD STARTED]: Console Clock Updater
+[17-45-22] [THREAD STARTED]: Cyder Busy Checker
+[17-45-22] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-45-23] [ACTION]: Console loaded in 2626ms
+[17-45-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-45-23] [ENTRY]: [TESTING MODE]
+[17-45-23] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1331, 266, 996, 655)], hash = [79290250], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[17-45-23] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1047983417], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-45-23] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[17-45-23] [SYSTEM_IO]: Userdata requested: laststart
+[17-45-23] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2626ms
+[17-45-23] [THREAD STARTED]: notification appear animation
+[17-45-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-45-23] [THREAD STARTED]: Notificaiton vanish animater -486993047
+[17-45-58] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [169428914], parentFrame = [Cyder Grid], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-45-58] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1289, 310, 800, 800)], hash = [48235969], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Grid]
+[17-45-58] [THREAD STARTED]: Cyder Grid CyderFrame dispose thread
+[17-45-58] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-46-00] [CLIENT]: test
+[17-46-00] [SYSTEM_IO]: Userdata requested: filterchat
+[17-46-00] [HANDLE]: GENERAL COMMAND HANDLED
+[17-46-00] [HANDLE]: PRIMARY HANDLE
+[17-47-04] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

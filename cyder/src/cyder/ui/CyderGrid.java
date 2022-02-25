@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class CyderGrid extends JLabel {
     //how many nodes should be drawn on the grid
-    private int nodes = 0;
+    private int nodes;
     public static final int DEFAULT_MIN_NODES = 2;
     private int minNodes = DEFAULT_MIN_NODES;
     public static final int DEFAULT_NODES = 20;
@@ -22,7 +22,7 @@ public class CyderGrid extends JLabel {
     //the physical bounds of this
     public static final int DEFAULT_WIDTH = 400;
     public static final int MIN_WIDTH = 50;
-    private int width;
+    private final int width;
 
     //whether or not to allow resizing of the grid via mouse zoom in/out
     private boolean resizable = false;
@@ -30,7 +30,7 @@ public class CyderGrid extends JLabel {
     private Color backgroundColor = null;
 
     //the actual grid data structure
-    private ArrayList<GridNode> grid;
+    private final ArrayList<GridNode> grid;
 
     public CyderGrid() {
         this(DEFAULT_NODES, DEFAULT_WIDTH);
@@ -42,6 +42,10 @@ public class CyderGrid extends JLabel {
      * @param width the physical width of this component on its parent container
      */
     public CyderGrid(int nodes, int width) {
+        if (width < MIN_WIDTH)
+            throw new IllegalArgumentException("Minimum width not met: width = "
+                    + width + ", min width = " + MIN_WIDTH);
+
         this.nodes = nodes;
         this.width = width;
 
@@ -134,19 +138,7 @@ public class CyderGrid extends JLabel {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
-    /**
-     * The offset needed to be added to center the grid inside of the actual JLabel container.
-     */
-    private int centeringOffset = 0;
-
-    /**
-     * Returns the centering offset associated with the currently rendered grid.
-     *
-     * @return the centering offset associated with the currently rendered grid
-     */
-    public int getCenteringOffset() {
-        return centeringOffset;
-    }
+    private float offset = 0.0f;
 
     //duh
     @Override
@@ -162,7 +154,7 @@ public class CyderGrid extends JLabel {
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
-            int squareLen = (int) Math.floor(this.width / this.nodes);
+            int squareLen = this.width / this.nodes;
 
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
@@ -173,10 +165,9 @@ public class CyderGrid extends JLabel {
             // the number of nodes is relatively high
 
             //keep the grid centered on its parent
-            int xOffset = (this.width - drawTo) / 2;
-            int yOffset = (this.width - drawTo) / 2;
-            g2d.translate(xOffset, yOffset);
-            this.centeringOffset = xOffset;
+            int offset = (this.width - drawTo) / 2;
+            g2d.translate(offset, offset);
+            this.offset = offset;
 
             //fill the background in if it is set
             if (backgroundColor != null) {
@@ -252,18 +243,28 @@ public class CyderGrid extends JLabel {
         this.addMouseListener(clickPlacer);
     }
 
-    private MouseAdapter clickPlacer = new MouseAdapter() {
+    private final MouseAdapter clickPlacer = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            int x = e.getX() + centeringOffset;
-            int y = e.getY() + centeringOffset;
+            int clickX = e.getX();
+            int clickY = e.getY();
 
-            int squareLen = (int) Math.floor(width / nodes);
+            int x = (int) ((clickX - offset) / (width / nodes));
+            int y = (int) ((clickY - offset) / (width / nodes));
 
-            x = (int) Math.floor((e.getX()) / squareLen);
-            y = (int) Math.floor((e.getY()) / squareLen);
+            if (x < 0 || y < 0 || x >= nodes || y >= nodes)
+                return;
 
-            addNode(x, y);
+            GridNode node = new GridNode(CyderColors.navy, x, y);
+
+            if (grid.contains(node)) {
+                grid.remove(node);
+            } else {
+                grid.add(node);
+            }
+
+            revalidate();
+            repaint();
         }
 
         @Override
@@ -274,18 +275,23 @@ public class CyderGrid extends JLabel {
         }
     };
 
-    //used for incrementing/decrementing the grid size
+    /**
+     * The listener used to increase/decrease the number of nodes on the grid.
+     */
     private final MouseWheelListener zoomListener = new MouseAdapter() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
+                int startNodes = nodes;
+
                 if (e.getWheelRotation() == -1 && nodes > minNodes) {
                     nodes -= 1;
                 } else {
                     nodes += 1;
                 }
 
-                repaint();
+                if (nodes != startNodes)
+                    repaint();
             }
         }
     };

@@ -16,8 +16,7 @@
 [12-30-45] [SYSTEM_IO]: Userdata requested: RandomBackground
 [12-30-45] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-30-45] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-30-45] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-30-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-30-45] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [12-30-45] [THREAD STARTED]: Console Printing Animation
 [12-30-45] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-30-45] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -63,8 +62,7 @@
 [12-31-04] [SYSTEM_IO]: Userdata requested: RandomBackground
 [12-31-04] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-31-05] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-31-05] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-31-05] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-31-05] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [12-31-05] [THREAD STARTED]: Console Printing Animation
 [12-31-05] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-31-05] [SYSTEM_IO]: Userdata requested: FullScreen

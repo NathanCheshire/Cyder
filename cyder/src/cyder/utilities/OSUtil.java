@@ -593,9 +593,6 @@ public class OSUtil {
         clipboard.setContents(selection, selection);
     }
 
-    //todo all class.subclass should be in an objects package within that package
-    // since they're needed by something outside of the class
-
     //todo put markup (paint), image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably. Use a layout for this, separate window for tools
 

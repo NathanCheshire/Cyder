@@ -13,8 +13,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
-import cyder.structures.CyderQueue;
-import cyder.structures.CyderStack;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
@@ -32,9 +30,19 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     public static void launchTests() {
-        //noinspection EmptyTryBlock
         try {
+            CyderFrame cf = new CyderFrame(800,800);
+            cf.setTitle("Cyder Grid");
 
+            CyderGrid cg = new CyderGrid(50,600);
+            cg.setBounds(100,100,600,600);
+            cf.getContentPane().add(cg);
+            cg.setDrawExtendedBorder(true);
+            cg.setResizable(true);
+            cg.installClickPlacer();
+
+            cf.setVisible(true);
+            cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -441,49 +449,6 @@ public class ManualTests {
         cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    public static void stackTest() {
-        CyderStack<String> stringStack = new CyderStack<>();
-
-        CyderFrame cf = new CyderFrame( 280, 350);
-        cf.setTitle("Stack Test");
-        cf.setTitlePosition(CyderFrame.TitlePosition.RIGHT);
-
-        CyderButton peekButton = new CyderButton("Peek");
-        peekButton.setBounds(40,40,200,40);
-        peekButton.addActionListener(e -> cf.notify(new NotificationBuilder(stringStack.peek().toString())));
-        cf.getContentPane().add(peekButton);
-
-        //pop data notify
-        CyderButton popButton = new CyderButton("Pop");
-        popButton.setBounds(40,100,200,40);
-        popButton.addActionListener(e -> cf.notify(new NotificationBuilder(stringStack.pop().toString())));
-        cf.getContentPane().add(popButton);
-
-        //push data
-        CyderTextField ctf = new CyderTextField(0);
-        ctf.setBounds(40,160,200,40);
-        ctf.addActionListener(e -> {
-            stringStack.push(ctf.getText());
-            ctf.setText("");
-        });
-        cf.getContentPane().add(ctf);
-
-        //isEmpty notify
-        CyderButton isEmptyButton = new CyderButton("isEmpty");
-        isEmptyButton.setBounds(40,220,200,40);
-        isEmptyButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(stringStack.isEmpty()))));
-        cf.getContentPane().add(isEmptyButton);
-
-        //stack size
-        CyderButton printButton = new CyderButton("Print");
-        printButton.setBounds(40,280,200,40);
-        printButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(stringStack.toString()))));
-        cf.getContentPane().add(printButton);
-
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
-    }
-
     public static void switchTest() {
         CyderFrame testFrame = new CyderFrame(500,500);
         testFrame.setTitle("CyderSwitch test");
@@ -495,74 +460,6 @@ public class ManualTests {
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
-    }
-
-    public static void queueTest() {
-        CyderQueue<String> queue = new CyderQueue<>();
-
-        CyderFrame cf = new CyderFrame(300,520);
-        cf.setTitle("Queue test");
-
-        //enqueue
-        CyderTextField enqueueField = new CyderTextField(0);
-        enqueueField.setToolTipText("Enqueue");
-        enqueueField.addActionListener(e -> {
-            queue.enqueue(enqueueField.getText());
-            enqueueField.setText("");
-        });
-        enqueueField.setBounds(40,40, 220, 40);
-        cf.getContentPane().add(enqueueField);
-
-        //dequeue
-        CyderButton dequeueButton = new CyderButton("Dequeue");
-        dequeueButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.dequeue()))));
-        dequeueButton.setBounds(40,100, 220, 40);
-        cf.getContentPane().add(dequeueButton);
-
-        //add first field
-        CyderTextField addFirstField = new CyderTextField(0);
-        addFirstField.setToolTipText("Add first");
-        addFirstField.addActionListener(e -> {
-            queue.addFirst(addFirstField.getText());
-            addFirstField.setText("");
-        });
-        addFirstField.setBounds(40,160, 220, 40);
-        cf.getContentPane().add(addFirstField);
-
-        //remove last button
-        CyderButton removeLast = new CyderButton("Remove Last");
-        removeLast.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.dequeue()))));
-        removeLast.setBounds(40,220, 220, 40);
-        cf.getContentPane().add(removeLast);
-
-        //forward traversal button
-        CyderButton forwardTraversalButton = new CyderButton("Forward Traversal");
-        forwardTraversalButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.forwardTraversal()))));
-        forwardTraversalButton.setBounds(40,280, 220, 40);
-        cf.getContentPane().add(forwardTraversalButton);
-
-        //reverse traversal button
-        CyderButton reverseTraversalButton = new CyderButton("Reverse Traversal");
-        reverseTraversalButton.addActionListener(e -> cf.notify(new NotificationBuilder(String.valueOf(queue.reverseTraversal()))));
-        reverseTraversalButton.setBounds(40,340, 220, 40);
-        cf.getContentPane().add(reverseTraversalButton);
-
-        CyderButton sizeButton = new CyderButton("Size");
-        sizeButton.addActionListener(e -> cf.notify(new NotificationBuilder((String.valueOf(queue.size())))));
-        sizeButton.setBounds(40,400,220,40);
-        cf.getContentPane().add(sizeButton);
-
-        CyderTextField containsField = new CyderTextField(0);
-        containsField.setToolTipText("Contains");
-        containsField.addActionListener(e -> {
-            cf.notify(new NotificationBuilder(String.valueOf(queue.contains(containsField.getText()))));
-            containsField.setText("");
-        });
-        containsField.setBounds(40,460, 220, 40);
-        cf.getContentPane().add(containsField);
-
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void comboBoxTest() {
