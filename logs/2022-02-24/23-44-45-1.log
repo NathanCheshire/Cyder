@@ -1,0 +1,57 @@
+[23-44-45] [ENTRY]: [Nathan]
+[23-44-45] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-44-46] [THREAD STARTED]: Splash Loader
+[23-44-46] [THREAD STARTED]: Splash Animation
+[23-44-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[23-44-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[23-44-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[23-44-46] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[23-44-46] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-44-46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-44-46] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-44-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-44-46] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-44-47] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[23-44-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-44-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-44-47] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-44-47] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-44-47] [THREAD STARTED]: Console Printing Animation
+[23-44-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-44-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-44-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-44-47] [THREAD STARTED]: Console Input Caret Position Updater
+[23-44-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-44-47] [SYSTEM_IO]: Userdata requested: InputFill
+[23-44-47] [THREAD STARTED]: High Ping Checker
+[23-44-47] [THREAD STARTED]: Hourly Chime Checker
+[23-44-47] [THREAD STARTED]: Console Clock Updater
+[23-44-47] [THREAD STARTED]: Cyder Busy Checker
+[23-44-47] [THREAD STARTED]: ConsoleFrame Data Saver
+[23-44-48] [ACTION]: Console loaded in 3136ms
+[23-44-48] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-44-48] [ENTRY]: [TESTING MODE]
+[23-44-48] [SYSTEM_IO]: Userdata requested: laststart
+[23-44-48] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(308, 409, 996, 655)], hash = [1803093683], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-44-48] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [494316401], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-44-48] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-44-48] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3136ms
+[23-44-48] [THREAD STARTED]: notification appear animation
+[23-44-48] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-44-48] [THREAD STARTED]: Notificaiton vanish animater 751928239
+[23-44-49] [CLIENT]: gitme
+[23-44-49] [SYSTEM_IO]: Userdata requested: filterchat
+[23-44-49] [HANDLE]: GENERAL COMMAND HANDLED
+[23-44-49] [HANDLE]: PRIMARY HANDLE
+[23-44-50] [CONSOLE_OUT]: [STRING] gitme usage: gitme [commit message without quotes]
+[23-44-56] [CLIENT]: gitme
+[23-44-56] [SYSTEM_IO]: Userdata requested: filterchat
+[23-44-56] [CONSOLE_OUT]: [STRING] git: 'add . && git commit -m add' is not a git command. See 'git --help'.
+[23-44-56] [HANDLE]: GENERAL COMMAND HANDLED
+[23-44-56] [HANDLE]: PRIMARY HANDLE
+[23-45-13] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-45-13] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(308, 409, 996, 655)], hash = [1803093683], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[23-45-13] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[23-45-14] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-45-14] [EXIT]: [RUNTIME] 29s
+[23-45-14] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

@@ -15,8 +15,7 @@
 [23-38-30] [SYSTEM_IO]: Userdata requested: RandomBackground
 [23-38-30] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-38-30] [SYSTEM_IO]: Userdata requested: fullscreen
-[23-38-30] [SYSTEM_IO]: Userdata requested: FullScreen
-[23-38-30] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-38-30] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [23-38-30] [THREAD STARTED]: Console Printing Animation
 [23-38-30] [SYSTEM_IO]: Userdata requested: OutputBorder
 [23-38-30] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -93,55 +92,55 @@
 [23-39-00] [CLIENT]: print("what")
 [23-39-00] [SYSTEM_IO]: Userdata requested: filterchat
 [23-39-00] [SYSTEM_IO]: Created temperatory file: 23-39-00.stacktrace
-[23-39-00] [EXCEPTION]: 
+[23-39-00] [EXCEPTION]:
 Exception origin: java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)
 From line: 2054
 Trace: java.lang.NumberFormatException: For input string: ""what""
-	at java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)
-	at java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
-	at java.base/java.lang.Double.parseDouble(Double.java:543)
-	at cyder.handlers.internal.InputHandler.handleMath(InputHandler.java:1384)
-	at cyder.handlers.internal.InputHandler.handle(InputHandler.java:236)
-	at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:563)
-	at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
-	at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
-	at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
-	at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
-	at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
-	at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
-	at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
-	at java.desktop/java.awt.Component.processEvent(Component.java:6355)
-	at java.desktop/java.awt.Container.processEvent(Container.java:2259)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
-	at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
-	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
-	at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
-	at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
-	at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
-	at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
-	at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
-	at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
-	at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
-	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
-	at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
-	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
-	at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
-	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
-	at java.base/java.security.AccessController.doPrivileged(Native Method)
-	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
-	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
-	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
-	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
-	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
-	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+at java.base/jdk.internal.math.FloatingDecimal.readJavaFormatString(FloatingDecimal.java:2054)
+at java.base/jdk.internal.math.FloatingDecimal.parseDouble(FloatingDecimal.java:110)
+at java.base/java.lang.Double.parseDouble(Double.java:543)
+at cyder.handlers.internal.InputHandler.handleMath(InputHandler.java:1384)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:236)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:563)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 [23-39-00] [THREAD STARTED]: Unknown Input Handler
 [23-39-00] [ACTION]: Similar command to "print("what")" found with tol of 0.5882353, command = "print"
 [23-39-00] [THREAD STARTED]: Wrap Terminal Thread
@@ -161,8 +160,7 @@ Trace: java.lang.NumberFormatException: For input string: ""what""
 [23-39-14] [CONSOLE_OUT]: [STRING]
 [23-39-14] [CONSOLE_OUT]: [STRING]   Proto  Local Address          Foreign Address        State
 [23-39-14] [CONSOLE_OUT]: [STRING]   TCP    10.183.19.101:55650    42:https               ESTABLISHED
-[23-39-15] [CONSOLE_OUT]: [STRING] Escaped
-[23-39-15] [CONSOLE_OUT]: [STRING] Escaped
+[23-39-15] [CONSOLE_OUT]: [STRING] Escaped [2x]
 [23-39-16] [CLIENT]: clear
 [23-39-16] [SYSTEM_IO]: Userdata requested: filterchat
 [23-39-16] [HANDLE]: GENERAL COMMAND HANDLED
@@ -176,8 +174,7 @@ Trace: java.lang.NumberFormatException: For input string: ""what""
 [23-39-18] [CONSOLE_OUT]: [STRING]   TCP    10.183.19.101:55663    40.83.247.108:https    ESTABLISHED
 [23-39-18] [CONSOLE_OUT]: [STRING]   TCP    10.183.19.101:55685    ym-in-f188:5228        ESTABLISHED
 [23-39-19] [CONSOLE_OUT]: [STRING]   TCP    10.183.19.101:55690    126:4070               ESTABLISHED
-[23-39-20] [CONSOLE_OUT]: [STRING] Escaped
-[23-39-20] [CONSOLE_OUT]: [STRING] Escaped
+[23-39-20] [CONSOLE_OUT]: [STRING] Escaped [2x]
 [23-39-21] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [23-39-21] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(937, 472, 996, 655)], hash = [1803093683], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
 [23-39-21] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread

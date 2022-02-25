@@ -3,12 +3,15 @@ package cyder.utilities;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.file.Files;
@@ -591,6 +594,40 @@ public class OSUtil {
         StringSelection selection = new StringSelection(clipboardContents);
         java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
+    }
+
+    /**
+     * Executes the provided process and prints the output to the provided input handler.
+     *
+     * @param pipeTo the input handle to print the output to
+     * @param builder the process builder to run
+     */
+    public static void runAndPrintProcess(InputHandler pipeTo, ProcessBuilder builder) {
+        try {
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                pipeTo.println(line);
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Executes the provided processes successively and prints the output to the provided input handler.
+     *
+     * @param pipeTo the input handle to print the output to
+     * @param builders the process builders to run
+     */
+    public static void runAndPrintProcessesSuccessive(InputHandler pipeTo, ProcessBuilder... builders) {
+        for (ProcessBuilder builder : builders) {
+            runAndPrintProcess(pipeTo, builder);
+        }
     }
 
     //todo gitme "message" to git add ., git commit -m, git push - u origin main

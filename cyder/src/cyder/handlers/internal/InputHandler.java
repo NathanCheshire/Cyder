@@ -1305,6 +1305,18 @@ public class InputHandler {
             } else {
                 println("Curl command usage: curl URL");
             }
+        } else if (commandIs("gitme")) {
+            if (args.size() > 0) {
+                ProcessBuilder processBuilderAdd = new ProcessBuilder("git", "add", ".");
+                ProcessBuilder processBuilderCommit = new ProcessBuilder(
+                        "git", "commit", "-m", "\"" + argsToString() + "\"");
+                ProcessBuilder processBuilderPush = new ProcessBuilder("git", "push", "-u", "origin", "main");
+
+                OSUtil.runAndPrintProcessesSuccessive(this, processBuilderAdd,
+                        processBuilderCommit, processBuilderPush);
+            } else {
+                println("gitme usage: gitme [commit message without quotes]");
+            }
         }
 
         else ret = false;
