@@ -297,8 +297,8 @@ public class CyderFrame extends JFrame {
 
                 //if there's a panel we need to extend its bounds too
                 if (cyderPanel != null && w > 0 && h > 0) {
-                    cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
-                            getHeight() - DragLabel.getDefaultHeight() - borderLen);
+                    cyderPanel.setBounds(borderLen, DragLabel.DEFAULT_HEIGHT, getWidth() - 2 * borderLen,
+                            getHeight() - DragLabel.DEFAULT_HEIGHT - borderLen);
                 }
             }
         };
@@ -318,8 +318,8 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         //top frame drag and cover
-        topDrag = new DragLabel(width - 2 * frameResizingLen, DragLabel.getDefaultHeight() - 2, this);
-        topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, DragLabel.getDefaultHeight() - 2);
+        topDrag = new DragLabel(width - 2 * frameResizingLen, DragLabel.DEFAULT_HEIGHT - 2, this);
+        topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, DragLabel.DEFAULT_HEIGHT - 2);
         topDrag.setxOffset(frameResizingLen);
         topDrag.setyOffset(frameResizingLen);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
@@ -332,10 +332,10 @@ public class CyderFrame extends JFrame {
         contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
         //left frame drag  and cover
-        leftDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.getDefaultHeight(), this);
-        leftDrag.setBounds(frameResizingLen, DragLabel.getDefaultHeight(), 5 - frameResizingLen, height - DragLabel.getDefaultHeight() - frameResizingLen);
+        leftDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.DEFAULT_HEIGHT, this);
+        leftDrag.setBounds(frameResizingLen, DragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen, height - DragLabel.DEFAULT_HEIGHT - frameResizingLen);
         leftDrag.setxOffset(frameResizingLen);
-        leftDrag.setyOffset(DragLabel.getDefaultHeight());
+        leftDrag.setyOffset(DragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
         leftDrag.setButtonsList(null);
@@ -347,10 +347,10 @@ public class CyderFrame extends JFrame {
         contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
         //right frame drag and cover
-        rightDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.getDefaultHeight(), this);
-        rightDrag.setBounds(width - 5, DragLabel.getDefaultHeight(), 5 - frameResizingLen, height - DragLabel.getDefaultHeight() - frameResizingLen);
+        rightDrag = new DragLabel(5 - frameResizingLen, height - frameResizingLen - DragLabel.DEFAULT_HEIGHT, this);
+        rightDrag.setBounds(width - 5, DragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen, height - DragLabel.DEFAULT_HEIGHT - frameResizingLen);
         rightDrag.setxOffset(width - 5);
-        rightDrag.setyOffset(DragLabel.getDefaultHeight());
+        rightDrag.setyOffset(DragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
         rightDrag.setButtonsList(null);
@@ -571,8 +571,8 @@ public class CyderFrame extends JFrame {
 
         this.cyderPanel = cyderPanel;
         //panel literally sits on top of contentPane() (iconLabel in CyderFrame's case)
-        cyderPanel.setBounds(borderLen, DragLabel.getDefaultHeight(), getWidth() - 2 * borderLen,
-                getHeight() - DragLabel.getDefaultHeight() - borderLen);
+        cyderPanel.setBounds(borderLen, DragLabel.DEFAULT_HEIGHT, getWidth() - 2 * borderLen,
+                getHeight() - DragLabel.DEFAULT_HEIGHT - borderLen);
         iconLabel.add(cyderPanel);
         cyderPanel.repaint();
     }
@@ -1034,7 +1034,7 @@ public class CyderFrame extends JFrame {
                             break;
                         default:  //top
                             currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - CyderNotification.getTextXOffset(),
-                                    DragLabel.getDefaultHeight() - currentNotification.getHeight());
+                                    DragLabel.DEFAULT_HEIGHT - currentNotification.getHeight());
                     }
 
                     iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
@@ -1530,19 +1530,19 @@ public class CyderFrame extends JFrame {
 
         if (getTopDragLabel() != null) {
             topDrag.setWidth(this.width - 2 * frameResizingLen);
-            topDrag.setHeight(DragLabel.getDefaultHeight() - frameResizingLen);
+            topDrag.setHeight(DragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
             topDragCover.setBounds(0, 0 , width, 2);
             topDragCover.setBackground(CyderColors.guiThemeColor);
 
             leftDrag.setWidth(5 - frameResizingLen);
-            leftDrag.setHeight(this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+            leftDrag.setHeight(this.height - DragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
             leftDragCover.setBounds(0, 0 , 2, height);
             leftDragCover.setBackground(CyderColors.guiThemeColor);
 
             rightDrag.setWidth(5 - frameResizingLen);
-            rightDrag.setHeight(this.height - DragLabel.getDefaultHeight() - frameResizingLen);
+            rightDrag.setHeight(this.height - DragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
             rightDragCover.setBounds(width - 2, 0 , 2, height);
             rightDragCover.setBackground(CyderColors.guiThemeColor);
@@ -1556,21 +1556,21 @@ public class CyderFrame extends JFrame {
             refreshTitleAndButtonPosition();
 
             topDrag.setBounds(frameResizingLen, frameResizingLen, this.width - 2 * frameResizingLen,
-                    DragLabel.getDefaultHeight() - frameResizingLen);
-            leftDrag.setBounds(frameResizingLen, DragLabel.getDefaultHeight(), 5 - frameResizingLen,
-                    this.height - DragLabel.getDefaultHeight() - frameResizingLen);
-            rightDrag.setBounds(this.width - 5, DragLabel.getDefaultHeight(),
-                    5 - frameResizingLen, this.height - DragLabel.getDefaultHeight() - 2);
+                    DragLabel.DEFAULT_HEIGHT - frameResizingLen);
+            leftDrag.setBounds(frameResizingLen, DragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen,
+                    this.height - DragLabel.DEFAULT_HEIGHT - frameResizingLen);
+            rightDrag.setBounds(this.width - 5, DragLabel.DEFAULT_HEIGHT,
+                    5 - frameResizingLen, this.height - DragLabel.DEFAULT_HEIGHT - 2);
             bottomDrag.setBounds(frameResizingLen, this.height - 5, this.width - 4, 5 - frameResizingLen);
 
             topDrag.setxOffset(frameResizingLen);
             topDrag.setyOffset(frameResizingLen);
 
             leftDrag.setxOffset(frameResizingLen);
-            leftDrag.setyOffset(DragLabel.getDefaultHeight());
+            leftDrag.setyOffset(DragLabel.DEFAULT_HEIGHT);
 
             rightDrag.setxOffset(this.width - 5);
-            rightDrag.setyOffset(DragLabel.getDefaultHeight());
+            rightDrag.setyOffset(DragLabel.DEFAULT_HEIGHT);
 
             bottomDrag.setxOffset(frameResizingLen);
             bottomDrag.setyOffset(this.height - 5);

@@ -37,7 +37,7 @@ public class PopupHandler {
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
             int xOffset = 10;
-            int yOffset = DragLabel.getDefaultHeight();
+            int yOffset = DragLabel.DEFAULT_HEIGHT;
             int yBottomPadding = 10;
             int widthOffsetFromBoundsCalc = 5;
 

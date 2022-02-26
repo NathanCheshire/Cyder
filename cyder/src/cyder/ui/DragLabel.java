@@ -16,36 +16,81 @@ import java.util.LinkedList;
  * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame.
  */
 public class DragLabel extends JLabel {
+    /**
+     * The width of this DragLabel.
+     */
     private int width;
+
+    /**
+     * The height of this DragLabel.
+     */
     private int height;
+
+    /**
+     * The associated frame for this label.
+     */
     private final CyderFrame effectFrame;
 
+    /**
+     * The x offset used for dragging.
+     */
     private int xOffset;
-    private int yOffset;
-    private int xMouse;
-    private int yMouse;
 
+    /**
+     * The y offset used for dragging.
+     */
+    private int yOffset;
+
+    /**
+     * The background color of this drag label.
+     */
     private Color backgroundColor = CyderColors.guiThemeColor;
 
+    /**
+     * Whether dragging is currently enabled.
+     */
     private boolean draggingEnabled = true;
 
+    /**
+     * The possible positions for buttons.
+     */
     public enum ButtonPosition {
         LEFT, RIGHT
     }
 
-    private ButtonPosition buttonPosition = ButtonPosition.RIGHT;
+    /**
+     * The current button position.
+     */
+    private ButtonPosition buttonPosition = DEFAULT_BUTTON_POSITION;
 
+    /**
+     * The default button position.
+     */
+    public static final ButtonPosition DEFAULT_BUTTON_POSITION = ButtonPosition.RIGHT;
+
+    /**
+     * Constructs a new drag label with the provided bounds and frame to effect.
+     *
+     * @param width the width of the drag label, typically the width of the effect frame.
+     * @param height the height of the drag label, typically {@link DragLabel#DEFAULT_HEIGHT}
+     * @param effectFrame the cyder frame object to control
+     */
     public DragLabel(int width, int height, CyderFrame effectFrame) {
+        // init passed vars
         this.width = width;
         this.height = height;
-
         this.effectFrame = effectFrame;
 
-        new JLabel();
+        // this dot calls
         setSize(this.width, this.height);
         setOpaque(true);
         setFocusable(false);
         setBackground(backgroundColor);
+
+        // this is clearer to me than a global variable
+        int[] mousePoints = new int[]{0, 0};
+
+        // add listener to drag
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -53,7 +98,8 @@ public class DragLabel extends JLabel {
                 int y = e.getYOnScreen();
 
                 if (effectFrame != null && effectFrame.isFocused() && draggingEnabled) {
-                    effectFrame.setLocation(x - xMouse - xOffset, y - yMouse - yOffset);
+                    effectFrame.setLocation(x - mousePoints[0] - xOffset,
+                            y - mousePoints[1] - yOffset);
                     effectFrame.setRestoreX(effectFrame.getX());
                     effectFrame.setRestoreY(effectFrame.getY());
                 }
@@ -61,11 +107,12 @@ public class DragLabel extends JLabel {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                xMouse = e.getX();
-                yMouse = e.getY();
+                mousePoints[0] = e.getX();
+                mousePoints[1] = e.getY();
             }
         });
 
+        // add listener to make frames semi-transparent on drag events
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -78,6 +125,7 @@ public class DragLabel extends JLabel {
             }
         });
 
+        // add listeners for frame restoration/minimization
         effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowDeiconified(WindowEvent e) {
@@ -88,9 +136,7 @@ public class DragLabel extends JLabel {
                 effectFrame.requestFocus();
                 FrameUtil.requestFramePosition(effectFrame.getMonitor(), restoreX, restoreY, effectFrame);
             }
-        });
 
-        effectFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowIconified(WindowEvent e) {
                 if (effectFrame.getRestoreX() == Integer.MAX_VALUE || effectFrame.getRestoreY() == Integer.MAX_VALUE) {
@@ -101,6 +147,11 @@ public class DragLabel extends JLabel {
         });
     }
 
+    /**
+     * Sets the width of this drag label.
+     *
+     * @param width the width of this drag label
+     */
     public void setWidth(int width) {
         super.setSize(width,getHeight());
         this.width = width;
@@ -108,6 +159,11 @@ public class DragLabel extends JLabel {
         revalidate();
     }
 
+    /**
+     * Sets the height of this drag label.
+     *
+     * @param height the height of this drag label
+     */
     public void setHeight(int height) {
         super.setSize(getWidth(), height);
         this.height = height;
@@ -115,6 +171,12 @@ public class DragLabel extends JLabel {
         revalidate();
     }
 
+    /**
+     * Sets the size of this drag label.
+     *
+     * @param width the width of this drag label
+     * @param height the height of this drag label
+     */
     @Override
     public void setSize(int width, int height) {
         super.setSize(width,height);
@@ -124,59 +186,130 @@ public class DragLabel extends JLabel {
         revalidate();
     }
 
+    /**
+     * Returns the width of this drag label.
+     *
+     * @return the width of this drag label
+     */
     @Override
     public int getWidth() {
         return this.width;
     }
 
+    /**
+     * Returns the height of this drag label.
+     *
+     * @return the height of this drag label
+     */
     @Override
     public int getHeight() {
         return this.height;
     }
 
+    /**
+     * Sets the background color of this drag label.
+     *
+     * @param c the background color of this drag label
+     */
     public void setColor(Color c) {
         this.backgroundColor = c;
         this.repaint();
     }
 
-    public JFrame getEffectFrame() {
+    /**
+     * Returns the associated CyderFrame.
+     *
+     * @return the associated CyderFrame
+     */
+    public CyderFrame getEffectFrame() {
         return this.effectFrame;
     }
 
+    /**
+     * Disables dragging.
+     */
     public void disableDragging() {
         draggingEnabled = false;
     }
 
+    /**
+     * Enables dragging.
+     */
     public void enableDragging() {
         draggingEnabled = true;
     }
 
+    /**
+     * Returns whether dragging is enabled.
+     *
+     * @return whether dragging is enabled
+     */
     public boolean isDraggingEnabled() {
         return draggingEnabled;
     }
 
-    //standard height is 30px
-    public static int getDefaultHeight() {
-        return 30;
-    }
+    /**
+     * The default height for drag labels.
+     * The Cyder standard is 30 pixels.
+     */
+    public static final int DEFAULT_HEIGHT = 30;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
-    /*
-    ADDING BUTTONS CODE
+    /**
+     * {@inheritDoc}
      */
+    @Override
+    public int hashCode() {
+        int ret = Integer.hashCode(this.width);
+        ret = 31 * ret + Integer.hashCode(this.height);
+        ret = 31 * ret + this.backgroundColor.hashCode();
+        return ret;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        else if (!(o instanceof DragLabel))
+            return false;
+
+        DragLabel other = (DragLabel) o;
+
+        return other.getWidth() == this.getWidth()
+                && other.getHeight() == this.getHeight()
+                && other.getBackground() == this.getBackground();
+    }
+
+    /**
+     * The list of buttons to paint for the drag label.
+     */
     private LinkedList<JButton> buttonsList = buildDefaultButtons();
+
+    /**
+     * The pin button used for the default drag label.
+     */
     private JButton pinButton;
 
-    //default order: mini, pin, close
+    /**
+     * Returns the default button list which contains the buttons
+     * in the following order: minimize, pin window, close.
+     *
+     * @return the default button list
+     */
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
-        CyderIconButton minimize = new CyderIconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
+        CyderIconButton minimize = new CyderIconButton("Minimize",
+                CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
         minimize.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.minimizeAnimation();
@@ -226,7 +359,8 @@ public class DragLabel extends JLabel {
         });
         ret.add(pinButton);
 
-        CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover, null);
+        CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon,
+                CyderIcons.closeIconHover, null);
         close.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.dispose();
@@ -237,20 +371,22 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Gets the button from the button list at the given index
+     * Gets the button from the button list at the provided index.
+     *
      * @param index the index of the button to be returned
      * @return the button at the provided index
      */
     public JButton getButton(int index) {
         if (index < 0 || index > buttonsList.size() - 1)
-            throw new IllegalArgumentException("Attempting to get button from invalid index.");
+            throw new IllegalArgumentException("Attempting to get button from invalid index");
 
         return this.buttonsList.get(index);
     }
 
     /**
      * Adds the button at the given index, 0 means add to the start and {@link DragLabel#getButton(int)#getSize()}
-     *  means add to the end
+     *  means add to the end.
+     *
      * @param button the JButton with all the properties already set such as listeners, visuals, etc. to add
      *                 to the button list
      * @param addIndex the index to append the button to in the button list
@@ -269,7 +405,8 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Moves the provided button the specified index.
+     * Moves the provided button to the specified index.
+     *
      * @param button the button to move to the specified index
      * @param newIndex the index to move the specified button to
      */
@@ -295,7 +432,9 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Moves the button at the oldIndex to the new Index and pushes any other buttons out of the way.
+     * Moves the button at the oldIndex to the new Index and
+     * pushes any other buttons out of the way.
+     *
      * @param oldIndex the position of the button to target
      * @param newIndex the index to move the targeted button to
      */
@@ -306,7 +445,8 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Removes the button in the button list at the given index
+     * Removes the button in the button list at the provided index.
+     *
      * @param removeIndex index of button to remove
      */
     public void removeButton(int removeIndex) {
@@ -330,7 +470,8 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Standard getter for the current button list
+     * Returns the current button list.
+     *
      * @return the current button list
      */
     public LinkedList<JButton> getButtonsList() {
@@ -338,8 +479,9 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Update the button list with a custom one
-     * @param list the list of JButtons to use for the button list
+     * Sets the button list to the one provided.
+     *
+     * @param list the button list to use for this drag label
      */
     public void setButtonsList(LinkedList<JButton> list) {
         //remove all buttons from button list
@@ -355,7 +497,7 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Refreshes and repaints the button list
+     * Refreshes and repaints the button list.
      */
     public void refreshButtons() {
         //remove all buttons to repaint them
@@ -382,7 +524,8 @@ public class DragLabel extends JLabel {
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
-                    buttonsList.get(i).setBounds(addWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 26, 28);
+                    buttonsList.get(i).setBounds(addWidth - textWidth,
+                            0, textWidth == 0 ? 22 : textWidth + 26, 28);
                     add(buttonsList.get(i));
                     addWidth -= (26 + textWidth);
                 }
@@ -398,7 +541,8 @@ public class DragLabel extends JLabel {
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
-                    buttonsList.get(i).setBounds(leftAddWidth - textWidth, 0, textWidth == 0 ? 22 : textWidth + 26, 28);
+                    buttonsList.get(i).setBounds(leftAddWidth - textWidth, 0,
+                            textWidth == 0 ? 22 : textWidth + 26, 28);
                     add(buttonsList.get(i));
                     leftAddWidth -= (26 + textWidth);
                 }
@@ -409,22 +553,47 @@ public class DragLabel extends JLabel {
         this.repaint();
     }
 
+    /**
+     * Returns the x offset of this drag label.
+     *
+     * @return the x offset of this drag label
+     */
     public int getxOffset() {
         return xOffset;
     }
 
+    /**
+     * Returns the y offset of this drag label.
+     *
+     * @return the y offset of this drag label
+     */
     public int getyOffset() {
         return yOffset;
     }
 
+    /**
+     * Sets the x offset of this drag label.
+     *
+     * @param xOffset the x offset of this drag label
+     */
     public void setxOffset(int xOffset) {
         this.xOffset = xOffset;
     }
 
+    /**
+     * Sets the y offset of this drag label.
+     *
+     * @param yOffset the y offset of this drag label
+     */
     public void setyOffset(int yOffset) {
         this.yOffset = yOffset;
     }
 
+    /**
+     * Sets the button position of the button list.
+     *
+     * @param pos the button position of the button list
+     */
     public void setButtonPosition(ButtonPosition pos) {
         if (buttonPosition == pos)
             return;
@@ -433,10 +602,19 @@ public class DragLabel extends JLabel {
         refreshButtons();
     }
 
+    /**
+     * Returns the current button position.
+     *
+     * @return the current button position
+     */
     public ButtonPosition getButtonPosition() {
         return this.buttonPosition;
     }
 
+    /**
+     * Refreshes the pin button for this drag label based off
+     * of the pinning state of the effect frame.
+     */
     public void refreshPinButton() {
         for (JButton dragLabelButton : this.getButtonsList()) {
             String tooltipText = dragLabelButton.getToolTipText();
