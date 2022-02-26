@@ -72,7 +72,7 @@ public class ConvexHullWidget {
      * Solves the convex hull problem and
      */
     private static void solveAndUpdate() {
-        //todo
+        //todo figure out outer points and draw lines between them
     }
 
     /**

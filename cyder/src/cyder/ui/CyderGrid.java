@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -76,6 +77,8 @@ public class CyderGrid extends JLabel {
      */
     public Mode mode = Mode.ADD;
 
+    private final ArrayList<Integer> increments;
+
     /**
      * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
      */
@@ -121,6 +124,8 @@ public class CyderGrid extends JLabel {
                 }
             }
         };
+
+        increments = getNodesForMaxWidth(length);
     }
 
     /**
@@ -400,13 +405,35 @@ public class CyderGrid extends JLabel {
                 int startNodes = nodes;
 
                 if (e.getWheelRotation() == -1 && nodes > minNodes) {
-                    nodes -= 1;
+                    if (smoothScrollilng) {
+                        for (int i = increments.size() - 1 ; i >= 0 ; i--) {
+                            if (increments.get(i) < nodes) {
+                                nodes = increments.get(i);
+                                break;
+                            }
+                        }
+                    } else {
+                        nodes -= 1;
+                    }
                 } else {
-                    nodes += 1;
+                    if (smoothScrollilng) {
+                        System.out.println(nodes);
+                        System.out.println(increments);
+
+                        for (Integer increment : increments) {
+                            if (increment > nodes) {
+                                nodes = increment;
+                                break;
+                            }
+                        }
+
+                        System.out.println(nodes);
+                    } else {
+                        nodes += 1;
+                    }
                 }
 
-                if (nodes != startNodes)
-                    repaint();
+                repaint();
             }
         }
     };
@@ -494,5 +521,45 @@ public class CyderGrid extends JLabel {
      */
     public void setDefultNodeColor(Color defultNodeColor) {
         this.defultNodeColor = defultNodeColor;
+    }
+
+    /**
+     * Whether grid zooming should only be allowed in increments which result in perfect divisibility.
+     */
+    private boolean smoothScrollilng = true;
+
+    /**
+     * Returns whether grid zooming is only allowed in perfect increments.
+     *
+     * @return whether grid zooming is only allowed in perfect increments
+     */
+    public boolean isSmoothScrollilng() {
+        return smoothScrollilng;
+    }
+
+    /**
+     * Sets whether grid zooming is only allowed in perfect increments.
+     *
+     * @param smoothScrollilng whether grid zooming is only allowed in perfect increments
+     */
+    public void setSmoothScrollilng(boolean smoothScrollilng) {
+        this.smoothScrollilng = smoothScrollilng;
+    }
+
+    /**
+     * Returns a list containing the node length values that evenly divide the width.
+     *
+     * @param width the width of the associated grid
+     * @return a list containing the node length values that evenly divide the width
+     */
+    public static ArrayList<Integer> getNodesForMaxWidth(int width) {
+        ArrayList<Integer> ret = new ArrayList<>();
+
+        for (int i = DEFAULT_MIN_NODES ; i < width ; i++) {
+            if (width % i == 0)
+                ret.add(i);
+        }
+
+        return ret;
     }
 }

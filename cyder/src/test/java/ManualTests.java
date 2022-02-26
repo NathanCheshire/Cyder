@@ -17,6 +17,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.ImageUtil;
+import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +31,7 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     public static void launchTests() {
-
+        PaintWidget.showGUI();
     }
 
     public static void cyderGridTest() {
