@@ -268,28 +268,79 @@ public class CyderGrid extends JLabel {
                 }
             }
 
+            // draw all nodes on grid
             for (GridNode node : grid) {
-                //never draw nodes over the current limit
-                if (node.getX() < 0 || node.getY() < 0 || node.getX() > nodes - 1 || node.getY() > nodes - 1)
-                    continue;
-
+                // set color for this node
                 g2d.setColor(node.getColor());
 
-                g2d.fillRect((drawGridLines ? 2 : 0) + node.getX() * squareLen,
-                        (drawGridLines ? 2 : 0) + node.getY() * squareLen,
-                        squareLen - (drawGridLines ? 2 : 0),
-                        squareLen - (drawGridLines ? 2 : 0));
+                // account for a zoomign center
+                if (relativeZoomNode != null) {
+                    // get zooming center
+                    int centerX = relativeZoomNode.getX();
+                    int centerY = relativeZoomNode.getY();
+
+                    // note, at this point, we draw nodes from
+                    // "0" to "nodes" but it needs to be centered
+
+                    // therefore, the local mins are our point minus
+                    // the total current node len dividied by 2
+                    int localMinX = centerX - nodes / 2;
+                    int localMinY = centerY - nodes / 2;
+
+                    // and our maxes are the len dividied by 2 added to the center point
+                    int localMaxX = centerX + nodes / 2;
+                    int localMaxY = centerY + nodes / 2;
+
+                    // but what if we zoomed near a bound?
+                    // doesn't matter just draw what we can
+                    // since this widget essentially automatically
+                    // expands the canvas
+
+                    // we do, however, need to make sure there are never negative numbers
+                    // for the lower bounds
+                    if (localMinX < 0) {
+                        localMinX = 0;
+                        localMaxX = nodes;
+                    }
+
+                    if (localMinY < 0) {
+                        localMinY = 0;
+                        localMaxY = nodes;
+                    }
+
+                    // get the node we need to draw
+                    int ourX = node.getX();
+                    int ourY = node.getY();
+
+                    // check if we should draw it
+                    if (ourX >= localMinX && ourX < localMaxX
+                            && ourY >= localMinY && ourY < localMaxY) {
+                        // we should draw it so translate it relative to our bounds
+
+                    }
+                } else {
+                    // get the x and y of this node
+                    int trueX = node.getX();
+                    int trueY = node.getY();
+
+                    // fill it
+                    g2d.fillRect((drawGridLines ? 2 : 0) + trueX * squareLen,
+                            (drawGridLines ? 2 : 0) + trueY * squareLen,
+                            squareLen - (drawGridLines ? 2 : 0),
+                            squareLen - (drawGridLines ? 2 : 0));
+                }
             }
 
+            // set color back to draw borders
             g2d.setColor(CyderColors.navy);
 
-            //draw borders
+            // draw graphics borders
             g2d.drawLine(1, 1, 1, drawTo);
             g2d.drawLine(1, 1, drawTo, 1);
             g2d.drawLine(drawTo, 1, drawTo, drawTo);
             g2d.drawLine(1, drawTo, drawTo, drawTo);
 
-            //draw extended border if enabled
+            // draw extended border if enabled
             if (drawExtendedBorder) {
                 super.setBorder(new LineBorder(CyderColors.navy, 3));
             }
@@ -396,12 +447,21 @@ public class CyderGrid extends JLabel {
     };
 
     /**
+     * The node that the cursor centered on for the last scroll zoom action.
+     */
+    private GridNode relativeZoomNode;
+
+    /**
      * The listener used to increase/decrease the number of nodes on the grid.
      */
     private final MouseWheelListener zoomListener = new MouseAdapter() {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
+                relativeZoomNode = new GridNode(CyderColors.navy,
+                        (int) ((e.getX() - offset) / (length / nodes)),
+                        (int) ((e.getY() - offset) / (length / nodes)));
+
                 int startNodes = nodes;
 
                 if (e.getWheelRotation() == -1 && nodes > minNodes) {
@@ -417,22 +477,18 @@ public class CyderGrid extends JLabel {
                     }
                 } else {
                     if (smoothScrollilng) {
-                        System.out.println(nodes);
-                        System.out.println(increments);
-
                         for (Integer increment : increments) {
                             if (increment > nodes) {
                                 nodes = increment;
                                 break;
                             }
                         }
-
-                        System.out.println(nodes);
                     } else {
                         nodes += 1;
                     }
                 }
 
+                // redraw after the zoom
                 repaint();
             }
         }

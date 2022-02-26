@@ -10,11 +10,11 @@ import java.util.Objects;
  * A button with an ImageIcon as the clickable component.
  * Mainly used for DragLabel buttons.
  */
-public class IconButton extends JButton {
+public class CyderIconButton extends JButton {
     /**
      * Supress default JButton constructor.
      */
-    private IconButton() {
+    private CyderIconButton() {
         super();
     }
 
@@ -35,7 +35,7 @@ public class IconButton extends JButton {
      * @param defaultIcon the default icon
      * @param hoverAndFocusIcon the hover icon
      */
-    public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
+    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon) {
         this(tooltipText, defaultIcon, hoverAndFocusIcon, null, null);
     }
 
@@ -47,7 +47,7 @@ public class IconButton extends JButton {
      * @param hoverAndFocusIcon the hover icon
      * @param mouseListener the custom mouse listener for when a mouse enters/exits the icon button's area
      */
-    public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon, MouseListener mouseListener) {
+    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon, MouseListener mouseListener) {
         this(tooltipText, defaultIcon, hoverAndFocusIcon, mouseListener, new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -70,8 +70,8 @@ public class IconButton extends JButton {
      * @param mouseListener the custom mouse listener for when a mouse enters/exits the icon button's area
      * @param focusListener the focus listener for when the button gains/loses focus
      */
-    public IconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
-                      MouseListener mouseListener, FocusListener focusListener) {
+    public CyderIconButton(String tooltipText, ImageIcon defaultIcon, ImageIcon hoverAndFocusIcon,
+                           MouseListener mouseListener, FocusListener focusListener) {
         if (StringUtil.isNull(tooltipText))
             throw new IllegalArgumentException("Tooltip text is null");
         if (defaultIcon != null && defaultIcon == hoverAndFocusIcon)

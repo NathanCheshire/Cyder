@@ -876,7 +876,7 @@ public class CyderFrame extends JFrame {
     /**
      * The notification that is currently being displayed.
      */
-    private Notification currentNotification;
+    private CyderNotification currentNotification;
 
     /**
      * Whether the notification thread has been started for this frame.
@@ -888,7 +888,7 @@ public class CyderFrame extends JFrame {
      *
      * @return the current notification
      */
-    public Notification getCurrentNotification() {
+    public CyderNotification getCurrentNotification() {
         return currentNotification;
     }
 
@@ -938,7 +938,7 @@ public class CyderFrame extends JFrame {
                     QueuedNotification currentQueuedNotification = notificationList.remove(0);
 
                     //init notification object
-                    currentNotification = new Notification();
+                    currentNotification = new CyderNotification();
 
                     if (currentQueuedNotification.getNotificationBackground() != null)
                         currentNotification.setBackgroundColor(currentQueuedNotification.getNotificationBackground());
@@ -966,7 +966,7 @@ public class CyderFrame extends JFrame {
                     if (currentQueuedNotification.getContianer() == null) {
                         //set the text bounds to the proper x,y and the
                         // calculated width and height
-                        text.setBounds(Notification.getTextXOffset(), Notification.getTextYOffset(), w, h);
+                        text.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
 
                         currentNotification.setWidth(w);
                         currentNotification.setHeight(h);
@@ -976,7 +976,7 @@ public class CyderFrame extends JFrame {
                         currentNotification.add(text);
 
                         JLabel disposeLabel = new JLabel();
-                        disposeLabel.setBounds(Notification.getTextXOffset(), Notification.getTextYOffset(), w, h);
+                        disposeLabel.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
 
                         disposeLabel.setToolTipText("Notified at: " + currentQueuedNotification.getTime());
                         disposeLabel.addMouseListener(new MouseAdapter() {
@@ -1012,16 +1012,16 @@ public class CyderFrame extends JFrame {
                                     topDrag.getHeight());
                             break;
                         case BOTTOM:
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - Notification.getTextXOffset(),
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - CyderNotification.getTextXOffset(),
                                     getHeight() - 5);
                             break;
                         case LEFT:
                             currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                    getContentPane().getHeight() / 2 - (h / 2) - Notification.getTextYOffset());
+                                    getContentPane().getHeight() / 2 - (h / 2) - CyderNotification.getTextYOffset());
                             break;
                         case RIGHT:
                             currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                    getContentPane().getHeight() / 2 - (h / 2) - Notification.getTextYOffset());
+                                    getContentPane().getHeight() / 2 - (h / 2) - CyderNotification.getTextYOffset());
                             break;
                         case BOTTOM_LEFT:
                             //parent.getHeight() - this.getHeight() + 10
@@ -1033,7 +1033,7 @@ public class CyderFrame extends JFrame {
                                     getHeight() - currentNotification.getHeight() + 5);
                             break;
                         default:  //top
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - Notification.getTextXOffset(),
+                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - CyderNotification.getTextXOffset(),
                                     DragLabel.getDefaultHeight() - currentNotification.getHeight());
                     }
 

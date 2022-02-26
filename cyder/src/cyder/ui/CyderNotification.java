@@ -18,7 +18,7 @@ import java.awt.geom.GeneralPath;
 /**
  * A custom notification component used for CyderFrames.
  */
-public class Notification extends JLabel {
+public class CyderNotification extends JLabel {
 
     /**
      * The width/height of the arrow.
@@ -64,7 +64,7 @@ public class Notification extends JLabel {
     /**
      * Initializes a notification.
      */
-    public Notification() {
+    public CyderNotification() {
         killed = false;
 
         addMouseListener(new MouseAdapter() {
@@ -296,7 +296,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(getX(), DragLabel.getDefaultHeight() - 1, getWidth(), getHeight());
                         break;
@@ -306,7 +306,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(parent.getWidth() - this.getWidth() + 5, getY(), getWidth(), getHeight());
                         break;
@@ -316,7 +316,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(2, getY(), getWidth(), getHeight());
                         break;
@@ -326,7 +326,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(2, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
                         break;
@@ -336,7 +336,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(parent.getWidth() - this.getWidth() + 5,
                                 parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
@@ -347,7 +347,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(getX(), parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
@@ -357,7 +357,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(2, parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
                         break;
@@ -367,7 +367,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         setBounds(parent.getWidth() - this.getWidth() + 5,
                                 parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
@@ -442,7 +442,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         break;
                     case BOTTOM:
@@ -451,7 +451,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         break;
                     case TOP_LEFT:
@@ -462,7 +462,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         break;
                     case RIGHT:
@@ -473,7 +473,7 @@ public class Notification extends JLabel {
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
-                            Thread.sleep(Notification.delay);
+                            Thread.sleep(CyderNotification.delay);
                         }
                         break;
                 }
@@ -497,10 +497,10 @@ public class Notification extends JLabel {
     public boolean equals(Object o) {
         if (this == o) {
             return true;
-        } else if (!(o instanceof Notification)) {
+        } else if (!(o instanceof CyderNotification)) {
             return false;
         } else {
-            Notification other = (Notification) o;
+            CyderNotification other = (CyderNotification) o;
             return this.getArrow() == other.getArrow()
                     && this.getWidth() == other.getWidth()
                     && this.getHeight() == other.getHeight();

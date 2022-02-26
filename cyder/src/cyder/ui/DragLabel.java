@@ -176,14 +176,14 @@ public class DragLabel extends JLabel {
     private LinkedList<JButton> buildDefaultButtons() {
         LinkedList<JButton> ret = new LinkedList<>();
 
-        IconButton minimize = new IconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
+        CyderIconButton minimize = new CyderIconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
         minimize.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.minimizeAnimation();
         });
         ret.add(minimize);
 
-        pinButton = new IconButton("Pin Window/Pin to Console", CyderIcons.pinIcon, null,
+        pinButton = new CyderIconButton("Pin Window/Pin to Console", CyderIcons.pinIcon, null,
                 new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent e) {
@@ -226,7 +226,7 @@ public class DragLabel extends JLabel {
         });
         ret.add(pinButton);
 
-        IconButton close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover, null);
+        CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover, null);
         close.addActionListener(e -> {
             Logger.log(Logger.Tag.ACTION, this);
             effectFrame.dispose();

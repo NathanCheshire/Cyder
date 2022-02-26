@@ -609,7 +609,7 @@ public final class ConsoleFrame {
             menuLabel.setFocusable(false);
             menuLabel.setVisible(false);
 
-            helpButton = new IconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
+            helpButton = new CyderIconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
             helpButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                 //print tests in case the user was trying to invoke one
                 inputHandler.printManualTests();
@@ -632,7 +632,7 @@ public final class ConsoleFrame {
             helpButton.setBounds(32, 4, 22, 22);
             consoleCyderFrame.getTopDragLabel().add(helpButton);
 
-            menuButton = new IconButton("Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover);
+            menuButton = new CyderIconButton("Menu", CyderIcons.menuIcon, CyderIcons.menuIconHover);
             menuButton.addActionListener(menuButtonListener);
             menuButton.setBounds(4, 4, 22, 22);
             consoleCyderFrame.getTopDragLabel().add(menuButton);
@@ -640,7 +640,7 @@ public final class ConsoleFrame {
             //custom list of buttons even for mini and close so that we can focus traverse them
             LinkedList<JButton> consoleDragButtonList = new LinkedList<>();
 
-            toggleAudioControls = new IconButton("Audio Controls", CyderIcons.menuIcon, CyderIcons.menuIconHover);
+            toggleAudioControls = new CyderIconButton("Audio Controls", CyderIcons.menuIcon, CyderIcons.menuIconHover);
             toggleAudioControls.addActionListener(e -> {
                 if (audioControlsLabel.isVisible()) {
                     animateOutAudioControls();
@@ -651,7 +651,7 @@ public final class ConsoleFrame {
             consoleDragButtonList.add(toggleAudioControls);
             toggleAudioControls.setVisible(false);
 
-            IconButton minimize = new IconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
+            CyderIconButton minimize = new CyderIconButton("Minimize", CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover);
             minimize.addActionListener(e -> {
                 consoleCyderFrame.setRestoreX(consoleCyderFrame.getX());
                 consoleCyderFrame.setRestoreY(consoleCyderFrame.getY());
@@ -659,7 +659,7 @@ public final class ConsoleFrame {
             });
             consoleDragButtonList.add(minimize);
 
-            pin = new IconButton("Pin", CyderIcons.pinIcon, CyderIcons.pinIconHover, new MouseAdapter() {
+            pin = new CyderIconButton("Pin", CyderIcons.pinIcon, CyderIcons.pinIconHover, new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if (consoleCyderFrame.isAlwaysOnTop()) {
@@ -719,7 +719,7 @@ public final class ConsoleFrame {
                     CyderIcons.pinIconHover : CyderIcons.pinIcon);
             consoleDragButtonList.add(pin);
 
-            IconButton alternateBackground = new IconButton("Alternate Background",
+            CyderIconButton alternateBackground = new CyderIconButton("Alternate Background",
                     CyderIcons.changeSizeIcon, CyderIcons.changeSizeIconHover);
             alternateBackground.addActionListener(e -> {
                 loadBackgrounds();
@@ -741,7 +741,7 @@ public final class ConsoleFrame {
             });
             consoleDragButtonList.add(alternateBackground);
 
-            IconButton close = new IconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
+            CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
             close.addActionListener(e -> {
                 if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                     FrameUtil.minimizeAllFrames();

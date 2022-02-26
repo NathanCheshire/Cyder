@@ -630,7 +630,7 @@ public class OSUtil {
         }
     }
 
-    //todo paint widget, use a layout
+    //todo paint widget, use a layout for the external control frames
 
     //todo put image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably
