@@ -2,6 +2,8 @@ package cyder.threads;
 
 import cyder.handlers.internal.Logger;
 
+import java.util.concurrent.Executors;
+
 /**
  * A class used to submit runnables and executors.
  */
@@ -27,5 +29,16 @@ public final class CyderThreadRunner {
      */
     public static Thread createThread(Runnable runnable, String name) {
         return new Thread(runnable, name);
+    }
+
+    /**
+     * Starts a new single thread executor service with the provided name
+     * and immediately submits the provided runnable.
+     *
+     * @param runnable the runnable to run on the executor service
+     * @param name the name of the executor servicd to use
+     */
+    public static void submitForExecutor(Runnable runnable, String name) {
+        Executors.newSingleThreadExecutor(new CyderThreadFactory(name)).submit(runnable);
     }
 }
