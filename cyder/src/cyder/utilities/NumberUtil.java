@@ -96,7 +96,7 @@ public class NumberUtil {
      * @return the requested number of fibonacci numbers
      */
     public static LinkedList<Long> fib(long a, long b, int numFibs) {
-        LinkedList<Long> ret = new LinkedList();
+        LinkedList<Long> ret = new LinkedList<>();
         ret.add(a);
         for (int i = 1; i < numFibs; i++) {
             ret.add(b);
@@ -141,11 +141,12 @@ public class NumberUtil {
 
         //check for signage
         boolean negative = num.compareTo(BigInteger.ZERO) < 0;
-        wordRep = wordRep.replace("-", "");
 
         //pad with 0's so that we have all trios
-        while (wordRep.length() % 3 != 0)
-            wordRep = "0" + wordRep;
+        StringBuilder wordRepBuilder = new StringBuilder(wordRep.replace("-", ""));
+        while (wordRepBuilder.length() % 3 != 0)
+            wordRepBuilder.insert(0, "0");
+        wordRep = wordRepBuilder.toString();
 
         //now split into trios array
         String[] baseTrios = java.util.Arrays.toString(wordRep.split("(?<=\\G...)"))
@@ -221,7 +222,7 @@ public class NumberUtil {
     /**
      * String representations for all digits in the one's place
      */
-    private static String[] onesPlace = {"", "one", "two", "three", "four",
+    private static final String[] onesPlace = {"", "one", "two", "three", "four",
             "five", "six", "seven", "eight", "nine"};
 
     /**
@@ -237,7 +238,7 @@ public class NumberUtil {
     /**
      * String representations for all digits in the ten's place in base 10
      */
-    private static String[] tensPlace = {"", "", "twenty", "thirty", "fourty",
+    private static final String[] tensPlace = {"", "", "twenty", "thirty", "fourty",
             "fifty", "sixty", "seventy", "eighty", "ninety"};
 
     /**
@@ -254,7 +255,7 @@ public class NumberUtil {
     /**
      * String representations for numbers in the range [10, 19]
      */
-    private static String[] teens = {"ten", "eleven", "twelve", "thirteen",
+    private static final String[] teens = {"ten", "eleven", "twelve", "thirteen",
             "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
 
     /**

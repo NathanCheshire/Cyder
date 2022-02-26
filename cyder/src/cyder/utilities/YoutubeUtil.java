@@ -150,8 +150,6 @@ public class YoutubeUtil {
                                     + "\" file size: " + fileSize + ", progress: " + progress + "%, rate: "
                                     + updateMatcher.group(3) + ", eta: " + updateMatcher.group(4);
 
-                            System.out.println(updateText);
-
                             printLabel.setText(updateText);
                             printLabel.revalidate();
                             printLabel.repaint();

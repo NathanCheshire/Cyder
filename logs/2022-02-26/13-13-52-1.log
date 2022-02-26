@@ -15,8 +15,7 @@
 [13-13-54] [SYSTEM_IO]: Userdata requested: RandomBackground
 [13-13-54] [SYSTEM_IO]: Userdata requested: FullScreen
 [13-13-54] [SYSTEM_IO]: Userdata requested: fullscreen
-[13-13-54] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-13-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-13-54] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [13-13-54] [THREAD STARTED]: Console Printing Animation
 [13-13-54] [SYSTEM_IO]: Userdata requested: OutputBorder
 [13-13-54] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -46,3 +45,20 @@
 [13-14-41] [SYSTEM_IO]: Userdata requested: closeanimation
 [13-14-53] [CLIENT]: gitme
 [13-14-53] [SYSTEM_IO]: Userdata requested: filterchat
+[13-14-54] [CONSOLE_OUT]: [STRING] [main 8c7f8679] add broken accounting for zoom offset for placing nodes
+[13-14-54] [CONSOLE_OUT]: [STRING]  6 files changed, 143 insertions(+), 7 deletions(-)
+[13-14-54] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/12-57-11-1.log
+[13-14-54] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-13-52-1.log
+[13-14-55] [CONSOLE_OUT]: [STRING] remote: This repository moved. Please use the new location:
+[13-14-55] [CONSOLE_OUT]: [STRING] remote:   https://github.com/NathanCheshire/Cyder.git
+[13-14-56] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[13-14-56] [CONSOLE_OUT]: [STRING] To https://github.com/nathancheshire/Cyder.git
+[13-14-56] [CONSOLE_OUT]: [STRING]    41e1546c..8c7f8679  main -> main
+[13-14-56] [HANDLE]: GENERAL COMMAND HANDLED
+[13-14-56] [HANDLE]: PRIMARY HANDLE
+[13-15-01] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[13-15-01] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1356, 370, 996, 655)], hash = [832292933], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[13-15-01] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[13-15-01] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-15-01] [EXIT]: [RUNTIME] 1m 9s
+[13-15-01] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

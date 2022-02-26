@@ -1,0 +1,73 @@
+[13-42-05] [ENTRY]: [Nathan]
+[13-42-05] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-42-06] [THREAD STARTED]: Splash Loader
+[13-42-06] [THREAD STARTED]: Splash Animation
+[13-42-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[13-42-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[13-42-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[13-42-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[13-42-07] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[13-42-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-42-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-42-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-42-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-07] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
+[13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-42-07] [SYSTEM_IO]: Userdata requested: fullscreen
+[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-42-07] [THREAD STARTED]: Console Printing Animation
+[13-42-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-42-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-42-07] [THREAD STARTED]: Console Input Caret Position Updater
+[13-42-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-42-07] [SYSTEM_IO]: Userdata requested: InputFill
+[13-42-07] [THREAD STARTED]: High Ping Checker
+[13-42-07] [THREAD STARTED]: Hourly Chime Checker
+[13-42-07] [THREAD STARTED]: Console Clock Updater
+[13-42-07] [THREAD STARTED]: Cyder Busy Checker
+[13-42-07] [THREAD STARTED]: ConsoleFrame Data Saver
+[13-42-08] [ACTION]: Console loaded in 2618ms
+[13-42-08] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1356, 370, 996, 655)], hash = [1817789863], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[13-42-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [184488480], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-42-08] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[13-42-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-42-08] [ENTRY]: [TESTING MODE]
+[13-42-08] [SYSTEM_IO]: Userdata requested: laststart
+[13-42-08] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-08] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2618ms
+[13-42-08] [THREAD STARTED]: notification appear animation
+[13-42-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-42-08] [THREAD STARTED]: Notificaiton vanish animater 1922447137
+[13-42-10] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-14] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-18] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-22] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-26] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-29] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-33] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-37] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-41] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-45] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-48] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-52] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-56] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-00] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-03] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [-14203113], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-43-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1404, 233, 900, 930)], hash = [990519998], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
+[13-43-09] [THREAD STARTED]: Paint CyderFrame dispose thread
+[13-43-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-43-11] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-15] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-18] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-22] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-26] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-29] [CLIENT]: gitme
+[13-43-29] [SYSTEM_IO]: Userdata requested: filterchat

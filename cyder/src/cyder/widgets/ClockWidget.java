@@ -445,7 +445,6 @@ public class ClockWidget {
         };
 
         miniFrame.setTitle("Timezone: " + "(GMT" + currentGMTOffset + ")");
-        System.out.println(miniFrame.getTitle());
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
         JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset), SwingConstants.CENTER);

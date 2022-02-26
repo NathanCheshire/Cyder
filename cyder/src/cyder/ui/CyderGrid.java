@@ -403,34 +403,36 @@ public class CyderGrid extends JLabel {
      * @param dragEvent whether the event was a drag event
      */
     private void innerAddNode(MouseEvent event, boolean dragEvent) {
-        int clickX = event.getX();
-        int clickY = event.getY();
+        // get regular x and y not accounting for any zoom
+        int x = (int) ((event.getX() - offset) / (length / nodes));
+        int y = (int) ((event.getY() - offset) / (length / nodes));
 
-        int x = (int) ((clickX - offset) / (length / nodes));
-        int y = (int) ((clickY - offset) / (length / nodes));
+        GridNode node = new GridNode(defultNodeColor, x, y);
 
-        GridNode node = null;
-
+        // account for relative zoom
         if (relativeZoomNode != null) {
-            int localMinX = relativeZoomNode.getX() - nodes / 2;
-            int localMinY = relativeZoomNode.getY() - nodes / 2;
-            int localMaxX = relativeZoomNode.getX() + nodes / 2;
-            int localMaxY = relativeZoomNode.getY() + nodes / 2;
+            int localMinX = x - nodes / 2;
+            int localMinY = y - nodes / 2;
+            int localMaxX = x + nodes / 2;
+            int localMaxY = y + nodes / 2;
 
+            // if out of bounds, return
             if (x < localMinX || y < localMinY || x >= localMaxX || y >= localMaxY)
                 return;
 
-            // now we know it's inside of our local bounds so account for offset
+            x += localMinX;
+            y += localMinY;
 
-            node = new GridNode(defultNodeColor, x + localMinX, y + localMinY);
+            node = new GridNode(defultNodeColor, x, y);
         } else {
-            // don't add nodes if out of bounds
+            // make sure node isn't out of bounds
             if (x < 0 || y < 0 || x >= nodes || y >= nodes)
                 return;
 
-            node = new GridNode(defultNodeColor, x, y);
+            // we've already initialized node so continue
         }
 
+        // add/remove node
         if (dragEvent) {
             if (grid.contains(node)) {
                 if (mode == Mode.DELETE)
@@ -446,6 +448,7 @@ public class CyderGrid extends JLabel {
             }
         }
 
+        // redraw grid
         revalidate();
         repaint();
     }
@@ -489,13 +492,15 @@ public class CyderGrid extends JLabel {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
-                relativeZoomNode = new GridNode(CyderColors.navy,
-                        (int) ((e.getX() - offset) / (length / nodes)),
-                        (int) ((e.getY() - offset) / (length / nodes)));
-
                 int startNodes = nodes;
 
+                // zooming in
                 if (e.getWheelRotation() == -1 && nodes > minNodes) {
+                    relativeZoomNode = new GridNode(CyderColors.regularPink,
+                            (int) ((e.getX() - offset) / (length / nodes)),
+                            (int) ((e.getY() - offset) / (length / nodes)));
+                    grid.add(relativeZoomNode);
+
                     if (smoothScrollilng) {
                         for (int i = increments.size() - 1 ; i >= 0 ; i--) {
                             if (increments.get(i) < nodes) {
@@ -506,7 +511,9 @@ public class CyderGrid extends JLabel {
                     } else {
                         nodes -= 1;
                     }
-                } else {
+                }
+                // zooming out
+                else {
                     if (smoothScrollilng) {
                         for (Integer increment : increments) {
                             if (increment > nodes) {

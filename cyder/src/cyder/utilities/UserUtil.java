@@ -166,6 +166,9 @@ public class UserUtil {
             userIOSemaphore.acquire();
             gson.toJson(u, writer);
             writer.close();
+
+            Logger.log(Logger.Tag.SYSTEM_IO, "[User Write] User was written to file: "
+                    + OSUtil.buildPath(f.getParentFile().getName(), f.getName()));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {

@@ -43,9 +43,13 @@ public class PaintWidget {
         cyderGrid.installDragPlacer();
         cyderGrid.setSmoothScrollilng(true);
 
-        System.out.println(CyderGrid.getNodesForMaxWidth(len));
+        installControlFrames();
 
         paintFrame.setVisible(true);
         paintFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+    }
+
+    private static void installControlFrames() {
+
     }
 }
