@@ -394,7 +394,45 @@ public class CyderGrid extends JLabel {
         this.addMouseListener(clickPlacer);
     }
 
-    //todo drawing is broken when translated
+    /**
+     * Used for the add/remove listeners to add a node to the grid
+     * based off the absolute x,y provided and accounts for
+     * the possible relative node.
+     *
+     * @param event the mouse event of where the user clicked/dragged on
+     * @param dragEvent whether the event was a drag event
+     */
+    private void innerAddNode(MouseEvent event, boolean dragEvent) {
+        int clickX = event.getX();
+        int clickY = event.getY();
+
+        int x = (int) ((clickX - offset) / (length / nodes));
+        int y = (int) ((clickY - offset) / (length / nodes));
+
+        // don't add nodes if out of bounds
+        if (x < 0 || y < 0 || x >= nodes || y >= nodes)
+            return;
+
+        GridNode node = new GridNode(defultNodeColor, x, y);
+
+        if (dragEvent) {
+            if (grid.contains(node)) {
+                if (mode == Mode.DELETE)
+                    grid.remove(node);
+            } else {
+                grid.add(node);
+            }
+        } else {
+            if (grid.contains(node)) {
+                grid.remove(node);
+            } else {
+                grid.add(node);
+            }
+        }
+
+        revalidate();
+        repaint();
+    }
 
     /**
      * The listener which allows nodes to be placed on the grid via click.
@@ -402,26 +440,7 @@ public class CyderGrid extends JLabel {
     private final MouseAdapter clickPlacer = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
-            int clickX = e.getX();
-            int clickY = e.getY();
-
-            int x = (int) ((clickX - offset) / (length / nodes));
-            int y = (int) ((clickY - offset) / (length / nodes));
-
-            // don't add nodes if out of bounds
-            if (x < 0 || y < 0 || x >= nodes || y >= nodes)
-                return;
-
-            GridNode node = new GridNode(defultNodeColor, x, y);
-
-            if (grid.contains(node)) {
-                grid.remove(node);
-            } else {
-                grid.add(node);
-            }
-
-            revalidate();
-            repaint();
+            innerAddNode(e, false);
         }
     };
 
@@ -438,27 +457,7 @@ public class CyderGrid extends JLabel {
     private final MouseMotionListener dragPlacer = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
-            int clickX = e.getX();
-            int clickY = e.getY();
-
-            int x = (int) ((clickX - offset) / (length / nodes));
-            int y = (int) ((clickY - offset) / (length / nodes));
-
-            // don't add nodes if out of bounds
-            if (x < 0 || y < 0 || x >= nodes || y >= nodes)
-                return;
-
-            GridNode node = new GridNode(defultNodeColor, x, y);
-
-            if (grid.contains(node)) {
-                if (mode == Mode.DELETE)
-                    grid.remove(node);
-            } else {
-                grid.add(node);
-            }
-
-            revalidate();
-            repaint();
+            innerAddNode(e, true);
         }
     };
 
