@@ -7,22 +7,16 @@ import cyder.utilities.OSUtil;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class PyExecutor {
     /**
-     * Executor service used for running python scripts.
-     */
-    private static final ExecutorService pexecutor = Executors.newSingleThreadExecutor(
-            new CyderThreadFactory("Python Script Executor"));
-
-    /**
      * Executes the USBq.py script.
      */
     public static Future<ArrayList<String>> executeUSBq() {
-        return pexecutor.submit(() -> {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Python Script Executor")).submit(() -> {
             ArrayList<String> ret = new ArrayList<>();
 
             try {

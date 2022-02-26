@@ -128,7 +128,7 @@ public class GitHubUtil {
         if (!url.contains("://"))
             return false;
 
-        String parts[] = url.split("://");
+        String[] parts = url.split("://");
 
         if (parts.length != 2)
             return false;

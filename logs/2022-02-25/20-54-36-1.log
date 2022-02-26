@@ -15,8 +15,7 @@
 [20-54-38] [SYSTEM_IO]: Userdata requested: RandomBackground
 [20-54-38] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-54-38] [SYSTEM_IO]: Userdata requested: fullscreen
-[20-54-38] [SYSTEM_IO]: Userdata requested: FullScreen
-[20-54-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-54-38] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [20-54-38] [THREAD STARTED]: Console Printing Animation
 [20-54-38] [SYSTEM_IO]: Userdata requested: OutputBorder
 [20-54-38] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -51,16 +50,14 @@
 [20-55-27] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdf
 [20-55-27] [THREAD STARTED]: notification appear animation
 [20-55-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[20-55-27] [THREAD STARTED]: Notificaiton vanish animater 1153249834
-[20-55-28] [THREAD STARTED]: Notificaiton vanish animater 1153249834
+[20-55-28] [THREAD STARTED]: Notificaiton vanish animater 1153249834 [2x]
 [20-55-28] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [1620668953], parentFrame = [Notification Test], associated text = [asdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [20-55-29] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1773, 456, 350, 600)], hash = [486330019], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
 [20-55-29] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [2079609504], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [20-55-29] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfdf
 [20-55-29] [THREAD STARTED]: notification appear animation
 [20-55-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[20-55-29] [THREAD STARTED]: Notificaiton vanish animater 1153254573
-[20-55-29] [THREAD STARTED]: Notificaiton vanish animater 1153254573
+[20-55-29] [THREAD STARTED]: Notificaiton vanish animater 1153254573 [2x]
 [20-55-30] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [1620668953], parentFrame = [Notification Test], associated text = [asdfasdfasasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [20-55-30] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1773, 456, 350, 600)], hash = [486330019], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
 [20-55-30] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [2079609504], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -74,16 +71,14 @@
 [20-55-34] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdf
 [20-55-34] [THREAD STARTED]: notification appear animation
 [20-55-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[20-55-34] [THREAD STARTED]: Notificaiton vanish animater -596509150
-[20-55-35] [THREAD STARTED]: Notificaiton vanish animater -596509150
+[20-55-35] [THREAD STARTED]: Notificaiton vanish animater -596509150 [2x]
 [20-55-35] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [1620668953], parentFrame = [Notification Test], associated text = [asdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [20-55-36] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1773, 456, 350, 600)], hash = [486330019], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
 [20-55-36] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [1362188857], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [20-55-36] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdffasdf
 [20-55-36] [THREAD STARTED]: notification appear animation
 [20-55-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[20-55-37] [THREAD STARTED]: Notificaiton vanish animater -596504442
-[20-55-37] [THREAD STARTED]: Notificaiton vanish animater -596504442
+[20-55-37] [THREAD STARTED]: Notificaiton vanish animater -596504442 [2x]
 [20-55-38] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1773, 456, 350, 600)], hash = [486330019], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
 [20-55-38] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 230, 150, 40)], hash = [352074529], parentFrame = [Notification Test], associated text = [Bottom], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [20-55-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 255, 28)], hash = [168594951], parentFrame = [Notification], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
