@@ -317,6 +317,20 @@ public class CyderGrid extends JLabel {
                             && ourY >= localMinY && ourY < localMaxY) {
                         // we should draw it so translate it relative to our bounds
 
+                        // local min -> 0
+                        // local max - 1 -> nodes - 1
+
+                        // translate our bounds to the bouns of [0, max) for the actual grid
+
+                        // we already know it is in bounds
+
+                        ourX -= localMinX;
+                        ourY -= localMinY;
+
+                        g2d.fillRect((drawGridLines ? 2 : 0) + ourX * squareLen,
+                                (drawGridLines ? 2 : 0) + ourY * squareLen,
+                                squareLen - (drawGridLines ? 2 : 0),
+                                squareLen - (drawGridLines ? 2 : 0));
                     }
                 } else {
                     // get the x and y of this node
@@ -379,6 +393,8 @@ public class CyderGrid extends JLabel {
     public void installClickPlacer() {
         this.addMouseListener(clickPlacer);
     }
+
+    //todo drawing is broken when translated
 
     /**
      * The listener which allows nodes to be placed on the grid via click.
