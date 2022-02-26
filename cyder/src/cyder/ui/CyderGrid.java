@@ -409,11 +409,27 @@ public class CyderGrid extends JLabel {
         int x = (int) ((clickX - offset) / (length / nodes));
         int y = (int) ((clickY - offset) / (length / nodes));
 
-        // don't add nodes if out of bounds
-        if (x < 0 || y < 0 || x >= nodes || y >= nodes)
-            return;
+        GridNode node = null;
 
-        GridNode node = new GridNode(defultNodeColor, x, y);
+        if (relativeZoomNode != null) {
+            int localMinX = relativeZoomNode.getX() - nodes / 2;
+            int localMinY = relativeZoomNode.getY() - nodes / 2;
+            int localMaxX = relativeZoomNode.getX() + nodes / 2;
+            int localMaxY = relativeZoomNode.getY() + nodes / 2;
+
+            if (x < localMinX || y < localMinY || x >= localMaxX || y >= localMaxY)
+                return;
+
+            // now we know it's inside of our local bounds so account for offset
+
+            node = new GridNode(defultNodeColor, x + localMinX, y + localMinY);
+        } else {
+            // don't add nodes if out of bounds
+            if (x < 0 || y < 0 || x >= nodes || y >= nodes)
+                return;
+
+            node = new GridNode(defultNodeColor, x, y);
+        }
 
         if (dragEvent) {
             if (grid.contains(node)) {

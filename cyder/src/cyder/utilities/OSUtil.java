@@ -630,6 +630,8 @@ public class OSUtil {
         }
     }
 
+    //todo web scrape "where am i" query and look for desktop-title-content element, and desktop-title-subcontent
+
     //todo paint widget, use a layout for the external control frames
 
     //todo put image average, image pixelator, and image resizer all in a image factory widget
