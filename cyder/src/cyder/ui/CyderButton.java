@@ -12,6 +12,7 @@ import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 
 public class CyderButton extends JButton {
@@ -39,26 +40,6 @@ public class CyderButton extends JButton {
         setUI(new MetalButtonUI() {
             protected Color getDisabledTextColor() {
                 return Color.black;
-            }
-        });
-
-        addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-
-                if (isEnabled()) {
-                    setBackground(originalColor.darker());
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                super.focusLost(e);
-
-                if (isEnabled()) {
-                    setBackground(originalColor);
-                }
             }
         });
     }
@@ -161,5 +142,35 @@ public class CyderButton extends JButton {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
+    }
+
+    /**
+     * The default focus listener for CyderButtons to show when the button is the focus owner.
+     */
+    private final FocusListener defaultFocusListener = new FocusAdapter() {
+        @Override
+        public void focusGained(FocusEvent e) {
+            super.focusGained(e);
+
+            if (isEnabled()) {
+                setBackground(originalColor.darker());
+            }
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            super.focusLost(e);
+
+            if (isEnabled()) {
+                setBackground(originalColor);
+            }
+        }
+    };
+
+    /**
+     * Adds the default focus listener to this CyderButton.
+     */
+    public void addDefaultFocusListener() {
+        addFocusListener(defaultFocusListener);
     }
 }
