@@ -37,8 +37,6 @@ public class GameOfLifeWidget {
     private static CyderLabel populationLabel;
     private static CyderLabel maxPopulationLabel;
 
-    private static CyderButton resetButton;
-
     private static boolean detectOscillations = false;
 
     private static int generationCount = 0;
@@ -161,28 +159,8 @@ public class GameOfLifeWidget {
         maxPopulationLabel.setBounds(20 + 287 + 20 + 287 + 20,32, 287, 30);
         conwayFrame.getContentPane().add(maxPopulationLabel);
 
-        resetButton = new CyderButton("Reset");
-        resetButton.addActionListener(e -> {
-            CyderThreadRunner.submit(() -> {
-                try {
-                    simulateButton.setEnabled(false);
-                    Thread.sleep(2L * iterationsPerSecond);
-                    simulateButton.setEnabled(true);
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
-            }, "Conway's Game of Life start button timeout");
-            simulateButton.setText("Simulate");
-
-            simulationRunning = false;
-            maxPopulation = 0;
-            maxPopulationGeneration = 0;
-            generationCount = 0;
-            iterationLabel.setText("Generation: 0");
-            maxPopulationLabel.setText("Max Population: 0 [Gen 0]");
-            grid = new int[currentGridLen][currentGridLen];
-            gridLabel.repaint();
-        });
+        CyderButton resetButton = new CyderButton("Reset");
+        resetButton.addActionListener(e -> reset());
         resetButton.setBounds(20,70 + 30 + 902, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(resetButton);
 
@@ -210,20 +188,26 @@ public class GameOfLifeWidget {
         simulateButton.setBounds(20 + (902 - 20) / 3 + 10,70 + 30 + 902, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(simulateButton);
 
-//        CyderSwitch switcher = new CyderSwitch((902 - 20) / 3, 60, CyderSwitch.State.INDETERMINITE);
-//        switcher.setOnText("Gliders");
-//        switcher.setIndeterminiteText("Presets");
-//        switcher.setButtonPercent(50);
-//        switcher.setOffText("Copperhead");
-//        switcher.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 20, (902 - 20) / 3, 80);
-//        conwayFrame.getContentPane().add(switcher);
-//        switcher.getSwitchButton().addActionListener(e -> {
-//            System.out.println(switcher.getText());
-//        });
-
-//        setPresetButton.addActionListener(e-> setPreset(switcher.getState()
-//                == CyderSwitch.State.ON ? "Gliders" : "Copperhead"));
-
+        CyderSwitch switcher = new CyderSwitch((902 - 20) / 3, 60, CyderSwitch.State.INDETERMINITE);
+        switcher.setOnText("Gliders");
+        switcher.setIndeterminiteText("Presets");
+        switcher.setButtonPercent(50);
+        switcher.setOffText("Copperhead");
+        switcher.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 20, (902 - 20) / 3, 80);
+        conwayFrame.getContentPane().add(switcher);
+        switcher.getSwitchButton().addActionListener(e -> {
+            switch (switcher.getState()) {
+                case ON:
+                case INDETERMINITE:
+                    setPreset("Copperhead");
+                    break;
+                case OFF:
+                    setPreset("Gliders");
+                    break;
+                default:
+                    throw new IllegalStateException("Illegal switch state: " + switcher.getState());
+            }
+        });
 
         CyderCheckbox oscillationDetector = new CyderCheckbox();
         oscillationDetector.setToolTipText("Detect oscillations");
@@ -273,7 +257,7 @@ public class GameOfLifeWidget {
         }
 
         if (preset.equals("Gliders")) {
-            resetButton.doClick();
+            reset();
             grid = new int[currentGridLen][currentGridLen];
 
             grid[1][5] = 1;
@@ -315,7 +299,7 @@ public class GameOfLifeWidget {
 
             gridLabel.repaint();
         } else if (preset.equals("Copperhead")) {
-            resetButton.doClick();
+            reset();
             grid = new int[currentGridLen][currentGridLen];
 
             //bottom square
@@ -364,6 +348,28 @@ public class GameOfLifeWidget {
 
             gridLabel.repaint();
         }
+    }
+
+    private static void reset() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                simulateButton.setEnabled(false);
+                Thread.sleep(2L * iterationsPerSecond);
+                simulateButton.setEnabled(true);
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }, "Conway's Game of Life start button timeout");
+        simulateButton.setText("Simulate");
+
+        simulationRunning = false;
+        maxPopulation = 0;
+        maxPopulationGeneration = 0;
+        generationCount = 0;
+        iterationLabel.setText("Generation: 0");
+        maxPopulationLabel.setText("Max Population: 0 [Gen 0]");
+        grid = new int[currentGridLen][currentGridLen];
+        gridLabel.repaint();
     }
 
     private static int[][] lastGen;

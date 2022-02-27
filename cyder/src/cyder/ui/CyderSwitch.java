@@ -141,12 +141,9 @@ public class CyderSwitch extends JLabel {
      * @param state the new state of the switch
      */
     public void setState(State state) {
-        if (this.state == state)
-            return;
+        boolean shouldAniamte = (this.isVisible() && this.getParent() != null && this.state != state);
 
         this.state = state;
-
-        boolean shouldAniamte = (this.isVisible() && this.getParent() != null);
 
         switch(state) {
             case ON:
@@ -306,6 +303,7 @@ public class CyderSwitch extends JLabel {
      */
     public void setOnText(String onText) {
         this.onText = onText;
+        setState(this.state);
     }
 
     /**
@@ -324,6 +322,7 @@ public class CyderSwitch extends JLabel {
      */
     public void setIndeterminiteText(String indeterminiteText) {
         this.indeterminiteText = indeterminiteText;
+        setState(this.state);
     }
 
     /**
@@ -342,6 +341,7 @@ public class CyderSwitch extends JLabel {
      */
     public void setOffText(String offText) {
         this.offText = offText;
+        setState(this.state);
     }
 
 
@@ -362,15 +362,5 @@ public class CyderSwitch extends JLabel {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
-    }
-
-    /**
-     * Returns the text displayed by the switch button.
-     *
-     * @return the text displayed by the switch button
-     */
-    @Override
-    public String getText() {
-        return switchButton.getText();
     }
 }
