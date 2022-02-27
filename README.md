@@ -27,11 +27,11 @@ the Convex Hull problem, and Conway's Game of Life (Rest in Peace John Conway).
 
 ## Screenshots
 
-![Insomnia Cyder _2022-02-17](https://user-images.githubusercontent.com/60986919/154597225-75b1ae4f-6382-4a4a-a4c7-4d07819d8f03.png)
+![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/155893528-31fcbfae-6753-4b0c-ba82-4a450f7049b2.png)
 
-![Dallas' weather_2022-02-17](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
+![Weather](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
 
-![Twillzzz - Lord_2022-02-22](https://user-images.githubusercontent.com/60986919/155233169-a823bf1f-fe8d-415d-8af1-36e492b3bf32.png)
+![Audio Player](https://user-images.githubusercontent.com/60986919/155233169-a823bf1f-fe8d-415d-8af1-36e492b3bf32.png)
 
 ### Pathfinder
 
@@ -51,7 +51,7 @@ its own issues on GitHub. Cyder even features a custom
 `@Widget` annotation which is used to mark Cyder widgets which
 can then be validated and found upon runtime.
 
-![Screenshot 2022-02-17 220731](https://user-images.githubusercontent.com/60986919/154615732-c1d9adc9-0e01-4f5d-be70-7e4c22a70631.png)
+![Self Analyzing](https://user-images.githubusercontent.com/60986919/155893518-24cb4df1-f66f-4959-b368-b13d8ae17ae6.png)
 
 ## Usage
 
