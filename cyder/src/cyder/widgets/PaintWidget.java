@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
@@ -205,11 +206,53 @@ public class PaintWidget {
         paintControlsFrame.getContentPane().add(delete);
         group.addCheckbox(delete);
 
+        // algorithms
+
+
+        CyderLabel brushLabel = new CyderLabel("Brush width: " + brushWidth);
+        brushLabel.setBounds(300,30, 250, 40);
+        paintControlsFrame.getContentPane().add(brushLabel);
+
+        JSlider brushWidthSlider = new JSlider(JSlider.HORIZONTAL, MIN_BRUSH_WIDTH,
+                MAX_BRUSH_WIDTH, DEFAULT_BRUSH_WIDTH);
+        CyderSliderUI UI = new CyderSliderUI(brushWidthSlider);
+        UI.setThumbStroke(new BasicStroke(2.0f));
+        UI.setSliderShape(SliderShape.RECT);
+        UI.setFillColor(Color.black);
+        UI.setOutlineColor(CyderColors.navy);
+        UI.setNewValColor(CyderColors.regularBlue);
+        UI.setOldValColor(CyderColors.regularPink);
+        UI.setTrackStroke(new BasicStroke(3.0f));
+        brushWidthSlider.setUI(UI);
+        brushWidthSlider.setBounds(300, 55, 250, 40);
+        brushWidthSlider.setPaintTicks(false);
+        brushWidthSlider.setPaintLabels(false);
+        brushWidthSlider.setVisible(true);
+        brushWidthSlider.setValue(DEFAULT_BRUSH_WIDTH);
+        brushWidthSlider.addChangeListener(e -> {
+            int newWidth = brushWidthSlider.getValue();
+            brushWidth = newWidth;
+            brushLabel.setText("Brush width: " + newWidth);
+        });
+        brushWidthSlider.setOpaque(false);
+        brushWidthSlider.setToolTipText("Brush Width");
+        brushWidthSlider.setFocusable(false);
+        brushWidthSlider.repaint();
+        paintControlsFrame.getContentPane().add(brushWidthSlider);
+
         cyderGrid.setDefaultNodeColor(currentPaintColor);
 
         paintControlsFrame.setVisible(true);
         paintControlsFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
+
+        brushLabel.setRippleMsTimeout(500);
     }
+
+    public static final int DEFAULT_BRUSH_WIDTH = 2;
+    public static final int MAX_BRUSH_WIDTH = 20;
+    public static final int MIN_BRUSH_WIDTH = 1;
+
+    private static int brushWidth = DEFAULT_BRUSH_WIDTH;
 
     /**
      * Sets the current color and wipes any forward history.
