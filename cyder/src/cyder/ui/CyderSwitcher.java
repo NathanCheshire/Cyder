@@ -4,12 +4,14 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.ui.objects.SwitchState;
 
+import javax.swing.*;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * A combo box which cycles through the possible values.
  */
-public class CyderSwitcher {
+public class CyderSwitcher extends JLabel {
     /**
      * The field in which the current value is displayed in.
      */
@@ -55,7 +57,7 @@ public class CyderSwitcher {
             throw new IllegalArgumentException("Height is less than 0");
 
         Preconditions.checkNotNull(states, "Provided states are null");
-        Preconditions.checkNotNull(currentState, "Provided starting state is null");
+        Preconditions.checkNotNull(startingState, "Provided starting state is null");
 
         if (states.size() < 1)
             throw new IllegalArgumentException("Provided states is empty");
@@ -68,15 +70,28 @@ public class CyderSwitcher {
         this.width = width;
         this.height = height;
 
+        this.setSize(width, height);
+
+        int borderOffset = 5;
+
         valueDisplayField = new CyderTextField(0);
         valueDisplayField.setEditable(false);
         valueDisplayField.setFocusable(false);
-        valueDisplayField.setSize(width, height);
+        valueDisplayField.setSize(width - height + borderOffset, height);
+        this.add(valueDisplayField);
+        valueDisplayField.setText(currentState.getDisplayValue());
+        valueDisplayField.setToolTipText(currentState.getMappedValue());
 
         iterationButton = new CyderButton(CyderStrings.downArrow);
         iterationButton.setSize(height, height);
         iterationButton.setLocation(width - height, 0);
-        valueDisplayField.add(iterationButton);
+        this.add(iterationButton);
+
+        iterationButton.addActionListener(e -> {
+            currentState = getNextState();
+            valueDisplayField.setText(currentState.getDisplayValue());
+            valueDisplayField.setToolTipText(currentState.getMappedValue());
+        });
 
         valueDisplayField.setText(startingState.getDisplayValue());
     }
@@ -157,5 +172,15 @@ public class CyderSwitcher {
     public void setCurrentState(SwitchState currentState) {
         this.currentState = currentState;
         valueDisplayField.setText(currentState.getDisplayValue());
+    }
+
+
+    /**
+     * Invokes the provided function before the state changes.
+     *
+     * @param function the provided function to invoke before the state changes.
+     */
+    public void addOnChangeListener(Function<Void, Void> function) {
+        iterationButton.addActionListener((OptionalParam) -> function.apply(null));
     }
 }

@@ -1,0 +1,44 @@
+[13-16-09] [ENTRY]: [Nathan]
+[13-16-09] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-16-10] [THREAD STARTED]: Splash Loader
+[13-16-10] [THREAD STARTED]: Splash Animation
+[13-16-11] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[13-16-11] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[13-16-11] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[13-16-11] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[13-16-11] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[13-16-11] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-16-11] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-16-11] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-16-11] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-16-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[13-16-11] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[13-16-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-16-11] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-16-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-16-11] [SYSTEM_IO]: Userdata requested: fullscreen
+[13-16-11] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[13-16-11] [THREAD STARTED]: Console Printing Animation
+[13-16-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-16-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-16-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-16-11] [THREAD STARTED]: Console Input Caret Position Updater
+[13-16-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-16-11] [SYSTEM_IO]: Userdata requested: InputFill
+[13-16-11] [THREAD STARTED]: High Ping Checker
+[13-16-11] [THREAD STARTED]: Hourly Chime Checker
+[13-16-11] [THREAD STARTED]: Console Clock Updater
+[13-16-11] [THREAD STARTED]: Cyder Busy Checker
+[13-16-11] [THREAD STARTED]: ConsoleFrame Data Saver
+[13-16-12] [ACTION]: Console loaded in 2773ms
+[13-16-12] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1412, 362, 842, 638)], hash = [446445803], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[13-16-12] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [439418378], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-16-12] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[13-16-12] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-16-12] [ENTRY]: [TESTING MODE]
+[13-16-12] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2773ms
+[13-16-12] [THREAD STARTED]: notification appear animation
+[13-16-12] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-16-12] [THREAD STARTED]: Notificaiton vanish animater -369959768
+[13-16-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [7x]
+[13-16-57] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
