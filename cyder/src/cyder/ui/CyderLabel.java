@@ -35,6 +35,18 @@ public class CyderLabel extends JLabel {
         });
     }
 
+    /**
+     * Returns html text which constrains its parent label to the provided pixel bounds.
+     *
+     * @param text the text of the label
+     * @param width the width of the label
+     * @param height the height of the label
+     * @return html text which constrains its parent label to the provided pixel bounds
+     */
+    public static String generateConstraintedWidthTag(String text, int width, int height) {
+        return "<div style=\"width:" + width + "px; height:" + height + "px; background:#000000\">" + text + "</div>";
+    }
+
     public CyderLabel(String text, int horizontalAlignment) {
         setText(text);
         setForeground(CyderColors.navy);

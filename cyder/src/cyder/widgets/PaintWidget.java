@@ -244,8 +244,6 @@ public class PaintWidget {
 
         paintControlsFrame.setVisible(true);
         paintControlsFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
-
-        brushLabel.setRippleMsTimeout(500);
     }
 
     public static final int DEFAULT_BRUSH_WIDTH = 2;
