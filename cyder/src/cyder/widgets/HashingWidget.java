@@ -100,6 +100,8 @@ public class HashingWidget {
         hashButton.setBounds(50,140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
+        //todo abstract this field with switch button out
+
         CyderTextField hashAlgorithmField = new CyderTextField(0);
         hashAlgorithmField.setFocusable(false);
         hashAlgorithmField.setBounds(240,140,180,40);

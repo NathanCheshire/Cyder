@@ -11,22 +11,80 @@ import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * An animated binary switch with smooth transition animations.
+ */
 public class CyderSwitch extends JLabel {
+    /**
+     * The possible states for the switch.
+     */
     public enum State {
-        ON,OFF,INDETERMINITE
+        /**
+         * On the right.
+         */
+        ON,
+        /**
+         * On the left.
+         */
+        OFF,
+        /**
+         * In the middle.
+         */
+        INDETERMINITE
     }
 
+    /**
+     * The width of this switch.
+     */
     private int width;
+
+    /**
+     * The height of this switch.
+     */
     private int height;
+
+    /**
+     * The current state of the switch.
+     */
     private State state;
-    private CyderButton switchButton;
+
+    /**
+     * The inner button used to control the switch state.
+     */
+    private final CyderButton switchButton;
+
+    /**
+     * The percentage of the switch that the button should take.
+     */
     private int buttonPercent = 25;
+
+    /**
+     * The delay between animation frames.
+     */
     private int animationDelay = 4;
 
+    /**
+     * The text to use for the on state.
+     */
     private String onText = "1";
+
+    /**
+     * The text to use for the off state.
+     */
     private String indeterminiteText = "?";
+
+    /**
+     * The text to use for the on state.
+     */
     private String offText = "0";
 
+    /**
+     * Constructs a new switch from the provided parameters.
+     *
+     * @param width the width of the switch
+     * @param height the height of the switch
+     * @param startingState the state to initialize the switch in
+     */
     public CyderSwitch(int width, int height, State startingState) {
         this.width = width;
         this.height = height;
@@ -60,15 +118,32 @@ public class CyderSwitch extends JLabel {
         });
     }
 
+    /**
+     * Constructs a new swtich with the inital state as off.
+     *
+     * @param width the switch width
+     * @param height the switch height
+     */
     public CyderSwitch(int width, int height) {
         this(width, height, State.OFF);
     }
 
+    /**
+     * Constructs a new switch with a width of 400, a height of 120, and a state of off.
+     */
     public CyderSwitch () {
         this(400,120);
     }
 
+    /**
+     * Sets and animates the state of the switch.
+     *
+     * @param state the new state of the switch
+     */
     public void setState(State state) {
+        if (this.state == state)
+            return;
+
         this.state = state;
 
         boolean shouldAniamte = (this.isVisible() && this.getParent() != null);
@@ -110,40 +185,85 @@ public class CyderSwitch extends JLabel {
         repaint();
     }
 
+    /**
+     * Returns the button used for the switch.
+     *
+     * @return the button used for the switch
+     */
     public CyderButton getSwitchButton() {
         return this.switchButton;
     }
 
+    /**
+     * Returns the state of the switch.
+     *
+     * @return the state of the switch
+     */
     public State getState() {
         return this.state;
     }
 
+    /**
+     * Returns the switch of this switch.
+     *
+     * @return the switch of this switch
+     */
     @Override
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Returns the height of this switch.
+     *
+     * @return the height of this switch
+     */
     @Override
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Sets the width of this switch.
+     *
+     * @param width the width of this switch
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Sets the height of this switch.
+     *
+     * @param height the height of this switch
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Sets the button percentage.
+     *
+     * @return the button percentage
+     */
     public int getButtonPercent() {
         return buttonPercent;
     }
 
+    /**
+     * Returns the animation delay.
+     *
+     * @return the animation delay
+     */
     public int getAnimationDelay() {
         return animationDelay;
     }
 
+    /**
+     * Sets and updates the button percentage.
+     *
+     * @param buttonPercent and updates the button percentage
+     */
     public void setButtonPercent(int buttonPercent) {
         this.buttonPercent = buttonPercent;
         switchButton.setSize((int) (this.width * ((double) this.buttonPercent / 100)) - 10, this.height - 20);
@@ -161,41 +281,84 @@ public class CyderSwitch extends JLabel {
         }
     }
 
+    /**
+     * Sets the animation delay.
+     *
+     * @param animationDelay the animation delay
+     */
     public void setAnimationDelay(int animationDelay) {
         this.animationDelay = animationDelay;
     }
 
+    /**
+     * Returns the text used for the on state.
+     *
+     * @return the text used for the on state
+     */
     public String getOnText() {
         return onText;
     }
 
+    /**
+     * Sets the text used for the on state.
+     *
+     * @param onText the text used for the on state
+     */
     public void setOnText(String onText) {
         this.onText = onText;
     }
 
+    /**
+     * Returns the text used for the indeterminite state.
+     *
+     * @return the text used for the indeterminite state
+     */
     public String getIndeterminiteText() {
         return indeterminiteText;
     }
 
+    /**
+     * Sets the text used for the indeterminite state.
+     *
+     * @param indeterminiteText the text used for the indeterminite state
+     */
     public void setIndeterminiteText(String indeterminiteText) {
         this.indeterminiteText = indeterminiteText;
     }
 
+    /**
+     * Returns the text used for the off state.
+     *
+     * @return the text used for the off state
+     */
     public String getOffText() {
         return offText;
     }
 
+    /**
+     * Sets the text for the off state.
+     *
+     * @param offText the text for the off state
+     */
     public void setOffText(String offText) {
         this.offText = offText;
     }
 
-    //overridden to also disable the button
+
+    /**
+     * Sets whether the switch is enabled.
+     *
+     * @param b whether the switch is enabled
+     */
     @Override
     public void setEnabled(boolean b) {
         switchButton.setEnabled(b);
         super.setEnabled(b);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);

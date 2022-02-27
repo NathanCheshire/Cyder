@@ -37,7 +37,7 @@ public class TTTGame {
     private static CyderButton tttReset;
 
     /**
-     * The foreground color used for teh tic tac toe buttons.
+     * The foreground color used for the tic tac toe buttons.
      */
     public static final Color tttblue = new Color(71, 81, 117);
 
