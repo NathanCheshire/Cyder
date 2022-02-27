@@ -156,6 +156,9 @@ public class PaintWidget {
         previewLabel.repaint();
         previewLabel.setToolTipText(ColorUtil.rgbToHexString(newColor));
         colorHexField.setText(ColorUtil.rgbToHexString(newColor));
+
+        // new path so clear forward colors
+        forwardColors.clear();
     }
 
     /**
