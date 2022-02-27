@@ -207,9 +207,6 @@ public class PaintWidget {
         paintControlsFrame.getContentPane().add(delete);
         group.addCheckbox(delete);
 
-        // algorithms
-
-
         CyderLabel brushLabel = new CyderLabel("Brush width: " + brushWidth);
         brushLabel.setBounds(300,30, 250, 40);
         paintControlsFrame.getContentPane().add(brushLabel);
@@ -241,6 +238,10 @@ public class PaintWidget {
         brushWidthSlider.setFocusable(false);
         brushWidthSlider.repaint();
         paintControlsFrame.getContentPane().add(brushWidthSlider);
+
+        //todo history to undo and redo
+
+        //todo selection tool with ability to crop
 
         cyderGrid.setNodeColor(currentPaintColor);
 

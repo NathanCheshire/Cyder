@@ -107,7 +107,7 @@ public class CyderGrid extends JLabel {
             @Override
             public boolean add(GridNode gridNode) {
                 if (grid.contains(gridNode))
-                    return false;
+                    super.remove(gridNode);
 
                 return super.add(gridNode);
             }
