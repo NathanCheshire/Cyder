@@ -11,17 +11,13 @@
 [13-28-47] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [13-28-47] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [13-28-47] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[13-28-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-28-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-28-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-28-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-28-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [13-28-48] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [13-28-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [13-28-48] [SYSTEM_IO]: Userdata requested: RandomBackground
 [13-28-48] [SYSTEM_IO]: Userdata requested: FullScreen
 [13-28-48] [SYSTEM_IO]: Userdata requested: fullscreen
-[13-28-48] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-28-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-28-48] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [13-28-48] [THREAD STARTED]: Console Printing Animation
 [13-28-48] [SYSTEM_IO]: Userdata requested: OutputBorder
 [13-28-48] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -51,16 +47,14 @@
 [13-28-50] [ACTION]: [Switcher test] [NOTIFICATION] dos long
 [13-28-50] [THREAD STARTED]: notification appear animation
 [13-28-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[13-28-50] [THREAD STARTED]: Notificaiton vanish animater -1709372584
-[13-28-51] [THREAD STARTED]: Notificaiton vanish animater -1709372584
+[13-28-51] [THREAD STARTED]: Notificaiton vanish animater -1709372584 [2x]
 [13-28-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [13-28-52] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1693, 621, 280, 120)], hash = [1562529550], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Switcher test] notification queue checker
 [13-28-52] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [311020361], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-28-52] [ACTION]: [Switcher test] [NOTIFICATION] tres long
 [13-28-52] [THREAD STARTED]: notification appear animation
 [13-28-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[13-28-52] [THREAD STARTED]: Notificaiton vanish animater -1709372460
-[13-28-52] [THREAD STARTED]: Notificaiton vanish animater -1709372460
+[13-28-52] [THREAD STARTED]: Notificaiton vanish animater -1709372460 [2x]
 [13-28-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [13-28-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [13-28-54] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1412, 362, 842, 638)], hash = [1817789863], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]

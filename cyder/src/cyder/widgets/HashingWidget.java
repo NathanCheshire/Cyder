@@ -4,7 +4,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
@@ -12,7 +11,8 @@ import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
-import cyder.ui.CyderTextField;
+import cyder.ui.CyderSwitcher;
+import cyder.ui.objects.SwitchState;
 import cyder.utilities.OSUtil;
 import cyder.utilities.SecurityUtil;
 
@@ -22,11 +22,12 @@ import java.util.ArrayList;
 public class HashingWidget {
     private CyderButton hashButton;
     private CyderPasswordField hashField;
-    private int algorithmIndex = 0;
-    private final ArrayList<String> algorithms = new ArrayList<>();
+    private CyderSwitcher switcher;
 
-    //empty constructor
-    public HashingWidget() {
+    /**
+     * Constructs a new hashing widget.
+     */
+    private HashingWidget() {
         //multiple widgets should be allowed
     }
 
@@ -38,10 +39,6 @@ public class HashingWidget {
 
     public void innerShowGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "HASH");
-
-        algorithms.add("SHA-256");
-        algorithms.add("SHA-1");
-        algorithms.add("MD5");
 
         CyderFrame hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -68,21 +65,14 @@ public class HashingWidget {
                 String inform;
                 String algorithm;
 
-                switch (algorithmIndex) {
-                    case 0:
-                        algorithm = "SHA256";
-                        hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-                        break;
-                    case 1:
-                        algorithm = "SHA1";
-                        hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
-                        break;
-                    case 2:
-                        algorithm = "MD5";
-                        hashResult = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
-                        break;
-                    default:
-                        throw new IllegalArgumentException("Invalid algorithm index: " + algorithmIndex);
+                algorithm = switcher.getCurrentState().getDisplayValue();
+
+                if (algorithm.equals("SHA-256")) {
+                    hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
+                } else if (algorithm.equals("SHA-1")) {
+                    hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
+                } else {
+                    hashResult = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
                 }
 
                 inform = "Your hashed password is:<br/>" + hashResult
@@ -101,27 +91,16 @@ public class HashingWidget {
         hashButton.setBounds(50,140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
-        //todo new cyder combo box
-        //todo make all speed sliders work the same, higher means faster/more
-        //todo abstract this field with switch button out
+        ArrayList<SwitchState> states = new ArrayList<>();
+        states.add(new SwitchState("SHA-256", "SHA256 Algorithm"));
+        states.add(new SwitchState("SHA-1", "SHA-1 Algorithm"));
+        states.add(new SwitchState("MD5", "MD5 Algorithm (Not secure)"));
 
-        CyderTextField hashAlgorithmField = new CyderTextField(0);
-        hashAlgorithmField.setFocusable(false);
-        hashAlgorithmField.setBounds(240,140,180,40);
-        hashAlgorithmField.setEditable(false);
-        hashFrame.getContentPane().add(hashAlgorithmField);
-        hashAlgorithmField.setText(algorithms.get(algorithmIndex));
+        SwitchState startingState = states.get(0);
 
-        CyderButton hashDropDown = new CyderButton(CyderStrings.downArrow);
-        hashDropDown.setBounds(240 + 170,140,40,40);
-        hashFrame.getContentPane().add(hashDropDown);
-        hashDropDown.addActionListener(e -> {
-            algorithmIndex++;
-            if (algorithmIndex == algorithms.size())
-                algorithmIndex = 0;
-
-            hashAlgorithmField.setText(algorithms.get(algorithmIndex));
-        });
+        switcher = new CyderSwitcher(210,40, states, startingState);
+        switcher.setBounds(240,140,210,40);
+        hashFrame.getContentPane().add(switcher);
 
         hashFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
         hashFrame.setVisible(true);
