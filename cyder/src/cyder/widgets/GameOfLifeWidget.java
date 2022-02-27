@@ -210,15 +210,20 @@ public class GameOfLifeWidget {
         simulateButton.setBounds(20 + (902 - 20) / 3 + 10,70 + 30 + 902, (902 - 20) / 3, 40);
         conwayFrame.getContentPane().add(simulateButton);
 
-        String[] presets = {"Gliders","Copperhead"};
-        CyderComboBox presetComboBox = new CyderComboBox((902 - 20) / 3, 40, presets);
-        presetComboBox.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902, (902 - 20) / 3, 40);
-        conwayFrame.getContentPane().add(presetComboBox);
+//        CyderSwitch switcher = new CyderSwitch((902 - 20) / 3, 60, CyderSwitch.State.INDETERMINITE);
+//        switcher.setOnText("Gliders");
+//        switcher.setIndeterminiteText("Presets");
+//        switcher.setButtonPercent(50);
+//        switcher.setOffText("Copperhead");
+//        switcher.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 20, (902 - 20) / 3, 80);
+//        conwayFrame.getContentPane().add(switcher);
+//        switcher.getSwitchButton().addActionListener(e -> {
+//            System.out.println(switcher.getText());
+//        });
 
-        CyderButton setPresetButton = new CyderButton("Set Preset");
-        setPresetButton.addActionListener(e-> setPreset(presetComboBox.getValue()));
-        setPresetButton.setBounds(20 + 2* (902 - 20) / 3 + 20,70 + 30 + 902 + 50, (902 - 20) / 3, 40);
-        conwayFrame.getContentPane().add(setPresetButton);
+//        setPresetButton.addActionListener(e-> setPreset(switcher.getState()
+//                == CyderSwitch.State.ON ? "Gliders" : "Copperhead"));
+
 
         CyderCheckbox oscillationDetector = new CyderCheckbox();
         oscillationDetector.setToolTipText("Detect oscillations");

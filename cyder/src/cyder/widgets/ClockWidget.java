@@ -56,8 +56,6 @@ public class ClockWidget {
     private static String currentLocation = "Greenwich, London";
     private static int currentGMTOffset = 0;
 
-    private static CyderComboBox timezoneCombo;
-
     @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone")
     //it's ya boi, Greenwich
     public static void showGUI() {

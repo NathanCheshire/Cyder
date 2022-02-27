@@ -465,23 +465,6 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    public static void comboBoxTest() {
-        CyderFrame testFrame = new CyderFrame(400,400);
-        testFrame.setTitle("ComboBox Test");
-
-        CyderComboBox ccb = new CyderComboBox(200,40, new String[]{"one","two","three"});
-        ccb.setBounds(40,40,200,40);
-        testFrame.getContentPane().add(ccb);
-
-        CyderButton printButton = new CyderButton("Print choice");
-        printButton.setBounds(40,150,200,40);
-        testFrame.getContentPane().add(printButton);
-        printButton.addActionListener(e -> testFrame.notify(new NotificationBuilder(ccb.getValue())));
-
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
-    }
-
     public static void rippleLabelTest() {
         CyderFrame rippleTestFrame = new CyderFrame(600,600);
         rippleTestFrame.setTitle("Ripple Test");

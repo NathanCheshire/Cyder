@@ -42,6 +42,11 @@ public class CyderStrings {
     public static final String bulletPoint = "\u2022";
 
     /**
+     * The downward pointing triangle character (▼).
+     */
+    public static final String downArrow = "\u25BC";
+
+    /**
      * Instantiation of constants class not allowed.
      */
     private CyderStrings() {

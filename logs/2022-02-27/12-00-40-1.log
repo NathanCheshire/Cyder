@@ -1,0 +1,85 @@
+[12-00-40] [ENTRY]: [Nathan]
+[12-00-40] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-00-41] [THREAD STARTED]: Splash Loader
+[12-00-41] [THREAD STARTED]: Splash Animation
+[12-00-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[12-00-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[12-00-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[12-00-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[12-00-42] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[12-00-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-00-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-00-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-00-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-00-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[12-00-42] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[12-00-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-00-42] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-00-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-00-42] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-00-42] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-00-43] [THREAD STARTED]: Console Printing Animation
+[12-00-43] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-00-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-00-43] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-00-43] [THREAD STARTED]: Console Input Caret Position Updater
+[12-00-43] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-00-43] [SYSTEM_IO]: Userdata requested: InputFill
+[12-00-43] [THREAD STARTED]: High Ping Checker
+[12-00-43] [THREAD STARTED]: Hourly Chime Checker
+[12-00-43] [THREAD STARTED]: Console Clock Updater
+[12-00-43] [THREAD STARTED]: Cyder Busy Checker
+[12-00-43] [THREAD STARTED]: ConsoleFrame Data Saver
+[12-00-43] [ACTION]: Console loaded in 3113ms
+[12-00-43] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1412, 362, 842, 638)], hash = [89509666], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[12-00-43] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1485589231], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-00-43] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[12-00-43] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-00-43] [ENTRY]: [TESTING MODE]
+[12-00-43] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3113ms
+[12-00-43] [THREAD STARTED]: notification appear animation
+[12-00-43] [SYSTEM_IO]: Userdata requested: laststart
+[12-00-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-00-43] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-00-43] [THREAD STARTED]: Notificaiton vanish animater -532421704
+[12-00-49] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[12-00-52] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-00-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1433, 266, 800, 830)], hash = [1646027992], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
+[12-00-52] [THREAD STARTED]: Paint CyderFrame dispose thread
+[12-00-52] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-00-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-00-54] [CLIENT]: conway
+[12-00-54] [SYSTEM_IO]: Userdata requested: filterchat
+[12-00-54] [CONSOLE_OUT]: [STRING] Opening widget: GameOfLifeWidget
+[12-00-54] [WIDGET OPENED]: CONWAY
+[12-00-54] [HANDLE]: PRIMARY HANDLE
+[12-00-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Controls], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-00-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1433, 1086, 600, 150)], hash = [1690281563], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Controls]
+[12-00-56] [THREAD STARTED]: Controls CyderFrame dispose thread
+[12-00-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-00-57] [THREAD STARTED]: component left thread
+[12-00-57] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(10, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Copperhead], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-00-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-00-58] [THREAD STARTED]: component right thread
+[12-00-58] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(221, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Gliders], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-00] [THREAD STARTED]: component left thread
+[12-01-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(10, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Copperhead], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-00] [THREAD STARTED]: component right thread
+[12-01-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(221, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Gliders], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-01-01] [THREAD STARTED]: component left thread
+[12-01-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(10, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Copperhead], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-03] [THREAD STARTED]: Conway's Game of Life start button timeout
+[12-01-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 1002, 294, 40)], hash = [990414142], parentFrame = [Conway's Game of Life], associated text = [Reset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(628, 1052, 294, 40)], hash = [1823419539], parentFrame = [Conway's Game of Life], associated text = [Set Preset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-04] [THREAD STARTED]: component right thread
+[12-01-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(221, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Gliders], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-01-05] [THREAD STARTED]: Conway's Game of Life start button timeout
+[12-01-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 1002, 294, 40)], hash = [990414142], parentFrame = [Conway's Game of Life], associated text = [Reset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(628, 1052, 294, 40)], hash = [1823419539], parentFrame = [Conway's Game of Life], associated text = [Set Preset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-01-11] [THREAD STARTED]: component left thread
+[12-01-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(10, 10, 63, 20)], hash = [888258244], parentFrame = [Conway's Game of Life], associated text = [Copperhead], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-01-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [10x]
+[12-02-09] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -364,4 +364,13 @@ public class CyderSwitch extends JLabel {
         return ReflectionUtil.commonCyderUIReflection(this);
     }
 
+    /**
+     * Returns the text displayed by the switch button.
+     *
+     * @return the text displayed by the switch button
+     */
+    @Override
+    public String getText() {
+        return switchButton.getText();
+    }
 }

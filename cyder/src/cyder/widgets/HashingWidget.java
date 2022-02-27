@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
@@ -100,6 +101,8 @@ public class HashingWidget {
         hashButton.setBounds(50,140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
+        //todo new cyder combo box
+        //todo make all speed sliders work the same, higher means faster/more
         //todo abstract this field with switch button out
 
         CyderTextField hashAlgorithmField = new CyderTextField(0);
@@ -109,7 +112,7 @@ public class HashingWidget {
         hashFrame.getContentPane().add(hashAlgorithmField);
         hashAlgorithmField.setText(algorithms.get(algorithmIndex));
 
-        CyderButton hashDropDown = new CyderButton("▼");
+        CyderButton hashDropDown = new CyderButton(CyderStrings.downArrow);
         hashDropDown.setBounds(240 + 170,140,40,40);
         hashFrame.getContentPane().add(hashDropDown);
         hashDropDown.addActionListener(e -> {

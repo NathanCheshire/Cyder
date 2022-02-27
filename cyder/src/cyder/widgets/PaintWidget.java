@@ -105,7 +105,6 @@ public class PaintWidget {
 
         paintControlsFrame = new CyderFrame(600,150);
         paintControlsFrame.setTitle("Controls");
-        paintControlsFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
 
         int colorLabelX = 70;
         int colorLabelY = 40;
@@ -241,12 +240,12 @@ public class PaintWidget {
 
         //todo history to undo and redo
 
-        //todo selection tool with ability to crop
+        //todo selection tool with ability to crop to selection,
 
         cyderGrid.setNodeColor(currentPaintColor);
 
         paintControlsFrame.setVisible(true);
-        paintControlsFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
+        paintControlsFrame.setLocationRelativeTo(paintFrame);
     }
 
     /**
