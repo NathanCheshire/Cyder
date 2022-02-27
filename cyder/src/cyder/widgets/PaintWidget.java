@@ -63,6 +63,7 @@ public class PaintWidget {
         cyderGrid.installClickPlacer();
         cyderGrid.installDragPlacer();
         cyderGrid.setSmoothScrolling(true);
+        cyderGrid.setDrawWidth(DEFAULT_BRUSH_WIDTH);
 
         paintFrame.setVisible(true);
         paintFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
@@ -233,6 +234,7 @@ public class PaintWidget {
             int newWidth = brushWidthSlider.getValue();
             brushWidth = newWidth;
             brushLabel.setText("Brush width: " + newWidth);
+            cyderGrid.setDrawWidth(brushWidth);
         });
         brushWidthSlider.setOpaque(false);
         brushWidthSlider.setToolTipText("Brush Width");
@@ -240,16 +242,30 @@ public class PaintWidget {
         brushWidthSlider.repaint();
         paintControlsFrame.getContentPane().add(brushWidthSlider);
 
-        cyderGrid.setDefaultNodeColor(currentPaintColor);
+        cyderGrid.setNodeColor(currentPaintColor);
 
         paintControlsFrame.setVisible(true);
         paintControlsFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
     }
 
+    /**
+     * The default brush width.
+     */
     public static final int DEFAULT_BRUSH_WIDTH = 2;
+
+    /**
+     * The maximum brush width.
+     */
     public static final int MAX_BRUSH_WIDTH = 20;
+
+    /**
+     * The minimum brush width.
+     */
     public static final int MIN_BRUSH_WIDTH = 1;
 
+    /**
+     * The default brush width.
+     */
     private static int brushWidth = DEFAULT_BRUSH_WIDTH;
 
     /**
@@ -274,7 +290,7 @@ public class PaintWidget {
         forwardColors.clear();
 
         // set paint
-        cyderGrid.setDefaultNodeColor(currentPaintColor);
+        cyderGrid.setNodeColor(currentPaintColor);
     }
 
     /**
@@ -301,7 +317,7 @@ public class PaintWidget {
             colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
 
             // set paint color
-            cyderGrid.setDefaultNodeColor(currentPaintColor);
+            cyderGrid.setNodeColor(currentPaintColor);
         }
     }
 
@@ -329,7 +345,7 @@ public class PaintWidget {
             colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
 
             // set paint color
-            cyderGrid.setDefaultNodeColor(currentPaintColor);
+            cyderGrid.setNodeColor(currentPaintColor);
         }
     }
 }
