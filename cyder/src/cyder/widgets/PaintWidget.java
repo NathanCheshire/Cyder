@@ -11,10 +11,13 @@ import cyder.utilities.ColorUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Stack;
 
 public class PaintWidget {
     private static CyderFrame paintFrame;
+    private static CyderGrid cyderGrid;
 
     /**
      * Prevent illegal class instantiation.
@@ -40,7 +43,7 @@ public class PaintWidget {
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
 
-        CyderGrid cyderGrid = new CyderGrid(200, len);
+        cyderGrid = new CyderGrid(200, len);
         cyderGrid.setBounds(padding,DragLabel.DEFAULT_HEIGHT + padding - 5, len, len);
         paintFrame.getContentPane().add(cyderGrid);
         cyderGrid.setDrawExtendedBorder(true);
@@ -56,23 +59,23 @@ public class PaintWidget {
         installControlFrames();
     }
 
-    private static CyderFrame colorControlFrame;
-    private static CyderFrame otherControlFrame;
+    private static CyderFrame paintControlsFrame;
 
     private static final Stack<Color> backwardColors = new Stack<>();
     private static final Stack<Color> forwardColors = new Stack<>();
     private static Color currentPaintColor = CyderColors.regularPink;
     private static CyderTextField colorHexField;
 
+    /**
+     * Opens the paint controls frame
+     */
     private static void installControlFrames() {
-        if (colorControlFrame != null)
-            colorControlFrame.dispose();
+        if (paintControlsFrame != null)
+            paintControlsFrame.dispose();
 
-        if (otherControlFrame != null)
-            otherControlFrame.dispose();
-
-        colorControlFrame = new CyderFrame(400,150);
-        colorControlFrame.setTitle("Controls");
+        paintControlsFrame = new CyderFrame(600,150);
+        paintControlsFrame.setTitle("Controls");
+        paintControlsFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
 
         int colorLabelX = 70;
         int colorLabelY = 40;
@@ -88,12 +91,12 @@ public class PaintWidget {
         };
         recentColorsLabel.setBounds(50,DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, colorLabelX, colorLabelY);
         recentColorsLabel.setToolTipText(ColorUtil.rgbToHexString(currentPaintColor));
-        colorControlFrame.getContentPane().add(recentColorsLabel);
+        paintControlsFrame.getContentPane().add(recentColorsLabel);
 
         colorHexField = new CyderTextField(11);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
         colorHexField.setBounds(10, DragLabel.DEFAULT_HEIGHT + 10, 150, 40);
-        colorControlFrame.getContentPane().add(colorHexField);
+        paintControlsFrame.getContentPane().add(colorHexField);
         colorHexField.setRegexMatcher(CyderRegexPatterns.rgbOrHex);
         colorHexField.addActionListener(e -> {
             String text = colorHexField.getText();
@@ -102,7 +105,7 @@ public class PaintWidget {
                 String[] parts = text.split(",");
 
                 if (parts.length != 3) {
-                    colorControlFrame.notify("Could not parse color");
+                    paintControlsFrame.notify("Could not parse color");
                 } else {
                     try {
                         int r = Integer.parseInt(parts[0]);
@@ -112,7 +115,7 @@ public class PaintWidget {
                         Color newColor = new Color(r, g, b);
                         setNewPaintColor(newColor, recentColorsLabel);
                     } catch (Exception ignored) {
-                        colorControlFrame.notify("Could not parse color");
+                        paintControlsFrame.notify("Could not parse color");
                     }
                 }
             } else {
@@ -120,7 +123,7 @@ public class PaintWidget {
                     Color newColor = ColorUtil.hexToRgb(colorHexField.getText());
                     setNewPaintColor(newColor, recentColorsLabel);
                 } catch (Exception ignored) {
-                    colorControlFrame.notify("Could not parse color");
+                    paintControlsFrame.notify("Could not parse color");
                 }
             }
         });
@@ -131,18 +134,61 @@ public class PaintWidget {
 
         CyderButton backwards = new CyderButton("<");
         backwards.setBounds(10, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 30, 40);
-        colorControlFrame.getContentPane().add(backwards);
+        paintControlsFrame.getContentPane().add(backwards);
         backwards.addActionListener(e -> backwards(recentColorsLabel));
 
         CyderButton forwards = new CyderButton(">");
         forwards.setBounds(130, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 30, 40);
-        colorControlFrame.getContentPane().add(forwards);
+        paintControlsFrame.getContentPane().add(forwards);
         forwards.addActionListener(e -> forwards(recentColorsLabel));
 
-        colorControlFrame.setVisible(true);
-        colorControlFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
+        CyderCheckboxGroup group = new CyderCheckboxGroup();
+
+        CyderLabel addLabel = new CyderLabel("Add");
+        addLabel.setBounds(180,34,50,20);
+        paintControlsFrame.getContentPane().add(addLabel);
+
+        CyderCheckbox add = new CyderCheckbox();
+        add.setToolTipText("Paint cells");
+        add.setBounds(180,60, 50, 50);
+        add.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cyderGrid.setMode(CyderGrid.Mode.ADD);
+            }
+        });
+        paintControlsFrame.getContentPane().add(add);
+        group.addCheckbox(add);
+        add.setSelected();
+
+        CyderLabel deleteLabel = new CyderLabel("Delete");
+        deleteLabel.setBounds(235,34,50,20);
+        paintControlsFrame.getContentPane().add(deleteLabel);
+
+        CyderCheckbox delete = new CyderCheckbox();
+        delete.setBounds(180 + 50 + 10,60, 50, 50);
+        delete.setToolTipText("Delete cells");
+        delete.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cyderGrid.setMode(CyderGrid.Mode.DELETE);
+            }
+        });
+        paintControlsFrame.getContentPane().add(delete);
+        group.addCheckbox(delete);
+
+        cyderGrid.setDefaultNodeColor(currentPaintColor);
+
+        paintControlsFrame.setVisible(true);
+        paintControlsFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
     }
 
+    /**
+     * Sets the current color and wipes any forward history.
+     *
+     * @param newColor the new color
+     * @param previewLabel the preview label
+     */
     private static void setNewPaintColor(Color newColor, final JLabel previewLabel) {
         if (!backwardColors.isEmpty() && backwardColors.peek().equals(newColor))
             return;
@@ -159,6 +205,9 @@ public class PaintWidget {
 
         // new path so clear forward colors
         forwardColors.clear();
+
+        // set paint
+        cyderGrid.setDefaultNodeColor(currentPaintColor);
     }
 
     /**
@@ -183,6 +232,9 @@ public class PaintWidget {
 
             // update the text field
             colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
+
+            // set paint color
+            cyderGrid.setDefaultNodeColor(currentPaintColor);
         }
     }
 
@@ -208,6 +260,9 @@ public class PaintWidget {
 
             // update the text field
             colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
+
+            // set paint color
+            cyderGrid.setDefaultNodeColor(currentPaintColor);
         }
     }
 }

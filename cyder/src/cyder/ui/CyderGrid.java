@@ -437,13 +437,13 @@ public class CyderGrid extends JLabel {
             if (grid.contains(node)) {
                 if (mode == Mode.DELETE)
                     grid.remove(node);
-            } else {
+            } else if (mode == Mode.ADD) {
                 grid.add(node);
             }
         } else {
             if (grid.contains(node)) {
                 grid.remove(node);
-            } else {
+            } else if (mode == Mode.ADD) {
                 grid.add(node);
             }
         }
@@ -653,5 +653,23 @@ public class CyderGrid extends JLabel {
         }
 
         return ret;
+    }
+
+    /**
+     * Returns the current placement mode.
+     *
+     * @return the current placement mode
+     */
+    public Mode getMode() {
+        return mode;
+    }
+
+    /**
+     * Sets the current placement mode.
+     *
+     * @param mode the current placement mode
+     */
+    public void setMode(Mode mode) {
+        this.mode = mode;
     }
 }
