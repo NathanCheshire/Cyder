@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.ui.objects.SwitchState;
 
 import java.util.ArrayList;
 
@@ -9,70 +10,6 @@ import java.util.ArrayList;
  * A combo box which cycles through the possible values.
  */
 public class CyderSwitcher {
-    /**
-     * An enum used to map a preview value to the actual value to switch on.
-     */
-    public enum SwitchState {
-        INDETERMINITE("?","INDETERMINITE");
-
-        /**
-         * The display value of this state.
-         */
-        String displayValue;
-
-        /**
-         * The underlying value of this state.
-         */
-        String mappedValue;
-
-        /**
-         * Constructs a new switch state
-         *
-         * @param displayValue the display value of the state
-         * @param mappedValue the underlying value of the state
-         */
-        SwitchState(String displayValue, String mappedValue) {
-            this.displayValue = displayValue;
-            this.mappedValue = mappedValue;
-        }
-
-        /**
-         * Returns the name of this state.
-         *
-         * @return the name of this state
-         */
-        public String getDisplayValue() {
-            return displayValue;
-        }
-
-        /**
-         * Sets the name of this state.
-         *
-         * @param displayValue the name of this state
-         */
-        public void setDisplayValue(String displayValue) {
-            this.displayValue = displayValue;
-        }
-
-        /**
-         * Returns the underlying value of this state.
-         *
-         * @return the underlying value of this state
-         */
-        public String getMappedValue() {
-            return mappedValue;
-        }
-
-        /**
-         * Sets the underlying value of this state.
-         *
-         * @param mappedValue the underlying value of this state
-         */
-        public void setMappedValue(String mappedValue) {
-            this.mappedValue = mappedValue;
-        }
-    }
-
     /**
      * The field in which the current value is displayed in.
      */
@@ -86,7 +23,7 @@ public class CyderSwitcher {
     /**
      * The current switch state.
      */
-    private SwitchState currentState = SwitchState.INDETERMINITE;
+    private SwitchState currentState;
 
     /**
      * The list of valid states for this switcher.

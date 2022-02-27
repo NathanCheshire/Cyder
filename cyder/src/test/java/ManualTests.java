@@ -16,11 +16,12 @@ import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
+import cyder.ui.objects.SwitchState;
 import cyder.utilities.ImageUtil;
-import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Tests which must be performed manually and cannot be unit tested.
@@ -31,7 +32,20 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     public static void launchTests() {
-        PaintWidget.showGUI();
+        //PaintWidget.showGUI();
+
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setTitle("Switcher test");
+
+        ArrayList<SwitchState> states = new ArrayList<>();
+        states.add(new SwitchState("Uno", "uno long"));
+
+        SwitchState startingState = states.get(0);
+
+        CyderSwitcher switcher = new CyderSwitcher(200,40, states, startingState);
+
+        testFrame.setVisible(true);
+        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     public static void cyderGridTest() {
