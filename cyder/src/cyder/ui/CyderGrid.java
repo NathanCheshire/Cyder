@@ -63,7 +63,7 @@ public class CyderGrid extends JLabel {
     /**
      * The color to use for new nodes added to the grid.
      */
-    private Color defultNodeColor = CyderColors.navy;
+    private Color defaultNodeColor = CyderColors.navy;
 
     /**
      * An enum for adding/removing nodes from the grid.
@@ -155,7 +155,7 @@ public class CyderGrid extends JLabel {
      * @param y the y value of the grid node to add
      */
     public void addNode(int x, int y) {
-        addNode(x, y, defultNodeColor);
+        addNode(x, y, defaultNodeColor);
     }
 
     /**
@@ -407,23 +407,23 @@ public class CyderGrid extends JLabel {
         int x = (int) ((event.getX() - offset) / (length / nodes));
         int y = (int) ((event.getY() - offset) / (length / nodes));
 
-        GridNode node = new GridNode(defultNodeColor, x, y);
+        GridNode node = new GridNode(defaultNodeColor, x, y);
 
         // account for relative zoom
         if (relativeZoomNode != null) {
-            int localMinX = x - nodes / 2;
-            int localMinY = y - nodes / 2;
-            int localMaxX = x + nodes / 2;
-            int localMaxY = y + nodes / 2;
+            int localMinX = relativeZoomNode.getX() - nodes / 2;
+            int localMinY = relativeZoomNode.getY() - nodes / 2;
+            int localMaxX = relativeZoomNode.getX() + nodes / 2;
+            int localMaxY = relativeZoomNode.getY() + nodes / 2;
+
+            x += localMinX;
+            y += localMinY;
 
             // if out of bounds, return
             if (x < localMinX || y < localMinY || x >= localMaxX || y >= localMaxY)
                 return;
 
-            x += localMinX;
-            y += localMinY;
-
-            node = new GridNode(defultNodeColor, x, y);
+            node = new GridNode(defaultNodeColor, x, y);
         } else {
             // make sure node isn't out of bounds
             if (x < 0 || y < 0 || x >= nodes || y >= nodes)
@@ -492,16 +492,14 @@ public class CyderGrid extends JLabel {
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
-                int startNodes = nodes;
+                relativeZoomNode = new GridNode(CyderColors.regularPink,
+                        (int) ((e.getX() - offset) / (length / nodes)),
+                        (int) ((e.getY() - offset) / (length / nodes)));
+                grid.add(relativeZoomNode);
 
                 // zooming in
                 if (e.getWheelRotation() == -1 && nodes > minNodes) {
-                    relativeZoomNode = new GridNode(CyderColors.regularPink,
-                            (int) ((e.getX() - offset) / (length / nodes)),
-                            (int) ((e.getY() - offset) / (length / nodes)));
-                    grid.add(relativeZoomNode);
-
-                    if (smoothScrollilng) {
+                    if (smoothScrolling) {
                         for (int i = increments.size() - 1 ; i >= 0 ; i--) {
                             if (increments.get(i) < nodes) {
                                 nodes = increments.get(i);
@@ -514,7 +512,7 @@ public class CyderGrid extends JLabel {
                 }
                 // zooming out
                 else {
-                    if (smoothScrollilng) {
+                    if (smoothScrolling) {
                         for (Integer increment : increments) {
                             if (increment > nodes) {
                                 nodes = increment;
@@ -604,40 +602,40 @@ public class CyderGrid extends JLabel {
      *
      * @return the default color to use for new nodes
      */
-    public Color getDefultNodeColor() {
-        return defultNodeColor;
+    public Color getDefaultNodeColor() {
+        return defaultNodeColor;
     }
 
     /**
      * Sets the default color to use for new nodes.
      *
-     * @param defultNodeColor the default color to use for new nodes
+     * @param defaultNodeColor the default color to use for new nodes
      */
-    public void setDefultNodeColor(Color defultNodeColor) {
-        this.defultNodeColor = defultNodeColor;
+    public void setDefaultNodeColor(Color defaultNodeColor) {
+        this.defaultNodeColor = defaultNodeColor;
     }
 
     /**
      * Whether grid zooming should only be allowed in increments which result in perfect divisibility.
      */
-    private boolean smoothScrollilng = true;
+    private boolean smoothScrolling = false;
 
     /**
      * Returns whether grid zooming is only allowed in perfect increments.
      *
      * @return whether grid zooming is only allowed in perfect increments
      */
-    public boolean isSmoothScrollilng() {
-        return smoothScrollilng;
+    public boolean isSmoothScrolling() {
+        return smoothScrolling;
     }
 
     /**
      * Sets whether grid zooming is only allowed in perfect increments.
      *
-     * @param smoothScrollilng whether grid zooming is only allowed in perfect increments
+     * @param smoothScrolling whether grid zooming is only allowed in perfect increments
      */
-    public void setSmoothScrollilng(boolean smoothScrollilng) {
-        this.smoothScrollilng = smoothScrollilng;
+    public void setSmoothScrolling(boolean smoothScrolling) {
+        this.smoothScrolling = smoothScrolling;
     }
 
     /**

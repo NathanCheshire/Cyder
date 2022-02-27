@@ -47,6 +47,12 @@ public final class CyderRegexPatterns {
     public static final String windowsInvalidFilenameChars = "[*?|/\":<>\\\\']+";
 
     /**
+     * Regex for rgb color or hex color such as 00FF00 or 0,255,0.
+     */
+    public static final String rgbOrHex = "((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3}," +
+            "\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))|([0-9A-Fa-f]{0,6})";
+
+    /**
      * Illegal class instantiation
      */
     private CyderRegexPatterns() {

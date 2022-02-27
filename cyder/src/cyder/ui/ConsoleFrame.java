@@ -271,7 +271,7 @@ public final class ConsoleFrame {
             }
 
             //figure out the theme color
-            CyderColors.setGuiThemeColor(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
+            CyderColors.setGuiThemeColor(ColorUtil.hexToRgb(UserUtil.getUserData("windowcolor")));
 
             //get proper width, height, and background image icon,
             // we take into account console rotation and fullscreen here
@@ -404,8 +404,8 @@ public final class ConsoleFrame {
             });
 
             outputArea.setEditable(false);
-            outputArea.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
-            outputArea.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));
+            outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
+            outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground())));
             outputArea.setAutoscrolls(true);
             outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20,
                     ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
@@ -413,7 +413,7 @@ public final class ConsoleFrame {
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),3));
+                    outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),3));
                 }
 
                 @Override
@@ -425,7 +425,7 @@ public final class ConsoleFrame {
             outputArea.setSelectionColor(CyderColors.selectionColor);
             outputArea.setOpaque(false);
             outputArea.setBackground(CyderColors.nullus);
-            outputArea.setForeground(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+            outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
             outputArea.setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
 
             //init input handler
@@ -454,7 +454,7 @@ public final class ConsoleFrame {
             outputScroll.setFocusable(true);
 
             if (UserUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
-                outputScroll.setBorder(new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
+                outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),
                         3, false));
             } else {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
@@ -469,7 +469,7 @@ public final class ConsoleFrame {
             inputField.setText(consoleBashString);
 
             if (UserUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
-                inputField.setBorder(new LineBorder(ColorUtil.hextorgbColor
+                inputField.setBorder(new LineBorder(ColorUtil.hexToRgb
                         (UserUtil.getUserData("Background")), 3, false));
             } else {
                 inputField.setBorder(null);
@@ -577,21 +577,21 @@ public final class ConsoleFrame {
                 }
             });
 
-            inputField.setCaretColor(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
-            inputField.setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground())));
-            inputField.setForeground(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+            inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
+            inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground())));
+            inputField.setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
             inputField.setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
 
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
-                outputArea.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                outputArea.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                 outputArea.repaint();
                 outputArea.revalidate();
             }
 
             if (UserUtil.getUserData("InputFill").equals("1")) {
                 inputField.setOpaque(true);
-                inputField.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                inputField.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                 inputField.repaint();
                 inputField.revalidate();
             }

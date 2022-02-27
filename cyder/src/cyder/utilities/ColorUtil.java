@@ -25,7 +25,7 @@ public class ColorUtil {
      * @param hex the hex string to convert to an object
      * @return the hex string converted to an object
      */
-    public static Color hextorgbColor(String hex) {
+    public static Color hexToRgb(String hex) {
         //get rid of possible octothorpe
         hex = hex.replace("#","");
 
@@ -48,9 +48,13 @@ public class ColorUtil {
             hex = String.valueOf(hex.charAt(0));
         }
 
-        while (hex.length() < 6) {
-            hex += hex.charAt(0);
+        StringBuilder hexBuilder = new StringBuilder(hex);
+
+        while (hexBuilder.length() < 6) {
+            hexBuilder.append(hexBuilder.charAt(0));
         }
+
+        hex = hexBuilder.toString();
 
         return new Color(
                 Integer.valueOf(hex.substring(0,2),16),
@@ -76,7 +80,7 @@ public class ColorUtil {
      * @param hex the hex string to convert to rgb form
      * @return the rgb form of the provided hex color string
      */
-    public String hextorgbString(String hex) {
+    public String hexToRgbString(String hex) {
         return Integer.valueOf(hex.substring(0,2),16)
                 + "," + Integer.valueOf(hex.substring(2,4),16)
                 + "," + Integer.valueOf(hex.substring(4,6),16);
@@ -88,7 +92,7 @@ public class ColorUtil {
      * @param c the color to convert to a hex string
      * @return the hex string of the provided color
      */
-    public static String rgbtohexString(Color c) {
+    public static String rgbToHexString(Color c) {
         return String.format("%02X%02X%02X", c.getRed(), c.getGreen(), c.getBlue());
     }
 
@@ -164,6 +168,7 @@ public class ColorUtil {
      * @return the dominant color
      */
     public static Color getDominantColor(Map<Integer, Integer> colorCounter) {
+        @SuppressWarnings("all")
         int dominantRGB = colorCounter.entrySet().stream()
                 .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
                 .get()

@@ -333,7 +333,7 @@ public class ClockWidget {
             showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
 
             CyderTextField hexField = new CyderTextField(6);
-            hexField.setText(ColorUtil.rgbtohexString(clockColor));
+            hexField.setText(ColorUtil.rgbToHexString(clockColor));
             hexField.setToolTipText("Clock color");
             hexField.setRegexMatcher("[abcdefABCDEF0-9]*");
             hexField.setBounds(240, 830, 140, 40);
@@ -341,9 +341,9 @@ public class ClockWidget {
                 String text = hexField.getText().trim();
 
                 try {
-                    Color newColor = ColorUtil.hextorgbColor(text);
+                    Color newColor = ColorUtil.hexToRgb(text);
                     clockColor = newColor;
-                    hexField.setText(ColorUtil.rgbtohexString(clockColor));
+                    hexField.setText(ColorUtil.rgbToHexString(clockColor));
                     clockLabel.repaint();
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);

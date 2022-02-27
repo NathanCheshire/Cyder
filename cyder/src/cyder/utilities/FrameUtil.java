@@ -114,7 +114,8 @@ public class FrameUtil {
 
         String saveName = cyderFrame.getTitle().substring(0,
                 Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length()));
-        File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime() + ".png");
+        File refFile = OSUtil.createFileInUserSpace(saveName.trim() + "_"
+                + TimeUtil.logSubDirTime().trim() + ".png");
         screenshotCyderFrame(cyderFrame, refFile);
     }
 

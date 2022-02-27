@@ -515,7 +515,7 @@ public class UserEditor {
         foregroundColorBlock.setBackground(CyderColors.navy);
         foregroundColorBlock.setFocusable(false);
         foregroundColorBlock.setCursor(null);
-        foregroundColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Foreground")));
+        foregroundColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Foreground")));
         foregroundColorBlock.setToolTipText("Color Preview");
         foregroundColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         foregroundColorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 50);
@@ -529,10 +529,10 @@ public class UserEditor {
         foregroundField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    Color c = ColorUtil.hextorgbColor(foregroundField.getText());
+                    Color c = ColorUtil.hexToRgb(foregroundField.getText());
                     foregroundColorBlock.setBackground(c);
                     UserUtil.setUserData("Foreground", foregroundField.getText());
-                    Color updateC = ColorUtil.hextorgbColor(foregroundField.getText());
+                    Color updateC = ColorUtil.hexToRgb(foregroundField.getText());
 
                     ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(updateC);
                     ConsoleFrame.getConsoleFrame().getInputField().setForeground(updateC);
@@ -577,7 +577,7 @@ public class UserEditor {
         windowColorBlock.setBackground(CyderColors.navy);
         windowColorBlock.setFocusable(false);
         windowColorBlock.setCursor(null);
-        windowColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("windowcolor")));
+        windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("windowcolor")));
         windowColorBlock.setToolTipText("Color Preview");
         windowColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         windowColorBlock.setBounds(330 + colorOffsetX, 240 + colorOffsetY, 40, 50);
@@ -591,7 +591,7 @@ public class UserEditor {
         windowField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    Color c = ColorUtil.hextorgbColor(windowField.getText());
+                    Color c = ColorUtil.hexToRgb(windowField.getText());
                     windowColorBlock.setBackground(c);
                     UserUtil.setUserData("windowcolor", windowField.getText());
 
@@ -640,7 +640,7 @@ public class UserEditor {
         fillColorBlock.setBackground(CyderColors.navy);
         fillColorBlock.setFocusable(false);
         fillColorBlock.setCursor(null);
-        fillColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+        fillColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
         fillColorBlock.setToolTipText("Color Preview");
         fillColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         fillColorBlock.setBounds(330 + colorOffsetX, 380 + colorOffsetY, 40, 50);
@@ -654,13 +654,13 @@ public class UserEditor {
         fillField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
-                    fillColorBlock.setBackground(ColorUtil.hextorgbColor(fillField.getText()));
+                    fillColorBlock.setBackground(ColorUtil.hexToRgb(fillField.getText()));
                     UserUtil.setUserData("Background", fillField.getText());
 
                     if (UserUtil.getUserData("OutputFill").equals("1")) {
                         ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
                         ConsoleFrame.getConsoleFrame().getOutputArea()
-                                .setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                                .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                         ConsoleFrame.getConsoleFrame().getOutputArea().repaint();
                         ConsoleFrame.getConsoleFrame().getOutputArea().revalidate();
                     }
@@ -669,7 +669,7 @@ public class UserEditor {
                     if (UserUtil.getUserData("InputFill").equals("1")) {
                         ConsoleFrame.getConsoleFrame().getInputField().setOpaque(true);
                         ConsoleFrame.getConsoleFrame().getInputField()
-                                .setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                                .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                         ConsoleFrame.getConsoleFrame().getInputField().repaint();
                         ConsoleFrame.getConsoleFrame().getInputField().revalidate();
                     }
@@ -767,12 +767,12 @@ public class UserEditor {
         resetValues.addActionListener(e -> {
             //foreground
             UserUtil.setUserData("foreground",UserUtil.buildDefaultUser().getForeground());
-            foregroundColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
+            foregroundColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
             foregroundField.setText(UserUtil.buildDefaultUser().getForeground());
-            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setForeground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getForeground())));
+            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setForeground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground())));
 
             //font
             UserUtil.setUserData("font",UserUtil.buildDefaultUser().getFont());
@@ -785,12 +785,12 @@ public class UserEditor {
 
             //background
             UserUtil.setUserData("background",UserUtil.buildDefaultUser().getBackground());
-            fillColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getBackground()));
+            fillColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getBackground()));
             fillField.setText(UserUtil.buildDefaultUser().getBackground());
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getOutputArea()
-                        .setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                        .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                 ConsoleFrame.getConsoleFrame().getOutputArea().repaint();
                 ConsoleFrame.getConsoleFrame().getOutputArea().revalidate();
             }
@@ -799,17 +799,17 @@ public class UserEditor {
             if (UserUtil.getUserData("InputFill").equals("1")) {
                 ConsoleFrame.getConsoleFrame().getInputField().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getInputField()
-                        .setBackground(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                        .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                 ConsoleFrame.getConsoleFrame().getInputField().repaint();
                 ConsoleFrame.getConsoleFrame().getInputField().revalidate();
             }
 
             //windowcolor
             UserUtil.setUserData("windowcolor",UserUtil.buildDefaultUser().getWindowColor());
-            windowColorBlock.setBackground(ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getWindowColor()));
+            windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowColor()));
             windowField.setText(UserUtil.buildDefaultUser().getWindowColor());
-            windowColorBlock.setBackground((ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getWindowColor())));
-            CyderColors.setGuiThemeColor((ColorUtil.hextorgbColor(UserUtil.buildDefaultUser().getWindowColor())));
+            windowColorBlock.setBackground((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowColor())));
+            CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowColor())));
 
             for (Frame f : Frame.getFrames()) {
                 if (f instanceof CyderFrame)

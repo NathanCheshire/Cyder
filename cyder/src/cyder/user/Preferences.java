@@ -81,7 +81,7 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
 
             ConsoleFrame.getConsoleFrame().getInputField()
-                    .setForeground(ColorUtil.hextorgbColor(UserUtil.extractUser().getForeground()));
+                    .setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
 
             return null;
         }));
@@ -116,7 +116,7 @@ public class Preferences {
             if (UserUtil.getUserData("OutputBorder").equals("0")) {
                 ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
             } else {
-                ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(new LineBorder(ColorUtil.hextorgbColor(
+                ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(new LineBorder(ColorUtil.hexToRgb(
                         UserUtil.getUserData("Background")), 3, true));
             }
 
@@ -130,7 +130,7 @@ public class Preferences {
                 ConsoleFrame.getConsoleFrame().getInputField().setBorder(null);
             } else {
                 ConsoleFrame.getConsoleFrame().getInputField().setBorder(
-                        new LineBorder(ColorUtil.hextorgbColor(UserUtil.getUserData("Background")),
+                        new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),
                                 3, true));
             }
 
@@ -167,7 +167,7 @@ public class Preferences {
             } else {
                 ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getOutputArea().setBackground(
-                        ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                        ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                 ConsoleFrame.getConsoleFrame().getOutputArea().repaint();
                 ConsoleFrame.getConsoleFrame().getOutputArea().revalidate();
             }
@@ -185,7 +185,7 @@ public class Preferences {
             } else {
                 ConsoleFrame.getConsoleFrame().getInputField().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getInputField().setBackground(
-                        ColorUtil.hextorgbColor(UserUtil.getUserData("Background")));
+                        ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
                 ConsoleFrame.getConsoleFrame().getInputField().repaint();
                 ConsoleFrame.getConsoleFrame().getInputField().revalidate();
             }

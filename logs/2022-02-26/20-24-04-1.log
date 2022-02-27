@@ -1,0 +1,48 @@
+[20-24-04] [ENTRY]: [Nathan]
+[20-24-05] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-24-05] [THREAD STARTED]: Splash Loader
+[20-24-05] [THREAD STARTED]: Splash Animation
+[20-24-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-24-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-24-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-24-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-24-06] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-24-06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-24-06] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-24-06] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-24-06] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-24-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [7x]
+[20-24-06] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-24-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-24-06] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-24-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-24-06] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-24-06] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-24-07] [THREAD STARTED]: Console Printing Animation
+[20-24-07] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-24-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-24-07] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-24-07] [THREAD STARTED]: Console Input Caret Position Updater
+[20-24-07] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-24-07] [SYSTEM_IO]: Userdata requested: InputFill
+[20-24-07] [THREAD STARTED]: High Ping Checker
+[20-24-07] [THREAD STARTED]: Hourly Chime Checker
+[20-24-07] [THREAD STARTED]: Console Clock Updater
+[20-24-07] [THREAD STARTED]: Cyder Busy Checker
+[20-24-07] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-24-07] [ACTION]: Console loaded in 2490ms
+[20-24-07] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(780, 220, 996, 655)], hash = [446445803], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-24-07] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [806756922], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-24-07] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-24-07] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-24-07] [ENTRY]: [TESTING MODE]
+[20-24-07] [SYSTEM_IO]: Userdata requested: laststart
+[20-24-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-24-07] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2490ms
+[20-24-07] [THREAD STARTED]: notification appear animation
+[20-24-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-24-07] [THREAD STARTED]: Notificaiton vanish animater -1179406031
+[20-24-36] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [8x]
+[20-24-38] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Controls], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-28-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [54x]
+[20-28-32] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

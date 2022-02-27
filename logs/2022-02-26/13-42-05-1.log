@@ -11,15 +11,13 @@
 [13-42-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [13-42-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [13-42-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json [2x]
 [13-42-07] [LOGIN]: [[AUTOCYPHER PASS]: e5a50641-21d1-3654-b738-c0e4b2dc61b1]
 [13-42-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
 [13-42-07] [SYSTEM_IO]: Userdata requested: RandomBackground
 [13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
 [13-42-07] [SYSTEM_IO]: Userdata requested: fullscreen
-[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [13-42-07] [THREAD STARTED]: Console Printing Animation
 [13-42-07] [SYSTEM_IO]: Userdata requested: OutputBorder
 [13-42-07] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -44,30 +42,40 @@
 [13-42-08] [THREAD STARTED]: notification appear animation
 [13-42-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-42-08] [THREAD STARTED]: Notificaiton vanish animater 1922447137
-[13-42-10] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-14] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-18] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-22] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-26] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-29] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-33] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-37] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-41] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-45] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-48] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-52] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-42-56] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-00] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-03] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-07] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json [16x]
 [13-43-09] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [-14203113], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-43-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1404, 233, 900, 930)], hash = [990519998], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
 [13-43-09] [THREAD STARTED]: Paint CyderFrame dispose thread
 [13-43-09] [SYSTEM_IO]: Userdata requested: closeanimation
-[13-43-11] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-15] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-18] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-22] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
-[13-43-26] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-26] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json [5x]
 [13-43-29] [CLIENT]: gitme
 [13-43-29] [SYSTEM_IO]: Userdata requested: filterchat
+[13-43-29] [CONSOLE_OUT]: [STRING] [main bdbb6089] finding where to zoom from works, adding/removing nodes still does not
+[13-43-29] [CONSOLE_OUT]: [STRING]  18 files changed, 647 insertions(+), 32 deletions(-)
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-16-31-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-17-42-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-19-14-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-21-13-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-29-15-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-30-06-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-31-58-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-33-39-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-35-40-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-40-19-1.log
+[13-43-29] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-26/13-42-05-1.log
+[13-43-30] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-31] [CONSOLE_OUT]: [STRING] remote: This repository moved. Please use the new location:
+[13-43-31] [CONSOLE_OUT]: [STRING] remote:   https://github.com/NathanCheshire/Cyder.git
+[13-43-31] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[13-43-31] [CONSOLE_OUT]: [STRING] To https://github.com/nathancheshire/Cyder.git
+[13-43-31] [CONSOLE_OUT]: [STRING]    8c7f8679..bdbb6089  main -> main
+[13-43-31] [HANDLE]: GENERAL COMMAND HANDLED
+[13-43-31] [HANDLE]: PRIMARY HANDLE
+[13-43-33] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-37] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[13-43-37] [SYSTEM_IO]: [User Write] User was written to file: e5a50641-21d1-3654-b738-c0e4b2dc61b1\Userdata.json
+[13-43-37] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1356, 370, 996, 655)], hash = [1817789863], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[13-43-37] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[13-43-37] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-43-37] [EXIT]: [RUNTIME] 1m 31s
+[13-43-37] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

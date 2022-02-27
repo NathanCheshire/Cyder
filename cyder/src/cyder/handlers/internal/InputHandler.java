@@ -653,13 +653,13 @@ public class InputHandler {
                 ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.defaultLightModeTextColor);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
-                UserUtil.setUserData("Foreground",ColorUtil.rgbtohexString(CyderColors.defaultLightModeTextColor));
+                UserUtil.setUserData("Foreground",ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
             } else {
                 ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
                 ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
                 ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
-                UserUtil.setUserData("Foreground", ColorUtil.rgbtohexString(CyderColors.defaultDarkModeTextColor));
+                UserUtil.setUserData("Foreground", ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
             }
 
             Preferences.invokeRefresh("foreground");

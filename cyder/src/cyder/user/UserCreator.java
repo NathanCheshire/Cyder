@@ -392,11 +392,12 @@ public class UserCreator {
             // just to be safe
             if (!f.isDirectory())
                 continue;
-
-            if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
-                userNameExists = true;
-                break;
-            }
+            try {
+                if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
+                    userNameExists = true;
+                    break;
+                }
+            } catch (Exception ignored) {}
         }
 
         if (userNameExists) {

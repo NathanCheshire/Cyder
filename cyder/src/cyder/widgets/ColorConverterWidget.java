@@ -63,7 +63,7 @@ public class ColorConverterWidget {
         hexField.addKeyListener(new KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
             try {
-                Color c = ColorUtil.hextorgbColor(finalHexField1.getText());
+                Color c = ColorUtil.hexToRgb(finalHexField1.getText());
                 finalRgbField.setText(c.getRed() + "," + c.getGreen() + "," + c.getBlue());
                 colorBlock.setBackground(c);
             }
@@ -84,7 +84,7 @@ public class ColorConverterWidget {
             try {
                 String[] parts = finalRgbField1.getText().split(",");
                 Color c = new Color(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]),Integer.parseInt(parts[2]));
-                hexField.setText(ColorUtil.rgbtohexString(c));
+                hexField.setText(ColorUtil.rgbToHexString(c));
                 colorBlock.setBackground(c);
             }
 

@@ -1,0 +1,493 @@
+[20-32-16] [ENTRY]: [Nathan]
+[20-32-16] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-32-17] [THREAD STARTED]: Splash Loader
+[20-32-17] [THREAD STARTED]: Splash Animation
+[20-32-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-32-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-32-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-32-17] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-32-17] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-32-17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-32-17] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-32-17] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-32-17] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-32-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [7x]
+[20-32-18] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-32-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-18] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-32-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-18] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-18] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-32-18] [THREAD STARTED]: Console Printing Animation
+[20-32-18] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-32-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-32-18] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-32-18] [THREAD STARTED]: Console Input Caret Position Updater
+[20-32-18] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-32-18] [SYSTEM_IO]: Userdata requested: InputFill
+[20-32-18] [THREAD STARTED]: High Ping Checker
+[20-32-18] [THREAD STARTED]: Hourly Chime Checker
+[20-32-18] [THREAD STARTED]: Console Clock Updater
+[20-32-18] [THREAD STARTED]: Cyder Busy Checker
+[20-32-18] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-32-18] [ACTION]: Console loaded in 2979ms
+[20-32-18] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-32-18] [ENTRY]: [TESTING MODE]
+[20-32-18] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(780, 737, 996, 655)], hash = [1817789863], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-32-18] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1257256215], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-32-18] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-32-18] [SYSTEM_IO]: Userdata requested: laststart
+[20-32-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-19] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2979ms
+[20-32-19] [THREAD STARTED]: notification appear animation
+[20-32-19] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-19] [THREAD STARTED]: Notificaiton vanish animater 1149289724
+[20-32-21] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-24] [CLIENT]: fixforeground
+[20-32-24] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-24] [PREFERENCE REFRESH INVOKED]: key = foreground
+[20-32-24] [HANDLE]: GENERAL COMMAND HANDLED
+[20-32-24] [HANDLE]: PRIMARY HANDLE
+[20-32-24] [CONSOLE_OUT]: [STRING] Foreground fixed
+[20-32-25] [THREAD STARTED]: system audio thread [2x]
+[20-32-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-25] [THREAD STARTED]: system audio thread [6x]
+[20-32-26] [CLIENT]: prefs
+[20-32-26] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-26] [WIDGET OPENED]: PREFS
+[20-32-26] [CONSOLE_OUT]: [STRING] Opening widget: UserEditor
+[20-32-26] [THREAD STARTED]: system audio thread
+[20-32-26] [HANDLE]: PRIMARY HANDLE
+[20-32-27] [THREAD STARTED]: system audio thread [13x]
+[20-32-28] [SYSTEM_IO]: Userdata requested: ffmpegpath
+[20-32-28] [SYSTEM_IO]: Userdata requested: youtubedlpath
+[20-32-28] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [682325475], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-32-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-32-34] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 175, 50, 250)], hash = [682325475], parentFrame = [Preferences], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-32-34] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-34] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-34] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-34] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-34] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-34] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-36] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-37] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-37] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-37] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-38] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-38] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-38] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: intromusic
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: debugwindows
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-39] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-39] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-39] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: randombackground
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: outputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-40] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-40] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-40] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-40] [SYSTEM_IO]: Userdata requested: inputborder
+[20-32-41] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-41] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-41] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-41] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-41] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-41] [SYSTEM_IO]: Userdata requested: hourlychimes [4x]
+[20-32-42] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-42] [PREFERENCE REFRESH INVOKED]: key = silenceerrors
+[20-32-42] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-43] [SYSTEM_IO]: Userdata requested: hourlychimes
+[20-32-43] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-43] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-44] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-44] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-44] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-44] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-44] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-44] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-44] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-44] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-44] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: silenceerrors
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: outputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-45] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-45] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: inputfill
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-46] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-47] [PREFERENCE REFRESH INVOKED]: key = showseconds
+[20-32-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-47] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-47] [PREFERENCE REFRESH INVOKED]: key = filterchat
+[20-32-47] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: clockonconsole
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-48] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-48] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-49] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-49] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-49] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-49] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-49] [SYSTEM_IO]: Userdata requested: filterchat
+[20-32-49] [SYSTEM_IO]: Userdata requested: minimizeonclose [7x]
+[20-32-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-50] [PREFERENCE REFRESH INVOKED]: key = typingsound
+[20-32-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-50] [PREFERENCE REFRESH INVOKED]: key = typinganimation
+[20-32-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-51] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-32-54] [SYSTEM_IO]: Userdata requested: persistentnotifications [7x]
+[20-32-54] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-54] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-55] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-55] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-32-56] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-56] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-56] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-56] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-56] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-56] [SYSTEM_IO]: Userdata requested: compacttextmode [2x]
+[20-32-58] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-58] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-58] [PREFERENCE REFRESH INVOKED]: key = closeanimation
+[20-32-58] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: compacttextmode [2x]
+[20-32-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-32-59] [SYSTEM_IO]: Userdata requested: compacttextmode [2x]
+[20-32-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-32-59] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-32-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-32-59] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-00] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-00] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-01] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-01] [SYSTEM_IO]: Userdata requested: compacttextmode
+[20-33-01] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-01] [SYSTEM_IO]: Userdata requested: wrapterminal [2x]
+[20-33-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-33-01] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[20-33-01] [SYSTEM_IO]: Userdata requested: wrapterminal
+[20-33-02] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-33-03] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [-14203113], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-33-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(826, 288, 900, 580)], hash = [832975826], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[20-33-03] [THREAD STARTED]: Preferences CyderFrame dispose thread
+[20-33-03] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-33-09] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-33-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-33-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(571, 376, 996, 655)], hash = [1817789863], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[20-33-09] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[20-33-09] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-33-09] [EXIT]: [RUNTIME] 53s
+[20-33-09] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

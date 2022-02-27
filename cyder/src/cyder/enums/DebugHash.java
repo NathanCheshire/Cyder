@@ -7,7 +7,7 @@ public enum DebugHash {
     /**
      * Nathan's hash.
      */
-    Nathan("Nathan","3789d9735ab15d29a3595ef3f70c377d2d7b4927c222a06d36f0abba335504a2");
+    Nathan("Nathan","571b100a3b69f7b09828c0b61d325b15e52c512c14fdcf6d248f7ca733d0a7f6");
 
     private final String name;
     private final String pass;
