@@ -201,6 +201,23 @@ public class CyderSwitch extends JLabel {
     }
 
     /**
+     * Returns the next state that the switch will be set to following a switch action.
+     *
+     * @return the next state that the switch will be set to following a switch action
+     */
+    public State getNextState() {
+        switch (this.state) {
+            case ON:
+            case INDETERMINITE:
+                return State.OFF;
+            case OFF:
+                return State.ON;
+            default:
+                throw new IllegalStateException("Invalid switch state: " + this.state);
+        }
+    }
+
+    /**
      * Returns the switch of this switch.
      *
      * @return the switch of this switch
