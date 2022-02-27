@@ -62,6 +62,7 @@ public class PaintWidget {
     private static final Stack<Color> backwardColors = new Stack<>();
     private static final Stack<Color> forwardColors = new Stack<>();
     private static Color currentPaintColor = CyderColors.regularPink;
+    private static CyderTextField colorHexField;
 
     private static void installControlFrames() {
         if (colorControlFrame != null)
@@ -73,7 +74,23 @@ public class PaintWidget {
         colorControlFrame = new CyderFrame(400,150);
         colorControlFrame.setTitle("Controls");
 
-        CyderTextField colorHexField = new CyderTextField(11);
+        int colorLabelX = 70;
+        int colorLabelY = 40;
+        JLabel recentColorsLabel = new JLabel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                g.setColor(CyderColors.navy);
+                g.fillRect(0,0, colorLabelX, colorLabelY);
+
+                g.setColor(currentPaintColor);
+                g.fillRect(5,5, colorLabelX - 10, colorLabelY - 10);
+            }
+        };
+        recentColorsLabel.setBounds(50,DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, colorLabelX, colorLabelY);
+        recentColorsLabel.setToolTipText(ColorUtil.rgbToHexString(currentPaintColor));
+        colorControlFrame.getContentPane().add(recentColorsLabel);
+
+        colorHexField = new CyderTextField(11);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
         colorHexField.setBounds(10, DragLabel.DEFAULT_HEIGHT + 10, 150, 40);
         colorControlFrame.getContentPane().add(colorHexField);
@@ -92,15 +109,16 @@ public class PaintWidget {
                         int g = Integer.parseInt(parts[1]);
                         int b = Integer.parseInt(parts[2]);
 
-                        colorHexField.setForeground(new Color(r, g, b));
-                        colorControlFrame.notify("Color parsed");
+                        Color newColor = new Color(r, g, b);
+                        setNewPaintColor(newColor, recentColorsLabel);
                     } catch (Exception ignored) {
                         colorControlFrame.notify("Could not parse color");
                     }
                 }
             } else {
                 try {
-                    colorHexField.setForeground(ColorUtil.hexToRgb(colorHexField.getText()));
+                    Color newColor = ColorUtil.hexToRgb(colorHexField.getText());
+                    setNewPaintColor(newColor, recentColorsLabel);
                 } catch (Exception ignored) {
                     colorControlFrame.notify("Could not parse color");
                 }
@@ -108,42 +126,85 @@ public class PaintWidget {
         });
         colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
 
+        backwardColors.clear();
+        forwardColors.clear();
+
         CyderButton backwards = new CyderButton("<");
         backwards.setBounds(10, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 30, 40);
         colorControlFrame.getContentPane().add(backwards);
-        backwards.addActionListener(e -> {
-            //todo update tooltip, current paitn color, and repaint recentcolors label
-        });
+        backwards.addActionListener(e -> backwards(recentColorsLabel));
 
         CyderButton forwards = new CyderButton(">");
         forwards.setBounds(130, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 30, 40);
         colorControlFrame.getContentPane().add(forwards);
-        forwards.addActionListener(e -> {
-            //todo
-        });
-
-        int colorLabelX = 70;
-        int colorLabelY = 40;
-        JLabel recentColorsLabel = new JLabel() {
-            @Override
-            public void paintComponent(Graphics g) {
-                g.setColor(CyderColors.navy);
-                g.fillRect(0,0, colorLabelX, colorLabelY);
-
-                g.setColor(currentPaintColor);
-                g.fillRect(5,5, colorLabelX - 10, colorLabelY - 10);
-            }
-        };
-        recentColorsLabel.setBounds(50,DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, colorLabelX, colorLabelY);
-        recentColorsLabel.setToolTipText(ColorUtil.rgbToHexString(currentPaintColor));
-        colorControlFrame.getContentPane().add(recentColorsLabel);
-
-        backwardColors.clear();
-        forwardColors.clear();
-
-        //recent colors use stacks for this
+        forwards.addActionListener(e -> forwards(recentColorsLabel));
 
         colorControlFrame.setVisible(true);
         colorControlFrame.setLocation(paintFrame.getX(), paintFrame.getY() + paintFrame.getWidth() + 20);
+    }
+
+    private static void setNewPaintColor(Color newColor, final JLabel previewLabel) {
+        if (!backwardColors.isEmpty() && backwardColors.peek().equals(newColor))
+            return;
+        if (newColor.equals(currentPaintColor))
+            return;
+
+        System.out.println("here");
+
+        backwardColors.push(currentPaintColor);
+        currentPaintColor = newColor;
+        previewLabel.repaint();
+        previewLabel.setToolTipText(ColorUtil.rgbToHexString(newColor));
+        colorHexField.setText(ColorUtil.rgbToHexString(newColor));
+    }
+
+    /**
+     * Steps back a color if possible from the backwards color stack.
+     *
+     * @param recentColorsLabel the preview label to update
+     */
+    private static void backwards(JLabel recentColorsLabel) {
+        // if we can go backwards
+        if (!backwardColors.isEmpty()) {
+            // if we can push to forwards, do so
+            if (forwardColors.isEmpty() || forwardColors.peek() != currentPaintColor) {
+                forwardColors.push(currentPaintColor);
+            }
+
+            // get the new color by going backwards
+            currentPaintColor = backwardColors.pop();
+
+            // repaint the preview label and set its tooltip
+            recentColorsLabel.repaint();
+            recentColorsLabel.setToolTipText(ColorUtil.rgbToHexString(currentPaintColor));
+
+            // update the text field
+            colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
+        }
+    }
+
+    /**
+     * Steps forward a color if possible from the forwards color stack.
+     *
+     * @param recentColorsLabel the preview label to update
+     */
+    private static void forwards(JLabel recentColorsLabel) {
+        // if we can go forwards
+        if (!forwardColors.isEmpty()) {
+            // if we can push to backwards, do so
+            if (backwardColors.isEmpty() || backwardColors.peek() != currentPaintColor) {
+                backwardColors.push(currentPaintColor);
+            }
+
+            // get the new color by going backwards
+            currentPaintColor = forwardColors.pop();
+
+            // repaint the preview label and set its tooltip
+            recentColorsLabel.repaint();
+            recentColorsLabel.setToolTipText(ColorUtil.rgbToHexString(currentPaintColor));
+
+            // update the text field
+            colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
+        }
     }
 }
