@@ -15,8 +15,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Stack;
 
+/**
+ * A painting widget, not currently intended to be able to edit/markup images.
+ */
 public class PaintWidget {
+    /**
+     * The master painting frame.
+     */
     private static CyderFrame paintFrame;
+
+    /**
+     * The painting grid.
+     */
     private static CyderGrid cyderGrid;
 
     /**
@@ -59,11 +69,29 @@ public class PaintWidget {
         installControlFrames();
     }
 
+    /**
+     * The controls frame.
+     */
     private static CyderFrame paintControlsFrame;
 
+    /**
+     * The backward color stack used for color traversal.
+     */
     private static final Stack<Color> backwardColors = new Stack<>();
+
+    /**
+     * The forward color stack used for color traversal.
+     */
     private static final Stack<Color> forwardColors = new Stack<>();
+
+    /**
+     * The current color.
+     */
     private static Color currentPaintColor = CyderColors.regularPink;
+
+    /**
+     * The field the user can enter a color in.
+     */
     private static CyderTextField colorHexField;
 
     /**
@@ -194,8 +222,6 @@ public class PaintWidget {
             return;
         if (newColor.equals(currentPaintColor))
             return;
-
-        System.out.println("here");
 
         backwardColors.push(currentPaintColor);
         currentPaintColor = newColor;
