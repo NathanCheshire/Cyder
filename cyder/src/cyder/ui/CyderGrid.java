@@ -417,7 +417,7 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Used for the add/remove listeners to add a node to the grid
+     * Used for ALL add/remove operations to add a node to the grid
      * based off the absolute x,y provided and accounts for
      * the possible relative node.
      *
@@ -496,15 +496,34 @@ public class CyderGrid extends JLabel {
         repaint();
     }
 
+    private boolean stateChangingInProgress = false;
+
     /**
      * The listener which allows nodes to be placed on the grid via click.
      */
     private final MouseAdapter clickPlacer = new MouseAdapter() {
         @Override
+        public void mousePressed(MouseEvent e) {
+            stateChangingInProgress = true;
+        }
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            stateChangingInProgress = false;
+            attemptAddState(grid); //todo not sure if this works
+        }
+
+        @Override
         public void mouseClicked(MouseEvent e) {
             addAccountingForOffset(e, false);
+
+            // after node added so add state
+            attemptAddState(grid);
         }
     };
+
+    //todo need different logic for click vs drag events, two booleans with listeners needed?
+    // todo actually jsut boolean above for click placer,
+    // todo also make it so externals only call one method to enable drawing on the grid
 
     /**
      * Adds the listener which allows nodes to be placed via drag events on the grid.
@@ -746,81 +765,16 @@ public class CyderGrid extends JLabel {
     /**
      * The backward states of the grid.
      */
-    private final Stack<LinkedList<GridNode>> backwardStates = new Stack<>();
-
-    /**
-     * Clears the forward states.
-     */
-    public void clearForwardStates() {
-        forwardStates.clear();
-    }
-
-    /**
-     * Clears the backward states.
-     */
-    public void clearBackwardStates() {
-        backwardStates.clear();
-    }
-
-    /**
-     * Returns whether the forward states stack is empty.
-     *
-     * @return whether the forward states stack is empty
-     */
-    public boolean forwardEmpty() {
-        return forwardStates.isEmpty();
-    }
-
-    /**
-     * Returns whether the backward states stack is empty.
-     *
-     * @return whether the backward states stack is empty
-     */
-    public boolean backwardEmpty() {
-        return backwardStates.empty();
-    }
-
-    /**
-     * Pushes the provided state to the forward stack.
-     *
-     * @param pushMe the provided state to push to the forward stack
-     */
-    public void pushStateForward(LinkedList<GridNode> pushMe) {
-        forwardStates.push(pushMe);
-    }
-
-    /**
-     * Pushes the provided state to the backward stack.
-     *
-     * @param pushMe the provided state to push to the backward stack
-     */
-    public void pushStateBackward(LinkedList<GridNode> pushMe) {
-        backwardStates.push(pushMe);
-    }
-
-    /**
-     * Pops a state from the forward stack.
-     *
-     * @return the popped state from the forward stack
-     */
-    public LinkedList<GridNode> popStateForward() {
-        return forwardStates.pop();
-    }
-
-    /**
-     * Pops a state from the backward stack.
-     *
-     * @return the popped state from the backward stack
-     */
-    public LinkedList<GridNode> popStateBackward() {
-        return backwardStates.pop();
-    }
+    private final Stack<LinkedList<GridNode>> backwardStates = new Stack<>() {{
+        // init with default state of empty
+        add(new LinkedList<>());
+    }};
 
     /**
      * Sets the grid state to the next state if available.
      */
     public void forwardState() {
-        if (!forwardEmpty()) {
+        if (!forwardStates.isEmpty()) {
             // push current state backwards
             backwardStates.push(grid);
 
@@ -837,7 +791,7 @@ public class CyderGrid extends JLabel {
      * Sets the grid state to the last state if available.
      */
     public void backwardState() {
-        if (!backwardEmpty()) {
+        if (!backwardStates.isEmpty()) {
             // push current state forward
             forwardStates.push(grid);
 
@@ -847,6 +801,18 @@ public class CyderGrid extends JLabel {
             // repaint grid
             this.revalidate();
             this.repaint();
+        }
+    }
+
+    /**
+     * Adds the provided state to the backwards list if it is
+     * not the last thing in the backwards list.
+     *
+     * @param state the state to add
+     */
+    private void attemptAddState(LinkedList<GridNode> state) {
+        if (!backwardStates.peek().equals(state)) {
+            backwardStates.add(state);
         }
     }
 }
