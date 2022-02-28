@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.Widget;
+import cyder.annotations.ManualTest;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderCommon;
@@ -19,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -229,6 +231,43 @@ public class ReflectionUtil {
                                     "@Widget has triggers which contain spaces: \"" + trigger + "\"");
                         }
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Finds all manual tests within Cyder by looking for methods annotated with {@link ManualTest}.
+     * The annotated method MUST take no parameters, and contain a valid, unique trigger.
+     *
+     * @throws IllegalMethodException if an invalid {@link ManualTest} annotation is located
+     */
+    public static void validateTests() throws IllegalMethodException {
+        LinkedList<String> foundTriggers = new LinkedList<>();
+
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> classer = classInfo.load();
+
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(ManualTest.class)) {
+                    String trigger = m.getAnnotation(ManualTest.class).trigger();
+
+                    if (!m.getName().toLowerCase().endsWith("test")) {
+                        Logger.log(Logger.Tag.DEBUG_PRINT, "Method annotated with @ManualTest does not end" +
+                                " with test; name: " + m.getName());
+                    }
+
+                    if (StringUtil.isNull(trigger)) {
+                        throw new IllegalMethodException("Method annotated with @ManualTest has no trigger");
+                    }
+
+                    if (StringUtil.in(trigger, true, foundTriggers)) {
+                        throw new IllegalArgumentException("Method annotation with @ManualTest " +
+                                "has a trigger which has already been used; method: " + m.getName()
+                                + ", trigger: " + trigger);
+                    }
+
+                    foundTriggers.add(trigger);
                 }
             }
         }

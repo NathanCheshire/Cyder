@@ -9,7 +9,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.UserUtil;
 import org.jetbrains.annotations.Nullable;
-import test.java.ManualTests;
+import cyder.test.ManualTests;
 
 import java.util.Objects;
 
@@ -201,7 +201,7 @@ public class CyderCommon {
 
     /**
      * Returns whether normal testing mode is active.
-     * This will execute {@link ManualTests#launchTests()} upon Cyder start.
+     * This will execute {@link ManualTests#launchTest()} upon Cyder start.
      *
      * @return whether normal testing mode is active
      */

@@ -42,16 +42,16 @@
 [13-28-49] [THREAD STARTED]: notification appear animation
 [13-28-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-28-49] [THREAD STARTED]: Notificaiton vanish animater -1709366725
-[13-28-50] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1693, 621, 280, 120)], hash = [1562529550], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Switcher test] notification queue checker
-[13-28-50] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [311020361], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[13-28-50] [ACTION]: [Switcher test] [NOTIFICATION] dos long
+[13-28-50] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1693, 621, 280, 120)], hash = [1562529550], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Switcher cyder.test] notification queue checker
+[13-28-50] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [311020361], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-28-50] [ACTION]: [Switcher cyder.test] [NOTIFICATION] dos long
 [13-28-50] [THREAD STARTED]: notification appear animation
 [13-28-50] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-28-51] [THREAD STARTED]: Notificaiton vanish animater -1709372584 [2x]
 [13-28-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-28-52] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1693, 621, 280, 120)], hash = [1562529550], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Switcher test] notification queue checker
-[13-28-52] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [311020361], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[13-28-52] [ACTION]: [Switcher test] [NOTIFICATION] tres long
+[13-28-52] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1693, 621, 280, 120)], hash = [1562529550], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Switcher cyder.test] notification queue checker
+[13-28-52] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [311020361], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-28-52] [ACTION]: [Switcher cyder.test] [NOTIFICATION] tres long
 [13-28-52] [THREAD STARTED]: notification appear animation
 [13-28-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-28-52] [THREAD STARTED]: Notificaiton vanish animater -1709372460 [2x]

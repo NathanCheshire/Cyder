@@ -1,4 +1,4 @@
-package test.java;
+package cyder.test;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.utilities.*;
@@ -10,6 +10,11 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for common Cyder functions. This will be broken up
+ * into smaller classes if Cyder expands to a true production-grade program
+ * and more unit tests are added for every util function.
+ */
 public class UnitTests {
     @Test
     public void testInsertBreaks() {

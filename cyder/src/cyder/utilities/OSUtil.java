@@ -180,7 +180,7 @@ public class OSUtil {
 
     /**
      * Returns whether the operating system is unix based.
-     * (yes this includes OSX systems too. If you need to test for
+     * (yes this includes OSX systems too. If you need to cyder.test for
      * OSX specifically then call {@link OSUtil#isOSX()})
      *
      * @return whether the operating system is unix based
@@ -452,7 +452,7 @@ public class OSUtil {
         // init return set
         ArrayList<File> ret = new ArrayList<>();
 
-        // should be directory but test anyway
+        // should be directory but cyder.test anyway
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
@@ -631,8 +631,6 @@ public class OSUtil {
     }
 
     //todo web scrape "where am i" query and look for desktop-title-content element, and desktop-title-subcontent
-
-    //todo paint widget, use a layout for the external control frames
 
     //todo put image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably

@@ -42,11 +42,11 @@
 [13-20-12] [THREAD STARTED]: notification appear animation
 [13-20-13] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-20-13] [THREAD STARTED]: Notificaiton vanish animater 1068552024
-[13-20-14] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1442874344], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-20-14] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1442874344], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-20-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-20-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1442874344], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
+[13-20-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1442874344], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [13-20-19] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-20-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1442874344], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [14x]
+[13-20-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1442874344], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [14x]
 [13-21-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [24x]
 [13-21-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1412, 362, 842, 638)], hash = [1761217448], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
 [13-21-52] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread

@@ -42,6 +42,6 @@
 [13-17-49] [THREAD STARTED]: notification appear animation
 [13-17-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-17-49] [THREAD STARTED]: Notificaiton vanish animater -1516926636
-[13-17-50] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1684201100], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
+[13-17-50] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [1684201100], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [13-17-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
 [13-18-20] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

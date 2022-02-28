@@ -42,13 +42,13 @@
 [13-17-00] [THREAD STARTED]: notification appear animation
 [13-17-00] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-17-00] [THREAD STARTED]: Notificaiton vanish animater -1857942722
-[13-17-03] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(0, 0, 200, 40)], hash = [284659646], parentFrame = [Switcher test], associated text = [Uno], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
+[13-17-03] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(0, 0, 200, 40)], hash = [284659646], parentFrame = [Switcher cyder.test], associated text = [Uno], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [13-17-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-17-03] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Switcher test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-17-03] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Switcher cyder.test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-17-03] [SYSTEM_IO]: Userdata requested: minimizeanimation
-[13-17-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [662412031], parentFrame = [Switcher test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[13-17-06] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(0, 0, 200, 40)], hash = [284659646], parentFrame = [Switcher test], associated text = [Uno], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-17-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(160, 0, 40, 40)], hash = [662412031], parentFrame = [Switcher cyder.test], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-17-06] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(0, 0, 200, 40)], hash = [284659646], parentFrame = [Switcher cyder.test], associated text = [Uno], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-17-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[13-17-09] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(0, 0, 200, 40)], hash = [284659646], parentFrame = [Switcher test], associated text = [Uno], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[13-17-09] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(0, 0, 200, 40)], hash = [284659646], parentFrame = [Switcher cyder.test], associated text = [Uno], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [13-17-26] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [5x]
 [13-17-46] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

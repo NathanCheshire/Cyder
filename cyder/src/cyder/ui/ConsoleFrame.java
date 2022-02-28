@@ -18,7 +18,7 @@ import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 import cyder.widgets.objects.RelativeFrame;
-import test.java.ManualTests;
+import cyder.test.ManualTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -1102,7 +1102,7 @@ public final class ConsoleFrame {
         //testing mode to auto execute Debug tests
         if (CyderCommon.isTestingMode()) {
             Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
-            ManualTests.launchTests();
+            ManualTests.launchTest();
         }
 
         //last start time operations
