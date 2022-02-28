@@ -112,7 +112,7 @@ public class PaintWidget {
     private static CyderTextField colorHexField;
 
     /**
-     * Opens the paint controls frame
+     * Opens the paint controls frame.
      */
     private static void installControlFrames() {
         if (paintControlsFrame != null)
@@ -179,12 +179,12 @@ public class PaintWidget {
         CyderButton backwards = new CyderButton("<");
         backwards.setBounds(10, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 30, 40);
         paintControlsFrame.getContentPane().add(backwards);
-        backwards.addActionListener(e -> backwards(recentColorsLabel));
+        backwards.addActionListener(e -> backwardsColor(recentColorsLabel));
 
         CyderButton forwards = new CyderButton(">");
         forwards.setBounds(130, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 30, 40);
         paintControlsFrame.getContentPane().add(forwards);
-        forwards.addActionListener(e -> forwards(recentColorsLabel));
+        forwards.addActionListener(e -> forwardsColor(recentColorsLabel));
 
         CyderCheckboxGroup group = new CyderCheckboxGroup();
 
@@ -257,19 +257,13 @@ public class PaintWidget {
         undo.setBounds(320, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 50, 30, 35);
         paintControlsFrame.getContentPane().add(undo);
         undo.setToolTipText("Undo");
-        undo.addActionListener(e -> {
-            //todo last state stack, maybe custom object for states determined
-            // by mouse click AND release to determine a final state
-            //mouse press adds current grid as state, mouse release adds as well
-        });
+        undo.addActionListener(e -> cyderGrid.backwardState());
 
         CyderButton redo = new CyderButton(">");
         redo.setBounds(355, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 50, 30, 35);
         paintControlsFrame.getContentPane().add(redo);
         redo.setToolTipText("Redo");
-        redo.addActionListener(e -> {
-            //todo next in stack
-        });
+        redo.addActionListener(e -> cyderGrid.forwardState());
 
         CyderButton selectionTool = new CyderButton("<html><b>\u2B1C</b></html>");
         selectionTool.setBounds(410, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 45, 45);
@@ -307,6 +301,10 @@ public class PaintWidget {
 
     //todo put image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably
+
+    // --------------
+    // paint controls
+    // --------------
 
     /**
      * Selection mode is used for selectiong a rectangular region
@@ -363,7 +361,7 @@ public class PaintWidget {
      *
      * @param recentColorsLabel the preview label to update
      */
-    private static void backwards(JLabel recentColorsLabel) {
+    private static void backwardsColor(JLabel recentColorsLabel) {
         // if we can go backwards
         if (!backwardColors.isEmpty()) {
             // if we can push to forwards, do so
@@ -391,7 +389,7 @@ public class PaintWidget {
      *
      * @param recentColorsLabel the preview label to update
      */
-    private static void forwards(JLabel recentColorsLabel) {
+    private static void forwardsColor(JLabel recentColorsLabel) {
         // if we can go forwards
         if (!forwardColors.isEmpty()) {
             // if we can push to backwards, do so

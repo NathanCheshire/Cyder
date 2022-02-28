@@ -59,7 +59,7 @@ public class CyderGrid extends JLabel {
     /**
      * The list which holds the nodes to display on the grid.
      */
-    private final LinkedList<GridNode> grid;
+    private LinkedList<GridNode> grid;
 
     /**
      * The color to use for new nodes added to the grid.
@@ -741,18 +741,24 @@ public class CyderGrid extends JLabel {
     /**
      * The forward states of the grid.
      */
-    private static final Stack<LinkedList<GridNode>> forwardStates = new Stack<>();
+    private final Stack<LinkedList<GridNode>> forwardStates = new Stack<>();
 
     /**
      * The backward states of the grid.
      */
-    private static final Stack<LinkedList<GridNode>> backwardStates = new Stack<>();
+    private final Stack<LinkedList<GridNode>> backwardStates = new Stack<>();
 
     /**
-     * Clears the forward and backward states.
+     * Clears the forward states.
      */
-    public static void clearStates() {
+    public void clearForwardStates() {
         forwardStates.clear();
+    }
+
+    /**
+     * Clears the backward states.
+     */
+    public void clearBackwardStates() {
         backwardStates.clear();
     }
 
@@ -761,7 +767,7 @@ public class CyderGrid extends JLabel {
      *
      * @return whether the forward states stack is empty
      */
-    public static boolean forwardEmpty() {
+    public boolean forwardEmpty() {
         return forwardStates.isEmpty();
     }
 
@@ -770,7 +776,7 @@ public class CyderGrid extends JLabel {
      *
      * @return whether the backward states stack is empty
      */
-    public static boolean backwardEmpty() {
+    public boolean backwardEmpty() {
         return backwardStates.empty();
     }
 
@@ -779,7 +785,7 @@ public class CyderGrid extends JLabel {
      *
      * @param pushMe the provided state to push to the forward stack
      */
-    public static void pushStateForward(LinkedList<GridNode> pushMe) {
+    public void pushStateForward(LinkedList<GridNode> pushMe) {
         forwardStates.push(pushMe);
     }
 
@@ -788,7 +794,7 @@ public class CyderGrid extends JLabel {
      *
      * @param pushMe the provided state to push to the backward stack
      */
-    public static void pushStateBackward(LinkedList<GridNode> pushMe) {
+    public void pushStateBackward(LinkedList<GridNode> pushMe) {
         backwardStates.push(pushMe);
     }
 
@@ -797,7 +803,7 @@ public class CyderGrid extends JLabel {
      *
      * @return the popped state from the forward stack
      */
-    public static LinkedList<GridNode> popStateForward() {
+    public LinkedList<GridNode> popStateForward() {
         return forwardStates.pop();
     }
 
@@ -806,7 +812,41 @@ public class CyderGrid extends JLabel {
      *
      * @return the popped state from the backward stack
      */
-    public static LinkedList<GridNode> popStateBackward() {
+    public LinkedList<GridNode> popStateBackward() {
         return backwardStates.pop();
+    }
+
+    /**
+     * Sets the grid state to the next state if available.
+     */
+    public void forwardState() {
+        if (!forwardEmpty()) {
+            // push current state backwards
+            backwardStates.push(grid);
+
+            // set to next state
+            grid = forwardStates.pop();
+
+            // repaint grid
+            this.revalidate();
+            this.repaint();
+        }
+    }
+
+    /**
+     * Sets the grid state to the last state if available.
+     */
+    public void backwardState() {
+        if (!backwardEmpty()) {
+            // push current state forward
+            forwardStates.push(grid);
+
+            // set to last state
+            grid = backwardStates.pop();
+
+            // repaint grid
+            this.revalidate();
+            this.repaint();
+        }
     }
 }
