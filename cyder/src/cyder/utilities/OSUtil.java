@@ -180,7 +180,7 @@ public class OSUtil {
 
     /**
      * Returns whether the operating system is unix based.
-     * (yes this includes OSX systems too. If you need to cyder.test for
+     * (yes this includes OSX systems too. If you need to test for
      * OSX specifically then call {@link OSUtil#isOSX()})
      *
      * @return whether the operating system is unix based
@@ -452,7 +452,7 @@ public class OSUtil {
         // init return set
         ArrayList<File> ret = new ArrayList<>();
 
-        // should be directory but cyder.test anyway
+        // should be directory but test anyway
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 

@@ -8,6 +8,7 @@ import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
@@ -18,7 +19,6 @@ import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.widgets.CardWidget;
 import cyder.widgets.objects.RelativeFrame;
-import cyder.test.ManualTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -1102,7 +1102,7 @@ public final class ConsoleFrame {
         //testing mode to auto execute Debug tests
         if (CyderCommon.isTestingMode()) {
             Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
-            ManualTests.launchTest();
+            ManualTests.launchTests();
         }
 
         //last start time operations

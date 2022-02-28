@@ -34,11 +34,11 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     @ManualTest(trigger = "launch")
-    public static void launchTest() {
+    public static void launchTests() {
         PaintWidget.showGUI();
     }
 
-    @ManualTest(trigger = "switcher cyder.test")
+    @ManualTest(trigger = "switcher test")
     public static void cyderSwitcherTest() {
         CyderFrame testFrame = new CyderFrame(280,120);
         testFrame.setTitle("Switcher cyder.test");

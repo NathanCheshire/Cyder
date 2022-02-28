@@ -613,7 +613,7 @@ public class StringUtil {
      *
      * @param userInput the master string to search through
      * @param findWord the word to search the master string for
-     * @return a boolean depicting whether the given string contains the cyder.test word
+     * @return a boolean depicting whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord) {
         return hasWord(userInput, findWord, false);
@@ -625,7 +625,7 @@ public class StringUtil {
      * @param userInput the master string to search through
      * @param findWord the word to search the master string for
      * @param removeComments whether to remove comment tags from the input
-     * @return a boolean depicting whether the given string contains the cyder.test word
+     * @return a boolean depicting whether the given string contains the test word
      */
     public static boolean hasWord(String userInput, String findWord, boolean removeComments) {
         if (userInput == null || findWord == null)
@@ -651,7 +651,7 @@ public class StringUtil {
     /**
      * Tests a given string to see if it contains any blocked words contained in the v.txt system file.
      *
-     * @param input the provided string to cyder.test against
+     * @param input the provided string to test against
      * @param filterLeet whether to filter out possible leet from the string
      * @return a boolean describing whether the filter was triggered by the input
      */
@@ -869,7 +869,7 @@ public class StringUtil {
      * Determines if the provided String is null meaning literally null,
      * empty (length 0), equal to NULL, or equal to NUL.
      *
-     * @param nullCheck the String to cyder.test for
+     * @param nullCheck the String to test for
      * @return whether the provided String was null
      */
     public static boolean isNull(String nullCheck) {
@@ -887,7 +887,7 @@ public class StringUtil {
      * Determines how closely string alpha is to string beta.
      *
      * @param alpha the base string
-     * @param beta the string to cyder.test for similarity against alpha
+     * @param beta the string to test for similarity against alpha
      * @return how close beta is to alpha by a percentage score
      */
     public static int levenshteinDistance(String alpha, String beta) {

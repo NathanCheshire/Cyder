@@ -8,9 +8,9 @@ import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
+import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
-import cyder.test.ManualTests;
 
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -64,7 +64,7 @@ public class Cyder {
 
         // check for fast testing
         if (CyderCommon.isFastTestingMode()) {
-            ManualTests.launchTest();
+            ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
                     ExitCondition.TestingModeExit);
             return;
@@ -98,7 +98,7 @@ public class Cyder {
             IOUtil.cleanUsers();
             setLoadingMessage("Validating widgets");
             ReflectionUtil.validateWidgets();
-            setLoadingMessage("Validating manual cyder.test");
+            setLoadingMessage("Validating manual tests");
             ReflectionUtil.validateTests();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine. "

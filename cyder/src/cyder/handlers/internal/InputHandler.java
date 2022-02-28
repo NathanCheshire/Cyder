@@ -11,6 +11,8 @@ import cyder.enums.SliderShape;
 import cyder.enums.Suggestion;
 import cyder.genesis.CyderCommon;
 import cyder.python.PyExecutor;
+import cyder.test.ManualTests;
+import cyder.test.UnitTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
@@ -21,8 +23,6 @@ import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.utilities.objects.WidgetDescription;
 import org.jetbrains.annotations.Nullable;
-import cyder.test.ManualTests;
-import cyder.test.UnitTests;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -1084,7 +1084,7 @@ public class InputHandler {
                 }
             }, "DST Checker");
         } else if (commandIs("test")) {
-            ManualTests.launchTest();
+            ManualTests.launchTests();
         } else if (commandIs("tests")) {
             println("Valid tests to call:\n");
             printUnitTests();
@@ -1484,11 +1484,12 @@ public class InputHandler {
         return ret;
     }
 
+    //todo use triggers for @ManualTest
     /**
-     * Determines if the command intended to invoke a manual cyder.test from cyder.test/ManualTests.
+     * Determines if the command intended to invoke a manual test from manualtests.
      *
-     * @param command the command to attempt to recognize as a manual cyder.test
-     * @return whether the command was handled as a manual cyder.test call
+     * @param command the command to attempt to recognize as a manual test
+     * @return whether the command was handled as a manual test call
      */
     private boolean manualTestCheck(String command) {
         boolean ret = false;
@@ -1503,7 +1504,7 @@ public class InputHandler {
                 if (m.getName().equalsIgnoreCase(command) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(mtw);
-                        println("Invoking manual cyder.test: " + m.getName());
+                        println("Invoking manual test: " + m.getName());
                         ret = true;
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -1519,10 +1520,10 @@ public class InputHandler {
     }
 
     /**
-     * Determines if the command intended to invoke a unit cyder.test.
+     * Determines if the command intended to invoke a unit test.
      *
-     * @param command the unit cyder.test to invoke if recognized from unit tests
-     * @return whether the command was recognized as a unit cyder.test call
+     * @param command the unit test to invoke if recognized from unit tests
+     * @return whether the command was recognized as a unit test call
      */
     private boolean unitTestCheck(String command) {
         boolean ret = false;
@@ -1536,7 +1537,7 @@ public class InputHandler {
                 if (m.getName().equalsIgnoreCase(command) && m.getParameterTypes().length == 0) {
                     try {
                         m.invoke(tests);
-                        println("Invoking unit cyder.test: " + m.getName());
+                        println("Invoking unit test: " + m.getName());
                         ret = true;
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);

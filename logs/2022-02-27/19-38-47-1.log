@@ -80,3 +80,33 @@
 [19-40-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [19-40-17] [CLIENT]: gitme
 [19-40-17] [SYSTEM_IO]: Userdata requested: filterchat
+[19-40-18] [CONSOLE_OUT]: [STRING] [main 1ed7c716] add @ManualTest annotation and validation, refactor test package to inside Cyder
+[19-40-18] [CONSOLE_OUT]: [STRING]  28 files changed, 608 insertions(+), 70 deletions(-)
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 cyder/src/cyder/annotations/ManualTest.java
+[19-40-18] [CONSOLE_OUT]: [STRING]  rename cyder/src/{test/java => cyder/test}/ManualTests.java (95%)
+[19-40-18] [CONSOLE_OUT]: [STRING]  rename cyder/src/{test/java => cyder/test}/UnitTests.java (96%)
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-03-44-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-04-50-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-08-46-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-09-34-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-19-22-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-34-04-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-35-54-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-36-41-1.log
+[19-40-18] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-02-27/19-38-47-1.log
+[19-40-20] [CONSOLE_OUT]: [STRING] remote: This repository moved. Please use the new location:
+[19-40-20] [CONSOLE_OUT]: [STRING] remote:   https://github.com/NathanCheshire/Cyder.git
+[19-40-20] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[19-40-20] [CONSOLE_OUT]: [STRING] To https://github.com/nathancheshire/Cyder.git
+[19-40-20] [CONSOLE_OUT]: [STRING]    e463fe73..1ed7c716  main -> main
+[19-40-20] [HANDLE]: GENERAL COMMAND HANDLED
+[19-40-20] [HANDLE]: PRIMARY HANDLE
+[19-40-21] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-40-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-40-27] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-40-27] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-40-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1339, 378, 842, 638)], hash = [2016828666], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[19-40-27] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[19-40-27] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-40-27] [EXIT]: [RUNTIME] 1m 40s
+[19-40-27] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

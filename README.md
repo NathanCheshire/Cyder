@@ -64,7 +64,7 @@ default of `9 - Modules, private methods in interfaces etc.`
 
 ## History
 
-Cyder started as a way to cyder.test and improve my Java skills and have fun
+Cyder started as a way to test and improve my Java skills and have fun
 while taking AP Computer Science back in in 2017. When I reached the
 university level of classes, they provided no help towards my passions
 regarding Java since my university did not teach Java at all. As I learned
