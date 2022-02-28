@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Stack;
 
 /**
@@ -53,6 +55,19 @@ public class PaintWidget {
                 len + DragLabel.DEFAULT_HEIGHT + padding * 2);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
+        paintFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (paintControlsFrame != null)
+                    paintControlsFrame.dispose(true);
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (paintControlsFrame != null)
+                    paintControlsFrame.dispose(true);
+            }
+        });
 
         cyderGrid = new CyderGrid(200, len);
         cyderGrid.setBounds(padding,DragLabel.DEFAULT_HEIGHT + padding - 5, len, len);
@@ -238,9 +253,51 @@ public class PaintWidget {
         brushWidthSlider.repaint();
         paintControlsFrame.getContentPane().add(brushWidthSlider);
 
-        //todo history to undo and redo
+        CyderButton undo = new CyderButton("<");
+        undo.setBounds(320, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 50, 30, 35);
+        paintControlsFrame.getContentPane().add(undo);
+        undo.setToolTipText("Undo");
+        undo.addActionListener(e -> {
+            //todo last state stack, maybe custom object for states determined
+            // by mouse click AND release to determine a final state
+            //mouse press adds current grid as state, mouse release adds as well
+        });
 
-        //todo selection tool with ability to crop to selection,
+        CyderButton redo = new CyderButton(">");
+        redo.setBounds(355, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 50, 30, 35);
+        paintControlsFrame.getContentPane().add(redo);
+        redo.setToolTipText("Redo");
+        redo.addActionListener(e -> {
+            //todo next in stack
+        });
+
+        CyderButton selectionTool = new CyderButton("<html><b>\u2B1C</b></html>");
+        selectionTool.setBounds(410, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 45, 45);
+        paintControlsFrame.getContentPane().add(selectionTool);
+        selectionTool.setToolTipText("Select region");
+        selectionTool.addActionListener(e -> {
+            selectionMode = !selectionMode;
+
+            if (selectionMode) {
+                paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            } else {
+                paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+
+            Toolkit.getDefaultToolkit().sync();
+
+            //todo selection mode is something that needs implementation on the grid's side mostly
+        });
+
+        CyderButton cropToRegion = new CyderButton("Crop");
+        cropToRegion.setBounds(460, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 80, 45);
+        paintControlsFrame.getContentPane().add(cropToRegion);
+        cropToRegion.setToolTipText("Crop to region");
+        cropToRegion.addActionListener(e -> {
+            //todo crop and revalidate grid
+
+            //gridComponent.cropToRegion()
+        });
 
         cyderGrid.setNodeColor(currentPaintColor);
 
@@ -250,6 +307,11 @@ public class PaintWidget {
 
     //todo put image average, image pixelator, and image resizer all in a image factory widget
     // most methods should be in image utils probably
+
+    /**
+     * Selection mode is used for selectiong a rectangular region
+     */
+    private static boolean selectionMode = false;
 
     /**
      * The default brush width.
