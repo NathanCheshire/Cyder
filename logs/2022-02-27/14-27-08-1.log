@@ -11,17 +11,13 @@
 [14-27-09] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [14-27-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [14-27-09] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[14-27-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[14-27-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [14-27-10] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [14-27-10] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [14-27-10] [SYSTEM_IO]: Userdata requested: RandomBackground
 [14-27-10] [SYSTEM_IO]: Userdata requested: FullScreen
 [14-27-10] [SYSTEM_IO]: Userdata requested: fullscreen
-[14-27-10] [SYSTEM_IO]: Userdata requested: FullScreen
-[14-27-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[14-27-10] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [14-27-10] [THREAD STARTED]: Console Printing Animation
 [14-27-10] [SYSTEM_IO]: Userdata requested: OutputBorder
 [14-27-10] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -56,15 +52,18 @@
 [14-27-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [14-27-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1142615613], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [14-27-20] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1142615613], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[14-27-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1142615613], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[14-27-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1142615613], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[14-27-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1142615613], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [14-27-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [14-27-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1142615613], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[14-27-28] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-36] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-39] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[14-27-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[14-27-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [9x]
+[14-27-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1433, 256, 800, 850)], hash = [2082252715], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Convex hull]
+[14-27-59] [THREAD STARTED]: Convex hull CyderFrame dispose thread
+[14-27-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1533, 606, 600, 150)], hash = [1918474232], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Controls]
+[14-27-59] [THREAD STARTED]: Controls CyderFrame dispose thread
+[14-27-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1433, 266, 800, 830)], hash = [1187560285], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
+[14-27-59] [THREAD STARTED]: Paint CyderFrame dispose thread
+[14-27-59] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1412, 362, 842, 638)], hash = [788905599], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[14-27-59] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[14-27-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[14-27-59] [EXIT]: [RUNTIME] 51s
+[14-27-59] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
