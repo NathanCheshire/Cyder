@@ -257,13 +257,25 @@ public class PaintWidget {
         undo.setBounds(320, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 50, 30, 35);
         paintControlsFrame.getContentPane().add(undo);
         undo.setToolTipText("Undo");
-        undo.addActionListener(e -> cyderGrid.backwardState());
+        undo.addActionListener(e -> {
+            cyderGrid.backwardState();
+            cyderGrid.revalidate();
+            cyderGrid.repaint();
+            paintFrame.revalidate();
+            paintFrame.repaint();
+        });
 
         CyderButton redo = new CyderButton(">");
         redo.setBounds(355, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 50, 30, 35);
         paintControlsFrame.getContentPane().add(redo);
         redo.setToolTipText("Redo");
-        redo.addActionListener(e -> cyderGrid.forwardState());
+        redo.addActionListener(e -> {
+            cyderGrid.forwardState();
+            cyderGrid.revalidate();
+            cyderGrid.repaint();
+            paintFrame.revalidate();
+            paintFrame.repaint();
+        });
 
         CyderButton selectionTool = new CyderButton("<html><b>\u2B1C</b></html>");
         selectionTool.setBounds(410, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 45, 45);

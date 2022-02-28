@@ -52,7 +52,8 @@ public final class GridNode {
 
         GridNode other = (GridNode) node;
 
-        return (this.x == other.x && this.y == other.y);
+        return (this.x == other.x && this.y == other.y
+                && this.color.equals(other.color));
     }
 
     /**
@@ -64,5 +65,14 @@ public final class GridNode {
         ret = 31 * ret + Integer.hashCode(this.y);
         ret = 31 * ret + color.hashCode();
         return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.x + ", " + this.y + ", (" + color.getRed()
+                + "," + color.getGreen() + "," + color.getBlue() + ")";
     }
 }
