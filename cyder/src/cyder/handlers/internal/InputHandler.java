@@ -235,11 +235,11 @@ public class InputHandler {
         }
         //final checks
         else if (isURLCheck(command) ||
-                handleMath(command) ||
-                evaluateExpression(command) ||
-                preferenceCheck(command) ||
-                manualTestCheck(command) ||
-                unitTestCheck(command)) {
+                handleMath(argsAndCommandToString()) ||
+                evaluateExpression(argsAndCommandToString()) ||
+                preferenceCheck(argsAndCommandToString()) ||
+                manualTestCheck(argsAndCommandToString()) ||
+                unitTestCheck(argsAndCommandToString())) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
         } else unknownInput();
 
@@ -1502,8 +1502,10 @@ public class InputHandler {
             for (Method m : classer.getMethods()) {
                 if (m.isAnnotationPresent(ManualTest.class)) {
                     String trigger = m.getAnnotation(ManualTest.class).trigger();
-                    if (trigger.equals(command)) {
+                    System.out.println(trigger);
+                    if (trigger.equalsIgnoreCase(command)) {
                         try {
+                            println("Invoking manual test " + m.getName());
                             m.invoke(classer);
                             ret = true;
                             break;

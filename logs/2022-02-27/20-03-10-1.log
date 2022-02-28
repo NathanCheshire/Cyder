@@ -1,0 +1,63 @@
+[20-03-10] [ENTRY]: [Nathan]
+[20-03-11] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-03-11] [THREAD STARTED]: Splash Loader
+[20-03-12] [THREAD STARTED]: Splash Animation
+[20-03-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-03-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-03-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-03-12] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-03-12] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[20-03-12] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-03-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-03-12] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-03-12] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-03-12] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-03-12] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-03-12] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-03-13] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-03-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-03-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-03-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-03-13] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-03-13] [THREAD STARTED]: Console Printing Animation
+[20-03-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-03-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-03-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-03-13] [THREAD STARTED]: Console Input Caret Position Updater
+[20-03-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-03-13] [SYSTEM_IO]: Userdata requested: InputFill
+[20-03-13] [THREAD STARTED]: High Ping Checker
+[20-03-13] [THREAD STARTED]: Hourly Chime Checker
+[20-03-13] [THREAD STARTED]: Console Clock Updater
+[20-03-13] [THREAD STARTED]: Cyder Busy Checker
+[20-03-13] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-03-13] [ACTION]: Console loaded in 2913ms
+[20-03-13] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(863, 385, 842, 638)], hash = [2059592603], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-03-13] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1346137100], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-03-13] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-03-13] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-03-13] [ENTRY]: [TESTING MODE]
+[20-03-13] [SYSTEM_IO]: Userdata requested: laststart
+[20-03-13] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-03-13] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2913ms
+[20-03-13] [THREAD STARTED]: notification appear animation
+[20-03-13] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-03-13] [THREAD STARTED]: Notificaiton vanish animater 2129286357
+[20-03-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [12x]
+[20-03-58] [CLIENT]: manual
+[20-03-58] [SYSTEM_IO]: Userdata requested: filterchat
+[20-03-58] [THREAD STARTED]: Unknown Input Handler
+[20-03-59] [ACTION]: Similar command to "manual" found with tol of 0.44444445, command = "analyzecode"
+[20-03-59] [THREAD STARTED]: Wrap Terminal Thread
+[20-03-59] [CONSOLE_OUT]: [STRING] Unknown command
+[20-03-59] [THREAD STARTED]: Suggestion Button Flash
+[20-04-00] [CLIENT]: grid
+[20-04-00] [SYSTEM_IO]: Userdata requested: filterchat
+[20-04-01] [THREAD STARTED]: Unknown Input Handler
+[20-04-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-04-02] [ACTION]: Similar command to "grid" found with tol of 0.5, command = "git"
+[20-04-02] [THREAD STARTED]: Wrap Terminal Thread
+[20-04-02] [THREAD STARTED]: Suggestion Button Flash
+[20-04-02] [CONSOLE_OUT]: [STRING] Unknown command
+[20-04-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [12x]
+[20-05-18] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
