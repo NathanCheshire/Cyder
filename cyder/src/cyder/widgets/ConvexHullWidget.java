@@ -85,8 +85,8 @@ public class ConvexHullWidget {
         }
 
         // can't make a polygon with less than 3 points
-//        if (points.size() < 3)
-//            return;
+        if (points.size() < 3)
+            return;
 
         // solve using O(nlogn) method
         LinkedList<Point> hull = solveGrahamScan(points);
@@ -96,8 +96,18 @@ public class ConvexHullWidget {
             gridComponent.addNode(new GridNode(CyderColors.navy, (int) p.getX(), (int) p.getY()));
         }
 
-        // recursively draw the line
-        addMidPoints(points.get(0), points.get(1));
+        for (int i = 0 ; i < hull.size() ; i++) {
+            Point p0 = hull.get(i);
+            Point p1;
+
+            // if p0 is the last point
+            if (i == hull.size() - 1)
+                p1 = hull.get(0);
+            else
+                p1 = hull.get(i + 1);
+
+            addMidPoints(p0, p1);
+        }
 
         // repaint to update nodes with line
         gridComponent.repaint();
