@@ -199,6 +199,16 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Returns the nodes on the current grid.
+     *
+     * @param newGrid the nodes for the current grid
+     */
+    public void setGridNodes(LinkedList<GridNode> newGrid) {
+        this.grid.clear();
+        this.grid.addAll(newGrid);
+    }
+
+    /**
      * Returns the node length.
      *
      * @return the node length

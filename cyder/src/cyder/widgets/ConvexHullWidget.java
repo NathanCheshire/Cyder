@@ -20,11 +20,20 @@ import java.util.*;
  * Convexhull widget that solve a convexhull problem using a CyderGrid as the drawing label.
  */
 public class ConvexHullWidget {
-
     /**
      * The CyderFrame to use for the convex hull widget.
      */
     private static CyderFrame hullFrame;
+
+    /**
+     * The color used for user placed nodes.
+     */
+    private static final Color placeColor = CyderColors.regularPink;
+
+    /**
+     * The color used when drawing lines as a part of the convex hull.
+     */
+    private static final Color lineColor = CyderColors.navy;
 
     /**
      * The grid to use to represent points in space.
@@ -38,6 +47,9 @@ public class ConvexHullWidget {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
+    /**
+     * Shows the convex hull widget.
+     */
     @Widget(triggers = "convexhull", description = "A convex hull algorithm visualizer")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CONVEX HULL");
@@ -55,7 +67,7 @@ public class ConvexHullWidget {
         hullFrame.getContentPane().add(gridComponent);
         gridComponent.setDrawExtendedBorder(false);
         gridComponent.setResizable(false);
-        gridComponent.setNodeColor(CyderColors.regularPink);
+        gridComponent.setNodeColor(placeColor);
         gridComponent.installClickPlacer();
         gridComponent.installDragPlacer();
 
@@ -73,15 +85,29 @@ public class ConvexHullWidget {
         hullFrame.setVisible(true);
     }
 
+
     /**
-     * Solves the convex hull problem and
+     * Solves the convex hull and draws the lines on the grid.
      */
     private static void solveAndUpdate() {
-        // let points be the list of points
+        // remove past lines from grid
+        LinkedList<GridNode> userPlacedNodes = new LinkedList<>();
+
+        for (GridNode gridNode : gridComponent.getGridNodes()) {
+            if (gridNode.getColor() == CyderColors.regularPink)
+                userPlacedNodes.add(gridNode);
+        }
+
+        gridComponent.setGridNodes(userPlacedNodes);
+
+        // initialize list of grid points
         LinkedList<Point> points = new LinkedList<>();
 
+        // get all grid nodes that the user placed
         for (GridNode gn : gridComponent.getGridNodes()) {
-           points.add(new Point(gn.getX(), gn.getY()));
+            // user places pink colors
+            if (gn.getColor() == placeColor)
+                points.add(new Point(gn.getX(), gn.getY()));
         }
 
         // can't make a polygon with less than 3 points
@@ -91,12 +117,9 @@ public class ConvexHullWidget {
         // solve using O(nlogn) method
         LinkedList<Point> hull = solveGrahamScan(points);
 
-        // add point nodes
-        for (Point p : hull) {
-            gridComponent.addNode(new GridNode(CyderColors.navy, (int) p.getX(), (int) p.getY()));
-        }
-
+        // for all the hull points, connect a line between the nodes
         for (int i = 0 ; i < hull.size() ; i++) {
+            // two pink nodes that are a part of the surrounding polygon
             Point p0 = hull.get(i);
             Point p1;
 
@@ -106,6 +129,7 @@ public class ConvexHullWidget {
             else
                 p1 = hull.get(i + 1);
 
+            // add a point between the two points with our line color
             addMidPoints(p0, p1);
         }
 
@@ -113,6 +137,12 @@ public class ConvexHullWidget {
         gridComponent.repaint();
     }
 
+    /**
+     * Finds the middle point between the provided points and adds it to the grid.
+     *
+     * @param p0 the first point
+     * @param p1 the second point
+     */
     private static void addMidPoints(Point p0, Point p1) {
         // base case one
         if (p0 == p1)
@@ -126,11 +156,17 @@ public class ConvexHullWidget {
         if (newPoint.equals(p0) || newPoint.equals(p1))
             return;
 
-        gridComponent.addNode(new GridNode(CyderColors.navy, midPointX, midPointY));
+        gridComponent.addNode(new GridNode(lineColor, midPointX, midPointY));
         addMidPoints(p0, newPoint);
         addMidPoints(newPoint, p1);
     }
 
+    /**
+     * Solves the convex hull problem given the list of points.
+     *
+     * @param points the list of points
+     * @return the points in the convex hull
+     */
     private static LinkedList<Point> solveGrahamScan(LinkedList<Point> points) {
         Deque<Point> stack = new ArrayDeque<>();
 
@@ -162,6 +198,12 @@ public class ConvexHullWidget {
         return new LinkedList<>(stack);
     }
 
+    /**
+     * Returns the node with the minimum y value from the provided list.
+     *
+     * @param points the list of points
+     * @return the point with the minimum y value
+     */
     private static Point getMinY(Collection<? extends Point> points) {
         Iterator<? extends Point> it = points.iterator();
         Point min = it.next();
@@ -180,6 +222,14 @@ public class ConvexHullWidget {
         return min;
     }
 
+    /**
+     * Returns whether the turn between a and b will be counter-clockwise.
+     *
+     * @param a the first point
+     * @param b the second point
+     * @param c the reference point
+     * @return whether the turn between a and b will be counter-clockwise
+     */
     private static int ccw(Point a, Point b, Point c) {
         float area = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 
@@ -195,6 +245,12 @@ public class ConvexHullWidget {
         return 0;
     }
 
+    /**
+     * Sorts the list of points by angle using the reference point.
+     *
+     * @param points the list of points
+     * @param ref the reference point
+     */
     @SuppressWarnings("ComparatorMethodParameterNotUsed")
     private static void sortByAngle(LinkedList<Point> points, Point ref) {
         points.sort((b, c) -> {
@@ -217,7 +273,7 @@ public class ConvexHullWidget {
     }
 
     /**
-     * Clears the board.
+     * Clears the grid.
      */
     private static void reset() {
         if (gridComponent.getNodeCount() == 0)
