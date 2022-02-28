@@ -1,6 +1,8 @@
 package cyder.handlers.internal;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import com.google.common.reflect.ClassPath;
+import cyder.annotations.ManualTest;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
@@ -1484,38 +1486,37 @@ public class InputHandler {
         return ret;
     }
 
-    //todo use triggers for @ManualTest
     /**
-     * Determines if the command intended to invoke a manual test from manualtests.
+     * Determines if the command intended to invoke a manual test from manual tests.
      *
      * @param command the command to attempt to recognize as a manual test
      * @return whether the command was handled as a manual test call
      */
+    @SuppressWarnings("UnstableApiUsage") /* guava */
     private boolean manualTestCheck(String command) {
         boolean ret = false;
 
-        command = command.toLowerCase();
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.cyderClasses) {
+            Class<?> classer = classInfo.load();
 
-        if (command.contains("test")) {
-            //noinspection InstantiationOfUtilityClass
-            ManualTests mtw = new ManualTests();
-
-            for (Method m : mtw.getClass().getMethods()) {
-                if (m.getName().equalsIgnoreCase(command) && m.getParameterTypes().length == 0) {
-                    try {
-                        m.invoke(mtw);
-                        println("Invoking manual test: " + m.getName());
-                        ret = true;
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(ManualTest.class)) {
+                    String trigger = m.getAnnotation(ManualTest.class).trigger();
+                    if (trigger.equals(command)) {
+                        try {
+                            m.invoke(classer);
+                            ret = true;
+                            break;
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
                     }
-                    break;
                 }
             }
         }
 
         if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MANUAL TEST REFLECTION FIRE HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "MANUAL TEST FIRED");
         return ret;
     }
 

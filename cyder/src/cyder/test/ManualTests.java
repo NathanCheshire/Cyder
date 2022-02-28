@@ -38,10 +38,13 @@ public class ManualTests {
         PaintWidget.showGUI();
     }
 
+    /**
+     * Tests for the switcher.
+     */
     @ManualTest(trigger = "switcher test")
     public static void cyderSwitcherTest() {
         CyderFrame testFrame = new CyderFrame(280,120);
-        testFrame.setTitle("Switcher cyder.test");
+        testFrame.setTitle("Switcher test");
 
         ArrayList<SwitchState> states = new ArrayList<>();
         states.add(new SwitchState("Uno", "uno long"));
@@ -64,7 +67,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "grid cyder.test")
+    /**
+     * Tests for the CyderGrid.
+     */
+    @ManualTest(trigger = "grid test")
     public static void cyderGridTest() {
         CyderFrame cf = new CyderFrame(1000,1000);
         cf.setTitle("Cyder Grid");
@@ -82,7 +88,10 @@ public class ManualTests {
         cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "drag label button cyder.test")
+    /**
+     * Tests for drag label buttons.
+     */
+    @ManualTest(trigger = "drag label button test")
     public static void dragLabelButtonTest() {
         CyderFrame testFrame = new CyderFrame(600,600, CyderIcons.defaultBackground);
         testFrame.setTitle("Test Frame");
@@ -115,7 +124,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "button position cyder.test")
+    /**
+     * Tests for button positions.
+     */
+    @ManualTest(trigger = "button position test")
     public static void buttonAndTitlePosTest() {
         CyderFrame testFrame = new CyderFrame(600, 400, CyderIcons.defaultBackground);
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
@@ -152,7 +164,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "notification cyder.test")
+    /**
+     * Tests for notifications.
+     */
+    @ManualTest(trigger = "notification test")
     public static void notificationTest() {
         CyderFrame testFrame = new CyderFrame(350,600, CyderIcons.defaultBackground);
         testFrame.setTitle("Notification Test");
@@ -257,7 +272,7 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "askew cyder.test")
+    @ManualTest(trigger = "askew test")
     public static void askewTest() {
         CyderFrame testFrame = new CyderFrame(350,300, CyderIcons.defaultBackground);
         testFrame.setTitle("Askew Test");
@@ -275,13 +290,16 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "sliding icon label cyder.test")
+    /**
+     * Tests for the sliding icon label.
+     */
+    @ManualTest(trigger = "sliding icon label test")
     public static void iconLabelSlidingTest() {
         ImageIcon theImage =  new ImageIcon(ImageUtil.getImageGradient(600,1200,
                 CyderColors.regularPink, CyderColors.regularBlue, CyderColors.regularBlue));
 
         CyderFrame testFrame = new CyderFrame(600,600, theImage);
-        testFrame.setTitle("Sliding cyder.test");
+        testFrame.setTitle("Sliding test");
         testFrame.initializeResizing();
         testFrame.setResizable(true);
 
@@ -364,7 +382,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "checkbox cyder.test")
+    /**
+     * Tests for checkboxes.
+     */
+    @ManualTest(trigger = "checkbox test")
     public static void checkboxTest() {
         CyderFrame testFrame = new CyderFrame(400,400, CyderIcons.defaultBackground);
         testFrame.setTitle("Checkbox Test");
@@ -383,25 +404,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "inform cyder.test")
-    public static void informTest() {
-        CyderFrame testFrame = new CyderFrame(300,200, CyderIcons.defaultBackground);
-        testFrame.setTitle("Inform cyder.test");
-
-        CyderTextField textField = new CyderTextField(0);
-        textField.setBounds(50,50,200,40);
-        testFrame.getContentPane().add(textField);
-
-        CyderButton informButton = new CyderButton("Inform");
-        informButton.setBounds(50,120, 200, 40);
-        testFrame.getContentPane().add(informButton);
-        informButton.addActionListener(e -> testFrame.inform(textField.getText(),"Inform"));
-
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
-    }
-
-    @ManualTest(trigger = "progress bar cyder.test")
+    /**
+     * Tests for the progress bar ui.
+     */
+    @ManualTest(trigger = "progress bar test")
     public static void progressBarTest() {
         CyderFrame cf = new CyderFrame(400,100);
         cf.setTitle("ProgressBar Test");
@@ -440,7 +446,10 @@ public class ManualTests {
         }, "ProgressBar Animator");
     }
 
-    @ManualTest(trigger = "slide cyder.test")
+    /**
+     * Tests for the slider ui.
+     */
+    @ManualTest(trigger = "slider test")
     public static void cyderSliderTest() {
         CyderFrame testFrame = new CyderFrame(400,400);
         testFrame.setTitle("Cyder Slider Test");
@@ -472,7 +481,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "frame length cyder.test")
+    /**
+     * Tests for the frame title length.
+     */
+    @ManualTest(trigger = "frame length test")
     public static void frameTitleLengthTest() {
         CyderFrame cf = new CyderFrame( 600, 200);
         cf.setTitle("Title Length Test");
@@ -492,10 +504,13 @@ public class ManualTests {
         cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "switch cyder.test")
+    /**
+     * Tests for the switch.
+     */
+    @ManualTest(trigger = "switch test")
     public static void switchTest() {
         CyderFrame testFrame = new CyderFrame(500,500);
-        testFrame.setTitle("CyderSwitch cyder.test");
+        testFrame.setTitle("CyderSwitch test");
 
         CyderSwitch cs = new CyderSwitch(300,100);
         cs.setBounds(100,100,300,100);
@@ -506,7 +521,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "ripple label cyder.test")
+    /**
+     * Tests for the ripple label.
+     */
+    @ManualTest(trigger = "ripple label test")
     public static void rippleLabelTest() {
         CyderFrame rippleTestFrame = new CyderFrame(600,600);
         rippleTestFrame.setTitle("Ripple Test");
@@ -533,10 +551,13 @@ public class ManualTests {
         rippleTestFrame.setVisible(true);
     }
 
-    @ManualTest(trigger = "checkbox group cyder.test")
+    /**
+     * Tests for the checkbox group.
+     */
+    @ManualTest(trigger = "checkbox group test")
     public static void checkboxGroupTest() {
         CyderFrame testFrame = new CyderFrame(400,110);
-        testFrame.setTitle("Checkbox group cyder.test");
+        testFrame.setTitle("Checkbox group test");
 
         CyderCheckboxGroup cbg = new CyderCheckboxGroup();
 
@@ -555,7 +576,10 @@ public class ManualTests {
         testFrame.setVisible(true);
     }
 
-    @ManualTest(trigger = "grid layout cyder.test")
+    /**
+     * Test for the grid layout.
+     */
+    @ManualTest(trigger = "grid layout test")
     public static void cyderGridLayoutTest() {
         //regular frame calls
         CyderFrame gridTestFrame = new CyderFrame(800,800);
@@ -608,7 +632,10 @@ public class ManualTests {
         gridTestFrame.setVisible(true);
     }
 
-    @ManualTest(trigger = "flow layout cyder.test")
+    /**
+     * Test for the flow layout.
+     */
+    @ManualTest(trigger = "flow layout test")
     public static void flowLayoutTest() {
         CyderFrame testFrame = new CyderFrame(600,600);
         testFrame.setTitle("Flow Layout Test");
@@ -640,7 +667,10 @@ public class ManualTests {
         testFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    @ManualTest(trigger = "popup cyder.test")
+    /**
+     * Tests for popups switcher.
+     */
+    @ManualTest(trigger = "popup test")
     public static void popupTest() {
         CyderFrame testFrame = new CyderFrame(400,120);
         testFrame.setTitle("Popup Test");
