@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * A custom UI grid component.
@@ -731,5 +732,81 @@ public class CyderGrid extends JLabel {
      */
     public void setDrawWidth(int drawWidth) {
         this.drawWidth = drawWidth;
+    }
+
+    // -------------
+    // state logic
+    // -------------
+
+    /**
+     * The forward states of the grid.
+     */
+    private static final Stack<LinkedList<GridNode>> forwardStates = new Stack<>();
+
+    /**
+     * The backward states of the grid.
+     */
+    private static final Stack<LinkedList<GridNode>> backwardStates = new Stack<>();
+
+    /**
+     * Clears the forward and backward states.
+     */
+    public static void clearStates() {
+        forwardStates.clear();
+        backwardStates.clear();
+    }
+
+    /**
+     * Returns whether the forward states stack is empty.
+     *
+     * @return whether the forward states stack is empty
+     */
+    public static boolean forwardEmpty() {
+        return forwardStates.isEmpty();
+    }
+
+    /**
+     * Returns whether the backward states stack is empty.
+     *
+     * @return whether the backward states stack is empty
+     */
+    public static boolean backwardEmpty() {
+        return backwardStates.empty();
+    }
+
+    /**
+     * Pushes the provided state to the forward stack.
+     *
+     * @param pushMe the provided state to push to the forward stack
+     */
+    public static void pushStateForward(LinkedList<GridNode> pushMe) {
+        forwardStates.push(pushMe);
+    }
+
+    /**
+     * Pushes the provided state to the backward stack.
+     *
+     * @param pushMe the provided state to push to the backward stack
+     */
+    public static void pushStateBackward(LinkedList<GridNode> pushMe) {
+        backwardStates.push(pushMe);
+    }
+
+    /**
+     * Pops a state from the forward stack.
+     *
+     * @return the popped state from the forward stack
+     */
+    public static LinkedList<GridNode> popStateForward() {
+        return forwardStates.pop();
+    }
+
+    /**
+     * Pops a state from the backward stack.
+     *
+     * @return the popped state from the backward stack
+     */
+    public static LinkedList<GridNode> popStateBackward() {
+        return backwardStates.pop();
     }
 }
