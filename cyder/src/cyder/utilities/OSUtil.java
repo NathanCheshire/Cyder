@@ -529,10 +529,6 @@ public class OSUtil {
      */
     public static double getUIScale() {
         return 1.0;
-        //todo this is affected by the starting monitor so maybe allow the user to be able to change this
-        // requires a restart to try and think of a script for that?
-
-        //todo move to user util and init with 1? shouldn't both of my monitors return 1?
     }
 
     /**
@@ -629,9 +625,4 @@ public class OSUtil {
             runAndPrintProcess(pipeTo, builder);
         }
     }
-
-    //todo web scrape "where am i" query and look for desktop-title-content element, and desktop-title-subcontent
-
-    //todo put image average, image pixelator, and image resizer all in a image factory widget
-    // most methods should be in image utils probably
 }

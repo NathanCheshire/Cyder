@@ -1,0 +1,55 @@
+[20-38-41] [ENTRY]: [Nathan]
+[20-38-41] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-38-41] [THREAD STARTED]: Splash Loader
+[20-38-42] [THREAD STARTED]: Splash Animation
+[20-38-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[20-38-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[20-38-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[20-38-42] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[20-38-42] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[20-38-42] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-38-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-38-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-38-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-38-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-38-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-38-42] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-38-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-38-42] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-38-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-38-42] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-38-43] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-38-43] [THREAD STARTED]: Console Printing Animation
+[20-38-43] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-38-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-38-43] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-38-43] [THREAD STARTED]: Console Input Caret Position Updater
+[20-38-43] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-38-43] [SYSTEM_IO]: Userdata requested: InputFill
+[20-38-43] [THREAD STARTED]: High Ping Checker
+[20-38-43] [THREAD STARTED]: Hourly Chime Checker
+[20-38-43] [THREAD STARTED]: Console Clock Updater
+[20-38-43] [THREAD STARTED]: Cyder Busy Checker
+[20-38-43] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-38-43] [ACTION]: Console loaded in 2636ms
+[20-38-43] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-38-43] [ENTRY]: [TESTING MODE]
+[20-38-43] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1329, 239, 842, 638)], hash = [1316005672], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-38-43] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1367482586], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-38-43] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-38-43] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2636ms
+[20-38-43] [THREAD STARTED]: notification appear animation
+[20-38-43] [SYSTEM_IO]: Userdata requested: laststart
+[20-38-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-38-43] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-38-43] [THREAD STARTED]: Notificaiton vanish animater 935025500
+[20-38-46] [CLIENT]: whereami
+[20-38-46] [SYSTEM_IO]: Userdata requested: filterchat
+[20-38-46] [THREAD STARTED]: Location Finder
+[20-38-46] [HANDLE]: GENERAL COMMAND HANDLED
+[20-38-46] [HANDLE]: PRIMARY HANDLE
+[20-38-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-38-47] [CONSOLE_OUT]: [STRING] You are currently in Mississippi State, Mississippi 39759
+[20-38-48] [CONSOLE_OUT]: [STRING] Your ISP is             <p class="isp">PAVLOV MEDIA INC</p>
+[20-39-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-39-08] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -248,6 +248,9 @@ public class PaintWidget {
         paintControlsFrame.setLocationRelativeTo(paintFrame);
     }
 
+    //todo put image average, image pixelator, and image resizer all in a image factory widget
+    // most methods should be in image utils probably
+
     /**
      * The default brush width.
      */

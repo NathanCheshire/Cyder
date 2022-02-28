@@ -25,6 +25,9 @@ import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.utilities.objects.WidgetDescription;
 import org.jetbrains.annotations.Nullable;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,6 +50,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"unused", "ConstantConditions"})
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
@@ -339,10 +344,6 @@ public class InputHandler {
             LocalDate RealTG = LocalDate.of(year, 11, 1)
                     .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
             println("Thanksgiving this year is on the " + RealTG.getDayOfMonth() + " of November.");
-        } else if (commandIs("location") || commandIs("whereami")) {
-            println("You are currently in " + IPUtil.getIpdata().getCity() + ", " +
-                    IPUtil.getIpdata().getRegion() + " and your Internet Service Provider is "
-                    + StringUtil.capsCheck(IPUtil.getIpdata().getAsn().getName()));
         } else if (commandIs("fibonacci")) {
             for (long i : NumberUtil.fib(0, 1, 100))
                 println(i);
@@ -1319,6 +1320,35 @@ public class InputHandler {
             } else {
                 println("gitme usage: gitme [commit message without quotes]");
             }
+        } else if (commandIs("whereami")) {
+            CyderThreadRunner.submit(() -> {
+                try {
+                    String url = "https://www.google.com/search?q=where+am+i";
+
+                    Document locationDocument = Jsoup.connect(url).get();
+                    Elements primary = locationDocument.getElementsByClass("desktop-title-content");
+                    Elements secondary = locationDocument.getElementsByClass("desktop-title-subcontent");
+
+                    println("You are currently in " + primary.text() + ", " + secondary.text());
+
+                    String isp = "NOT FOUND";
+
+                    String[] lines = NetworkUtil.readUrl("https://www.whoismyisp.org/").split("\n");
+
+                    Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
+
+                    for (String line : lines) {
+                        Matcher matcher = p.matcher(line);
+                        if (matcher.find()) {
+                            isp = matcher.group(1);
+                        }
+                    }
+
+                    println("Your ISP is " + StringUtil.capsCheck(isp));
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Location Finder");
         }
 
         else ret = false;
