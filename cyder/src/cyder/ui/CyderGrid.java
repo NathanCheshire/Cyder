@@ -766,17 +766,41 @@ public class CyderGrid extends JLabel {
     public void cropToRegion() {
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
-            //todo convert points to closest nodes
 
-            int minX = 0;
-            int minY = 0;
-            int maxX = 0;
-            int maxY = 0;
+            // get points
+            int firstX = (int) ((point1Selection.getX() - offset) / (length / nodes));
+            int firstY = (int) ((point1Selection.getY() - offset) / (length / nodes));
+            int secondX = (int) ((point2Selection.getX() - offset) / (length / nodes));
+            int secondY = (int) ((point2Selection.getY() - offset) / (length / nodes));
 
-            // todo set above vars
+            // find min and max
+            int minX = Math.min(firstX, secondX);
+            int minY = Math.min(firstY, secondY);
+            int maxX = Math.max(firstX, secondX);
+            int maxY = Math.max(firstY, secondY);
 
-            // todo loop through nodes, add to new grid if in bounds
-            // todo push and set new grid as a state
+            LinkedList<GridNode> croppedNodes = new LinkedList<>();
+
+            // for nodes in the current grid
+            for (GridNode node : grid) {
+                if (node.getX() < maxX && node.getX() >= minX && node.getY() < maxY && node.getY() >= minY) {
+                    croppedNodes.add(node);
+                }
+            }
+
+            System.out.println(grid.size());
+            System.out.println(croppedNodes.size());
+
+            // push current state and set new grid
+            backwardStates.push(new LinkedList<>(grid));
+            grid = croppedNodes;
+
+            // reset selection
+            point1Selection = null;
+            point2Selection = null;
+
+            // repaint
+            repaint();
         }
     }
 }
