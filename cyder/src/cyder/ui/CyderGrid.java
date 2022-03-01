@@ -169,7 +169,7 @@ public class CyderGrid extends JLabel {
      * @param color the color of the node
      */
     public void addNode(int x, int y, Color color) {
-        grid.add(new GridNode(color, x, y));
+        addNode(new GridNode(color, x, y));
     }
 
     /**
@@ -511,7 +511,7 @@ public class CyderGrid extends JLabel {
         @Override
         public void mousePressed(MouseEvent e) {
             // todo eventaully only push if it's not the same
-            backwardStates.push(grid);
+            backwardStates.push(new LinkedList<>(grid));
         }
 
         @Override
@@ -768,7 +768,7 @@ public class CyderGrid extends JLabel {
     public void forwardState() {
         if (!forwardStates.isEmpty()) {
             // push current state backwards
-            this.backwardStates.push(grid);
+            this.backwardStates.push(new LinkedList<>(grid));
 
             // set to next state
             this.grid = forwardStates.pop();
@@ -784,7 +784,7 @@ public class CyderGrid extends JLabel {
     public void backwardState() {
         if (!backwardStates.isEmpty()) {
             // push current state forward
-            this.forwardStates.push(grid);
+            this.forwardStates.push(new LinkedList<>(grid));
 
             // set to last state
             this.grid = backwardStates.pop();
@@ -792,9 +792,9 @@ public class CyderGrid extends JLabel {
             // repaint grid
             repaint();
 
-            System.out.println("New state contains this many nodes: " + grid.size());
-            System.out.println(grid);
-            System.out.println(length);
+            for (LinkedList<GridNode> refGrid : backwardStates) {
+                System.out.println(refGrid.size());
+            }
         }
     }
 }
