@@ -510,8 +510,14 @@ public class CyderGrid extends JLabel {
     private final MouseAdapter clickPlacer = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            // todo eventaully only push if it's not the same
-            backwardStates.push(new LinkedList<>(grid));
+            // push grid as a past state if it is not equal to the last one
+            if (backwardStates.isEmpty())
+                backwardStates.push(new LinkedList<>(grid));
+            else if (!backwardStates.peek().equals(grid))
+                backwardStates.push(new LinkedList<>(grid));
+
+            // new history so clear forward traversal
+            forwardStates.clear();
         }
 
         @Override
