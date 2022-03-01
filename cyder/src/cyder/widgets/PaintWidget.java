@@ -309,11 +309,7 @@ public class PaintWidget {
         cropToRegion.setBounds(460, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 80, 45);
         paintControlsFrame.getContentPane().add(cropToRegion);
         cropToRegion.setToolTipText("Crop to region");
-        cropToRegion.addActionListener(e -> {
-            //todo crop and revalidate grid
-
-            //gridComponent.cropToRegion()
-        });
+        cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
 
         cyderGrid.setNodeColor(currentPaintColor);
 

@@ -286,6 +286,6 @@ public class ConvexHullWidget {
         builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
 
         hullFrame.notify(builder);
-        gridComponent.clear();
+        gridComponent.clearGrid();
     }
 }
