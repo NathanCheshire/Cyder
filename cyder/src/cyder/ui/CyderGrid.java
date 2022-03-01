@@ -784,9 +784,16 @@ public class CyderGrid extends JLabel {
                 }
             }
 
+            LinkedList<GridNode> croppedOffsetNodes = new LinkedList<>();
+
+            for (GridNode node : croppedNodes) {
+                croppedOffsetNodes.add(new GridNode(node.getColor(),
+                        node.getX() - minX, node.getY() - minY));
+            }
+
             // push current state and set new grid
             backwardStates.push(new LinkedList<>(grid));
-            grid = croppedNodes;
+            grid = croppedOffsetNodes;
 
             // reset selection
             point1Selection = null;
@@ -794,11 +801,6 @@ public class CyderGrid extends JLabel {
 
             // todo still need to resize grid, find top left node,
             //  make that 0,0 then offset rest of nodes
-
-            // todo can also make a cut function easily
-
-            // todo after this re-implment zooming properly using to/from
-            //  functions for pixel space vs node space
 
             // repaint
             repaint();
@@ -851,4 +853,7 @@ public class CyderGrid extends JLabel {
             repaint();
         }
     }
+
+    // todo after this re-implment zooming properly using to/from
+    //  functions for pixel space vs node space
 }
