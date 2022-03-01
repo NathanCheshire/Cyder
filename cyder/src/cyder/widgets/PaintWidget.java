@@ -292,6 +292,16 @@ public class PaintWidget {
 
             Toolkit.getDefaultToolkit().sync();
 
+            if (selectionMode) {
+                cyderGrid.setMode(CyderGrid.Mode.SELECTION);
+            } else {
+                if (add.isEnabled()) {
+                    cyderGrid.setMode(CyderGrid.Mode.ADD);
+                } else {
+                    cyderGrid.setMode(CyderGrid.Mode.DELETE);
+                }
+            }
+
             //todo selection mode is something that needs implementation on the grid's side mostly
         });
 

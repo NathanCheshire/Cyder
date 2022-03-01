@@ -70,7 +70,7 @@ public class CyderGrid extends JLabel {
      * An enum for adding/removing nodes from the grid.
      */
     public enum Mode {
-        ADD, DELETE
+        ADD, DELETE, SELECTION
     }
 
     /**
@@ -370,6 +370,26 @@ public class CyderGrid extends JLabel {
             // set color back to draw borders
             g2d.setColor(CyderColors.navy);
 
+            if (mode == Mode.SELECTION && point1Selection != null && point2Selection != null) {
+                //g2d.translate(); todo use me for relative node
+
+                int relX = 0;
+                int relY = 0;
+                if (relativeZoomNode != null) {
+                    relX = relativeZoomNode.getX();
+                    relY = relativeZoomNode.getY();
+                }
+
+                g2d.drawLine((point1Selection.x + relX), point1Selection.y + relY,
+                        point1Selection.x + relX, point2Selection.y + relY);
+                g2d.drawLine(point1Selection.x + relX, point1Selection.y + relY,
+                        point2Selection.x + relX, point1Selection.y + relY);
+                g2d.drawLine(point1Selection.x + relX, point2Selection.y + relY,
+                        point2Selection.x + relX, point2Selection.y + relY);
+                g2d.drawLine(point2Selection.x + relX, point1Selection.y + relY,
+                        point2Selection.x + relX, point2Selection.y + relY);
+            }
+
             // draw graphics borders
             g2d.drawLine(1, 1, 1, drawTo);
             g2d.drawLine(1, 1, drawTo, 1);
@@ -425,14 +445,13 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Used for ALL add/remove operations to add a node to the grid
-     * based off the absolute x,y provided and accounts for
+     * Used for ALL grid operations and accounts for
      * the possible relative node.
      *
      * @param event the mouse event of where the user clicked/dragged on
      * @param dragEvent whether the event was a drag event
      */
-    private void addAccountingForOffset(MouseEvent event, boolean dragEvent) {
+    private void handleEventAccountingForOffset(MouseEvent event, boolean dragEvent) {
         // get regular x and y not accounting for any zoom
         int x = (int) ((event.getX() - offset) / (length / nodes));
         int y = (int) ((event.getY() - offset) / (length / nodes));
@@ -493,10 +512,12 @@ public class CyderGrid extends JLabel {
             }
         }
         // remove nodes based off of the center point and width
-        else {
+        else if (mode == Mode.DELETE) {
             for (GridNode removeNode : nodesInBoundsOfClick) {
                 removeNode(removeNode);
             }
+        } else {
+            handleCropMovement(new Point(event.getX(), event.getY()));
         }
 
         // redraw grid
@@ -518,11 +539,15 @@ public class CyderGrid extends JLabel {
 
             // new history so clear forward traversal
             forwardStates.clear();
+
+            // set new starting point for selection
+            point1Selection = new Point(e.getX(), e.getY());
+            point2Selection = null;
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            addAccountingForOffset(e, false);
+            handleEventAccountingForOffset(e, false);
         }
     };
 
@@ -539,7 +564,7 @@ public class CyderGrid extends JLabel {
     private final MouseMotionListener dragPlacer = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
-            addAccountingForOffset(e, true);
+            handleEventAccountingForOffset(e, true);
         }
     };
 
@@ -734,6 +759,12 @@ public class CyderGrid extends JLabel {
      */
     public void setMode(Mode mode) {
         this.mode = mode;
+
+        // clear selection
+        if (mode != Mode.SELECTION) {
+            point1Selection = null;
+            point2Selection = null;
+        }
     }
 
     /**
@@ -797,10 +828,29 @@ public class CyderGrid extends JLabel {
 
             // repaint grid
             repaint();
-
-            for (LinkedList<GridNode> refGrid : backwardStates) {
-                System.out.println(refGrid.size());
-            }
         }
+    }
+
+    // --------------
+    // croping logic
+    // --------------
+
+    private Point point1Selection = null;
+    private Point point2Selection = null;
+
+    /**
+     * Handles a crop action and updates the highlighted region if intended to be drawn.
+     */
+    private void handleCropMovement(Point node) {
+        // no region selected so assign the start to both, when the movement ends
+        // we can figure out which corner is which
+        if (point1Selection == null) {
+            point1Selection = new Point(node.x, node.y);
+        }
+
+        point2Selection = new Point(node.x, node.y);
+
+        System.out.println(point1Selection);
+        System.out.println(point2Selection);
     }
 }

@@ -1,0 +1,48 @@
+[19-48-36] [ENTRY]: [Nathan]
+[19-48-37] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-48-38] [THREAD STARTED]: Splash Loader
+[19-48-38] [THREAD STARTED]: Splash Animation
+[19-48-38] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-48-38] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-48-38] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-48-38] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-48-39] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[19-48-39] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-48-39] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-48-39] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-48-39] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-48-39] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-48-39] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[19-48-39] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-48-39] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-48-39] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-48-39] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-48-40] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-48-40] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-48-40] [THREAD STARTED]: Console Printing Animation
+[19-48-40] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-48-40] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-48-40] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-48-40] [THREAD STARTED]: Console Input Caret Position Updater
+[19-48-40] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-48-40] [SYSTEM_IO]: Userdata requested: InputFill
+[19-48-40] [THREAD STARTED]: High Ping Checker
+[19-48-40] [THREAD STARTED]: Hourly Chime Checker
+[19-48-40] [THREAD STARTED]: Console Clock Updater
+[19-48-40] [THREAD STARTED]: Cyder Busy Checker
+[19-48-40] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-48-40] [ACTION]: Console loaded in 4181ms
+[19-48-40] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-48-40] [ENTRY]: [TESTING MODE]
+[19-48-40] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(656, 401, 842, 638)], hash = [1768882706], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-48-40] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [141158126], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-48-40] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-48-40] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 4181ms
+[19-48-40] [THREAD STARTED]: notification appear animation
+[19-48-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-48-40] [THREAD STARTED]: Notificaiton vanish animater -1049073255
+[19-48-41] [SYSTEM_IO]: Userdata requested: laststart
+[19-48-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[19-48-44] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(410, 90, 45, 45)], hash = [1312816498], parentFrame = [Controls], associated text = [<html><b>?</b></html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-48-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[19-49-41] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

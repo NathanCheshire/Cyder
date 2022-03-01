@@ -1,0 +1,48 @@
+[19-53-15] [ENTRY]: [Nathan]
+[19-53-15] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-53-15] [THREAD STARTED]: Splash Loader
+[19-53-16] [THREAD STARTED]: Splash Animation
+[19-53-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-53-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-53-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-53-16] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-53-16] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[19-53-16] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-53-16] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-53-16] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-53-16] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-53-16] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-53-16] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[19-53-17] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-53-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-53-17] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-53-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-53-17] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-53-17] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-53-17] [THREAD STARTED]: Console Printing Animation
+[19-53-17] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-53-17] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-53-17] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-53-17] [THREAD STARTED]: Console Input Caret Position Updater
+[19-53-17] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-53-17] [SYSTEM_IO]: Userdata requested: InputFill
+[19-53-17] [THREAD STARTED]: High Ping Checker
+[19-53-17] [THREAD STARTED]: Hourly Chime Checker
+[19-53-17] [THREAD STARTED]: Console Clock Updater
+[19-53-17] [THREAD STARTED]: Cyder Busy Checker
+[19-53-17] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-53-17] [ACTION]: Console loaded in 3046ms
+[19-53-17] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-53-17] [ENTRY]: [TESTING MODE]
+[19-53-17] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(656, 401, 842, 638)], hash = [1455855843], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-53-17] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1337242974], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-53-17] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-53-18] [SYSTEM_IO]: Userdata requested: laststart
+[19-53-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-53-18] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3046ms
+[19-53-18] [THREAD STARTED]: notification appear animation
+[19-53-18] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-53-18] [THREAD STARTED]: Notificaiton vanish animater 265064228
+[19-53-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(410, 90, 45, 45)], hash = [974887646], parentFrame = [Controls], associated text = [<html><b>?</b></html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-54-56] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [26x]
+[19-55-18] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

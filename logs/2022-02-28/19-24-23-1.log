@@ -12,17 +12,13 @@
 [19-24-24] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [19-24-24] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [19-24-24] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [19-24-25] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [19-24-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [19-24-25] [SYSTEM_IO]: Userdata requested: RandomBackground
 [19-24-25] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-24-25] [SYSTEM_IO]: Userdata requested: fullscreen
-[19-24-25] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-24-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-24-25] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [19-24-25] [THREAD STARTED]: Console Printing Animation
 [19-24-25] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-24-25] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -59,65 +55,24 @@
 [19-24-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [19-24-42] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [19-24-42] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-24-43] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-24-43] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-24-43] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-24-43] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [19-24-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-24-43] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-24-44] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-24-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-24-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-24-44] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[19-24-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [19-24-51] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(180, 60, 50, 50)], hash = [1901492288], parentFrame = [Controls], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-24-55] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-24-58] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-25-02] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-25-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-25-02] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[19-25-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [8x]
 [19-25-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-25-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-25-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
+[19-25-09] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [11x]
 [19-25-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [19-25-10] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-25-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-13] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(10, 40, 150, 40)], hash = [1767963873], parentFrame = [Controls], associated text = [FF00FF], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-13] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(10, 40, 150, 40)], hash = [1767963873], parentFrame = [Controls], associated text = [FF00FF], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-25-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-25-11] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [8x]
+[19-25-13] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(10, 40, 150, 40)], hash = [1767963873], parentFrame = [Controls], associated text = [FF00FF], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[19-25-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [19-25-18] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-18] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[19-25-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-25-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(320, 100, 30, 35)], hash = [1554722927], parentFrame = [Controls], associated text = [<], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [4x]
+[19-25-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(355, 100, 30, 35)], hash = [478837062], parentFrame = [Controls], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [5x]
 [19-25-21] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [19-25-21] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1568, 244, 800, 830)], hash = [951668625], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
 [19-25-21] [THREAD STARTED]: Paint CyderFrame dispose thread
