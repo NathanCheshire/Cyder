@@ -118,7 +118,7 @@ public class PaintWidget {
         if (paintControlsFrame != null)
             paintControlsFrame.dispose();
 
-        paintControlsFrame = new CyderFrame(600,150);
+        paintControlsFrame = new CyderFrame(650,150);
         paintControlsFrame.setTitle("Controls");
 
         int colorLabelX = 70;
@@ -301,8 +301,6 @@ public class PaintWidget {
                     cyderGrid.setMode(CyderGrid.Mode.DELETE);
                 }
             }
-
-            //todo selection mode is something that needs implementation on the grid's side mostly
         });
 
         CyderButton cropToRegion = new CyderButton("Crop");
@@ -311,13 +309,19 @@ public class PaintWidget {
         cropToRegion.setToolTipText("Crop to region");
         cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
 
+        CyderButton deleteRegion = new CyderButton("Cut");
+        deleteRegion.setBounds(545, DragLabel.DEFAULT_HEIGHT + 10 + 10 + 40, 80, 45);
+        paintControlsFrame.getContentPane().add(deleteRegion);
+        deleteRegion.setToolTipText("Cut region");
+        deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
+
         cyderGrid.setNodeColor(currentPaintColor);
 
         paintControlsFrame.setVisible(true);
         paintControlsFrame.setLocationRelativeTo(paintFrame);
     }
 
-    //todo put image average, image pixelator, and image resizer all in a image factory widget
+    //todo put image average, image pixelator, and image scaler all in a image factory widget
     // most methods should be in image utils probably
 
     // --------------

@@ -311,7 +311,6 @@ public class CyderGrid extends JLabel {
 
             // draw crop selection if specified
             if (mode == Mode.SELECTION && point1Selection != null && point2Selection != null) {
-                // todo use in future for
                 int relX = 0;
                 int relY = 0;
 
@@ -755,9 +754,6 @@ public class CyderGrid extends JLabel {
         }
 
         point2Selection = new Point(node.x, node.y);
-
-        System.out.println(point1Selection);
-        System.out.println(point2Selection);
     }
 
     /**
@@ -788,12 +784,64 @@ public class CyderGrid extends JLabel {
                 }
             }
 
-            System.out.println(grid.size());
-            System.out.println(croppedNodes.size());
-
             // push current state and set new grid
             backwardStates.push(new LinkedList<>(grid));
             grid = croppedNodes;
+
+            // reset selection
+            point1Selection = null;
+            point2Selection = null;
+
+            // todo still need to resize grid, find top left node,
+            //  make that 0,0 then offset rest of nodes
+
+            // todo can also make a cut function easily
+
+            // todo after this re-implment zooming properly using to/from
+            //  functions for pixel space vs node space
+
+            // repaint
+            repaint();
+        }
+    }
+
+    /**
+     * Delete the nodes in the selected region.
+     */
+    public void deleteRegion() {
+        if (point1Selection != null && point2Selection != null
+                && point1Selection != point2Selection) {
+
+            // get points
+            int firstX = (int) ((point1Selection.getX() - offset) / (length / nodes));
+            int firstY = (int) ((point1Selection.getY() - offset) / (length / nodes));
+            int secondX = (int) ((point2Selection.getX() - offset) / (length / nodes));
+            int secondY = (int) ((point2Selection.getY() - offset) / (length / nodes));
+
+            // find min and max
+            int minX = Math.min(firstX, secondX);
+            int minY = Math.min(firstY, secondY);
+            int maxX = Math.max(firstX, secondX);
+            int maxY = Math.max(firstY, secondY);
+
+            Rectangle boundingRect = new Rectangle(minX, minY, maxX, maxY);
+
+            LinkedList<GridNode> croppedNodes = new LinkedList<>();
+
+            // for nodes in the current grid
+            for (GridNode node : grid) {
+                if (node.getX() < maxX && node.getX() >= minX && node.getY() < maxY && node.getY() >= minY) {
+                    croppedNodes.add(node);
+                }
+            }
+
+            // now invert cropped nodes, remove them from the new grid
+            LinkedList<GridNode> deletedState = new LinkedList<>(grid);
+            deletedState.removeAll(croppedNodes);
+
+            // push current state and set new grid
+            backwardStates.push(new LinkedList<>(grid));
+            grid = deletedState;
 
             // reset selection
             point1Selection = null;
