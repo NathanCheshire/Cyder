@@ -331,6 +331,7 @@ public class ClockWidget {
             showSecondHandSwitch.getSwitchButton().addActionListener(e -> showSecondHand = !showSecondHand);
 
             CyderTextField hexField = new CyderTextField(6);
+            hexField.setHorizontalAlignment(JTextField.CENTER);
             hexField.setText(ColorUtil.rgbToHexString(clockColor));
             hexField.setToolTipText("Clock color");
             hexField.setRegexMatcher("[abcdefABCDEF0-9]*");
@@ -371,6 +372,7 @@ public class ClockWidget {
             clockFrame.getContentPane().add(hexLabel);
 
             CyderTextField locationField = new CyderTextField(0);
+            locationField.setHorizontalAlignment(JTextField.CENTER);
             locationField.setText(currentLocation);
             locationField.setCaretPosition(0);
             locationField.setToolTipText("Current Location");

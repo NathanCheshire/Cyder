@@ -16,6 +16,7 @@ import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.NetworkUtil;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -41,6 +42,7 @@ public class FileSignatureWidget {
         signatureFrame.setTitle("File Signature Checker");
 
         signatureField = new CyderTextField(0);
+        signatureField.setHorizontalAlignment(JTextField.CENTER);
         signatureField.setBounds(50, 120, 300, 40);
         signatureField.setToolTipText("Enter the hex file signature of the file type you presume this file to be");
         signatureField.addActionListener(e -> validate());

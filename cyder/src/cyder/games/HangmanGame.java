@@ -60,6 +60,7 @@ public class HangmanGame {
         HangmanFrame.getContentPane().add(HangmanImageLabel);
 
         letterField = new CyderTextField(0);
+        letterField.setHorizontalAlignment(JTextField.CENTER);
         letterField.setBackground(Color.white);
         letterField.setBorder(new LineBorder(CyderColors.navy,5,false));
         letterField.setRegexMatcher("[A-Za-z]*");

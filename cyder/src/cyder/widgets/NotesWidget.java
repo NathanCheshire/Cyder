@@ -187,6 +187,7 @@ public class NotesWidget {
         newNoteFrame.setTitle("New note");
 
         newNoteField = new CyderTextField(0);
+        newNoteField.setHorizontalAlignment(JTextField.CENTER);
         newNoteField.setToolTipText("Title");
         newNoteField.setBounds(40,50,510,40);
         newNoteFrame.getContentPane().add(newNoteField);
@@ -291,6 +292,7 @@ public class NotesWidget {
         noteEditorFrame.setTitle("Editing note: " + File.getName().replace(".txt", ""));
 
         noteEditField = new CyderTextField(0);
+        noteEditField.setHorizontalAlignment(JTextField.CENTER);
         noteEditField.setToolTipText("Change Name");
         noteEditField.setText(File.getName().replaceFirst(".txt",""));
         noteEditField.setBounds(50,50,600 - 50 - 50, 40);

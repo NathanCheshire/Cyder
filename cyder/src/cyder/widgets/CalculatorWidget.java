@@ -16,6 +16,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.ui.objects.NotificationBuilder;
 
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
@@ -43,6 +44,7 @@ public class CalculatorWidget {
         calculatorFrame.setTitle("Calculator");
 
         CyderTextField calculatorField = new CyderTextField(0);
+        calculatorField.setHorizontalAlignment(JTextField.CENTER);
         calculatorField.setBackground(Color.WHITE);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
         calculatorField.setToolTipText("Use radians and not degrees for any trig functions");

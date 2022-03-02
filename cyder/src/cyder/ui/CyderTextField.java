@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.handlers.internal.Logger;
@@ -15,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -37,14 +37,14 @@ public class CyderTextField extends JTextField {
     private String regex;
 
     /**
-     * Constructs a new CyderTextField object with no character limit.
+     * Constructs a new Cyder TextField object with no character limit.
      */
     public CyderTextField() {
         this(0);
     }
 
     /**
-     * Constructs a new CyderTExtField object.
+     * Constructs a new Cyder TextField object.
      *
      * @param charLimit the character limit for the text field.
      */
@@ -111,7 +111,6 @@ public class CyderTextField extends JTextField {
         this.setBorder(new LineBorder(CyderColors.navy, 5, false));
         this.setOpaque(true);
     }
-
 
     /**
      * {@inheritDoc}
@@ -206,8 +205,10 @@ public class CyderTextField extends JTextField {
     @Override
     public void setBorder(Border border) {
         checkNotNull(border);
-        Preconditions.checkArgument(border instanceof LineBorder,
-                "Border must be an instance of LineBorder");
+
+        if (border instanceof LineBorder) {
+            lineBorder = (LineBorder) border;
+        }
 
         // no need to cast since instanceof LineBorder is ensured
         super.setBorder(border);
@@ -217,6 +218,8 @@ public class CyderTextField extends JTextField {
      * Sets the border to a green color to let the user know the provided input is valid.
      */
     public void informValidData() {
+        checkArgument(lineBorder != null);
+
         this.setBorder(new LineBorder(validFormDataColor,
                 lineBorder.getThickness(), lineBorder.getRoundedCorners()));
     }
@@ -225,6 +228,8 @@ public class CyderTextField extends JTextField {
      * Sets the border to a red color to let the user know the provided input is invalid.
      */
     public void informInvalidData() {
+        checkArgument(lineBorder != null);
+
         this.setBorder(new LineBorder(invalidFormDataColor,
                 lineBorder.getThickness(), lineBorder.getRoundedCorners()));
     }

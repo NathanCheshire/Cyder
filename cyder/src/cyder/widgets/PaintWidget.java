@@ -143,6 +143,7 @@ public class PaintWidget {
         paintControlsFrame.getContentPane().add(recentColorsLabel);
 
         colorHexField = new CyderTextField(11);
+        colorHexField.setHorizontalAlignment(JTextField.CENTER);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
         colorHexField.setBounds(10, DragLabel.DEFAULT_HEIGHT + 10, 150, 40);
         paintControlsFrame.getContentPane().add(colorHexField);

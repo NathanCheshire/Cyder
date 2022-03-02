@@ -199,6 +199,7 @@ public class WeatherWidget {
             changeLocationFrame.getContentPane().add(explenation);
 
             CyderTextField changeLocField = new CyderTextField(0);
+            changeLocField.setHorizontalAlignment(JTextField.CENTER);
             changeLocField.setBackground(Color.white);
             changeLocField.setBounds(40,200,520,40);
             changeLocationFrame.getContentPane().add(changeLocField);

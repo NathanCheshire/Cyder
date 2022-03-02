@@ -51,9 +51,11 @@ public class ColorConverterWidget {
         colorFrame.getContentPane().add(colorBlock);
 
         CyderTextField rgbField = new CyderTextField(11);
+        rgbField.setHorizontalAlignment(JTextField.CENTER);
         rgbField.setText(navy.getRed() + "," + navy.getGreen() + "," + navy.getBlue());
 
         CyderTextField hexField = new CyderTextField(6);
+        hexField.setHorizontalAlignment(JTextField.CENTER);
         hexField.setText(String.format("#%02X%02X%02X", navy.getRed(), navy.getGreen(), navy.getBlue()).replace("#",""));
         hexField.setBackground(new Color(0,0,0,0));
         hexField.setToolTipText("Hex Value");

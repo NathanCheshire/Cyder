@@ -387,6 +387,7 @@ public class YoutubeUtil {
         uuidFrame.add(label);
 
         CyderTextField inputField = new CyderTextField(30);
+        inputField.setHorizontalAlignment(JTextField.CENTER);
         inputField.setRegexMatcher("[A-Za-z0-9_\\-]{0,11}");
         inputField.setBounds(200 - labelWidth / 2, 100, labelWidth, 40);
         inputField.setToolTipText("Must be a valid UUID");

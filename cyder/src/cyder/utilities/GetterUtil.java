@@ -61,6 +61,7 @@ public class GetterUtil {
                 inputFrame.setTitle(title);
 
                 CyderTextField inputField = new CyderTextField(0);
+                inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
                 inputField.setToolTipText(tooltip);
                 inputField.setBounds(40,40,320,40);
@@ -111,6 +112,7 @@ public class GetterUtil {
                 inputFrame.setTitle(title);
 
                 CyderTextField inputField = new CyderTextField(0);
+                inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
                 inputField.setToolTipText(tooltip);
                 inputField.setBounds(40,40,320,40);
@@ -187,6 +189,7 @@ public class GetterUtil {
                 inputFrame.setTitle(title);
 
                 CyderTextField inputField = new CyderTextField(0);
+                inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
                 inputField.setText(initialString);
                 inputField.setToolTipText(tooltip);

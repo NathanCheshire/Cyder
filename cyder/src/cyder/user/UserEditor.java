@@ -512,6 +512,7 @@ public class UserEditor {
         });
 
         JTextField foregroundColorBlock = new JTextField();
+        foregroundColorBlock.setHorizontalAlignment(JTextField.CENTER);
         foregroundColorBlock.setBackground(CyderColors.navy);
         foregroundColorBlock.setFocusable(false);
         foregroundColorBlock.setCursor(null);
@@ -522,6 +523,7 @@ public class UserEditor {
         switchingLabel.add(foregroundColorBlock);
 
         CyderTextField foregroundField = new CyderTextField(6);
+        foregroundField.setHorizontalAlignment(JTextField.CENTER);
         foregroundField.setRegexMatcher("[A-Fa-f0-9]+");
         foregroundField.setText(UserUtil.getUserData("Foreground"));
         foregroundField.setFont(CyderFonts.segoe30);
@@ -574,6 +576,7 @@ public class UserEditor {
         });
 
         JTextField windowColorBlock = new JTextField();
+        windowColorBlock.setHorizontalAlignment(JTextField.CENTER);
         windowColorBlock.setBackground(CyderColors.navy);
         windowColorBlock.setFocusable(false);
         windowColorBlock.setCursor(null);
@@ -584,6 +587,7 @@ public class UserEditor {
         switchingLabel.add(windowColorBlock);
 
         CyderTextField windowField = new CyderTextField(6);
+        windowField.setHorizontalAlignment(JTextField.CENTER);
         windowField.setRegexMatcher("[A-Fa-f0-9]+");
         windowField.setText(UserUtil.getUserData("windowcolor"));
         windowField.setFont(CyderFonts.segoe30);
@@ -637,6 +641,7 @@ public class UserEditor {
         });
 
         JTextField fillColorBlock = new JTextField();
+        fillColorBlock.setHorizontalAlignment(JTextField.CENTER);
         fillColorBlock.setBackground(CyderColors.navy);
         fillColorBlock.setFocusable(false);
         fillColorBlock.setCursor(null);
@@ -647,6 +652,7 @@ public class UserEditor {
         switchingLabel.add(fillColorBlock);
 
         CyderTextField fillField = new CyderTextField(6);
+        fillField.setHorizontalAlignment(JTextField.CENTER);
         fillField.setRegexMatcher("[A-Fa-f0-9]+");
         fillField.setText(UserUtil.getUserData("Background"));
         fillField.setFont(CyderFonts.segoe30);
@@ -1003,6 +1009,7 @@ public class UserEditor {
 
         CyderButton changeUsernameButton = new CyderButton("   Change Username   ");
         JTextField changeUsernameField = new JTextField(0);
+        changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
         changeUsernameField.addActionListener(e -> changeUsernameButton.doClick());
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
         changeUsernameField.setBackground(CyderColors.vanila);
@@ -1126,6 +1133,7 @@ public class UserEditor {
 
         CyderButton validateDatePatternButton = new CyderButton("   Validate   ");
         JTextField consoleDatePatternField = new JTextField(0);
+        consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
         consoleDatePatternField.addActionListener(e -> validateDatePatternButton.doClick());
         consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
         consoleDatePatternField.setBackground(CyderColors.vanila);
@@ -1168,6 +1176,7 @@ public class UserEditor {
 
         CyderButton addMapButton = new CyderButton("    Add Map    ");
         JTextField addMapField = new JTextField(0);
+        addMapField.setHorizontalAlignment(JTextField.CENTER);
         addMapField.addActionListener(e -> addMapButton.doClick());
         addMapField.setToolTipText("Add format: map_name, PATH/TO/EXE or FILE or URL");
         addMapField.setBackground(CyderColors.vanila);
@@ -1254,6 +1263,7 @@ public class UserEditor {
 
         CyderButton removeMapButton = new CyderButton("    Remove Map   ");
         JTextField removeMapField = new JTextField(0);
+        removeMapField.setHorizontalAlignment(JTextField.CENTER);
         removeMapField.addActionListener(e -> removeMapButton.doClick());
         removeMapField.setToolTipText("Name of map to remove");
         removeMapField.setBackground(CyderColors.vanila);
@@ -1307,6 +1317,7 @@ public class UserEditor {
 
         CyderButton validateFfmpegButton = new CyderButton("    Validate Path   ");
         JTextField ffmpegField = new JTextField(0);
+        ffmpegField.setHorizontalAlignment(JTextField.CENTER);
         ffmpegField.addActionListener(e -> validateFfmpegButton.doClick());
         ffmpegField.setToolTipText("Path to ffmpeg.exe");
         ffmpegField.setBackground(CyderColors.vanila);
@@ -1350,6 +1361,7 @@ public class UserEditor {
 
         CyderButton validateYouTubeDL = new CyderButton("   Validate Path  ");
         JTextField youtubedlField = new JTextField(0);
+        youtubedlField.setHorizontalAlignment(JTextField.CENTER);
         youtubedlField.addActionListener(e -> validateYouTubeDL.doClick());
         youtubedlField.setToolTipText("Path to youtubedl.exe");
         youtubedlField.setBackground(CyderColors.vanila);
@@ -1464,6 +1476,7 @@ public class UserEditor {
         printingUtil.print("\n");
 
         JTextField weatherKeyField = new JTextField(0);
+        weatherKeyField.setHorizontalAlignment(JTextField.CENTER);
         CyderButton validateWeatherKey = new CyderButton("   Validate Key  ");
         weatherKeyField.setToolTipText("Your personal OpenWeatherAPI key");
         weatherKeyField.setBackground(CyderColors.vanila);
@@ -1534,6 +1547,7 @@ public class UserEditor {
         printingUtil.print("\n");
 
         JTextField ipKeyField = new JTextField(0);
+        ipKeyField.setHorizontalAlignment(JTextField.CENTER);
         CyderButton validateIpKey = new CyderButton("   Validate Key  ");
         ipKeyField.setToolTipText("Your personal IPData key");
         ipKeyField.setBackground(CyderColors.vanila);
@@ -1587,6 +1601,7 @@ public class UserEditor {
         printingUtil.print("\n");
 
         JTextField fontMetricField = new JTextField(0);
+        fontMetricField.setHorizontalAlignment(JTextField.CENTER);
         fontMetricField.setToolTipText("Font metrics: 0 = plain, 1 = bold, 2 = italic, 3 = bold + italic");
         fontMetricField.setBackground(CyderColors.vanila);
         fontMetricField.setSelectionColor(CyderColors.selectionColor);
@@ -1651,6 +1666,7 @@ public class UserEditor {
         printingUtil.print("\n\n");
 
         JTextField youtubeAPI3Field = new JTextField(0);
+        youtubeAPI3Field.setHorizontalAlignment(JTextField.CENTER);
         CyderButton validateYoutubeAPI = new CyderButton("   Validate Key  ");
         youtubeAPI3Field.setToolTipText("Your personal YouTubeAPI3 key");
         youtubeAPI3Field.setBackground(CyderColors.vanila);

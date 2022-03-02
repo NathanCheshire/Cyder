@@ -53,6 +53,7 @@ public class TemperatureWidget {
         ValueLabel.setFont(CyderFonts.segoe20);
         
         startingValue = new CyderTextField(0);
+        startingValue.setHorizontalAlignment(JTextField.CENTER);
         startingValue.setRegexMatcher("[0-9.\\-]+");
         
         ValueLabel.setBounds(60,40, 200, 30);

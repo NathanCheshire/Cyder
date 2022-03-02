@@ -59,6 +59,7 @@ public class PizzaWidget {
         pizzaFrame.getContentPane().add(CustomerName);
 
         nameField = new CyderTextField(0);
+        nameField.setHorizontalAlignment(JTextField.CENTER);
         nameField.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
