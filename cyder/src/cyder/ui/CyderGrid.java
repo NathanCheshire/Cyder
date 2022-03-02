@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
+
 /**
  * A custom UI grid component.
  */
@@ -49,7 +51,7 @@ public class CyderGrid extends JLabel {
     /**
      * The physical length of the grid component.
      */
-    private final int length;
+    private final int gridComponentLength;
 
     /**
      * Whether the grid is resizable via mouse actions.
@@ -78,9 +80,20 @@ public class CyderGrid extends JLabel {
      */
     public Mode mode = Mode.ADD;
 
+    /**
+     * The width of the brush.
+     */
     private int drawWidth = 1;
 
+    /**
+     * The list of nodes which evenly divide the grid component length.
+     */
     private final ArrayList<Integer> increments;
+
+    /**
+     * The offset of pixels by which we must translate to center the grid in it's provided area.
+     */
+    private float centeringDrawOffset = 0.0f;
 
     /**
      * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
@@ -93,15 +106,15 @@ public class CyderGrid extends JLabel {
      * Default constructor for CyderGrid.
      *
      * @param nodes the amount of nodes to initially draw: nodes x nodes
-     * @param length the physical length of this component on its parent container
+     * @param gridComponentLength the physical length of this component on its parent container
      */
-    public CyderGrid(int nodes, int length) {
-        if (length < MIN_LENGTH)
+    public CyderGrid(int nodes, int gridComponentLength) {
+        if (gridComponentLength < MIN_LENGTH)
             throw new IllegalArgumentException("Minimum length not met: length = "
-                    + length + ", length width = " + MIN_LENGTH);
+                    + gridComponentLength + ", length width = " + MIN_LENGTH);
 
         this.nodes = nodes;
-        this.length = length;
+        this.gridComponentLength = gridComponentLength;
 
         // override add and remove methods to ensure duplicates aren't added
         grid = new LinkedList<>() {
@@ -128,7 +141,7 @@ public class CyderGrid extends JLabel {
             }
         };
 
-        increments = getNodesForMaxWidth(length);
+        increments = getNodesForMaxWidth(gridComponentLength);
     }
 
     /**
@@ -235,11 +248,6 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * The offset of pixels by which we must translate to center the grid in it's provided area.
-     */
-    private float offset = 0.0f;
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -255,7 +263,7 @@ public class CyderGrid extends JLabel {
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
-            int squareLen = this.length / this.nodes;
+            int squareLen = this.gridComponentLength / this.nodes;
 
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
@@ -266,9 +274,9 @@ public class CyderGrid extends JLabel {
             // the number of nodes is relatively high
 
             //keep the grid centered on its parent
-            int offset = (this.length - drawTo) / 2;
+            int offset = (this.gridComponentLength - drawTo) / 2;
             g2d.translate(offset, offset);
-            this.offset = offset;
+            this.centeringDrawOffset = offset;
 
             //fill the background in if it is set
             if (this.getBackground() != null) {
@@ -387,8 +395,8 @@ public class CyderGrid extends JLabel {
      */
     private void handleEventAccountingForOffset(MouseEvent event, boolean dragEvent) {
         // get regular x and y not accounting for any zoom
-        int x = (int) ((event.getX() - offset) / (length / nodes));
-        int y = (int) ((event.getY() - offset) / (length / nodes));
+        int x = (int) ((event.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+        int y = (int) ((event.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
 
         GridNode node = new GridNode(nodeColor, x, y);
 
@@ -764,10 +772,10 @@ public class CyderGrid extends JLabel {
                 && point1Selection != point2Selection) {
 
             // get points
-            int firstX = (int) ((point1Selection.getX() - offset) / (length / nodes));
-            int firstY = (int) ((point1Selection.getY() - offset) / (length / nodes));
-            int secondX = (int) ((point2Selection.getX() - offset) / (length / nodes));
-            int secondY = (int) ((point2Selection.getY() - offset) / (length / nodes));
+            int firstX = (int) ((point1Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int firstY = (int) ((point1Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondX = (int) ((point2Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondY = (int) ((point2Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
 
             // find min and max
             int minX = Math.min(firstX, secondX);
@@ -808,9 +816,6 @@ public class CyderGrid extends JLabel {
             point1Selection = null;
             point2Selection = null;
 
-            // todo still need to resize grid, find top left node,
-            //  make that 0,0 then offset rest of nodes
-
             // repaint
             repaint();
         }
@@ -824,10 +829,10 @@ public class CyderGrid extends JLabel {
                 && point1Selection != point2Selection) {
 
             // get points
-            int firstX = (int) ((point1Selection.getX() - offset) / (length / nodes));
-            int firstY = (int) ((point1Selection.getY() - offset) / (length / nodes));
-            int secondX = (int) ((point2Selection.getX() - offset) / (length / nodes));
-            int secondY = (int) ((point2Selection.getY() - offset) / (length / nodes));
+            int firstX = (int) ((point1Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int firstY = (int) ((point1Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondX = (int) ((point2Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondY = (int) ((point2Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
 
             // find min and max
             int minX = Math.min(firstX, secondX);
@@ -863,6 +868,34 @@ public class CyderGrid extends JLabel {
         }
     }
 
-    // todo after this re-implment zooming properly using to/from
-    //  functions for pixel space vs node space
+    /**
+     * Converts the provided point in mouse space to the equivalent
+     * grid node based on the current node count and length.
+     *
+     * @param mousePoint the mouse point of a dimension
+     * @return the converted grid point of the dimension
+     */
+    private int mouseToGridSpace(int mousePoint) {
+        checkNotNull(mousePoint);
+
+        return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
+    }
+
+    /**
+     * Converts the provided grid node to it's mouse space equivalent
+     * based on the current node count and component length. The value returned is the
+     * node's center point. Subtract half the current node's length to obtain the top
+     * left corner of the node.
+     *
+     * @param gridPoint the point on the grid to convert to mouse point
+     * @return the grid point converted to mouse point
+     */
+    public int gridToMouseSpace(int gridPoint) {
+        checkNotNull(gridPoint);
+
+        int halfNodeLen = (int) ((this.gridComponentLength / (float) this.nodes) / 2.0);
+
+        // account for node length and shift to node's center
+        return (int) (((gridComponentLength * gridPoint) / nodes) + centeringDrawOffset) + halfNodeLen;
+    }
 }

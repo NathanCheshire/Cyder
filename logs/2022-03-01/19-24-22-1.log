@@ -1,0 +1,63 @@
+[19-24-22] [ENTRY]: [Nathan]
+[19-24-22] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-24-23] [THREAD STARTED]: Splash Loader
+[19-24-23] [THREAD STARTED]: Splash Animation
+[19-24-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[19-24-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[19-24-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[19-24-24] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[19-24-24] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[19-24-24] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-24-24] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-24-24] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[19-24-24] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-24-24] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[19-24-24] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-24-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-24-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-24-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-24-24] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-24-24] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-24-24] [THREAD STARTED]: Console Printing Animation
+[19-24-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-24-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-24-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-24-24] [THREAD STARTED]: Console Input Caret Position Updater
+[19-24-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-24-24] [SYSTEM_IO]: Userdata requested: InputFill
+[19-24-24] [THREAD STARTED]: High Ping Checker
+[19-24-24] [THREAD STARTED]: Hourly Chime Checker
+[19-24-24] [THREAD STARTED]: Console Clock Updater
+[19-24-24] [THREAD STARTED]: Cyder Busy Checker
+[19-24-24] [THREAD STARTED]: ConsoleFrame Data Saver
+[19-24-25] [ACTION]: Console loaded in 2494ms
+[19-24-25] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1306, 514, 842, 638)], hash = [973936431], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-24-25] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [443960043], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-24-25] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-24-25] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-24-25] [ENTRY]: [TESTING MODE]
+[19-24-25] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2494ms
+[19-24-25] [THREAD STARTED]: notification appear animation
+[19-24-25] [SYSTEM_IO]: Userdata requested: laststart
+[19-24-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-24-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-24-25] [THREAD STARTED]: Notificaiton vanish animater -1850741117
+[19-24-27] [CLIENT]: youtube
+[19-24-27] [SYSTEM_IO]: Userdata requested: filterchat
+[19-24-27] [WIDGET OPENED]: YOUTUBE
+[19-24-27] [CONSOLE_OUT]: [STRING] Opening widget: YoutubeUtil
+[19-24-27] [HANDLE]: PRIMARY HANDLE
+[19-24-27] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-24-29] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(86, 100, 228, 40)], hash = [1462678479], parentFrame = [Thumbnail Stealer], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-24-31] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1527, 713, 400, 240)], hash = [103099], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Thumbnail Stealer]
+[19-24-31] [THREAD STARTED]: Thumbnail Stealer CyderFrame dispose thread
+[19-24-31] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-24-31] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(86, 160, 228, 40)], hash = [1766674282], parentFrame = [Thumbnail Stealer], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-24-35] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[19-24-35] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 1286, 28)], hash = [-13828323], parentFrame = [Interstellar | Epic Chillstep & Melodic Dubstep Mix - YouTube], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-24-35] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1082, 443, 1290, 780)], hash = [1384299975], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Interstellar | Epic Chillstep & Melodic Dubstep Mix - YouTube]
+[19-24-35] [THREAD STARTED]: Interstellar | Epic Chillstep & Melodic Dubstep Mix - YouTube CyderFrame dispose thread
+[19-24-35] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-25-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [7x]
+[19-25-24] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
