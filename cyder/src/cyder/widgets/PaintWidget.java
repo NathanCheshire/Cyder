@@ -23,6 +23,11 @@ import java.util.Stack;
  */
 public class PaintWidget {
     /**
+     * The length of the frame.
+     */
+    public static final int frameLength = 800;
+
+    /**
      * The master painting frame.
      */
     private static CyderFrame paintFrame;
@@ -48,11 +53,10 @@ public class PaintWidget {
         if (paintFrame != null)
             paintFrame.dispose(true);
 
-        int len = 800;
         int padding = 0;
 
-        paintFrame = new CyderFrame(len + padding * 2,
-                len + DragLabel.DEFAULT_HEIGHT + padding * 2);
+        paintFrame = new CyderFrame(frameLength + padding * 2,
+                frameLength + DragLabel.DEFAULT_HEIGHT + padding * 2);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
         paintFrame.addWindowListener(new WindowAdapter() {
@@ -69,8 +73,8 @@ public class PaintWidget {
             }
         });
 
-        cyderGrid = new CyderGrid(200, len);
-        cyderGrid.setBounds(padding,DragLabel.DEFAULT_HEIGHT + padding - 5, len, len);
+        cyderGrid = new CyderGrid(200, frameLength);
+        cyderGrid.setBounds(padding,DragLabel.DEFAULT_HEIGHT + padding - 5, frameLength, frameLength);
         paintFrame.getContentPane().add(cyderGrid);
         cyderGrid.setDrawExtendedBorder(true);
         cyderGrid.setResizable(true);
@@ -118,8 +122,9 @@ public class PaintWidget {
         if (paintControlsFrame != null)
             paintControlsFrame.dispose();
 
-        paintControlsFrame = new CyderFrame(650,150);
+        paintControlsFrame = new CyderFrame(frameLength,200);
         paintControlsFrame.setTitle("Controls");
+        paintControlsFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
 
         int colorLabelX = 70;
         int colorLabelY = 40;
@@ -318,11 +323,13 @@ public class PaintWidget {
         cyderGrid.setNodeColor(currentPaintColor);
 
         paintControlsFrame.setVisible(true);
-        paintControlsFrame.setLocationRelativeTo(paintFrame);
-    }
 
-    //todo put image average, image pixelator, and image scaler all in a image factory widget
-    // most methods should be in image utils probably
+        // place controls right below grid frame
+        int y = paintFrame.getY() + paintFrame.getHeight();
+        if (y + paintControlsFrame.getHeight() > paintFrame.getMonitorBounds().getHeight())
+            y = paintFrame.getMonitorBounds().getBounds().height - paintControlsFrame.getHeight();
+        paintControlsFrame.setLocation(paintFrame.getX(), y);
+    }
 
     // --------------
     // paint controls

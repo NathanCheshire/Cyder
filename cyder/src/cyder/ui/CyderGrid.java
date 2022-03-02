@@ -880,6 +880,21 @@ public class CyderGrid extends JLabel {
 
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
+    //todo clicking to get rid of nodes doesn't exactly work
+
+    //todo utilize for relative zooming after other features
+    // done and controls grid finished using a grid layout
+
+    //todo after that and other better secondary picture resizer, pixelator etc.
+    // add a menu popup if you click a frame's title
+
+    //todo menu for frame only available if title label has valid title
+    //todo new component to slide in with clickable menu text like old console menu
+
+    //todo put image average, image pixelator, and image scaler all in a image factory widget
+    // most methods should be in image utils probably
+
+    //todo cyder text field's text should always be in the middle
 
     /**
      * Converts the provided grid node to it's mouse space equivalent
