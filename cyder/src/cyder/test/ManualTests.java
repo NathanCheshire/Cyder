@@ -17,7 +17,7 @@ import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
-import cyder.ui.objects.SwitchState;
+import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
 import cyder.widgets.PaintWidget;
 
@@ -46,13 +46,13 @@ public class ManualTests {
         CyderFrame testFrame = new CyderFrame(280,120);
         testFrame.setTitle("Switcher test");
 
-        ArrayList<SwitchState> states = new ArrayList<>();
-        states.add(new SwitchState("Uno", "uno long"));
-        states.add(new SwitchState("Dos", "dos long"));
-        states.add(new SwitchState("Tres", "tres long"));
-        states.add(new SwitchState("Cuatro", "cuatro long"));
+        ArrayList<SwitcherState> states = new ArrayList<>();
+        states.add(new SwitcherState("Uno", "uno long"));
+        states.add(new SwitcherState("Dos", "dos long"));
+        states.add(new SwitcherState("Tres", "tres long"));
+        states.add(new SwitcherState("Cuatro", "cuatro long"));
 
-        SwitchState startingState = states.get(0);
+        SwitcherState startingState = states.get(0);
 
         CyderSwitcher switcher = new CyderSwitcher(200,40, states, startingState);
         switcher.setBounds(40,40,200,40);

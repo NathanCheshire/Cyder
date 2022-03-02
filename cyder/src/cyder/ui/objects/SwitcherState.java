@@ -5,7 +5,7 @@ import cyder.utilities.ReflectionUtil;
 /**
  * An enum used to map a preview value to the actual value to switch on.
  */
-public class SwitchState {
+public class SwitcherState {
     /**
      * The display value of this state.
      */
@@ -22,7 +22,7 @@ public class SwitchState {
      * @param displayValue the display value of the state
      * @param mappedValue the underlying value of the state
      */
-    public SwitchState(String displayValue, String mappedValue) {
+    public SwitcherState(String displayValue, String mappedValue) {
         this.displayValue = displayValue;
         this.mappedValue = mappedValue;
     }
@@ -70,10 +70,10 @@ public class SwitchState {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof SwitchState))
+        if (!(o instanceof SwitcherState))
             return false;
 
-        SwitchState other = (SwitchState) o;
+        SwitcherState other = (SwitcherState) o;
 
         return other.getDisplayValue().equals(this.getDisplayValue())
                 && other.getMappedValue().equals(this.getMappedValue());

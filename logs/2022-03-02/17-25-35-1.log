@@ -12,17 +12,13 @@
 [17-25-37] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [17-25-37] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [17-25-37] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[17-25-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-25-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-25-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-25-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-25-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [17-25-38] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [17-25-38] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-25-38] [SYSTEM_IO]: Userdata requested: RandomBackground
 [17-25-38] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-25-38] [SYSTEM_IO]: Userdata requested: fullscreen
-[17-25-38] [SYSTEM_IO]: Userdata requested: FullScreen
-[17-25-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-25-38] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [17-25-38] [THREAD STARTED]: Console Printing Animation
 [17-25-38] [SYSTEM_IO]: Userdata requested: OutputBorder
 [17-25-38] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -47,18 +43,15 @@
 [17-25-39] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-25-39] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [17-25-39] [THREAD STARTED]: Notificaiton vanish animater 1353104717
-[17-25-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-25-45] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-25-45] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [17-25-47] [CLIENT]: prefs
 [17-25-47] [SYSTEM_IO]: Userdata requested: filterchat
 [17-25-47] [WIDGET OPENED]: PREFS
 [17-25-47] [CONSOLE_OUT]: [STRING] Opening widget: UserEditor
 [17-25-47] [HANDLE]: PRIMARY HANDLE
 [17-25-49] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-25-49] [SYSTEM_IO]: Userdata requested: Foreground
-[17-25-49] [SYSTEM_IO]: Userdata requested: Foreground
-[17-25-49] [SYSTEM_IO]: Userdata requested: Background
-[17-25-49] [SYSTEM_IO]: Userdata requested: Background
+[17-25-49] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[17-25-49] [SYSTEM_IO]: Userdata requested: Background [2x]
 [17-25-49] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1098, 334, 900, 580)], hash = [925025380], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
 [17-25-49] [THREAD STARTED]: Preference Font Loader
 [17-25-49] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1571873810], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -82,15 +75,11 @@
 [17-25-55] [SYSTEM_IO]: Userdata requested: ffmpegpath
 [17-25-55] [SYSTEM_IO]: Userdata requested: youtubedlpath
 [17-25-55] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1571873810], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-25-56] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-26-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-26-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-26-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
 [17-26-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1571873810], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-26-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-26-08] [SYSTEM_IO]: Userdata requested: Foreground
-[17-26-08] [SYSTEM_IO]: Userdata requested: Foreground
-[17-26-08] [SYSTEM_IO]: Userdata requested: Background
-[17-26-08] [SYSTEM_IO]: Userdata requested: Background
+[17-26-08] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[17-26-08] [SYSTEM_IO]: Userdata requested: Background [2x]
 [17-26-08] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1098, 334, 900, 580)], hash = [925025380], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
 [17-26-08] [THREAD STARTED]: Preference Font Loader
 [17-26-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(830, 175, 50, 250)], hash = [1571873810], parentFrame = [Preferences], associated text = [>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]

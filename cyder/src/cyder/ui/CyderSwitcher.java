@@ -2,7 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
-import cyder.ui.objects.SwitchState;
+import cyder.ui.objects.SwitcherState;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -25,12 +25,12 @@ public class CyderSwitcher extends JLabel {
     /**
      * The current switch state.
      */
-    private SwitchState currentState;
+    private SwitcherState currentState;
 
     /**
      * The list of valid states for this switcher.
      */
-    private final ArrayList<SwitchState> states;
+    private final ArrayList<SwitcherState> states;
 
     /**
      * The width of the whole switcher.
@@ -50,7 +50,7 @@ public class CyderSwitcher extends JLabel {
      * @param states the valid states
      * @param startingState the starting state
      */
-    public CyderSwitcher(int width, int height, ArrayList<SwitchState> states, SwitchState startingState) {
+    public CyderSwitcher(int width, int height, ArrayList<SwitcherState> states, SwitcherState startingState) {
         if (width < 0)
             throw new IllegalArgumentException("Width is less than 0");
         if (height < 0)
@@ -128,7 +128,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @return the states of this switcher
      */
-    public ArrayList<SwitchState> getStates() {
+    public ArrayList<SwitcherState> getStates() {
         return states;
     }
 
@@ -137,7 +137,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @return the current state of this switcher
      */
-    public SwitchState getCurrentState() {
+    public SwitcherState getCurrentState() {
         return currentState;
     }
 
@@ -146,7 +146,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @return the state just after the current state
      */
-    public SwitchState getNextState() {
+    public SwitcherState getNextState() {
         int currentIndex = 0;
 
         for (int i = 0 ; i < states.size() ; i++) {
@@ -169,7 +169,7 @@ public class CyderSwitcher extends JLabel {
      *
      * @param currentState the current state of this switcher
      */
-    public void setCurrentState(SwitchState currentState) {
+    public void setCurrentState(SwitcherState currentState) {
         this.currentState = currentState;
         valueDisplayField.setText(currentState.getDisplayValue());
     }
@@ -182,5 +182,13 @@ public class CyderSwitcher extends JLabel {
      */
     public void addOnChangeListener(Function<Void, Void> function) {
         iterationButton.addActionListener((OptionalParam) -> function.apply(null));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setEnabled(boolean enabled) {
+        valueDisplayField.setEnabled(enabled);
+        iterationButton.setEnabled(enabled);
     }
 }

@@ -881,6 +881,8 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
+    //todo use rgb and hex regex for color converter widget
+
     //todo utilize for relative zooming after other features
     // done and controls grid finished using a grid layout
 
@@ -892,10 +894,6 @@ public class CyderGrid extends JLabel {
 
     //todo put image average, image pixelator, and image scaler all in a image factory widget
     // most methods should be in image utils probably
-
-    //todo cyder text field's text should always be in the middle
-    //.setHorizontalAlignment(JTextField.CENTER);
-    // todo what about non JTextField things that for seme reason ctf didn't work for? like in user editor
 
     /**
      * Converts the provided grid node to it's mouse space equivalent

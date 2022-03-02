@@ -12,7 +12,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
 import cyder.ui.CyderSwitcher;
-import cyder.ui.objects.SwitchState;
+import cyder.ui.objects.SwitcherState;
 import cyder.utilities.OSUtil;
 import cyder.utilities.SecurityUtil;
 
@@ -91,12 +91,12 @@ public class HashingWidget {
         hashButton.setBounds(50,140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
-        ArrayList<SwitchState> states = new ArrayList<>();
-        states.add(new SwitchState("SHA-256", "SHA256 Algorithm"));
-        states.add(new SwitchState("SHA-1", "SHA-1 Algorithm"));
-        states.add(new SwitchState("MD5", "MD5 Algorithm (Not secure)"));
+        ArrayList<SwitcherState> states = new ArrayList<>();
+        states.add(new SwitcherState("SHA-256", "SHA256 Algorithm"));
+        states.add(new SwitcherState("SHA-1", "SHA-1 Algorithm"));
+        states.add(new SwitcherState("MD5", "MD5 Algorithm (Not secure)"));
 
-        SwitchState startingState = states.get(0);
+        SwitcherState startingState = states.get(0);
 
         switcher = new CyderSwitcher(210,40, states, startingState);
         switcher.setBounds(240,140,210,40);

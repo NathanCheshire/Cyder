@@ -8,6 +8,7 @@ import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.ui.*;
+import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
 
@@ -16,6 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class PerlinWidget {
@@ -30,10 +32,6 @@ public class PerlinWidget {
     private static CyderFrame perlinFrame;
     private static JLabel noiseLabel;
 
-    private static CyderTextField dimensionField;
-    private static CyderButton dimensionSwitchButton;
-    private static final String[] dimensions = {"2D","3D"};
-
     //open simplex vars
     private static double FEATURE_SIZE = 24.0;
     private static OpenSimplexAlgorithms noise;
@@ -41,6 +39,12 @@ public class PerlinWidget {
     private static JSlider featureSlider;
     private static final double minFeatureSize = 24.0;
     private static final double maxFeatureSize = minFeatureSize * 2.0;
+
+    private static CyderSwitcher switcher;
+    private static final SwitcherState twoDimensionState =
+            new SwitcherState("2D","2D");
+    private static final SwitcherState threeDimensionState =
+            new SwitcherState("3D","3D");
 
     private static JSlider speedSlider;
     private static int sliderValue = 500;
@@ -143,7 +147,7 @@ public class PerlinWidget {
                 int drawTo = labelWidth;
 
                 //draw noise
-                if (dimensionField.getText().equals("2D")) {
+                if (switcher.getCurrentState().equals(twoDimensionState)) {
                     g2d.setColor(Color.black);
 
                     for (int x = 0 ; x < resolution ; x++) {
@@ -228,18 +232,12 @@ public class PerlinWidget {
         nextIteration.setBounds(400,630, 170, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
-        dimensionField = new CyderTextField(0);
-        dimensionField.setFocusable(false);
-        dimensionField.setBounds(490,675, 50, 40);
-        dimensionField.setEditable(false);
-        perlinFrame.getContentPane().add(dimensionField);
-        dimensionField.setText(dimensions[0]);
-
-        dimensionSwitchButton = new CyderButton("▼");
-        dimensionSwitchButton.setBounds(530,675,40,40);
-        perlinFrame.getContentPane().add(dimensionSwitchButton);
-        dimensionSwitchButton.addActionListener(e -> dimensionField.setText(
-                dimensionField.getText().equals(dimensions[0]) ? dimensions[1] : dimensions[0]));
+        ArrayList<SwitcherState> states = new ArrayList<>();
+        states.add(twoDimensionState);
+        states.add(threeDimensionState);
+        switcher = new CyderSwitcher(80, 40, states, twoDimensionState);
+        switcher.setBounds(490, 675, 80, 40);
+        perlinFrame.getContentPane().add(switcher);
 
         speedSlider = new JSlider(JSlider.HORIZONTAL, 0, sliderMaxValue, sliderValue);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
@@ -284,7 +282,7 @@ public class PerlinWidget {
         featureSlider.addChangeListener(e -> {
             FEATURE_SIZE = (featureSlider.getValue() / 1000.0) * (maxFeatureSize - minFeatureSize) + minFeatureSize;
 
-            if (dimensionField.getText().equals("3D") && !timer.isRunning()) {
+            if (switcher.getCurrentState().equals(threeDimensionState) && !timer.isRunning()) {
                 for (int y = 0; y < resolution; y++) {
                     for (int x = 0; x < resolution; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
@@ -323,7 +321,7 @@ public class PerlinWidget {
                timer.start();
            }
         } else {
-            if (dimensionField.getText().equals("2D")) {
+            if (switcher.getCurrentState().equals(twoDimensionState)) {
                 if (timer.isRunning()) {
                     timer.stop();
                     unlockUI();
@@ -367,7 +365,7 @@ public class PerlinWidget {
         if (closed)
             return;
 
-        if (dimensionField.getText().equals("2D")) {
+        if (switcher.getCurrentState().equals(twoDimensionState)) {
             //serves no purpose during an animation
             if (timer != null && timer.isRunning())
                 return;
@@ -445,7 +443,7 @@ public class PerlinWidget {
         }
 
         //generate new noise based on random seed and update
-        if (dimensionField.getText().equals("2D")) {
+        if (switcher.getCurrentState().equals(twoDimensionState)) {
             _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
         } else {
             timeStep += 0.1;
@@ -467,14 +465,14 @@ public class PerlinWidget {
     private static void lockUI() {
         animateCheckBox.setEnabled(false);
         nextIteration.setEnabled(false);
-        dimensionSwitchButton.setEnabled(false);
+        switcher.setEnabled(false);
         featureSlider.setEnabled(false);
     }
 
     private static void unlockUI() {
         animateCheckBox.setEnabled(true);
         nextIteration.setEnabled(true);
-        dimensionSwitchButton.setEnabled(true);
+        switcher.setEnabled(true);
         featureSlider.setEnabled(true);
     }
 
