@@ -133,6 +133,22 @@ public class ConvexHullWidget {
             addMidPoints(p0, p1);
         }
 
+        GridNode upperLeft = new GridNode(CyderColors.regularPink, 0, 0);
+        GridNode upperRight = new GridNode(CyderColors.regularPink, 0, gridComponent.getNodeDimensionLength() - 1 );
+        GridNode bottomLeft = new GridNode(CyderColors.regularPink, gridComponent.getNodeDimensionLength() - 1, 0);
+        GridNode bottomRight = new GridNode(CyderColors.regularPink,
+                gridComponent.getNodeDimensionLength() - 1, gridComponent.getNodeDimensionLength() - 1);
+
+        LinkedList<GridNode> cornerNodes = new LinkedList<>();
+        cornerNodes.add(upperLeft);
+        cornerNodes.add(upperRight);
+        cornerNodes.add(bottomLeft);
+        cornerNodes.add(bottomRight);
+
+        if (gridComponent.getGridNodes().containsAll(cornerNodes)) {
+            hullFrame.notify("Congratulations, you played yourself");
+        }
+
         // repaint to update nodes with line
         gridComponent.repaint();
     }

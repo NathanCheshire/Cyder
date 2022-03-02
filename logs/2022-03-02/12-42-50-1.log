@@ -1,0 +1,94 @@
+[12-42-50] [ENTRY]: [Nathan]
+[12-42-50] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-42-51] [THREAD STARTED]: Splash Loader
+[12-42-51] [THREAD STARTED]: Splash Animation
+[12-42-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[12-42-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[12-42-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[12-42-52] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[12-42-52] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[12-42-52] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[12-42-52] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-42-52] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-42-52] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-42-52] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-42-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-52] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[12-42-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-52] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-42-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-42-52] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-42-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-42-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-42-52] [THREAD STARTED]: Console Printing Animation
+[12-42-52] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-42-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-42-53] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-42-53] [THREAD STARTED]: Console Input Caret Position Updater
+[12-42-53] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-42-53] [SYSTEM_IO]: Userdata requested: InputFill
+[12-42-53] [THREAD STARTED]: High Ping Checker
+[12-42-53] [THREAD STARTED]: Hourly Chime Checker
+[12-42-53] [THREAD STARTED]: Console Clock Updater
+[12-42-53] [THREAD STARTED]: Cyder Busy Checker
+[12-42-53] [THREAD STARTED]: ConsoleFrame Data Saver
+[12-42-53] [ACTION]: Console loaded in 2943ms
+[12-42-53] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(574, 195, 934, 628)], hash = [1202220987], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[12-42-53] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-42-53] [ENTRY]: [TESTING MODE]
+[12-42-53] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1628544019], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-42-53] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[12-42-53] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2943ms
+[12-42-53] [THREAD STARTED]: notification appear animation
+[12-42-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-42-53] [THREAD STARTED]: Notificaiton vanish animater -989157861
+[12-42-53] [SYSTEM_IO]: Userdata requested: laststart
+[12-42-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-56] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-42-57] [CLIENT]: convexhull
+[12-42-57] [SYSTEM_IO]: Userdata requested: filterchat
+[12-42-57] [WIDGET OPENED]: CONVEX HULL
+[12-42-57] [CONSOLE_OUT]: [STRING] Opening widget: ConvexHullWidget
+[12-42-57] [HANDLE]: PRIMARY HANDLE
+[12-42-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-00] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-02] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-06] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-08] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-10] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(641, 84, 800, 850)], hash = [424770814], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Convex hull] notification queue checker
+[12-43-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-10] [ACTION]: [Convex hull] [NOTIFICATION] Congratulations, you played yourself
+[12-43-10] [THREAD STARTED]: notification appear animation
+[12-43-10] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-43-10] [THREAD STARTED]: Notificaiton vanish animater -989154110
+[12-43-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-12] [THREAD STARTED]: Notificaiton vanish animater -989154110
+[12-43-12] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(641, 84, 800, 850)], hash = [424770814], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Convex hull] notification queue checker
+[12-43-12] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(425, 780, 325, 40)], hash = [41998405], parentFrame = [Convex hull], associated text = [Reset], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-12] [ACTION]: [Convex hull] [NOTIFICATION] Cleared 514 nodes
+[12-43-12] [THREAD STARTED]: notification appear animation
+[12-43-13] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-43-13] [THREAD STARTED]: Notificaiton vanish animater -1302527685
+[12-43-14] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-26] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-30] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(50, 780, 325, 40)], hash = [1100573670], parentFrame = [Convex hull], associated text = [Solve], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-43-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-38] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[12-43-38] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-43-38] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(574, 195, 934, 628)], hash = [1202220987], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[12-43-38] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[12-43-38] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-43-38] [EXIT]: [RUNTIME] 48s
+[12-43-38] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

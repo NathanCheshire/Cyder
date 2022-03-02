@@ -195,7 +195,7 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Returns the count of nodes on the grid.
+     * Returns the number of nodes on the grid.
      *
      * @return the number of nodes on the grid
      */
@@ -223,11 +223,11 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Returns the node length.
+     * Returns the node length of a single dimension of nodes.
      *
-     * @return the node length
+     * @return the node length of a single dimension of nodes
      */
-    public int getNodesLength() {
+    public int getNodeDimensionLength() {
         return this.nodes;
     }
 
@@ -880,7 +880,6 @@ public class CyderGrid extends JLabel {
 
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
-    //todo clicking to get rid of nodes doesn't exactly work
 
     //todo utilize for relative zooming after other features
     // done and controls grid finished using a grid layout
