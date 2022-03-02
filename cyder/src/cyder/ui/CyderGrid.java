@@ -894,6 +894,8 @@ public class CyderGrid extends JLabel {
     // most methods should be in image utils probably
 
     //todo cyder text field's text should always be in the middle
+    //.setHorizontalAlignment(JTextField.CENTER);
+    // todo what about non JTextField things that for seme reason ctf didn't work for? like in user editor
 
     /**
      * Converts the provided grid node to it's mouse space equivalent
