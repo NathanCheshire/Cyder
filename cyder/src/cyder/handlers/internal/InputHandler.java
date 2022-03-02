@@ -1349,6 +1349,9 @@ public class InputHandler {
                     ExceptionHandler.handle(e);
                 }
             }, "Location Finder");
+        } else if (commandIs("whoami")) {
+            System.out.println(OSUtil.getComputerName() + OSUtil.FILE_SEP
+                    + StringUtil.capsCheck(UserUtil.extractUser().getName()));
         }
 
         else ret = false;
@@ -1490,24 +1493,20 @@ public class InputHandler {
      * @return whether a preference was toggled/handled
      */
     private boolean preferenceCheck(String targetedPreference) {
+        targetedPreference = targetedPreference.trim();
+
         boolean ret = false;
 
         for (Preferences.Preference pref : Preferences.getPreferences()) {
-            if (targetedPreference.equalsIgnoreCase(pref.getID()) && !pref.getDisplayName().equals("IGNORE")) {
-                if (targetedPreference.contains("1") || targetedPreference.toLowerCase().contains("true")) {
-                    UserUtil.setUserData(pref.getID(), "1");
-                    println(pref.getDisplayName() + " set to true");
-                } else if (targetedPreference.contains("0") || targetedPreference.toLowerCase().contains("false")) {
-                    UserUtil.setUserData(pref.getID(), "0");
-                    println(pref.getDisplayName() + " set to false");
-                } else {
+            if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
+                if (!pref.getDisplayName().equals("IGNORE")) {
                     String newVal = UserUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
                     UserUtil.setUserData(pref.getID(), newVal);
                     println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
-                }
 
-                Preferences.invokeRefresh(pref.getID());
-                ret = true;
+                    Preferences.invokeRefresh(pref.getID());
+                    ret = true;
+                }
             }
         }
 
@@ -1588,6 +1587,8 @@ public class InputHandler {
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
+        println("Unknown command, looking for similar ones...");
+
         CyderThreadRunner.submit(() -> {
             try {
                 Future<Optional<String>> similarCommand = ReflectionUtil.getSimilarCommand(command);
@@ -1636,6 +1637,8 @@ public class InputHandler {
      */
     private void wrapTerminalCheck() {
         if (UserUtil.extractUser().getWrapterminal().equalsIgnoreCase("1")) {
+            println("Unknown command, passing to native terminal...");
+
             CyderThreadRunner.submit(() -> {
                 try {
                     ProcessBuilder builder = new ProcessBuilder(command, argsToString());
@@ -1727,7 +1730,7 @@ public class InputHandler {
             sb.append(args.get(i)).append(i == args.size() - 1 ? "" : " ");
         }
 
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     //end argument/command accessors --------------------------------

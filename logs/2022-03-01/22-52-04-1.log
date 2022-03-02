@@ -1,0 +1,130 @@
+[22-52-04] [ENTRY]: [Nathan]
+[22-52-05] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-52-06] [THREAD STARTED]: Splash Loader
+[22-52-06] [THREAD STARTED]: Splash Animation
+[22-52-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[22-52-06] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[22-52-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[22-52-07] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[22-52-07] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[22-52-07] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-52-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[22-52-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-52-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-52-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-52-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-07] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-52-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-07] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-52-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-52-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-52-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-52-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-52-08] [THREAD STARTED]: Console Printing Animation
+[22-52-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-52-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-52-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-52-08] [THREAD STARTED]: Console Input Caret Position Updater
+[22-52-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-52-08] [SYSTEM_IO]: Userdata requested: InputFill
+[22-52-08] [THREAD STARTED]: High Ping Checker
+[22-52-08] [THREAD STARTED]: Hourly Chime Checker
+[22-52-08] [THREAD STARTED]: Console Clock Updater
+[22-52-08] [THREAD STARTED]: Cyder Busy Checker
+[22-52-08] [THREAD STARTED]: ConsoleFrame Data Saver
+[22-52-08] [ACTION]: Console loaded in 4085ms
+[22-52-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-52-08] [ENTRY]: [TESTING MODE]
+[22-52-08] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(574, 195, 934, 628)], hash = [1202220987], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-52-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1450661601], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-52-08] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-52-08] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 4085ms
+[22-52-08] [THREAD STARTED]: notification appear animation
+[22-52-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-52-08] [THREAD STARTED]: Notificaiton vanish animater -2114145803
+[22-52-09] [SYSTEM_IO]: Userdata requested: laststart
+[22-52-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-14] [CLIENT]: british
+[22-52-14] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-14] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[22-52-14] [THREAD STARTED]: Unknown Input Handler
+[22-52-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-15] [ACTION]: Similar command to "british" found with tol of 0.46153846, command = "print"
+[22-52-15] [THREAD STARTED]: Wrap Terminal Thread
+[22-52-15] [CONSOLE_OUT]: [STRING] Unknown command, passing to native terminal...
+[22-52-15] [CONSOLE_OUT]: [STRING] Unknown command
+[22-52-15] [THREAD STARTED]: Suggestion Button Flash
+[22-52-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-26] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-31] [CLIENT]: terminalmode
+[22-52-31] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-31] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[22-52-31] [THREAD STARTED]: Unknown Input Handler
+[22-52-32] [ACTION]: Similar command to "terminalmode" found with tol of 0.5714286, command = "triangle"
+[22-52-32] [THREAD STARTED]: Wrap Terminal Thread
+[22-52-32] [CONSOLE_OUT]: [STRING] Unknown command, passing to native terminal...
+[22-52-32] [CONSOLE_OUT]: [STRING] Unknown command
+[22-52-32] [THREAD STARTED]: Suggestion Button Flash
+[22-52-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-37] [CLIENT]: wrapterminal
+[22-52-37] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-37] [SYSTEM_IO]: Userdata requested: wrapterminal
+[22-52-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-37] [PREFERENCE REFRESH INVOKED]: key = wrapterminal
+[22-52-37] [CONSOLE_OUT]: [STRING] Wrap Terminal set to false
+[22-52-37] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[22-52-37] [HANDLE]: FINAL HANDLE
+[22-52-40] [CLIENT]: helpme
+[22-52-40] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-40] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[22-52-40] [THREAD STARTED]: Unknown Input Handler
+[22-52-40] [ACTION]: Similar command to "helpme" found with tol of 0.72727275, command = "help"
+[22-52-40] [THREAD STARTED]: Suggestion Button Flash
+[22-52-40] [CONSOLE_OUT]: [STRING] Unknown command
+[22-52-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-43] [CLIENT]: helpp
+[22-52-43] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-43] [THREAD STARTED]: Unknown Input Handler
+[22-52-43] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[22-52-43] [ACTION]: Similar command to "helpp" found with tol of 0.8, command = "help"
+[22-52-43] [THREAD STARTED]: Suggestion Button Flash
+[22-52-43] [CONSOLE_OUT]: [STRING] Unknown command
+[22-52-45] [CLIENT]: help
+[22-52-45] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-45] [CONSOLE_OUT]: [STRING] Try typing:
+[22-52-45] [HANDLE]: GENERAL COMMAND HANDLED
+[22-52-45] [HANDLE]: PRIMARY HANDLE
+[22-52-45] [CONSOLE_OUT]: [STRING] •	pathfinder
+	Description: open an A* and Dijkstras algorithm path finding visualizer
+[22-52-45] [CONSOLE_OUT]: [STRING] •	e^pi
+	Description: calculate e^pi using the command line mathematical expression parser
+[22-52-45] [CONSOLE_OUT]: [STRING] •	mp3
+	Description: open Cyder's custom MP3 audio player
+[22-52-45] [CONSOLE_OUT]: [STRING] •	prefs
+	Description: open up the preference editor
+[22-52-45] [CONSOLE_OUT]: [STRING] •	weather
+	Description: open up the weather widget
+[22-52-45] [CONSOLE_OUT]: [STRING] •	curl
+	Description: curl a url just like linux
+[22-52-45] [CONSOLE_OUT]: [STRING] •	play
+	Description: downloads a youtube video's audio and plays it using the audio player
+[22-52-45] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-48] [CLIENT]: clear
+[22-52-48] [SYSTEM_IO]: Userdata requested: filterchat
+[22-52-48] [HANDLE]: GENERAL COMMAND HANDLED
+[22-52-48] [HANDLE]: PRIMARY HANDLE
+[22-52-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-50] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-52-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-52-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(574, 195, 934, 628)], hash = [1202220987], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-52-50] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-52-50] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-52-50] [EXIT]: [RUNTIME] 46s
+[22-52-50] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
