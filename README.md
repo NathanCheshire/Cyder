@@ -31,7 +31,7 @@ the Convex Hull problem, and Conway's Game of Life (Rest in Peace John Conway).
 
 ![Weather](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
 
-![Audio Player](https://user-images.githubusercontent.com/60986919/155233169-a823bf1f-fe8d-415d-8af1-36e492b3bf32.png)
+![Audio Player](https://user-images.githubusercontent.com/60986919/156295222-ec6a1644-928c-456b-8cc0-82ce7c73365f.png)
 
 ### Pathfinder
 
@@ -51,7 +51,8 @@ its own issues on GitHub. Cyder even features a custom
 `@Widget` annotation which is used to mark Cyder widgets which
 can then be validated and found upon runtime.
 
-![Self Analyzing](https://user-images.githubusercontent.com/60986919/155893518-24cb4df1-f66f-4959-b368-b13d8ae17ae6.png)
+![Self Analyzing](https://user-images.githubusercontent.com/60986919/156295692-c2b9f0ae-7afe-4ec1-90d4-d81434f5b6d8.png)
+
 
 ## Usage
 
