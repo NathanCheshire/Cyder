@@ -319,8 +319,6 @@ public class PaintWidget {
 
         paintControlsFrame.setVisible(true);
         paintControlsFrame.setLocationRelativeTo(paintFrame);
-
-        cyderGrid.test();
     }
 
     //todo put image average, image pixelator, and image scaler all in a image factory widget

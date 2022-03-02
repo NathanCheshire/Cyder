@@ -2706,4 +2706,15 @@ public class CyderFrame extends JFrame {
     protected void endDragEvent() {
         this.setOpacity(1.0f);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getTitle() {
+        if (this.titleLabel != null && this.titleLabel.getText().length() > 0)
+            return this.titleLabel.getText();
+        else
+            return super.getTitle();
+    }
 }

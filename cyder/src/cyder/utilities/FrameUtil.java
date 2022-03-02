@@ -94,7 +94,8 @@ public class FrameUtil {
             return false;
 
         String saveName = refFrame.getTitle().substring(0, Math.min(15, refFrame.getTitle().length()));
-        File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime() + ".png");
+        File refFile = OSUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime()
+                + "_" + TimeUtil.logTime()+ ".png");
         return screenshotCyderFrame(refFrame, refFile);
     }
 
