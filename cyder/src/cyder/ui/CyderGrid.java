@@ -775,6 +775,15 @@ public class CyderGrid extends JLabel {
             int maxX = Math.max(firstX, secondX);
             int maxY = Math.max(firstY, secondY);
 
+            nodes = Math.max(maxX - minX, maxY - minY);
+
+            for (Integer increment : increments) {
+                if (increment > nodes) {
+                    nodes = increment;
+                    break;
+                }
+            }
+
             LinkedList<GridNode> croppedNodes = new LinkedList<>();
 
             // for nodes in the current grid
