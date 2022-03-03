@@ -53,7 +53,18 @@ public final class CyderRegexPatterns {
             "\\d{1,3},)|(\\d{1,3},\\d{1,3},\\d{1,3}))|([0-9A-Fa-f]{0,6})";
 
     /**
-     * Illegal class instantiation
+     * Regex for a hex color value.
+     */
+    public static final String hexPattern = "[0-9A-Fa-f]{0,6}";
+
+    /**
+     * Regex for a rgb color value.
+     */
+    public static final String rgbPattern = "((\\d{1,3})|(\\d{1,3},)|(\\d{1,3},\\d{1,3})|(\\d{1,3},\\d{1,3},)" +
+            "|(\\d{1,3},\\d{1,3},\\d{1,3}))";
+
+    /**
+     * Prevent illegal class instantiation.
      */
     private CyderRegexPatterns() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);

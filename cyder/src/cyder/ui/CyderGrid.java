@@ -881,7 +881,8 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
-    //todo use rgb and hex regex for color converter widget
+    //todo if panel, frame needs to update content pane on resize
+    // events immediately and not wait til end of resize event
 
     //todo utilize for relative zooming after other features
     // done and controls grid finished using a grid layout
