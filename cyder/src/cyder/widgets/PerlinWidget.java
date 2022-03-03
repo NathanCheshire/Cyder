@@ -75,31 +75,97 @@ public class PerlinWidget {
      * The feature size for open simplex noise.
      */
     private static double FEATURE_SIZE = DEFAULT_FEATURE_SIZE;
-    private static OpenSimplexAlgorithms noise;
+
+    /**
+     * The open simplex noise object.
+     */
+    private static OpenSimplexAlgorithms noise = new OpenSimplexAlgorithms(0);
+
+    /**
+     * The timestep current at.
+     */
     private static double timeStep = 0;
+
+    /**
+     * The slider used to change the open simplex noise feature size.
+     */
     private static JSlider featureSlider;
 
+    /**
+     * The switcher used to change dimensions.
+     */
     private static CyderSwitcher switcher;
+
+    /**
+     * The state used for two dimensions of noise.
+     */
     private static final SwitcherState twoDimensionState =
             new SwitcherState("2D","2D");
+
+    /**
+     * The state used for three dimensions of noise (technically 4).
+     */
     private static final SwitcherState threeDimensionState =
             new SwitcherState("3D","3D");
 
+    /**
+     * The slider used to determine the speed of the animation.
+     */
     private static JSlider speedSlider;
-    private static int sliderValue = 500;
-    private static final int sliderMaxValue = 1000;
-    private static final int sliderMaxDelay = 500; //ms
 
+    /**
+     * The default value for the speed slider.
+     */
+    private static int speedSliderValue = 500;
+
+    /**
+     * The maximum value for the speed slider in ms.
+     */
+    private static final int speedSliderMaxValue = 1000;
+
+    /**
+     * The maximum delay for the speed timer.
+     */
+    private static final int speedSliderMaxDelay = 500;
+
+    /**
+     * The resolution of open simplex noise.
+     */
     private static final int resolution = 512;
-    private static Node[][] _3DNoise;
-    private static float[] _2DNoise;
-    private static final boolean _2DMode = true;
 
+    /**
+     * The node array to store the open simplex noise.
+     */
+    private static Node[][] _3DNoise;
+
+    /**
+     * The array to store the perlin noise.
+     */
+    private static float[] _2DNoise;
+
+    /**
+     * The random object used for randomizing the noise seeds.
+     */
     private static final Random rand = new Random();
+
+    /**
+     * The animation timer.
+     */
     private static Timer timer;
 
+    /**
+     * The seeding value to use for open simplex noise.
+     */
     private static float[][] instanceSeed;
+
+    /**
+     * The number of octaves for open simplex (itereations).
+     */
     private static int octaves = 1;
+
+    /**
+     * The maximum number of octraves (iterations).
+     */
     private static final int maxOctaves = 10;
 
     /**
@@ -123,8 +189,7 @@ public class PerlinWidget {
         //init with random
         _2DNoise = new float[resolution];
         _3DNoise = new Node[resolution][resolution];
-
-        noise = new OpenSimplexAlgorithms(0);
+        
         timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
@@ -135,7 +200,7 @@ public class PerlinWidget {
 
         instanceSeed = new float[resolution][resolution];
 
-        timer = new Timer((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay), animationAction);
+        timer = new Timer((int) ((float) speedSliderValue / (float) speedSliderMaxValue * speedSliderMaxDelay), animationAction);
 
         for (int i = 0 ; i < resolution ; i++) {
             _2DNoise[i] = rand.nextFloat();
@@ -151,7 +216,7 @@ public class PerlinWidget {
         octaves = 1;
 
         //fill noise based on current session's seed
-        _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+        _2DNoise = generate2DNoise(instanceSeed[0], octaves);
 
         //ui constructions
         perlinFrame = new CyderFrame(512 + 200,750,
@@ -284,7 +349,7 @@ public class PerlinWidget {
         switcher.setBounds(490, 675, 80, 40);
         perlinFrame.getContentPane().add(switcher);
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, sliderMaxValue, sliderValue);
+        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, speedSliderMaxValue, speedSliderValue);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -298,10 +363,10 @@ public class PerlinWidget {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-        speedSlider.setValue(sliderValue);
+        speedSlider.setValue(speedSliderValue);
         speedSlider.addChangeListener(e -> {
-            sliderValue = speedSlider.getValue();
-            timer.setDelay((int) ((float) sliderValue / (float) sliderMaxValue * sliderMaxDelay));
+            speedSliderValue = speedSlider.getValue();
+            timer.setDelay((int) ((float) speedSliderValue / (float) speedSliderMaxValue * speedSliderMaxDelay));
         });
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Animation Timeout");
@@ -351,7 +416,9 @@ public class PerlinWidget {
         perlinFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
-    //generates new noise based on a new random seed
+    /**
+     * Generates new nosie based on the current random seed.
+     */
     private static void generate() {
         if (closed)
             return;
@@ -385,7 +452,7 @@ public class PerlinWidget {
                 octaves = 1;
 
                 //new noise
-                _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+                _2DNoise = generate2DNoise(instanceSeed[0], octaves);
             } else {
                 //reset timeStep
                 timeStep = 0;
@@ -406,7 +473,9 @@ public class PerlinWidget {
         }
     }
 
-    //generates new noise based on the current value
+    /**
+     * Generates the new iteration of noise from the current noise.
+     */
     private static void nextIteration() {
         if (closed)
             return;
@@ -421,7 +490,7 @@ public class PerlinWidget {
             if (octaves == maxOctaves)
                 octaves = 1;
 
-            _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+            _2DNoise = generate2DNoise(instanceSeed[0], octaves);
         } else {
             timeStep += 0.1;
             for (int y = 0; y < resolution; y++) {
@@ -439,24 +508,24 @@ public class PerlinWidget {
     }
 
     /**
-     * Generates perlin noise based on common algorithm implementation
-     * @param nCount he number of points in the line
+     * Generates perlin noise based on common algorithm implementation.
+     *
      * @param fSeed the seed value
      * @param nOctaves the number of iterations to perform the algorithm on
      * @return 2D perlin noise representation (values are between 0 and 1)
      */
-    public static float[] generate2DNoise(int nCount, float[] fSeed, int nOctaves) {
-        float[] ret = new float[nCount];
+    private static float[] generate2DNoise(float[] fSeed, int nOctaves) {
+        float[] ret = new float[PerlinWidget.resolution];
 
-        for (int x = 0 ; x < nCount ; x++) {
+        for (int x = 0; x < PerlinWidget.resolution; x++) {
            float fNoise = 0.0f;
            float fScale = 1.0f;
            float fScaleAcc = 0.0f;
 
            for (int o = 0 ; o < nOctaves ; o++) {
-               int nPitch = nCount >> o; //assuming octaves is a power of 2
+               int nPitch = PerlinWidget.resolution >> o; //assuming octaves is a power of 2
                int nSample1 =  (x / nPitch) * nPitch;
-               int nSample2 = (nSample1 + nPitch) % nCount;
+               int nSample2 = (nSample1 + nPitch) % PerlinWidget.resolution;
 
                float fBlend = (float) (x - nSample1) / (float) nPitch;
                float fSample = (1.0f - fBlend) * fSeed[nSample1] + fBlend * fSeed[nSample2];
@@ -471,6 +540,9 @@ public class PerlinWidget {
         return ret;
     }
 
+    /**
+     * The function for the timer to invoke when noise animation is enabled.
+     */
     private static final ActionListener animationAction = evt -> {
         if (closed)
             return;
@@ -490,7 +562,7 @@ public class PerlinWidget {
 
         //generate new noise based on random seed and update
         if (switcher.getCurrentState().equals(twoDimensionState)) {
-            _2DNoise = generate2DNoise(resolution, instanceSeed[0], octaves);
+            _2DNoise = generate2DNoise(instanceSeed[0], octaves);
         } else {
             timeStep += 0.1;
 
@@ -508,6 +580,9 @@ public class PerlinWidget {
         noiseLabel.repaint();
     };
 
+    /**
+     * Locks the perlin UI.
+     */
     private static void lockUI() {
         animateCheckBox.setEnabled(false);
         nextIteration.setEnabled(false);
@@ -515,6 +590,9 @@ public class PerlinWidget {
         featureSlider.setEnabled(false);
     }
 
+    /**
+     * Unlocks the perlin UI.
+     */
     private static void unlockUI() {
         animateCheckBox.setEnabled(true);
         nextIteration.setEnabled(true);
@@ -522,10 +600,19 @@ public class PerlinWidget {
         featureSlider.setEnabled(true);
     }
 
+    /**
+     * Returns the color, grayscale, for the float value.
+     *
+     * @param val the value to determine the gray scale color for
+     * @return the gray scale color for the provided float
+     */
     private static Color getColor(float val) {
         return Color.decode(String.valueOf(0x010101 * (int)((val + 1) * 127.5)));
     }
 
+    /**
+     * Wrapper to assocate a color to a point object.
+     */
     private static class Node {
         private int x;
         private int y;
