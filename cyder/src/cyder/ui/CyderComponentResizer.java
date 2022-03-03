@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import cyder.utilities.ReflectionUtil;
 
@@ -126,66 +127,120 @@ public class CyderComponentResizer extends MouseAdapter {
         this.setSnapSize(snapSize);
     }
 
+    /**
+     * Returns the current drag insets.
+     *
+     * @return the current drag insets
+     */
     public Insets getDragInsets() {
         return dragInsets;
     }
 
+    /**
+     * Sets the current drag insets.
+     *
+     * @param dragInsets the current drag insets
+     */
     public void setDragInsets(Insets dragInsets) {
         this.validateMinimumAndInsets(minimumSize, dragInsets);
         this.dragInsets = dragInsets;
     }
 
+    /**
+     * Returns the current maximum size.
+     *
+     * @return the current maximum size
+     */
     public Dimension getMaximumSize() {
         return maximumSize;
     }
 
+    /**
+     * Sets the current maximum size.
+     *
+     * @param maximumSize the current maximum size
+     */
     public void setMaximumSize(Dimension maximumSize) {
         this.maximumSize = maximumSize;
     }
 
+    /**
+     * Returns the current minimum size.
+     *
+     * @return the current minimum size
+     */
     public Dimension getMinimumSize() {
         return minimumSize;
     }
 
+    /**
+     * Sets the current minimum size.
+     *
+     * @param minimumSize the current minimum size
+     */
     public void setMinimumSize(Dimension minimumSize) {
         this.validateMinimumAndInsets(minimumSize, dragInsets);
         this.minimumSize = minimumSize;
     }
 
-    public void deregisterComponent(Component... components) {
-        for (Component component : components) {
-            component.removeMouseListener(this);
-            component.removeMouseMotionListener(this);
-        }
+    /**
+     * Registers the following component for resizing, adding
+     * the mouse listener and mouse motion listeners to it.
+     *
+     * @param component the component to register
+     */
+    public void deregisterComponent(Component component) {
+        component.removeMouseListener(this);
+        component.removeMouseMotionListener(this);
     }
 
-    public void registerComponent(Component... components) {
-        for (Component component : components) {
-            component.addMouseListener(this);
-            component.addMouseMotionListener(this);
-        }
+    /**
+     * Deregisters the following component of resizing, removing
+     * the mouse listener and mouse motion listeners from it.
+     *
+     * @param component the component to deregister
+     */
+    public void registerComponent(Component component) {
+        component.addMouseListener(this);
+        component.addMouseMotionListener(this);
     }
 
+    /**
+     * Returns the current snap size.
+     *
+     * @return the current snap size
+     */
     public Dimension getSnapSize() {
         return snapSize;
     }
 
+    /**
+     * Sets the current snap size.
+     *
+     * @param snapSize the current snap size
+     */
     public void setSnapSize(Dimension snapSize) {
         this.snapSize = snapSize;
     }
 
+    /**
+     * Validates the insets based off of the provided dimensions.
+     *
+     * @param minimum the minimum dimenssion
+     * @param drag the drag insets
+     */
     private void validateMinimumAndInsets(Dimension minimum, Insets drag) {
-        int minimumWidth = drag.left + drag.right;
-        int minimumHeight = drag.top + drag.bottom;
-
-        if (minimum.width  < minimumWidth ||  minimum.height < minimumHeight)
-            throw new IllegalArgumentException("Minimum size cannot be less than drag insets");
+        Preconditions.checkArgument(minimum.width < drag.left + drag.right,
+                "Minimum size cannot be less than drag insets");
+        Preconditions.checkArgument(minimum.height < drag.top + drag.bottom,
+                "Minimum size cannot be less than drag insets");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("MagicConstant") /* usage of integer to cursor map */
     public void mouseMoved(MouseEvent e) {
         Component source = e.getComponent();
         Point location = e.getPoint();
@@ -208,7 +263,7 @@ public class CyderComponentResizer extends MouseAdapter {
         } else {
             int cursorType = cursors.get(dragDirection);
             Cursor cursor = Cursor.getPredefinedCursor(cursorType);
-            source.setCursor( cursor );
+            source.setCursor(cursor);
         }
     }
 

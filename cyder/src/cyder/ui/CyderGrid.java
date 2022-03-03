@@ -881,7 +881,9 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
-    //todo comment component resizer
+    //todo @SuppressCyderInspection annotation,
+    // todo inform of triggers for tests when printing tests
+    // todo only print manual tests, don't be able to call unit tests
 
     //todo disable focus of all components when revalidating a layout
 
