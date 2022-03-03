@@ -881,6 +881,10 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
+    //todo comment component resizer
+
+    //todo disable focus of all components when revalidating a layout
+
     //todo frame shouldn't have to have background resizing on for layout to refresh
 
     //todo if panel, frame needs to update content pane on resize

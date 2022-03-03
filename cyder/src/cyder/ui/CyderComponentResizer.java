@@ -1,63 +1,129 @@
 package cyder.ui;
 
+import com.google.common.collect.ImmutableMap;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentResizer extends MouseAdapter {
+/**
+ * A listener to allow custom, undecorated frames to be resizable.
+ */
+public class CyderComponentResizer extends MouseAdapter {
+    /**
+     * The default minimum size to use for a resizable component.
+     */
     private final Dimension MINIMUM_SIZE = new Dimension(10, 10);
+
+    /**
+     * The default maximum size to use for a resizable component.
+     */
     private final Dimension MAXIMUM_SIZE = new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-    private Map<Integer, Integer> cursors = new HashMap<>(); {
-        cursors.put(1, Cursor.N_RESIZE_CURSOR);
-        cursors.put(2, Cursor.W_RESIZE_CURSOR);
-        cursors.put(4, Cursor.S_RESIZE_CURSOR);
-        cursors.put(8, Cursor.E_RESIZE_CURSOR);
-        cursors.put(3, Cursor.NW_RESIZE_CURSOR);
-        cursors.put(9, Cursor.NE_RESIZE_CURSOR);
-        cursors.put(6, Cursor.SW_RESIZE_CURSOR);
-        cursors.put(12, Cursor.SE_RESIZE_CURSOR);
-    }
+    /**
+     * A collection of cursors to use for border cursors to indicate that the component is resizable.
+     */
+    private final Map<Integer, Integer> cursors = ImmutableMap.of(
+            1, Cursor.N_RESIZE_CURSOR,
+            2, Cursor.W_RESIZE_CURSOR,
+            4, Cursor.S_RESIZE_CURSOR,
+            8, Cursor.E_RESIZE_CURSOR,
+            3, Cursor.NW_RESIZE_CURSOR,
+            9, Cursor.NE_RESIZE_CURSOR,
+            6, Cursor.SW_RESIZE_CURSOR,
+            12, Cursor.SE_RESIZE_CURSOR
+    );
 
+    /**
+     * The drag insets to apply to the applied component.
+     */
     private Insets dragInsets;
+
+    /**
+     * The size to snap to when resizing a component.
+     */
     private Dimension snapSize;
 
-    private int direction;
+    /**
+     * The direction of the current drag.
+     */
+    private int dragDirection;
+
+    /**
+     * The northern drag direction integer.
+     */
     protected static final int NORTH = 1;
+
+    /**
+     * The western drag direction integer.
+     */
     protected static final int WEST = 2;
+
+    /**
+     * The southern drag direction integer.
+     */
     protected static final int SOUTH = 4;
+
+    /**
+     * The eastern drag direction integer.
+     */
     protected static final int EAST = 8;
 
+    /**
+     * The source cursor from the dragging component.
+     */
     private Cursor sourceCursor;
-    private boolean resizing;
-    private Rectangle bounds;
-    private Point pressed;
-    private boolean autoscrolls;
 
+    /**
+     * Whether resizing is currently underway.
+     */
+    private boolean currentlyResizing;
+
+    /**
+     * The current bounds of the component to resize.
+     * A singular dimension is resized at a time using the direction.
+     */
+    private Rectangle currentBounds;
+
+    /**
+     * The point on the dragging component that was pressed.
+     */
+    private Point pressed;
+
+    /**
+     * Whether the dragging component has auto scrolling enabled so we can re-enable it.
+     */
+    private boolean componentIsAutoscroll;
+
+    /**
+     * The current minimum size for the resizable component.
+     */
     private Dimension minimumSize = MINIMUM_SIZE;
+
+    /**
+     * The current maximum size for the resizable component.
+     */
     private Dimension maximumSize = MAXIMUM_SIZE;
 
-    public ComponentResizer() {
+    /**
+     * Constructs a new resizable component
+     */
+    public CyderComponentResizer() {
         this(new Insets(5, 5, 5, 5), new Dimension(1, 1));
     }
 
-    public ComponentResizer(Component... components) {
-        this(new Insets(5, 5, 5, 5), new Dimension(1, 1), components);
-    }
-
-    public ComponentResizer(Insets dragInsets, Component... components) {
-        this(dragInsets, new Dimension(1, 1), components);
-    }
-
-    public ComponentResizer(Insets dragInsets, Dimension snapSize, Component... components) {
-        setDragInsets( dragInsets );
-        setSnapSize( snapSize );
-        registerComponent( components );
+    /**
+     * Constructs a new component resizer
+     *
+     * @param dragInsets the drag insets for the component
+     * @param snapSize the snap size for the component
+     */
+    private CyderComponentResizer(Insets dragInsets, Dimension snapSize) {
+        this.setDragInsets(dragInsets);
+        this.setSnapSize(snapSize);
     }
 
     public Insets getDragInsets() {
@@ -65,7 +131,7 @@ public class ComponentResizer extends MouseAdapter {
     }
 
     public void setDragInsets(Insets dragInsets) {
-        validateMinimumAndInsets(minimumSize, dragInsets);
+        this.validateMinimumAndInsets(minimumSize, dragInsets);
         this.dragInsets = dragInsets;
     }
 
@@ -82,7 +148,7 @@ public class ComponentResizer extends MouseAdapter {
     }
 
     public void setMinimumSize(Dimension minimumSize) {
-        validateMinimumAndInsets(minimumSize, dragInsets);
+        this.validateMinimumAndInsets(minimumSize, dragInsets);
         this.minimumSize = minimumSize;
     }
 
@@ -116,77 +182,92 @@ public class ComponentResizer extends MouseAdapter {
             throw new IllegalArgumentException("Minimum size cannot be less than drag insets");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
         Component source = e.getComponent();
         Point location = e.getPoint();
-        direction = 0;
+        dragDirection = 0;
 
         if (location.x < dragInsets.left)
-            direction += WEST;
+            dragDirection += WEST;
 
         if (location.x > source.getWidth() - dragInsets.right - 1)
-            direction += EAST;
+            dragDirection += EAST;
 
         if (location.y < dragInsets.top)
-            direction += NORTH;
+            dragDirection += NORTH;
 
         if (location.y > source.getHeight() - dragInsets.bottom - 1)
-            direction += SOUTH;
+            dragDirection += SOUTH;
 
-        if (direction == 0) {
+        if (dragDirection == 0) {
             source.setCursor(sourceCursor);
         } else {
-            int cursorType = cursors.get(direction);
+            int cursorType = cursors.get(dragDirection);
             Cursor cursor = Cursor.getPredefinedCursor(cursorType);
             source.setCursor( cursor );
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (!resizing) {
+        if (!currentlyResizing) {
             Component source = e.getComponent();
             sourceCursor = source.getCursor();
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseExited(MouseEvent e) {
-        if (!resizing) {
+        if (!currentlyResizing) {
             Component source = e.getComponent();
             source.setCursor(sourceCursor);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mousePressed(MouseEvent e) {
-        if (direction == 0)
+        if (dragDirection == 0)
             return;
 
-        resizing = true;
+        currentlyResizing = true;
 
         Component source = e.getComponent();
         pressed = e.getPoint();
         SwingUtilities.convertPointToScreen(pressed, source);
-        bounds = source.getBounds();
+        currentBounds = source.getBounds();
 
         if (source instanceof JComponent && !(source instanceof CyderFrame)) {
             JComponent jc = (JComponent) source;
-            autoscrolls = jc.getAutoscrolls();
+            componentIsAutoscroll = jc.getAutoscrolls();
             jc.setAutoscrolls(false);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
-        resizing = false;
+        currentlyResizing = false;
 
         Component source = e.getComponent();
         source.setCursor( sourceCursor );
 
         if (source instanceof JComponent  && !(source instanceof CyderFrame)) {
-            ((JComponent) source).setAutoscrolls(autoscrolls);
+            ((JComponent) source).setAutoscrolls(componentIsAutoscroll);
         }
 
         // if CyderFrame then refresh background when dragging is done and not as it is being resized
@@ -197,16 +278,19 @@ public class ComponentResizer extends MouseAdapter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (!resizing)
+        if (!currentlyResizing)
             return;
 
         Component source = e.getComponent();
         Point dragged = e.getPoint();
         SwingUtilities.convertPointToScreen(dragged, source);
 
-        changeBounds(source, direction, bounds, pressed, dragged);
+        changeBounds(source, dragDirection, currentBounds, pressed, dragged);
 
         // if a cyderframe with a panel, refresh always
         if (source instanceof CyderFrame) {
@@ -216,6 +300,15 @@ public class ComponentResizer extends MouseAdapter {
         }
     }
 
+    /**
+     * Updates the component bounds on drag events.
+     *
+     * @param source the source component
+     * @param direction the direction of the drag
+     * @param bounds the old bounds of the component
+     * @param pressed the point at which the component was pressed
+     * @param current the current point at which the component is pressed
+     */
     protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
         if (!resizingAllowed)
             return;
@@ -263,56 +356,107 @@ public class ComponentResizer extends MouseAdapter {
         source.validate();
     }
 
+    /**
+     * Whether background resizing is currently allowed.
+     */
     private boolean backgroundRefreshOnResize;
-    public boolean getBackgroundRefreshOnResize() {
+
+    /**
+     * Returns whether background resizing is enabled.
+     *
+     * @return whether background resizing is enabled
+     */
+    public boolean getBackgroundResizing() {
         return backgroundRefreshOnResize;
     }
 
-    public void enableBackgroundResize(Boolean b) {
+    /**
+     * Sets whether background resizing is enabled.
+     *
+     * @param b whether background resizing is enabled
+     */
+    public void setBackgroundResizing(Boolean b) {
         backgroundRefreshOnResize = b;
     }
 
+    /**
+     * Returns the dragged distance rounding to the nearest snap size.
+     *
+     * @param larger the larger of the two values
+     * @param smaller the smaller of the two values
+     * @param snapSize the current snap size
+     * @return the distance dragged between the two values
+     * rounded to the nearest snap size increment.
+     */
     private int getDragDistance(int larger, int smaller, int snapSize) {
         int halfway = snapSize / 2;
         int drag = larger - smaller;
-        drag += (drag < 0) ? -halfway : halfway;
+        drag += (drag < 0) ? - halfway : halfway;
         drag = (drag / snapSize) * snapSize;
 
         return drag;
     }
 
+    /**
+     * Returns the drag after accounting for possible out of bounds dragging and the snap size.
+     *
+     * @param drag the current drag distance
+     * @param snapSize the current snap size
+     * @param dimension the current dimension we are working with such as height
+     * @param minimum the minimum of the dimension
+     * @param maximum the maximum of the dimension
+     * @return the bounded drag after accounting for the outlined conditions
+     */
     private int getDragBounded(int drag, int snapSize, int dimension, int minimum, int maximum) {
         while (dimension + drag < minimum)
             drag += snapSize;
-
         while (dimension + drag > maximum)
             drag -= snapSize;
 
         return drag;
     }
 
+    /**
+     * Returns the current maximum size of the window the component is located on.
+     *
+     * @param source the source component
+     * @return the current maximum size of the window the component is located on
+     */
     private Dimension getBoundingSize(Component source) {
         if (source instanceof Window) {
-            GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            Rectangle bounds = env.getMaximumWindowBounds();
+            Rectangle bounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
             return new Dimension(bounds.width, bounds.height);
-        }
-
-        else {
+        } else {
             return source.getParent().getSize();
         }
     }
 
+    /**
+     * Whether resizing is allowed.
+     */
     private boolean resizingAllowed = true;
 
-    public void setResizing(Boolean b) {
+    /**
+     * Sets whether resizing should be allowed.
+     *
+     * @param b whether resizing should be allowed
+     */
+    public void setResizingAllowed(Boolean b) {
         resizingAllowed = b;
     }
 
-    public boolean getResizing() {
+    /**
+     * Returns whether resizing is allowed.
+     *
+     * @return whether resizing is allowed
+     */
+    public boolean isResizingEnabled() {
         return resizingAllowed;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);

@@ -1667,7 +1667,7 @@ public class CyderFrame extends JFrame {
     /**
      * The component resizing object for this CyderFrame.
      */
-    private ComponentResizer cr;
+    private CyderComponentResizer cr;
 
     /**
      * Whether to allow background resizing on CyderFrame resize events.
@@ -1675,7 +1675,7 @@ public class CyderFrame extends JFrame {
      * @param allowed whether to allow background resizing on CyderFrame resize events
      */
     public void setBackgroundResizing(Boolean allowed) {
-        cr.enableBackgroundResize(allowed);
+        cr.setBackgroundResizing(allowed);
     }
 
     /**
@@ -1686,9 +1686,9 @@ public class CyderFrame extends JFrame {
         if (cr != null)
             cr.deregisterComponent(this);
 
-        cr = new ComponentResizer();
+        cr = new CyderComponentResizer();
         cr.registerComponent(this);
-        cr.setResizing(true);
+        cr.setResizingAllowed(true);
         cr.setMinimumSize(getMinimumSize());
         cr.setMaximumSize(getMaximumSize());
         cr.setSnapSize(getSnapSize());
@@ -1702,7 +1702,7 @@ public class CyderFrame extends JFrame {
      * @param allow whether frame resizing is allowed
      */
     public void setFrameResizing(boolean allow) {
-        cr.setResizing(allow);
+        cr.setResizingAllowed(allow);
     }
 
     /**
@@ -1718,7 +1718,7 @@ public class CyderFrame extends JFrame {
     @Override
     public void setResizable(boolean allow) {
         if (cr != null)
-            cr.setResizing(allow);
+            cr.setResizingAllowed(allow);
     }
 
     /**
@@ -1732,7 +1732,7 @@ public class CyderFrame extends JFrame {
             // mainly needed for icon label and pane bounds, layout isn't usually expensive
             refreshLayout();
 
-            if (cr != null && cr.getBackgroundRefreshOnResize()) {
+            if (cr != null && cr.getBackgroundResizing()) {
                 iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }
