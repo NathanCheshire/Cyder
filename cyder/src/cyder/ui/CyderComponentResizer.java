@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import cyder.utilities.ReflectionUtil;
 
@@ -142,7 +141,6 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param dragInsets the current drag insets
      */
     public void setDragInsets(Insets dragInsets) {
-        this.validateMinimumAndInsets(minimumSize, dragInsets);
         this.dragInsets = dragInsets;
     }
 
@@ -179,7 +177,6 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param minimumSize the current minimum size
      */
     public void setMinimumSize(Dimension minimumSize) {
-        this.validateMinimumAndInsets(minimumSize, dragInsets);
         this.minimumSize = minimumSize;
     }
 
@@ -221,19 +218,6 @@ public class CyderComponentResizer extends MouseAdapter {
      */
     public void setSnapSize(Dimension snapSize) {
         this.snapSize = snapSize;
-    }
-
-    /**
-     * Validates the insets based off of the provided dimensions.
-     *
-     * @param minimum the minimum dimenssion
-     * @param drag the drag insets
-     */
-    private void validateMinimumAndInsets(Dimension minimum, Insets drag) {
-        Preconditions.checkArgument(minimum.width < drag.left + drag.right,
-                "Minimum size cannot be less than drag insets");
-        Preconditions.checkArgument(minimum.height < drag.top + drag.bottom,
-                "Minimum size cannot be less than drag insets");
     }
 
     /**

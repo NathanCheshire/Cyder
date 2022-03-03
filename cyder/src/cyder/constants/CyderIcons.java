@@ -97,10 +97,8 @@ public class CyderIcons {
      * @return the ImageIcon of the requested dimensions
      */
     public static ImageIcon generateDefaultBackground(int width, int height) {
-        return new ImageIcon(ImageUtil.getImageGradient(width, height,
-                new Color(252,245,255),
-                new Color(164,154,187),
-                new Color(249, 233, 241)));
+        // todo invert me when in dark mode, invert of this should be default text color too I guess
+        return ImageUtil.imageIconFromColor(new Color(249, 233, 241), width, height);
     }
 
     public static ImageIcon getCurrentCyderIcon() {

@@ -887,18 +887,11 @@ public class CyderGrid extends JLabel {
 
     //todo disable focus of all components when revalidating a layout
 
-    //todo frame shouldn't have to have background resizing on for layout to refresh
-
-    //todo if panel, frame needs to update content pane on resize
-    // events immediately and not wait til end of resize event
-
     //todo utilize for relative zooming after other features
     // done and controls grid finished using a grid layout
 
     //todo after that and other better secondary picture resizer, pixelator etc.
     // add a menu popup if you click a frame's title
-
-    //todo make default background just vanila, inverse for dark mode
 
     //todo menu for frame only available if title label has valid title
     //todo new component to slide in with clickable menu text like old console menu
