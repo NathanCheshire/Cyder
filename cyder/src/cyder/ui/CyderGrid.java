@@ -886,6 +886,7 @@ public class CyderGrid extends JLabel {
     // todo only print manual tests, don't be able to call unit tests
 
     //todo disable focus of all components when revalidating a layout
+    // this should be implemented in comonent resizer
 
     //todo utilize for relative zooming after other features
     // done and controls grid finished using a grid layout

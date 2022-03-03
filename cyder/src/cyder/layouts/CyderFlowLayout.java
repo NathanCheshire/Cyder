@@ -9,13 +9,13 @@ import java.util.ArrayList;
 public class CyderFlowLayout extends CyderBaseLayout {
     //alignment determines what to do with excess space
     private static final Alignment DEFAULT_ALIGNMENT = Alignment.CENTER;
-    private Alignment alignment = DEFAULT_ALIGNMENT;
+    private final Alignment alignment;
 
     //gaps are the spacing between the components themselves
     private static final int DEFAULT_HGAP = 5;
     private static final int DEFAULT_VGAP = 5;
-    private int hgap = DEFAULT_HGAP;
-    private int vgap = DEFAULT_VGAP;
+    private int hgap;
+    private int vgap;
 
     //padding is the spacing between components the frame bounds
     private static final int DEFAULT_HPADDING = 5;
@@ -73,7 +73,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
     }
 
     //keep track of components on this panel
-    private ArrayList<Component> flowComponents = new ArrayList<>();
+    private final ArrayList<Component> flowComponents = new ArrayList<>();
 
     /**
      * Adds the provided component to the panel if the panel does not already contain it.

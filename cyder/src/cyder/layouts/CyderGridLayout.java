@@ -6,12 +6,13 @@ import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
 
+@SuppressWarnings("FieldMayBeFinal") /* will become redundant eventually */
 public class CyderGridLayout extends CyderBaseLayout {
     //the default cells to use for both the vertical and horizontal axes
     public static final int DEFAULT_CELLS = 1;
 
-    private int horizontalCells = DEFAULT_CELLS;
-    private int vertialCells = DEFAULT_CELLS;
+    private int horizontalCells;
+    private int vertialCells;
 
     /**
      * Enum to use to figure out how to position components if/when overflow occurs
@@ -23,7 +24,7 @@ public class CyderGridLayout extends CyderBaseLayout {
     }
 
     //the components linked to the CyderPanel this LM is managing
-    private GridComponent[][] components;
+    private final GridComponent[][] components;
 
     /**
      * Class instantiation is not allowed unless the cells are specified
@@ -72,11 +73,11 @@ public class CyderGridLayout extends CyderBaseLayout {
             return;
 
         //partition width into how many horizontal grid spaces we have
-        int widthPartition = (int) Math.floor(associatedPanel.getWidth() / horizontalCells);
+        int widthPartition = associatedPanel.getWidth() / horizontalCells;
         //partition height into how many vertical grid spaces we have
-        int heightPartition = (int) Math.floor((associatedPanel.getHeight() / vertialCells));
+        int heightPartition = associatedPanel.getHeight() / vertialCells;
 
-        //keep track of a possible focus owner
+        // keep track of a possible focus owner
         Component focusOwner = null;
 
         //for all the cells in our grid
@@ -177,7 +178,7 @@ public class CyderGridLayout extends CyderBaseLayout {
             }
         }
 
-        //return focus to original owner
+        // return focus to original owner
         if (focusOwner != null)
             focusOwner.requestFocus();
     }
@@ -232,9 +233,8 @@ public class CyderGridLayout extends CyderBaseLayout {
      * @param component the component to add to the grid
      * @param x the x value to add the component to
      * @param y the y value to add the component to
-     * @return whether or not the component was added to the LM
      */
-    public boolean addComponent(Component component, int x, int y) {
+    public void addComponent(Component component, int x, int y) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
         if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
@@ -242,13 +242,12 @@ public class CyderGridLayout extends CyderBaseLayout {
 
         if (components[x][y] != null) {
             //component already here, figure out how to handle this case
-            return false;
+            return;
         }
 
         components[x][y] = new GridComponent(component, component.getWidth(),
                 component.getHeight(), Position.MIDDLE_CENTER);
         this.repaint();
-        return true;
     }
 
     /**
@@ -259,9 +258,8 @@ public class CyderGridLayout extends CyderBaseLayout {
      * @param y the y value to add the component to
      * @param sectionPosition the position value to use to
      *        figure out how to place the component in its cell
-     * @return whether or not the component was added to the grid
      */
-    public boolean addComponent(Component component, int x, int y, Position sectionPosition) {
+    public void addComponent(Component component, int x, int y, Position sectionPosition) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
         if (x < 0 || x > horizontalCells - 1 || y < 0 || y > vertialCells - 1)
@@ -269,13 +267,12 @@ public class CyderGridLayout extends CyderBaseLayout {
 
         if (components[x][y] != null) {
             //component already here, figure out how to handle this case
-            return false;
+            return;
         }
 
         components[x][y] = new GridComponent(component, component.getWidth(),
                 component.getHeight(), sectionPosition);
         this.repaint();
-        return true;
     }
 
     /**
