@@ -881,6 +881,8 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
+    //todo frame shouldn't have to have background resizing on for layout to refresh
+
     //todo if panel, frame needs to update content pane on resize
     // events immediately and not wait til end of resize event
 

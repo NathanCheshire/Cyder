@@ -48,7 +48,7 @@ public class CalculatorWidget {
         calculatorField.setBackground(Color.WHITE);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
         calculatorField.setToolTipText("Use radians and not degrees for any trig functions");
-        calculatorField.setFont(CyderFonts.segoe30);
+        calculatorField.setFont(CyderFonts.agencyFB30);
         calculatorField.setBounds(50,50,300,50);
         calculatorFrame.getContentPane().add(calculatorField);
 
@@ -134,10 +134,9 @@ public class CalculatorWidget {
             try {
                 double result = new DoubleEvaluator().evaluate(calculatorField.getText().trim());
 
-                NotificationBuilder builder = null;
+                NotificationBuilder builder;
 
                 if (result == Double.POSITIVE_INFINITY) {
-                    // todo not exactly working, comment notification builder
                     builder = new NotificationBuilder(  "+∞");
                 } else if (result == Double.NEGATIVE_INFINITY) {
                     builder = new NotificationBuilder( "-∞");

@@ -12,17 +12,13 @@
 [19-34-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [19-34-48] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [19-34-48] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[19-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [19-34-48] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [19-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [19-34-48] [SYSTEM_IO]: Userdata requested: RandomBackground
 [19-34-48] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-34-48] [SYSTEM_IO]: Userdata requested: fullscreen
-[19-34-48] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-34-48] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-34-48] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [19-34-48] [THREAD STARTED]: Console Printing Animation
 [19-34-48] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-34-48] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -54,9 +50,7 @@
 [19-34-54] [CONSOLE_OUT]: [STRING] Opening widget: ColorConverterWidget
 [19-34-54] [WIDGET OPENED]: COLOR
 [19-34-54] [HANDLE]: PRIMARY HANDLE
-[19-34-55] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-34-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[19-35-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
 [19-35-05] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [19-35-05] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1600, 178, 800, 830)], hash = [1187560285], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
 [19-35-05] [THREAD STARTED]: Paint CyderFrame dispose thread

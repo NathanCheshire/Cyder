@@ -290,17 +290,6 @@ public class CyderFrame extends JFrame {
                     super.repaint();
                 }
             }
-
-            @Override
-            public void setBounds(int x, int y, int w, int h) {
-                super.setBounds(x, y, w, h);
-
-                //if there's a panel we need to extend its bounds too
-                if (cyderPanel != null && w > 0 && h > 0) {
-                    cyderPanel.setBounds(borderLen, DragLabel.DEFAULT_HEIGHT, getWidth() - 2 * borderLen,
-                            getHeight() - DragLabel.DEFAULT_HEIGHT - borderLen);
-                }
-            }
         };
         iconLabel.setIcon(background);
         iconLabel.setBounds(frameResizingLen,frameResizingLen,
@@ -1740,10 +1729,8 @@ public class CyderFrame extends JFrame {
             if (iconLabel == null)
                 return;
 
-            iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,
-                    height - 2 * frameResizingLen);
-            iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen,
-                    height - 2 * frameResizingLen);
+            // mainly needed for icon label and pane bounds, layout isn't usually expensive
+            refreshLayout();
 
             if (cr != null && cr.getBackgroundRefreshOnResize()) {
                 iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
@@ -1754,6 +1741,21 @@ public class CyderFrame extends JFrame {
             repaint();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Refreshes the icon label, icon pane, and associated CyderPanel if present.
+     */
+    public void refreshLayout() {
+        iconLabel.setBounds(frameResizingLen,frameResizingLen,width - 2 * frameResizingLen,
+                height - 2 * frameResizingLen);
+        iconPane.setBounds(frameResizingLen,frameResizingLen, width - 2 * frameResizingLen,
+                height - 2 * frameResizingLen);
+
+        if (cyderPanel != null) {
+            cyderPanel.setBounds(borderLen, DragLabel.DEFAULT_HEIGHT, getWidth() - 2 * borderLen,
+                    getHeight() - DragLabel.DEFAULT_HEIGHT - borderLen);
         }
     }
 

@@ -138,7 +138,7 @@ public class ComponentResizer extends MouseAdapter {
             source.setCursor(sourceCursor);
         } else {
             int cursorType = cursors.get(direction);
-            Cursor cursor = Cursor.getPredefinedCursor( cursorType );
+            Cursor cursor = Cursor.getPredefinedCursor(cursorType);
             source.setCursor( cursor );
         }
     }
@@ -189,7 +189,7 @@ public class ComponentResizer extends MouseAdapter {
             ((JComponent) source).setAutoscrolls(autoscrolls);
         }
 
-        //if CyderFrame then revalidate background when dragging is done
+        // if CyderFrame then refresh background when dragging is done and not as it is being resized
         if (source instanceof CyderFrame) {
             if (backgroundRefreshOnResize) {
                 ((CyderFrame) source).refreshBackground();
@@ -207,6 +207,13 @@ public class ComponentResizer extends MouseAdapter {
         SwingUtilities.convertPointToScreen(dragged, source);
 
         changeBounds(source, direction, bounds, pressed, dragged);
+
+        // if a cyderframe with a panel, refresh always
+        if (source instanceof CyderFrame) {
+            if (backgroundRefreshOnResize) {
+                ((CyderFrame) source).refreshLayout();
+            }
+        }
     }
 
     protected void changeBounds(Component source, int direction, Rectangle bounds, Point pressed, Point current) {
