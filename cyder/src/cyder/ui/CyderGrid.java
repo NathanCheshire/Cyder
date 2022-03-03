@@ -889,6 +889,8 @@ public class CyderGrid extends JLabel {
     //todo after that and other better secondary picture resizer, pixelator etc.
     // add a menu popup if you click a frame's title
 
+    //todo make default background just vanila, inverse for dark mode
+
     //todo menu for frame only available if title label has valid title
     //todo new component to slide in with clickable menu text like old console menu
 

@@ -20,25 +20,64 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise.
+ */
 public class PerlinWidget {
+    /**
+     * Prevent illegal class instantiation.
+     */
     private PerlinWidget() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
-    //ui
+    /**
+     * The checkbox for animation.
+     */
     private static CyderCheckbox animateCheckBox;
+
+    /**
+     * The button which chooses a new seed for the noise.
+     */
     private static CyderButton generate;
+
+    /**
+     * The button which iterates to the next iteration of the noise.
+     */
     private static CyderButton nextIteration;
+
+    /**
+     * The frame used for aniamtion
+     */
     private static CyderFrame perlinFrame;
+
+    /**
+     * The overriden label to paint the noise calculations on.
+     */
     private static JLabel noiseLabel;
 
-    //open simplex vars
-    private static double FEATURE_SIZE = 24.0;
+    /**
+     * The minimum feature size for open simplex noise.
+     */
+    public static final double MINIMUM_FEATURE_SIZE = 24.0;
+
+    /**
+     * The default feature size for open simplex nosie.
+     */
+    public static final double DEFAULT_FEATURE_SIZE = 24.0;
+
+    /**
+     * The maximum feature size for open simplex noise.
+     */
+    public static final double MAXIMUM_FEATURE_SIZE = MINIMUM_FEATURE_SIZE * 2.0;
+
+    /**
+     * The feature size for open simplex noise.
+     */
+    private static double FEATURE_SIZE = DEFAULT_FEATURE_SIZE;
     private static OpenSimplexAlgorithms noise;
     private static double timeStep = 0;
     private static JSlider featureSlider;
-    private static final double minFeatureSize = 24.0;
-    private static final double maxFeatureSize = minFeatureSize * 2.0;
 
     private static CyderSwitcher switcher;
     private static final SwitcherState twoDimensionState =
@@ -63,8 +102,14 @@ public class PerlinWidget {
     private static int octaves = 1;
     private static final int maxOctaves = 10;
 
+    /**
+     * Determines whether the frame has been requested to close or is already closed.
+     */
     private static boolean closed = true;
 
+    /**
+     * Shows the perlin noise widget.
+     */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "PERLIN");
@@ -280,7 +325,8 @@ public class PerlinWidget {
         featureSlider.setVisible(true);
         featureSlider.setValue(500);
         featureSlider.addChangeListener(e -> {
-            FEATURE_SIZE = (featureSlider.getValue() / 1000.0) * (maxFeatureSize - minFeatureSize) + minFeatureSize;
+            FEATURE_SIZE = (featureSlider.getValue() / 1000.0)
+                    * (MAXIMUM_FEATURE_SIZE - MINIMUM_FEATURE_SIZE) + MINIMUM_FEATURE_SIZE;
 
             if (switcher.getCurrentState().equals(threeDimensionState) && !timer.isRunning()) {
                 for (int y = 0; y < resolution; y++) {

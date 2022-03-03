@@ -12,17 +12,13 @@
 [17-49-41] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [17-49-41] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [17-49-41] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[17-49-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-49-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-49-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-49-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-49-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [17-49-42] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [17-49-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-49-42] [SYSTEM_IO]: Userdata requested: RandomBackground
 [17-49-42] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-49-42] [SYSTEM_IO]: Userdata requested: fullscreen
-[17-49-42] [SYSTEM_IO]: Userdata requested: FullScreen
-[17-49-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-49-42] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [17-49-42] [THREAD STARTED]: Console Printing Animation
 [17-49-42] [SYSTEM_IO]: Userdata requested: OutputBorder
 [17-49-42] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -47,10 +43,7 @@
 [17-49-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-49-43] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [17-49-43] [THREAD STARTED]: Notificaiton vanish animater 1442698203
-[17-49-45] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-49-49] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-49-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-49-56] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-49-56] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [17-49-58] [SYSTEM_IO]: Userdata requested: Background
 [17-50-00] [CLIENT]: perlin
 [17-50-00] [SYSTEM_IO]: Userdata requested: filterchat
@@ -58,38 +51,17 @@
 [17-50-00] [WIDGET OPENED]: PERLIN
 [17-50-00] [HANDLE]: PRIMARY HANDLE
 [17-50-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-50-03] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[17-50-04] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [5x]
 [17-50-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-50-05] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(120, 650, 50, 50)], hash = [1101069979], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-50-12] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-12] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-50-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [4x]
 [17-50-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(400, 630, 170, 40)], hash = [851598913], parentFrame = [Perlin Noise], associated text = [Next Iteration], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [14x]
 [17-50-17] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-18] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-18] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -100,28 +72,10 @@
 [17-50-19] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-50-20] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-21] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(120, 650, 50, 50)], hash = [1101069979], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-21] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [13x]
 [17-50-23] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [43515770], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [43515770], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [43515770], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[17-50-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [5x]
+[17-50-26] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [43515770], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [17-50-27] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-50-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [43515770], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-28] [ACTION]: Component name = [cyder.ui.CyderCheckbox], bounds = [(120, 650, 50, 50)], hash = [1101069979], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -130,17 +84,12 @@
 [17-50-30] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [43515770], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [17-50-31] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-34] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-38] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-50-38] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [17-50-39] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-50-41] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-49] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-50-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-50-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [17-50-56] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1065668077], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[17-50-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[17-51-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-51-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [17-51-03] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [17-51-03] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1148, 209, 800, 830)], hash = [1527046954], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
 [17-51-03] [THREAD STARTED]: Paint CyderFrame dispose thread
