@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 
 import javax.swing.*;
@@ -185,5 +186,17 @@ public class ColorUtil {
      */
     public static Color getOppositeColor(Color c) {
         return new Color(255 - c.getRed(), 255 - c.getGreen(), 255 - c.getBlue(), c.getAlpha());
+    }
+
+    /**
+     * Returns a nice string form of the provided color.
+     *
+     * @param color the color to obtain a string representation of
+     * @return a nice string form of the provided color
+     */
+    public static String getPrintableColor(Color color) {
+        Preconditions.checkNotNull(color);
+
+        return "[" + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() + "]";
     }
 }

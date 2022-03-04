@@ -1,0 +1,22 @@
+[23-06-04] [ENTRY]: [Nathan]
+[23-06-04] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-06-05] [THREAD STARTED]: Splash Loader
+[23-06-05] [THREAD STARTED]: Splash Animation
+[23-06-06] [CORRUPTION]: [Resulting Popup]
+Unfortunately a user's data file was corrupted and had to be deleted. The following files still exists and are associated with the user at the following path:<br/>Cyder/dynamic/7d7ebb00-81fe-329f-8a78-62f463d0b7da<br/>Files:<br/>Truth<br/>AlbumArt<br/>Chillstep  Wayr - Against Fate<br/>Chillstep  Wayr - Follow the Light<br/>Chillstep Anima - You Are Truth<br/>Neutralize - Lost  Chillstep<br/>Userdata
+[23-06-06] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-06-06] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-06-06] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-06-06] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[23-06-06] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-06-06] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-06-06] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [955948039], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-06-06] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-06-06] [THREAD STARTED]: Login printing animation
+[23-06-06] [THREAD STARTED]: Login Input Caret Position Updater
+[23-06-13] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Cyder Login [Insomnia Build]], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-06-13] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(934, 233, 600, 400)], hash = [1925785585], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[23-06-13] [THREAD STARTED]: Cyder Login [Insomnia Build] CyderFrame dispose thread
+[23-06-13] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-06-13] [EXIT]: [RUNTIME] 9s
+[23-06-13] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

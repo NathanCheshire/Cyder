@@ -111,12 +111,6 @@ public class PaintWidget {
             paintControlsFrame.dispose();
 
         recentColors = new ArrayList<>();
-        recentColors.add(CyderColors.navy);
-        recentColors.add(CyderColors.regularPink);
-        recentColors.add(CyderColors.regularBlue);
-        recentColors.add(CyderColors.regularOrange);
-        recentColors.add(CyderColors.navy);
-        recentColors.add(CyderColors.regularPink);
 
         paintControlsFrame = new CyderFrame(frameLength,200);
         paintControlsFrame.setTitle("Paint Controls");
@@ -187,9 +181,33 @@ public class PaintWidget {
         recentColorsBlock.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(e.getX() + "," + e.getY());
+                int x = e.getX();
+                int y = e .getY();
+
+                // sub padding from both
+                x -= padding;
+                y -= padding;
+
+                // figure out grid points
+                int xGrid = x / colorBlockLen;
+                int yGrid = y / colorBlockLen;
+                int revIndex = xGrid + yGrid * colorsPerRow;
+
+                // make sure in bounds
+                if (recentColors.size() < 1 + revIndex)
+                    return;
+
+                // get clicked color
+                Color clickedColor = recentColors.get(recentColors.size() - 1 - revIndex);
+                setNewPaintColor(clickedColor);
             }
         });
+
+        //todo testing adding colors
+        setNewPaintColor(CyderColors.navy);
+        setNewPaintColor(CyderColors.navy);
+        setNewPaintColor(CyderColors.regularPink);
+        setNewPaintColor(CyderColors.navy);
 
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
@@ -419,17 +437,40 @@ public class PaintWidget {
      * @param newColor the new color
      */
     private static void setNewPaintColor(Color newColor) {
+        // if no change, ignore
         if (newColor.equals(currentPaintColor))
             return;
 
-        //todo if in the list, remove since adding to front
-
+        // set the current paint
         currentPaintColor = newColor;
-        colorHexField.setText(ColorUtil.rgbToHexString(newColor));
 
-        recentColors.add(newColor);
+        // update the hex field with our current color
+        //todo colorHexField.setText(ColorUtil.rgbToHexString(newColor));
 
-        // set paint
+        // ensure if list contains color, it's pulled to the front
+        // of recent colors and is not duplicated in the list
+        if (recentColors.contains(newColor)) {
+            ArrayList<Color> newRecentColors = new ArrayList<>();
+
+            // add all colors that aren't the new one
+            for (Color recentColor : recentColors) {
+                if (!recentColor.equals(newColor))
+                    newRecentColors.add(recentColor);
+            }
+
+            // add the new one to the end
+            newRecentColors.add(newColor);
+
+            // set recent colors to new object
+            recentColors = newRecentColors;
+        } else {
+            recentColors.add(newColor);
+        }
+
+        // repaint block to update colors
+        recentColorsBlock.repaint();
+
+        // set grid's paint
         cyderGrid.setNodeColor(currentPaintColor);
     }
 }
