@@ -7,17 +7,13 @@
 [20-48-59] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [20-48-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [20-48-59] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[20-48-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-48-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-48-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-48-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-48-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [20-48-59] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [20-48-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [20-48-59] [SYSTEM_IO]: Userdata requested: RandomBackground
 [20-48-59] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-48-59] [SYSTEM_IO]: Userdata requested: fullscreen
-[20-48-59] [SYSTEM_IO]: Userdata requested: FullScreen
-[20-48-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-48-59] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [20-48-59] [THREAD STARTED]: Console Printing Animation
 [20-48-59] [SYSTEM_IO]: Userdata requested: OutputBorder
 [20-48-59] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -43,5 +39,5 @@
 [20-49-00] [THREAD STARTED]: Notificaiton vanish animater -1648851795
 [20-49-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [20-49-01] [SYSTEM_IO]: Userdata requested: Background
-[20-49-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-49-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-49-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[22-22-43] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

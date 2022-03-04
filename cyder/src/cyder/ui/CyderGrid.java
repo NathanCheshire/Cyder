@@ -869,6 +869,20 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Rotates the nodes in the selected region by 90 degrees to the left.
+     */
+    public void rotateRegion() {
+
+    }
+
+    /**
+     * Reflects the selected region horizontally
+     */
+    public void reflectRegionHorizontally() {
+
+    }
+
+    /**
      * Converts the provided point in mouse space to the equivalent
      * grid node based on the current node count and length.
      *
@@ -890,8 +904,9 @@ public class CyderGrid extends JLabel {
     //todo menu for frame only available if title label has valid title
     //todo new component to slide in with clickable menu text like old console menu
 
-    //todo put image average, image pixelator, and image scaler all in a image factory widget
-    // most methods should be in image utils probably
+    //todo features: layer images, pixelate, resize
+
+    //todo square album art image for audio player when not in mini mode, make two minimodes
 
     /**
      * Converts the provided grid node to it's mouse space equivalent
