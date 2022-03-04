@@ -2,8 +2,9 @@ package cyder.utilities;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
-import cyder.annotations.Widget;
 import cyder.annotations.ManualTest;
+import cyder.annotations.SuppressCyderInspections;
+import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderCommon;
@@ -210,7 +211,15 @@ public class ReflectionUtil {
                     String[] triggers = m.getAnnotation(Widget.class).triggers();
                     String description = m.getAnnotation(Widget.class).description();
 
+                    String[] values = null;
+
+                    if (m.isAnnotationPresent(SuppressCyderInspections.class))
+                        values = m.getAnnotation(SuppressCyderInspections.class).values();
+
                     if (!m.getName().equals("showGUI")) {
+                        if (values != null && StringUtil.in("WidgetInspection", false, values))
+                            continue;
+
                         Logger.log(Logger.Tag.DEBUG_PRINT, "Method annotated with @Widget is not named" +
                                 " showGUI(); name: " + m.getName());
                     }
@@ -252,7 +261,15 @@ public class ReflectionUtil {
                 if (m.isAnnotationPresent(ManualTest.class)) {
                     String trigger = m.getAnnotation(ManualTest.class).trigger();
 
+                    String[] values = null;
+
+                    if (m.isAnnotationPresent(SuppressCyderInspections.class))
+                        values = m.getAnnotation(SuppressCyderInspections.class).values();
+
                     if (!m.getName().toLowerCase().endsWith("test")) {
+                        if (values != null && StringUtil.in("TestInspection", false, values))
+                            continue;
+
                         Logger.log(Logger.Tag.DEBUG_PRINT, "Method annotated with @ManualTest does not end" +
                                 " with test; name: " + m.getName());
                     }

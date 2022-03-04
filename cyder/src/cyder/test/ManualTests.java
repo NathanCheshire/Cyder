@@ -1,6 +1,7 @@
 package cyder.test;
 
 import cyder.annotations.ManualTest;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -34,6 +35,7 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     @ManualTest(trigger = "launch")
+    @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         PaintWidget.showGUI();
     }

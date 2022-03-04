@@ -881,8 +881,6 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
-    //todo @SuppressCyderInspection annotation, supress the card ones
-
     //todo utilize for relative zooming after other features
     // done and controls grid finished using a grid layout
 

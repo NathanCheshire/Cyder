@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -15,9 +16,16 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Naming convention: you should name the card with the name of the holiday followed by the year without any spaces.
- * Example: Christmas2022() or Halloween2020() could be a method. These methods will then be automatically invoked on that particular day
- * See special day events in ConsoleFrame for an example on how these methods are invoked and why
+ * Naming convention: you should name the card with the name of
+ * the holiday followed by the year without any spaces.
+ *
+ * Example: Christmas2022() or Halloween2020() could be a method.
+ * These methods will then be automatically invoked on that particular day
+ * See special day events in ConsoleFrame for an example on how these
+ * methods are invoked and why.
+ *
+ * Additionally, make sure to tag your card with an @Widget annotation as well as a
+ * {@code @SuppressCyderInspections} annotation to avoid false warnings.
  */
 public class CardWidget {
     private static CyderFrame christmas2020Frame;
@@ -30,6 +38,7 @@ public class CardWidget {
     } //public for reflection for auto calls of cards
 
     @Widget(triggers = "Christmascard2020", description = "Christmas card for the year of 2020")
+    @SuppressCyderInspections(values = "WidgetInspection")
     public static void Christmas2020() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CHRISTMAS2020");
 
@@ -66,6 +75,7 @@ public class CardWidget {
     }
 
     @Widget(triggers = "FathersDaycard2021", description = "Fathers day card for the year of 2021")
+    @SuppressCyderInspections(values = "WidgetInspection")
     public static void FathersDay2021() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "FATHERSDAY2021");
 
@@ -92,6 +102,7 @@ public class CardWidget {
     }
 
     @Widget(triggers = "Birthdaycard2021", description = "Birthday card for my dad for the year 2021")
+    @SuppressCyderInspections(values = "WidgetInspection")
     public static void Birthday2021() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "BIRTHDAY2021");
 
@@ -130,6 +141,7 @@ public class CardWidget {
     }
 
     @Widget(triggers = "Christmascard2021", description = "Christmas card for the year of 2021")
+    @SuppressCyderInspections(values = "WidgetInspection")
     public static void Christmas2021() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "CHRISTMASCARD2021");
 
