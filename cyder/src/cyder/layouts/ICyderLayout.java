@@ -27,9 +27,8 @@ public interface ICyderLayout {
      * that should always be implmeneted.
      *
      * @param component the component to remove from the panel
-     * @return whether or not the component was successfully removed from the panel
      */
-    boolean removeComponent(Component component);
+    void removeComponent(Component component);
 
     /**
      * Recalculates the bounds of all components currently added the CyderPanel.
@@ -46,9 +45,9 @@ public interface ICyderLayout {
     void setAssociatedPanel(CyderPanel panel);
 
     /**
-     * Returns all components associated and managed by the layout.
+     * Returns all components managed by the layout.
      *
-     * @return all components associated and managed by the layout
+     * @return all components managed by the layout
      */
     ArrayList<Component> getLayoutComponents();
 }

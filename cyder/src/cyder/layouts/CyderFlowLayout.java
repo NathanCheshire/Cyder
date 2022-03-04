@@ -111,19 +111,16 @@ public class CyderFlowLayout extends CyderBaseLayout {
      * Removes the specified component from the panel if it exists on the panel.
      *
      * @param component the component to remove from the panel
-     * @return whether or not the component was successfully removed
      */
     @Override
-    public boolean removeComponent(Component component) {
+    public void removeComponent(Component component) {
         for (Component flowComponent : flowComponents) {
             if (flowComponent == component) {
                 flowComponents.remove(flowComponent);
                 revalidateComponents();
-                return true;
+                return;
             }
         }
-
-        return false;
     }
 
     /**

@@ -294,9 +294,8 @@ public class CyderGridLayout extends CyderBaseLayout {
      * Removes the specified component from the grid.
      *
      * @param component the component to remove from the panel
-     * @return whether or not the component was removed from the panel
      */
-    public boolean removeComponent(Component component) {
+    public void removeComponent(Component component) {
         if (components == null)
             throw new IllegalStateException("Components not yet initialized");
 
@@ -304,12 +303,10 @@ public class CyderGridLayout extends CyderBaseLayout {
             for (int y = 0 ; y < vertialCells ; y++) {
                 if (components[x][y].getComponent() == component) {
                     components[x][y] = null;
-                    return true;
+                    return;
                 }
             }
         }
-
-        return false;
     }
 
     /**

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.constants.CyderStrings;
 import cyder.layouts.CyderBaseLayout;
 import cyder.utilities.ReflectionUtil;
 
@@ -8,40 +9,70 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * CyderPanels are what hold and manage where components go on them. They basically are a wrapper for
- * anything that implements CyderLayout and extends the CyderBaseLayout. CyderPanels are really just
- * wrappers for Layouts which means we can use them as either a master component for a CyderFrame
- * content pane or as a sub panel inside of a parent panel.
+ * CyderPanels are what hold and manage where components go on them.
+ * They basically are a wrapper for layouts that extends {@link CyderBaseLayout}.
  */
+@SuppressWarnings("FieldMayBeFinal")
 public class CyderPanel extends JLabel {
-    //CyderPanel cannot exist without a CyderLayout
-    private CyderPanel() {}
+    /**
+     * Restict class instnatiation without a valid cyder layout.
+     */
+    private CyderPanel() {
+        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+    }
 
+    /**
+     * Constrcuts a new cyder panel with the provided layout.
+     *
+     * @param cyderLayout the layout that manages components
+     */
     public CyderPanel(CyderBaseLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
         cyderLayout.setAssociatedPanel(this);
         revalidateComponents();
     }
 
+    /**
+     * The layout which we are wrapping with this panel.
+     */
     private CyderBaseLayout cyderLayout;
 
+    /**
+     * Sets the layout manager to null due to this being a CyderPanel.
+     * Use a custom {@link CyderBaseLayout} class, add that to a {@link CyderPanel},
+     * and then set the panel to a {@link CyderFrame}'s content pane to use layouts with Cyder.
+     */
     @Override
     public void setLayout(LayoutManager lay) {
         super.setLayout(null);
-        //layouts are always null, we use math to determine our layout on redrawing events
     }
 
-    //disabling repainting of the content pane for optimization purposes
+    /**
+     * Whether the content pane should be repainted.
+     */
     private boolean disableContentRepainting = false;
 
-    public boolean isDisableContentRepainting() {
+    /**
+     * Returns whether content pane painting is disabled.
+     *
+     * @return whether content pane painting is disabled
+     */
+    public boolean contentRepaintingDisabled() {
         return disableContentRepainting;
     }
 
+    /**
+     * Sets the state of disable content repainting.
+     *
+     * @param disableContentRepainting whether the content pane should be repainted.
+     */
     public void setDisableContentRepainting(boolean disableContentRepainting) {
         this.disableContentRepainting = disableContentRepainting;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void repaint() {
         //as long as we should repaint, repaint it
@@ -51,12 +82,17 @@ public class CyderPanel extends JLabel {
         }
     }
 
+    /**
+     * Revalidates the components managed by the linked layout.
+     */
     public void revalidateComponents() {
         if (cyderLayout != null)
             cyderLayout.revalidateComponents();
     }
 
-    //standard
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
