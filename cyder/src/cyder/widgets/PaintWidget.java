@@ -132,13 +132,13 @@ public class PaintWidget {
         CyderPanel bottomLayoutPanel = new CyderPanel(bottomLayout);
         parentLayout.addComponent(bottomLayoutPanel, 0, 1);
 
-        //todo add recent colors component, use last 10 elements of color list
-        recentColorsBlock = new JLabel() {
-            final int colorRows = 2;
-            final int colorsPerRow = 6;
-            final int colorBlockLen = 20;
-            final int padding = 5;
+        // vars used for drawing custom component
+        final int colorRows = 2;
+        final int colorsPerRow = 6;
+        final int colorBlockLen = 20;
+        final int padding = 5;
 
+        recentColorsBlock = new JLabel() {
             @Override
             protected void paintComponent(Graphics g) {
                 g.setColor(Color.BLACK);
@@ -162,15 +162,34 @@ public class PaintWidget {
                         currentY += colorBlockLen;
                     }
 
+                    //todo need some kind of method to figure out what color was pressed when clicked
+
                     numColorsPainted++;
                 }
 
-                //todo paint sep lines?
+                // draw sep lines between colors
+                g.setColor(Color.BLACK);
+                // horizontal lines
+                for (int i = 0 ; i < colorRows ; i++) {
+                    g.drawLine(0, padding + colorBlockLen,
+                            2 * padding + colorsPerRow * colorBlockLen, padding + colorBlockLen);
+                }
+                // vertical lines
+                for (int i = 0 ; i < colorsPerRow ; i++) {
+                    g.drawLine(padding + i * colorBlockLen, 0, padding + i * colorBlockLen,
+                            2 * padding + colorRows * colorBlockLen);
+                }
             }
         };
         recentColorsBlock.setSize(130,50);
         paintControlsFrame.add(recentColorsBlock);
         recentColorsBlock.setLocation(50,50);
+        recentColorsBlock.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(e.getX() + "," + e.getY());
+            }
+        });
 
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
