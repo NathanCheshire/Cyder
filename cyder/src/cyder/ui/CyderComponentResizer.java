@@ -301,7 +301,7 @@ public class CyderComponentResizer extends MouseAdapter {
                 focusableComponents.add(new FocusWrappedComponent(component));
 
                 if (component.isFocusOwner() && originalFocusOwner == null) {
-                    originalFocusOwner = new FocusWrappedComponent(component);
+                    originalFocusOwner = component;
                 }
 
                 component.setFocusable(false);
@@ -315,7 +315,7 @@ public class CyderComponentResizer extends MouseAdapter {
         }
     }
 
-    private FocusWrappedComponent originalFocusOwner = null;
+    private Component originalFocusOwner = null;
     private final ArrayList<FocusWrappedComponent> focusableComponents = new ArrayList<>();
 
     /**
@@ -344,7 +344,7 @@ public class CyderComponentResizer extends MouseAdapter {
             component.restore();
 
             // restore original focus owner
-            if (component.equals(originalFocusOwner)) {
+            if (component.getComp().equals(originalFocusOwner)) {
                 component.getComp().requestFocus();
             }
         }
