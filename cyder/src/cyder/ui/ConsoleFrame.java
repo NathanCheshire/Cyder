@@ -129,11 +129,6 @@ public final class ConsoleFrame {
     private JLabel menuLabel;
 
     /**
-     * The top drag label help button.
-     */
-    private JButton helpButton;
-
-    /**
      * The top drag label menu toggle button.
      */
     private JButton menuButton;
@@ -609,13 +604,12 @@ public final class ConsoleFrame {
             menuLabel.setFocusable(false);
             menuLabel.setVisible(false);
 
-            helpButton = new CyderIconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
+            JButton helpButton = new CyderIconButton("Help", CyderIcons.helpIcon, CyderIcons.helpIconHover);
             helpButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
                 //print tests in case the user was trying to invoke one
                 inputHandler.printManualTests();
-                inputHandler.printUnitTests();
 
-                CyderButton suggestionButton = new CyderButton("Make a Suggestion");
+                CyderButton suggestionButton = new CyderButton("Help");
                 suggestionButton.setColors(CyderColors.regularPink);
                 suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
                     String suggestion = new GetterUtil().getString("Suggestion",
@@ -2461,29 +2455,6 @@ public final class ConsoleFrame {
      */
     public JTextField getInputField() {
         return inputField;
-    }
-
-    // ------------------------
-    // ConsoleFrame buttons
-    // ------------------------
-
-    /**
-     * Flashes the suggestion button between {@link CyderColors#regularRed} and {@link CyderColors#vanila}
-     * for "iterations" iterations each 600ms.
-     */
-    public void flashSuggestionButton(int iterations) {
-        CyderThreadRunner.submit(() -> {
-            try {
-                for (int i = 0 ; i < iterations ; i++) {
-                    helpButton.setIcon(CyderIcons.helpIconHover);
-                    Thread.sleep(300);
-                    helpButton.setIcon(CyderIcons.helpIcon);
-                    Thread.sleep(300);
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "Suggestion Button Flash");
     }
 
     /**

@@ -1,5 +1,8 @@
 package cyder.ui;
 
+import cyder.constants.CyderIcons;
+import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadRunner;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -155,5 +158,31 @@ public class CyderIconButton extends JButton {
      */
     public void setHoverAndFocusIcon(ImageIcon hoverAndFocusIcon) {
         this.hoverAndFocusIcon = hoverAndFocusIcon;
+    }
+
+    /**
+     * Flashes the icon button between the regular icon and
+     * hover/focus icon for "iterations" iterations.
+     *
+     * @param iterations the number of iterations to flash the icon button for
+     * @param msDelay the delay in milliseconds between button flash calls
+     */
+    public void flash(int iterations, int msDelay) {
+        CyderThreadRunner.submit(() -> {
+            try {
+                Icon originalIcon = getIcon();
+
+                for (int i = 0 ; i < iterations ; i++) {
+                    setIcon(CyderIcons.helpIconHover);
+                    Thread.sleep(msDelay);
+                    setIcon(CyderIcons.helpIcon);
+                    Thread.sleep(msDelay);
+                }
+
+                setIcon(originalIcon);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "CyderIconButton Flash Thread");
     }
 }

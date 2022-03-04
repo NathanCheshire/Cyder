@@ -14,7 +14,6 @@ import cyder.enums.Suggestion;
 import cyder.genesis.CyderCommon;
 import cyder.python.PyExecutor;
 import cyder.test.ManualTests;
-import cyder.test.UnitTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
@@ -243,8 +242,7 @@ public class InputHandler {
                 handleMath(argsAndCommandToString()) ||
                 evaluateExpression(argsAndCommandToString()) ||
                 preferenceCheck(argsAndCommandToString()) ||
-                manualTestCheck(argsAndCommandToString()) ||
-                unitTestCheck(argsAndCommandToString())) {
+                manualTestCheck(argsAndCommandToString())) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
         } else unknownInput();
 
@@ -1090,7 +1088,6 @@ public class InputHandler {
             ManualTests.launchTests();
         } else if (commandIs("tests")) {
             println("Valid tests to call:\n");
-            printUnitTests();
             printManualTests();
         } else if (commandIs("networkaddresses")) {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
@@ -1551,39 +1548,6 @@ public class InputHandler {
     }
 
     /**
-     * Determines if the command intended to invoke a unit test.
-     *
-     * @param command the unit test to invoke if recognized from unit tests
-     * @return whether the command was recognized as a unit test call
-     */
-    private boolean unitTestCheck(String command) {
-        boolean ret = false;
-
-        command = command.toLowerCase();
-
-        if (command.contains("test")) {
-            UnitTests tests = new UnitTests();
-
-            for (Method m : tests.getClass().getMethods()) {
-                if (m.getName().equalsIgnoreCase(command) && m.getParameterTypes().length == 0) {
-                    try {
-                        m.invoke(tests);
-                        println("Invoking unit test: " + m.getName());
-                        ret = true;
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                    break;
-                }
-            }
-        }
-
-        if (ret)
-            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE UNIT TEST REFLECTION FIRE HANDLED");
-        return ret;
-    }
-
-    /**
      * The final handle method for if all other handle methods failed.
      */
     private void unknownInput() {
@@ -1614,7 +1578,6 @@ public class InputHandler {
 
                         if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
                             println("Unknown command");
-                            ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
                             println("Most similar command: \"" + parts[0] + "\"");
                         } else {
                             wrapTerminalCheck();
@@ -1658,12 +1621,10 @@ public class InputHandler {
                     escapeWrapTerminal = false;
                 } catch (Exception ignored) {
                     println("Unknown command");
-                    ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
                 }
             }, "Wrap Terminal Thread");
         } else {
             println("Unknown command");
-            ConsoleFrame.getConsoleFrame().flashSuggestionButton(4);
         }
     }
 
@@ -1736,30 +1697,22 @@ public class InputHandler {
     //end argument/command accessors --------------------------------
 
     /**
-     * Prints the available unit tests to the linked JTextPane.
-     */
-    public final void printUnitTests() {
-        println("Unit Tests:");
-        UnitTests ut = new UnitTests();
-
-        for (Method m : ut.getClass().getMethods()) {
-            if (m.getName().toLowerCase().contains("test"))
-                println(m.getName());
-        }
-    }
-
-    /**
      * Prints the available manual tests that follow the standard
      * naming convention to the linked JTextPane.
      */
+    @SuppressWarnings("UnstableApiUsage")
     public final void printManualTests() {
         println("Manual tests:");
-        //noinspection InstantiationOfUtilityClass
-        ManualTests mtw = new ManualTests();
 
-        for (Method m : mtw.getClass().getMethods()) {
-            if (m.getName().toLowerCase().contains("test"))
-                println(m.getName());
+        for (ClassPath.ClassInfo classInfo : ReflectionUtil.cyderClasses) {
+            Class<?> classer = classInfo.load();
+
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(ManualTest.class)) {
+                    String trigger = m.getAnnotation(ManualTest.class).trigger();
+                    println(trigger);
+                }
+            }
         }
     }
 
