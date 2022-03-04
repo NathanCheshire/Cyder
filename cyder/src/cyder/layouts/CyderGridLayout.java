@@ -27,8 +27,20 @@ public class CyderGridLayout extends CyderBaseLayout {
     //the components linked to the CyderPanel this LM is managing
     private final GridComponent[][] components;
 
+    /**
+     * {@inheritDoc}
+     */
     public ArrayList<Component> getLayoutComponents() {
-        return null;
+        ArrayList<Component> ret = new ArrayList<>();
+
+        for (GridComponent[] component : components) {
+            for (int j = 0; j < components[0].length; j++) {
+                if (component[j] != null)
+                    ret.add(component[j].getComponent());
+            }
+        }
+
+        return ret;
     }
 
     /**
