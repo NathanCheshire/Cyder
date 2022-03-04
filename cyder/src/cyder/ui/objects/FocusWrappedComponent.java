@@ -1,4 +1,4 @@
-package cyder.layouts.objects;
+package cyder.ui.objects;
 
 import java.awt.*;
 

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -564,6 +565,20 @@ public class CyderFrame extends JFrame {
                 getHeight() - DragLabel.DEFAULT_HEIGHT - borderLen);
         iconLabel.add(cyderPanel);
         cyderPanel.repaint();
+    }
+
+    /**
+     * Returns the components managed by the layout.
+     *
+     * @return the components managed by the layout
+     * @throws IllegalStateException if no layout is associated with the rame
+     */
+    public ArrayList<Component> getLayoutComponents() {
+        Preconditions.checkNotNull(cyderPanel);
+        Preconditions.checkNotNull(cyderPanel).getLayout();
+        Preconditions.checkNotNull(cyderPanel.getLayoutComponents());
+
+        return cyderPanel.getLayoutComponents();
     }
 
     // ------------------------------------

@@ -3,6 +3,7 @@ package cyder.layouts;
 import cyder.ui.CyderPanel;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * This interface shouldn't be directly used. For custom CyderLayouts simply extend the CyderBaseLayout
@@ -16,9 +17,8 @@ public interface ICyderLayout {
      * that should always be implemented.
      *
      * @param component the component to add to the panel
-     * @return whether or not the component was successfully added to the panel
      */
-    boolean addComponent(Component component);
+    void addComponent(Component component);
 
     /**
      * Removes the specified component from the linked CyderPanel.
@@ -44,4 +44,11 @@ public interface ICyderLayout {
      * @param panel the panel for the LayoutManager to manaqge the components of
      */
     void setAssociatedPanel(CyderPanel panel);
+
+    /**
+     * Returns all components associated and managed by the layout.
+     *
+     * @return all components associated and managed by the layout
+     */
+    ArrayList<Component> getLayoutComponents();
 }

@@ -5,6 +5,7 @@ import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 @SuppressWarnings("FieldMayBeFinal") /* will become redundant eventually */
 public class CyderGridLayout extends CyderBaseLayout {
@@ -25,6 +26,10 @@ public class CyderGridLayout extends CyderBaseLayout {
 
     //the components linked to the CyderPanel this LM is managing
     private final GridComponent[][] components;
+
+    public ArrayList<Component> getLayoutComponents() {
+        return null;
+    }
 
     /**
      * Class instantiation is not allowed unless the cells are specified
@@ -187,21 +192,19 @@ public class CyderGridLayout extends CyderBaseLayout {
      * Adds the provided component to the grid at the first available space.
      *
      * @param component the component to add to the grid if possible
-     * @return whether or not the component was added successfully
      */
-    public boolean addComponent(Component component) {
+    public void addComponent(Component component) {
         for (int x = 0 ; x < horizontalCells ; x++) {
             for (int y = 0 ; y < vertialCells ; y++) {
                 if (components[x][y] == null) {
                     components[x][y] = new GridComponent(component, //defaults here
                             component.getWidth(), component.getHeight(), Position.MIDDLE_CENTER);
                     repaint();
-                    return true;
+                    return;
                 }
             }
         }
 
-        return false;
     }
 
     /**

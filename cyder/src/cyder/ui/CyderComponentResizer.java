@@ -1,12 +1,14 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
+import cyder.ui.objects.FocusWrappedComponent;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -288,12 +290,33 @@ public class CyderComponentResizer extends MouseAdapter {
         SwingUtilities.convertPointToScreen(pressed, source);
         currentBounds = source.getBounds();
 
+        // if source uses a layout
+        if (source instanceof CyderFrame) {
+            // wipe past components and original focus owner
+            focusableComponents.clear();
+            originalFocusOwner = null;
+
+            // save focusable state of components and disable focusing
+            for (Component component : ((CyderFrame) source).getLayoutComponents()) {
+                focusableComponents.add(new FocusWrappedComponent(component));
+
+                if (component.isFocusOwner() && originalFocusOwner == null) {
+                    originalFocusOwner = new FocusWrappedComponent(component);
+                }
+
+                component.setFocusable(false);
+            }
+        }
+
         if (source instanceof JComponent && !(source instanceof CyderFrame)) {
             JComponent jc = (JComponent) source;
             componentIsAutoscroll = jc.getAutoscrolls();
             jc.setAutoscrolls(false);
         }
     }
+
+    private FocusWrappedComponent originalFocusOwner = null;
+    private final ArrayList<FocusWrappedComponent> focusableComponents = new ArrayList<>();
 
     /**
      * {@inheritDoc}
@@ -303,7 +326,7 @@ public class CyderComponentResizer extends MouseAdapter {
         currentlyResizing = false;
 
         Component source = e.getComponent();
-        source.setCursor( sourceCursor );
+        source.setCursor(sourceCursor);
 
         if (source instanceof JComponent  && !(source instanceof CyderFrame)) {
             ((JComponent) source).setAutoscrolls(componentIsAutoscroll);
@@ -313,6 +336,16 @@ public class CyderComponentResizer extends MouseAdapter {
         if (source instanceof CyderFrame) {
             if (backgroundRefreshOnResize) {
                 ((CyderFrame) source).refreshBackground();
+            }
+        }
+
+        // for all focus wrapped components, restore their state
+        for (FocusWrappedComponent component : focusableComponents) {
+            component.restore();
+
+            // restore original focus owner
+            if (component.equals(originalFocusOwner)) {
+                component.getComp().requestFocus();
             }
         }
     }

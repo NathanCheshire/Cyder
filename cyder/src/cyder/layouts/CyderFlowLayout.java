@@ -72,17 +72,25 @@ public class CyderFlowLayout extends CyderBaseLayout {
         this.vgap = vgap;
     }
 
-    //keep track of components on this panel
+    // keep track of components on this panel
     private final ArrayList<Component> flowComponents = new ArrayList<>();
+
+    /**
+     * Returns the components managed by this layout.
+     *
+     * @return the components managed by this layout
+     */
+    public final ArrayList<Component> getLayoutComponents() {
+        return flowComponents;
+    }
 
     /**
      * Adds the provided component to the panel if the panel does not already contain it.
      *
      * @param component the component to add to the panel
-     * @return whether or not the component was successfully added
      */
     @Override
-    public boolean addComponent(Component component) {
+    public void addComponent(Component component) {
         boolean contains = false;
 
         for (Component flowComponent : flowComponents) {
@@ -95,10 +103,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
         if (!contains) {
             flowComponents.add(component);
             revalidateComponents();
-            return true;
         }
 
-        return false;
     }
 
     /**

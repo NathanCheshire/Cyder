@@ -5,6 +5,7 @@ import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * CyderPanels are what hold and manage where components go on them. They basically are a wrapper for
@@ -59,5 +60,14 @@ public class CyderPanel extends JLabel {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
+    }
+
+    /**
+     * Returns the components managed by the layout.
+     *
+     * @return the components managed by the layout
+     */
+    public ArrayList<Component> getLayoutComponents() {
+        return cyderLayout.getLayoutComponents();
     }
 }
