@@ -203,12 +203,6 @@ public class PaintWidget {
             }
         });
 
-        //todo testing adding colors
-        setNewPaintColor(CyderColors.navy);
-        setNewPaintColor(CyderColors.navy);
-        setNewPaintColor(CyderColors.regularPink);
-        setNewPaintColor(CyderColors.navy);
-
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
@@ -229,7 +223,7 @@ public class PaintWidget {
                         int b = Integer.parseInt(parts[2]);
 
                         Color newColor = new Color(r, g, b);
-                       setNewPaintColor(newColor);
+                        setNewPaintColor(newColor);
                     } catch (Exception ignored) {
                         paintControlsFrame.notify("Could not parse color");
                     }
@@ -452,9 +446,9 @@ public class PaintWidget {
         if (recentColors.contains(newColor)) {
             ArrayList<Color> newRecentColors = new ArrayList<>();
 
-            // add all colors that aren't the new one
+            // add all colors that aren't the new one, remove possible duplicates somehow
             for (Color recentColor : recentColors) {
-                if (!recentColor.equals(newColor))
+                if (!recentColor.equals(newColor) && !newRecentColors.contains(recentColor))
                     newRecentColors.add(recentColor);
             }
 
