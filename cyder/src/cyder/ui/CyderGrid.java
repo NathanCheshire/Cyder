@@ -912,7 +912,7 @@ public class CyderGrid extends JLabel {
                         Point newPoint = new Point(refNode.getX() - centerOfRotation.x,
                                 refNode.getY() - centerOfRotation.y);
 
-                        // rotate around the new orign
+                        // rotate around the new origin
                         newPoint = new Point(newPoint.y, newPoint.x * -1);
 
                         // add point of rotation back
@@ -936,8 +936,34 @@ public class CyderGrid extends JLabel {
             backwardStates.push(new LinkedList<>(grid));
             grid = newState;
 
-            // don't reset region since user might be doing multiple rotations
-            //todo region needs to be come new bounds of the grid, use rotations to figure out new selection points
+            // init new selection points,
+            // point1Selection is topLeft, point2Selection is bottomRight
+            Point newTopLeft = new Point(point2Selection.x, point1Selection.y);
+            Point newBottomRight = new Point(point1Selection.x, point2Selection.y);
+
+            // lossless conversion to mouse space
+            double halfNodeLen = (this.gridComponentLength / (float) this.nodes) / 2.0;
+            double rotationX = (((gridComponentLength * centerOfRotation.x) / (float) nodes)
+                    + centeringDrawOffset) + halfNodeLen;
+            double rotationY = (((gridComponentLength * centerOfRotation.y) / (float) nodes)
+                    + centeringDrawOffset) + halfNodeLen;
+
+
+            // subtract point of rotation
+            newTopLeft.setLocation(newTopLeft.x - rotationX, newTopLeft.y - rotationY);
+            newBottomRight.setLocation(newBottomRight.x - rotationX, newBottomRight.y - rotationY);
+
+            // rotate around new origin
+            newTopLeft.setLocation(newTopLeft.y, newTopLeft.x * -1);
+            newBottomRight.setLocation(newBottomRight.y, newBottomRight.x * -1);
+
+            // add point of rotation back
+            newTopLeft.setLocation(newTopLeft.x + rotationX, newTopLeft.y + rotationY);
+            newBottomRight.setLocation(newBottomRight.x + rotationX, newBottomRight.y + rotationY);
+
+            // set to global points used for selected region
+            point1Selection = newTopLeft;
+            point2Selection = newBottomRight;
 
             // repaint
             repaint();
@@ -949,6 +975,8 @@ public class CyderGrid extends JLabel {
      */
     public void reflectRegionHorizontally() {
         //todo reflect region horizontally, alters the grid state and pushes old one back
+
+        //three cases: on center line, left, right
     }
 
     /**
