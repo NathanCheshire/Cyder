@@ -625,7 +625,8 @@ public class InputHandler {
                         h = ScreenUtil.getScreenHeight();
                     }
 
-                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(w, h, Color.decode("#" + getArg(0)));
+                    BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
+                            w, h, Color.decode("#" + getArg(0).replace("#","")));
 
                     String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
 

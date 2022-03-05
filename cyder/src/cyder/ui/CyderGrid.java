@@ -1078,7 +1078,7 @@ public class CyderGrid extends JLabel {
     // title since that's what you mouse over and click
     //todo new component to slide in with clickable menu text like old console menu
 
-    //todo menu features: layer images, pixelate, resize
+    //todo menu features: layer images, pixelate, resize, export as png
 
     //todo square album art image for audio player when not in small-mini mode, make two minimodes
 

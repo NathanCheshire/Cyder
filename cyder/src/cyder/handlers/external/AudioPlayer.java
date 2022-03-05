@@ -134,9 +134,21 @@ public class AudioPlayer {
     private static boolean repeatAudio;
 
     /**
-     * Whether AudioPlayer is in mini player mode.
+     * The label to use for album art if available.
      */
-    private static boolean miniPlayer;
+    private static JLabel albumArtLabel;
+
+    /**
+     * The window state AudioPlayer is in.
+     */
+    private static PlayerWindowState windowState = PlayerWindowState.ALBUM_ART;
+
+    /**
+     * The possible states for the AudioPlayer.
+     */
+    private enum PlayerWindowState {
+        ALBUM_ART, DEFAULT, MINI
+    }
 
     /**
      * The index of the current audio file within audioFiles.
@@ -249,7 +261,7 @@ public class AudioPlayer {
             IOUtil.stopAudio();
 
         Color backgroundColor = new Color(8,23,52);
-        audioFrame = new CyderFrame(500,225,
+        audioFrame = new CyderFrame(500,450,
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225, backgroundColor)));
         audioFrame.setBackground(backgroundColor);
         audioFrame.setTitle(DEFAULT_TITLE);
@@ -266,21 +278,9 @@ public class AudioPlayer {
              }
         );
 
-        audioFrame.initializeResizing();
-        audioFrame.setResizable(true);
-        audioFrame.setMinimumSize(new Dimension(500, 155));
-        audioFrame.setMaximumSize(new Dimension(500, 225));
-
         JButton changeSize = new JButton("");
-        changeSize.setToolTipText("Toggle Miniplayer");
-        changeSize.addActionListener(e -> {
-            if (!miniPlayer) {
-                enterMiniPlayer();
-            } else {
-                exitMiniPlayer();
-            }
-            miniPlayer = !miniPlayer;
-        });
+        changeSize.setToolTipText("Toggle Window State");
+        changeSize.addActionListener(e -> incrementWindowState());
         changeSize.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -628,6 +628,10 @@ public class AudioPlayer {
                 ExceptionHandler.handle(e);
             }
         }
+
+        // attempt to refresh bounds to album art view if possible
+        //todo need to call setstate on a lot of actions to revalidate if albumart or not
+        enterAlbumArtPlayer();
     }
 
     /**
@@ -1020,7 +1024,7 @@ public class AudioPlayer {
                 pauseLocation = 0;
 
                 //if not in mini player mode, initalize these views
-                if (!miniPlayer) {
+                if (windowState != PlayerWindowState.MINI) {
                     audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
                     audioScroll = new ImprovedScrollLabel(audioTitleLabel);
                     audioLocation = new AudioLocation(audioProgress);
@@ -1113,7 +1117,6 @@ public class AudioPlayer {
                         startAudio();
                     }
                 }
-
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1167,7 +1170,7 @@ public class AudioPlayer {
                         player = new Player(bis);
                     } catch (Exception ignored) {}
 
-                    if (!miniPlayer) {
+                    if (windowState != PlayerWindowState.MINI) {
                         audioLocation = new AudioLocation(audioProgress);
                     }
 
@@ -1390,22 +1393,25 @@ public class AudioPlayer {
     }
 
     /**
-     * Sets the value of miniPlayer, the boolean determining
-     * whether the player is in smaller view or not.
-     *
-     * @param b the boolean value of miniPlayer
+     * Increments to the next window state.
      */
-    public void setMiniPlayer(boolean b) {
-        miniPlayer = b;
-    }
-
-    /**
-     * Standard getter for miniPlayer value.
-     *
-     * @return miniPlayer value
-     */
-    public boolean getMiniPlayer() {
-        return miniPlayer;
+    public static void incrementWindowState() {
+        switch (windowState) {
+            case ALBUM_ART:
+                windowState = PlayerWindowState.DEFAULT;
+                enterDefaultPlayer();
+                break;
+            case DEFAULT:
+                windowState = PlayerWindowState.MINI;
+                enterMiniPlayer();
+                break;
+            case MINI:
+                windowState = PlayerWindowState.ALBUM_ART;
+                enterAlbumArtPlayer();
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal window state: " + windowState);
+        }
     }
 
     /**
@@ -1424,7 +1430,7 @@ public class AudioPlayer {
         audioVolumeSlider.setVisible(false);
         audioTitleLabel.setVisible(false);
 
-        audioFrame.setSize(500,100);
+        //audioFrame.setSize(500,100);
         audioFrame.setMinimumSize(new Dimension(500, 100));
         audioFrame.setMaximumSize(new Dimension(500, 100));
 
@@ -1435,12 +1441,14 @@ public class AudioPlayer {
         playPauseAudioButton.setLocation(playPauseAudioButton.getX(), 50);
         nextAudioButton.setLocation(nextAudioButton.getX(), 50);
         shuffleAudioButton.setLocation(shuffleAudioButton.getX(), 50);
+
+        albumArtLabel.setVisible(false);
     }
 
     /**
-     * Exits mini mode if the player is in mini mode.
+     * Enters the default mode for the audio player.
      */
-    public static void exitMiniPlayer() {
+    public static void enterDefaultPlayer() {
         audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
         audioScroll = new ImprovedScrollLabel(audioTitleLabel);
         audioLocation = new AudioLocation(audioProgress);
@@ -1460,6 +1468,27 @@ public class AudioPlayer {
         playPauseAudioButton.setLocation(playPauseAudioButton.getX(), 105);
         nextAudioButton.setLocation(nextAudioButton.getX(), 105);
         shuffleAudioButton.setLocation(shuffleAudioButton.getX(), 105);
+
+        albumArtLabel.setVisible(false);
+    }
+
+    /**
+     * Enters the album art window state.
+     */
+    public static void enterAlbumArtPlayer() {
+        // if no art, increment to default player and let it handle
+        if (currentAlbumArt == null) {
+            incrementWindowState();
+        } else {
+            int albumArtLen = 200;
+            albumArtLabel = new JLabel();
+            albumArtLabel.setSize(albumArtLen,albumArtLen);
+            albumArtLabel.setIcon(ImageUtil.resizeImage(currentAlbumArt, albumArtLen, albumArtLen));
+            albumArtLabel.setLocation((audioFrame.getWidth() - albumArtLen) / 2, 60);
+            audioFrame.getContentPane().add(albumArtLabel);
+
+            //todo bounds of ALL other UI elements
+        }
     }
 
     /**

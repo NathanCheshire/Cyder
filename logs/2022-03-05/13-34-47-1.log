@@ -1,0 +1,57 @@
+[13-34-47] [ENTRY]: [Nathan]
+[13-34-47] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-34-48] [THREAD STARTED]: Splash Loader
+[13-34-48] [THREAD STARTED]: Splash Animation
+[13-34-48] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[13-34-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-34-48] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[13-34-48] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-34-48] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-34-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[13-34-49] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[13-34-49] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-34-49] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-34-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-34-49] [SYSTEM_IO]: Userdata requested: fullscreen
+[13-34-49] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[13-34-49] [THREAD STARTED]: Console Printing Animation
+[13-34-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-34-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-34-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-34-49] [THREAD STARTED]: Console Input Caret Position Updater
+[13-34-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-34-49] [SYSTEM_IO]: Userdata requested: InputFill
+[13-34-49] [THREAD STARTED]: High Ping Checker
+[13-34-49] [THREAD STARTED]: Hourly Chime Checker
+[13-34-49] [THREAD STARTED]: Console Clock Updater
+[13-34-49] [THREAD STARTED]: Cyder Busy Checker
+[13-34-49] [THREAD STARTED]: ConsoleFrame Data Saver
+[13-34-49] [ACTION]: Console loaded in 2284ms
+[13-34-49] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1376, 567, 860, 825)], hash = [852026681], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[13-34-49] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1607432620], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-34-49] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[13-34-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-34-49] [ENTRY]: [TESTING MODE]
+[13-34-49] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2284ms
+[13-34-49] [THREAD STARTED]: notification appear animation
+[13-34-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-34-49] [THREAD STARTED]: Notificaiton vanish animater 1377763587
+[13-34-49] [SYSTEM_IO]: Userdata requested: laststart
+[13-34-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[13-34-52] [SYSTEM_IO]: Userdata requested: Background
+[13-34-54] [CLIENT]: mp3
+[13-34-54] [SYSTEM_IO]: Userdata requested: filterchat
+[13-34-54] [WIDGET OPENED]: AUDIO PLAYER
+[13-34-54] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[13-34-54] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please]
+[13-34-54] [HANDLE]: PRIMARY HANDLE
+[13-34-55] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please]
+[13-34-55] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please.mp3
+[13-34-56] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-34-56] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please]
+[13-35-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[13-35-06] [SYSTEM_IO]: Userdata requested: Background
+[13-35-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[13-35-16] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please]
+[13-35-19] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-35-42] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
