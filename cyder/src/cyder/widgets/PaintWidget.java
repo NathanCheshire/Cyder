@@ -203,8 +203,6 @@ public class PaintWidget {
         });
         topLayout.addComponent(recentColorsBlock, 0, 0);
 
-        //todo past states are not rendered correctly and merged together
-
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
@@ -324,12 +322,14 @@ public class PaintWidget {
         JLabel sliderLabel = new JLabel();
         sliderLabel.setSize(140, 80);
 
+        brushWidth = DEFAULT_BRUSH_WIDTH;
+
         CyderLabel brushLabel = new CyderLabel("Brush width: " + brushWidth);
         brushLabel.setBounds(10, 5, 120, 40);
         sliderLabel.add(brushLabel);
 
         JSlider brushWidthSlider = new JSlider(JSlider.HORIZONTAL, MIN_BRUSH_WIDTH,
-                MAX_BRUSH_WIDTH, DEFAULT_BRUSH_WIDTH);
+                MAX_BRUSH_WIDTH, brushWidth);
         CyderSliderUI UI = new CyderSliderUI(brushWidthSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -343,7 +343,7 @@ public class PaintWidget {
         brushWidthSlider.setPaintTicks(false);
         brushWidthSlider.setPaintLabels(false);
         brushWidthSlider.setVisible(true);
-        brushWidthSlider.setValue(DEFAULT_BRUSH_WIDTH);
+        brushWidthSlider.setValue(brushWidth);
         brushWidthSlider.addChangeListener(e -> {
             int newWidth = brushWidthSlider.getValue();
             brushWidth = newWidth;
