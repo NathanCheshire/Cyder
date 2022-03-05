@@ -202,7 +202,6 @@ public class PaintWidget {
             }
         });
         topLayout.addComponent(recentColorsBlock, 0, 0);
-
         //todo supress default add/removes from component in the class that these layouts extend
         // this will expose possible bugs here too
 
