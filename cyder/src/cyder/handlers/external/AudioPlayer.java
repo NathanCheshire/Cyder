@@ -313,8 +313,7 @@ public class AudioPlayer {
         audioFrame.getContentPane().add(audioTitleLabelContainer);
 
         albumArtLabel = new JLabel();
-        albumArtLabel.setSize(albumArtLen,albumArtLen);
-        albumArtLabel.setLocation((audioFrame.getWidth() - albumArtLen) / 2, 60);
+        albumArtLabel = new JLabel();
         audioFrame.getContentPane().add(albumArtLabel);
 
         audioTitleLabel = new JLabel();
@@ -1443,6 +1442,7 @@ public class AudioPlayer {
         albumArtLabel.setVisible(false);
     }
 
+    //todo audio title label not visible here, nor location bar or audio slider
     /**
      * Enters the default mode for the audio player.
      */
@@ -1468,6 +1468,7 @@ public class AudioPlayer {
         albumArtLabel.setVisible(false);
     }
 
+    //todo audio title label not visible, coming back around volume not visible or audio location
     /**
      * Enters the album art window state.
      */
@@ -1479,7 +1480,9 @@ public class AudioPlayer {
             refreshAlbumArt();
 
             audioFrame.setSize(500,450);
+            albumArtLabel.setBounds((audioFrame.getWidth() - albumArtLen) / 2, 60, albumArtLen, albumArtLen);
             albumArtLabel.setIcon(ImageUtil.resizeImage(currentAlbumArt, albumArtLen, albumArtLen));
+            albumArtLabel.setVisible(true);
 
             int yIncrement = 200;
 
