@@ -1,0 +1,90 @@
+[17-18-35] [ENTRY]: [Nathan]
+[17-18-35] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-18-36] [THREAD STARTED]: Splash Loader
+[17-18-36] [THREAD STARTED]: Splash Animation
+[17-18-37] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-18-37] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-18-37] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-18-37] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-18-37] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-18-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[17-18-37] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[17-18-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-18-37] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-18-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-18-37] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-18-37] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-18-37] [THREAD STARTED]: Console Printing Animation
+[17-18-37] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-18-37] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-18-37] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-18-37] [THREAD STARTED]: Console Input Caret Position Updater
+[17-18-37] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-18-37] [SYSTEM_IO]: Userdata requested: InputFill
+[17-18-37] [THREAD STARTED]: High Ping Checker
+[17-18-37] [THREAD STARTED]: Hourly Chime Checker
+[17-18-37] [THREAD STARTED]: Console Clock Updater
+[17-18-37] [THREAD STARTED]: Cyder Busy Checker
+[17-18-37] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-18-37] [ACTION]: Console loaded in 2103ms
+[17-18-37] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-18-37] [ENTRY]: [TESTING MODE]
+[17-18-37] [WIDGET OPENED]: AUDIO PLAYER
+[17-18-37] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(262, 567, 860, 825)], hash = [1279740095], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[17-18-37] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1390756103], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-18-37] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[17-18-37] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-18-37] [SYSTEM_IO]: Userdata requested: laststart
+[17-18-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-18-38] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2103ms
+[17-18-38] [THREAD STARTED]: notification appear animation
+[17-18-38] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-18-38] [THREAD STARTED]: Notificaiton vanish animater -809597248
+[17-18-38] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-18-38] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)] [2x]
+[17-18-38] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[17-18-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[17-18-49] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-18-49] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Against Fate]
+[17-18-49] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate] [2x]
+[17-18-49] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Against Fate.mp3
+[17-18-50] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate]
+[17-18-50] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[17-18-50] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light] [2x]
+[17-18-50] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[17-18-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-18-51] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[17-18-51] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[17-18-51] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth] [2x]
+[17-18-51] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[17-18-52] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[17-18-52] [THREAD STARTED]: Flash Player Audio Thread[Neutralize - Lost  Chillstep]
+[17-18-52] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep] [2x]
+[17-18-52] [ACTION]: [AUDIO PLAYER] Neutralize - Lost  Chillstep.mp3
+[17-18-52] [THREAD STARTED]: Flash Player Progress Thread[Neutralize - Lost  Chillstep]
+[17-18-52] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-18-52] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-18-53] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)] [2x]
+[17-18-53] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[17-19-31] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [11x]
+[17-19-34] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-19-34] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-19-34] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-19-34] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[17-19-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[17-19-43] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-19-43] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-19-43] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-19-43] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[17-20-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [17x]
+[17-20-46] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Against Fate]
+[17-20-46] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate]
+[17-20-46] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Against Fate.mp3
+[17-20-47] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-20-47] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-20-47] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-20-47] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[17-20-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-20-50] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-22-34] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [28x]
+[17-22-57] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

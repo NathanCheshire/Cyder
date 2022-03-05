@@ -1437,28 +1437,32 @@ public class AudioPlayer {
      * Enters the default mode for the audio player.
      */
     public static void enterDefaultPlayer() {
-        audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
-        audioScroll = new ImprovedScrollLabel(audioTitleLabel);
-        audioLocation = new AudioLocation(audioProgress);
-
-        audioProgress.setVisible(true);
-        audioVolumeSlider.setVisible(true);
-        audioTitleLabel.setVisible(true);
-
         audioFrame.setSize(500,225);
-
-        selectAudioDirButton.setLocation(selectAudioDirButton.getX(), 105);
-        loopAudioButton.setLocation(loopAudioButton.getX(), 105);
-        previousAudioButton.setLocation(previousAudioButton.getX(), 105);
-        stopAudioButton.setLocation(stopAudioButton.getX(), 105);
-        playPauseAudioButton.setLocation(playPauseAudioButton.getX(), 105);
-        nextAudioButton.setLocation(nextAudioButton.getX(), 105);
-        shuffleAudioButton.setLocation(shuffleAudioButton.getX(), 105);
-
         albumArtLabel.setVisible(false);
+
+        int yIncrement = 0;
+
+        audioProgress.setBounds(55, 190 + yIncrement, 385, 25);
+        audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 25);
+        audioVolumeSlider.setBounds(55, 155 + yIncrement, 385, 40);
+        shuffleAudioButton.setBounds(405, 105 + yIncrement, 30, 30);
+        nextAudioButton.setBounds(355, 105 + yIncrement, 30, 30);
+        playPauseAudioButton.setBounds(295, 105 + yIncrement, 30, 30);
+        stopAudioButton.setBounds(235, 105 + yIncrement, 30, 30);
+        previousAudioButton.setBounds(175, 105 + yIncrement, 30, 30);
+        loopAudioButton.setBounds(115, 105 + yIncrement, 30, 30);
+        selectAudioDirButton.setBounds(55, 105 + yIncrement, 30, 30);
+        audioTitleLabelContainer.setBounds(100, 40 + yIncrement, 300, 30);
     }
 
-    //todo audio title label not visible, coming back around volume not visible or audio location
+
+    //todo update readme with new audio player, paint widget video, elon musk background
+    // with notifcation and downloading music, AND code analyzing in pane
+
+    //todo put border around album art, black border 5
+    //todo no background on cyder start messes it up, when logging in need to ensure background there?
+    //todo move similar commands output to static
+
     /**
      * Enters the album art window state.
      */
@@ -1469,14 +1473,19 @@ public class AudioPlayer {
         } else {
             refreshAlbumArt();
 
-            audioFrame.setSize(500,450);
+            audioFrame.setSize(500,480);
             albumArtLabel.setBounds((audioFrame.getWidth() - albumArtLen) / 2, 60, albumArtLen, albumArtLen);
             albumArtLabel.setIcon(ImageUtil.resizeImage(currentAlbumArt, albumArtLen, albumArtLen));
             albumArtLabel.setVisible(true);
 
-            int yIncrement = 200; //will need to be more for scrolling label
-            //todo put border around album art, black border 5
-            //todo no background on start messes it up
+            audioProgress.setVisible(true);
+            audioVolumeSlider.setVisible(true);
+            audioTitleLabel.setVisible(true);
+
+            // new audio location progress bar
+            audioLocation = new AudioLocation(audioProgress);
+
+            int yIncrement = 230;
 
             audioProgress.setBounds(55, 190 + yIncrement, 385, 25);
             audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 25);
@@ -1488,12 +1497,14 @@ public class AudioPlayer {
             previousAudioButton.setBounds(175, 105 + yIncrement, 30, 30);
             loopAudioButton.setBounds(115, 105 + yIncrement, 30, 30);
             selectAudioDirButton.setBounds(55, 105 + yIncrement, 30, 30);
-            //todo does this work on stop actions too for all states?
-            audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
-                            - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
-                            audioTitleLabel.getFont()) / 2, audioTitleLabel.getY() + yIncrement,
-                    StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
-                    audioTitleLabel.getParent().getHeight());
+
+            //end audio scroll label
+            if (audioScroll != null)
+                audioScroll.kill();
+            audioScroll = null;
+
+            audioScroll = new ImprovedScrollLabel(audioTitleLabel);
+
             audioTitleLabelContainer.setBounds(100, 40 + yIncrement, 300, 30);
         }
     }
