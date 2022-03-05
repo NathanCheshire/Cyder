@@ -2,16 +2,27 @@ package cyder.ui;
 
 import java.util.LinkedList;
 
+/**
+ * A group of {@link CyderCheckbox}s in which only one may be selected at a time.
+ */
 public class CyderCheckboxGroup {
+    /**
+     * The list of managed checkboxes.
+     */
     private final LinkedList<CyderCheckbox> checkboxes = new LinkedList<>();
-    private CyderCheckbox currentlySelectedBox;
-
-    public CyderCheckboxGroup() {
-        //constructor to allow object creation
-    }
 
     /**
-     * Sets the currently selected box in this group to not selected
+     * The currently selected checkbox.
+     */
+    private CyderCheckbox currentlySelectedBox;
+
+    /**
+     * Constructs a new CyderCheckboxGroup object.
+     */
+    public CyderCheckboxGroup() {}
+
+    /**
+     * Clears all selected checkboxes in this group.
      */
     public void clearSelection() {
         if (checkboxes != null && currentlySelectedBox != null) {
@@ -21,35 +32,38 @@ public class CyderCheckboxGroup {
     }
 
     /**
-     * Adds the given checkbox to the group
-     * @param box the checkbox to add
+     * Adds the given checkbox to the group.
+     *
+     * @param checkbox the checkbox to add
      */
-    public void addCheckbox(CyderCheckbox box) {
-        if (checkboxes.contains(box))
+    public void addCheckbox(CyderCheckbox checkbox) {
+        if (checkboxes.contains(checkbox))
             return;
 
-        checkboxes.add(box);
-        box.setCyderCheckboxGroup(this);
+        checkboxes.add(checkbox);
+        checkbox.setCyderCheckboxGroup(this);
     }
 
     /**
-     * removes the provided checkbox from the group
-     * @param box the box to remove from the group
+     * removes the provided checkbox from the group.
+     *
+     * @param checkbox the checkbox to remove from the group
      */
-    public void removeCheckbox(CyderCheckbox box) {
-        checkboxes.remove(box);
-        box.setCyderCheckboxGroup(null);
+    public void removeCheckbox(CyderCheckbox checkbox) {
+        checkboxes.remove(checkbox);
+        checkbox.setCyderCheckboxGroup(null);
     }
 
     /**
-     * Sets the provided checkbox within the group to be selected
-     * @param box the checkbox to set as selected
+     * Sets the provided checkbox within the group to be selected.
+     *
+     * @param checkbox the checkbox to set as selected
      */
-    public void setSelectedCheckbox(CyderCheckbox box) {
-        if (!checkboxes.contains(box))
-            throw new IllegalArgumentException("Provided CyderCheckbox is not in this button group");
+    public void setSelectedCheckbox(CyderCheckbox checkbox) {
+        if (!checkboxes.contains(checkbox))
+            throw new IllegalArgumentException("Provided CyderCheckbox is not in this group");
 
-        currentlySelectedBox = box;
+        currentlySelectedBox = checkbox;
 
         for (CyderCheckbox cb : checkboxes)
             if (cb != currentlySelectedBox)
@@ -57,7 +71,8 @@ public class CyderCheckboxGroup {
     }
 
     /**
-     * Finds the currently selected checkbox within this button group
+     * Finds the currently selected checkbox within this group.
+     *
      * @return the currently selected checkbox
      */
     public CyderCheckbox getSelectedCheckbox() {
@@ -65,10 +80,11 @@ public class CyderCheckboxGroup {
     }
 
     /**
-     * Finds how many buttons are associated with this button group
-     * @return the number of checkboxes in this button group
+     * Finds how many checkboxes are associated with this group.
+     *
+     * @return the number of checkboxes in this group
      */
-    public int getButtonCount() {
+    public int getCheckboxCount() {
         if (checkboxes == null) {
             return 0;
         } else {
@@ -76,6 +92,9 @@ public class CyderCheckboxGroup {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         if (checkboxes == null || checkboxes.size() == 0)
@@ -83,10 +102,10 @@ public class CyderCheckboxGroup {
 
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0 ; i < getButtonCount() ; i++) {
+        for (int i = 0; i < getCheckboxCount() ; i++) {
             sb.append(checkboxes.get(i).toString());
 
-            if (i != getButtonCount() - 1)
+            if (i != getCheckboxCount() - 1)
                 sb.append(", ");
         }
 
