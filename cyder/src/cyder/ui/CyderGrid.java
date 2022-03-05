@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import cyder.algorithoms.GeneralMath;
 import cyder.constants.CyderColors;
 import cyder.ui.objects.GridNode;
 import cyder.utilities.ReflectionUtil;
@@ -878,15 +877,6 @@ public class CyderGrid extends JLabel {
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
     public void rotateRegion() {
-        //todo rotate region 90deg to the left, alters the grid states and ushes old one back
-    }
-
-    /**
-     * Reflects the selected region horizontally
-     */
-    public void reflectRegionHorizontally() {
-        //todo reflect region horizontally, alters the grid state and pushes old one back
-
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
 
@@ -902,15 +892,39 @@ public class CyderGrid extends JLabel {
             int bottomRightX = Math.max(firstX, secondX);
             int bottomRightY = Math.max(firstY, secondY);
 
+            // the new state to push/add to
             LinkedList<GridNode> newState = new LinkedList<>();
 
+            // center of rotation is the average of the min/max points
+            Point centerOfRotation = new Point((topLeftX + bottomRightX) / 2,
+                    (topLeftY + bottomRightY) / 2);
+
+            //todo may run into priority where rotated areas are cut off by existing nodes, how fix
             // for nodes in current grid
             for (GridNode refNode : grid) {
                 // if in bounds of selected region
                 if (refNode.getX() >= topLeftX && refNode.getX() < bottomRightX
-                    && refNode.getY() >= topLeftY && refNode.getY() < bottomRightY) {
-                    Point newPoint = GeneralMath.rotatePoint(refNode.getPoint(), Math.PI / 2);
-                    newState.add(new GridNode(refNode.getColor(), newPoint.x, newPoint.y));
+                        && refNode.getY() >= topLeftY && refNode.getY() < bottomRightY) {
+
+                    // if not the origin
+                    if (!refNode.getPoint().equals(centerOfRotation)) {
+                        // subtract point of rotation
+                        Point newPoint = new Point(refNode.getX() - centerOfRotation.x,
+                                refNode.getY() - centerOfRotation.y);
+
+                        // rotate around the new orign
+                        newPoint = new Point(newPoint.y, newPoint.x * -1);
+
+                        // add point of rotation back
+                        newPoint = new Point(newPoint.x + centerOfRotation.x,
+                                newPoint.y + centerOfRotation.y);
+
+                        // construct new node and add to new state
+                        newState.add(new GridNode(refNode.getColor(), newPoint.x, newPoint.y));
+                    } else {
+                        // origin
+                        newState.add(refNode);
+                    }
                 }
                 // otherwise add to new state reguarly
                 else {
@@ -923,10 +937,18 @@ public class CyderGrid extends JLabel {
             grid = newState;
 
             // don't reset region since user might be doing multiple rotations
+            //todo region needs to be come new bounds of the grid, use rotations to figure out new selection points
 
             // repaint
             repaint();
         }
+    }
+
+    /**
+     * Reflects the selected region horizontally
+     */
+    public void reflectRegionHorizontally() {
+        //todo reflect region horizontally, alters the grid state and pushes old one back
     }
 
     /**

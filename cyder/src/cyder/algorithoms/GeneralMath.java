@@ -81,13 +81,14 @@ public class GeneralMath {
     }
 
     /**
-     * Rotates the provided point by rad radians in euclidean space.
+     * Rotates the provided point by deg degrees in euclidean space.
      *
      * @param point the point to ratate
-     * @param rad the radians to rotate the point by, counter-clockwise
+     * @param deg the degrees to rotate the point by, counter-clockwise
      * @return the new point
      */
-    public static Point rotatePoint(Point point, double rad) {
+    public static Point rotatePoint(Point point, double deg) {
+        double rad = Math.toRadians(deg);
         return new Point((int) (point.x * Math.cos(rad) - point.y * Math.sin(rad)),
                          (int) (point.x * Math.sin(rad) + point.y * Math.cos(rad)));
     }
