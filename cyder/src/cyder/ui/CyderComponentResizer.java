@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
+import cyder.layouts.CyderBaseLayout;
 import cyder.ui.objects.FocusWrappedComponent;
 import cyder.utilities.ReflectionUtil;
 
@@ -291,20 +292,21 @@ public class CyderComponentResizer extends MouseAdapter {
         currentBounds = source.getBounds();
 
         // if source uses a layout
-        if (source instanceof CyderFrame) {
+        if (source instanceof CyderFrame && ((CyderFrame) source).usingLayoutForContentPane()) {
             // wipe past components and original focus owner
             focusableComponents.clear();
             originalFocusOwner = null;
 
             // save focusable state of components and disable focusing
             for (Component component : ((CyderFrame) source).getLayoutComponents()) {
-                focusableComponents.add(new FocusWrappedComponent(component));
-
-                if (component.isFocusOwner() && originalFocusOwner == null) {
-                    originalFocusOwner = component;
+                // if a layout is the component, recursively find components
+                if (component instanceof CyderPanel) {
+                    for (Component realComponent : recursivelyFindComponents((CyderPanel) component)) {
+                        foundComponentSubroutine(realComponent);
+                    }
+                } else {
+                    foundComponentSubroutine(component);
                 }
-
-                component.setFocusable(false);
             }
         }
 
@@ -313,6 +315,45 @@ public class CyderComponentResizer extends MouseAdapter {
             componentIsAutoscroll = jc.getAutoscrolls();
             jc.setAutoscrolls(false);
         }
+    }
+
+    /**
+     * Subroutine for method above
+     *
+     * @param component the component to perform calls and checks on
+     */
+    private void foundComponentSubroutine(Component component) {
+        focusableComponents.add(new FocusWrappedComponent(component));
+
+        if (component.isFocusOwner() && originalFocusOwner == null) {
+            originalFocusOwner = component;
+        }
+
+        component.setFocusable(false);
+    }
+
+    /**
+     * Generates a list of all components on the provided layout.
+     * If a component is a layout itself, the components of that
+     * layout are returned as well.
+     *
+     * @param parentLayout the top-level panel that holds a layout
+     * @return a list of all components recusively found if one child happens to be a layout itself
+     */
+    private static ArrayList<Component> recursivelyFindComponents(CyderPanel parentLayout) {
+        ArrayList<Component> ret = new ArrayList<>();
+
+        for (Component child : parentLayout.getLayoutComponents()) {
+            // oh boy
+            if (child instanceof CyderBaseLayout) {
+                ret.addAll(recursivelyFindComponents((CyderPanel) child));
+                System.out.println("recursively found a " + child.getClass().getName());
+            }
+
+            ret.add(child);
+        }
+
+        return ret;
     }
 
     private Component originalFocusOwner = null;

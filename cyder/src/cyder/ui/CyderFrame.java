@@ -542,6 +542,10 @@ public class CyderFrame extends JFrame {
      */
     private CyderPanel cyderPanel;
 
+    public boolean usingLayoutForContentPane() {
+        return cyderPanel != null;
+    }
+
     /**
      * Adds the provided CyderPanel on top of the content pane which is also resized on
      * CyderFrame resize events.
