@@ -40,6 +40,10 @@ public final class GridNode {
         this.y = y;
     }
 
+    public Point getPoint() {
+        return new Point(this.x, this.y);
+    }
+
     /**
      * {@inheritDoc}
      */

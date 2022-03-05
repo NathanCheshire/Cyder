@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.algorithoms.GeneralMath;
 import cyder.constants.CyderColors;
 import cyder.ui.objects.GridNode;
 import cyder.utilities.ReflectionUtil;
@@ -877,14 +878,55 @@ public class CyderGrid extends JLabel {
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
     public void rotateRegion() {
-        //todo implement me
+        //todo rotate region 90deg to the left, alters the grid states and ushes old one back
     }
 
     /**
      * Reflects the selected region horizontally
      */
     public void reflectRegionHorizontally() {
-        //todo implement me
+        //todo reflect region horizontally, alters the grid state and pushes old one back
+
+        if (point1Selection != null && point2Selection != null
+                && point1Selection != point2Selection) {
+
+            // get points
+            int firstX = (int) ((point1Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int firstY = (int) ((point1Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondX = (int) ((point2Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondY = (int) ((point2Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+
+            // find min and max
+            int topLeftX = Math.min(firstX, secondX);
+            int topLeftY = Math.min(firstY, secondY);
+            int bottomRightX = Math.max(firstX, secondX);
+            int bottomRightY = Math.max(firstY, secondY);
+
+            LinkedList<GridNode> newState = new LinkedList<>();
+
+            // for nodes in current grid
+            for (GridNode refNode : grid) {
+                // if in bounds of selected region
+                if (refNode.getX() >= topLeftX && refNode.getX() < bottomRightX
+                    && refNode.getY() >= topLeftY && refNode.getY() < bottomRightY) {
+                    Point newPoint = GeneralMath.rotatePoint(refNode.getPoint(), Math.PI / 2);
+                    newState.add(new GridNode(refNode.getColor(), newPoint.x, newPoint.y));
+                }
+                // otherwise add to new state reguarly
+                else {
+                    newState.add(refNode);
+                }
+            }
+
+            // push current state and set new grid
+            backwardStates.push(new LinkedList<>(grid));
+            grid = newState;
+
+            // don't reset region since user might be doing multiple rotations
+
+            // repaint
+            repaint();
+        }
     }
 
     /**

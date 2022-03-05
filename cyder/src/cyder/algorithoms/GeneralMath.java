@@ -2,6 +2,8 @@ package cyder.algorithoms;
 
 import cyder.constants.CyderStrings;
 
+import java.awt.*;
+
 /**
  * General math methods
  */
@@ -76,5 +78,17 @@ public class GeneralMath {
      */
     public static float lerp(float v0, float v1, float t) {
         return (1 - t) * v0 + t * v1;
+    }
+
+    /**
+     * Rotates the provided point by rad radians in euclidean space.
+     *
+     * @param point the point to ratate
+     * @param rad the radians to rotate the point by, counter-clockwise
+     * @return the new point
+     */
+    public static Point rotatePoint(Point point, double rad) {
+        return new Point((int) (point.x * Math.cos(rad) - point.y * Math.sin(rad)),
+                         (int) (point.x * Math.sin(rad) + point.y * Math.cos(rad)));
     }
 }

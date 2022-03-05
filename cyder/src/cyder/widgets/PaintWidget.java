@@ -387,14 +387,14 @@ public class PaintWidget {
 
         CyderIconButton cropToRegion = new CyderIconButton("Crop Region",
                 new ImageIcon("static/pictures/paint/crop.png"),
-                new ImageIcon("static/pictures/paint/crop_hover.png"));
+                new ImageIcon("static/pictures/paint/crop_hover.png"), null);
         cropToRegion.setSize(50, 50);
         cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
         bottomLayout.addComponent(cropToRegion, 1,0);
 
         CyderIconButton deleteRegion = new CyderIconButton("Delete Region",
                 new ImageIcon("static/pictures/paint/cut.png"),
-                new ImageIcon("static/pictures/paint/cut_hover.png"));
+                new ImageIcon("static/pictures/paint/cut_hover.png"), null);
         deleteRegion.setSize(66, 50);
         deleteRegion.setToolTipText("Cut region");
         deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
@@ -428,7 +428,7 @@ public class PaintWidget {
 
         CyderIconButton rotate = new CyderIconButton("Rotate Region",
                 new ImageIcon("static/pictures/paint/rotate.png"),
-                new ImageIcon("static/pictures/paint/rotate_hover.png"));
+                new ImageIcon("static/pictures/paint/rotate_hover.png"), null);
         rotate.setSize(50, 50);
         rotate.addActionListener(e -> cyderGrid.rotateRegion());
         bottomLayout.addComponent(rotate, 4,0);
@@ -436,7 +436,7 @@ public class PaintWidget {
         // selection region reflecting
         CyderIconButton reflect = new CyderIconButton("Reflect Region",
                 new ImageIcon("static/pictures/paint/reflect.png"),
-                new ImageIcon("static/pictures/paint/reflect_hover.png"));
+                new ImageIcon("static/pictures/paint/reflect_hover.png"), null);
         reflect.setSize(51, 50);
         reflect.addActionListener(e -> cyderGrid.reflectRegionHorizontally());
         bottomLayout.addComponent(reflect, 5,0);
