@@ -323,7 +323,7 @@ public class PaintWidget {
             paintFrame.revalidate();
             paintFrame.repaint();
         });
-        //todo add undo
+        //todo add undo find icon
 
         CyderButton redo = new CyderButton(">");
         redo.setSize(30, 35);
@@ -335,7 +335,7 @@ public class PaintWidget {
             paintFrame.revalidate();
             paintFrame.repaint();
         });
-        //todo add redo
+        //todo add redo find icon
 
         CyderIconButton selectionTool = new CyderIconButton("Select Region",
                 new ImageIcon("static/pictures/paint/select.png"),
@@ -344,38 +344,40 @@ public class PaintWidget {
         selectionTool.setSize(50, 50);
         bottomLayout.addComponent(selectionTool, 0,0);
 
-        CyderButton cropToRegion = new CyderButton("Crop");
-        cropToRegion.setSize(80, 45);
-        cropToRegion.setToolTipText("Crop to region");
+        CyderIconButton cropToRegion = new CyderIconButton("Crop Region",
+                new ImageIcon("static/pictures/paint/crop.png"),
+                new ImageIcon("static/pictures/paint/crop_hover.png"), null);
+        cropToRegion.setSize(50, 50);
         cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
         bottomLayout.addComponent(cropToRegion, 1,0);
 
-        //todop use icons for these
-        // selected region cutting
-        CyderButton deleteRegion = new CyderButton("Cut");
-        deleteRegion.setSize(80, 45);
+        CyderIconButton deleteRegion = new CyderIconButton("Delete Region",
+                new ImageIcon("static/pictures/paint/cut.png"),
+                new ImageIcon("static/pictures/paint/cut_hover.png"), null);
+        deleteRegion.setSize(66, 50);
         deleteRegion.setToolTipText("Cut region");
         deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
         bottomLayout.addComponent(deleteRegion, 2,0);
 
-        // select color from mouse point
-        CyderButton selectColor = new CyderButton("Color");
-        selectColor.setSize(120, 45);
-        selectColor.setToolTipText("Selection color");
+        CyderIconButton selectColor = new CyderIconButton("Select Color",
+                new ImageIcon("static/pictures/paint/select_color.png"),
+                new ImageIcon("static/pictures/paint/select_color_hover.png"), null);
+        selectColor.setSize(50, 50);
         selectColor.addActionListener(e -> toggleColorSelection());
         bottomLayout.addComponent(selectColor, 3,0);
 
-        // selected region rotating
-        CyderButton rotate = new CyderButton("Rotate");
-        rotate.setSize(120, 45);
-        rotate.setToolTipText("Rotate region");
+        CyderIconButton rotate = new CyderIconButton("Rotate Region",
+                new ImageIcon("static/pictures/paint/rotate.png"),
+                new ImageIcon("static/pictures/paint/rotate_hover.png"), null);
+        rotate.setSize(50, 50);
         rotate.addActionListener(e -> cyderGrid.rotateRegion());
         bottomLayout.addComponent(rotate, 4,0);
 
         // selection region reflecting
-        CyderButton reflect = new CyderButton("Reflect");
-        reflect.setSize(120, 45);
-        reflect.setToolTipText("Reflect region");
+        CyderIconButton reflect = new CyderIconButton("Reflect Region",
+                new ImageIcon("static/pictures/paint/reflect.png"),
+                new ImageIcon("static/pictures/paint/reflect_hover.png"), null);
+        reflect.setSize(51, 50);
         reflect.addActionListener(e -> cyderGrid.reflectRegionHorizontally());
         bottomLayout.addComponent(reflect, 5,0);
 
@@ -498,9 +500,6 @@ public class PaintWidget {
 
         Toolkit.getDefaultToolkit().sync();
     }
-
-    //todo selection is broken entering if in select color mode
-    //todo if color clicked, default mode to adding nodes
 
     /**
      * The icon used for color selection mode

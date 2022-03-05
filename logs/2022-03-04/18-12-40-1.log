@@ -1,0 +1,58 @@
+[18-12-40] [ENTRY]: [Nathan]
+[18-12-41] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-12-41] [THREAD STARTED]: Splash Loader
+[18-12-42] [THREAD STARTED]: Splash Animation
+[18-12-42] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-12-42] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-12-42] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[18-12-42] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-12-42] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-12-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-43] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[18-12-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-43] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-12-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-12-43] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-12-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-12-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-12-43] [THREAD STARTED]: Console Printing Animation
+[18-12-43] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-12-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-12-43] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-12-43] [THREAD STARTED]: Console Input Caret Position Updater
+[18-12-43] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-12-43] [SYSTEM_IO]: Userdata requested: InputFill
+[18-12-43] [THREAD STARTED]: High Ping Checker
+[18-12-43] [THREAD STARTED]: Hourly Chime Checker
+[18-12-43] [THREAD STARTED]: Console Clock Updater
+[18-12-43] [THREAD STARTED]: Cyder Busy Checker
+[18-12-43] [THREAD STARTED]: ConsoleFrame Data Saver
+[18-12-43] [ACTION]: Console loaded in 3256ms
+[18-12-43] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-12-43] [ENTRY]: [TESTING MODE]
+[18-12-43] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1466, 737, 996, 655)], hash = [1279740095], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[18-12-43] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [692879400], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-12-43] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[18-12-44] [SYSTEM_IO]: Userdata requested: laststart
+[18-12-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-44] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3256ms
+[18-12-44] [THREAD STARTED]: notification appear animation
+[18-12-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-12-44] [THREAD STARTED]: Notificaiton vanish animater 1205190609
+[18-12-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-12-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-05] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-13] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-16] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-20] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-28] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-13-35] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
