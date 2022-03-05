@@ -899,8 +899,6 @@ public class CyderGrid extends JLabel {
             Point centerOfRotation = new Point((topLeftX + bottomRightX) / 2,
                     (topLeftY + bottomRightY) / 2);
 
-            //todo may run into priority where rotated areas are cut off by existing nodes, how fix
-            // for nodes in current grid
             for (GridNode refNode : grid) {
                 // if in bounds of selected region
                 if (refNode.getX() >= topLeftX && refNode.getX() < bottomRightX
@@ -974,9 +972,60 @@ public class CyderGrid extends JLabel {
      * Reflects the selected region horizontally
      */
     public void reflectRegionHorizontally() {
-        //todo reflect region horizontally, alters the grid state and pushes old one back
+        if (point1Selection != null && point2Selection != null
+                && point1Selection != point2Selection) {
 
-        //three cases: on center line, left, right
+            // get points
+            int firstX = (int) ((point1Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int firstY = (int) ((point1Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondX = (int) ((point2Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int secondY = (int) ((point2Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+
+            // find min and max
+            int topLeftX = Math.min(firstX, secondX);
+            int topLeftY = Math.min(firstY, secondY);
+            int bottomRightX = Math.max(firstX, secondX);
+            int bottomRightY = Math.max(firstY, secondY);
+
+            // the new state to push/add to
+            LinkedList<GridNode> newState = new LinkedList<>();
+
+            // center of reflection
+            int centerLine = (bottomRightX - topLeftX) / 2 + topLeftX;
+
+            // for nodes in current grid
+            for (GridNode refNode : grid) {
+                // if in bounds of selected region
+                if (refNode.getX() >= topLeftX && refNode.getX() < bottomRightX
+                        && refNode.getY() >= topLeftY && refNode.getY() < bottomRightY) {
+                    // on left so flip to right
+                    if (refNode.getX() < centerLine) {
+                        newState.add(new GridNode(refNode.getColor(),
+                                centerLine + (centerLine - refNode.getX()), refNode.getY()));
+                    }
+                    // on right so flip to left
+                    else if (refNode.getX() > centerLine) {
+                        newState.add(new GridNode(refNode.getColor(),
+                                centerLine - (refNode.getX() - centerLine), refNode.getY()));
+                    }
+                    // else on line so no action
+                    else {
+                        newState.add(refNode);
+                    }
+                }
+                // otherwise add to new state reguarly
+                else {
+                    newState.add(refNode);
+                }
+            }
+
+            // push current state and set new grid
+            backwardStates.push(new LinkedList<>(grid));
+            grid = newState;
+
+            // repaint
+            repaint();
+        }
     }
 
     /**
@@ -986,11 +1035,13 @@ public class CyderGrid extends JLabel {
      * @param mousePoint the mouse point of a dimension
      * @return the converted grid point of the dimension
      */
-    private int mouseToGridSpace(int mousePoint) {
+    private float mouseToGridSpace(int mousePoint) {
         checkNotNull(mousePoint);
 
-        return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
+        return (mousePoint - centeringDrawOffset) / (gridComponentLength / (float) nodes);
     }
+
+    //todo for actions that need a region, if no region, just do whole grid
 
     //todo utilize surrounding methods for relative zooming after
     // rest of painting widget is implemented
@@ -1012,12 +1063,12 @@ public class CyderGrid extends JLabel {
      * @param gridPoint the point on the grid to convert to mouse point
      * @return the grid point converted to mouse point
      */
-    public int gridToMouseSpace(int gridPoint) {
+    public float gridToMouseSpace(int gridPoint) {
         checkNotNull(gridPoint);
 
-        int halfNodeLen = (int) ((this.gridComponentLength / (float) this.nodes) / 2.0);
+        float halfNodeLen = (this.gridComponentLength / (float) this.nodes) / 2.0f;
 
         // account for node length and shift to node's center
-        return (int) (((gridComponentLength * gridPoint) / nodes) + centeringDrawOffset) + halfNodeLen;
+        return (((gridComponentLength * gridPoint) / (float) nodes) + centeringDrawOffset) + halfNodeLen;
     }
 }
