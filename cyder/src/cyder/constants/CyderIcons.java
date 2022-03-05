@@ -4,7 +4,6 @@ import cyder.utilities.ImageUtil;
 import cyder.utilities.ScreenUtil;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Common ImageIcons used throughout Cyder for buttons
@@ -98,7 +97,7 @@ public class CyderIcons {
      */
     public static ImageIcon generateDefaultBackground(int width, int height) {
         // todo invert me when in dark mode, invert of this should be default text color too I guess
-        return ImageUtil.imageIconFromColor(new Color(249, 233, 241), width, height);
+        return ImageUtil.imageIconFromColor(CyderColors.vanila, width, height);
     }
 
     public static ImageIcon getCurrentCyderIcon() {

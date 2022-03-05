@@ -798,16 +798,6 @@ public class AudioPlayer {
                 audioScroll.kill();
             audioScroll = null;
 
-            //reset audio title now that scrolling has ended
-            if (audioTitleLabel != null) {
-                audioTitleLabel.setText(DEFAULT_LABEL_TEXT);
-                audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
-                                - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
-                                audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
-                        StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
-                        audioTitleLabel.getParent().getHeight());
-            }
-
             if (windowState == PlayerWindowState.ALBUM_ART)
                 enterAlbumArtPlayer();
 
@@ -1484,7 +1474,9 @@ public class AudioPlayer {
             albumArtLabel.setIcon(ImageUtil.resizeImage(currentAlbumArt, albumArtLen, albumArtLen));
             albumArtLabel.setVisible(true);
 
-            int yIncrement = 200;
+            int yIncrement = 200; //will need to be more for scrolling label
+            //todo put border around album art, black border 5
+            //todo no background on start messes it up
 
             audioProgress.setBounds(55, 190 + yIncrement, 385, 25);
             audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 25);
@@ -1496,6 +1488,7 @@ public class AudioPlayer {
             previousAudioButton.setBounds(175, 105 + yIncrement, 30, 30);
             loopAudioButton.setBounds(115, 105 + yIncrement, 30, 30);
             selectAudioDirButton.setBounds(55, 105 + yIncrement, 30, 30);
+            //todo does this work on stop actions too for all states?
             audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
                             - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
                             audioTitleLabel.getFont()) / 2, audioTitleLabel.getY() + yIncrement,
