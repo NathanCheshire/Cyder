@@ -53,7 +53,7 @@ public final class GridNode {
         GridNode other = (GridNode) node;
 
         return (this.x == other.x && this.y == other.y
-                && this.color.equals(other.color));
+                );
     }
 
     /**

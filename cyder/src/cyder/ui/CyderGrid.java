@@ -462,9 +462,7 @@ public class CyderGrid extends JLabel {
         @Override
         public void mousePressed(MouseEvent e) {
             // push grid as a past state if it is not equal to the last one
-            if (backwardStates.isEmpty())
-                backwardStates.push(new LinkedList<>(grid));
-            else if (!backwardStates.peek().equals(grid))
+            if (backwardStates.isEmpty() || !backwardStates.peek().equals(grid))
                 backwardStates.push(new LinkedList<>(grid));
 
             // new history so clear forward traversal

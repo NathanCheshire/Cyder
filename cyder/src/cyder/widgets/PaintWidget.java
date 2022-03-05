@@ -203,7 +203,7 @@ public class PaintWidget {
         });
         topLayout.addComponent(recentColorsBlock, 0, 0);
 
-        //todo deleting cells not working
+        //todo past states are not rendered correctly and merged together
 
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
