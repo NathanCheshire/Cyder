@@ -102,6 +102,7 @@ public class PaintWidget {
 
     private static Color currentPaintColor = CyderColors.regularPink;
     private static CyderTextField colorHexField;
+    private static CyderCheckbox add;
 
     /**
      * Opens the paint controls frame.
@@ -122,7 +123,7 @@ public class PaintWidget {
         CyderPanel topLayoutPanel = new CyderPanel(topLayout);
         parentLayout.addComponent(topLayoutPanel, 0, 0);
 
-        CyderGridLayout bottomLayout = new CyderGridLayout(1,6);
+        CyderGridLayout bottomLayout = new CyderGridLayout(6,1);
         CyderPanel bottomLayoutPanel = new CyderPanel(bottomLayout);
         parentLayout.addComponent(bottomLayoutPanel, 0, 1);
 
@@ -155,8 +156,6 @@ public class PaintWidget {
                         currentX = padding;
                         currentY += colorBlockLen;
                     }
-
-                    //todo need some kind of method to figure out what color was pressed when clicked
 
                     numColorsPainted++;
                 }
@@ -197,11 +196,18 @@ public class PaintWidget {
                 if (recentColors.size() < 1 + revIndex)
                     return;
 
-                // get clicked color
-                Color clickedColor = recentColors.get(recentColors.size() - 1 - revIndex);
-                setNewPaintColor(clickedColor);
+                // get clicked color and set
+                setNewPaintColor(recentColors.get(recentColors.size() - 1 - revIndex));
             }
         });
+
+        // initial colors
+        setNewPaintColor(CyderColors.navy);
+        setNewPaintColor(CyderColors.regularPink);
+        setNewPaintColor(CyderColors.regularOrange);
+        setNewPaintColor(CyderColors.regularGreen);
+        setNewPaintColor(CyderColors.regularBlue);
+        setNewPaintColor(CyderColors.tooltipForegroundColor);
 
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
@@ -246,7 +252,7 @@ public class PaintWidget {
         addLabel.setSize(50,20);
         //todo add addlabel
 
-        CyderCheckbox add = new CyderCheckbox();
+        add = new CyderCheckbox();
         add.setToolTipText("Paint cells");
         add.setSize(50, 50);
         add.addMouseListener(new MouseAdapter() {
@@ -331,60 +337,60 @@ public class PaintWidget {
         });
         //todo add redo
 
-        CyderButton selectionTool = new CyderButton("<html><b>\u2B1C</b></html>");
-        selectionTool.setSize(45, 45);
-        selectionTool.setToolTipText("Select region");
-        selectionTool.addActionListener(e -> {
-            selectionMode = !selectionMode;
-
-            if (selectionMode) {
-                paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-            } else {
-                paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            }
-
-            Toolkit.getDefaultToolkit().sync();
-
-            if (selectionMode) {
-                cyderGrid.setMode(CyderGrid.Mode.SELECTION);
-            } else {
-                if (add.isEnabled()) {
-                    cyderGrid.setMode(CyderGrid.Mode.ADD);
-                } else {
-                    cyderGrid.setMode(CyderGrid.Mode.DELETE);
-                }
-            }
-        });
+        CyderIconButton selectionTool = new CyderIconButton("Select Region",
+                new ImageIcon("static/pictures/paint/select.png"),
+                new ImageIcon("static/pictures/paint/select_hover.png"), null);
+        selectionTool.addActionListener(e -> toggleSelectionMode());
+        selectionTool.setSize(50, 50);
         bottomLayout.addComponent(selectionTool, 0,0);
 
         CyderButton cropToRegion = new CyderButton("Crop");
         cropToRegion.setSize(80, 45);
         cropToRegion.setToolTipText("Crop to region");
         cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
-        bottomLayout.addComponent(cropToRegion, 0,1);
+        bottomLayout.addComponent(cropToRegion, 1,0);
 
+        //todop use icons for these
         // selected region cutting
         CyderButton deleteRegion = new CyderButton("Cut");
         deleteRegion.setSize(80, 45);
         deleteRegion.setToolTipText("Cut region");
         deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
-        bottomLayout.addComponent(deleteRegion, 0,2);
+        bottomLayout.addComponent(deleteRegion, 2,0);
 
-        //todo select color here
+        // select color from mouse point
+        CyderButton selectColor = new CyderButton("Color");
+        selectColor.setSize(120, 45);
+        selectColor.setToolTipText("Selection color");
+        selectColor.addActionListener(e -> toggleColorSelection());
+        bottomLayout.addComponent(selectColor, 3,0);
 
         // selected region rotating
         CyderButton rotate = new CyderButton("Rotate");
-        rotate.setSize(80, 45);
+        rotate.setSize(120, 45);
         rotate.setToolTipText("Rotate region");
         rotate.addActionListener(e -> cyderGrid.rotateRegion());
-        bottomLayout.addComponent(rotate, 0,4);
+        bottomLayout.addComponent(rotate, 4,0);
 
         // selection region reflecting
         CyderButton reflect = new CyderButton("Reflect");
-        reflect.setSize(80, 45);
+        reflect.setSize(120, 45);
         reflect.setToolTipText("Reflect region");
         reflect.addActionListener(e -> cyderGrid.reflectRegionHorizontally());
-        bottomLayout.addComponent(reflect, 0,5);
+        bottomLayout.addComponent(reflect, 5,0);
+
+        // use master layout as content pane
+        CyderPanel panel = new CyderPanel(parentLayout);
+        paintControlsFrame.setContentPanel(panel);
+
+        // init resizing since we can due to the layout
+        paintControlsFrame.initializeResizing();
+        paintControlsFrame.setResizable(true);
+        paintControlsFrame.setMinimumSize(paintControlsFrame.getSize());
+        paintControlsFrame.setMaximumSize(new Dimension(
+                (int) (paintControlsFrame.getWidth() * 1.5),
+                (int) (paintControlsFrame.getHeight() * 1.5)));
+        paintControlsFrame.setBackgroundResizing(true);
 
         // set visibility
         paintControlsFrame.setVisible(true);
@@ -399,11 +405,6 @@ public class PaintWidget {
     // --------------
     // paint controls
     // --------------
-
-    /**
-     * Selection mode is used for selectiong a rectangular region
-     */
-    private static boolean selectionMode = false;
 
     /**
      * The default brush width.
@@ -430,7 +431,7 @@ public class PaintWidget {
      *
      * @param newColor the new color
      */
-    private static void setNewPaintColor(Color newColor) {
+    public static void setNewPaintColor(Color newColor) {
         // if no change, ignore
         if (newColor.equals(currentPaintColor))
             return;
@@ -466,5 +467,69 @@ public class PaintWidget {
 
         // set grid's paint
         cyderGrid.setNodeColor(currentPaintColor);
+
+        // if the mode is selection, change to add
+        if (cyderGrid.getMode() == CyderGrid.Mode.SELECTION) {
+            toggleSelectionMode();
+        } else if (cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION) {
+            toggleColorSelection();
+        }
+    }
+
+    /**
+     * Handles the button press for selection mode.
+     */
+    private static void toggleSelectionMode() {
+        CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.SELECTION
+                ? CyderGrid.Mode.ADD : CyderGrid.Mode.SELECTION;
+
+        if (newMode == CyderGrid.Mode.SELECTION) {
+            paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            cyderGrid.setMode(CyderGrid.Mode.SELECTION);
+        } else {
+            paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+            if (add.isEnabled()) {
+                cyderGrid.setMode(CyderGrid.Mode.ADD);
+            } else {
+                cyderGrid.setMode(CyderGrid.Mode.DELETE);
+            }
+        }
+
+        Toolkit.getDefaultToolkit().sync();
+    }
+
+    //todo selection is broken entering if in select color mode
+    //todo if color clicked, default mode to adding nodes
+
+    /**
+     * The icon used for color selection mode
+     */
+    private static final ImageIcon colorSelectionIcon = new ImageIcon("static/pictures/paint/select_color.png");
+
+    /**
+     * Toggles between states for color mode selection.
+     */
+    private static void toggleColorSelection() {
+        CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION
+                ? CyderGrid.Mode.ADD : CyderGrid.Mode.COLOR_SELECTION;
+
+        if (newMode == CyderGrid.Mode.COLOR_SELECTION) {
+            Image image = colorSelectionIcon.getImage();
+            cyderGrid.setMode(newMode);
+            Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(
+                    image, new Point(0, 30), "eyedropper");
+            paintFrame.setCursor(c);
+        } else {
+            paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+            if (add.isEnabled()) {
+                cyderGrid.setMode(CyderGrid.Mode.ADD);
+            } else {
+                cyderGrid.setMode(CyderGrid.Mode.DELETE);
+            }
+        }
+
+        Toolkit.getDefaultToolkit().sync();
     }
 }

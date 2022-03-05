@@ -3,6 +3,7 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.ui.objects.GridNode;
 import cyder.utilities.ReflectionUtil;
+import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -72,7 +73,7 @@ public class CyderGrid extends JLabel {
      * An enum for adding/removing nodes from the grid.
      */
     public enum Mode {
-        ADD, DELETE, SELECTION
+        ADD, DELETE, SELECTION, NONE, COLOR_SELECTION
     }
 
     /**
@@ -439,9 +440,15 @@ public class CyderGrid extends JLabel {
             for (GridNode removeNode : nodesInBoundsOfClick) {
                 removeNode(removeNode);
             }
-        } else {
+        } else if (mode == Mode.SELECTION) {
             handleCropMovement(new Point(event.getX(), event.getY()));
-        }
+        } else if (mode == Mode.COLOR_SELECTION) {
+            for (GridNode gridNode : grid) {
+                if (gridNode.getX() == x && gridNode.getY() == y) {
+                    PaintWidget.setNewPaintColor(gridNode.getColor());
+                }
+            }
+        } else throw new IllegalStateException("Unaccounted for mode: " + mode);
 
         // redraw grid
         revalidate();
@@ -872,14 +879,14 @@ public class CyderGrid extends JLabel {
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
     public void rotateRegion() {
-
+        //todo implement me
     }
 
     /**
      * Reflects the selected region horizontally
      */
     public void reflectRegionHorizontally() {
-
+        //todo implement me
     }
 
     /**
@@ -895,18 +902,16 @@ public class CyderGrid extends JLabel {
         return (int) ((mousePoint - centeringDrawOffset) / (gridComponentLength / nodes));
     }
 
-    //todo utilize for relative zooming after other features
-    // done and controls grid finished using a grid layout
+    //todo utilize surrounding methods for relative zooming after
+    // rest of painting widget is implemented
 
-    //todo after that and other better secondary picture resizer, pixelator etc.
-    // add a menu popup if you click a frame's title
-
-    //todo menu for frame only available if title label has valid title
+    //todo menu for frame only available if title label has valid
+    // title since that's what you mouse over and click
     //todo new component to slide in with clickable menu text like old console menu
 
-    //todo features: layer images, pixelate, resize
+    //todo menu features: layer images, pixelate, resize
 
-    //todo square album art image for audio player when not in mini mode, make two minimodes
+    //todo square album art image for audio player when not in small-mini mode, make two minimodes
 
     /**
      * Converts the provided grid node to it's mouse space equivalent
