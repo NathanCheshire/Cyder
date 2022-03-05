@@ -3,7 +3,7 @@ package cyder.ui;
 import java.util.LinkedList;
 
 public class CyderCheckboxGroup {
-    private LinkedList<CyderCheckbox> checkboxes = new LinkedList<>();
+    private final LinkedList<CyderCheckbox> checkboxes = new LinkedList<>();
     private CyderCheckbox currentlySelectedBox;
 
     public CyderCheckboxGroup() {

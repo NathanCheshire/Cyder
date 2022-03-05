@@ -38,6 +38,9 @@ public class PaintWidget {
      */
     private static CyderGrid cyderGrid;
 
+    private static CyderIconButton selectionTool;
+    private static CyderIconButton selectColor;
+
     /**
      * Prevent illegal class instantiation.
      */
@@ -201,14 +204,9 @@ public class PaintWidget {
         topLayout.addComponent(recentColorsBlock, 0, 0);
 
         //todo supress default add/removes from component in the class that these layouts extend
+        // this will expose possible bugs here too
 
-        // initial colors
-        setNewPaintColor(CyderColors.navy);
-        setNewPaintColor(CyderColors.regularPink);
-        setNewPaintColor(CyderColors.regularOrange);
-        setNewPaintColor(CyderColors.regularGreen);
-        setNewPaintColor(CyderColors.regularBlue);
-        setNewPaintColor(CyderColors.tooltipForegroundColor);
+        //todo deleting cells not working
 
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
@@ -364,40 +362,76 @@ public class PaintWidget {
 
         topLayout.addComponent(sliderLabel, 4, 0);
 
-        //todo deleting cells not working
-
-        CyderIconButton selectionTool = new CyderIconButton("Select Region",
+        selectionTool = new CyderIconButton("Select Region",
                 new ImageIcon("static/pictures/paint/select.png"),
                 new ImageIcon("static/pictures/paint/select_hover.png"), null);
+        selectionTool.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (cyderGrid.getMode() == CyderGrid.Mode.SELECTION) {
+                    selectionTool.setIcon(new ImageIcon("static/pictures/paint/select.png"));
+                } else {
+                    selectionTool.setIcon(new ImageIcon("static/pictures/paint/select_hover.png"));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (cyderGrid.getMode() != CyderGrid.Mode.SELECTION) {
+                    selectionTool.setIcon(new ImageIcon("static/pictures/paint/select.png"));
+                } else {
+                    selectionTool.setIcon(new ImageIcon("static/pictures/paint/select_hover.png"));
+                }
+            }
+        });
         selectionTool.addActionListener(e -> toggleSelectionMode());
         selectionTool.setSize(50, 50);
         bottomLayout.addComponent(selectionTool, 0,0);
 
         CyderIconButton cropToRegion = new CyderIconButton("Crop Region",
                 new ImageIcon("static/pictures/paint/crop.png"),
-                new ImageIcon("static/pictures/paint/crop_hover.png"), null);
+                new ImageIcon("static/pictures/paint/crop_hover.png"));
         cropToRegion.setSize(50, 50);
         cropToRegion.addActionListener(e -> cyderGrid.cropToRegion());
         bottomLayout.addComponent(cropToRegion, 1,0);
 
         CyderIconButton deleteRegion = new CyderIconButton("Delete Region",
                 new ImageIcon("static/pictures/paint/cut.png"),
-                new ImageIcon("static/pictures/paint/cut_hover.png"), null);
+                new ImageIcon("static/pictures/paint/cut_hover.png"));
         deleteRegion.setSize(66, 50);
         deleteRegion.setToolTipText("Cut region");
         deleteRegion.addActionListener(e -> cyderGrid.deleteRegion());
         bottomLayout.addComponent(deleteRegion, 2,0);
 
-        CyderIconButton selectColor = new CyderIconButton("Select Color",
+        selectColor = new CyderIconButton("Select Color",
                 new ImageIcon("static/pictures/paint/select_color.png"),
                 new ImageIcon("static/pictures/paint/select_color_hover.png"), null);
+        selectColor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION) {
+                    selectColor.setIcon(new ImageIcon("static/pictures/paint/select_color.png"));
+                } else {
+                    selectColor.setIcon(new ImageIcon("static/pictures/paint/select_color_hover.png"));
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (cyderGrid.getMode() != CyderGrid.Mode.COLOR_SELECTION) {
+                    selectColor.setIcon(new ImageIcon("static/pictures/paint/select_color.png"));
+                } else {
+                    selectColor.setIcon(new ImageIcon("static/pictures/paint/select_color_hover.png"));
+                }
+            }
+        });
         selectColor.setSize(50, 50);
         selectColor.addActionListener(e -> toggleColorSelection());
         bottomLayout.addComponent(selectColor, 3,0);
 
         CyderIconButton rotate = new CyderIconButton("Rotate Region",
                 new ImageIcon("static/pictures/paint/rotate.png"),
-                new ImageIcon("static/pictures/paint/rotate_hover.png"), null);
+                new ImageIcon("static/pictures/paint/rotate_hover.png"));
         rotate.setSize(50, 50);
         rotate.addActionListener(e -> cyderGrid.rotateRegion());
         bottomLayout.addComponent(rotate, 4,0);
@@ -405,7 +439,7 @@ public class PaintWidget {
         // selection region reflecting
         CyderIconButton reflect = new CyderIconButton("Reflect Region",
                 new ImageIcon("static/pictures/paint/reflect.png"),
-                new ImageIcon("static/pictures/paint/reflect_hover.png"), null);
+                new ImageIcon("static/pictures/paint/reflect_hover.png"));
         reflect.setSize(51, 50);
         reflect.addActionListener(e -> cyderGrid.reflectRegionHorizontally());
         bottomLayout.addComponent(reflect, 5,0);
@@ -422,6 +456,14 @@ public class PaintWidget {
                 (int) (paintControlsFrame.getWidth() * 1.5),
                 paintControlsFrame.getHeight()));
         paintControlsFrame.setBackgroundResizing(true);
+
+        // initial colors
+        setNewPaintColor(CyderColors.navy);
+        setNewPaintColor(CyderColors.regularPink);
+        setNewPaintColor(CyderColors.regularOrange);
+        setNewPaintColor(CyderColors.regularGreen);
+        setNewPaintColor(CyderColors.regularBlue);
+        setNewPaintColor(CyderColors.tooltipForegroundColor);
 
         // set visibility
         paintControlsFrame.setVisible(true);
@@ -471,7 +513,8 @@ public class PaintWidget {
         currentPaintColor = newColor;
 
         // update the hex field with our current color
-        //todo colorHexField.setText(ColorUtil.rgbToHexString(newColor));
+        if (colorHexField != null)
+            colorHexField.setText(ColorUtil.rgbToHexString(newColor));
 
         // ensure if list contains color, it's pulled to the front
         // of recent colors and is not duplicated in the list
@@ -499,18 +542,16 @@ public class PaintWidget {
         // set grid's paint
         cyderGrid.setNodeColor(currentPaintColor);
 
-        // if the mode is selection, change to add
-        if (cyderGrid.getMode() == CyderGrid.Mode.SELECTION) {
-            toggleSelectionMode();
-        } else if (cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION) {
-            toggleColorSelection();
-        }
+        // ensure everything reflects the mode being adding cells
+        resetToAdding();
     }
 
     /**
      * Handles the button press for selection mode.
      */
     private static void toggleSelectionMode() {
+        resetToAdding();
+
         CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.SELECTION
                 ? CyderGrid.Mode.ADD : CyderGrid.Mode.SELECTION;
 
@@ -533,21 +574,24 @@ public class PaintWidget {
     /**
      * The icon used for color selection mode
      */
-    private static final ImageIcon colorSelectionIcon = new ImageIcon("static/pictures/paint/select_color.png");
+    private static final ImageIcon colorSelectionIcon =
+            new ImageIcon("static/pictures/paint/select_color.png");
+
+    private static final Cursor eyedropperCursor = Toolkit.getDefaultToolkit()
+            .createCustomCursor(colorSelectionIcon.getImage(), new Point(0, 30), "eyedropper");
 
     /**
      * Toggles between states for color mode selection.
      */
     private static void toggleColorSelection() {
+        resetToAdding();
+
         CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION
                 ? CyderGrid.Mode.ADD : CyderGrid.Mode.COLOR_SELECTION;
 
         if (newMode == CyderGrid.Mode.COLOR_SELECTION) {
-            Image image = colorSelectionIcon.getImage();
             cyderGrid.setMode(newMode);
-            Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(
-                    image, new Point(0, 30), "eyedropper");
-            paintFrame.setCursor(c);
+            paintFrame.setCursor(eyedropperCursor);
         } else {
             paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
@@ -559,5 +603,24 @@ public class PaintWidget {
         }
 
         Toolkit.getDefaultToolkit().sync();
+    }
+
+    /**
+     * Resets all icons to their default state, the mode to adding,
+     * and refreshes the checkboxes.
+     */
+    private static void resetToAdding() {
+        // refresh add/delete buttons
+        add.setSelected();
+
+        // de-select toggle-able buttons
+        selectColor.setIcon(new ImageIcon("static/pictures/paint/select_color.png"));
+        selectionTool.setIcon(new ImageIcon("static/pictures/paint/select.png"));
+
+        // reset grid mode
+        cyderGrid.setMode(CyderGrid.Mode.ADD);
+
+        // reset cursor
+        paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
 }
