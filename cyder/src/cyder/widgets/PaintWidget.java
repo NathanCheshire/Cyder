@@ -113,13 +113,13 @@ public class PaintWidget {
 
         recentColors = new ArrayList<>();
 
-        paintControlsFrame = new CyderFrame(frameLength,200);
+        paintControlsFrame = new CyderFrame(frameLength,230);
         paintControlsFrame.setTitle("Paint Controls");
         paintControlsFrame.setResizable(true);
 
         CyderGridLayout parentLayout = new CyderGridLayout(1,2);
 
-        CyderGridLayout topLayout = new CyderGridLayout(1,3);
+        CyderGridLayout topLayout = new CyderGridLayout(5, 1);
         CyderPanel topLayoutPanel = new CyderPanel(topLayout);
         parentLayout.addComponent(topLayoutPanel, 0, 0);
 
@@ -175,8 +175,6 @@ public class PaintWidget {
             }
         };
         recentColorsBlock.setSize(130,50);
-        paintControlsFrame.add(recentColorsBlock);
-        recentColorsBlock.setLocation(50,50);
         recentColorsBlock.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -200,6 +198,9 @@ public class PaintWidget {
                 setNewPaintColor(recentColors.get(recentColors.size() - 1 - revIndex));
             }
         });
+        topLayout.addComponent(recentColorsBlock, 0, 0);
+
+        //todo supress default add/removes from component in the class that these layouts extend
 
         // initial colors
         setNewPaintColor(CyderColors.navy);
@@ -212,7 +213,7 @@ public class PaintWidget {
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
-        colorHexField.setSize(150, 40);
+        colorHexField.setSize(110, 40);
         colorHexField.setRegexMatcher(CyderRegexPatterns.rgbOrHex);
         colorHexField.addActionListener(e -> {
             String text = colorHexField.getText();
@@ -244,17 +245,59 @@ public class PaintWidget {
             }
         });
         colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
-        //todo add hex field
+        topLayout.addComponent(colorHexField, 1, 0);
+
+        JLabel historyLabel = new JLabel();
+        historyLabel.setSize(120, 100);
+
+        CyderLabel undoLabel = new CyderLabel("Undo");
+        undoLabel.setBounds(5,5,50, 30);
+        historyLabel.add(undoLabel);
+
+        CyderLabel redoLabel = new CyderLabel("Redo");
+        redoLabel.setBounds(5 + 52 + 10,5,50, 30);
+        historyLabel.add(redoLabel);
+
+        CyderIconButton undo = new CyderIconButton("Undo",
+                new ImageIcon("static/pictures/paint/undo.png"),
+                new ImageIcon("static/pictures/paint/undo_hover.png"), null);
+        undo.setBounds(5, 100 - 60, 52, 49);
+        undo.addActionListener(e -> {
+            cyderGrid.backwardState();
+            cyderGrid.revalidate();
+            cyderGrid.repaint();
+            paintFrame.revalidate();
+            paintFrame.repaint();
+        });
+        historyLabel.add(undo);
+
+        CyderIconButton redo = new CyderIconButton("Redo",
+                new ImageIcon("static/pictures/paint/redo.png"),
+                new ImageIcon("static/pictures/paint/redo_hover.png"), null);
+        redo.setBounds(5 + 52 + 10, 100 - 60,52, 49);
+        redo.addActionListener(e -> {
+            cyderGrid.forwardState();
+            cyderGrid.revalidate();
+            cyderGrid.repaint();
+            paintFrame.revalidate();
+            paintFrame.repaint();
+        });
+        historyLabel.add(redo);
+
+        topLayout.addComponent(historyLabel,2,0);
+
+        JLabel checkBoxLabel = new JLabel();
+        checkBoxLabel.setSize(120, 100);
 
         CyderCheckboxGroup group = new CyderCheckboxGroup();
 
         CyderLabel addLabel = new CyderLabel("Add");
-        addLabel.setSize(50,20);
-        //todo add addlabel
+        addLabel.setBounds(5,5,50, 30);
+        checkBoxLabel.add(addLabel);
 
         add = new CyderCheckbox();
         add.setToolTipText("Paint cells");
-        add.setSize(50, 50);
+        add.setBounds(5, 100 - 55, 50, 50);
         add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -263,14 +306,14 @@ public class PaintWidget {
         });
         group.addCheckbox(add);
         add.setSelected();
-        //todo add add
+        checkBoxLabel.add(add);
 
-        CyderLabel deleteLabel = new CyderLabel("Delete");
-        deleteLabel.setSize(50,20);
-        //todo add deletelabel
+        CyderLabel deletelabel = new CyderLabel("Delete");
+        deletelabel.setBounds(5 + 50 + 10,5,50, 30);
+        checkBoxLabel.add(deletelabel);
 
         CyderCheckbox delete = new CyderCheckbox();
-        delete.setSize(50, 50);
+        delete.setBounds(5 + 50 + 10, 100 - 55, 50, 50);
         delete.setToolTipText("Delete cells");
         delete.addMouseListener(new MouseAdapter() {
             @Override
@@ -279,11 +322,16 @@ public class PaintWidget {
             }
         });
         group.addCheckbox(delete);
-        //todo add delete
+        checkBoxLabel.add(delete);
+
+        topLayout.addComponent(checkBoxLabel, 3, 0);
+
+        JLabel sliderLabel = new JLabel();
+        sliderLabel.setSize(140, 80);
 
         CyderLabel brushLabel = new CyderLabel("Brush width: " + brushWidth);
-        brushLabel.setSize(250, 40);
-        //todo add to label
+        brushLabel.setBounds(10, 5, 120, 40);
+        sliderLabel.add(brushLabel);
 
         JSlider brushWidthSlider = new JSlider(JSlider.HORIZONTAL, MIN_BRUSH_WIDTH,
                 MAX_BRUSH_WIDTH, DEFAULT_BRUSH_WIDTH);
@@ -311,31 +359,12 @@ public class PaintWidget {
         brushWidthSlider.setToolTipText("Brush Width");
         brushWidthSlider.setFocusable(false);
         brushWidthSlider.repaint();
-        //todo add brush width slider
+        brushWidthSlider.setBounds(10, 40, 120, 40);
+        sliderLabel.add(brushWidthSlider);
 
-        CyderButton undo = new CyderButton("<");
-        undo.setSize(30, 35);
-        undo.setToolTipText("Undo");
-        undo.addActionListener(e -> {
-            cyderGrid.backwardState();
-            cyderGrid.revalidate();
-            cyderGrid.repaint();
-            paintFrame.revalidate();
-            paintFrame.repaint();
-        });
-        //todo add undo find icon
+        topLayout.addComponent(sliderLabel, 4, 0);
 
-        CyderButton redo = new CyderButton(">");
-        redo.setSize(30, 35);
-        redo.setToolTipText("Redo");
-        redo.addActionListener(e -> {
-            cyderGrid.forwardState();
-            cyderGrid.revalidate();
-            cyderGrid.repaint();
-            paintFrame.revalidate();
-            paintFrame.repaint();
-        });
-        //todo add redo find icon
+        //todo deleting cells not working
 
         CyderIconButton selectionTool = new CyderIconButton("Select Region",
                 new ImageIcon("static/pictures/paint/select.png"),
@@ -391,7 +420,7 @@ public class PaintWidget {
         paintControlsFrame.setMinimumSize(paintControlsFrame.getSize());
         paintControlsFrame.setMaximumSize(new Dimension(
                 (int) (paintControlsFrame.getWidth() * 1.5),
-                (int) (paintControlsFrame.getHeight() * 1.5)));
+                paintControlsFrame.getHeight()));
         paintControlsFrame.setBackgroundResizing(true);
 
         // set visibility
