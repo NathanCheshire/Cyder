@@ -68,6 +68,11 @@ public class AudioPlayer {
     private static JLabel audioTitleLabel;
 
     /**
+     * The container that holds the scrolling audio title.
+     */
+    private static JLabel audioTitleLabelContainer;
+
+    /**
      * The master audio frame.
      */
     private static CyderFrame audioFrame;
@@ -217,6 +222,11 @@ public class AudioPlayer {
     private static final long actionTimeoutMS = 250;
 
     /**
+     * The length of the album art icon.
+     */
+    private static final int albumArtLen = 200;
+
+    /**
      * Instantiation of AudioPlayer not allowed.
      */
     private AudioPlayer() {
@@ -299,9 +309,13 @@ public class AudioPlayer {
         changeSize.setFocusPainted(false);
         audioFrame.getTopDragLabel().addButton(changeSize, 2);
 
-        JLabel audioTitleLabelContainer = new JLabel();
-        audioTitleLabelContainer.setBounds(100, 40, 300, 30);
+        audioTitleLabelContainer = new JLabel();
         audioFrame.getContentPane().add(audioTitleLabelContainer);
+
+        albumArtLabel = new JLabel();
+        albumArtLabel.setSize(albumArtLen,albumArtLen);
+        albumArtLabel.setLocation((audioFrame.getWidth() - albumArtLen) / 2, 60);
+        audioFrame.getContentPane().add(albumArtLabel);
 
         audioTitleLabel = new JLabel();
         audioTitleLabel.setToolTipText("Currently Playing");
@@ -309,12 +323,6 @@ public class AudioPlayer {
         audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabel.setText(DEFAULT_LABEL_TEXT);
         audioTitleLabelContainer.add(audioTitleLabel);
-
-        audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
-                - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
-                audioTitleLabel.getFont()) / 2, audioTitleLabel.getY(),
-                StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
-                audioTitleLabel.getParent().getHeight());
 
         selectAudioDirButton = new JButton("");
         selectAudioDirButton.setFocusPainted(false);
@@ -355,7 +363,6 @@ public class AudioPlayer {
             }
         });
 
-        selectAudioDirButton.setBounds(55, 105, 30, 30);
         ImageIcon File = new ImageIcon("static/pictures/music/SelectFile.png");
         selectAudioDirButton.setIcon(File);
         audioFrame.getContentPane().add(selectAudioDirButton);
@@ -380,7 +387,6 @@ public class AudioPlayer {
             }
         });
 
-        loopAudioButton.setBounds(115, 105, 30, 30);
         loopAudioButton.setIcon(new ImageIcon("static/pictures/music/Repeat.png"));
         audioFrame.getContentPane().add(loopAudioButton);
         loopAudioButton.setFocusPainted(false);
@@ -404,7 +410,6 @@ public class AudioPlayer {
             }
         });
 
-        previousAudioButton.setBounds(175, 105, 30, 30);
         previousAudioButton.setIcon(new ImageIcon("static/pictures/music/SkipBack.png"));
         audioFrame.getContentPane().add(previousAudioButton);
         previousAudioButton.setFocusPainted(false);
@@ -434,7 +439,6 @@ public class AudioPlayer {
             }
         });
 
-        stopAudioButton.setBounds(235, 105, 30, 30);
         stopAudioButton.setIcon(new ImageIcon("static/pictures/music/Stop.png"));
         audioFrame.getContentPane().add(stopAudioButton);
         stopAudioButton.setFocusPainted(false);
@@ -468,7 +472,6 @@ public class AudioPlayer {
             }
         });
 
-        playPauseAudioButton.setBounds(295, 105, 30, 30);
         playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Play.png"));
         audioFrame.getContentPane().add(playPauseAudioButton);
         playPauseAudioButton.setFocusPainted(false);
@@ -492,7 +495,6 @@ public class AudioPlayer {
             }
         });
 
-        nextAudioButton.setBounds(355, 105, 30, 30);
         nextAudioButton.setIcon(new ImageIcon("static/pictures/music/Skip.png"));
         audioFrame.getContentPane().add(nextAudioButton);
         nextAudioButton.setFocusPainted(false);
@@ -524,7 +526,6 @@ public class AudioPlayer {
             }
         });
 
-        shuffleAudioButton.setBounds(405, 105, 30, 30);
         shuffleAudioButton.setIcon(new ImageIcon("static/pictures/music/Shuffle.png"));
         audioFrame.getContentPane().add(shuffleAudioButton);
         shuffleAudioButton.setFocusPainted(false);
@@ -543,7 +544,6 @@ public class AudioPlayer {
         UI.setOldValColor(CyderColors.regularRed);
         UI.setTrackStroke(new BasicStroke(2.0f));
         audioVolumeSlider.setUI(UI);
-        audioVolumeSlider.setBounds(55, 155, 385, 40);
         audioVolumeSlider.setMinimum(0);
         audioVolumeSlider.setMaximum(100);
         audioVolumeSlider.setPaintTicks(false);
@@ -561,7 +561,6 @@ public class AudioPlayer {
         audioProgressLabel.setFont(CyderFonts.defaultFontSmall.deriveFont(20f));
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressLabel.setFocusable(false);
-        audioProgressLabel.setBounds(55, 190, 385, 25);
         audioFrame.getContentPane().add(audioProgressLabel);
         audioProgressLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -584,7 +583,6 @@ public class AudioPlayer {
         audioProgress.setMinimum(0);
         audioProgress.setMaximum(10000);
         audioProgress.setBorder(new LineBorder(Color.black, 2));
-        audioProgress.setBounds(55, 190, 385, 25);
         audioProgress.setVisible(true);
         audioProgress.setValue(0);
         audioProgress.setOpaque(false);
@@ -628,10 +626,6 @@ public class AudioPlayer {
                 ExceptionHandler.handle(e);
             }
         }
-
-        // attempt to refresh bounds to album art view if possible
-        //todo need to call setstate on a lot of actions to revalidate if albumart or not
-        enterAlbumArtPlayer();
     }
 
     /**
@@ -814,6 +808,9 @@ public class AudioPlayer {
                         StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
                         audioTitleLabel.getParent().getHeight());
             }
+
+            if (windowState == PlayerWindowState.ALBUM_ART)
+                enterAlbumArtPlayer();
 
             //end audio location progress bar
             if (audioLocation != null)
@@ -1044,6 +1041,9 @@ public class AudioPlayer {
                     audioFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
                     audioFrame.setUseCustomTaskbarIcon(false);
                 }
+
+                if (windowState == PlayerWindowState.ALBUM_ART)
+                    enterAlbumArtPlayer();
 
                 //set last action so we know how to handle future actions
                 lastAction = LastAction.PLAY;
@@ -1430,9 +1430,7 @@ public class AudioPlayer {
         audioVolumeSlider.setVisible(false);
         audioTitleLabel.setVisible(false);
 
-        //audioFrame.setSize(500,100);
-        audioFrame.setMinimumSize(new Dimension(500, 100));
-        audioFrame.setMaximumSize(new Dimension(500, 100));
+        audioFrame.setSize(500,100);
 
         selectAudioDirButton.setLocation(selectAudioDirButton.getX(), 50);
         loopAudioButton.setLocation(loopAudioButton.getX(), 50);
@@ -1458,8 +1456,6 @@ public class AudioPlayer {
         audioTitleLabel.setVisible(true);
 
         audioFrame.setSize(500,225);
-        audioFrame.setMinimumSize(new Dimension(500, 155));
-        audioFrame.setMaximumSize(new Dimension(500, 225));
 
         selectAudioDirButton.setLocation(selectAudioDirButton.getX(), 105);
         loopAudioButton.setLocation(loopAudioButton.getX(), 105);
@@ -1480,14 +1476,29 @@ public class AudioPlayer {
         if (currentAlbumArt == null) {
             incrementWindowState();
         } else {
-            int albumArtLen = 200;
-            albumArtLabel = new JLabel();
-            albumArtLabel.setSize(albumArtLen,albumArtLen);
-            albumArtLabel.setIcon(ImageUtil.resizeImage(currentAlbumArt, albumArtLen, albumArtLen));
-            albumArtLabel.setLocation((audioFrame.getWidth() - albumArtLen) / 2, 60);
-            audioFrame.getContentPane().add(albumArtLabel);
+            refreshAlbumArt();
 
-            //todo bounds of ALL other UI elements
+            audioFrame.setSize(500,450);
+            albumArtLabel.setIcon(ImageUtil.resizeImage(currentAlbumArt, albumArtLen, albumArtLen));
+
+            int yIncrement = 200;
+
+            audioProgress.setBounds(55, 190 + yIncrement, 385, 25);
+            audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 25);
+            audioVolumeSlider.setBounds(55, 155 + yIncrement, 385, 40);
+            shuffleAudioButton.setBounds(405, 105 + yIncrement, 30, 30);
+            nextAudioButton.setBounds(355, 105 + yIncrement, 30, 30);
+            playPauseAudioButton.setBounds(295, 105 + yIncrement, 30, 30);
+            stopAudioButton.setBounds(235, 105 + yIncrement, 30, 30);
+            previousAudioButton.setBounds(175, 105 + yIncrement, 30, 30);
+            loopAudioButton.setBounds(115, 105 + yIncrement, 30, 30);
+            selectAudioDirButton.setBounds(55, 105 + yIncrement, 30, 30);
+            audioTitleLabel.setBounds(audioTitleLabel.getParent().getWidth() / 2
+                            - StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
+                            audioTitleLabel.getFont()) / 2, audioTitleLabel.getY() + yIncrement,
+                    StringUtil.getMinWidth(audioTitleLabel.getText(), audioTitleLabel.getFont()),
+                    audioTitleLabel.getParent().getHeight());
+            audioTitleLabelContainer.setBounds(100, 40 + yIncrement, 300, 30);
         }
     }
 
@@ -1596,6 +1607,7 @@ public class AudioPlayer {
             for (File f : albumArtDir.listFiles()) {
                 if (FileUtil.getFilename(f).equals(currentName)) {
                     currentAlbumArt = new ImageIcon(ImageIO.read(f));
+                    System.out.println("new album art: " + f);
                     return true;
                 }
             }

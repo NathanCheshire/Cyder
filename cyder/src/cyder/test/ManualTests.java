@@ -11,6 +11,7 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.layouts.CyderFlowLayout;
@@ -20,7 +21,6 @@ import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
-import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,7 @@ public class ManualTests {
     @ManualTest(trigger = "launch")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        PaintWidget.showGUI();
+        AudioPlayer.showGUI();
     }
 
     /**
