@@ -882,63 +882,77 @@ public class CyderGrid extends JLabel {
      * Rotates the nodes in the selected region by 90 degrees to the left.
      */
     public void rotateRegion() {
+        int firstX = 0;
+        int firstY = 0;
+        int secondX = (int) (gridComponentLength - centeringDrawOffset) / (gridComponentLength / nodes);
+        int secondY = (int) (gridComponentLength - centeringDrawOffset) / (gridComponentLength / nodes);
+
+        // find min and max
+        int topLeftX = Math.min(firstX, secondX);
+        int topLeftY = Math.min(firstY, secondY);
+        int bottomRightX = Math.max(firstX, secondX);
+        int bottomRightY = Math.max(firstY, secondY);
+
         if (point1Selection != null && point2Selection != null
                 && point1Selection != point2Selection) {
 
             // get points
-            int firstX = (int) ((point1Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
-            int firstY = (int) ((point1Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
-            int secondX = (int) ((point2Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
-            int secondY = (int) ((point2Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+            firstX = (int) ((point1Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            firstY = (int) ((point1Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+            secondX = (int) ((point2Selection.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            secondY = (int) ((point2Selection.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
 
             // find min and max
-            int topLeftX = Math.min(firstX, secondX);
-            int topLeftY = Math.min(firstY, secondY);
-            int bottomRightX = Math.max(firstX, secondX);
-            int bottomRightY = Math.max(firstY, secondY);
+            topLeftX = Math.min(firstX, secondX);
+            topLeftY = Math.min(firstY, secondY);
+            bottomRightX = Math.max(firstX, secondX);
+            bottomRightY = Math.max(firstY, secondY);
+        }
 
-            // the new state to push/add to
-            LinkedList<GridNode> newState = new LinkedList<>();
+        // the new state to push/add to
+        LinkedList<GridNode> newState = new LinkedList<>();
 
-            // center of rotation is the average of the min/max points
-            Point centerOfRotation = new Point((topLeftX + bottomRightX) / 2,
-                    (topLeftY + bottomRightY) / 2);
+        // center of rotation is the average of the min/max points
+        Point centerOfRotation = new Point((topLeftX + bottomRightX) / 2,
+                (topLeftY + bottomRightY) / 2);
 
-            for (GridNode refNode : grid) {
-                // if in bounds of selected region
-                if (refNode.getX() >= topLeftX && refNode.getX() < bottomRightX
-                        && refNode.getY() >= topLeftY && refNode.getY() < bottomRightY) {
+        for (GridNode refNode : grid) {
+            // if in bounds of selected region
+            if (refNode.getX() >= topLeftX && refNode.getX() < bottomRightX
+                    && refNode.getY() >= topLeftY && refNode.getY() < bottomRightY) {
 
-                    // if not the origin
-                    if (!refNode.getPoint().equals(centerOfRotation)) {
-                        // subtract point of rotation
-                        Point newPoint = new Point(refNode.getX() - centerOfRotation.x,
-                                refNode.getY() - centerOfRotation.y);
+                // if not the origin
+                if (!refNode.getPoint().equals(centerOfRotation)) {
+                    // subtract point of rotation
+                    Point newPoint = new Point(refNode.getX() - centerOfRotation.x,
+                            refNode.getY() - centerOfRotation.y);
 
-                        // rotate around the new origin
-                        newPoint = new Point(newPoint.y, newPoint.x * -1);
+                    // rotate around the new origin
+                    newPoint = new Point(newPoint.y, newPoint.x * -1);
 
-                        // add point of rotation back
-                        newPoint = new Point(newPoint.x + centerOfRotation.x,
-                                newPoint.y + centerOfRotation.y);
+                    // add point of rotation back
+                    newPoint = new Point(newPoint.x + centerOfRotation.x,
+                            newPoint.y + centerOfRotation.y);
 
-                        // construct new node and add to new state
-                        newState.add(new GridNode(refNode.getColor(), newPoint.x, newPoint.y));
-                    } else {
-                        // origin
-                        newState.add(refNode);
-                    }
-                }
-                // otherwise add to new state reguarly
-                else {
+                    // construct new node and add to new state
+                    newState.add(new GridNode(refNode.getColor(), newPoint.x, newPoint.y));
+                } else {
+                    // origin
                     newState.add(refNode);
                 }
             }
+            // otherwise add to new state reguarly
+            else {
+                newState.add(refNode);
+            }
+        }
 
-            // push current state and set new grid
-            backwardStates.push(new LinkedList<>(grid));
-            grid = newState;
+        // push current state and set new grid
+        backwardStates.push(new LinkedList<>(grid));
+        grid = newState;
 
+        if (point1Selection != null && point2Selection != null
+                && point1Selection != point2Selection) {
             // init new selection points,
             // point1Selection is topLeft, point2Selection is bottomRight
             Point newTopLeft = new Point(point2Selection.x, point1Selection.y);
@@ -967,12 +981,10 @@ public class CyderGrid extends JLabel {
             // set to global points used for selected region
             point1Selection = newTopLeft;
             point2Selection = newBottomRight;
-
-            // repaint
-            repaint();
         }
 
-        //todo rotate entire grid if no selection
+        // repaint
+        repaint();
     }
 
     /**
