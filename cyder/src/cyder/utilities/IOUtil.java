@@ -1,7 +1,6 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
@@ -11,6 +10,9 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.user.UserFile;
 import javazoom.jl.player.Player;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.awt.*;
 import java.io.*;
@@ -21,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class IOUtil {
     /**
@@ -89,33 +93,52 @@ public class IOUtil {
      * @param cyderArgs command line arguments passed in
      */
     public static void logArgs(String[] cyderArgs) {
-        try {
-            // build string of all JVM args
-            StringBuilder argsString = new StringBuilder();
+        CyderThreadRunner.submit(() -> {
+            try {
+                // build string of all JVM args
+                StringBuilder argBuilder = new StringBuilder();
 
-            for (int i = 0; i < cyderArgs.length; i++) {
-                if (i != 0)
-                    argsString.append(",");
+                for (int i = 0; i < cyderArgs.length; i++) {
+                    if (i != 0)
+                        argBuilder.append(",");
 
-                argsString.append(cyderArgs[i]);
+                    argBuilder.append(cyderArgs[i]);
+                }
+
+                String locationUrl = "https://www.google.com/search?q=where+am+i";
+                String ispUrl = "https://www.whoismyisp.org/";
+
+                Document locationDocument = Jsoup.connect(locationUrl).get();
+                Elements primaryLocation = locationDocument.getElementsByClass("desktop-title-content");
+                Elements secondaryLocation = locationDocument.getElementsByClass("desktop-title-subcontent");
+
+                String isp = "NOT FOUND";
+
+                String[] lines = NetworkUtil.readUrl(ispUrl).split("\n");
+
+                Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
+
+                for (String line : lines) {
+                    Matcher matcher = p.matcher(line);
+                    if (matcher.find()) {
+                        isp = matcher.group(1);
+                    }
+                }
+
+                if (argBuilder.length() > 0) {
+                    argBuilder.append("; ");
+                }
+
+                argBuilder.append("primary location = ").append(primaryLocation)
+                        .append(", secondary location = ").append(secondaryLocation)
+                        .append(", isp = ").append(isp);
+
+                Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
+                BackendUtil.post(String.valueOf(argBuilder));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
-
-            // todo fastAPI python host? to download static dir?
-            //todo account for no ipdata util here, use webscraping thing and post to backend
-
-            // how to ensure you don't leak your own data?
-            String append = "[LOCATION] " + (!CyderCommon.isReleased() ?
-                    "[La casa de Nathan]" :
-                    (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
-
-            if (argsString.toString().trim().length() > 0) {
-                append += "; args: " + argsString;
-            }
-
-            Logger.log(Logger.Tag.JAVA_ARGS, append);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        }, "JVM Logger");
     }
 
     /**

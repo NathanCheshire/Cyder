@@ -61,7 +61,7 @@ public class Logger {
         CLIENT_IO, // input or output to/from userdata file
         LOGIN, // user is logged in
         LOGOUT, // user is logged out
-        JAVA_ARGS, // java args upon JVM entry to main
+        JVM_ARGS, // java args upon JVM entry to Cyder.main
         ENTRY, // entry of program
         EXIT, // exit of program
         CORRUPTION, // corruption of userdata file
@@ -166,9 +166,9 @@ public class Logger {
                 logBuilder.append("[LOGOUT]: ");
                 logBuilder.append(representation);
                 break;
-            case JAVA_ARGS:
-                //[JAVA ARGS]: (possible args) [LOCATION] New Orleans, LA
-                logBuilder.append("[JAVA ARGS]: ");
+            case JVM_ARGS:
+                //[JVM_ARGS]:
+                logBuilder.append("[JVM ARGS]: ");
                 logBuilder.append(representation);
                 break;
             case ENTRY:
