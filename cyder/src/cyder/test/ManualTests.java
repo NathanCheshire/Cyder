@@ -11,7 +11,6 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.layouts.CyderFlowLayout;
@@ -37,7 +36,7 @@ public class ManualTests {
     @ManualTest(trigger = "launch")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        AudioPlayer.showGUI();
+
     }
 
     /**

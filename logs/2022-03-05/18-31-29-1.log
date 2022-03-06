@@ -8,17 +8,13 @@
 [18-31-31] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-31-31] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [18-31-31] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[18-31-31] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-31] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-31-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [18-31-32] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [18-31-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [18-31-32] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-31-32] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-31-32] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-31-32] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-31-32] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-31-32] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-31-32] [THREAD STARTED]: Console Printing Animation
 [18-31-32] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-31-32] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -46,21 +42,10 @@
 [18-31-32] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [18-31-33] [THREAD STARTED]: Notificaiton vanish animater 1346471007
 [18-31-33] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
-[18-31-33] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
-[18-31-33] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[18-31-33] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)] [2x]
 [18-31-33] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
 [18-31-33] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
-[18-31-35] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-38] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-49] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-31-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-32-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [11x]
 [18-32-12] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Twillzzz - Lord Please (ft. some random dude)], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-32-12] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(443, 449, 500, 480)], hash = [1844528352], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Twillzzz - Lord Please (ft. some random dude)]
 [18-32-12] [THREAD STARTED]: Twillzzz - Lord Please (ft. some random dude) CyderFrame dispose thread
@@ -81,13 +66,7 @@
 [18-32-18] [CONSOLE_OUT]: [STRING] Java Files: 135
 [18-32-19] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [18-32-19] [CONSOLE_OUT]: [STRING] Code to comment ratio: 3.42
-[18-32-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-26] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-32-45] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-32-45] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [7x]
 [18-32-46] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [18-32-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [18-32-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1369, 270, 1000, 1000)], hash = [399373008], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]

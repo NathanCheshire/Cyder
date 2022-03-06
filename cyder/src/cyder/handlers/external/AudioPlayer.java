@@ -33,6 +33,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -1267,8 +1268,12 @@ public class AudioPlayer {
                             }
 
                             Thread.sleep(250);
-                        } catch (Exception e) {
-                            ExceptionHandler.silentHandle(e);
+                        } catch (IOException ignored) {
+                            // straight up ignored since sometimes this
+                            // throws every second due to the stream closing
+                        } catch (InterruptedException e) {
+                            // no one really cares about this but still
+                            ExceptionHandler.handle(e);
                         }
                     }
                 },DEFAULT_TITLE + " Progress Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
@@ -1452,17 +1457,6 @@ public class AudioPlayer {
         selectAudioDirButton.setBounds(55, 105, 30, 30);
         audioTitleLabelContainer.setBounds(100, 40, 300, 30);
     }
-
-    //todo select dir should be frame type input getter
-
-    //todo backup json method so that you never lose one again no matter when u end program
-    // algorithm that saves and if error, load most recent one if available
-
-    //todo update readme with new audio player, paint widget video, elon musk background
-    // with notifcation and downloading music, AND code analyzing in pane
-
-    //todo no background on cyder start messes it up, when logging in need to ensure background there?
-    //todo move similar commands output to static
 
     /**
      * Enters the album art window state.

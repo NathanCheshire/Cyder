@@ -283,6 +283,7 @@ public class GetterUtil {
 
                 //frame setup
                 dirFrame = new CyderFrame(630,510, CyderIcons.defaultBackground);
+                dirFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 dirFrame.setTitle(currentDirectory.getName());
 
                 //field setup

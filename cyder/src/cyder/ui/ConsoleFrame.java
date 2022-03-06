@@ -235,6 +235,7 @@ public final class ConsoleFrame {
 
             //make sure backgrounds are properly sized,
             // method also loads backgrounds after resizing
+            loadBackgrounds();
             resizeBackgrounds();
 
             //set BashString based on cyder username
