@@ -246,11 +246,15 @@ public class UserUtil {
                 File newBackup = new File(OSUtil.buildPath("dynamic","backup", newFilename));
                 Files.copy(jsonFile, newBackup);
 
+                if (true)
+                    return;
+
                 backups = backupDirectory.listFiles();
                 Preconditions.checkNotNull(backups);
 
                 for (File backup : backups) {
                     String filename = FileUtil.getFilename(backup);
+                    System.out.println("Found oldbackup: " + filename);
 
                     if (filename.contains("_")) {
                         String[] parts = filename.split("_");
@@ -258,7 +262,7 @@ public class UserUtil {
                         if (parts.length == 2) {
                             // if uuid of this backup is the user we just
                             // backed up and not the file we just made
-                            if (parts[1].equals(uuid) && !FileUtil.getFilename(backup)
+                            if (parts[0].equals(uuid) && !FileUtil.getFilename(backup)
                                     .equals(FileUtil.getFilename(newBackup))) {
                                 OSUtil.delete(backup);
                             }

@@ -8,9 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Static utilities having to do with files, their names, properties, and attributes.
  */
@@ -134,11 +131,11 @@ public class FileUtil {
      */
     @SuppressWarnings("UnstableApiUsage") /* Guava */
     public static boolean fileContentsEqual(File fileOne, File fileTwo) {
-        checkNotNull(fileOne);
-        checkNotNull(fileTwo);
+        if (fileOne == null || fileTwo == null)
+            return false;
 
-        checkArgument(fileOne.exists());
-        checkArgument(fileTwo.exists());
+        if (!fileOne.exists() || !fileTwo.exists())
+            return false;
 
        boolean ret;
 

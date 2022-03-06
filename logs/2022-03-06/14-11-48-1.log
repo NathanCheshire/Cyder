@@ -1,0 +1,11 @@
+[14-11-48] [ENTRY]: [Nathan]
+[14-11-49] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[14-11-49] [THREAD STARTED]: Splash Loader
+[14-11-50] [THREAD STARTED]: Splash Animation
+[14-11-50] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[14-11-50] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[14-11-50] [THREAD STARTED]: JVM Logger
+[14-11-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[14-11-50] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[14-11-50] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[14-12-53] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
