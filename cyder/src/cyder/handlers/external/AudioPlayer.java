@@ -1608,7 +1608,6 @@ public class AudioPlayer {
             for (File f : albumArtDir.listFiles()) {
                 if (FileUtil.getFilename(f).equals(currentName)) {
                     currentAlbumArt = new ImageIcon(ImageIO.read(f));
-                    System.out.println("new album art: " + f);
                     return true;
                 }
             }

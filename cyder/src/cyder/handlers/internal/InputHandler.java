@@ -228,23 +228,21 @@ public class InputHandler {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
         }
         //primary checks
-        else if (generalPrintsCheck() ||
-                printImageCheck() ||
+        else if (generalPrintsCheck() || printImageCheck() ||
                 ReflectionUtil.openWidget((argsAndCommandToString()).trim()) ||
-                cyderFrameMovementCheck() ||
-                externalOpenerCheck() ||
-                audioCommandCheck() ||
-                generalCommandCheck()) {
+                cyderFrameMovementCheck() || externalOpenerCheck() ||
+                audioCommandCheck() || generalCommandCheck()) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "PRIMARY HANDLE");
         }
         //final checks
-        else if (isURLCheck(command) ||
-                handleMath(argsAndCommandToString()) ||
+        else if (isURLCheck(command) || handleMath(argsAndCommandToString()) ||
                 evaluateExpression(argsAndCommandToString()) ||
                 preferenceCheck(argsAndCommandToString()) ||
                 manualTestCheck(argsAndCommandToString())) {
             Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
-        } else unknownInput();
+        }
+
+        else unknownInput();
 
         //clean up routines --------------------------------------
 
@@ -365,8 +363,8 @@ public class InputHandler {
             println("Tu hablas Espanol? Yo estudio Espanol mas-o-menos. Hay tu mi amigo?");
         } else if (commandIs("look")) {
             println("L()()K ---->> !FREE STUFF! <<---- L()()K");
-        } else if (commandIs("Cyder?")) {
-            println("Yes?");
+        } else if (commandIs("cyder")) {
+            println("That's my name, don't wear it out pls");
         } else if (commandIs("home")) {
             println("There's no place like localhost/127.0.0.1");
         } else if (commandIs("love")) {
@@ -379,7 +377,9 @@ public class InputHandler {
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
-        } else ret = false;
+        }
+
+        else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
@@ -414,7 +414,9 @@ public class InputHandler {
         } else if (commandIs("age")) {
             BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
                     true, 50, false);
-        } else ret = false;
+        }
+
+        else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
@@ -510,7 +512,9 @@ public class InputHandler {
             }
         } else if (commandIs("dance")) {
             ConsoleFrame.getConsoleFrame().dance();
-        } else ret = false;
+        }
+
+        else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
@@ -574,7 +578,11 @@ public class InputHandler {
             NetworkUtil.openUrl("https://www.youtube.com/watch?v=s_1lP4CBKOg");
         } else if (commandIs("about:blank")) {
             NetworkUtil.openUrl("about:blank");
-        } else ret = false;
+        } else if (commandIs("github")) {
+            NetworkUtil.openUrl("https://github.com/nathancheshire/cyder");
+        }
+
+        else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
@@ -602,7 +610,9 @@ public class InputHandler {
             IOUtil.playAudio("static/audio/commando.mp3");
         } else if (commandIs("1-800-273-8255") || commandIs("18002738255")) {
             IOUtil.playAudio("static/audio/1800.mp3");
-        } else ret = false;
+        }
+
+        else ret = false;
 
         if (ret)
             Logger.log(Logger.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
@@ -1348,7 +1358,7 @@ public class InputHandler {
                 }
             }, "Location Finder");
         } else if (commandIs("whoami")) {
-            System.out.println(OSUtil.getComputerName() + OSUtil.FILE_SEP
+            println(OSUtil.getComputerName() + OSUtil.FILE_SEP
                     + StringUtil.capsCheck(UserUtil.extractUser().getName()));
         }
 

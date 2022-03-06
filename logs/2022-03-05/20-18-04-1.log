@@ -7,17 +7,13 @@
 [20-18-07] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [20-18-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [20-18-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[20-18-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-18-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [20-18-07] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [20-18-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [20-18-07] [SYSTEM_IO]: Userdata requested: RandomBackground
 [20-18-07] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-18-07] [SYSTEM_IO]: Userdata requested: fullscreen
-[20-18-07] [SYSTEM_IO]: Userdata requested: FullScreen
-[20-18-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-18-07] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [20-18-07] [THREAD STARTED]: Console Printing Animation
 [20-18-07] [SYSTEM_IO]: Userdata requested: OutputBorder
 [20-18-07] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -42,34 +38,88 @@
 [20-18-08] [THREAD STARTED]: notification appear animation
 [20-18-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [20-18-08] [THREAD STARTED]: Notificaiton vanish animater 1769212735
-[20-18-10] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-55] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-18-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-10] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-21] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-36] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-19-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-19-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [26x]
 [20-19-47] [CLIENT]: gitme
 [20-19-47] [SYSTEM_IO]: Userdata requested: filterchat
 [20-19-47] [THREAD STARTED]: Successive Process Runner, pipeTo = cyder.handlers.internal.InputHandler,hash = 1568847941, reflection data = cyder.handlers.internal.InputHandler(getLastTextLine = , getUserInputMode = false, getCommand = gitme, getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(345, 244, 724, 738)], hash = [594651850], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getClass = class cyder.handlers.internal.InputHandle), builders.length() = 3
 [20-19-47] [HANDLE]: GENERAL COMMAND HANDLED
 [20-19-47] [HANDLE]: PRIMARY HANDLE
+[20-19-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-19-48] [CONSOLE_OUT]: [STRING] [main 0db1d469] successive process runner for gitme
+[20-19-49] [CONSOLE_OUT]: [STRING]  12 files changed, 350 insertions(+), 21 deletions(-)
+[20-19-50] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Backgrounds/Default.png
+[20-19-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-19-52] [CONSOLE_OUT]: [STRING]  create mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Backgrounds/Elon.png
+[20-19-53] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/AlbumArt/Chillstep  Wayr - Against Fate.png
+[20-19-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-19-56] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/AlbumArt/Neutralize - Lost  Chillstep.png
+[20-19-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-19-58] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/AlbumArt/Twillzzz - Lord Please (ft. some random dude).png
+[20-20-00] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/Chillstep  Wayr - Against Fate.mp3
+[20-20-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-20-02] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/Neutralize - Lost  Chillstep.mp3
+[20-20-03] [CONSOLE_OUT]: [STRING]  delete mode 100644 dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/Twillzzz - Lord Please (ft. some random dude).mp3
+[20-20-03] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-14-15-1.log
+[20-20-03] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-18-04-1.log
+[20-20-03] [CONSOLE_OUT]: [STRING] remote: This repository moved. Please use the new location:
+[20-20-03] [CONSOLE_OUT]: [STRING] remote:   https://github.com/NathanCheshire/Cyder.git
+[20-20-03] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[20-20-03] [CONSOLE_OUT]: [STRING] To https://github.com/nathancheshire/Cyder.git
+[20-20-03] [CONSOLE_OUT]: [STRING]    e86b2ebb..0db1d469  main -> main
+[20-20-03] [CONSOLE_OUT]: [STRING] Escaped
+[20-20-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-20-10] [CLIENT]: github
+[20-20-10] [SYSTEM_IO]: Userdata requested: filterchat
+[20-20-10] [THREAD STARTED]: Unknown Input Handler
+[20-20-10] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[20-20-10] [ACTION]: Similar command to "github" found with tol of 0.6, command = "git"
+[20-20-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-20-11] [CONSOLE_OUT]: [STRING] Unknown command
+[20-23-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [49x]
+[20-23-19] [CLIENT]: clear
+[20-23-19] [SYSTEM_IO]: Userdata requested: filterchat
+[20-23-19] [HANDLE]: GENERAL COMMAND HANDLED
+[20-23-19] [HANDLE]: PRIMARY HANDLE
+[20-23-20] [CLIENT]: whoami
+[20-23-20] [SYSTEM_IO]: Userdata requested: filterchat
+[20-23-20] [HANDLE]: GENERAL COMMAND HANDLED
+[20-23-20] [HANDLE]: PRIMARY HANDLE
+[20-23-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-23-27] [CLIENT]: threads
+[20-23-27] [SYSTEM_IO]: Userdata requested: filterchat
+[20-23-27] [HANDLE]: PRINT IMAGE COMMAND HANDLED
+[20-23-27] [HANDLE]: PRIMARY HANDLE
+[20-23-27] [CONSOLE_OUT]: [STRING] Singular Cyder Instance Ensurer
+[20-23-28] [CONSOLE_OUT]: [STRING] AWT-EventQueue-0
+[20-23-28] [CONSOLE_OUT]: [STRING] Console Printing Animation
+[20-23-28] [CONSOLE_OUT]: [STRING] Console Input Caret Position Updater
+[20-23-28] [CONSOLE_OUT]: [STRING] High Ping Checker
+[20-23-28] [CONSOLE_OUT]: [STRING] Hourly Chime Checker
+[20-23-28] [CONSOLE_OUT]: [STRING] Console Clock Updater
+[20-23-28] [CONSOLE_OUT]: [STRING] Cyder Busy Checker
+[20-23-28] [CONSOLE_OUT]: [STRING] ConsoleFrame Data Saver
+[20-23-28] [CONSOLE_OUT]: [STRING] DestroyJavaVM
+[20-23-28] [CONSOLE_OUT]: [STRING] Similar Command Finder
+[20-23-28] [CONSOLE_OUT]: [STRING] Escaped
+[20-23-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-23-32] [CLIENT]: whoami
+[20-23-32] [SYSTEM_IO]: Userdata requested: filterchat
+[20-23-32] [HANDLE]: GENERAL COMMAND HANDLED
+[20-23-32] [HANDLE]: PRIMARY HANDLE
+[20-23-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-23-35] [CLIENT]: whereami
+[20-23-35] [SYSTEM_IO]: Userdata requested: filterchat
+[20-23-35] [THREAD STARTED]: Location Finder
+[20-23-35] [HANDLE]: GENERAL COMMAND HANDLED
+[20-23-35] [HANDLE]: PRIMARY HANDLE
+[20-23-36] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-23-36] [CONSOLE_OUT]: [STRING] You are currently in Mississippi State, Mississippi 39759
+[20-23-37] [CONSOLE_OUT]: [STRING] Your ISP is Pavlov Media Inc
+[20-24-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [10x]
+[20-24-17] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-24-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-24-17] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(591, 202, 724, 738)], hash = [594651850], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[20-24-17] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[20-24-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-24-17] [EXIT]: [RUNTIME] 6m 12s
+[20-24-17] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

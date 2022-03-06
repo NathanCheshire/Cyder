@@ -347,7 +347,6 @@ public class CyderComponentResizer extends MouseAdapter {
             // oh boy
             if (child instanceof CyderBaseLayout) {
                 ret.addAll(recursivelyFindComponents((CyderPanel) child));
-                System.out.println("recursively found a " + child.getClass().getName());
             }
 
             ret.add(child);

@@ -1,0 +1,83 @@
+[20-44-13] [ENTRY]: [Nathan]
+[20-44-13] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-44-14] [THREAD STARTED]: Splash Loader
+[20-44-14] [THREAD STARTED]: Splash Animation
+[20-44-15] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-44-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-44-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-44-15] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-44-15] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-44-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-44-15] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-44-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-44-15] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-44-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-44-15] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-44-15] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-44-15] [THREAD STARTED]: Console Printing Animation
+[20-44-15] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-44-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-44-15] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-44-15] [THREAD STARTED]: Console Input Caret Position Updater
+[20-44-15] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-44-15] [SYSTEM_IO]: Userdata requested: InputFill
+[20-44-15] [THREAD STARTED]: High Ping Checker
+[20-44-15] [THREAD STARTED]: Hourly Chime Checker
+[20-44-15] [THREAD STARTED]: Console Clock Updater
+[20-44-15] [THREAD STARTED]: Cyder Busy Checker
+[20-44-15] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-44-15] [ACTION]: Console loaded in 3021ms
+[20-44-15] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(591, 202, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-44-15] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [353832640], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-44-15] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-44-15] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-44-15] [ENTRY]: [TESTING MODE]
+[20-44-15] [SYSTEM_IO]: Userdata requested: laststart
+[20-44-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-44-15] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3021ms
+[20-44-15] [THREAD STARTED]: notification appear animation
+[20-44-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-44-16] [THREAD STARTED]: Notificaiton vanish animater -374054151
+[20-45-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [17x]
+[20-45-19] [CLIENT]: weather
+[20-45-19] [SYSTEM_IO]: Userdata requested: filterchat
+[20-45-19] [WIDGET OPENED]: WEATHER
+[20-45-19] [THREAD STARTED]: Weather Stats Updater
+[20-45-19] [CONSOLE_OUT]: [STRING] Opening widget: WeatherWidget
+[20-45-19] [THREAD STARTED]: Weather Stats Updater
+[20-45-19] [THREAD STARTED]: Weather Clock Updater
+[20-45-19] [HANDLE]: PRIMARY HANDLE
+[20-45-20] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(713, 251, 480, 640)], hash = [871268494], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[20-45-20] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[20-45-20] [THREAD STARTED]: notification appear animation
+[20-45-20] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-45-20] [THREAD STARTED]: Notificaiton vanish animater -481825812
+[20-46-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [19x]
+[20-46-32] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [-14606733], parentFrame = [Starkville's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-46-32] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-46-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-46-38] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [-14606733], parentFrame = [Starkville's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-46-38] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-46-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-46-53] [THREAD STARTED]: Weather Stats Updater
+[20-46-54] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(603, 390, 480, 640)], hash = [871268494], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[20-46-54] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[20-46-54] [THREAD STARTED]: notification appear animation
+[20-46-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-46-54] [THREAD STARTED]: Notificaiton vanish animater -481825812
+[20-48-26] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [25x]
+[20-48-27] [THREAD STARTED]: Weather Stats Updater
+[20-48-27] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(603, 390, 480, 640)], hash = [871268494], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[20-48-27] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[20-48-27] [THREAD STARTED]: notification appear animation
+[20-48-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-48-27] [THREAD STARTED]: Notificaiton vanish animater -481825812
+[20-50-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [25x]
+[20-50-00] [THREAD STARTED]: Weather Stats Updater
+[20-50-01] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(603, 390, 480, 640)], hash = [871268494], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[20-50-01] [ACTION]: [Starkville's weather] [NOTIFICATION] Refreshed
+[20-50-01] [THREAD STARTED]: notification appear animation
+[20-50-01] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-50-01] [THREAD STARTED]: Notificaiton vanish animater -481825812
+[20-51-19] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [21x]
+[20-51-40] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
