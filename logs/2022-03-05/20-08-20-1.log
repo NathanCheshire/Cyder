@@ -6,17 +6,13 @@
 [20-08-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [20-08-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [20-08-22] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [20-08-23] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [20-08-23] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [20-08-23] [SYSTEM_IO]: Userdata requested: RandomBackground
 [20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
 [20-08-23] [SYSTEM_IO]: Userdata requested: fullscreen
-[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
-[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [20-08-23] [THREAD STARTED]: Console Printing Animation
 [20-08-23] [SYSTEM_IO]: Userdata requested: OutputBorder
 [20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -50,13 +46,10 @@
 [20-08-29] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
 [20-08-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [20-08-30] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
-[20-08-30] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
-[20-08-30] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-30] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)] [2x]
 [20-08-30] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
 [20-08-30] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
-[20-08-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
 [20-08-41] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
 [20-08-41] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
 [20-08-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
@@ -64,16 +57,152 @@
 [20-08-45] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
 [20-08-45] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [20-08-45] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[20-08-45] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[20-08-45] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-08-45] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
 [20-08-45] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [20-08-45] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
 [20-08-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [20-08-47] [SYSTEM_IO]: Userdata requested: minimizeanimation
-[20-08-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-55] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-08-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[20-09-02] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-02] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [5x]
 [20-09-05] [CLIENT]: gitme
 [20-09-05] [SYSTEM_IO]: Userdata requested: filterchat
+[20-09-05] [CONSOLE_OUT]: [STRING] [main e86b2ebb] fix frame setSize calls not maintaining rounded windows
+[20-09-06] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-07] [CONSOLE_OUT]: [STRING]  10 files changed, 338 insertions(+), 15 deletions(-)
+[20-09-07] [HANDLE]: GENERAL COMMAND HANDLED
+[20-09-07] [HANDLE]: PRIMARY HANDLE
+[20-09-08] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-01-46-1.log
+[20-09-09] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-02-56-1.log
+[20-09-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-10] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-04-41-1.log
+[20-09-11] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-05-27-1.log
+[20-09-12] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-07-13-1.log
+[20-09-12] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-13] [CONSOLE_OUT]: [STRING]  create mode 100644 logs/2022-03-05/20-08-20-1.log
+[20-09-14] [CONSOLE_OUT]: [STRING] remote: This repository moved. Please use the new location:
+[20-09-15] [CONSOLE_OUT]: [STRING] remote:   https://github.com/NathanCheshire/Cyder.git
+[20-09-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-16] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[20-09-17] [CONSOLE_OUT]: [STRING] To https://github.com/nathancheshire/Cyder.git
+[20-09-18] [CONSOLE_OUT]: [STRING]    8fc213e3..e86b2ebb  main -> main
+[20-09-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-19] [CLIENT]: pixelate
+[20-09-19] [SYSTEM_IO]: Userdata requested: filterchat
+[20-09-20] [THREAD STARTED]: Image Pixelator
+[20-09-20] [HANDLE]: GENERAL COMMAND HANDLED
+[20-09-20] [HANDLE]: PRIMARY HANDLE
+[20-09-20] [THREAD STARTED]: cyder.utilities.GetterUtil@2214bcf6getString thread
+[20-09-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-22] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [820841061], parentFrame = [Pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-23] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(311, 660, 400, 170)], hash = [269592427], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[20-09-23] [THREAD STARTED]: Pixel size CyderFrame dispose thread
+[20-09-23] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1154466119], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-23] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-09-23] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[20-09-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-09-28] [CLIENT]: pixelate
+[20-09-28] [SYSTEM_IO]: Userdata requested: filterchat
+[20-09-28] [THREAD STARTED]: Image Pixelator
+[20-09-28] [HANDLE]: GENERAL COMMAND HANDLED
+[20-09-28] [THREAD STARTED]: cyder.utilities.GetterUtil@6e05e613getString thread
+[20-09-28] [HANDLE]: PRIMARY HANDLE
+[20-09-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-29] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [159472222], parentFrame = [Pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-30] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(311, 660, 400, 170)], hash = [1557436464], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[20-09-30] [THREAD STARTED]: Pixel size CyderFrame dispose thread
+[20-09-30] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1923842888], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-30] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-09-30] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[20-09-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-32] [CLIENT]: prefs
+[20-09-32] [SYSTEM_IO]: Userdata requested: filterchat
+[20-09-32] [WIDGET OPENED]: PREFS
+[20-09-32] [CONSOLE_OUT]: [STRING] Opening widget: UserEditor
+[20-09-32] [HANDLE]: PRIMARY HANDLE
+[20-09-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-34] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1368297694], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-34] [CONSOLE_OUT]: [STRING] File: Default_Pixelated_Pixel_Size_15 successfully deleted.
+[20-09-35] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-38] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1368297694], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
+[20-09-38] [CONSOLE_OUT]: [STRING] File: Default successfully deleted.
+[20-09-39] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-40] [THREAD STARTED]: Wait thread for getterUtil
+[20-09-40] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [1673871206], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-40] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(61, 455, 900, 580)], hash = [819150284], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
+[20-09-40] [ACTION]: [Preferences] [NOTIFICATION] Cannot rename a file that is in use
+[20-09-40] [THREAD STARTED]: notification appear animation
+[20-09-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-09-40] [THREAD STARTED]: Notificaiton vanish animater -1959054897
+[20-09-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-43] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(11, 245, 1000, 1000)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-09-43] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] You only have one background image. Try adding more via the user editor
+[20-09-43] [THREAD STARTED]: notification appear animation
+[20-09-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-09-44] [THREAD STARTED]: Notificaiton vanish animater -1959052202
+[20-09-44] [WIDGET OPENED]: PREFS
+[20-09-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(61, 455, 900, 580)], hash = [819150284], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[20-09-44] [THREAD STARTED]: Preferences CyderFrame dispose thread
+[20-09-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-09-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-49] [CLIENT]: pixelate
+[20-09-49] [SYSTEM_IO]: Userdata requested: filterchat
+[20-09-49] [THREAD STARTED]: Image Pixelator
+[20-09-49] [HANDLE]: GENERAL COMMAND HANDLED
+[20-09-49] [THREAD STARTED]: cyder.utilities.GetterUtil@350dd6a8getString thread
+[20-09-49] [HANDLE]: PRIMARY HANDLE
+[20-09-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-51] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [2031881306], parentFrame = [Pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(311, 660, 400, 170)], hash = [670604000], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Pixel size]
+[20-09-52] [THREAD STARTED]: Pixel size CyderFrame dispose thread
+[20-09-52] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1192548983], parentFrame = [Pixel size], associated text = [Pixelate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-09-52] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-09-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-52] [CONSOLE_OUT]: [STRING] Background pixelated and saved as a separate background file.
+[20-10-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[20-10-02] [THREAD STARTED]: Wait thread for getterUtil
+[20-10-02] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [2070392309], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-02] [THREAD STARTED]: cyder.utilities.GetterUtil@53124db7getString thread
+[20-10-03] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [2103446793], parentFrame = [Rename], associated text = [Default_Pixelated_Pixel_Size_15_Pixelated_Pixel_Size_20], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-10-05] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1039, 633, 400, 170)], hash = [1678867295], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[20-10-05] [THREAD STARTED]: Rename CyderFrame dispose thread
+[20-10-05] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1951372587], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-05] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(789, 428, 900, 580)], hash = [52663341], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
+[20-10-05] [ACTION]: [Preferences] [NOTIFICATION] Default_Pixelated_Pixel_Size_15_Pixelated_Pixel_Size_20.png was successfully renamed to Elon.png
+[20-10-05] [THREAD STARTED]: notification appear animation
+[20-10-05] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-10-05] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-10-06] [THREAD STARTED]: Notificaiton vanish animater -1959049474 [2x]
+[20-10-07] [THREAD STARTED]: Background Switcher
+[20-10-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-10-10] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1536975485], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-11] [CONSOLE_OUT]: [STRING] File: Default_Pixelated_Pixel_Size_15_Pixelated_Pixel_Size_20_Pixelated_Pixel_Size_11 successfully deleted.
+[20-10-11] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-10-13] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1536975485], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-13] [CONSOLE_OUT]: [STRING] Music: Twillzzz - Lord Please (ft. some random dude) successfully deleted.
+[20-10-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-10-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1536975485], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-16] [CONSOLE_OUT]: [STRING] Music: Neutralize - Lost  Chillstep successfully deleted.
+[20-10-17] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-10-18] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(545, 440, 155, 40)], hash = [1536975485], parentFrame = [Preferences], associated text = [Delete], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-18] [CONSOLE_OUT]: [STRING] Music: Chillstep  Wayr - Against Fate successfully deleted.
+[20-10-19] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [-14203113], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-19] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(789, 428, 900, 580)], hash = [52663341], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences]
+[20-10-19] [THREAD STARTED]: Preferences CyderFrame dispose thread
+[20-10-19] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-10-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-10-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-10-35] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-10-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-11-14] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [11x]
+[20-11-16] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 420, 385, 35)], hash = [1874957849], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [<html><div style='text-align: center;'>2m 35s played, 2m 41s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-11-17] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-11-17] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-11-17] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[20-11-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [8x]
+[20-11-43] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-11-43] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-11-43] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[20-11-43] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light] [2x]
+[20-11-43] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[20-13-52] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [34x]
+[20-14-15] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -5,6 +5,7 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 
 import java.awt.*;
@@ -25,6 +26,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Helper methods to sort out differences between operating systems Cyder might be running on.
@@ -602,6 +606,9 @@ public class OSUtil {
     /**
      * Executes the provided process and prints the output to the provided input handler.
      *
+     * Note that this is executed on the current thread so surround invokation of this method
+     * with a new thread to avoid blocking the calling thread.
+     *
      * @param pipeTo the input handle to print the output to
      * @param builder the process builder to run
      */
@@ -628,8 +635,14 @@ public class OSUtil {
      * @param builders the process builders to run
      */
     public static void runAndPrintProcessesSuccessive(InputHandler pipeTo, ProcessBuilder... builders) {
-        for (ProcessBuilder builder : builders) {
-            runAndPrintProcess(pipeTo, builder);
-        }
+        checkNotNull(pipeTo, "pipeTo is null");
+        checkNotNull(builders, "builders are null");
+        checkArgument(builders.length > 0, "must be at least one builder");
+
+        CyderThreadRunner.submit(() -> {
+            for (ProcessBuilder builder : builders) {
+                runAndPrintProcess(pipeTo, builder);
+            }
+        }, "Successive Process Runner, pipeTo = " + pipeTo + ", builders.length() = " + builders.length);
     }
 }

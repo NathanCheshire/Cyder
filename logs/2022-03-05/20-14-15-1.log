@@ -1,0 +1,112 @@
+[20-14-16] [ENTRY]: [Nathan]
+[20-14-16] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-14-17] [THREAD STARTED]: Splash Loader
+[20-14-17] [THREAD STARTED]: Splash Animation
+[20-14-17] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-14-17] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-14-17] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-14-17] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-14-17] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-14-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-14-18] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-14-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-14-18] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-14-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-14-18] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-14-18] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-14-18] [THREAD STARTED]: Console Printing Animation
+[20-14-18] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-14-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-14-18] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-14-18] [THREAD STARTED]: Console Input Caret Position Updater
+[20-14-18] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-14-18] [SYSTEM_IO]: Userdata requested: InputFill
+[20-14-18] [THREAD STARTED]: High Ping Checker
+[20-14-18] [THREAD STARTED]: Hourly Chime Checker
+[20-14-18] [THREAD STARTED]: Console Clock Updater
+[20-14-18] [THREAD STARTED]: Cyder Busy Checker
+[20-14-18] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-14-18] [ACTION]: Console loaded in 3161ms
+[20-14-18] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(140, 172, 1000, 1000)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-14-18] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [814096321], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-14-18] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-14-18] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-14-18] [ENTRY]: [TESTING MODE]
+[20-14-18] [SYSTEM_IO]: Userdata requested: laststart
+[20-14-18] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-14-18] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 3161ms
+[20-14-18] [THREAD STARTED]: notification appear animation
+[20-14-18] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-14-18] [THREAD STARTED]: Notificaiton vanish animater -1021577054
+[20-14-29] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[20-14-31] [CLIENT]: mp3
+[20-14-31] [SYSTEM_IO]: Userdata requested: filterchat
+[20-14-31] [WIDGET OPENED]: AUDIO PLAYER
+[20-14-31] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-14-31] [HANDLE]: PRIMARY HANDLE
+[20-14-31] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[20-14-31] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-14-31] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
+[20-14-31] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-14-31] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[20-14-32] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-14-34] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[20-14-34] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1142, 472, 500, 480)], hash = [551685793], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...]
+[20-14-34] [THREAD STARTED]: Skizzy Mars - Gift and Curse feat. Yung Pinch [... CyderFrame dispose thread
+[20-14-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-14-35] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-14-35] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-14-35] [THREAD STARTED]: Console Audio Menu Minimizer
+[20-14-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
+[20-14-40] [CLIENT]: gitme
+[20-14-40] [SYSTEM_IO]: Userdata requested: filterchat
+[20-14-40] [THREAD STARTED]: runAndPrintProcess call, pipeTo = cyder.handlers.internal.InputHandler,hash = 1326462742, reflection data = cyder.handlers.internal.InputHandler(getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(1030, 343, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getLastTextLine = Opening widget: AudioPlayer
+, getCommand = gitme, getUserInputMode = false, getClass = class cyder.handlers.internal.InputHandle), builder = java.lang.ProcessBuilder@3be6f2af
+[20-14-40] [THREAD STARTED]: runAndPrintProcess call, pipeTo = cyder.handlers.internal.InputHandler,hash = 1326462742, reflection data = cyder.handlers.internal.InputHandler(getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(1030, 343, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getLastTextLine = Opening widget: AudioPlayer
+, getCommand = gitme, getUserInputMode = false, getClass = class cyder.handlers.internal.InputHandle), builder = java.lang.ProcessBuilder@1f9d9538
+[20-14-40] [THREAD STARTED]: runAndPrintProcess call, pipeTo = cyder.handlers.internal.InputHandler,hash = 1326462742, reflection data = cyder.handlers.internal.InputHandler(getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(1030, 343, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getLastTextLine = Opening widget: AudioPlayer
+, getCommand = gitme, getUserInputMode = false, getClass = class cyder.handlers.internal.InputHandle), builder = java.lang.ProcessBuilder@3cbb5ce4
+[20-14-40] [HANDLE]: GENERAL COMMAND HANDLED
+[20-14-40] [HANDLE]: PRIMARY HANDLE
+[20-14-41] [CONSOLE_OUT]: [STRING] fatal: Unable to create 'C:/Users/Nathan/Documents/IntelliJava/Cyder/.git/index.lock': File exists.
+[20-14-42] [CONSOLE_OUT]: [STRING]
+[20-14-43] [CONSOLE_OUT]: [STRING] Another git process seems to be running in this repository, e.g.
+[20-14-43] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-14-44] [CONSOLE_OUT]: [STRING] an editor opened by 'git commit'. Please make sure all processes
+[20-14-45] [CONSOLE_OUT]: [STRING] are terminated then try again. If it still fails, a git process
+[20-14-46] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-14-46] [CONSOLE_OUT]: [STRING] may have crashed in this repository earlier:
+[20-14-47] [CONSOLE_OUT]: [STRING] remove the file manually to continue.
+[20-14-48] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[20-14-49] [CONSOLE_OUT]: [STRING] Everything up-to-date
+[20-14-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[20-14-59] [CLIENT]: gitme
+[20-14-59] [SYSTEM_IO]: Userdata requested: filterchat
+[20-14-59] [THREAD STARTED]: runAndPrintProcess call, pipeTo = cyder.handlers.internal.InputHandler,hash = 1326462742, reflection data = cyder.handlers.internal.InputHandler(getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(1030, 343, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getLastTextLine = Everything up-to-date
+, getCommand = gitme, getUserInputMode = false, getClass = class cyder.handlers.internal.InputHandle), builder = java.lang.ProcessBuilder@164c7519
+[20-14-59] [THREAD STARTED]: runAndPrintProcess call, pipeTo = cyder.handlers.internal.InputHandler,hash = 1326462742, reflection data = cyder.handlers.internal.InputHandler(getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(1030, 343, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getLastTextLine = Everything up-to-date
+, getCommand = gitme, getUserInputMode = false, getClass = class cyder.handlers.internal.InputHandle), builder = java.lang.ProcessBuilder@c4e4dd8
+[20-14-59] [THREAD STARTED]: runAndPrintProcess call, pipeTo = cyder.handlers.internal.InputHandler,hash = 1326462742, reflection data = cyder.handlers.internal.InputHandler(getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component name = [cyder.ui.ConsoleFrame], bounds = [(1030, 343, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]], getLastTextLine = Everything up-to-date
+, getCommand = gitme, getUserInputMode = false, getClass = class cyder.handlers.internal.InputHandle), builder = java.lang.ProcessBuilder@1a2e5d4b
+[20-14-59] [HANDLE]: GENERAL COMMAND HANDLED
+[20-14-59] [HANDLE]: PRIMARY HANDLE
+[20-14-59] [CONSOLE_OUT]: [STRING] fatal: Unable to create 'C:/Users/Nathan/Documents/IntelliJava/Cyder/.git/index.lock': File exists.
+[20-15-00] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-15-01] [CONSOLE_OUT]: [STRING]
+[20-15-01] [CONSOLE_OUT]: [STRING] Another git process seems to be running in this repository, e.g.
+[20-15-03] [CONSOLE_OUT]: [STRING] an editor opened by 'git commit'. Please make sure all processes
+[20-15-04] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-15-04] [CONSOLE_OUT]: [STRING] are terminated then try again. If it still fails, a git process
+[20-15-05] [CONSOLE_OUT]: [STRING] may have crashed in this repository earlier:
+[20-15-06] [CONSOLE_OUT]: [STRING] remove the file manually to continue.
+[20-15-07] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-15-07] [CONSOLE_OUT]: [STRING] Branch 'main' set up to track remote branch 'main' from 'origin'.
+[20-15-08] [CONSOLE_OUT]: [STRING] Everything up-to-date
+[20-17-41] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [41x]
+[20-17-42] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[20-17-42] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-17-42] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(345, 244, 724, 738)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[20-17-42] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[20-17-42] [SYSTEM_IO]: Userdata requested: closeanimation
+[20-17-42] [EXIT]: [RUNTIME] 3m 27s
+[20-17-42] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0
