@@ -7,16 +7,24 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.ui.objects.GridNode;
 import cyder.utilities.ColorUtil;
+import cyder.utilities.GetterUtil;
+import cyder.utilities.OSUtil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -93,7 +101,52 @@ public class PaintWidget {
         paintFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
         paintFrame.setMenuEnabled(true);
-        paintFrame.addMenuItem("Export png", () -> paintFrame.notify("TODO"));
+        paintFrame.addMenuItem("Export png", () -> CyderThreadRunner.submit(() -> {
+            String base = "image";
+            int increment = 0;
+            String defaultFilename = base + increment + ".png";
+
+            String path = OSUtil.buildPath("dynamic","users",
+                    ConsoleFrame.getConsoleFrame().getUUID(), "Files");
+
+            while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
+                increment++;
+                defaultFilename = base + increment + ".png";
+            }
+
+            String filename = new GetterUtil().getString("Filename", "The filename to save the image as",
+                    "Save Image", defaultFilename);
+            if (OSUtil.isValidFilename(filename)) {
+                BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
+                        cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
+
+                Graphics2D g2d = (Graphics2D) image.getGraphics();
+
+                for (GridNode node : cyderGrid.getGridNodes()) {
+                    g2d.setColor(node.getColor());
+                    g2d.fillRect(node.getX(), node.getY(), 1, 1);
+                }
+
+                try {
+                    ImageIO.write(image, "png", OSUtil.createFileInUserSpace(filename));
+                    paintFrame.notify("Successfully saved grid as \"" + filename + "\" to your Files/ directory");
+                } catch (Exception exception) {
+                    ExceptionHandler.handle(exception);
+                    paintFrame.notify("Could not save image at this time");
+                }
+            } else {
+                paintFrame.notify("Sorry, but \"" + filename + "\" is not a valid filename");
+            }
+        }, "Paint Grid Exporter"));
+        paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
+
+        }, "Paint Grid Image Layerer"));
+        paintFrame.addMenuItem("Pixelate", () -> CyderThreadRunner.submit(() -> {
+
+        }, "Paint Grid Pixelator"));
+        paintFrame.addMenuItem("Resize", () -> CyderThreadRunner.submit(() -> {
+
+        }, "Paint Grid Resizer"));
 
         installControlFrames();
     }

@@ -2938,7 +2938,7 @@ public class CyderFrame extends JFrame {
         menuLabel.setBackground(CyderColors.navy);
         menuLabel.setBorder(new LineBorder(Color.black, 4));
         menuLabel.setSize(menuWidth, 2 * paddingHeight +
-                (menuItems.size() * StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall)));
+                (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 5)));
 
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);

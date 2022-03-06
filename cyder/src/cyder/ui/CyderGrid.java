@@ -1081,12 +1081,6 @@ public class CyderGrid extends JLabel {
     //todo utilize surrounding methods for relative zooming after
     // rest of painting widget is implemented
 
-    //todo menu for frame only available if title label has valid
-    // title since that's what you mouse over and click
-    //todo new component to slide in with clickable menu text like old console menu
-
-    //todo menu features: layer images, pixelate, resize, export as png
-
     /**
      * Converts the provided grid node to it's mouse space equivalent
      * based on the current node count and component length. The value returned is the
