@@ -610,7 +610,7 @@ public final class ConsoleFrame {
                 //print tests in case the user was trying to invoke one
                 inputHandler.printManualTests();
 
-                CyderButton suggestionButton = new CyderButton("Help");
+                CyderButton suggestionButton = new CyderButton("    Make a Suggestion   ");
                 suggestionButton.setColors(CyderColors.regularPink);
                 suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
                     String suggestion = new GetterUtil().getString("Suggestion",
@@ -1050,7 +1050,7 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "ConsoleFrame Data Saver");
+        }, "User Data Saver");
     }
 
     //one time run things such as notifying due to special days, debug properties,

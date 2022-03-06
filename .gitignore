@@ -7,3 +7,4 @@ out/
 build/
 Userdata.json
 backup.json
+dynamic/backup/*

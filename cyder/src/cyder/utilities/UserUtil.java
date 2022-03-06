@@ -1,5 +1,7 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
@@ -52,7 +54,7 @@ public class UserUtil {
     /**
      * The timeout between writes to the user json file in ms.
      */
-    public static final int IO_TIMEOUT = 3000;
+    public static final int IO_TIMEOUT = 10000;
 
     /**
      * Returns the semaphore used for IO to/from the user's JSON file.
@@ -170,15 +172,111 @@ public class UserUtil {
             Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
                     + OSUtil.buildPath(f.getParentFile().getName(), f.getName()));
 
-            //todo backup subroutine here too
-            //todo then before even corrupting a user, also consolidate the fix user stuff,
-            // attempt to restore last valid json
+            // attempt to backup the most recent state of the json
+            userJsonBackupSubroutine(f);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
             userIOSemaphore.release();
         }
     }
+
+    /**
+     * Saves the provided jsonFile to the backup directory in case
+     * restoration is required for the next Cyder instance.
+     *
+     * @param jsonFile the current user json file
+     */
+    @SuppressWarnings("UnstableApiUsage") /* Guava */
+    public static void userJsonBackupSubroutine(File jsonFile) {
+        try {
+            // Note: this is called from the above function meaning the
+            //       user WAS parsable without exceptions
+
+            File backupDirectory = new File(OSUtil.buildPath("dynamic", "backup"));
+
+            // ensure save directory exists
+            if (!backupDirectory.exists()) {
+                backupDirectory.mkdir();
+            }
+
+            // timestamp to mark this backup
+            long timestamp = System.currentTimeMillis();
+            String uuid = FileUtil.getFilename(jsonFile.getParentFile());
+            String newFilename = uuid + "_" + timestamp + ".json";
+
+            // find most recent file
+            File[] backups = backupDirectory.listFiles();
+            Preconditions.checkNotNull(backups);
+            long currentMaxTimestamp = 0;
+
+            // find most recent timestamp that matches our uuid
+            for (File backup : backups) {
+                String filename = FileUtil.getFilename(backup);
+
+                // ensure in valid format
+                if (filename.contains("_")) {
+                    String[] parts = filename.split("_");
+
+                    // ensure like "uuid_timestamp"
+                    if (parts.length == 2) {
+                        String foundUuid = parts[0];
+                        long foundTimestamp = Long.parseLong(parts[1]);
+
+                        // if uuids match and timestamp is better
+                        if (uuid.equals(foundUuid) && foundTimestamp > currentMaxTimestamp) {
+                            currentMaxTimestamp = foundTimestamp;
+                        }
+                    }
+                }
+            }
+
+            // build file from uuid and the found most recent timestamp
+            File mostRecentFile = null;
+
+            // found one if the timestamp isn't the initial value
+            if (currentMaxTimestamp != 0) {
+                mostRecentFile = new File(OSUtil.buildPath(
+                        "dynamic", "backup", uuid + "_" + currentMaxTimestamp));
+            }
+
+            // if no files in directory or current is different from previous
+            if (mostRecentFile == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentFile)) {
+                // copy file here with new Filename
+                File newBackup = new File(OSUtil.buildPath("dynamic","backup", newFilename));
+                Files.copy(jsonFile, newBackup);
+
+                backups = backupDirectory.listFiles();
+                Preconditions.checkNotNull(backups);
+
+                for (File backup : backups) {
+                    String filename = FileUtil.getFilename(backup);
+
+                    if (filename.contains("_")) {
+                        String[] parts = filename.split("_");
+
+                        if (parts.length == 2) {
+                            // if uuid of this backup is the user we just
+                            // backed up and not the file we just made
+                            if (parts[1].equals(uuid) && !FileUtil.getFilename(backup)
+                                    .equals(FileUtil.getFilename(newBackup))) {
+                                OSUtil.delete(backup);
+                            }
+                        }
+                    }
+                }
+
+                // delete all files that aren't the one we just made that start with the uuid
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    // todo after this you should be able to get rid of backup.json from master dir
+
+    //todo before even corrupting a user, also consolidate the fix user stuff,
+    // attempt to restore last valid json
 
     /**
      * Function called upon UUID being set for consoleFrame which

@@ -8,6 +8,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utilities having to do with files, their names, properties, and attributes.
  */
@@ -121,4 +124,31 @@ public class FileUtil {
     public static final ArrayList<String> validFontExtensions = new ArrayList<>() {{
         add(".ttf");
     }};
+
+    /**
+     * Returns whether the contents of the two files are equal.
+     *
+     * @param fileOne the first file
+     * @param fileTwo the second file
+     * @return whether the contents of the two file are equal
+     */
+    @SuppressWarnings("UnstableApiUsage") /* Guava */
+    public static boolean fileContentsEqual(File fileOne, File fileTwo) {
+        checkNotNull(fileOne);
+        checkNotNull(fileTwo);
+
+        checkArgument(fileOne.exists());
+        checkArgument(fileTwo.exists());
+
+       boolean ret;
+
+        try {
+            ret = com.google.common.io.Files.equal(fileOne, fileTwo);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            ret = false;
+        }
+
+        return ret;
+    }
 }
