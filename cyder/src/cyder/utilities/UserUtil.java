@@ -269,7 +269,7 @@ public class UserUtil {
             LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
 
             // remove possibly duplicate exes
-            if (!exes.isEmpty()) {
+            if (exes != null && !exes.isEmpty()) {
                 for (User.MappedExecutable me : exes) {
                     if (!nonDuplicates.contains(me)) {
                         nonDuplicates.add(me);

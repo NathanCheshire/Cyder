@@ -1,9 +1,0 @@
-Exception origin: cyder.utilities.UserUtil.getterSetterFixer(UserUtil.java:272)
-From line: 272
-Trace: java.lang.NullPointerException
-	at cyder.utilities.UserUtil.getterSetterFixer(UserUtil.java:272)
-	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1663)
-	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:500)
-	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
-	at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
-	at cyder.genesis.Cyder.main(Cyder.java:119)

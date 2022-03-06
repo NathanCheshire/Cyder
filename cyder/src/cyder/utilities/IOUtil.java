@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
@@ -129,11 +130,14 @@ public class IOUtil {
                     argBuilder.append("; ");
                 }
 
-                argBuilder.append("primary location = ").append(primaryLocation)
-                        .append(", secondary location = ").append(secondaryLocation)
-                        .append(", isp = ").append(isp);
+                argBuilder.append("primary location = ").append(primaryLocation.text())
+                        .append(", secondary location = ").append(secondaryLocation.text())
+                        .append(", isp = ").append(StringUtil.capsFirst(isp));
 
-                Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
+                // only log if autoCypher, means either Nathan or an advanced developer
+                if (!CyderCommon.isAutoCypher())
+                    Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
+
                 BackendUtil.post(String.valueOf(argBuilder));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
