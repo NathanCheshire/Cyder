@@ -1071,6 +1071,8 @@ public class CyderGrid extends JLabel {
         return (mousePoint - centeringDrawOffset) / (gridComponentLength / (float) nodes);
     }
 
+    //todo look at logs and look for ways to improve clarity and readability
+
     //todo reclone project to see warnings
 
     //todo backup json method so that you never lose one again no matter when u end program

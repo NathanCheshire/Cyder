@@ -92,6 +92,9 @@ public class PaintWidget {
         paintFrame.setVisible(true);
         paintFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
 
+        paintFrame.setMenuEnabled(true);
+        paintFrame.addMenuItem("Export png", () -> paintFrame.notify("TODO"));
+
         installControlFrames();
     }
 

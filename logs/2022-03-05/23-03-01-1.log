@@ -1,0 +1,149 @@
+[23-03-01] [ENTRY]: [Nathan]
+[23-03-02] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-03-02] [THREAD STARTED]: Splash Loader
+[23-03-02] [THREAD STARTED]: Splash Animation
+[23-03-03] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-03-03] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-03-03] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-03-03] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-03-03] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-03-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[23-03-03] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[23-03-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-03-03] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-03-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-03-03] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-03-03] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-03-03] [THREAD STARTED]: Console Printing Animation
+[23-03-03] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-03-03] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-03-03] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-03-03] [THREAD STARTED]: Console Input Caret Position Updater
+[23-03-03] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-03-03] [SYSTEM_IO]: Userdata requested: InputFill
+[23-03-03] [THREAD STARTED]: High Ping Checker
+[23-03-03] [THREAD STARTED]: Hourly Chime Checker
+[23-03-03] [THREAD STARTED]: Console Clock Updater
+[23-03-03] [THREAD STARTED]: Cyder Busy Checker
+[23-03-03] [THREAD STARTED]: ConsoleFrame Data Saver
+[23-03-03] [ACTION]: Console loaded in 2813ms
+[23-03-03] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1364, 293, 724, 738)], hash = [1201004240], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-03-03] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1624217418], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-03-03] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-03-03] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-03-03] [ENTRY]: [TESTING MODE]
+[23-03-03] [SYSTEM_IO]: Userdata requested: laststart
+[23-03-03] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-03-04] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2813ms
+[23-03-04] [THREAD STARTED]: notification appear animation
+[23-03-04] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-03-04] [THREAD STARTED]: Notificaiton vanish animater -1233152436
+[23-03-06] [CLIENT]: paint
+[23-03-06] [SYSTEM_IO]: Userdata requested: filterchat
+[23-03-06] [SYSTEM_IO]: Created temperatory file: 23-03-06.stacktrace
+[23-03-06] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.reflect.InvocationTargetException
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.ReflectionUtil.openWidget(ReflectionUtil.java:338)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:232)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:559)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: java.lang.NullPointerException
+at cyder.ui.CyderFrame.addMenuItem(CyderFrame.java:2815)
+at cyder.widgets.PaintWidget.showGUI(PaintWidget.java:92)
+... 46 more
+[23-03-06] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-03-06] [SYSTEM_IO]: File already existed in userspace: 23-03-06.stacktrace
+[23-03-06] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.InputHandler.externalOpenerCheck(InputHandler.java:575)
+From line: 575
+Trace: java.lang.IllegalCallerException: Unimplemented yet; custom paint program coming soon
+at cyder.handlers.internal.InputHandler.externalOpenerCheck(InputHandler.java:575)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:233)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:559)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[23-03-06] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-03-06] [CONSOLE_OUT]: [STRING] Opening widget: PaintWidget
+[23-04-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [21x]
+[23-04-52] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 2

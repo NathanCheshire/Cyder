@@ -1,9 +1,0 @@
-Exception origin: java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1909)
-From line: 1909
-Trace: java.io.FileNotFoundException: https://api.openweathermap.org/data/2.5/weather?q=Seatle,Wa,Usa&appid=2d790dd0766f1da62af488f101380c75&units=imperial
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1909)
-	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1509)
-	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:245)
-	at java.base/java.net.URL.openStream(URL.java:1117)
-	at cyder.widgets.WeatherWidget.lambda$repullWeatherStats$5(WeatherWidget.java:549)
-	at java.base/java.lang.Thread.run(Thread.java:844)
