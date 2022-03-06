@@ -90,6 +90,7 @@ public class IOUtil {
      */
     public static void logArgs(String[] cyderArgs) {
         try {
+            // build string of all JVM args
             StringBuilder argsString = new StringBuilder();
 
             for (int i = 0; i < cyderArgs.length; i++) {
@@ -99,9 +100,10 @@ public class IOUtil {
                 argsString.append(cyderArgs[i]);
             }
 
-            // todo fastAPI python host?
-            // todo make backend that accepts post that will return the location for an IP
+            // todo fastAPI python host? to download static dir?
+            //todo account for no ipdata util here, use webscraping thing and post to backend
 
+            //
             String append = "[LOCATION] " + (!CyderCommon.isReleased() ?
                     "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
@@ -176,10 +178,11 @@ public class IOUtil {
     }
 
     /**
-     * Attempts to fix any user files that may be outdated via preference injection.
-     * Any users which fail are added to the invalid uuis list.
+     * Attempts preference injection for all users.
+     * If a user fails, the user is corrupted and added
+     * to the list of invalid users.
      */
-    public static void fixUsers() {
+    public static void preferenceInjectAllUsers() {
         //all users
         File users = new File(OSUtil.buildPath("dynamic","users"));
 
@@ -191,11 +194,10 @@ public class IOUtil {
 
             if (json.exists()) {
                 //attempt to update the json
-                boolean success = UserUtil.updateOldJson(json);
+                boolean success = UserUtil.preferenceInject(json);
 
                 //if it fails then invoke invalid on the json
                 if (!success) {
-                    UserUtil.addInvalidUuid(userFile.getName());
                     UserUtil.userJsonCorruption(FileUtil.getFilename(userFile));
                 }
             }

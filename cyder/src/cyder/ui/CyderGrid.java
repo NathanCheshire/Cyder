@@ -1071,8 +1071,7 @@ public class CyderGrid extends JLabel {
         return (mousePoint - centeringDrawOffset) / (gridComponentLength / (float) nodes);
     }
 
-    //todo toggle icon to leave paint modes not working: select color ,selection tool
-    //todo menu frame height not working
+    //todo need support for grid
 
     //todo look at logs and look for ways to improve clarity and readability
 

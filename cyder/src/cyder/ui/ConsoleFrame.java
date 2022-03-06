@@ -1660,7 +1660,7 @@ public final class ConsoleFrame {
         UserUtil.setCyderUserFile(json);
 
         // ensure user directories exist
-        UserUtil.fixUser();
+        UserUtil.getterSetterFixer();
 
         //log out all users that may have been left as logged in
         // since we are now logging in this one

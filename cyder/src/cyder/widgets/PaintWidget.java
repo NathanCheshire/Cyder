@@ -48,7 +48,14 @@ public class PaintWidget {
      */
     private static CyderGrid cyderGrid;
 
+    /**
+     * The button for selecting a region.
+     */
     private static CyderIconButton selectionTool;
+
+    /**
+     * The button for selecting a color.
+     */
     private static CyderIconButton selectColor;
 
     /**
@@ -151,13 +158,28 @@ public class PaintWidget {
             }
         }, "Paint Grid Exporter"));
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
+            try {
 
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                paintFrame.notify("Could not add image at this time");
+            }
         }, "Paint Grid Image Layerer"));
         paintFrame.addMenuItem("Pixelate", () -> CyderThreadRunner.submit(() -> {
+            try {
 
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                paintFrame.notify("Could not pixelate image at this time");
+            }
         }, "Paint Grid Pixelator"));
         paintFrame.addMenuItem("Resize", () -> CyderThreadRunner.submit(() -> {
+            try {
 
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                paintFrame.notify("Could not resize at this time");
+            }
         }, "Paint Grid Resizer"));
 
         installControlFrames();
@@ -168,11 +190,29 @@ public class PaintWidget {
      */
     private static CyderFrame paintControlsFrame;
 
+    /**
+     * The list of recently used colors.
+     */
     private static ArrayList<Color> recentColors;
+
+    /**
+     * The custom component with an overriden paint component.
+     */
     private static JLabel recentColorsBlock;
 
+    /**
+     * The current color.
+     */
     private static Color currentPaintColor = CyderColors.regularPink;
+
+    /**
+     * The hex field that displays the current color value.
+     */
     private static CyderTextField colorHexField;
+
+    /**
+     * The add nodes checkbox.
+     */
     private static CyderCheckbox add;
 
     /**
@@ -540,10 +580,6 @@ public class PaintWidget {
         paintControlsFrame.setLocation(paintFrame.getX(), y);
     }
 
-    // --------------
-    // paint controls
-    // --------------
-
     /**
      * The default brush width.
      */
@@ -615,10 +651,10 @@ public class PaintWidget {
      * Handles the button press for selection mode.
      */
     private static void toggleSelectionMode() {
-        resetToAdding();
-
         CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.SELECTION
                 ? CyderGrid.Mode.ADD : CyderGrid.Mode.SELECTION;
+
+        resetToAdding();
 
         if (newMode == CyderGrid.Mode.SELECTION) {
             paintFrame.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
@@ -642,6 +678,9 @@ public class PaintWidget {
     private static final ImageIcon colorSelectionIcon =
             new ImageIcon("static/pictures/paint/select_color.png");
 
+    /**
+     * The cursor used when color selection is toggled on.
+     */
     private static final Cursor eyedropperCursor = Toolkit.getDefaultToolkit()
             .createCustomCursor(colorSelectionIcon.getImage(), new Point(0, 30), "eyedropper");
 
@@ -649,10 +688,10 @@ public class PaintWidget {
      * Toggles between states for color mode selection.
      */
     private static void toggleColorSelection() {
-        resetToAdding();
-
         CyderGrid.Mode newMode = cyderGrid.getMode() == CyderGrid.Mode.COLOR_SELECTION
                 ? CyderGrid.Mode.ADD : CyderGrid.Mode.COLOR_SELECTION;
+
+        resetToAdding();
 
         if (newMode == CyderGrid.Mode.COLOR_SELECTION) {
             cyderGrid.setMode(newMode);

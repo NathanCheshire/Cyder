@@ -7,17 +7,13 @@
 [00-22-50] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [00-22-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [00-22-50] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[00-22-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[00-22-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[00-22-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[00-22-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[00-22-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [00-22-51] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [00-22-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [00-22-51] [SYSTEM_IO]: Userdata requested: RandomBackground
 [00-22-51] [SYSTEM_IO]: Userdata requested: FullScreen
 [00-22-51] [SYSTEM_IO]: Userdata requested: fullscreen
-[00-22-51] [SYSTEM_IO]: Userdata requested: FullScreen
-[00-22-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-22-51] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [00-22-51] [THREAD STARTED]: Console Printing Animation
 [00-22-51] [SYSTEM_IO]: Userdata requested: OutputBorder
 [00-22-51] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -42,9 +38,7 @@
 [00-22-51] [THREAD STARTED]: notification appear animation
 [00-22-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [00-22-51] [THREAD STARTED]: Notificaiton vanish animater -1112648483
-[00-22-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[00-22-58] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[00-23-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[00-23-01] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
 [00-23-01] [CLIENT]: paint
 [00-23-01] [SYSTEM_IO]: Userdata requested: filterchat
 [00-23-02] [HANDLE]: PRIMARY HANDLE
@@ -55,13 +49,11 @@
 [00-23-03] [ACTION]: [Paint] [NOTIFICATION] Please place at least one node before saving
 [00-23-03] [THREAD STARTED]: notification appear animation
 [00-23-03] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[00-23-03] [THREAD STARTED]: Notificaiton vanish animater -1112642283
-[00-23-04] [THREAD STARTED]: Notificaiton vanish animater -1112642283
+[00-23-04] [THREAD STARTED]: Notificaiton vanish animater -1112642283 [2x]
 [00-23-05] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [00-23-05] [THREAD STARTED]: Paint Grid Exporter
 [00-23-05] [THREAD STARTED]: cyder.utilities.GetterUtil@53171a98getString thread
-[00-23-08] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1151330546], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[00-23-08] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1151330546], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[00-23-08] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1151330546], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [00-23-09] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [00-23-09] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1080, 611, 400, 170)], hash = [122476336], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Filename]
 [00-23-09] [THREAD STARTED]: Filename CyderFrame dispose thread
@@ -83,10 +75,7 @@
 [00-23-20] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [00-23-20] [THREAD STARTED]: Paint Grid Exporter
 [00-23-20] [THREAD STARTED]: cyder.utilities.GetterUtil@1666fc12getString thread
-[00-23-22] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1822985348], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[00-23-22] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1822985348], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[00-23-23] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1822985348], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[00-23-24] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1822985348], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[00-23-24] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1822985348], parentFrame = [Filename], associated text = [image1.png], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [4x]
 [00-23-24] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [00-23-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1080, 611, 400, 170)], hash = [548665576], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Filename]
 [00-23-25] [SYSTEM_IO]: Created file in userspace: nore.png
@@ -98,8 +87,7 @@
 [00-23-25] [SYSTEM_IO]: Userdata requested: closeanimation
 [00-23-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [00-23-25] [THREAD STARTED]: Notificaiton vanish animater -1112641727
-[00-23-28] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[00-23-31] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[00-23-31] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [00-23-33] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [00-23-33] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1326, 247, 800, 830)], hash = [488181502], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
 [00-23-33] [THREAD STARTED]: Paint CyderFrame dispose thread

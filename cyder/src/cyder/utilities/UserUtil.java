@@ -177,11 +177,13 @@ public class UserUtil {
     }
 
     /**
-     * Function called upon UUID being set for consoleFrame to attempt to fix any user data
-     * in case it was corrupted. If we fail to correct any corrupted data, then we corrupt the user and exit
+     * Function called upon UUID being set for consoleFrame which
+     * attempts to fix any user data in case it was corrupted.
+     * If we fail to correct any absolutely necessary data,
+     * the user becomes corrupted.
      */
     @SuppressWarnings("ResultOfMethodCallIgnored") /* making directories */
-    public static void fixUser() {
+    public static void getterSetterFixer() {
         String UUID = ConsoleFrame.getConsoleFrame().getUUID();
 
         if (UUID == null)
@@ -200,6 +202,7 @@ public class UserUtil {
         if (!userMusicFile.exists())
             userMusicFile.mkdir();
 
+        // user doesn't have json so ignore it during Cyder instance
         if (!userJsonFile.exists()) {
             return;
         }
@@ -207,23 +210,31 @@ public class UserUtil {
         User user = extractUser(userJsonFile);
 
         try {
-            //this handles data whose ID is still there
+            // for all methods in User.class
             for (Method getterMethod : user.getClass().getMethods()) {
+                // if it's a getter
                 if (getterMethod.getName().startsWith("get")
                         && getterMethod.getParameterTypes().length == 0) {
-                    //object returned by current getter
+                    // invoke the getter
                     final Object getterRet = getterMethod.invoke(user);
-                    if (getterRet == null || (getterRet instanceof String && ((String) getterRet).length() == 0)) {
-                        //fatal data that results in the user being corrupted if it is corrupted
+
+                    // the data for this user is empty or not a string
+                    if (!(getterRet instanceof String) || StringUtil.isNull((String) getterRet)) {
+
+                        // getter result was invalid so attempt to fix
+
+                        // cannot attempt to restore objects who's tooltip is IGNORE
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
                             userJsonCorruption(UUID);
                             return;
                         }
-                        //non-fatal data that we can restore from the default data
+
+                        // non-fatal data that we can attempt to restore from the default data
                         else {
-                            //find corresponding setter
+                            // find all setter methods
                             for (Method setterMethod : user.getClass().getMethods()) {
+                                // if the setter matches our getter
                                 if (setterMethod.getName().startsWith("set")
                                         && setterMethod.getParameterTypes().length == 1
                                         && setterMethod.getName().toLowerCase().contains(getterMethod.getName()
@@ -231,7 +242,7 @@ public class UserUtil {
 
                                     Object defaultValue = null;
 
-                                    //find corresponding default vale
+                                    // find the default value from preferences list
                                     for (Preferences.Preference pref : Preferences.getPreferences()) {
                                         if (pref.getID().toLowerCase().contains(getterMethod.getName()
                                                 .toLowerCase().replace("get",""))) {
@@ -240,8 +251,8 @@ public class UserUtil {
                                         }
                                     }
 
+                                    // invoke setter method
                                     setterMethod.invoke(user, defaultValue);
-                                    setUserData(userJsonFile,user);
                                     break;
                                 }
                             }
@@ -253,6 +264,7 @@ public class UserUtil {
             LinkedList<User.MappedExecutable> exes = user.getExecutables();
             LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
 
+            // remove possibly duplicate exes
             if (!exes.isEmpty()) {
                 for (User.MappedExecutable me : exes) {
                     if (!nonDuplicates.contains(me)) {
@@ -260,9 +272,12 @@ public class UserUtil {
                     }
                 }
 
+                // set exes
                 user.setExecutables(nonDuplicates);
-                setUserData(userJsonFile, user);
             }
+
+            // write data changes to file
+            setUserData(userJsonFile, user);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -439,7 +454,7 @@ public class UserUtil {
      *
      * @param f the file to check for corrections
      */
-    public static boolean updateOldJson(File f) {
+    public static boolean preferenceInject(File f) {
         if (!FileUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
         } else if (!FileUtil.getFilename(f).equalsIgnoreCase(FileUtil.getFilename(UserFile.USERDATA.getName()))) {
@@ -511,7 +526,8 @@ public class UserUtil {
             jsonReader.close();
 
             //make sure contents are not null-like
-            if (masterJson == null || masterJson.toString().trim().length() == 0 || masterJson.toString().equalsIgnoreCase("null")) {
+            if (masterJson == null || masterJson.toString().trim().length() == 0
+                    || masterJson.toString().equalsIgnoreCase("null")) {
                 userIOSemaphore.release();
                 reader.close();
                 writer.close();
@@ -620,6 +636,8 @@ public class UserUtil {
      * @param UUID the uuid of the corrupted user
      */
     public static void userJsonCorruption(String UUID) {
+        addInvalidUuid(UUID);
+
         try {
             //create parent directory
             File userDir = new File(OSUtil.buildPath("dynamic","users",
@@ -813,7 +831,7 @@ public class UserUtil {
             if (jsonFile.exists()
                     && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID())
                     && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
-                User u = UserUtil.extractUser(jsonFile);
+                User u = extractUser(jsonFile);
                 u.setLoggedin("0");
                 setUserData(jsonFile, u);
             }
@@ -826,8 +844,8 @@ public class UserUtil {
      * @return the uuid of the first logged-in user
      */
     public static Optional<String> getFirstLoggedInUser() {
-        for (File userJSON : UserUtil.getUserJsons()) {
-            if (UserUtil.extractUser(userJSON).getLoggedin().equals("1"))
+        for (File userJSON : getUserJsons()) {
+            if (extractUser(userJSON).getLoggedin().equals("1"))
                 return Optional.of(FileUtil.getFilename(userJSON.getParentFile().getName()));
         }
 

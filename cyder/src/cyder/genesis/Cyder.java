@@ -93,7 +93,7 @@ public class Cyder {
         // necessary subroutines to complete with success before continuing
         try {
             setLoadingMessage("Fixing users");
-            IOUtil.fixUsers();
+            IOUtil.preferenceInjectAllUsers();
             setLoadingMessage("Cleaning users");
             IOUtil.cleanUsers();
             setLoadingMessage("Validating widgets");
