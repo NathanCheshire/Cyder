@@ -279,6 +279,8 @@ public class GetterUtil {
     private Stack<File> backward = new Stack<>();
     private Stack<File> forward = new Stack<>();
 
+    //todo we should be able to pass a default directory for file getter
+
     /**
      * The current location for the file getter.
      */

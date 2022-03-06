@@ -1445,6 +1445,11 @@ public class AudioPlayer {
         audioFrame.setSize(500,240);
         albumArtLabel.setVisible(false);
 
+        // just to be safe
+        audioProgress.setVisible(true);
+        audioVolumeSlider.setVisible(true);
+        audioTitleLabel.setVisible(true);
+
         audioProgress.setBounds(55, 190, 385, 35);
         audioProgressLabel.setBounds(55, 190, 385, 35);
         audioVolumeSlider.setBounds(55, 155, 385, 40);

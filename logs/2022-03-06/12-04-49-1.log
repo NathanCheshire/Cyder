@@ -1,0 +1,99 @@
+[12-04-50] [ENTRY]: [Nathan]
+[12-04-50] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-04-50] [THREAD STARTED]: Splash Loader
+[12-04-51] [THREAD STARTED]: Splash Animation
+[12-04-51] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[12-04-51] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-04-51] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[12-04-51] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-04-51] [SYSTEM_IO]: Created temperatory file: 12-04-51.stacktrace
+[12-04-51] [EXCEPTION]: 
+Exception origin: cyder.utilities.UserUtil.getterSetterFixer(UserUtil.java:272)
+From line: 272
+Trace: java.lang.NullPointerException
+	at cyder.utilities.UserUtil.getterSetterFixer(UserUtil.java:272)
+	at cyder.ui.ConsoleFrame.setUUID(ConsoleFrame.java:1663)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:500)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+	at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+	at cyder.genesis.Cyder.main(Cyder.java:119)
+[12-04-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-04-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-04-51] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[12-04-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-04-51] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-04-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-04-51] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-04-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-04-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-04-51] [THREAD STARTED]: Console Printing Animation
+[12-04-51] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-04-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-04-51] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-04-51] [THREAD STARTED]: Console Input Caret Position Updater
+[12-04-51] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-04-51] [SYSTEM_IO]: Userdata requested: InputFill
+[12-04-51] [THREAD STARTED]: High Ping Checker
+[12-04-51] [THREAD STARTED]: Hourly Chime Checker
+[12-04-51] [THREAD STARTED]: Console Clock Updater
+[12-04-51] [THREAD STARTED]: Cyder Busy Checker
+[12-04-51] [THREAD STARTED]: ConsoleFrame Data Saver
+[12-04-51] [ACTION]: Console loaded in 2014ms
+[12-04-51] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1364, 293, 724, 738)], hash = [79161706], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[12-04-51] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1500594183], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[12-04-51] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[12-04-51] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-04-51] [ENTRY]: [TESTING MODE]
+[12-04-51] [SYSTEM_IO]: Userdata requested: laststart
+[12-04-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-04-52] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2014ms
+[12-04-52] [THREAD STARTED]: notification appear animation
+[12-04-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-04-52] [THREAD STARTED]: Notificaiton vanish animater 1613161667
+[12-04-54] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-04-57] [CLIENT]: mp3
+[12-04-57] [SYSTEM_IO]: Userdata requested: filterchat
+[12-04-57] [WIDGET OPENED]: AUDIO PLAYER
+[12-04-57] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[12-04-57] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-04-57] [HANDLE]: PRIMARY HANDLE
+[12-04-58] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-04-58] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-04-58] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-04-58] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-04-58] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[12-04-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-01] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-05-01] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-05-02] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-02] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 420, 385, 35)], hash = [1137352851], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [<html><div style='text-align: center;'>3s played, 2m 41s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-05-02] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-05-02] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-05-02] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[12-05-03] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[12-05-03] [THREAD STARTED]: inner wait thread for audio player file getter
+[12-05-03] [THREAD STARTED]: cyder.utilities.GetterUtil@5d676167 getFile thread
+[12-05-05] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-09] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-12] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-16] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-16] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-05-20] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-23] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-27] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-30] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-34] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-38] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-40] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(593, 708, 630, 510)], hash = [1830469777], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Music]
+[12-05-40] [THREAD STARTED]: Music CyderFrame dispose thread
+[12-05-40] [SYSTEM_IO]: Userdata requested: closeanimation
+[12-05-40] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-05-40] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[12-05-40] [THREAD STARTED]: Flash Player Audio Thread[Funk Bros intro panthurr - i love u.]
+[12-05-40] [THREAD STARTED]: Flash Player scrolling title thread[Funk Bros intro panthurr - i love u.]
+[12-05-40] [THREAD STARTED]: Flash Player Progress Thread[Funk Bros intro panthurr - i love u.]
+[12-05-40] [ACTION]: [AUDIO PLAYER] Funk Bros intro panthurr - i love u..mp3
+[12-05-41] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-45] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-49] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-05-52] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
