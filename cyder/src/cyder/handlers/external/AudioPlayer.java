@@ -271,7 +271,7 @@ public class AudioPlayer {
             IOUtil.stopAudio();
 
         Color backgroundColor = new Color(8,23,52);
-        audioFrame = new CyderFrame(500,450,
+        audioFrame = new CyderFrame(500,480,
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225, backgroundColor)));
         audioFrame.setBackground(backgroundColor);
         audioFrame.setTitle(DEFAULT_TITLE);
@@ -574,6 +574,7 @@ public class AudioPlayer {
         });
 
         audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
+        audioProgress.setSize(385, 35);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setColors(new Color[]{Color.decode("#C33764"), Color.decode("#1D2671")});
         ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
@@ -1452,7 +1453,7 @@ public class AudioPlayer {
         audioTitleLabelContainer.setBounds(100, 40, 300, 30);
     }
 
-    //todo audio progress bar bigger too
+    //todo select dir should be frame type input getter
 
     //todo backup json method so that you never lose one again no matter when u end program
     // algorithm that saves and if error, load most recent one if available
@@ -1460,7 +1461,6 @@ public class AudioPlayer {
     //todo update readme with new audio player, paint widget video, elon musk background
     // with notifcation and downloading music, AND code analyzing in pane
 
-    //todo put border around album art, black border 5
     //todo no background on cyder start messes it up, when logging in need to ensure background there?
     //todo move similar commands output to static
 

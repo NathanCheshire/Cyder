@@ -7,17 +7,13 @@
 [18-11-50] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
 [18-11-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
 [18-11-50] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[18-11-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-11-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-11-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-11-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-11-50] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
 [18-11-51] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [18-11-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [18-11-51] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-11-51] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-11-51] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-11-51] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-11-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-11-51] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-11-51] [THREAD STARTED]: Console Printing Animation
 [18-11-51] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-11-51] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -45,17 +41,14 @@
 [18-11-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [18-11-51] [THREAD STARTED]: Notificaiton vanish animater -188092791
 [18-11-52] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
-[18-11-52] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
-[18-11-52] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[18-11-52] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)] [2x]
 [18-11-52] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
 [18-11-52] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
-[18-11-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
-[18-11-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-11-57] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [2x]
 [18-11-58] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
 [18-11-58] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
 [18-11-58] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Against Fate]
-[18-11-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate]
-[18-11-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate]
+[18-11-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate] [2x]
 [18-11-58] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Against Fate.mp3
 [18-12-00] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
 [18-12-00] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]

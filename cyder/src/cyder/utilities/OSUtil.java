@@ -248,12 +248,16 @@ public class OSUtil {
                     + FILE_SEP + "Files");
             File createFile = new File(saveDir, name);
 
-            if (createFile.exists())
-                throw new IllegalStateException("Provided file already exists");
+            if (createFile.exists()) {
+                Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
+                return createFile;
+            }
 
             try {
                 if (!saveDir.exists())
                     saveDir.mkdir();
+
+                Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
 
                 createFile.createNewFile();
                 return createFile;

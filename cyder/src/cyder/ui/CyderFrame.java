@@ -1521,6 +1521,7 @@ public class CyderFrame extends JFrame {
     public void setSize(int width, int height) {
         width = Math.max(MINIMUM_WIDTH, width);
         height = Math.max(MINIMUM_HEIGHT, height);
+        //todo need to change icon label and pane too
         super.setSize(width, height);
     }
 
