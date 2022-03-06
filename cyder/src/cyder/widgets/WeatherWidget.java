@@ -21,7 +21,6 @@ import cyder.utilities.StringUtil;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -155,7 +154,7 @@ public class WeatherWidget {
                 Graphics2D g2d = (Graphics2D) g;
                 g.setColor(CyderColors.navy);
                 ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g2d.drawRoundRect(0, 0, 100, 100, 10, 10);
+                g2d.drawRoundRect(5, 5, 90, 90, 25, 25);
                 super.paint(g);
             }
         };
