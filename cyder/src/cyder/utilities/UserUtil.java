@@ -1,7 +1,6 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
-import com.google.common.io.Files;
 import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
@@ -187,7 +186,6 @@ public class UserUtil {
      *
      * @param jsonFile the current user json file
      */
-    @SuppressWarnings("UnstableApiUsage") /* Guava */
     public static void userJsonBackupSubroutine(File jsonFile) {
         try {
             // Note: this is called from the above function meaning the
@@ -242,9 +240,17 @@ public class UserUtil {
 
             // if no files in directory or current is different from previous
             if (mostRecentFile == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentFile)) {
-                // copy file here with new Filename
+                // copy file contents from jsonFile to newBackup
                 File newBackup = new File(OSUtil.buildPath("dynamic","backup", newFilename));
-                Files.copy(jsonFile, newBackup);
+                newBackup.createNewFile();
+
+                BufferedReader jsonReader = new BufferedReader(new FileReader(jsonFile));
+                String serializedUser = jsonReader.readLine();
+                jsonReader.close();
+
+                BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(newBackup));
+                jsonWriter.write(serializedUser);
+                jsonWriter.close();
 
                 backups = backupDirectory.listFiles();
                 Preconditions.checkNotNull(backups);
@@ -261,13 +267,16 @@ public class UserUtil {
                             if (parts[0].equals(uuid) && !FileUtil.getFilename(backup)
                                     .equals(FileUtil.getFilename(newBackup))) {
                                 OSUtil.delete(backup);
+                                System.out.println("Deletion of: " + backup);
                             }
                         }
                     }
                 }
 
-                // delete all files that aren't the one we just made that start with the uuid
+                System.out.println(backupDirectory.listFiles().length);
             }
+
+
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

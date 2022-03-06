@@ -487,7 +487,7 @@ public class CyderNotification extends JLabel {
             catch (Exception e) {
                ExceptionHandler.handle(e);
             }
-        },"Notificaiton vanish animater " + this.hashCode());
+        },"Notificaiton Vanish Animator");
     }
 
     /**
