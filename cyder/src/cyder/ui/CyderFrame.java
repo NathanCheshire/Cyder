@@ -1521,8 +1521,14 @@ public class CyderFrame extends JFrame {
     public void setSize(int width, int height) {
         width = Math.max(MINIMUM_WIDTH, width);
         height = Math.max(MINIMUM_HEIGHT, height);
-        //todo need to change icon label and pane too
         super.setSize(width, height);
+
+        if (isVisible() && UserUtil.extractUser().getRoundedwindows().equals("1")) {
+            setShape(new RoundRectangle2D.Double(0, 0,
+                    getWidth(), getHeight(), 20, 20));
+        } else {
+            setShape(null);
+        }
     }
 
     /**
@@ -1537,6 +1543,7 @@ public class CyderFrame extends JFrame {
         this.width = width;
         this.height = height;
 
+        // drag labels if present
         if (getTopDragLabel() != null) {
             topDrag.setWidth(this.width - 2 * frameResizingLen);
             topDrag.setHeight(DragLabel.DEFAULT_HEIGHT - frameResizingLen);
@@ -1752,7 +1759,7 @@ public class CyderFrame extends JFrame {
             // mainly needed for icon label and pane bounds, layout isn't usually expensive
             refreshLayout();
 
-            if (cr != null && cr.getBackgroundResizing()) {
+            if (cr != null && cr.backgroundResizingEnabled()) {
                 iconLabel.setIcon(new ImageIcon(currentOrigIcon.getImage()
                         .getScaledInstance(iconLabel.getWidth(), iconLabel.getHeight(), Image.SCALE_DEFAULT)));
             }

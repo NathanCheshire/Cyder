@@ -1076,8 +1076,6 @@ public class CyderGrid extends JLabel {
     //todo backup json method so that you never lose one again no matter when u end program
     // algorithm that saves and if error, load most recent one if available
 
-    //todo move similar commands output to static
-
     //todo utilize surrounding methods for relative zooming after
     // rest of painting widget is implemented
 
@@ -1086,8 +1084,6 @@ public class CyderGrid extends JLabel {
     //todo new component to slide in with clickable menu text like old console menu
 
     //todo menu features: layer images, pixelate, resize, export as png
-
-    //todo square album art image for audio player when not in small-mini mode, make two minimodes
 
     /**
      * Converts the provided grid node to it's mouse space equivalent

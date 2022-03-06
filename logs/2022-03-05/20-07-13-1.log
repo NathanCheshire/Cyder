@@ -1,0 +1,33 @@
+[20-07-14] [ENTRY]: [Nathan]
+[20-07-14] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-07-15] [THREAD STARTED]: Splash Loader
+[20-07-15] [THREAD STARTED]: Splash Animation
+[20-07-15] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-07-15] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-07-15] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-07-15] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-07-15] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-07-15] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[20-07-16] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-07-16] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-07-16] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-07-16] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-07-16] [SYSTEM_IO]: Created temperatory file: 20-07-16.stacktrace
+[20-07-16] [EXCEPTION]:
+Exception origin: java.desktop/java.awt.Frame.setShape(Frame.java:976)
+From line: 976
+Trace: java.awt.IllegalComponentStateException: The frame is decorated
+at java.desktop/java.awt.Frame.setShape(Frame.java:976)
+at cyder.ui.CyderFrame.setSize(CyderFrame.java:1527)
+at java.desktop/java.awt.Component.resize(Component.java:2228)
+at java.desktop/java.awt.Component.setSize(Component.java:2215)
+at java.desktop/java.awt.Window.setSize(Window.java:889)
+at cyder.ui.CyderFrame.<init>(CyderFrame.java:245)
+at cyder.ui.ConsoleFrame$1.<init>(ConsoleFrame.java:293)
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:293)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[20-07-16] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[20-08-21] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

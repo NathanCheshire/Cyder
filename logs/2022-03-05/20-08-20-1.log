@@ -1,0 +1,79 @@
+[20-08-21] [ENTRY]: [Nathan]
+[20-08-21] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-08-22] [THREAD STARTED]: Splash Loader
+[20-08-22] [THREAD STARTED]: Splash Animation
+[20-08-22] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-08-22] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-08-22] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[20-08-22] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-22] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-23] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-08-23] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-23] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-08-23] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-08-23] [THREAD STARTED]: Console Printing Animation
+[20-08-23] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-08-23] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-08-23] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-08-23] [THREAD STARTED]: Console Input Caret Position Updater
+[20-08-23] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-08-23] [SYSTEM_IO]: Userdata requested: InputFill
+[20-08-23] [THREAD STARTED]: High Ping Checker
+[20-08-23] [THREAD STARTED]: Hourly Chime Checker
+[20-08-23] [THREAD STARTED]: Console Clock Updater
+[20-08-23] [THREAD STARTED]: Cyder Busy Checker
+[20-08-23] [THREAD STARTED]: ConsoleFrame Data Saver
+[20-08-23] [ACTION]: Console loaded in 2572ms
+[20-08-23] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1369, 270, 1000, 1000)], hash = [1943855334], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-08-23] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-08-23] [ENTRY]: [TESTING MODE]
+[20-08-23] [SYSTEM_IO]: Userdata requested: laststart
+[20-08-23] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-23] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [540510731], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-08-23] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-08-23] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2572ms
+[20-08-23] [THREAD STARTED]: notification appear animation
+[20-08-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-08-23] [THREAD STARTED]: Notificaiton vanish animater -1959057687
+[20-08-26] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-29] [CLIENT]: mp3
+[20-08-29] [SYSTEM_IO]: Userdata requested: filterchat
+[20-08-29] [WIDGET OPENED]: AUDIO PLAYER
+[20-08-29] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-29] [HANDLE]: PRIMARY HANDLE
+[20-08-29] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[20-08-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-30] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-30] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-30] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-30] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-30] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[20-08-33] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-37] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-40] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-41] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-41] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-44] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-45] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-45] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[20-08-45] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-08-45] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-08-45] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-08-45] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-08-45] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[20-08-45] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[20-08-47] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-47] [SYSTEM_IO]: Userdata requested: minimizeanimation
+[20-08-48] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-51] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-55] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-08-59] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-02] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-09-05] [CLIENT]: gitme
+[20-09-05] [SYSTEM_IO]: Userdata requested: filterchat

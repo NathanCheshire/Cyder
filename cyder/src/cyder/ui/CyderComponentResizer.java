@@ -479,7 +479,7 @@ public class CyderComponentResizer extends MouseAdapter {
      *
      * @return whether background resizing is enabled
      */
-    public boolean getBackgroundResizing() {
+    public boolean backgroundResizingEnabled() {
         return backgroundRefreshOnResize;
     }
 
