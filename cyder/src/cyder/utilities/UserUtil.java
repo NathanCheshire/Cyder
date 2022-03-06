@@ -167,8 +167,12 @@ public class UserUtil {
             gson.toJson(u, writer);
             writer.close();
 
-            Logger.log(Logger.Tag.SYSTEM_IO, "[User Write] User was written to file: "
+            Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
                     + OSUtil.buildPath(f.getParentFile().getName(), f.getName()));
+
+            //todo backup subroutine here too
+            //todo then before even corrupting a user, also consolidate the fix user stuff,
+            // attempt to restore last valid json
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -809,7 +813,7 @@ public class UserUtil {
     }
 
     /**
-     * For all users within dynamic/users, sets the loggedin key to 0.
+     * Sets the loggedin keys of all users to 0.
      */
     public static void logoutAllUsers() {
         File usersDir = new File(OSUtil.buildPath("dynamic","users"));

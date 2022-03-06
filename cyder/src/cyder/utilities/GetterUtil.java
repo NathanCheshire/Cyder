@@ -17,20 +17,17 @@ import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * A getter utility for getting strings, confirmations, files, etc. from the user.
+ */
 public class GetterUtil {
-    public GetterUtil() {
-        //instantiation does nothing but we still want to allow object creation for multiple instances
-        //should we require multiple string/file getteres at the same time.
-    }
-
-    /*
-    STRING GETTER
+    /**
+     * Constructs a new GetterUtil object.
      */
+    public GetterUtil() {}
 
-    /** Custom getInput method, see usage below for how to setup so that the program doesn't
-     * spin wait on the main GUI thread forever. Ignoring the below setup
-     * instructions is fine only for the getString method, the getFile method must be surrounded by
-     * a thread whenever called.
+    /** Custom getString() method, see usage below for how to
+     *  setup so that the calling thread is not blocked.
      *
      * USAGE:
      *  <pre>
@@ -102,6 +99,29 @@ public class GetterUtil {
         return returnString.get();
     }
 
+    /** Custom getString() method, see usage below for how to
+     *  setup so that the calling thread is not blocked.
+     *
+     * USAGE:
+     *  <pre>
+     *  {@code
+     *  CyderThreadRunner.submit(() -> {
+     *      try {
+     *          String input = new GetterUtil().getString("title","tooltip","button text");
+     *          //other operations using input
+     *      } catch (Exception e) {
+     *          ErrorHandler.handle(e);
+     *      }
+     *  }, "wait thread for GetterUtil().getString()").start();
+     *  }
+     *  </pre>
+     * @param title the title of the frame
+     * @param tooltip the tooltip of the input field
+     * @param buttonText the text of the submit button
+     * @param buttonColor the color of the submit button
+     * @return the user entered input string. NOTE: if any improper input is ateempted to be returned,
+     *  this function returns the string literal of "NULL" instead of {@code null}
+     */
     public String getString(String title, String tooltip, String buttonText, Color buttonColor) {
         AtomicReference<String> returnString = new AtomicReference<>();
 
@@ -154,10 +174,8 @@ public class GetterUtil {
         return returnString.get();
     }
 
-    /** Custom getInput method, see usage below for how to setup so that the program doesn't
-     * spin wait on the main GUI thread forever. Ignoring the below setup
-     * instructions is fine only for the getString method, the getFile method must be surrounded by
-     * a thread whenever called.
+    /** Custom getInput() method, see usage below for how to
+     *  setup so that the calling thread is not blocked.
      *
      * USAGE:
      *  <pre>
@@ -172,12 +190,14 @@ public class GetterUtil {
      *  }, "wait thread for GetterUtil().getString()").start();
      *  }
      *  </pre>
+     *
      * @param title the title of the frame
      * @param tooltip the tooltip of the input field
      * @param buttonText the text of the submit button
      * @param initialString the initial text in the input field
-     * @return the user entered input string. NOTE: if any improper input is ateempted to be returned,
-     *  this function returns the string literal of "NULL" instead of {@code null}
+     * @return the user entered input string. NOTE: if any improper
+     * input is ateempted to be returned, this function returns
+     * the string literal of "NULL" instead of {@code null}
      */
     public String getString(String title, String tooltip, String buttonText, String initialString) {
         AtomicReference<String> returnString = new AtomicReference<>();
@@ -241,9 +261,28 @@ public class GetterUtil {
         this.relativeFrame = relativeFrame;
     }
 
-    /*
-    FILE GETTER
+    // -----------------------
+    // file getter ui elements
+    // -----------------------
+
+    private CyderTextField dirField;
+    private CyderScrollList cyderScrollList;
+    private JLabel dirScrollLabel;
+    private CyderButton last;
+    private CyderButton next;
+
+    //corresponding lists
+    private final LinkedList<String> directoryNameList = new LinkedList<>();
+    private final LinkedList<File> directoryFileList = new LinkedList<>();
+
+    //stacks for traversal
+    private Stack<File> backward = new Stack<>();
+    private Stack<File> forward = new Stack<>();
+
+    /**
+     * The current location for the file getter.
      */
+    private File currentDirectory = new File(System.getProperty("user.dir"));
 
     /** Custom getInput method, see usage below for how to setup so that the program doesn't
      * spin wait on the main GUI thread forever. Ignoring the below setup
@@ -267,6 +306,8 @@ public class GetterUtil {
      */
     public File getFile(String title) {
         AtomicReference<File> setOnFileChosen = new AtomicReference<>();
+        AtomicReference<CyderFrame> dirFrameAtomicRef = new AtomicReference<>();
+        dirFrameAtomicRef.set(new CyderFrame(630,510, CyderIcons.defaultBackground));
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -277,12 +318,9 @@ public class GetterUtil {
                 directoryNameList.clear();
                 currentDirectory = new File(System.getProperty("user.dir"));
 
-                //code copied from dir search widget
-                if (dirFrame != null)
-                    dirFrame.dispose();
+                CyderFrame dirFrame = dirFrameAtomicRef.get();
 
                 //frame setup
-                dirFrame = new CyderFrame(630,510, CyderIcons.defaultBackground);
                 dirFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 dirFrame.setTitle(currentDirectory.getName());
 
@@ -294,7 +332,7 @@ public class GetterUtil {
                     File ChosenDir = new File(dirField.getText());
 
                     if (ChosenDir.isDirectory()) {
-                        refreshBasedOnDir(ChosenDir,setOnFileChosen);
+                        refreshBasedOnDir(ChosenDir,setOnFileChosen, dirFrame);
                     } else if (ChosenDir.isFile()) {
                         setOnFileChosen.set(ChosenDir);
                     }
@@ -319,7 +357,7 @@ public class GetterUtil {
                         currentDirectory = backward.pop();
 
                         //now simply refresh based on currentDir
-                        refreshFromTraversalButton(setOnFileChosen);
+                        refreshFromTraversalButton(setOnFileChosen, dirFrame);
                     }
                 });
                 last.setBounds(10,40,40,40);
@@ -342,7 +380,7 @@ public class GetterUtil {
                         currentDirectory = forward.pop();
 
                         //refresh based on where we should go
-                        refreshFromTraversalButton(setOnFileChosen);
+                        refreshFromTraversalButton(setOnFileChosen, dirFrame);
                     }
                 });
                 next.setBounds(620 - 50,40,40, 40);
@@ -369,7 +407,7 @@ public class GetterUtil {
                         @Override
                         public void fire() {
                             if (directoryFileList.get(finalI).isDirectory()) {
-                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen);
+                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame);
                             } else {
                                 setOnFileChosen.set(directoryFileList.get(finalI));
                             }
@@ -400,7 +438,7 @@ public class GetterUtil {
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         } finally {
-            dirFrame.dispose();
+            dirFrameAtomicRef.get().dispose();
         }
 
         return setOnFileChosen.get().getName().equals("NULL") ? null : setOnFileChosen.get();
@@ -411,7 +449,7 @@ public class GetterUtil {
      */
 
     //general refresh method that doesn't clear the stacks
-    private static void refreshFromTraversalButton(AtomicReference<File> setOnFileChosen) {
+    private void refreshFromTraversalButton(AtomicReference<File> setOnFileChosen, CyderFrame dirFrame) {
         //get files
         File[] files = currentDirectory.listFiles();
 
@@ -442,7 +480,7 @@ public class GetterUtil {
                 @Override
                 public void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen);
+                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame);
                     } else {
                         setOnFileChosen.set(directoryFileList.get(finalI));
                     }
@@ -466,7 +504,7 @@ public class GetterUtil {
     }
 
     //refresh button that clears the back stack
-    private static void refreshBasedOnDir(File directory, AtomicReference<File> setOnFileChosen) {
+    private void refreshBasedOnDir(File directory, AtomicReference<File> setOnFileChosen, CyderFrame dirFrame) {
         //clear forward since a new path
         forward.clear();
 
@@ -508,7 +546,7 @@ public class GetterUtil {
                 @Override
                 public void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen);
+                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame);
                     } else {
                         setOnFileChosen.set(directoryFileList.get(finalI));
                     }
@@ -531,34 +569,13 @@ public class GetterUtil {
         dirField.setText(directory.getAbsolutePath());
     }
 
-    /*
-     * File getter UI vars
+    /**
+     * Shows a confirmation frame with the options Yes/No.
+     *
+     * @param message the message to display to the user.
+     * @param relativeFrame the CyderFrame to set the confirmation frame relative to
+     * @return whether the user confirmed the action
      */
-
-    //all ui elements
-    private static CyderFrame dirFrame;
-    private static CyderTextField dirField;
-    private static CyderScrollList cyderScrollList;
-    private static JLabel dirScrollLabel;
-    private static CyderButton last;
-    private static CyderButton next;
-
-    //corresponding lists
-    private static final LinkedList<String> directoryNameList = new LinkedList<>();
-    private static final LinkedList<File> directoryFileList = new LinkedList<>();
-
-    //stacks for traversal
-    private static Stack<File> backward = new Stack<>();
-    private static Stack<File> forward = new Stack<>();
-
-    //where we currently are
-    private static File currentDirectory = new File("c:\\users\\"
-            + OSUtil.getSystemUsername() + "\\Downloads");
-
-    /*
-     * Confirmation getter
-     */
-
     public boolean getConfirmation(String message, CyderFrame relativeFrame) {
         final String[] retString = {null};
         final CyderFrame[] confirmationFrame = {null};
@@ -572,7 +589,8 @@ public class GetterUtil {
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());
 
-                confirmationFrame[0] = new CyderFrame(w + 40, h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
+                confirmationFrame[0] = new CyderFrame(w + 40,
+                        h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
                 confirmationFrame[0].setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 confirmationFrame[0].setTitle("Confirmation");
                 confirmationFrame[0].addPreCloseAction(() -> retString[0] = "false");
