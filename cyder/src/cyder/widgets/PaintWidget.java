@@ -12,8 +12,10 @@ import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.GridNode;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.GetterUtil;
+import cyder.utilities.ImageUtil;
 import cyder.utilities.OSUtil;
 
 import javax.imageio.ImageIO;
@@ -129,7 +131,12 @@ public class PaintWidget {
 
                 try {
                     ImageIO.write(image, "png", OSUtil.createFileInUserSpace(filename));
-                    paintFrame.notify("Successfully saved grid as \"" + filename + "\" to your Files/ directory");
+
+                    NotificationBuilder builder = new NotificationBuilder(
+                            "Successfully saved grid as \"" + filename
+                            + "\" to your Files/ directory. Click me to open it");
+                    builder.setOnKillAction(() -> ImageUtil.drawBufferedImage(image, filename));
+                    paintFrame.notify(builder);
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                     paintFrame.notify("Could not save image at this time");

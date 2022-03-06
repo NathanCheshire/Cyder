@@ -377,37 +377,6 @@ public class CyderFrame extends JFrame {
         titleLabel.setFocusable(false);
         topDrag.add(titleLabel);
 
-        // menu listener
-        titleLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (menuEnabled) {
-                    if (menuLabel == null)
-                        generateMenu();
-
-                    if (menuLabel.isVisible()) {
-                        animateMenuOut();
-                    } else {
-                        animateMenuIn();
-                    }
-                }
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (menuEnabled) {
-                    titleLabel.setForeground(CyderColors.regularRed);
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                if (menuEnabled) {
-                    titleLabel.setForeground(CyderColors.vanila);
-                }
-            }
-        });
-
         //default boolean values
         this.threadsKilled = false;
 
@@ -2787,6 +2756,42 @@ public class CyderFrame extends JFrame {
     // frame menu logic
     // ----------------
 
+    private final MouseListener titleLabelListener = new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (menuEnabled) {
+                if (menuLabel == null)
+                    generateMenu();
+
+                if (menuLabel.isVisible()) {
+                    animateMenuOut();
+                } else {
+                    animateMenuIn();
+                }
+            } else {
+                super.mouseClicked(e);
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (menuEnabled) {
+                titleLabel.setForeground(CyderColors.regularRed);
+            } else {
+                super.mouseEntered(e);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (menuEnabled) {
+                titleLabel.setForeground(CyderColors.vanila);
+            } else {
+                super.mouseExited(e);
+            }
+        }
+    };
+
     /**
      * Whether the menu is accessible via clicking on the frame painted title.
      */
@@ -2800,7 +2805,38 @@ public class CyderFrame extends JFrame {
     /**
      * The list of menu items.
      */
-    private final LinkedList<JLabel> menuItems = new LinkedList<>();
+    private final LinkedList<JLabel> menuItems = new LinkedList<>() {
+        @Override
+        public boolean add(JLabel label) {
+            boolean ret = false;
+
+            if (!menuItems.contains(label)) {
+                ret = super.add(label);
+            }
+
+            if (menuItems.size() == 1)
+                titleLabel.addMouseListener(titleLabelListener);
+
+            return ret;
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            if (!(o instanceof JLabel))
+                return false;
+
+            boolean ret = false;
+
+            if (menuItems.contains(o)) {
+                ret = super.remove(o);
+            }
+
+            if (menuItems.size() == 0)
+                titleLabel.addMouseListener(titleLabelListener);
+
+            return ret;
+        }
+    };
 
     /**
      * Adds a new menu item to the menu and revalidates the menu.
@@ -2938,7 +2974,7 @@ public class CyderFrame extends JFrame {
         menuLabel.setBackground(CyderColors.navy);
         menuLabel.setBorder(new LineBorder(Color.black, 4));
         menuLabel.setSize(menuWidth, 2 * paddingHeight +
-                (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 5)));
+                (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 10)));
 
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);

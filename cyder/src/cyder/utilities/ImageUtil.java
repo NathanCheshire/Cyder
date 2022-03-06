@@ -330,7 +330,17 @@ public class ImageUtil {
      * @param bi the buffered image to display
      */
     public static void drawBufferedImage(BufferedImage bi) {
-        drawImageIcon(new ImageIcon(bi));
+        drawImageIcon(new ImageIcon(bi), "");
+    }
+
+    /**
+     * Draws the provided buffered image to a CyderFrame and displays it.
+     *
+     * @param bi the buffered image to display
+     * @param frameTitle the title of the frame
+     */
+    public static void drawBufferedImage(BufferedImage bi, String frameTitle) {
+        drawImageIcon(new ImageIcon(bi), frameTitle);
     }
 
     /**
@@ -339,7 +349,20 @@ public class ImageUtil {
      * @param icon the icon to display
      */
     public static void drawImageIcon(ImageIcon icon) {
+        drawImageIcon(icon, "");
+    }
+
+    /**
+     * Draws the provided image icon to a CyderFrame and displays it.
+     *
+     * @param icon the icon to display
+     * @param frameTitle the title of the frame
+     */
+    public static void drawImageIcon(ImageIcon icon, String frameTitle) {
         CyderFrame frame = new CyderFrame(icon.getIconWidth() + 10, icon.getIconHeight() + 35);
+
+        if (frameTitle != null && frameTitle.length() > 0)
+            frame.setTitle(frameTitle);
 
         JLabel label = new JLabel(icon);
         label.setBounds(5, 30, icon.getIconWidth(), icon.getIconHeight());

@@ -154,11 +154,11 @@ public class WeatherWidget {
                 Graphics2D g2d = (Graphics2D) g;
                 g.setColor(CyderColors.navy);
                 ((Graphics2D) g).setStroke(new BasicStroke(3));
-                g2d.drawRoundRect(5, 5, 90, 90, 25, 25);
+                g2d.drawRoundRect(10, 10, 100, 100, 25, 25);
                 super.paint(g);
             }
         };
-        currentWeatherIconLabel.setBounds(480 / 2 - 50, 130, 100, 100);
+        currentWeatherIconLabel.setBounds(180, 120, 120, 120);
         weatherFrame.getContentPane().add(currentWeatherIconLabel);
 
         sunriseLabel = new JLabel(sunrise + "am", SwingConstants.CENTER);
