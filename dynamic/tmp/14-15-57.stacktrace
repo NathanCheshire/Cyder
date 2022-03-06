@@ -1,8 +1,0 @@
-Exception origin: cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:713)
-From line: 713
-Trace: java.lang.NullPointerException
-	at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:713)
-	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
-	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
-	at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
-	at cyder.genesis.Cyder.main(Cyder.java:119)

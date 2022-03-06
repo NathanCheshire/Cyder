@@ -246,15 +246,11 @@ public class UserUtil {
                 File newBackup = new File(OSUtil.buildPath("dynamic","backup", newFilename));
                 Files.copy(jsonFile, newBackup);
 
-                if (true)
-                    return;
-
                 backups = backupDirectory.listFiles();
                 Preconditions.checkNotNull(backups);
 
                 for (File backup : backups) {
                     String filename = FileUtil.getFilename(backup);
-                    System.out.println("Found oldbackup: " + filename);
 
                     if (filename.contains("_")) {
                         String[] parts = filename.split("_");
