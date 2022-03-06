@@ -29,7 +29,7 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 
 ![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/156904195-6b635813-c2ee-4ce6-b20a-0e8a0b5f7d89.png)
 
-![Weather](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
+![Weather](https://user-images.githubusercontent.com/60986919/156911464-73221df7-68fa-4ce3-8211-555ddc9c0ac2.png)
 
 ![Audio Player](https://user-images.githubusercontent.com/60986919/156904205-39fb8218-412e-4a20-9a27-7d2d7bc39902.png)
 
