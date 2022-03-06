@@ -181,8 +181,15 @@ public class UserUtil {
     }
 
     /**
+     * The backup directory.
+     */
+    public static final File backupDirectory = new File(OSUtil.buildPath("dynamic", "backup"));
+
+    /**
      * Saves the provided jsonFile to the backup directory in case
      * restoration is required for the next Cyder instance.
+     * Upon successfully saving the json, any past jsons for the user linked
+     * to the uuid are deleted.
      *
      * @param jsonFile the current user json file
      */
@@ -190,8 +197,6 @@ public class UserUtil {
         try {
             // Note: this is called from the above function meaning the
             //       user WAS parsable without exceptions
-
-            File backupDirectory = new File(OSUtil.buildPath("dynamic", "backup"));
 
             // ensure save directory exists
             if (!backupDirectory.exists()) {
@@ -241,7 +246,7 @@ public class UserUtil {
             // if no files in directory or current is different from previous
             if (mostRecentFile == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentFile)) {
                 // copy file contents from jsonFile to newBackup
-                File newBackup = new File(OSUtil.buildPath("dynamic","backup", newFilename));
+                File newBackup = new File(OSUtil.buildPath("dynamic", "backup", newFilename));
                 newBackup.createNewFile();
 
                 BufferedReader jsonReader = new BufferedReader(new FileReader(jsonFile));
@@ -267,22 +272,68 @@ public class UserUtil {
                             if (parts[0].equals(uuid) && !FileUtil.getFilename(backup)
                                     .equals(FileUtil.getFilename(newBackup))) {
                                 OSUtil.delete(backup);
-                                System.out.println("Deletion of: " + backup);
                             }
                         }
                     }
                 }
-
-                System.out.println(backupDirectory.listFiles().length);
             }
-
-
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
-    // todo after this you should be able to get rid of backup.json from master dir
+    /**
+     * Returns the most recent userdata.json backup for the provided user uuid.
+     * If none is found, and empty optional is returned.
+     *
+     * @param uuid the uuid for the backup json to return
+     * @return the most recent backupfile for the user if found
+     */
+    public static Optional<File> getUserJsonBackup(String uuid) {
+        Optional<File> ret = Optional.empty();
+
+        // get backups
+        File[] backups = backupDirectory.listFiles();
+
+        // if backups were found
+        if (backups != null && backups.length > 0) {
+            long mostRecentTimestamp = 0;
+
+            for (File backup : backups) {
+                // not sure how this would happen but still check
+                if (!FileUtil.getExtension(backup).equals(".json"))
+                    continue;
+
+                String name = FileUtil.getFilename(backup);
+
+                // if backup is properly named
+                if (name.contains("_")) {
+                    String[] parts = name.split("_");
+
+                    if (parts.length == 2) {
+                        if (parts[0].equals(uuid)) {
+                            long unixTimestamp = Long.parseLong(parts[1]);
+
+                            if (unixTimestamp > mostRecentTimestamp)
+                                mostRecentTimestamp = unixTimestamp;
+                        }
+                    }
+                }
+            }
+
+            // if a recent backup was found for the user
+            if (mostRecentTimestamp != 0) {
+                File mostRecentBackup = new File(OSUtil.buildPath(
+                        "dynamic", "backup", uuid + "_" + mostRecentTimestamp + ".json"));
+
+                if (mostRecentBackup.exists()) {
+                    ret = Optional.of(mostRecentBackup);
+                }
+            }
+        }
+
+        return ret;
+    }
 
     //todo before even corrupting a user, also consolidate the fix user stuff,
     // attempt to restore last valid json

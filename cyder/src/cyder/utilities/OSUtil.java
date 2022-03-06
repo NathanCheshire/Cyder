@@ -13,6 +13,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.file.Files;
@@ -35,36 +36,33 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @SuppressWarnings({"unused", "WeakerAccess"}) /* Some methods have no use still, some methods aren't used yet */
 public class OSUtil {
-
-    public static final ArrayList<String> invalidWindowsFilenames = new ArrayList<>(){
-        @Override
-        public ArrayList<String> clone() throws AssertionError {
-            throw new AssertionError("Attempted clone of final list");
-        }
-
-        {
-            add("CON");
-            add("PRN");
-            add("AUX");
-            add("NUL");
-            add("COM1");
-            add("COM2");
-            add("COM3");
-            add("COM4");
-            add("COM5");
-            add("COM6");
-            add("COM7");
-            add("COM8");
-            add("COM9");
-            add("LPT1");
-            add("LPT2");
-            add("LPT3");
-            add("LPT4");
-            add("LPT5");
-            add("LPT6");
-            add("LPT7");
-            add("LPT8");
-            add("LPT9");
+    /**
+     * A list of the restricted windows filenames due to backwards compatibility
+     * and the nature of "APIs are forever".
+     */
+    public static final ArrayList<String> invalidWindowsFilenames = new ArrayList<>(){{
+        add("CON");
+        add("PRN");
+        add("AUX");
+        add("NUL");
+        add("COM1");
+        add("COM2");
+        add("COM3");
+        add("COM4");
+        add("COM5");
+        add("COM6");
+        add("COM7");
+        add("COM8");
+        add("COM9");
+        add("LPT1");
+        add("LPT2");
+        add("LPT3");
+        add("LPT4");
+        add("LPT5");
+        add("LPT6");
+        add("LPT7");
+        add("LPT8");
+        add("LPT9");
     }};
 
     /**
@@ -145,6 +143,11 @@ public class OSUtil {
      * The standard operating system enum.
      */
     public static final OperatingSystem OPERATING_SYSTEM = initializeOperatingSystem();
+
+    /**
+     * The system output stream so as to not have any System dot out calls within Cyder.
+     */
+    public static final PrintStream out = System.out;
 
     /**
      * Initializes the operating system enum type.
