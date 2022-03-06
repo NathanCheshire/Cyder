@@ -23,15 +23,17 @@ It can perform countless operations such as downloading audio from a
 youtube video, resizing/cropping an image, displaying the weather, 
 calculating an expression such as `sin(e^pi - 14^(1/2))`, and even includes
 visualizations for algorithms such as A*, Dijkstra's, Graham Scan for 
-the Convex Hull problem, and Conway's Game of Life (Rest in Peace John Conway).
+the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 
 ## Screenshots
 
-![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/155893528-31fcbfae-6753-4b0c-ba82-4a450f7049b2.png)
+![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/156904195-6b635813-c2ee-4ce6-b20a-0e8a0b5f7d89.png)
 
 ![Weather](https://user-images.githubusercontent.com/60986919/154597156-a972b79c-5c13-4c31-b8a6-aae117557e70.png)
 
-![Audio Player](https://user-images.githubusercontent.com/60986919/156295222-ec6a1644-928c-456b-8cc0-82ce7c73365f.png)
+![Audio Player](https://user-images.githubusercontent.com/60986919/156904205-39fb8218-412e-4a20-9a27-7d2d7bc39902.png)
+
+
 
 ### Pathfinder
 
@@ -41,7 +43,7 @@ as available heuristics.
 
 https://user-images.githubusercontent.com/60986919/154868578-133588ec-5af9-4f40-9f75-550ff85febec.mp4
 
-### Self Analyzation and Reflection
+### Self Analyzing and Reflection
 
 Cyder can analyze many things about itself 
 such as its own Java code, comments, and files, 
@@ -51,7 +53,7 @@ its own issues on GitHub. Cyder even features a custom
 `@Widget` annotation which is used to mark Cyder widgets which
 can then be validated and found upon runtime.
 
-![Self Analyzing](https://user-images.githubusercontent.com/60986919/156295692-c2b9f0ae-7afe-4ec1-90d4-d81434f5b6d8.png)
+![Self Analyzing](https://user-images.githubusercontent.com/60986919/156904244-4c740758-f68b-4e20-86f8-74b36179efec.png)
 
 
 ## Usage
@@ -85,7 +87,7 @@ custom layouts, etc. Currently, seeing as this message is still here,
 the program will look and operate best using a 2560x1440 display 
 or one with a higher DPI/resolution.
 
-## Features
+## Development Agenda
 
 Cyder utilizes an Agile development model. For features you would like
 to see implmeneted, please create an issue and describe the
