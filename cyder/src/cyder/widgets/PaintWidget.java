@@ -104,6 +104,11 @@ public class PaintWidget {
 
         paintFrame.setMenuEnabled(true);
         paintFrame.addMenuItem("Export png", () -> CyderThreadRunner.submit(() -> {
+            if (cyderGrid.getGridNodes().size() == 0) {
+                paintFrame.notify("Please place at least one node before saving");
+                return;
+            }
+
             String base = "image";
             int increment = 0;
             String defaultFilename = base + increment + ".png";
