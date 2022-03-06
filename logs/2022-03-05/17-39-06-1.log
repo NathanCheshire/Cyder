@@ -1,0 +1,60 @@
+[17-39-06] [ENTRY]: [Nathan]
+[17-39-06] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-39-07] [THREAD STARTED]: Splash Loader
+[17-39-07] [THREAD STARTED]: Splash Animation
+[17-39-08] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-39-08] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-39-08] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[17-39-08] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-39-08] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-39-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [4x]
+[17-39-08] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[17-39-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-39-08] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-39-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-39-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-39-08] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[17-39-08] [THREAD STARTED]: Console Printing Animation
+[17-39-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-39-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-39-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-39-08] [THREAD STARTED]: Console Input Caret Position Updater
+[17-39-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-39-08] [SYSTEM_IO]: Userdata requested: InputFill
+[17-39-08] [THREAD STARTED]: High Ping Checker
+[17-39-08] [THREAD STARTED]: Hourly Chime Checker
+[17-39-08] [THREAD STARTED]: Console Clock Updater
+[17-39-08] [THREAD STARTED]: Cyder Busy Checker
+[17-39-08] [THREAD STARTED]: ConsoleFrame Data Saver
+[17-39-08] [ACTION]: Console loaded in 2051ms
+[17-39-08] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(262, 567, 860, 825)], hash = [399373008], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[17-39-08] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1046833462], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[17-39-08] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[17-39-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-39-08] [ENTRY]: [TESTING MODE]
+[17-39-08] [WIDGET OPENED]: AUDIO PLAYER
+[17-39-08] [THREAD STARTED]: Flash Player Audio Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-39-08] [SYSTEM_IO]: Userdata requested: laststart
+[17-39-08] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-39-08] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2051ms
+[17-39-08] [THREAD STARTED]: notification appear animation
+[17-39-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-39-08] [THREAD STARTED]: Notificaiton vanish animater -962819465
+[17-39-09] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-39-09] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)] [2x]
+[17-39-09] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-39-09] [ACTION]: [AUDIO PLAYER] Twillzzz - Lord Please (ft. some random dude).mp3
+[17-39-25] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [5x]
+[17-39-26] [THREAD STARTED]: Flash Player Progress Thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-39-26] [THREAD STARTED]: Flash Player scrolling title thread[Twillzzz - Lord Please (ft. some random dude)]
+[17-39-26] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Against Fate]
+[17-39-26] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Against Fate] [2x]
+[17-39-26] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Against Fate.mp3
+[17-39-28] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-39-30] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[17-39-30] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-39-30] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(262, 567, 860, 825)], hash = [399373008], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[17-39-30] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[17-39-30] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-39-30] [EXIT]: [RUNTIME] 23s
+[17-39-30] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

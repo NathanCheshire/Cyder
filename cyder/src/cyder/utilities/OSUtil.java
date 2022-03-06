@@ -282,8 +282,11 @@ public class OSUtil {
 
         File createFile = new File(TMP_DIR_PATH + FILE_SEP + name);
 
-        if (createFile.exists())
-            throw new IllegalStateException("Provided file already exists");
+        if (createFile.exists()) {
+            Logger.log(Logger.Tag.SYSTEM_IO, "File already existed in userspace: " + name);
+            return createFile;
+        }
+
         try {
             createFile.createNewFile();
             Logger.log(Logger.Tag.SYSTEM_IO, "Created temperatory file: " + name);

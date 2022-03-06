@@ -557,7 +557,7 @@ public class AudioPlayer {
         audioFrame.getContentPane().add(audioVolumeSlider);
 
         audioProgressLabel = new CyderLabel("");
-        audioProgressLabel.setFont(CyderFonts.defaultFontSmall.deriveFont(20f));
+        audioProgressLabel.setFont(CyderFonts.defaultFontSmall);
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressLabel.setFocusable(false);
         audioFrame.getContentPane().add(audioProgressLabel);
@@ -575,13 +575,13 @@ public class AudioPlayer {
 
         audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
         CyderProgressUI ui = new CyderProgressUI();
-        ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.tooltipForegroundColor});
+        ui.setColors(new Color[]{Color.decode("#C33764"), Color.decode("#1D2671")});
         ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         ui.setShape(CyderProgressUI.Shape.SQUARE);
         audioProgress.setUI(ui);
         audioProgress.setMinimum(0);
         audioProgress.setMaximum(10000);
-        audioProgress.setBorder(new LineBorder(Color.black, 2));
+        audioProgress.setBorder(new LineBorder(Color.black, 4));
         audioProgress.setVisible(true);
         audioProgress.setValue(0);
         audioProgress.setOpaque(false);
@@ -1226,7 +1226,7 @@ public class AudioPlayer {
     }
 
     /**
-     * Priver inner class for the audio location progress bar and label.
+     * Private inner class for the audio location progress bar and label.
      */
     private static class AudioLocation {
         boolean update;
@@ -1432,29 +1432,30 @@ public class AudioPlayer {
         albumArtLabel.setVisible(false);
     }
 
-    //todo audio title label not visible here, nor location bar or audio slider
     /**
      * Enters the default mode for the audio player.
      */
     public static void enterDefaultPlayer() {
-        audioFrame.setSize(500,225);
+        audioFrame.setSize(500,240);
         albumArtLabel.setVisible(false);
 
-        int yIncrement = 0;
-
-        audioProgress.setBounds(55, 190 + yIncrement, 385, 25);
-        audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 25);
-        audioVolumeSlider.setBounds(55, 155 + yIncrement, 385, 40);
-        shuffleAudioButton.setBounds(405, 105 + yIncrement, 30, 30);
-        nextAudioButton.setBounds(355, 105 + yIncrement, 30, 30);
-        playPauseAudioButton.setBounds(295, 105 + yIncrement, 30, 30);
-        stopAudioButton.setBounds(235, 105 + yIncrement, 30, 30);
-        previousAudioButton.setBounds(175, 105 + yIncrement, 30, 30);
-        loopAudioButton.setBounds(115, 105 + yIncrement, 30, 30);
-        selectAudioDirButton.setBounds(55, 105 + yIncrement, 30, 30);
-        audioTitleLabelContainer.setBounds(100, 40 + yIncrement, 300, 30);
+        audioProgress.setBounds(55, 190, 385, 35);
+        audioProgressLabel.setBounds(55, 190, 385, 35);
+        audioVolumeSlider.setBounds(55, 155, 385, 40);
+        shuffleAudioButton.setBounds(405, 105, 30, 30);
+        nextAudioButton.setBounds(355, 105, 30, 30);
+        playPauseAudioButton.setBounds(295, 105, 30, 30);
+        stopAudioButton.setBounds(235, 105, 30, 30);
+        previousAudioButton.setBounds(175, 105, 30, 30);
+        loopAudioButton.setBounds(115, 105, 30, 30);
+        selectAudioDirButton.setBounds(55, 105, 30, 30);
+        audioTitleLabelContainer.setBounds(100, 40, 300, 30);
     }
 
+    //todo audio progress bar bigger too
+
+    //todo backup json method so that you never lose one again no matter when u end program
+    // algorithm that saves and if error, load most recent one if available
 
     //todo update readme with new audio player, paint widget video, elon musk background
     // with notifcation and downloading music, AND code analyzing in pane
@@ -1487,8 +1488,11 @@ public class AudioPlayer {
 
             int yIncrement = 230;
 
-            audioProgress.setBounds(55, 190 + yIncrement, 385, 25);
-            audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 25);
+            audioTitleLabelContainer.setBounds(100, 40 + yIncrement, 300, 30);
+
+            audioProgress.setBounds(55, 190 + yIncrement, 385, 35);
+            audioProgressLabel.setBounds(55, 190 + yIncrement, 385, 35);
+
             audioVolumeSlider.setBounds(55, 155 + yIncrement, 385, 40);
             shuffleAudioButton.setBounds(405, 105 + yIncrement, 30, 30);
             nextAudioButton.setBounds(355, 105 + yIncrement, 30, 30);
@@ -1501,11 +1505,7 @@ public class AudioPlayer {
             //end audio scroll label
             if (audioScroll != null)
                 audioScroll.kill();
-            audioScroll = null;
-
             audioScroll = new ImprovedScrollLabel(audioTitleLabel);
-
-            audioTitleLabelContainer.setBounds(100, 40 + yIncrement, 300, 30);
         }
     }
 
