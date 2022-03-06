@@ -314,9 +314,7 @@ public class UserEditor {
                     } else {
                         String oldName = FileUtil.getFilename(selectedFile);
                         String extension = FileUtil.getExtension(selectedFile);
-                        GetterUtil gu = new GetterUtil();
-                        gu.setRelativeFrame(editUserFrame);
-                        String newName = gu.getString("Rename","Enter any valid file name",
+                        String newName = new GetterUtil().getString("Rename","Enter any valid file name",
                                 "Submit", oldName);
 
                         if (oldName.equals(newName) || newName.equals("NULL"))

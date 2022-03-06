@@ -39,7 +39,7 @@ public class GetterUtil {
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
-     *  }, "wait thread for GetterUtil().getString()").start();
+     *  }, "THREAD_NAME").start();
      *  }
      *  </pre>
      * @param title the title of the frame
@@ -112,7 +112,7 @@ public class GetterUtil {
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
-     *  }, "wait thread for GetterUtil().getString()").start();
+     *  }, "THREAD_NAME").start();
      *  }
      *  </pre>
      * @param title the title of the frame
@@ -187,7 +187,7 @@ public class GetterUtil {
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
      *      }
-     *  }, "wait thread for GetterUtil().getString()").start();
+     *  }, "THREAD_NAME").start();
      *  }
      *  </pre>
      *
@@ -234,7 +234,6 @@ public class GetterUtil {
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(relativeFrame);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -251,28 +250,34 @@ public class GetterUtil {
         return returnString.get();
     }
 
-    private CyderFrame relativeFrame = null;
+    /**
+     * The scroll list of files.
+     */
+    private CyderScrollList cyderScrollList;
 
     /**
-     * Any frames shown through this class are set relative to the {@code relativeFrame}
-     * @param relativeFrame the frame to set other frames relative to
+     * The label which holds the scroll
      */
-    public void setRelativeFrame(CyderFrame relativeFrame) {
-        this.relativeFrame = relativeFrame;
-    }
-
-    // -----------------------
-    // file getter ui elements
-    // -----------------------
-
-    private CyderTextField dirField;
-    private CyderScrollList cyderScrollList;
     private JLabel dirScrollLabel;
+
+    /**
+     * The last button for the file traversal stack.
+     */
     private CyderButton last;
+
+    /**
+     * The next button for the file traversal stack./
+     */
     private CyderButton next;
 
-    //corresponding lists
+    /**
+     * The list of strings to display for the current files.
+     */
     private final LinkedList<String> directoryNameList = new LinkedList<>();
+
+    /**
+     * The files which correspond to the current files.
+     */
     private final LinkedList<File> directoryFileList = new LinkedList<>();
 
     //stacks for traversal
@@ -280,6 +285,7 @@ public class GetterUtil {
     private Stack<File> forward = new Stack<>();
 
     //todo we should be able to pass a default directory for file getter
+    // this will come with builder pattern too, builders for getString and getFile.
 
     /**
      * The current location for the file getter.
@@ -300,7 +306,7 @@ public class GetterUtil {
      *         } catch (Exception e) {
      *             ErrorHandler.handle(e);
      *         }
-     *  }, "wait thread for GetterUtil().getFile()").start();
+     *  }, THREAD_NAME).start();
      * }
      * </pre>
      * @param title the title of the JavaFX FileChooser
@@ -326,15 +332,14 @@ public class GetterUtil {
                 dirFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 dirFrame.setTitle(currentDirectory.getName());
 
-                //field setup
-                dirField = new CyderTextField(0);
+                CyderTextField dirField = new CyderTextField(0);
                 dirField.setBackground(Color.white);
                 dirField.setText(currentDirectory.getAbsolutePath());
                 dirField.addActionListener(e -> {
                     File ChosenDir = new File(dirField.getText());
 
                     if (ChosenDir.isDirectory()) {
-                        refreshBasedOnDir(ChosenDir,setOnFileChosen, dirFrame);
+                        refreshBasedOnDir(ChosenDir,setOnFileChosen, dirFrame, dirField);
                     } else if (ChosenDir.isFile()) {
                         setOnFileChosen.set(ChosenDir);
                     }
@@ -359,7 +364,7 @@ public class GetterUtil {
                         currentDirectory = backward.pop();
 
                         //now simply refresh based on currentDir
-                        refreshFromTraversalButton(setOnFileChosen, dirFrame);
+                        refreshFromTraversalButton(setOnFileChosen, dirFrame, dirField);
                     }
                 });
                 last.setBounds(10,40,40,40);
@@ -382,7 +387,7 @@ public class GetterUtil {
                         currentDirectory = forward.pop();
 
                         //refresh based on where we should go
-                        refreshFromTraversalButton(setOnFileChosen, dirFrame);
+                        refreshFromTraversalButton(setOnFileChosen, dirFrame, dirField);
                     }
                 });
                 next.setBounds(620 - 50,40,40, 40);
@@ -409,7 +414,7 @@ public class GetterUtil {
                         @Override
                         public void fire() {
                             if (directoryFileList.get(finalI).isDirectory()) {
-                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame);
+                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
                             } else {
                                 setOnFileChosen.set(directoryFileList.get(finalI));
                             }
@@ -446,12 +451,15 @@ public class GetterUtil {
         return setOnFileChosen.get().getName().equals("NULL") ? null : setOnFileChosen.get();
     }
 
-    /*
-     * File getter inner methods
+    /**
+     * Refrehses the current file list scroll.
+     *
+     * @param setOnFileChosen a reference for the current file.
+     * @param dirFrame the directory frame
+     * @param dirField the directory field
      */
-
-    //general refresh method that doesn't clear the stacks
-    private void refreshFromTraversalButton(AtomicReference<File> setOnFileChosen, CyderFrame dirFrame) {
+    private void refreshFromTraversalButton(AtomicReference<File> setOnFileChosen,
+                                            CyderFrame dirFrame, CyderTextField dirField) {
         //get files
         File[] files = currentDirectory.listFiles();
 
@@ -482,7 +490,7 @@ public class GetterUtil {
                 @Override
                 public void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame);
+                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
                     } else {
                         setOnFileChosen.set(directoryFileList.get(finalI));
                     }
@@ -505,8 +513,16 @@ public class GetterUtil {
         dirField.setText(currentDirectory.getAbsolutePath());
     }
 
-    //refresh button that clears the back stack
-    private void refreshBasedOnDir(File directory, AtomicReference<File> setOnFileChosen, CyderFrame dirFrame) {
+    /**
+     * Refrehses the current file list scroll.
+     *
+     * @param directory the selected element.
+     * @param setOnFileChosen a reference for the current file.
+     * @param dirFrame the directory frame
+     * @param dirField the directory field
+     */
+    private void refreshBasedOnDir(File directory, AtomicReference<File> setOnFileChosen,
+                                   CyderFrame dirFrame, CyderTextField dirField) {
         //clear forward since a new path
         forward.clear();
 
@@ -548,7 +564,7 @@ public class GetterUtil {
                 @Override
                 public void fire() {
                     if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame);
+                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
                     } else {
                         setOnFileChosen.set(directoryFileList.get(finalI));
                     }

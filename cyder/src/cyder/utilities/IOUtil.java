@@ -103,7 +103,7 @@ public class IOUtil {
             // todo fastAPI python host? to download static dir?
             //todo account for no ipdata util here, use webscraping thing and post to backend
 
-            //
+            // how to ensure you don't leak your own data?
             String append = "[LOCATION] " + (!CyderCommon.isReleased() ?
                     "[La casa de Nathan]" :
                     (IPUtil.getIpdata().getCity() + ", " + IPUtil.getIpdata().getRegion()));
