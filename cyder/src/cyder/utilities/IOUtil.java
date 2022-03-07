@@ -137,7 +137,7 @@ public class IOUtil {
                 if (!CyderCommon.isAutoCypher())
                     Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
 
-                BackendUtil.post(String.valueOf(argBuilder));
+                BackendUtil.post(String.valueOf(argBuilder), BackendUtil.JVM_PATH);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

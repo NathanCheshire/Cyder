@@ -7,6 +7,16 @@ import cyder.constants.CyderStrings;
  */
 public class BackendUtil {
     /**
+     * The backend path.
+     */
+    public static final String BACKEND_PATH = "127.0.0.1:8000";
+
+    /**
+     * The relative path from the backend url to the jvm post path.
+     */
+    public static final String JVM_PATH = "posts/jvm";
+
+    /**
      * Restrict class instantiation.
      */
     private BackendUtil() {
@@ -17,9 +27,10 @@ public class BackendUtil {
      * Standard CRUD update operation.
      *
      * @param postSchema the schema to post to the backend
+     * @param relativePath the relative path to post to
      * @return whether the post result
      */
-    public static String post(String postSchema) {
+    public static String post(String postSchema, String relativePath) {
 
         return "";
     }
@@ -27,40 +38,22 @@ public class BackendUtil {
     /**
      * Standard CRUD read operation.
      *
-     * @param getSchema the schema to post to the backend
+     * @param relativePath the relative path to get from
      * @return the get result
      */
-    public static String get(String getSchema) {
+    public static String get(String relativePath) {
 
         return "";
     }
 
     /**
-     * Standard CRUD create operation.
-     *
-     * @param putSchema the schema to post to the backend
-     * @return whether the operation was successful
-     */
-    public static boolean put(String putSchema) {
-
-        return false;
-    }
-
-    /**
-     * Standard CRUD delete operation.
-     *
-     * @param deleteSchema the schema to post to the backend
-     * @return whether the operation was successful
-     */
-    public static boolean delete(String deleteSchema) {
-
-        return false;
-    }
-
-    /**
-     * Attempts to download the static Cyder files.
+     * Downloads the static/ Cyder files.
      */
     public static void downloadStatic() {
+        // need a get request to get the typical url for the static dir zip on google drive
+    }
+
+    private static void postHelper() {
 
     }
 }
