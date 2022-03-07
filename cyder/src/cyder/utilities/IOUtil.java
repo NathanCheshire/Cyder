@@ -9,7 +9,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
-import cyder.user.UserFile;
 import javazoom.jl.player.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -203,33 +202,6 @@ public class IOUtil {
             }
         }
     }
-
-    /**
-     * Attempts preference injection for all users.
-     * If a user fails, the user is corrupted and added
-     * to the list of invalid users.
-     */
-    public static void preferenceInjectAllUsers() {
-        //all users
-        File users = new File(OSUtil.buildPath("dynamic","users"));
-
-        //for all files
-        for (File userFile : users.listFiles()) {
-            //file userdata
-            File json = new File(OSUtil.buildPath(
-                    userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-            if (json.exists()) {
-                //attempt to update the json
-                boolean success = UserUtil.preferenceInject(json);
-
-                //if it fails then invoke invalid on the json
-                if (!success) {
-                    UserUtil.userJsonCorruption(FileUtil.getFilename(userFile));
-                }
-            }
-        }
-     }
 
     /**
      * Opens the provided file, possibly inside of the program if a handler exists for it.

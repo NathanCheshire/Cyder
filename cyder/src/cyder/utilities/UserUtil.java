@@ -335,9 +335,6 @@ public class UserUtil {
         return ret;
     }
 
-    //todo before even corrupting a user, also consolidate the fix user stuff,
-    // attempt to restore last valid json
-
     /**
      * Function called upon UUID being set for consoleFrame which
      * attempts to fix any user data in case it was corrupted.
@@ -442,6 +439,32 @@ public class UserUtil {
             setUserData(userJsonFile, user);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Attempts preference injection for all users.
+     * If a user fails, the user is corrupted and added
+     * to the list of invalid users.
+     */
+    public static void preferenceInjectAllUsers() {
+        File users = new File(OSUtil.buildPath("dynamic","users"));
+
+        //for all files
+        for (File userFile : users.listFiles()) {
+            //file userdata
+            File json = new File(OSUtil.buildPath(
+                    userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
+
+            if (json.exists()) {
+                //attempt to update the json
+                boolean success = UserUtil.preferenceInject(json);
+
+                //if it fails then invoke invalid on the json
+                if (!success) {
+                    userJsonCorruption(FileUtil.getFilename(userFile));
+                }
+            }
         }
     }
 
@@ -789,34 +812,69 @@ public class UserUtil {
     }
 
     /**
-     * After a user's json file was marked as invalid due to it being un-parsable, null, or any other reason,
-     * this method informs the user that a user was corrupted and attempts to tell the user
-     * which user it was by listing the files associated with the corrupted user.
+     * After a user's json file was found to be invalid due to it being
+     * un-parsable, null, empty, not there, or any other reason, this
+     * method attempts to locate a backup to save the user.
+     * If this fails, an information pane is shown saying which user failed to be parsed
      *
-     * This method should be utilized anywhere a userdata file is deemed invalid.
+     * This method should be utilized anywhere a userdata file is deemed invalid. Never
+     * should a userdata file be deleted.
      *
-     * @param UUID the uuid of the corrupted user
+     * @param uuid the uuid of the corrupted user
      */
-    public static void userJsonCorruption(String UUID) {
-        addInvalidUuid(UUID);
-
+    public static void userJsonCorruption(String uuid) {
         try {
-            //create parent directory
-            File userDir = new File(OSUtil.buildPath("dynamic","users",
-                    UUID));
             File userJson = new File(OSUtil.buildPath("dynamic","users",
-                    UUID, UserFile.USERDATA.getName()));
+                    uuid, UserFile.USERDATA.getName()));
+
+           try {
+               // attempt to recovery a backup
+               Optional<File> userJsonBackup = getUserJsonBackup(uuid);
+
+               if (userJsonBackup.isPresent()) {
+                   File restore = userJsonBackup.get();
+
+                   // if it doens't exist create it
+                   if (!userJson.exists())
+                       userJson.createNewFile();
+
+                   Gson gson = new Gson();
+
+                   // ensure the backup is parsable as a user object
+                   Reader reader = new FileReader(restore);
+                   User backupUser = gson.fromJson(reader, User.class);
+                   reader.close();
+
+                   // write user to current user json
+                   Writer writer = new FileWriter(userJson);
+                   gson.toJson(backupUser, writer);
+                   writer.close();
+
+                   // success in restoring user from backup so exit method
+                   return;
+               }
+           } catch (Exception e) {
+               ExceptionHandler.handle(e);
+               // exception above so proceed as normal
+           }
+
+            // no recovery so add uuid to the list of invalid users
+            addInvalidUuid(uuid);
+
+            // create parent directory
+            File userDir = new File(OSUtil.buildPath("dynamic","users", uuid));
 
             //if there's nothing left in the user dir for some reason, delete the whole folder
-            if (userDir.listFiles().length == 0)
+            if (userDir.listFiles().length == 0) {
                 OSUtil.delete(userDir);
-            else {
+            } else {
                 //otherwise, we need to figure out all the file names in each sub-dir, not recursive, and inform the user
                 // that a json was deleted and tell them which files are remaining
 
-                String path = "Cyder/dynamic/" + UUID;
+                //String path = "";
                 String informString = "Unfortunately a user's data file was corrupted and had to be deleted. " +
-                        "The following files still exists and are associated with the user at the following path:<br/>" + path + "<br/>Files:";
+                        "The following files still exists and are associated with the user at the following " +
+                        "path:<br/><b>" + OSUtil.buildPath("dynamic", "users", uuid) + "</b><br/>Files:";
 
                 LinkedList<String> filenames = new LinkedList<>();
 
