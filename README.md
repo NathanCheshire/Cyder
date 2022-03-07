@@ -18,7 +18,7 @@
 ## Description
 
 Cyder is a multipurpose GUI tool written using a custom UI library 
-built on top of Swing/AWT without other modern UI dependencies such as FXML.
+built on top of Swing/AWT without modern UI dependencies such as FXML.
 It can perform countless operations such as downloading audio from a
 youtube video, resizing/cropping an image, displaying the weather, 
 calculating an expression such as `sin(e^pi - 14^(1/2))`, and even includes
