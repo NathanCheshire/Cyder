@@ -827,7 +827,8 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-           try {
+            // todo test restoration
+            try {
                // attempt to recovery a backup
                Optional<File> userJsonBackup = getUserJsonBackup(uuid);
 
@@ -853,10 +854,10 @@ public class UserUtil {
                    // success in restoring user from backup so exit method
                    return;
                }
-           } catch (Exception e) {
+            } catch (Exception e) {
                ExceptionHandler.handle(e);
                // exception above so proceed as normal
-           }
+            }
 
             // no recovery so add uuid to the list of invalid users
             addInvalidUuid(uuid);

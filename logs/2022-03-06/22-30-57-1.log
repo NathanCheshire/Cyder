@@ -1,0 +1,52 @@
+[22-30-57] [ENTRY]: [Nathan]
+[22-30-57] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-30-58] [THREAD STARTED]: Splash Loader
+[22-30-58] [THREAD STARTED]: Splash Animation
+[22-30-58] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-30-58] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-30-58] [THREAD STARTED]: JVM Logger
+[22-30-58] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-30-58] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-30-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-30-58] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627415842.json
+[22-30-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-30-58] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627458777.json
+[22-30-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-30-58] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627458801.json
+[22-30-59] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-30-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-30-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627458808.json
+[22-30-59] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-30-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-30-59] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-30-59] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-30-59] [THREAD STARTED]: Console Printing Animation
+[22-30-59] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-30-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-30-59] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-30-59] [THREAD STARTED]: Console Input Caret Position Updater
+[22-30-59] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-30-59] [SYSTEM_IO]: Userdata requested: InputFill
+[22-30-59] [THREAD STARTED]: High Ping Checker
+[22-30-59] [THREAD STARTED]: Hourly Chime Checker
+[22-30-59] [THREAD STARTED]: Console Clock Updater
+[22-30-59] [THREAD STARTED]: Cyder Busy Checker
+[22-30-59] [THREAD STARTED]: User Data Saver
+[22-30-59] [ACTION]: Console loaded in 2332ms
+[22-30-59] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(289, 342, 756, 776)], hash = [785306763], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-30-59] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-30-59] [ENTRY]: [TESTING MODE]
+[22-30-59] [SYSTEM_IO]: Userdata requested: laststart
+[22-30-59] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [571970759], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-30-59] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-30-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-30-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627459108.json
+[22-30-59] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2332ms
+[22-30-59] [THREAD STARTED]: notification appear animation
+[22-30-59] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-30-59] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-31-09] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-31-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627459316.json
+[22-31-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-31-21] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646627469235.json
+[22-31-50] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -2,6 +2,11 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * Util methods for performing GET/POST request to the Cyder FastAPI backend.
  */
@@ -9,12 +14,12 @@ public class BackendUtil {
     /**
      * The backend path.
      */
-    public static final String BACKEND_PATH = "127.0.0.1:8000";
+    public static final String BACKEND_PATH = "http://127.0.0.1:8000";
 
     /**
      * The relative path from the backend url to the jvm post path.
      */
-    public static final String JVM_PATH = "posts/jvm";
+    public static final String JVM_PATH = "/posts/jvm";
 
     /**
      * Restrict class instantiation.
@@ -31,7 +36,7 @@ public class BackendUtil {
      * @return whether the post result
      */
     public static String post(String postSchema, String relativePath) {
-
+        postHelper();
         return "";
     }
 
@@ -54,6 +59,28 @@ public class BackendUtil {
     }
 
     private static void postHelper() {
+        try {
+            URL url = new URL("http://127.0.0.1:8000");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
 
+            int status = con.getResponseCode();
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+
+            OSUtil.out.println(content);
+
+            con.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //ExceptionHandler.handle(e);
+        }
     }
 }

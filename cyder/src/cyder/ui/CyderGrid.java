@@ -1075,9 +1075,6 @@ public class CyderGrid extends JLabel {
 
     //todo reclone project to see warnings
 
-    //todo backup json method so that you never lose one again no matter when u end program
-    // algorithm that saves and if error, load most recent one if available
-
     //todo utilize surrounding methods for relative zooming after
     // rest of painting widget is implemented
 

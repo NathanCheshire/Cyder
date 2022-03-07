@@ -159,7 +159,7 @@ public class PaintWidget {
         }, "Paint Grid Exporter"));
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
             try {
-
+                //todo
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not add image at this time");
@@ -167,7 +167,7 @@ public class PaintWidget {
         }, "Paint Grid Image Layerer"));
         paintFrame.addMenuItem("Pixelate", () -> CyderThreadRunner.submit(() -> {
             try {
-
+                //todo
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not pixelate image at this time");
@@ -175,7 +175,7 @@ public class PaintWidget {
         }, "Paint Grid Pixelator"));
         paintFrame.addMenuItem("Resize", () -> CyderThreadRunner.submit(() -> {
             try {
-
+                //todo
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not resize at this time");
