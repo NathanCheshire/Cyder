@@ -29,33 +29,71 @@ public class BackendUtil {
     }
 
     /**
-     * Standard CRUD update operation.
+     * Standard CRUD create operation.
      *
-     * @param postSchema the schema to post to the backend
-     * @param relativePath the relative path to post to
-     * @return whether the post result
+     * @param putSchema the schema to put on the backend
+     * @param relativePath the relative path to the backend
+     * @return the create result
      */
-    public static String post(String postSchema, String relativePath) {
-        postHelper();
-        return "";
+    public static boolean put(String putSchema, String relativePath) {
+        // todo
+
+        return false;
     }
 
     /**
      * Standard CRUD read operation.
      *
-     * @param relativePath the relative path to get from
+     * @param relativePath the relative path to the backend
      * @return the get result
      */
     public static String get(String relativePath) {
+        // todo
 
         return "";
     }
 
     /**
-     * Downloads the static/ Cyder files.
+     * Standard CRUD update operation.
+     *
+     * @param postSchema the schema to post to the backend
+     * @param relativePath the relative path to the backend path
+     * @return whether the post result
      */
-    public static void downloadStatic() {
-        // need a get request to get the typical url for the static dir zip on google drive
+    public static String post(String postSchema, String relativePath) {
+        // todo
+
+        return "";
+    }
+
+    /**
+     * Standard CRUD delete operation.
+     *
+     * @param deleteSchema the schema to pass to the delete backend
+     * @param relativePath the relative path to the backend
+     * @return whether the delete operation was successful
+     */
+    public static boolean delete(String deleteSchema, String relativePath) {
+        // todo
+
+        return false;
+    }
+
+    /**
+     * Downloads the static/ Cyder files.
+     *
+     * @return whether the static files were successfully downloaded.
+     */
+    public static boolean downloadStatic() {
+        // get the url to download from via a get request
+
+        // download static dir
+
+        // ensure was successful
+
+        // continue with cyder
+
+        return false;
     }
 
     private static void postHelper() {
