@@ -851,12 +851,19 @@ public class UserUtil {
                    gson.toJson(backupUser, writer);
                    writer.close();
 
+                   // log success
+                   Logger.log(Logger.Tag.CORRUPTION,
+                           "[BACKUP SUCCESS] Successfully restored "
+                                   + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
+
                    // success in restoring user from backup so exit method
                    return;
                }
             } catch (Exception e) {
-               ExceptionHandler.handle(e);
-               // exception above so proceed as normal
+                ExceptionHandler.handle(e);
+                // exception above so proceed as normal
+                Logger.log(Logger.Tag.CORRUPTION,
+                        "[BACKUP FAILURE] attempted restoration of " + uuid + " failed");
             }
 
             // no recovery so add uuid to the list of invalid users
