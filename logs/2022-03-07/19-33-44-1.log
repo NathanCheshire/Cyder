@@ -1,0 +1,233 @@
+[19-33-45] [ENTRY]: [Nathan]
+[19-33-45] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-33-45] [THREAD STARTED]: Splash Loader
+[19-33-45] [THREAD STARTED]: Splash Animation
+[19-33-46] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-33-46] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-33-46] [THREAD STARTED]: JVM Logger
+[19-33-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-33-46] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-33-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-33-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703201348.json
+[19-33-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-33-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703226344.json
+[19-33-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-33-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703226368.json
+[19-33-46] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-33-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-33-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703226374.json
+[19-33-46] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-33-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-33-46] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-33-46] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-33-46] [THREAD STARTED]: Console Printing Animation
+[19-33-46] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-33-46] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-33-46] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-33-46] [THREAD STARTED]: Console Input Caret Position Updater
+[19-33-46] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-33-46] [SYSTEM_IO]: Userdata requested: InputFill
+[19-33-46] [THREAD STARTED]: High Ping Checker
+[19-33-46] [THREAD STARTED]: Hourly Chime Checker
+[19-33-46] [THREAD STARTED]: Console Clock Updater
+[19-33-46] [THREAD STARTED]: Cyder Busy Checker
+[19-33-46] [THREAD STARTED]: User Data Saver
+[19-33-46] [ACTION]: Console loaded in 2056ms
+[19-33-46] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1659, 234, 756, 702)], hash = [1547883191], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-33-46] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [62589283], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-33-46] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-33-46] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-33-46] [ENTRY]: [TESTING MODE]
+[19-33-46] [SYSTEM_IO]: Userdata requested: laststart
+[19-33-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-33-46] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703226705.json
+[19-33-47] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2056ms
+[19-33-47] [THREAD STARTED]: notification appear animation
+[19-33-47] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-33-47] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-33-48] [CLIENT]: mp3
+[19-33-48] [SYSTEM_IO]: Userdata requested: filterchat
+[19-33-48] [WIDGET OPENED]: AUDIO PLAYER
+[19-33-48] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-33-48] [HANDLE]: PRIMARY HANDLE
+[19-33-49] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-33-49] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
+[19-33-49] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-33-49] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[19-33-49] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[19-33-51] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-33-51] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-33-51] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[19-33-51] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth] [2x]
+[19-33-51] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[19-33-51] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[19-33-51] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[19-33-52] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light] [2x]
+[19-33-52] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[19-33-52] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[19-33-52] [THREAD STARTED]: Flash Player Audio Thread[Anne-Marie - 2002(slowed+reverb)]
+[19-33-52] [THREAD STARTED]: Flash Player scrolling title thread[Anne-Marie - 2002(slowed+reverb)]
+[19-33-52] [THREAD STARTED]: Flash Player Progress Thread[Anne-Marie - 2002(slowed+reverb)] [2x]
+[19-33-52] [THREAD STARTED]: Flash Player scrolling title thread[Anne-Marie - 2002(slowed+reverb)]
+[19-33-52] [ACTION]: [AUDIO PLAYER] Anne-Marie - 2002(slowed+reverb).mp3
+[19-33-56] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-33-56] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703226965.json
+[19-33-56] [CLIENT]: prefs
+[19-33-56] [SYSTEM_IO]: Userdata requested: filterchat
+[19-33-56] [CONSOLE_OUT]: [STRING] Opening widget: UserEditor
+[19-33-56] [WIDGET OPENED]: PREFS
+[19-33-57] [HANDLE]: PRIMARY HANDLE
+[19-33-59] [WIDGET OPENED]: AUDIO PLAYER
+[19-33-59] [THREAD STARTED]: Flash Player Progress Thread[Anne-Marie - 2002(slowed+reverb)]
+[19-33-59] [THREAD STARTED]: Flash Player scrolling title thread[Anne-Marie - 2002(slowed+reverb)]
+[19-33-59] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[19-33-59] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light] [2x]
+[19-33-59] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[19-34-01] [THREAD STARTED]: Wait thread for getterUtil
+[19-34-01] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [636897647], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-01] [THREAD STARTED]: cyder.utilities.GetterUtil@5f8819c2getString thread
+[19-34-09] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-34-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703236839.json
+[19-34-15] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1679, 538, 400, 170)], hash = [1012878348], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[19-34-15] [THREAD STARTED]: Rename CyderFrame dispose thread
+[19-34-15] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1762980372], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-15] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1587, 295, 900, 580)], hash = [657492375], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
+[19-34-15] [ACTION]: [Preferences] [NOTIFICATION] Anne-Marie - 2002(slowed+reverb).mp3 was successfully renamed to Anne-Marie - 2002 (Slowed & Reverb).mp3
+[19-34-15] [THREAD STARTED]: notification appear animation
+[19-34-15] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-34-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-34-15] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-34-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-34-21] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703249257.json
+[19-34-31] [THREAD STARTED]: Wait thread for getterUtil
+[19-34-31] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [636897647], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-31] [THREAD STARTED]: cyder.utilities.GetterUtil@ca73d9cgetString thread
+[19-34-34] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1078761251], parentFrame = [Rename], associated text = [Anne-Marie - 2002 (Slowed & Reverb)], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-34] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-34-34] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703261726.json
+[19-34-35] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(657, 364, 400, 170)], hash = [1798586646], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[19-34-35] [THREAD STARTED]: Rename CyderFrame dispose thread
+[19-34-35] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(583, 302, 900, 580)], hash = [657492375], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
+[19-34-35] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1080637598], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-35] [ACTION]: [Preferences] [NOTIFICATION] Anne-Marie - 2002 (Slowed & Reverb).mp3 was successfully renamed to Anne-Marie - 2002 (Slowed & Reverb)e.mp3
+[19-34-35] [THREAD STARTED]: notification appear animation
+[19-34-35] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-34-35] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-34-37] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-34-43] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 420, 385, 35)], hash = [118527832], parentFrame = [Chillstep Wayr - Follow the Light], associated text = [<html><div style='text-align: center;'>36s played, 5m 13s total</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-43] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[19-34-43] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[19-34-43] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[19-34-44] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[19-34-44] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[19-34-44] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth] [2x]
+[19-34-44] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[19-34-47] [THREAD STARTED]: Wait thread for getterUtil
+[19-34-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(370, 440, 155, 40)], hash = [636897647], parentFrame = [Preferences], associated text = [Rename], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-47] [THREAD STARTED]: cyder.utilities.GetterUtil@4b8f9b7agetString thread
+[19-34-47] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-34-47] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703274713.json
+[19-34-49] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1217518852], parentFrame = [Rename], associated text = [Anne-Marie - 2002 (Slowed & Reverb)e], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-51] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1313, 669, 400, 170)], hash = [1170058773], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Rename]
+[19-34-51] [THREAD STARTED]: Rename CyderFrame dispose thread
+[19-34-51] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1241, 421, 900, 580)], hash = [657492375], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Preferences] notification queue checker
+[19-34-51] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [278517568], parentFrame = [Rename], associated text = [Submit], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-34-51] [ACTION]: [Preferences] [NOTIFICATION] Anne-Marie - 2002 (Slowed & Reverb)e.mp3 was successfully renamed to Anne-Marie - 2002 (Slowed & Reverb).mp3
+[19-34-51] [THREAD STARTED]: notification appear animation
+[19-34-51] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-34-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-34-51] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-35-00] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-00] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703287156.json
+[19-35-13] [CLIENT]: notification
+[19-35-13] [SYSTEM_IO]: Userdata requested: filterchat
+[19-35-13] [CONSOLE_OUT]: [STRING] Invoking manual test notificationTest
+[19-35-13] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-13] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703300076.json
+[19-35-13] [HANDLE]: MANUAL TEST FIRED
+[19-35-13] [HANDLE]: FINAL HANDLE
+[19-35-16] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-16] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-16] [ACTION]: [Notification Test] [NOTIFICATION] asdf
+[19-35-16] [THREAD STARTED]: notification appear animation
+[19-35-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-17] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-18] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-19] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-19] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-19] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdf
+[19-35-19] [THREAD STARTED]: notification appear animation
+[19-35-19] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-19] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-20] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-22] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-22] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-22] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf
+[19-35-22] [THREAD STARTED]: notification appear animation
+[19-35-22] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-22] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-23] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-24] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-24] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-25] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 281, 28)], hash = [-14794128], parentFrame = [Notification], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1482, 855, 285, 152)], hash = [7213547], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification]
+[19-35-25] [THREAD STARTED]: Notification CyderFrame dispose thread
+[19-35-25] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-35-25] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-25] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703313256.json
+[19-35-25] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf asdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-27] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-27] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+[19-35-27] [THREAD STARTED]: notification appear animation
+[19-35-27] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-27] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-28] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-30] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-30] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-30] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdfasdfasdf
+[19-35-30] [THREAD STARTED]: notification appear animation
+[19-35-31] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-31] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-31] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdfasdfasdfasdfasdfasdfasdfasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-32] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-32] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 110, 150, 40)], hash = [1445041719], parentFrame = [Notification Test], associated text = [Top], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-32] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdffasdf
+[19-35-32] [THREAD STARTED]: notification appear animation
+[19-35-32] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-34] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-34] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(100, 50, 150, 40)], hash = [653647651], parentFrame = [Notification Test], associated text = [asdfasdfasdfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdffasdf], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-37] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-37] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703325596.json
+[19-35-47] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test] notification queue checker
+[19-35-47] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 170, 150, 40)], hash = [757925936], parentFrame = [Notification Test], associated text = [Top Right], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-47] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdffasdf
+[19-35-47] [THREAD STARTED]: notification appear animation
+[19-35-48] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-48] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-35-48] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 290, 150, 40)], hash = [978931623], parentFrame = [Notification Test], associated text = [Top Left], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-49] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-35-49] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdffasdf
+[19-35-49] [THREAD STARTED]: notification appear animation
+[19-35-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-49] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-35-50] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703337868.json
+[19-35-50] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(100, 350, 150, 40)], hash = [1930501326], parentFrame = [Notification Test], associated text = [Center Left], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-51] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-35-51] [ACTION]: [Notification Test] [NOTIFICATION] asdfasdfasdfasdfasdfasdfasdasdfasdfasdfasdfasdfasdfasdfasdffasdf
+[19-35-51] [THREAD STARTED]: notification appear animation
+[19-35-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-35-52] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
+[19-35-52] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 346, 28)], hash = [-14731663], parentFrame = [Notification Test], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-35-52] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1450, 631, 350, 600)], hash = [1348326615], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Notification Test]
+[19-35-52] [THREAD STARTED]: Notification Test CyderFrame dispose thread
+[19-35-52] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-35-53] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-35-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-35-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646703350098.json
+[19-35-53] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1659, 234, 756, 702)], hash = [1547883191], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[19-35-53] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[19-35-53] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-35-53] [EXIT]: [RUNTIME] 2m 9s
+[19-35-53] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

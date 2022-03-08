@@ -1,0 +1,76 @@
+[19-47-51] [ENTRY]: [Nathan]
+[19-47-51] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-47-51] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
+[19-47-52] [THREAD STARTED]: Splash Loader
+[19-47-52] [THREAD STARTED]: Splash Animation
+[19-47-52] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-47-52] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-47-52] [THREAD STARTED]: JVM Logger
+[19-47-52] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-47-52] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-47-52] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704038112.json
+[19-47-52] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-47-52] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704072660.json
+[19-47-52] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-47-52] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704072689.json
+[19-47-53] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-47-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-47-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704072699.json
+[19-47-53] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-47-53] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-47-53] [THREAD STARTED]: Console Printing Animation
+[19-47-53] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-47-53] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-47-53] [THREAD STARTED]: Console Input Caret Position Updater
+[19-47-53] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-47-53] [SYSTEM_IO]: Userdata requested: InputFill
+[19-47-53] [THREAD STARTED]: High Ping Checker
+[19-47-53] [THREAD STARTED]: Hourly Chime Checker
+[19-47-53] [THREAD STARTED]: Console Clock Updater
+[19-47-53] [THREAD STARTED]: Cyder Busy Checker
+[19-47-53] [THREAD STARTED]: User Data Saver
+[19-47-53] [ACTION]: Console loaded in 2639ms
+[19-47-53] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1659, 234, 756, 702)], hash = [1547883191], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[19-47-53] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [882435105], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-47-53] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-47-53] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-47-53] [ENTRY]: [TESTING MODE]
+[19-47-53] [SYSTEM_IO]: Userdata requested: laststart
+[19-47-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-47-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704073069.json
+[19-47-53] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] Console loaded in 2639ms
+[19-47-53] [THREAD STARTED]: notification appear animation
+[19-47-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-47-53] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-48-00] [CLIENT]: mp3
+[19-48-00] [SYSTEM_IO]: Userdata requested: filterchat
+[19-48-00] [WIDGET OPENED]: AUDIO PLAYER
+[19-48-00] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[19-48-00] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-00] [HANDLE]: PRIMARY HANDLE
+[19-48-00] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-00] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-00] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[19-48-01] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-48-01] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1787, 345, 500, 480)], hash = [2023639631], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...]
+[19-48-01] [THREAD STARTED]: Skizzy Mars - Gift and Curse feat. Yung Pinch [... CyderFrame dispose thread
+[19-48-02] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-48-02] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-02] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-02] [THREAD STARTED]: Console Audio Menu Minimizer
+[19-48-03] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-48-03] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704073330.json
+[19-48-04] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-48-04] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-48-04] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646704083201.json
+[19-48-04] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(1659, 234, 756, 702)], hash = [1547883191], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[19-48-04] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[19-48-04] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-48-04] [EXIT]: [RUNTIME] 13s
+[19-48-04] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

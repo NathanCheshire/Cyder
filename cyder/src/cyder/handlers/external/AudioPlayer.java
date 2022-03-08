@@ -56,7 +56,7 @@ public class AudioPlayer {
     /**
      * The audio title scrolling label.
      */
-    private static ImprovedScrollLabel audioScroll;
+    private static LabelScroller audioScroll;
 
     /**
      * The audio location progress bar.
@@ -1014,7 +1014,7 @@ public class AudioPlayer {
                 //if not in mini player mode, initalize these views
                 if (windowState != PlayerWindowState.MINI) {
                     audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
-                    audioScroll = new ImprovedScrollLabel(audioTitleLabel);
+                    audioScroll = new LabelScroller(audioTitleLabel);
                     audioLocation = new AudioLocation(audioProgress);
                 }
 
@@ -1290,10 +1290,10 @@ public class AudioPlayer {
     /**
      * Private inner class for the scrolling audio label.
      */
-    private static class ImprovedScrollLabel {
+    private static class LabelScroller {
         boolean scroll;
 
-        ImprovedScrollLabel(JLabel effectLabel) {
+        LabelScroller(JLabel effectLabel) {
             scroll = true;
 
             try {
@@ -1313,7 +1313,7 @@ public class AudioPlayer {
                     effectLabel.setLocation(0,0);
 
                     scroll = true;
-                    int miliTimeout = 8;
+                    int miliTimeout = 24;
                     int milipause = 5000;
                     int initialMiliPause = 3000;
 
@@ -1504,7 +1504,7 @@ public class AudioPlayer {
             //end audio scroll label
             if (audioScroll != null)
                 audioScroll.kill();
-            audioScroll = new ImprovedScrollLabel(audioTitleLabel);
+            audioScroll = new LabelScroller(audioTitleLabel);
         }
     }
 

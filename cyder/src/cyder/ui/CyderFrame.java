@@ -964,9 +964,17 @@ public class CyderFrame extends JFrame {
                     //get dimensions and formatted text for the notification
                     BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
                             (int) (this.width * 0.8), CyderFonts.notificationFont);
+
                     int w = bs.getWidth();
                     int h = bs.getHeight();
+                    System.out.println(w + "," + h);
                     text.setText(bs.getText());
+                    //Anne-Marie - 2002 (slowed & reverb) cuts off
+                    // some how got a break tag in there too once
+
+                    // with: Anne-Marie - 2002 (s
+
+                    // clearly something's broken with break insertions
 
                     //if too big for the frame, turn it into an external frame popup
                     if (h > this.height * NOTIFICATION_MAX_RATIO

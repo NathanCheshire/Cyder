@@ -170,7 +170,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "notification test")
     public static void notificationTest() {
-        CyderFrame testFrame = new CyderFrame(350,600, CyderIcons.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(600,600, CyderIcons.defaultBackground);
         testFrame.setTitle("Notification Test");
 
         int milliDelay = 3000;
