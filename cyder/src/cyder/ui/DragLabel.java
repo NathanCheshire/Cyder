@@ -371,7 +371,7 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Gets the button from the button list at the provided index.
+     * Returns the button from the button list at the provided index.
      *
      * @param index the index of the button to be returned
      * @return the button at the provided index

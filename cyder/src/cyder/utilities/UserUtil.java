@@ -532,7 +532,7 @@ public class UserUtil {
     }
 
     /**
-     * Gets the requested data from the currently logged-in user.
+     * Returns the requested data from the currently logged-in user.
      * This method exists purely for legacy calls such as getUserData("foreground").
      * Ideally the call should be extractUser().getForeground().
      *

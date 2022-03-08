@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.utilities.objects.BoundsString;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -48,7 +49,6 @@ public class BoundsUtil {
         return widthHeightCalculation(text, ScreenUtil.getScreenWidth() / 2, font);
     }
 
-    // todo bug from sometimes this doesn't return it surrounded with html tags? weird
     /**
      * Calculates the needed height for an inform/dialog window given the preferred width and text.
      * @param text the string to display
@@ -249,7 +249,8 @@ public class BoundsUtil {
 
     /**
      * Inserts breaks into the raw text based on the amount of lines needed.
-     * Note that <br/> tags may already exist in this string.
+     * Note that <br/> tags may NOT exist in this string and should be parsed
+     * away prior to invoking this method.
      *
      * @param rawText the raw text
      * @param numLines the numbr of lines required
@@ -259,33 +260,42 @@ public class BoundsUtil {
         if (numLines == 1)
             return rawText;
 
+        // the mutation string we will return
         String ret = rawText;
 
+        // the ideal place to split the string is the len divided by the number of chars
         int splitEveryNthChar = (int) Math.ceil((float) rawText.length() / (float) numLines);
         int numChars = rawText.length();
+
+        //we can look for a space within a tolerance
+        // of 7 chars both sides of a given char
         int breakInsertionTol = 7;
 
+        // the number of lines we are at
         int currentLines = 1;
 
+        // loop through string at the indicies we desire
         for (int i = splitEveryNthChar ; i < numChars ; i += splitEveryNthChar) {
-            //if line goal is reached, exit
+            //if goal lines is reached, exit
             if (currentLines == numLines)
                 break;
 
-            //is index a space? if so, replace it with a break
+            // if space, perfect, insert a break and replace the space
             if (ret.charAt(i) == ' ') {
                 StringBuilder sb = new StringBuilder(ret);
                 sb.deleteCharAt(i);
                 sb.insert(i,"<br/>");
                 ret = sb.toString();
-            } else {
+            }
+            // otherwise logic is harder
+            else {
                 boolean spaceFound = false;
 
-                //check right for a space
+                // check right for a space
                 for (int j = i ; j < i + breakInsertionTol ; j++) {
-                    //is j valid
+                    // is j valid
                     if (j < numChars) {
-                        //is it a space
+                        // is it a space
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
@@ -298,14 +308,15 @@ public class BoundsUtil {
                     }
                 }
 
+                // if we found a space to turn into a break, continue to next inc
                 if (spaceFound)
                     continue;
 
-                //check left for a space
+                // check left for a space
                 for (int j = i ; j > i - breakInsertionTol ; j--) {
-                    //is j valid
+                    // is j valid
                     if (j > 0) {
-                        //is it a space
+                        // is it a space
                         if (ret.charAt(j) == ' ') {
                             StringBuilder sb = new StringBuilder(ret);
                             sb.deleteCharAt(j);
@@ -321,9 +332,8 @@ public class BoundsUtil {
                 if (spaceFound)
                     continue;
 
-                //final resort to just put it at the current index as long as we're not in the middle of a line break
-                //we shouldn't be in a line break since this is for html having been parsed away
-
+                // unfortunate final resort is to just place the string at the location we are currently at
+                // there shouldn't be any html formatting in this string so this is safe.
                 StringBuilder sb = new StringBuilder(ret);
                 sb.insert(i,"<br/>");
                 ret = sb.toString();
@@ -335,93 +345,26 @@ public class BoundsUtil {
     }
 
     //adds <div style='text-align: center;'> to the provided html string
+
+    /**
+     * Returns the provided string after ensuring it is of the form:
+     * <html><div style = 'text-align: center;'></>TEXT</html>
+     *
+     * @param html the text to insert a div style into
+     * @return the string with a div style inserted
+     */
     public static String addCenteringToHTML(String html) {
         StringBuilder ret = new StringBuilder();
 
-        if (html.startsWith("<html>")) {
-            ret.append("<html><div style='text-align: center;'>")
-                    .append(html, 6, html.length() - 6).append("</html>");
-        } else {
-            ret.append("<html><div style='text-align: center;'>").append(html).append("</html>");
-        }
+        if (!html.startsWith("<html>"))
+            ret.append("<html>");
+
+        ret.append("<div style='text-align: center;'>");
+        ret.append(html);
+
+        if (!html.endsWith("</html>"))
+            ret.append("</html>");
 
         return ret.toString();
-    }
-
-    //inner classes and enums
-
-    public static class BoundsString {
-        private int width;
-        private int height;
-        private String text;
-
-        public BoundsString(int width, int height, String text) {
-            this.width = width;
-            this.height = height;
-            this.text = text;
-        }
-
-        public BoundsString() {}
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        @Override
-        public String toString() {
-            //noinspection StringConcatenationMissingWhitespace
-            return "[" + this.width + "x" + this.height + "]\nText:\n" + this.text;
-        }
-    }
-
-    private static class BreakPosition {
-        private int start;
-        private int end;
-
-        public BreakPosition(int start, int end) {
-            this.start = start;
-            this.end = end;
-        }
-
-        public int getStart() {
-            return start;
-        }
-
-        public void setStart(int start) {
-            this.start = start;
-        }
-
-        public int getEnd() {
-            return end;
-        }
-
-        public void setEnd(int end) {
-            this.end = end;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + this.start + " -> " + this.end + "]";
-        }
     }
 }

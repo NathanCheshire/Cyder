@@ -11,6 +11,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.QueuedNotification;
 import cyder.utilities.*;
+import cyder.utilities.objects.BoundsString;
 import cyder.utilities.objects.GetterBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -960,7 +961,7 @@ public class CyderFrame extends JFrame {
                     currentNotification.setArrow(currentQueuedNotification.getArrowDir());
 
                     //get dimensions and formatted text for the notification
-                    BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
+                    BoundsString bs = BoundsUtil.widthHeightCalculation(
                             currentQueuedNotification.getHtmlText(),
                             (int) Math.ceil(this.width * 0.8), CyderFonts.notificationFont);
 

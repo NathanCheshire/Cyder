@@ -6,6 +6,7 @@ import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.utilities.objects.BoundsString;
 import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
@@ -490,8 +491,7 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsUtil.BoundsString bs =
-                        BoundsUtil.widthHeightCalculation(builder.getText(), textLabel.getFont());
+                BoundsString bs = BoundsUtil.widthHeightCalculation(builder.getText(), textLabel.getFont());
                 int w = bs.getWidth();
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());

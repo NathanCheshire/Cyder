@@ -7,6 +7,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.DragLabel;
 import cyder.utilities.BoundsUtil;
+import cyder.utilities.objects.BoundsString;
 
 /**
  * Popups on their own frame for usage throughout Cyder.
@@ -33,7 +34,7 @@ public class PopupHandler {
     public static void inform(PopupBuilder builder) {
         try {
             CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
-            BoundsUtil.BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
+            BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
             int xOffset = 10;

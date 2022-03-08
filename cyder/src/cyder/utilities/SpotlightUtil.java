@@ -16,9 +16,10 @@ public class SpotlightUtil {
     }
 
     /**
-     * Gets the windows spotlight directory. I'm not sure if it could chane since according to Google
+     * Returns the windows spotlight directory. I'm not sure if it could chane since according to Google
      * source it's staticly set at Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy. To be safe, however
-     * this method exists
+     * this method exists.
+     *
      * @return the name of the directory containing the Windows spotlight images
      */
     public static String getWindowsContentDeliveryManagerDir() {
