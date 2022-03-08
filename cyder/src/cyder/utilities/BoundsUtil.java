@@ -13,11 +13,13 @@ import java.util.LinkedList;
 import static cyder.utilities.StringUtil.TaggedString;
 import static cyder.utilities.StringUtil.TaggedStringType;
 
+//todo apparently this doesn't produce the same result for the same string of text
+// add unit tests and check logic
+
 /**
  * Utility methods to calculate the needed space for a String of text.
  */
 public class BoundsUtil {
-
     /**
      * Restrict instantiation of class.
      */

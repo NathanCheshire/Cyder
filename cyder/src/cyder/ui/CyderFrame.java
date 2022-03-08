@@ -961,7 +961,7 @@ public class CyderFrame extends JFrame {
                     //get dimensions and formatted text for the notification
                     BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
                             currentQueuedNotification.getHtmlText(),
-                            (int) (this.width * 0.8), CyderFonts.notificationFont);
+                            (int) Math.ceil(this.width * 0.8), CyderFonts.notificationFont);
 
                     int w = bs.getWidth();
                     int h = bs.getHeight();
