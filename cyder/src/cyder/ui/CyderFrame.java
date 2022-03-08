@@ -958,42 +958,41 @@ public class CyderFrame extends JFrame {
                     //set the arrow direction
                     currentNotification.setArrow(currentQueuedNotification.getArrowDir());
 
-                    //create text label to go on top of notification label
-                    JLabel text = new JLabel(currentQueuedNotification.getHtmlText());
-
                     //get dimensions and formatted text for the notification
-                    BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(text.getText(),
+                    BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(
+                            currentQueuedNotification.getHtmlText(),
                             (int) (this.width * 0.8), CyderFonts.notificationFont);
 
                     int w = bs.getWidth();
                     int h = bs.getHeight();
-                    System.out.println(w + "," + h);
-                    text.setText(bs.getText());
-                    //Anne-Marie - 2002 (slowed & reverb) cuts off
-                    // some how got a break tag in there too once
-
-                    // with: Anne-Marie - 2002 (s
-
-                    // clearly something's broken with break insertions
+                    String text = bs.getText();
 
                     //if too big for the frame, turn it into an external frame popup
                     if (h > this.height * NOTIFICATION_MAX_RATIO
                             || w > this.width * NOTIFICATION_MAX_RATIO) {
-                        this.inform(text.getText(),"Notification");
+                        this.inform(text,"Notification");
                         continue;
                     }
 
                     if (currentQueuedNotification.getContianer() == null) {
+                        //create text label to go on top of notification label
+                        JLabel textLabel = new JLabel(text);
+
+                        // log the bounds and text of the notification
+                        Logger.log(Logger.Tag.ACTION, "[" +
+                                this.getTitle() + "] [NOTIFICATION] w = " +
+                                w + ", h = " + h + ", text = " + text);
+
                         //set the text bounds to the proper x,y and the
                         // calculated width and height
-                        text.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
+                        textLabel.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
 
                         currentNotification.setWidth(w);
                         currentNotification.setHeight(h);
 
-                        text.setFont(CyderFonts.notificationFont);
-                        text.setForeground(CyderColors.notificationForegroundColor);
-                        currentNotification.add(text);
+                        textLabel.setFont(CyderFonts.notificationFont);
+                        textLabel.setForeground(CyderColors.notificationForegroundColor);
+                        currentNotification.add(textLabel);
 
                         JLabel disposeLabel = new JLabel();
                         disposeLabel.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
@@ -1059,10 +1058,6 @@ public class CyderFrame extends JFrame {
 
                     iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
                     getContentPane().repaint();
-
-                    //log the notification
-                    Logger.log(Logger.Tag.ACTION, "[" +
-                            this.getTitle() + "] [NOTIFICATION] " + currentQueuedNotification.getHtmlText());
 
                     //duration is always 300ms per word unless less than 5 seconds
                     int duration = 300 * StringUtil.countWords(

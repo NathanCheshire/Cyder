@@ -19,8 +19,7 @@
 [19-47-53] [SYSTEM_IO]: Userdata requested: RandomBackground
 [19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
 [19-47-53] [SYSTEM_IO]: Userdata requested: fullscreen
-[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
-[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [19-47-53] [THREAD STARTED]: Console Printing Animation
 [19-47-53] [SYSTEM_IO]: Userdata requested: OutputBorder
 [19-47-53] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -53,8 +52,7 @@
 [19-48-00] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [19-48-00] [HANDLE]: PRIMARY HANDLE
 [19-48-00] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[19-48-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[19-48-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[19-48-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
 [19-48-00] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [19-48-00] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
 [19-48-01] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
