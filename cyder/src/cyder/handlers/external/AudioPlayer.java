@@ -14,6 +14,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.JavaLayerException;
@@ -333,7 +334,8 @@ public class AudioPlayer {
         selectAudioDirButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 CyderThreadRunner.submit(() -> {
-                    File selectedChildFile = new GetterUtil().getFile("Choose any mp3 file to startAudio");
+                    GetterBuilder buidler = new GetterBuilder("Choose any mp3 file to startAudio");
+                    File selectedChildFile = new GetterUtil().getFile(buidler);
                     if (selectedChildFile != null) {
                         if (!selectedChildFile.toString().endsWith("mp3")) {
                             audioFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but that's not an mp3 file.");

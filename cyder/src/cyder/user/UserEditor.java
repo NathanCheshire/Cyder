@@ -17,6 +17,7 @@ import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
@@ -226,8 +227,9 @@ public class UserEditor {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        //if this is too small or big, where is it resized and why is it too big?
-                        File addFile = new GetterUtil().getFile("Choose file to add");
+                        GetterBuilder builder = new GetterBuilder("Add File");
+                        builder.setRelativeTo(editUserFrame);
+                        File addFile = new GetterUtil().getFile(builder);
 
                         if (addFile == null || addFile.getName().equals("NULL"))
                             return;
@@ -314,8 +316,13 @@ public class UserEditor {
                     } else {
                         String oldName = FileUtil.getFilename(selectedFile);
                         String extension = FileUtil.getExtension(selectedFile);
-                        String newName = new GetterUtil().getString("Rename","Enter any valid file name",
-                                "Submit", oldName);
+
+                        GetterBuilder builder = new GetterBuilder("Rename");
+                        builder.setFieldTooltip("Enter any valid file name");
+                        builder.setRelativeTo(editUserFrame);
+                        builder.setSubmitButtonText("Submit");
+                        builder.setInitialString(oldName);
+                        String newName = new GetterUtil().getString(builder);
 
                         if (oldName.equals(newName) || newName.equals("NULL"))
                             return;
@@ -1415,11 +1422,13 @@ public class UserEditor {
                 deletePasswordField.setText("");
             } else {
                 CyderThreadRunner.submit(() -> {
-                   boolean delete = new GetterUtil().getConfirmation("Final warning: you are about to" +
-                           " delete your Cyder account. All files, pictures, downloaded music, notes, etc. will be deleted." +
-                           " Are you ABSOLUTELY sure you wish to continue?", editUserFrame);
+                    GetterBuilder builder = new GetterBuilder("Final warning: you are about to"
+                            + " delete your Cyder account. All files, pictures, downloaded music, notes," +
+                            " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?");
+                    builder.setRelativeTo(editUserFrame);
+                    boolean delete = new GetterUtil().getConfirmation(builder);
 
-                   if (delete) {
+                    if (delete) {
                        ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
                        OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
@@ -1441,10 +1450,10 @@ public class UserEditor {
                            f.dispose();
 
                        CyderCommon.exit(ExitCondition.UserDeleted);
-                   } else {
+                    } else {
                        deletePasswordField.setText("");
                        editUserFrame.notify("Account not deleted");
-                   }
+                    }
                },"Account deletion confirmation");
             }
         });

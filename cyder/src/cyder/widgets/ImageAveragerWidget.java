@@ -16,6 +16,7 @@ import cyder.utilities.FileUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.IOUtil;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -105,7 +106,8 @@ public class ImageAveragerWidget {
         cf.getContentPane().add(addButton);
         addButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
-                File input = new GetterUtil().getFile("select any image file");
+                GetterBuilder builder = new GetterBuilder("select any image file");
+                File input = new GetterUtil().getFile(builder);
 
                 if (FileUtil.isSupportedImageExtension(input)) {
                     files.add(input);

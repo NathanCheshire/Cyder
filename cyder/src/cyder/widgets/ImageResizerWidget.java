@@ -16,6 +16,7 @@ import cyder.ui.CyderTextField;
 import cyder.utilities.FileUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ScreenUtil;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class ImageResizerWidget {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
-    @Widget(triggers = {"resizepictures", "resizeimages", "resize", "resizeiamge", "resizepicture"},
+    @Widget(triggers = {"resizepictures", "resizeimages", "resize", "resizeimage", "resizepicture"},
             description = "An image resizing widget to resize images")
     public static void showGUI() {
         Logger.log(Logger.Tag.WIDGET_OPENED, "IMAGE RESIZER");
@@ -62,7 +63,8 @@ public class ImageResizerWidget {
             try {
                 CyderThreadRunner.submit(() -> {
                   try {
-                      File temp = new GetterUtil().getFile("Choose file to resize");
+                      GetterBuilder buidler = new GetterBuilder("Choose a file to resize");
+                      File temp = new GetterUtil().getFile(buidler);
 
                       if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                           resizeImage = temp;

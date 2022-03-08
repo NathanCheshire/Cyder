@@ -15,6 +15,7 @@ import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.NetworkUtil;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -77,7 +78,8 @@ public class FileSignatureWidget {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        File temp = new GetterUtil().getFile("Choose file to validate");
+                        GetterBuilder builder = new GetterBuilder("Choose file to validate");
+                        File temp = new GetterUtil().getFile(builder);
 
                         if (temp != null) {
                             currentFile = temp;

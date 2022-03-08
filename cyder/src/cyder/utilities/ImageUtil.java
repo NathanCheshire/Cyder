@@ -289,7 +289,7 @@ public class ImageUtil {
     /**
      * Rotates the provided ImageIcon by the requested angle in degrees
      *
-     * @param imageIcon the iamge icon to rotate
+     * @param imageIcon the image icon to rotate
      * @param angle the angle to rotate by
      * @return the rotated image
      */

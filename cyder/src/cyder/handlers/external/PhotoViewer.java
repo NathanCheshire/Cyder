@@ -8,6 +8,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -246,7 +247,10 @@ public class PhotoViewer {
 
         CyderThreadRunner.submit(() -> {
            try {
-               String name = new GetterUtil().getString("Rename","Valid filename","Rename");
+               GetterBuilder builder = new GetterBuilder("Rename");
+               builder.setFieldTooltip("Valid filename");
+               builder.setSubmitButtonText("Rename");
+               String name = new GetterUtil().getString(builder);
                if (!StringUtil.isNull(name)) {
                    File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
 

@@ -17,6 +17,7 @@ import cyder.user.User;
 import cyder.user.UserEditor;
 import cyder.user.UserFile;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.CardWidget;
 import cyder.widgets.objects.RelativeFrame;
 
@@ -613,8 +614,10 @@ public final class ConsoleFrame {
                 CyderButton suggestionButton = new CyderButton("    Make a Suggestion   ");
                 suggestionButton.setColors(CyderColors.regularPink);
                 suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
-                    String suggestion = new GetterUtil().getString("Suggestion",
-                            "Cyder Suggestion", "Submit", CyderColors.regularPink);
+                    GetterBuilder builder = new GetterBuilder("Suggestion");
+                    builder.setFieldTooltip("Suggestion");
+                    builder.setSubmitButtonColor(CyderColors.regularPink);
+                    String suggestion = new GetterUtil().getString(builder);
 
                     if (!StringUtil.isNull(suggestion)) {
                         Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());

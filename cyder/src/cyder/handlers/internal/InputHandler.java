@@ -22,6 +22,7 @@ import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import cyder.utilities.objects.WidgetDescription;
 import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
@@ -705,8 +706,11 @@ public class InputHandler {
                         "is a solid color :P");
             } else {
                 CyderThreadRunner.submit(() -> {
-                    String input =
-                            new GetterUtil().getString("Pixel size","Enter any integer", "Pixelate");
+                    GetterBuilder builder = new GetterBuilder("Pixel size");
+                    builder.setFieldTooltip("Enter an integer");
+                    builder.setSubmitButtonText("Pixelate");
+                    builder.setSubmitButtonColor(CyderColors.regularPink);
+                    String input = new GetterUtil().getString(builder);
 
                     if (StringUtil.isNull(input))
                         return;

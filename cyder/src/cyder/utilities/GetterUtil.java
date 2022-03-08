@@ -3,10 +3,10 @@ package cyder.utilities;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
+// todo all usages of this class make sure all properties are set such as relativeComponent
+
 /**
  * A getter utility for getting strings, confirmations, files, etc. from the user.
  */
@@ -25,154 +27,6 @@ public class GetterUtil {
      * Constructs a new GetterUtil object.
      */
     public GetterUtil() {}
-
-    /** Custom getString() method, see usage below for how to
-     *  setup so that the calling thread is not blocked.
-     *
-     * USAGE:
-     *  <pre>
-     *  {@code
-     *  CyderThreadRunner.submit(() -> {
-     *      try {
-     *          String input = new GetterUtil().getString("title","tooltip","button text");
-     *          //other operations using input
-     *      } catch (Exception e) {
-     *          ErrorHandler.handle(e);
-     *      }
-     *  }, "THREAD_NAME").start();
-     *  }
-     *  </pre>
-     * @param title the title of the frame
-     * @param tooltip the tooltip of the input field
-     * @param buttonText the text of the submit button
-     * @return the user entered input string. NOTE: if any improper input is ateempted to be returned,
-     *  this function returns the string literal of "NULL" instead of {@code null}
-     */
-    public String getString(String title, String tooltip, String buttonText) {
-        AtomicReference<String> returnString = new AtomicReference<>();
-
-        CyderThreadRunner.submit(() -> {
-            try {
-                CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
-                inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(title);
-
-                CyderTextField inputField = new CyderTextField(0);
-                inputField.setHorizontalAlignment(JTextField.CENTER);
-                inputField.setBackground(Color.white);
-                inputField.setToolTipText(tooltip);
-                inputField.setBounds(40,40,320,40);
-                inputFrame.getContentPane().add(inputField);
-
-                CyderButton submit = new CyderButton(buttonText);
-                submit.setBackground(CyderColors.regularRed);
-                inputField.addActionListener(e1 -> submit.doClick());
-                submit.setBorder(new LineBorder(CyderColors.navy,5,false));
-                submit.setFont(CyderFonts.segoe20);
-                submit.setForeground(CyderColors.navy);
-                submit.addActionListener(e12 -> {
-                    returnString.set((inputField.getText() == null || inputField.getText().length() == 0 ?
-                            "NULL" : inputField.getText()));
-                    inputFrame.dispose();
-                });
-                submit.setBounds(40,100,320,40);
-                inputFrame.getContentPane().add(submit);
-
-                inputFrame.addPreCloseAction(submit::doClick);
-
-                inputFrame.setVisible(true);
-                inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, this + "getString thread");
-
-        try {
-            while (returnString.get() == null) {
-                Thread.onSpinWait();
-            }
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
-        }
-
-        return returnString.get();
-    }
-
-    /** Custom getString() method, see usage below for how to
-     *  setup so that the calling thread is not blocked.
-     *
-     * USAGE:
-     *  <pre>
-     *  {@code
-     *  CyderThreadRunner.submit(() -> {
-     *      try {
-     *          String input = new GetterUtil().getString("title","tooltip","button text");
-     *          //other operations using input
-     *      } catch (Exception e) {
-     *          ErrorHandler.handle(e);
-     *      }
-     *  }, "THREAD_NAME").start();
-     *  }
-     *  </pre>
-     * @param title the title of the frame
-     * @param tooltip the tooltip of the input field
-     * @param buttonText the text of the submit button
-     * @param buttonColor the color of the submit button
-     * @return the user entered input string. NOTE: if any improper input is ateempted to be returned,
-     *  this function returns the string literal of "NULL" instead of {@code null}
-     */
-    public String getString(String title, String tooltip, String buttonText, Color buttonColor) {
-        AtomicReference<String> returnString = new AtomicReference<>();
-
-        CyderThreadRunner.submit(() -> {
-            try {
-                CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
-                inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(title);
-
-                CyderTextField inputField = new CyderTextField(0);
-                inputField.setHorizontalAlignment(JTextField.CENTER);
-                inputField.setBackground(Color.white);
-                inputField.setToolTipText(tooltip);
-                inputField.setBounds(40,40,320,40);
-                inputFrame.getContentPane().add(inputField);
-
-                CyderButton submit = new CyderButton(buttonText);
-                submit.setBackground(CyderColors.regularRed);
-                inputField.addActionListener(e1 -> submit.doClick());
-                submit.setBorder(new LineBorder(CyderColors.navy,5,false));
-                submit.setFont(CyderFonts.segoe20);
-                submit.setColors(buttonColor);
-                submit.setForeground(CyderColors.navy);
-                submit.addActionListener(e12 -> {
-                    returnString.set((inputField.getText() == null || inputField.getText().length() == 0 ?
-                            "NULL" : inputField.getText()));
-                    inputFrame.dispose();
-                });
-                submit.setBounds(40,100,320,40);
-                inputFrame.getContentPane().add(submit);
-
-                inputFrame.addPreCloseAction(submit::doClick);
-
-                inputFrame.setVisible(true);
-                inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, this + "getString thread");
-
-        try {
-            while (returnString.get() == null) {
-                Thread.onSpinWait();
-            }
-        } catch (Exception ex) {
-            ExceptionHandler.handle(ex);
-        }
-
-        return returnString.get();
-    }
 
     /** Custom getInput() method, see usage below for how to
      *  setup so that the calling thread is not blocked.
@@ -191,33 +45,34 @@ public class GetterUtil {
      *  }
      *  </pre>
      *
-     * @param title the title of the frame
-     * @param tooltip the tooltip of the input field
-     * @param buttonText the text of the submit button
-     * @param initialString the initial text in the input field
+     * @param builder the builder pattern to use
      * @return the user entered input string. NOTE: if any improper
      * input is ateempted to be returned, this function returns
      * the string literal of "NULL" instead of {@code null}
      */
-    public String getString(String title, String tooltip, String buttonText, String initialString) {
+    public String getString(GetterBuilder builder) {
         AtomicReference<String> returnString = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(title);
+                inputFrame.setTitle(builder.getText());
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
-                inputField.setText(initialString);
-                inputField.setToolTipText(tooltip);
+
+                if (!StringUtil.isNull(builder.getInitialString()))
+                    inputField.setText(builder.getInitialString());
+                if (!StringUtil.isNull(builder.getFieldTooltip()))
+                    inputField.setToolTipText(builder.getFieldTooltip());
+
                 inputField.setBounds(40,40,320,40);
                 inputFrame.getContentPane().add(inputField);
 
-                CyderButton submit = new CyderButton(buttonText);
-                submit.setBackground(CyderColors.regularRed);
+                CyderButton submit = new CyderButton(builder.getSubmitButtonText());
+                submit.setBackground(builder.getSubmitButtonColor());
                 inputField.addActionListener(e1 -> submit.doClick());
                 submit.setBorder(new LineBorder(CyderColors.navy,5,false));
                 submit.setFont(CyderFonts.segoe20);
@@ -234,6 +89,7 @@ public class GetterUtil {
 
                 inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
+                inputFrame.setLocationRelativeTo(builder.getRelativeTo());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -284,9 +140,6 @@ public class GetterUtil {
     private Stack<File> backward = new Stack<>();
     private Stack<File> forward = new Stack<>();
 
-    //todo we should be able to pass a default directory for file getter
-    // this will come with builder pattern too, builders for getString and getFile.
-
     /**
      * The current location for the file getter.
      */
@@ -309,10 +162,10 @@ public class GetterUtil {
      *  }, THREAD_NAME).start();
      * }
      * </pre>
-     * @param title the title of the JavaFX FileChooser
+     * @param builder the builder to use for the required params
      * @return the user-chosen file
      */
-    public File getFile(String title) {
+    public File getFile(GetterBuilder builder) {
         AtomicReference<File> setOnFileChosen = new AtomicReference<>();
         AtomicReference<CyderFrame> dirFrameAtomicRef = new AtomicReference<>();
         dirFrameAtomicRef.set(new CyderFrame(630,510, CyderIcons.defaultBackground));
@@ -324,7 +177,14 @@ public class GetterUtil {
                 forward = new Stack<>();
                 directoryFileList.clear();
                 directoryNameList.clear();
-                currentDirectory = new File(System.getProperty("user.dir"));
+
+                String initial = System.getProperty("user.dir");
+
+                if (!StringUtil.isNull(builder.getInitialString())
+                        && new File(builder.getInitialString()).exists())
+                    initial = builder.getInitialString();
+
+                currentDirectory = new File(initial);
 
                 CyderFrame dirFrame = dirFrameAtomicRef.get();
 
@@ -333,6 +193,10 @@ public class GetterUtil {
                 dirFrame.setTitle(currentDirectory.getName());
 
                 CyderTextField dirField = new CyderTextField(0);
+
+                if (!StringUtil.isNull(builder.getFieldTooltip()))
+                    dirField.setToolTipText(builder.getFieldTooltip());
+
                 dirField.setBackground(Color.white);
                 dirField.setText(currentDirectory.getAbsolutePath());
                 dirField.addActionListener(e -> {
@@ -431,7 +295,7 @@ public class GetterUtil {
                 dirFrame.getContentPane().add(dirScrollLabel);
 
                 //final frame setup
-                dirFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+                dirFrame.setLocationRelativeTo(builder.getRelativeTo());
                 dirFrame.setVisible(true);
                 dirField.requestFocus();
             } catch (Exception e) {
@@ -590,11 +454,9 @@ public class GetterUtil {
     /**
      * Shows a confirmation frame with the options Yes/No.
      *
-     * @param message the message to display to the user.
-     * @param relativeFrame the CyderFrame to set the confirmation frame relative to
-     * @return whether the user confirmed the action
+     * @param builder the builder pattern
      */
-    public boolean getConfirmation(String message, CyderFrame relativeFrame) {
+    public boolean getConfirmation(GetterBuilder builder) {
         final String[] retString = {null};
         final CyderFrame[] confirmationFrame = {null};
 
@@ -602,7 +464,8 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsUtil.BoundsString bs = BoundsUtil.widthHeightCalculation(message, textLabel.getFont());
+                BoundsUtil.BoundsString bs =
+                        BoundsUtil.widthHeightCalculation(builder.getText(), textLabel.getFont());
                 int w = bs.getWidth();
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());
@@ -620,17 +483,19 @@ public class GetterUtil {
                 w += 40;
 
                 CyderButton yes = new CyderButton("Yes");
+                yes.setColors(builder.getSubmitButtonColor());
                 yes.addActionListener(e -> retString[0] = "true");
                 yes.setBounds(20,35 + h + 20, (w - 60) / 2, 40);
                 confirmationFrame[0].getContentPane().add(yes);
 
                 CyderButton no = new CyderButton("No");
+                no.setColors(builder.getSubmitButtonColor());
                 no.addActionListener(e -> retString[0] = "false");
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
                 confirmationFrame[0].getContentPane().add(no);
 
                 confirmationFrame[0].setVisible(true);
-                confirmationFrame[0].setLocationRelativeTo(relativeFrame);
+                confirmationFrame[0].setLocationRelativeTo(builder.getRelativeTo());
 
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

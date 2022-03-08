@@ -14,6 +14,7 @@ import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -287,7 +288,8 @@ public class UserCreator {
     private static void chooseBackground(CyderButton referenceButton) {
         CyderThreadRunner.submit(() -> {
             try {
-                File temp = new GetterUtil().getFile("Choose new user's background file");
+                GetterBuilder builder = new GetterBuilder("Choose new user's background file");
+                File temp = new GetterUtil().getFile(builder);
                 if (temp != null) {
                     createUserBackground = temp;
                     referenceButton.setText(createUserBackground.getName());

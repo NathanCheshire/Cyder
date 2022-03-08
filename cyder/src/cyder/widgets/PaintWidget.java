@@ -17,6 +17,7 @@ import cyder.utilities.ColorUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.OSUtil;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -128,8 +129,12 @@ public class PaintWidget {
                 defaultFilename = base + increment + ".png";
             }
 
-            String filename = new GetterUtil().getString("Filename", "The filename to save the image as",
-                    "Save Image", defaultFilename);
+            GetterBuilder builder = new GetterBuilder("Filename");
+            builder.setInitialString(defaultFilename);
+            builder.setSubmitButtonColor(CyderColors.regularPink);
+            builder.setSubmitButtonText("Save Image");
+            builder.setFieldTooltip("The filename to save the image");
+            String filename = new GetterUtil().getString(builder);
             if (OSUtil.isValidFilename(filename)) {
                 BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
                         cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
@@ -144,11 +149,11 @@ public class PaintWidget {
                 try {
                     ImageIO.write(image, "png", OSUtil.createFileInUserSpace(filename));
 
-                    NotificationBuilder builder = new NotificationBuilder(
+                    NotificationBuilder notifBuilder = new NotificationBuilder(
                             "Successfully saved grid as \"" + filename
                             + "\" to your Files/ directory. Click me to open it");
-                    builder.setOnKillAction(() -> ImageUtil.drawBufferedImage(image, filename));
-                    paintFrame.notify(builder);
+                    notifBuilder.setOnKillAction(() -> ImageUtil.drawBufferedImage(image, filename));
+                    paintFrame.notify(notifBuilder);
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);
                     paintFrame.notify("Could not save image at this time");

@@ -1,5 +1,7 @@
 package cyder.utilities.objects;
 
+import cyder.constants.CyderColors;
+
 import java.awt.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -10,29 +12,29 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class GetterBuilder {
     //required params
-    private final String title;
+    private final String text;
 
     //optional params
-    private String submitButtonText;
-    private String fieldTooltip;
-    private Component relativeTo;
-    private Color submitButtonColor;
-    private String initialString;
+    private String submitButtonText = "Submit";
+    private String fieldTooltip = "";
+    private Component relativeTo = null;
+    private Color submitButtonColor = CyderColors.regularRed;
+    private String initialString = "";
 
     /**
      * Constructs a new GetterBuilder.
      *
-     * @param title the frame title
+     * @param text the text/the frame title
      */
-    public GetterBuilder(String title) {
-        checkNotNull(title, "title is null");
-        checkArgument(title.length() > 2, "Title length is less than three");
+    public GetterBuilder(String text) {
+        checkNotNull(text, "title/text is null");
+        checkArgument(text.length() > 2, "Text length is less than three");
 
-        this.title = title;
+        this.text = text;
     }
 
-    public String getTitle() {
-        return title;
+    public String getText() {
+        return text;
     }
 
     public String getSubmitButtonText() {

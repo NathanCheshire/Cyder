@@ -11,6 +11,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.QueuedNotification;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -1263,7 +1264,9 @@ public class CyderFrame extends JFrame {
 
                 //if closing confirmation exists and the user decides they do not want to exit the frame
                 if (closingConfirmationMessage != null) {
-                    boolean exit = new GetterUtil().getConfirmation(closingConfirmationMessage, this);
+                    GetterBuilder builder = new GetterBuilder(closingConfirmationMessage);
+                    builder.setRelativeTo(this);
+                    boolean exit = new GetterUtil().getConfirmation(builder);
 
                     if (!exit)
                         return;

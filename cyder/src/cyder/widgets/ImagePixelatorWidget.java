@@ -14,6 +14,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.ui.CyderTextField;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -62,7 +63,8 @@ public class ImagePixelatorWidget {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
-                        File temp = new GetterUtil().getFile("Choose file to resize");
+                        GetterBuilder builder = new GetterBuilder("Choose file to resize");
+                        File temp = new GetterUtil().getFile(builder);
 
                         if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                             currentFile = temp;
