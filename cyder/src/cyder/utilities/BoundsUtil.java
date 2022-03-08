@@ -13,13 +13,20 @@ import java.util.LinkedList;
 import static cyder.utilities.StringUtil.TaggedString;
 import static cyder.utilities.StringUtil.TaggedStringType;
 
-//todo apparently this doesn't produce the same result for the same string of text
-// add unit tests and check logic
-
 /**
  * Utility methods to calculate the needed space for a String of text.
  */
 public class BoundsUtil {
+    /**
+     * The opening html tag.
+     */
+    public static final String openingHtmlTag = "<html>";
+
+    /**
+     * The closing html tag.
+     */
+    public static final String closingHtmlTag = "</html>";
+
     /**
      * Restrict instantiation of class.
      */
@@ -41,6 +48,7 @@ public class BoundsUtil {
         return widthHeightCalculation(text, ScreenUtil.getScreenWidth() / 2, font);
     }
 
+    // todo bug from sometimes this doesn't return it surrounded with html tags? weird
     /**
      * Calculates the needed height for an inform/dialog window given the preferred width and text.
      * @param text the string to display
@@ -50,16 +58,24 @@ public class BoundsUtil {
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(final String text, int maxWidth, Font font) {
+        // init red object
         BoundsString ret;
 
+        // the addition for width increments
         int widthAddition = 5;
+        // the addition for height increments
         int heightAddition = 2;
+
+        // find height for a single line of text
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, font.isItalic(), true);
         int singleLineHeight = (int) font.getStringBounds(text, frc).getHeight() + heightAddition;
 
-        //does the string contain any html? if so we have to be careful where we insert needed line breaks
+        // does the string contain any html? if so we have to be
+        // careful where we insert needed line breaks
         String[] parts = text.split("<br/>");
+
+        // parse away all html except for break tags and add back in inbetween parts
         StringBuilder sb = new StringBuilder();
 
         for (int j = 0 ; j < parts.length ; j++) {
@@ -69,45 +85,50 @@ public class BoundsUtil {
                 sb.append("<br/>");
         }
 
-        String htmlParsedAway = sb.toString();
-        boolean containsHtml = text.length() != htmlParsedAway.length();
-
-        //unfortunate
-        if (containsHtml) {
+        // if the regular text length is not equal to the
+        // parsed text aside from line breaks then the string is html formatted
+        if (text.length() != sb.toString().length()) {
+            // init tagged strings
             LinkedList<TaggedString> taggedStrings = new LinkedList<>();
             String textCopy = text;
 
-            //while we still have text....
+            // while we still have text
             while ((textCopy.contains("<") && textCopy.contains(">"))) {
+                // get indicies of the next tag
                 int firstOpeningTag = textCopy.indexOf("<");
                 int firstClosingTag = textCopy.indexOf(">");
 
-                //failsafe
+                // failsafe break
                 if (firstClosingTag == -1 || firstOpeningTag == -1 || firstClosingTag < firstOpeningTag)
                     break;
 
+                // get the text and html
                 String regularText = textCopy.substring(0, firstOpeningTag);
                 String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
+                // add tagged strings
                 if (regularText.length() > 0)
                     taggedStrings.add(new TaggedString(regularText, TaggedStringType.TEXT));
                 if (firstHtml.length() > 0)
                     taggedStrings.add(new TaggedString(firstHtml, TaggedStringType.HTML));
 
+                // move text copy along
                 textCopy = textCopy.substring(firstClosingTag + 1);
             }
 
-            //if there's remaining text, it's just non-html
+            // if there's remaining text, it's non-html
             if (textCopy.length() > 0)
                 taggedStrings.add(new TaggedString(textCopy, TaggedStringType.TEXT));
 
-            //now add breaks into the lines that are needed
+            // now add breaks into the lines that are needed
             for (TaggedString taggedString : taggedStrings) {
+                // if it's a text tag
                 if (taggedString.getType() == TaggedStringType.TEXT) {
+                    // get full line width
                     int fullLineWidth = (int) (font.getStringBounds(
                             taggedString.getText(), frc).getWidth() + widthAddition);
 
-                    //evaluate if the line is too long
+                    // evaluate if the line is too long
                     if (fullLineWidth > maxWidth) {
                         //line is too long, figure out how many breaks to add
                         //first, how many multiples of current width does it take to get to max width?
@@ -115,50 +136,69 @@ public class BoundsUtil {
 
                         //if only one line is the result somehow, ensure it's 2
                         neededLines = Math.max(2, neededLines);
+
+                        // set the tagged string text to the insertion of the text with breaks
                         taggedString.setText(insertBreaks(taggedString.getText(), neededLines));
                     }
                 }
             }
 
-            //recombine text into string
+            // recombine text into string
             StringBuilder htmlBuilder = new StringBuilder();
 
-            for (TaggedString tg : taggedStrings)
+            for (TaggedString tg : taggedStrings) {
                 htmlBuilder.append(tg.getText());
+            }
 
-            //figure out height
+            // figure out the height based on the number of break tags
             String[] lines = htmlBuilder.toString().split("<br/>");
             int h = singleLineHeight * lines.length;
 
-            //figure out width
+            // figure out the width based off of the lines after breaking
             int w = 0;
 
+            // for all lines
             for (TaggedString ts : taggedStrings) {
+                // if non format text
                 if (ts.getType() == TaggedStringType.HTML)
                     continue;
 
+                // get breaks of the tagged string
                 String[] tsLines = ts.getText().split("<br/>");
 
+                // for all lines
                 for (String line : tsLines) {
                     int lineWidth = (int) (font.getStringBounds(line, frc).getWidth() + widthAddition);
 
+                    // if width is greatest so far
                     if (lineWidth > w)
                         w = lineWidth;
                 }
             }
 
-            ret = new BoundsString(w, h, htmlBuilder.toString());
+            String retString = htmlBuilder.toString();
+
+            // if for some reason the text is not surrounded with html tags, add them
+            if (!retString.startsWith(openingHtmlTag))
+                retString = openingHtmlTag + retString;
+            if (!retString.endsWith(closingHtmlTag))
+                retString += closingHtmlTag;
+
+            // now we have max line width, height for all lines, and formatted text
+            ret = new BoundsString(w, h, retString);
         }
-        //nice, we can just add line breaks wherever we need
+        // no formatting so we can just add breaks
+        // normally wihtout having to worry where we we place them
         else {
-            //only contains possible line breaks so split at those
+            // only contains possible line breaks so split at those
             StringBuilder nonHtmlBuilder = new StringBuilder();
             String[] lines = text.split("<br/>");
 
+            // for all lines
             for (int i = 0 ; i < lines.length ; i++) {
                 int fullLineWidth = (int) (font.getStringBounds(lines[i], frc).getWidth() + widthAddition);
 
-                //evaluate if the line is too long
+                // evaluate if the line is too long
                 if (fullLineWidth > maxWidth) {
                     //line is too long, figure out how many breaks to add
                     //first, how many multiples of current width does it take to get to max width?
@@ -167,21 +207,23 @@ public class BoundsUtil {
                     //if only one line is the result somehow, ensure it's 2
                     neededLines = Math.max(2, neededLines);
                     nonHtmlBuilder.append(insertBreaks(lines[i], neededLines));
-                } else {
-                    //line isn't too long, simply append it
+                }
+                // line isn't too long, simply append it
+                else {
                     nonHtmlBuilder.append(lines[i]);
                 }
 
-                //if we're not on the last line, add the original break we split at back in
+                // if not on the last line, add the original break to the end we split at it again
                 if (i != lines.length - 1) {
                     nonHtmlBuilder.append("<br/>");
                 }
             }
 
-            //more lines might exist now since we added breaks
+            // more lines might exist now since we're done adding breaks
             lines = nonHtmlBuilder.toString().split("<br/>");
 
-            //finally figure out the width and height based on the amount of lines and the longest line
+            // finally figure out the width and height based
+            // on the amount of lines
             int w = 0;
             int h = singleLineHeight * lines.length;
             String correctedNonHtml = nonHtmlBuilder.toString();
@@ -193,10 +235,11 @@ public class BoundsUtil {
                     w = currentWidth;
             }
 
-            //this should always run but to be safe check first
-            if (!correctedNonHtml.startsWith("<html>")) {
-                correctedNonHtml = "<html>" + correctedNonHtml + "</html>";
-            }
+            // if for some reason the text is not surrounded with html tags, add them
+            if (!correctedNonHtml.startsWith(openingHtmlTag))
+                correctedNonHtml = openingHtmlTag + correctedNonHtml;
+            if (!correctedNonHtml.endsWith(closingHtmlTag))
+                correctedNonHtml += closingHtmlTag;
 
             ret = new BoundsString(w, h, correctedNonHtml);
         }
@@ -204,6 +247,14 @@ public class BoundsUtil {
         return ret;
     }
 
+    /**
+     * Inserts breaks into the raw text based on the amount of lines needed.
+     * Note that <br/> tags may already exist in this string.
+     *
+     * @param rawText the raw text
+     * @param numLines the numbr of lines required
+     * @return the text with line breaks inserted (<br/>)
+     */
     public static String insertBreaks(String rawText, int numLines) {
         if (numLines == 1)
             return rawText;

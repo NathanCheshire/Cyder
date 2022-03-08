@@ -19,8 +19,7 @@
 [23-13-51] [SYSTEM_IO]: Userdata requested: RandomBackground
 [23-13-51] [SYSTEM_IO]: Userdata requested: FullScreen
 [23-13-51] [SYSTEM_IO]: Userdata requested: fullscreen
-[23-13-51] [SYSTEM_IO]: Userdata requested: FullScreen
-[23-13-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-13-51] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [23-13-51] [THREAD STARTED]: Console Printing Animation
 [23-13-51] [SYSTEM_IO]: Userdata requested: OutputBorder
 [23-13-51] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -70,8 +69,7 @@
 [23-14-10] [THREAD STARTED]: notification appear animation
 [23-14-10] [SYSTEM_IO]: Userdata requested: closeanimation
 [23-14-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[23-14-11] [THREAD STARTED]: Notificaiton Vanish Animator
-[23-14-12] [THREAD STARTED]: Notificaiton Vanish Animator
+[23-14-12] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
 [23-14-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [23-14-14] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646716441752.json
 [23-14-15] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 896, 28)], hash = [-14203113], parentFrame = [Preferences], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -107,8 +105,7 @@
 [23-15-01] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [23-15-01] [HANDLE]: PRIMARY HANDLE
 [23-15-01] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[23-15-01] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[23-15-02] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[23-15-02] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
 [23-15-02] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [23-15-02] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
 [23-15-03] [THREAD STARTED]: wait thread for GetterUtil().getFile()

@@ -334,8 +334,9 @@ public class AudioPlayer {
         selectAudioDirButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 CyderThreadRunner.submit(() -> {
-                    GetterBuilder buidler = new GetterBuilder("Choose any mp3 file to startAudio");
-                    File selectedChildFile = new GetterUtil().getFile(buidler);
+                    GetterBuilder builder = new GetterBuilder("Choose any mp3 file to startAudio");
+                    builder.setRelativeTo(audioFrame);
+                    File selectedChildFile = GetterUtil.getInstance().getFile(builder);
                     if (selectedChildFile != null) {
                         if (!selectedChildFile.toString().endsWith("mp3")) {
                             audioFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but that's not an mp3 file.");

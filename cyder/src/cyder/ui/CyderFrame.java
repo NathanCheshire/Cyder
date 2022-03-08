@@ -1253,7 +1253,8 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
-        Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: " + fastClose + ", CyderFrame: " + this);
+        Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: "
+                + fastClose + ", CyderFrame: " + this);
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -1266,7 +1267,7 @@ public class CyderFrame extends JFrame {
                 if (closingConfirmationMessage != null) {
                     GetterBuilder builder = new GetterBuilder(closingConfirmationMessage);
                     builder.setRelativeTo(this);
-                    boolean exit = new GetterUtil().getConfirmation(builder);
+                    boolean exit = GetterUtil.getInstance().getConfirmation(builder);
 
                     if (!exit)
                         return;

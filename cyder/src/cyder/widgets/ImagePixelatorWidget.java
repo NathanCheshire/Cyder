@@ -64,7 +64,8 @@ public class ImagePixelatorWidget {
                 CyderThreadRunner.submit(() -> {
                     try {
                         GetterBuilder builder = new GetterBuilder("Choose file to resize");
-                        File temp = new GetterUtil().getFile(builder);
+                        builder.setRelativeTo(pixelFrame);
+                        File temp = GetterUtil.getInstance().getFile(builder);
 
                         if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                             currentFile = temp;

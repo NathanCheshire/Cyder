@@ -54,7 +54,7 @@ public class ImageAveragerWidget {
     /**
      * The averaging frame.
      */
-    private static CyderFrame cf;
+    private static CyderFrame averagerFrame;
 
     /**
      * The component to hold the scroll on top of it.
@@ -78,11 +78,11 @@ public class ImageAveragerWidget {
 
         files = new ArrayList<>();
 
-        if (cf != null)
-            cf.dispose(true);
+        if (averagerFrame != null)
+            averagerFrame.dispose(true);
 
-        cf = new CyderFrame(600,640);
-        cf.setTitle("Image Averager");
+        averagerFrame = new CyderFrame(600,640);
+        averagerFrame.setTitle("Image Averager");
 
         imagesScroll = new CyderScrollList(400, 400, CyderScrollList.SelectionPolicy.SINGLE);
         imagesScroll.setBorder(null);
@@ -90,7 +90,7 @@ public class ImageAveragerWidget {
         imageScrollLabelHolder = new JLabel();
         imageScrollLabelHolder.setBounds(90,40,420,420);
         imageScrollLabelHolder.setBorder(new LineBorder(CyderColors.navy, 5));
-        cf.getContentPane().add(imageScrollLabelHolder);
+        averagerFrame.getContentPane().add(imageScrollLabelHolder);
 
         imagesScrollLabel = imagesScroll.generateScrollList();
         imagesScrollLabel.setBounds(10, 10, 400, 400);
@@ -103,17 +103,18 @@ public class ImageAveragerWidget {
 
         CyderButton addButton = new CyderButton("Add Image");
         addButton.setBounds(90,480,420,40);
-        cf.getContentPane().add(addButton);
+        averagerFrame.getContentPane().add(addButton);
         addButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 GetterBuilder builder = new GetterBuilder("select any image file");
-                File input = new GetterUtil().getFile(builder);
+                builder.setRelativeTo(averagerFrame);
+                File input = GetterUtil.getInstance().getFile(builder);
 
                 if (FileUtil.isSupportedImageExtension(input)) {
                     files.add(input);
                     revalidateScroll();
                 } else {
-                    cf.notify("Selected file is not a supported image file");
+                    averagerFrame.notify("Selected file is not a supported image file");
                 }
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
@@ -122,7 +123,7 @@ public class ImageAveragerWidget {
 
         CyderButton remove = new CyderButton("Remove Image");
         remove.setBounds(90,530,420,40);
-        cf.getContentPane().add(remove);
+        averagerFrame.getContentPane().add(remove);
         remove.addActionListener(e -> {
             String matchName = imagesScroll.getSelectedElement();
             int removeIndex = -1;
@@ -143,11 +144,11 @@ public class ImageAveragerWidget {
         CyderButton average = new CyderButton("Average Images");
         average.setColors(CyderColors.regularPink);
         average.setBounds(90,580,420,40);
-        cf.getContentPane().add(average);
+        averagerFrame.getContentPane().add(average);
         average.addActionListener(e -> averageButtonAction());
 
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        averagerFrame.setVisible(true);
+        averagerFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
     }
 
     /**
@@ -177,7 +178,7 @@ public class ImageAveragerWidget {
 
         imageScrollLabelHolder.add(imagesScrollLabel);
         imageScrollLabelHolder.revalidate();
-        cf.revalidate();
+        averagerFrame.revalidate();
     }
 
     /**
@@ -226,7 +227,7 @@ public class ImageAveragerWidget {
                         File outFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
                                 "/Backgrounds/" + combineImageNames() + ".png");
                         ImageIO.write(saveImage, "png", outFile);
-                        cf.notify("Average computed and saved to your user's backgrounds/ directory");
+                        averagerFrame.notify("Average computed and saved to your user's backgrounds/ directory");
                         drawFrame.dispose();
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
@@ -251,12 +252,12 @@ public class ImageAveragerWidget {
 
                 drawFrame.getTopDragLabel().add(save,1);
                 drawFrame.setVisible(true);
-                drawFrame.setLocationRelativeTo(cf);
+                drawFrame.setLocationRelativeTo(averagerFrame);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         } else if (files.size() == 1) {
-            cf.notify("Please add at least two images");
+            averagerFrame.notify("Please add at least two images");
         }
     }
 

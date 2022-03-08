@@ -248,9 +248,10 @@ public class PhotoViewer {
         CyderThreadRunner.submit(() -> {
            try {
                GetterBuilder builder = new GetterBuilder("Rename");
+               builder.setRelativeTo(pictureFrame);
                builder.setFieldTooltip("Valid filename");
                builder.setSubmitButtonText("Rename");
-               String name = new GetterUtil().getString(builder);
+               String name = GetterUtil.getInstance().getString(builder);
                if (!StringUtil.isNull(name)) {
                    File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
 

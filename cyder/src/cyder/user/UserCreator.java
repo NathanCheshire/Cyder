@@ -289,7 +289,8 @@ public class UserCreator {
         CyderThreadRunner.submit(() -> {
             try {
                 GetterBuilder builder = new GetterBuilder("Choose new user's background file");
-                File temp = new GetterUtil().getFile(builder);
+                builder.setRelativeTo(CyderCommon.getDominantFrame());
+                File temp = GetterUtil.getInstance().getFile(builder);
                 if (temp != null) {
                     createUserBackground = temp;
                     referenceButton.setText(createUserBackground.getName());

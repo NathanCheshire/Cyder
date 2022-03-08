@@ -229,7 +229,7 @@ public class UserEditor {
                     try {
                         GetterBuilder builder = new GetterBuilder("Add File");
                         builder.setRelativeTo(editUserFrame);
-                        File addFile = new GetterUtil().getFile(builder);
+                        File addFile = GetterUtil.getInstance().getFile(builder);
 
                         if (addFile == null || addFile.getName().equals("NULL"))
                             return;
@@ -322,7 +322,7 @@ public class UserEditor {
                         builder.setRelativeTo(editUserFrame);
                         builder.setSubmitButtonText("Submit");
                         builder.setInitialString(oldName);
-                        String newName = new GetterUtil().getString(builder);
+                        String newName = GetterUtil.getInstance().getString(builder);
 
                         if (oldName.equals(newName) || newName.equals("NULL"))
                             return;
@@ -1426,7 +1426,7 @@ public class UserEditor {
                             + " delete your Cyder account. All files, pictures, downloaded music, notes," +
                             " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?");
                     builder.setRelativeTo(editUserFrame);
-                    boolean delete = new GetterUtil().getConfirmation(builder);
+                    boolean delete = GetterUtil.getInstance().getConfirmation(builder);
 
                     if (delete) {
                        ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);

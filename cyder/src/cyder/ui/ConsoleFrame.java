@@ -615,11 +615,14 @@ public final class ConsoleFrame {
                 suggestionButton.setColors(CyderColors.regularPink);
                 suggestionButton.addActionListener(ex -> CyderThreadRunner.submit(() -> {
                     GetterBuilder builder = new GetterBuilder("Suggestion");
+                    builder.setRelativeTo(consoleCyderFrame);
+                    builder.setInitialString("Make Cyder Great Again");
                     builder.setFieldTooltip("Suggestion");
                     builder.setSubmitButtonColor(CyderColors.regularPink);
-                    String suggestion = new GetterUtil().getString(builder);
+                    String suggestion = GetterUtil.getInstance().getString(builder);
 
-                    if (!StringUtil.isNull(suggestion)) {
+                    if (!StringUtil.isNull(suggestion)
+                            && !suggestion.equalsIgnoreCase("Make Cyder Great Again")) {
                         Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
                         inputHandler.println("Suggestion logged");
                     }

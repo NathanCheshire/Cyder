@@ -707,10 +707,11 @@ public class InputHandler {
             } else {
                 CyderThreadRunner.submit(() -> {
                     GetterBuilder builder = new GetterBuilder("Pixel size");
+                    builder.setRelativeTo(ConsoleFrame.getConsoleFrame().getConsoleCyderFrame());
                     builder.setFieldTooltip("Enter an integer");
                     builder.setSubmitButtonText("Pixelate");
                     builder.setSubmitButtonColor(CyderColors.regularPink);
-                    String input = new GetterUtil().getString(builder);
+                    String input = GetterUtil.getInstance().getString(builder);
 
                     if (StringUtil.isNull(input))
                         return;
@@ -1533,7 +1534,6 @@ public class InputHandler {
      * @param command the command to attempt to recognize as a manual test
      * @return whether the command was handled as a manual test call
      */
-    @SuppressWarnings("UnstableApiUsage") /* guava */
     private boolean manualTestCheck(String command) {
         boolean ret = false;
 
@@ -1715,7 +1715,6 @@ public class InputHandler {
      * Prints the available manual tests that follow the standard
      * naming convention to the linked JTextPane.
      */
-    @SuppressWarnings("UnstableApiUsage")
     public final void printManualTests() {
         println("Manual tests:");
 

@@ -64,7 +64,8 @@ public class ImageResizerWidget {
                 CyderThreadRunner.submit(() -> {
                   try {
                       GetterBuilder buidler = new GetterBuilder("Choose a file to resize");
-                      File temp = new GetterUtil().getFile(buidler);
+                      buidler.setRelativeTo(resizeFrame);
+                      File temp = GetterUtil.getInstance().getFile(buidler);
 
                       if (temp != null && FileUtil.isSupportedImageExtension(temp)) {
                           resizeImage = temp;

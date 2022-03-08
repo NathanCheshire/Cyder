@@ -130,11 +130,12 @@ public class PaintWidget {
             }
 
             GetterBuilder builder = new GetterBuilder("Filename");
+            builder.setRelativeTo(paintFrame);
             builder.setInitialString(defaultFilename);
             builder.setSubmitButtonColor(CyderColors.regularPink);
             builder.setSubmitButtonText("Save Image");
             builder.setFieldTooltip("The filename to save the image");
-            String filename = new GetterUtil().getString(builder);
+            String filename = GetterUtil.getInstance().getString(builder);
             if (OSUtil.isValidFilename(filename)) {
                 BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
                         cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);

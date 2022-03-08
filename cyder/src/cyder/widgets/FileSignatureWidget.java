@@ -79,7 +79,8 @@ public class FileSignatureWidget {
                 CyderThreadRunner.submit(() -> {
                     try {
                         GetterBuilder builder = new GetterBuilder("Choose file to validate");
-                        File temp = new GetterUtil().getFile(builder);
+                        builder.setRelativeTo(signatureFrame);
+                        File temp = GetterUtil.getInstance().getFile(builder);
 
                         if (temp != null) {
                             currentFile = temp;
