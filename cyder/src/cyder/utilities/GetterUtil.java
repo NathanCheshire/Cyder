@@ -17,18 +17,27 @@ import java.util.LinkedList;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
-// todo all usages of this class make sure all properties are set such as relativeComponent
-
 /**
  * A getter utility for getting strings, confirmations, files, etc. from the user.
  */
 public class GetterUtil {
     /**
      * Constructs a new GetterUtil object.
+     * To obtain an instance, use {@link GetterUtil#getInstance()}.
      */
-    public GetterUtil() {}
+    private GetterUtil() {}
 
-    /** Custom getInput() method, see usage below for how to
+    /**
+     * Returns a GetterUtil instance.
+     *
+     * @return a GetterUtil instance
+     */
+    public static GetterUtil getInstance() {
+        return new GetterUtil();
+    }
+
+    /**
+     * Custom getString() method, see usage below for how to
      *  setup so that the calling thread is not blocked.
      *
      * USAGE:
@@ -36,7 +45,7 @@ public class GetterUtil {
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
-     *          String input = new GetterUtil().getString("title","tooltip","button text","initial field value");
+     *          String input = GetterUtil().getInstance().getString(getterBuilder);
      *          //other operations using input
      *      } catch (Exception e) {
      *          ErrorHandler.handle(e);
@@ -145,7 +154,8 @@ public class GetterUtil {
      */
     private File currentDirectory = new File(System.getProperty("user.dir"));
 
-    /** Custom getInput method, see usage below for how to setup so that the program doesn't
+    /**
+     * Custom getFile method, see usage below for how to setup so that the program doesn't
      * spin wait on the main GUI thread forever. Ignoring the below setup
      * instructions will make the application spin wait possibly forever.
      *
@@ -154,7 +164,7 @@ public class GetterUtil {
      * {@code
      *   CyderThreadRunner.submit(() -> {
      *         try {
-     *             File input = new GetterUtil().getFile("FileChooser title");
+     *             File input = GetterUtil().getInstance().getFile(getterBuilder);
      *             //other operations using input
      *         } catch (Exception e) {
      *             ErrorHandler.handle(e);
@@ -452,9 +462,25 @@ public class GetterUtil {
     }
 
     /**
-     * Shows a confirmation frame with the options Yes/No.
+     * Custom getInput() method, see usage below for how to
+     *  setup so that the calling thread is not blocked.
      *
-     * @param builder the builder pattern
+     * USAGE:
+     *  <pre>
+     *  {@code
+     *  CyderThreadRunner.submit(() -> {
+     *      try {
+     *          String input = GetterUtil().getInstance().getConfirmation(getterBuilder);
+     *          //other operations using input
+     *      } catch (Exception e) {
+     *          ErrorHandler.handle(e);
+     *      }
+     *  }, "THREAD_NAME").start();
+     *  }
+     *  </pre>
+     *
+     * @param builder the builder pattern to use
+     * @return whether the user confirmed the operation
      */
     public boolean getConfirmation(GetterBuilder builder) {
         final String[] retString = {null};
