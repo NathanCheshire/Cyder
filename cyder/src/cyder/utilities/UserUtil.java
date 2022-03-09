@@ -37,7 +37,9 @@ public class UserUtil {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
-    //the semaphore to use when reading or writing userdata
+    /**
+     * The semaphore to use when reading or writing user data.
+     */
     private static final Semaphore userIOSemaphore = new Semaphore(1);
 
     /**
@@ -90,44 +92,45 @@ public class UserUtil {
         cyderUserFile = f;
     }
 
-    //todo don't backup a json unless it can be parsed as a user with ALL getters called
-    // and not return null
-
-    //todo pref injection passes but comment better?
-
-    // todo double comma fucks it up somewhere and it unparses it? but leaves window color out
-    // but doesn't continue with pref injections which trips up later
-
-    // maybe re-use it to validate getters and setters
-
+    // todo double comma messes it up
 
     // todo utilze method to write ONLY if sure it's safe, also
     //  backup here, maybe havea timer that calls this every timeout
+
     /**
-     * Writes the current User, {@link UserUtil#cyderUser}, to the user's json if the json exists.
+     * Writes the current User, {@link UserUtil#cyderUser},
+     * to the user's json if the json exists AND the provided user
+     * object contains all the data required by a user object.
+     * Upon a successful serialization/de-serialization, the json
+     * is backed up and placed in dynamic/backup.
      */
     public static synchronized void writeUser() {
-        if (cyderUserFile == null || !cyderUserFile.exists())
+        if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
             return;
 
-        // todo ensure user is parsable
+       try {
+           // acquire to ensure user doesn't change during this
+           userIOSemaphore.acquire();
 
-        // log the write since we know the user is valid
-        Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
-                + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
+           // todo ensure user is parsable via a getter setter validater, that method itself should
+           // attempt preference injection too and then recall itself if not already called and if so,
+           // then screwed so finally attempt to restore and if not, corrupt
 
-        // write to user data file
-        setUserData(cyderUserFile, cyderUser);
+           // log the write since we know the user is valid
+           Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
+                   + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
-        // backup the file
-        userJsonBackupSubroutine(cyderUserFile);
-    }
+           // write to user data file
+           setUserData(cyderUserFile, cyderUser);
 
-    /**
-     * Refreshes {@link UserUtil#cyderUser} with the data stored in the current user json.
-     */
-    public static synchronized void readUser() {
-        cyderUser = extractUser(cyderUserFile);
+           // backup the file
+           userJsonBackupSubroutine(cyderUserFile);
+
+           // release sem
+           userIOSemaphore.release();
+       } catch (Exception e) {
+           ExceptionHandler.handle(e);
+       }
     }
 
     /**
@@ -136,7 +139,13 @@ public class UserUtil {
      * @param u the user to set as the current Cyder user
      */
     public static void setCyderUser(User u) {
-        cyderUser = u;
+        try {
+            userIOSemaphore.acquire();
+            cyderUser = u;
+            userIOSemaphore.release();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
@@ -351,25 +360,32 @@ public class UserUtil {
         return ret;
     }
 
+
     /**
-     * Function called upon UUID being set for consoleFrame which
-     * attempts to fix any user data in case it was corrupted.
-     * If we fail to correct any absolutely necessary data,
-     * the user becomes corrupted.
+     * Attempts to fix any user data via GSON serialization
+     * and invoking all setters with default data for corresponding
+     * getters which returned null.
+     *
+     * @param userJson the json file to validate
+     * @return whether the file could be handled correctly as au ser
      */
     @SuppressWarnings("ResultOfMethodCallIgnored") /* making directories */
-    public static void getterSetterFixer() {
-        String UUID = ConsoleFrame.getConsoleFrame().getUUID();
+    public static boolean getterSetterFixer(File userJson) {
+        Preconditions.checkArgument(userJson != null);
 
-        if (UUID == null)
-            return;
+        // user doesn't have json so ignore it during Cyder instance
+        if (!userJson.exists()) {
+            return false; //todo make sure this doesn't throw just ignore for session
+        }
+
+        String uuid = userJson.getParentFile().getName();
 
         File userBackgroundsFile = new File(OSUtil.buildPath("dynamic","users",
-                UUID, UserFile.BACKGROUNDS.getName()));
+                uuid, UserFile.BACKGROUNDS.getName()));
         File userMusicFile = new File(OSUtil.buildPath("dynamic","users",
-                UUID, UserFile.MUSIC.getName()));
+                uuid, UserFile.MUSIC.getName()));
         File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
-                UUID, UserFile.USERDATA.getName()));
+                uuid, UserFile.USERDATA.getName()));
 
         if (!userBackgroundsFile.exists())
             userBackgroundsFile.mkdir();
@@ -377,10 +393,7 @@ public class UserUtil {
         if (!userMusicFile.exists())
             userMusicFile.mkdir();
 
-        // user doesn't have json so ignore it during Cyder instance
-        if (!userJsonFile.exists()) {
-            return;
-        }
+        //todo here
 
         // read user into object (gson parses what it
         // can and leaves some fields null if they're not there.
@@ -464,27 +477,25 @@ public class UserUtil {
     }
 
     /**
-     * Attempts preference injection for all users.
-     * If a user fails, the user is corrupted and added
-     * to the list of invalid users.
+     * Attempts preference injection and getter/setter validation for all users.
+     * If any subroutine fails, and the user cannot be recovered, the user is corrupted.
      */
-    public static void preferenceInjectAllUsers() {
+    public static void validateAllusers() {
+        // we use all user files here since we are determining if they are corrupted or not
         File users = new File(OSUtil.buildPath("dynamic","users"));
 
-        //for all files
+        // for all files
         for (File userFile : users.listFiles()) {
             //file userdata
             File json = new File(OSUtil.buildPath(
                     userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (json.exists()) {
-                //attempt to update the json
-                boolean success = UserUtil.preferenceInject(json);
+                // ensure user directories exist
+                boolean serializationPass = getterSetterFixer(json);
 
-                //if it fails then invoke invalid on the json
-                if (!success) {
-                    userJsonCorruption(FileUtil.getFilename(userFile));
-                }
+                // attempt to preference inject
+                boolean passInjection = preferenceInjection(json);
             }
         }
     }
@@ -492,13 +503,21 @@ public class UserUtil {
     /**
      * Attempts to read backgrounds that Cyder would use for a user.
      * If failure, the image is corrupted, so we delete it in the calling function.
+     *
+     * @param uuid the uuid of the user whose backgrounds to validate
      */
-    public static void deleteInvalidBackgrounds() {
+    public static void deleteInvalidBackgrounds(String uuid) {
         try {
             //acquire sem so that any user requested exit will not corrupt the background
             getUserIOSemaphore().acquire();
 
-            for (File f : new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Backgrounds").listFiles()) {
+            File currentUserBackgrounds = new File(OSUtil.buildPath(
+                    "dynamic","users",uuid, "Backgrounds"));
+
+            if (!currentUserBackgrounds.exists())
+                return;
+
+            for (File f : currentUserBackgrounds.listFiles()) {
                 boolean valid = true;
 
                 try (FileInputStream fi = new FileInputStream(f)) {
@@ -655,12 +674,71 @@ public class UserUtil {
     }
 
     /**
+     * Clean the users/ directory. Currently this means deleting
+     * non mp3 files from the Music/ directory
+     * and removing music album art that is not linked to an mp3.
+     */
+    public static void cleanUsers() {
+        File users = new File(OSUtil.buildPath("dynamic","users"));
+
+        if (!users.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            users.mkdirs();
+        } else {
+            File[] UUIDs = users.listFiles();
+
+            for (File user : UUIDs) {
+                if (!user.isDirectory())
+                    continue;
+                // take care of void users
+                if (user.isDirectory() && user.getName().contains("VoidUser")) {
+                    OSUtil.delete(user);
+                } else {
+                    File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music"));
+
+                    if (!musicDir.exists()) {
+                        continue;
+                    }
+
+                    File[] files = musicDir.listFiles();
+                    ArrayList<String> validMusicFileNames = new ArrayList<>();
+
+                    // delete all non mp3 files
+                    for (File musicFile : files) {
+                        if (!FileUtil.getExtension(musicFile).equals(".mp3") && !musicFile.isDirectory()) {
+                            OSUtil.delete(musicFile);
+                        } else {
+                            validMusicFileNames.add(FileUtil.getFilename(musicFile));
+                        }
+                    }
+
+                    File albumArtDirectory = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music", "AlbumArt"));
+
+                    if (!albumArtDirectory.exists())
+                        continue;
+
+                    File[] albumArtFiles = albumArtDirectory.listFiles();
+
+                    // for all album art files
+                    for (File albumArt : albumArtFiles) {
+
+                        // if the albumart file name does not match to a music file name, delete it
+                        if (!StringUtil.in(FileUtil.getFilename(albumArt), true, validMusicFileNames)) {
+                            albumArt.delete();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Injects new preferences and their default values into an old json
      * if it is found to not contain all the required user data.
      *
      * @param f the file to check for corrections
      */
-    public static boolean preferenceInject(File f) {
+    public static boolean preferenceInjection(File f) {
         if (!FileUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
         } else if (!FileUtil.getFilename(f).equalsIgnoreCase(FileUtil.getFilename(UserFile.USERDATA.getName()))) {
@@ -848,7 +926,8 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo test restoration, log when restored from backup too
+            // todo test restoration works, test to make sure ,, is recoverable
+
             try {
                // attempt to recovery a backup
                Optional<File> userJsonBackup = getUserJsonBackup(uuid);

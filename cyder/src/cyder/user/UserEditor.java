@@ -1429,27 +1429,16 @@ public class UserEditor {
                     boolean delete = GetterUtil.getInstance().getConfirmation(builder);
 
                     if (delete) {
-                       ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
-                       OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
+                        ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
 
-                       String dep = SecurityUtil.getDeprecatedUUID();
+                        // close all frames, console frame is already closed
+                        FrameUtil.closeAllFrames(true);
 
-                       File renamed = new File("dynamic/users/" + dep);
-                       while (renamed.exists()) {
-                           dep = SecurityUtil.getDeprecatedUUID();
-                           renamed = new File("dynamic/users/" + dep);
-                       }
+                        // attempt to delete directory
+                        OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
-                       File old = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID());
-                       //noinspection ResultOfMethodCallIgnored
-                       old.renameTo(renamed);
-
-                       Frame[] frames = Frame.getFrames();
-
-                       for (Frame f : frames)
-                           f.dispose();
-
-                       CyderCommon.exit(ExitCondition.UserDeleted);
+                        // exit with proper condition
+                        CyderCommon.exit(ExitCondition.UserDeleted);
                     } else {
                        deletePasswordField.setText("");
                        editUserFrame.notify("Account not deleted");

@@ -100,10 +100,6 @@ public class SecurityUtil {
         return hexString.toString();
     }
 
-    public static String getDeprecatedUUID() {
-        return "VoidUser-" + generateUUID().substring(0,8);
-    }
-
     public static String generateUUID() {
         try {
             MessageDigest salt = MessageDigest.getInstance("SHA-256");

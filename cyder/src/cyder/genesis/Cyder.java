@@ -92,10 +92,10 @@ public class Cyder {
 
         // necessary subroutines to complete with success before continuing
         try {
-            setLoadingMessage("Fixing users");
-            UserUtil.preferenceInjectAllUsers();
+            setLoadingMessage("Validating users");
+            UserUtil.validateAllusers();
             setLoadingMessage("Cleaning users");
-            IOUtil.cleanUsers();
+            UserUtil.cleanUsers();
             setLoadingMessage("Validating widgets");
             ReflectionUtil.validateWidgets();
             setLoadingMessage("Validating manual tests");

@@ -884,7 +884,7 @@ public class StringUtil {
     }
 
     /**
-     * Determines how closely string alpha is to string beta.
+     * Determines how closely string alpha is to string beta (Levenshtein distance).
      *
      * @param alpha the base string
      * @param beta the string to test for similarity against alpha

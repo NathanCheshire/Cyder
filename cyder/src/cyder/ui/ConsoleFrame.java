@@ -1666,9 +1666,6 @@ public final class ConsoleFrame {
         UserUtil.setCyderUser(UserUtil.extractUser(json));
         UserUtil.setCyderUserFile(json);
 
-        // ensure user directories exist
-        UserUtil.getterSetterFixer();
-
         //log out all users that may have been left as logged in
         // since we are now logging in this one
         UserUtil.logoutAllUsers();
@@ -1676,8 +1673,8 @@ public final class ConsoleFrame {
         //log the current user in
         UserUtil.setUserData("loggedin","1");
 
-        //resize backgrounds
-        UserUtil.deleteInvalidBackgrounds();
+        // delete invalid backgrounds backgrounds
+        UserUtil.deleteInvalidBackgrounds(uuid);
     }
 
     /**
