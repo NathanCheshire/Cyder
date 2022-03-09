@@ -414,6 +414,7 @@ public class UserUtil {
         }
     }
 
+    // todo ensure always returns and exceptions are caught
     /**
      * Attempts to fix any user data via GSON serialization
      * and invoking all setters with default data for corresponding
@@ -542,16 +543,14 @@ public class UserUtil {
                 if (!getterSetterValidator(json))
                     userJsonCorruption(userFile.getName());
 
-                // attempt to preference inject
-                if (!preferenceInjection(json))
-                    userJsonCorruption(userFile.getName());
+//                // attempt to preference inject
+//                if (!preferenceInjection(json))
+//                    userJsonCorruption(userFile.getName());
+                //todo pref injection isn't necessary due to gson?
 
                 // ensure still parsable
                 if (!getterSetterValidator(json))
                     userJsonCorruption(userFile.getName());
-
-                //todo ensure neither of these ever fail, and they return false worse
-                // case meaning that the user is corruptable for the current session
             }
         }
     }
@@ -788,6 +787,8 @@ public class UserUtil {
         }
     }
 
+    // todo redo method to ensure works
+    // todo ensure always returns false worse case
     /**
      * Injects new preferences and their default values into an old json
      * if it is found to not contain all the required user data.
@@ -801,23 +802,19 @@ public class UserUtil {
             throw new IllegalArgumentException("Provided file is not a userdata file");
         }
 
-        boolean ret = true;
+        boolean ret = false;
 
         try {
             // acquire sem
             userIOSemaphore.acquire();
-
-            //gson obj
             Gson gson = new Gson();
-
-            //read into the object if parsable
             Reader reader = new FileReader(f);
             User userObj;
 
             try {
                 userObj = gson.fromJson(reader, User.class);
             } catch (Exception ignored) {
-                //couldn't be parsed so delete it
+                //couldn't be parsed
                 userIOSemaphore.release();
                 reader.close();
                 return false;
@@ -901,11 +898,12 @@ public class UserUtil {
             //add closing curly brace back in
             masterJson.append("}");
 
-            //write back to file
+            // write json string to file
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
             jsonWriter.write(masterJson.toString());
             jsonWriter.close();
 
+            // if injections, log them
             if (!injections.isEmpty()) {
                 StringBuilder appendBuilder = new StringBuilder();
 
@@ -916,12 +914,13 @@ public class UserUtil {
                         appendBuilder.append("\n");
                 }
 
-                //log the injection
                 Logger.log(Logger.Tag.ACTION,
                         "User " + f.getParentFile().getName() +
                         " was found to have an outdated userdata file.\npreference injection " +
                         "was attempted on the following:\n" + appendBuilder + "");
             }
+
+            ret = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             ret = false;
