@@ -1,0 +1,34 @@
+[16-23-46] [ENTRY]: [Nathan]
+[16-23-46] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[16-23-48] [THREAD STARTED]: Splash Loader
+[16-23-48] [SYSTEM_IO]: Unable to create all userfiles for user [7d7ebb00-81fe-329f-8a78-62f463d0b7da] after 1000 attempts [8x]
+[16-23-48] [THREAD STARTED]: Splash Animation
+[16-23-49] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[16-23-49] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[16-23-49] [THREAD STARTED]: JVM Logger
+[16-23-49] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[16-23-49] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[16-23-49] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[16-23-49] [SYSTEM_IO]: Userdata requested: RandomBackground
+[16-23-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-23-49] [SYSTEM_IO]: Userdata requested: fullscreen
+[16-23-49] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[16-23-49] [THREAD STARTED]: Console Printing Animation
+[16-23-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[16-23-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-23-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[16-23-49] [THREAD STARTED]: Console Input Caret Position Updater
+[16-23-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[16-23-49] [SYSTEM_IO]: Userdata requested: InputFill
+[16-23-49] [SYSTEM_IO]: Created temperatory file: 16-23-49.stacktrace
+[16-23-49] [EXCEPTION]:
+Exception origin: cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:720)
+From line: 720
+Trace: java.lang.NullPointerException
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:720)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[16-23-49] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[16-24-45] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

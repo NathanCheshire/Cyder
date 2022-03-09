@@ -57,7 +57,7 @@ public final class ConsoleFrame {
     /**
      * Whether the ConsoleFrame singleton has been initialized.
      */
-    private static boolean singletonCreated = false;
+    private static boolean singletonCreated;
 
     /**
      * Returns the ConsoleFrame singleton object.
@@ -81,12 +81,12 @@ public final class ConsoleFrame {
     /**
      * The UUID of the user currently associated with the ConsoleFrame.
      */
-    private String uuid = null;
+    private String uuid;
 
     /**
      * The previous uuid used for tracking purposes.
      */
-    private String previousUuid = null;
+    private String previousUuid;
 
     /**
      * The ConsoleFrame's CyderFrame instance.
@@ -192,7 +192,7 @@ public final class ConsoleFrame {
     /**
      * The index of the background we are currently at in the backgrounds list.
      */
-    private int backgroundIndex = 0;
+    private int backgroundIndex;
 
     /**
      * The clickable taskbar icons.
@@ -215,7 +215,7 @@ public final class ConsoleFrame {
     /**
      * Whether dancing is currently active
      */
-    private boolean currentlyDancing = false;
+    private boolean currentlyDancing;
 
     /**
      * Performs ConsoleFrame setup routines before constructing
@@ -405,8 +405,8 @@ public final class ConsoleFrame {
             outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
             outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground())));
             outputArea.setAutoscrolls(true);
-            outputArea.setBounds(10, 62, ConsoleFrame.getConsoleFrame().getBackgroundWidth() - 20,
-                    ConsoleFrame.getConsoleFrame().getBackgroundHeight() - 204);
+            outputArea.setBounds(10, 62, getConsoleFrame().getBackgroundWidth() - 20,
+                    getConsoleFrame().getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
@@ -424,7 +424,7 @@ public final class ConsoleFrame {
             outputArea.setOpaque(false);
             outputArea.setBackground(CyderColors.nullus);
             outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
-            outputArea.setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+            outputArea.setFont(getConsoleFrame().generateUserFont());
 
             //init input handler
             inputHandler = new InputHandler(outputArea);
@@ -480,11 +480,6 @@ public final class ConsoleFrame {
 
             inputField.getActionMap().put("debuglines", new AbstractAction() {
                 @Override
-                protected AbstractAction clone() throws CloneNotSupportedException {
-                    throw new CloneNotSupportedException();
-                }
-
-                @Override
                 public void actionPerformed(ActionEvent e) {
                     boolean drawLines = !consoleCyderFrame.isDrawDebugLines();
 
@@ -498,11 +493,6 @@ public final class ConsoleFrame {
                     .put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_DOWN_MASK), "forcedexit");
 
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
-                @Override
-                protected AbstractAction clone() throws CloneNotSupportedException {
-                    throw new CloneNotSupportedException();
-                }
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     CyderCommon.exit(ExitCondition.ForcedImmediateExit);
@@ -550,7 +540,7 @@ public final class ConsoleFrame {
                             .trim().replace(consoleBashString, "");
 
                     if (!StringUtil.isNull(op)) {
-                        if (!(commandList.size() > 0 && commandList.get(commandList.size() - 1).equals(op))) {
+                        if (!commandList.isEmpty() && !commandList.get(commandList.size() - 1).equals(op)) {
                             commandList.add(op);
                         }
 
@@ -570,7 +560,6 @@ public final class ConsoleFrame {
                     inputField.setText(consoleBashString);
                     inputField.setCaretPosition(consoleBashString.length());
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     ExceptionHandler.handle(ex);
                 }
             });
@@ -578,7 +567,7 @@ public final class ConsoleFrame {
             inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
             inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground())));
             inputField.setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
-            inputField.setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+            inputField.setFont(getConsoleFrame().generateUserFont());
 
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
@@ -738,7 +727,7 @@ public final class ConsoleFrame {
                     }
                 } catch (Exception ex) {
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
-                    throw new IllegalArgumentException("Background DNE");
+                    Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
                 }
             });
             consoleDragButtonList.add(alternateBackground);
@@ -1153,7 +1142,7 @@ public final class ConsoleFrame {
             ArrayList<String> musicList = new ArrayList<>();
 
             File userMusicDir = new File(OSUtil.buildPath("dynamic","users",
-                    ConsoleFrame.getConsoleFrame().getUUID(), UserFile.MUSIC.getName()));
+                    getConsoleFrame().getUUID(), UserFile.MUSIC.getName()));
 
             String[] fileNames = userMusicDir.list();
 
@@ -1170,7 +1159,7 @@ public final class ConsoleFrame {
                 String audioName = fileNames[NumberUtil.randInt(0, fileNames.length - 1)];
 
                 IOUtil.playAudio(OSUtil.buildPath("dynamic","users",
-                        ConsoleFrame.getConsoleFrame().getUUID(), UserFile.MUSIC.getName(), audioName));
+                        getConsoleFrame().getUUID(), UserFile.MUSIC.getName(), audioName));
             }
             // otherwise, play our own
             else {
@@ -1291,7 +1280,7 @@ public final class ConsoleFrame {
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
-        if (menuTaskbarFrames.size() > 0) {
+        if (!menuTaskbarFrames.isEmpty()) {
             for (int i = menuTaskbarFrames.size() - 1 ; i > -1 ; i--) {
                 CyderFrame currentFrame = menuTaskbarFrames.get(i);
 
@@ -1774,7 +1763,7 @@ public final class ConsoleFrame {
                                         StringUtil.in(FileUtil.getExtension(filename),
                                 true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)))));
 
-            if (backgroundFiles.size() == 0) {
+            if (backgroundFiles.isEmpty()) {
                 //create and reload backgrounds since this shouldn't be empty now
                 UserUtil.createDefaultBackground(uuid);
                 loadBackgrounds();
@@ -2025,7 +2014,7 @@ public final class ConsoleFrame {
             contentPane.setToolTipText(FileUtil.getFilename(getCurrentBackground().getReferenceFile().getName()));
 
             // create final background that won't change
-            final ImageIcon nextBackFinal = nextBack;
+            ImageIcon nextBackFinal = nextBack;
 
             // get the original background and resize it as needed
             ImageIcon oldBack = (ImageIcon) contentPane.getIcon();
@@ -2097,8 +2086,8 @@ public final class ConsoleFrame {
             // create and submit job for animation
             Runnable backgroundSwitcher = () -> {
                 // set delay and increment for the animation
-                final int delay = isFullscreen() ? 1 : 5;
-                final int increment = isFullscreen() ? 20 : 8;
+                int delay = isFullscreen() ? 1 : 5;
+                int increment = isFullscreen() ? 20 : 8;
 
                 // animate the old image away and set last slide direction
                 switch (lastSlideDirection) {
@@ -2259,7 +2248,7 @@ public final class ConsoleFrame {
         BufferedImage master = ImageUtil.getBi(masterIcon);
 
         new Timer(10, new ActionListener() {
-            private double angle = 0;
+            private double angle;
             BufferedImage rotated;
 
             @Override
@@ -2844,15 +2833,15 @@ public final class ConsoleFrame {
                 break;
             case TOP_RIGHT:
                 consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth()
-                        - ConsoleFrame.getConsoleFrame().getWidth(), 0);
+                        - getConsoleFrame().getWidth(), 0);
                 break;
             case BOTTOM_LEFT:
                 consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight()
-                        - ConsoleFrame.getConsoleFrame().getHeight());
+                        - getConsoleFrame().getHeight());
                 break;
             case BOTTOM_RIGHT:
-                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - ConsoleFrame.getConsoleFrame().getWidth(),
-                        ScreenUtil.getScreenHeight() - ConsoleFrame.getConsoleFrame().getHeight());
+                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - getConsoleFrame().getWidth(),
+                        ScreenUtil.getScreenHeight() - getConsoleFrame().getHeight());
                 break;
         }
 
@@ -2981,7 +2970,7 @@ public final class ConsoleFrame {
      * Saves the console frame's position and window stats to the currently logged-in user's json file.
      */
     public void saveConsoleFramePosition() {
-        if (this.getUUID() == null)
+        if (getUUID() == null)
             return;
 
         if (consoleCyderFrame != null) {
@@ -3118,18 +3107,18 @@ public final class ConsoleFrame {
      */
     public void originalChams() {
         try {
-            CyderFrame ref = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+            CyderFrame ref = getConsoleFrame().getConsoleCyderFrame();
             Robot robot = new Robot();
             Rectangle monitorBounds = ref.getMonitorBounds();
 
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(false);
+            getConsoleFrame().getConsoleCyderFrame().setVisible(false);
             BufferedImage capture = new Robot().createScreenCapture(monitorBounds);
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().setVisible(true);
+            getConsoleFrame().getConsoleCyderFrame().setVisible(true);
 
             capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
                     (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
-            ConsoleFrame.getConsoleFrame().setBackground(ImageUtil.toImageIcon(capture));
+            getConsoleFrame().setBackground(ImageUtil.toImageIcon(capture));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

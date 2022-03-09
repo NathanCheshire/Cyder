@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.handlers.internal.ExceptionHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -117,8 +118,7 @@ public class BackendUtil {
 
             con.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
-            //ExceptionHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
     }
 }

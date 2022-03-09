@@ -30,7 +30,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
-@SuppressWarnings("unused")
 public class UserUtil {
     /**
      * Instantiation of util method not allowed.
@@ -106,6 +105,7 @@ public class UserUtil {
      * Upon a successful serialization/de-serialization, the json
      * is backed up and placed in dynamic/backup.
      */
+    @SuppressWarnings("unused")
     public static synchronized void writeUser() {
         if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
             return;
@@ -385,7 +385,7 @@ public class UserUtil {
             if (!currentUserFile.exists()) {
                 int attempts = 0;
 
-                while (attempts > MAX_CREATION_ATTEMPTS) {
+                while (attempts < MAX_CREATION_ATTEMPTS) {
                     try {
                         boolean success;
 
@@ -414,6 +414,11 @@ public class UserUtil {
         }
     }
 
+    /**
+     * The maximum number of times to attempt to invoke the gettersetter vaidator on a file.
+     */
+    public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
+
     // todo ensure always returns and exceptions are caught
     /**
      * Attempts to fix any user data via GSON serialization
@@ -428,23 +433,70 @@ public class UserUtil {
 
         // user doesn't have json so ignore it during Cyder instance
         if (!userJson.exists()) {
-            return false; //todo make sure this doesn't throw just ignore for session
+            return false;
         }
 
-        String uuid = userJson.getParentFile().getName();
-
         // ensure all the user files are created
-        ensureUserFilesExist(uuid);
+        ensureUserFilesExist(userJson.getParentFile().getName());
 
-        File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.USERDATA.getName()));
+        // serialze the user, if this fails we're screwed from the start
+        User user = null;
+        try {
+            user = extractUser(userJson);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
 
-        // read user into object (gson parses what it
-        // can and leaves some fields null if they're not there.
-        // What a GOD AWFUL design to not havea way to tell me if
-        // this happened so I have to check to make sure
-        // it contains ALL the fields)
-        User user = extractUser(userJsonFile);
+        // if somehow GSON messed up then we're screwed
+        if (user == null) {
+            return false;
+        }
+
+        // master return val
+        boolean ret = false;
+
+        // attempt to validate MAX_GETTER_SETTER_VALIDATION_ATTEMPTS times
+        int iterations = 0;
+        while (iterations < MAX_GETTER_SETTER_VALIDATION_ATTEMPTS) {
+            try {
+                // begin getter setter restoration routine
+
+                // for all getters (primitive values)
+                for (Method getterMethod : user.getClass().getMethods()) {
+
+                }
+
+                // validate and remove possibly duplicate exes
+                LinkedList<User.MappedExecutable> exes = user.getExecutables();
+                LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
+
+                if (exes != null && !exes.isEmpty()) {
+                    for (User.MappedExecutable me : exes) {
+                        if (!nonDuplicates.contains(me)) {
+                            nonDuplicates.add(me);
+                        }
+                    }
+
+                    // set exes
+                    user.setExecutables(nonDuplicates);
+                }
+                // somehow null so just make an empty list
+                else if (exes == null) {
+                    exes = new LinkedList<>();
+                }
+
+
+                // screen stat
+
+
+                // success in parsing so break out of loop
+                break;
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+                iterations++;
+            }
+        }
 
         try {
             // for all getter methods in User.class
@@ -453,7 +505,7 @@ public class UserUtil {
                 if (getterMethod.getName().startsWith("get")
                         && getterMethod.getParameterTypes().length == 0) {
                     // invoke the getter
-                    final Object getterRet = getterMethod.invoke(user);
+                    Object getterRet = getterMethod.invoke(user);
 
                     // the data for this user is empty or not a string
                     if (!(getterRet instanceof String) || StringUtil.isNull((String) getterRet)) {
@@ -498,24 +550,10 @@ public class UserUtil {
                 }
             }
 
-            // remove possibly duplicate exes
-            LinkedList<User.MappedExecutable> exes = user.getExecutables();
-            LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
-
-            if (exes != null && !exes.isEmpty()) {
-                for (User.MappedExecutable me : exes) {
-                    if (!nonDuplicates.contains(me)) {
-                        nonDuplicates.add(me);
-                    }
-                }
-
-                // set exes
-                user.setExecutables(nonDuplicates);
-            }
 
             // write data changes to file
-            setUserData(userJsonFile, user);
-            return true;
+            setUserData(userJson, user);
+            ret = true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -540,15 +578,6 @@ public class UserUtil {
 
             if (json.exists()) {
                 // ensure parsable and with all data before pref injection
-                if (!getterSetterValidator(json))
-                    userJsonCorruption(userFile.getName());
-
-//                // attempt to preference inject
-//                if (!preferenceInjection(json))
-//                    userJsonCorruption(userFile.getName());
-                //todo pref injection isn't necessary due to gson?
-
-                // ensure still parsable
                 if (!getterSetterValidator(json))
                     userJsonCorruption(userFile.getName());
             }
@@ -673,7 +702,7 @@ public class UserUtil {
                 if (m.getName().startsWith("get")
                         && m.getParameterTypes().length == 0
                         && m.getName().toLowerCase().contains(id.toLowerCase())) {
-                    final Object r = m.invoke(u);
+                    Object r = m.invoke(u);
                     ret = (String) r;
                     break;
                 }
@@ -795,6 +824,7 @@ public class UserUtil {
      *
      * @param f the file to check for corrections
      */
+    @SuppressWarnings("unused") //todo delete soon
     public static boolean preferenceInjection(File f) {
         if (!FileUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
@@ -863,7 +893,7 @@ public class UserUtil {
             jsonReader.close();
 
             //make sure contents are not null-like
-            if (masterJson == null || masterJson.toString().trim().length() == 0
+            if (masterJson == null || masterJson.toString().trim().isEmpty()
                     || masterJson.toString().equalsIgnoreCase("null")) {
                 userIOSemaphore.release();
                 reader.close();
@@ -960,6 +990,7 @@ public class UserUtil {
      *
      * @param uuid the specified uuid to remove from the invalid uuids list
      */
+    @SuppressWarnings("unused")
     private static void removeInvalidUuid(String uuid) {
         //method purposefully left blank since this isn't something
         // that should be fixed and revalidated at runtime.
@@ -1051,7 +1082,7 @@ public class UserUtil {
                     }
                 }
 
-                if (filenames.size() == 0) {
+                if (filenames.isEmpty()) {
                     informString += "No files found associated with the corrupted user";
                 } else {
                     StringBuilder sb = new StringBuilder();
@@ -1091,7 +1122,7 @@ public class UserUtil {
      * @param userFile the user file to return a reference to
      * @return the provided user file
      */
-    @SuppressWarnings("unused") /* for consistency purposes */
+    @SuppressWarnings("unused")
     public File getUserFile(UserFile userFile) {
         return getUserFile(userFile.getName());
     }
@@ -1160,6 +1191,7 @@ public class UserUtil {
      *
      * @return a list of valid uuids associated with Cyder users
      */
+    @SuppressWarnings("unused")
     public static ArrayList<String> getUserUUIDs() {
         ArrayList<String> uuids = new ArrayList<>();
 

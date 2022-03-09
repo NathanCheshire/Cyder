@@ -112,7 +112,7 @@ public class PaintWidget {
 
         paintFrame.setMenuEnabled(true);
         paintFrame.addMenuItem("Export png", () -> CyderThreadRunner.submit(() -> {
-            if (cyderGrid.getGridNodes().size() == 0) {
+            if (cyderGrid.getGridNodes().isEmpty()) {
                 paintFrame.notify("Please place at least one node before saving");
                 return;
             }
@@ -700,6 +700,7 @@ public class PaintWidget {
         resetToAdding();
 
         if (newMode == CyderGrid.Mode.COLOR_SELECTION) {
+            //noinspection ConstantValueVariableUse
             cyderGrid.setMode(newMode);
             paintFrame.setCursor(eyedropperCursor);
         } else {
