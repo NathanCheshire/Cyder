@@ -90,6 +90,19 @@ public class UserUtil {
         cyderUserFile = f;
     }
 
+    //todo don't backup a json unless it can be parsed as a user with ALL getters called
+    // and not return null
+
+    //todo pref injection passes but comment better?
+
+    // todo double comma fucks it up somewhere and it unparses it? but leaves window color out
+    // but doesn't continue with pref injections which trips up later
+
+    // maybe re-use it to validate getters and setters
+
+
+    // todo utilze method to write ONLY if sure it's safe, also
+    //  backup here, maybe havea timer that calls this every timeout
     /**
      * Writes the current User, {@link UserUtil#cyderUser}, to the user's json if the json exists.
      */
@@ -97,7 +110,17 @@ public class UserUtil {
         if (cyderUserFile == null || !cyderUserFile.exists())
             return;
 
+        // todo ensure user is parsable
+
+        // log the write since we know the user is valid
+        Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
+                + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
+
+        // write to user data file
         setUserData(cyderUserFile, cyderUser);
+
+        // backup the file
+        userJsonBackupSubroutine(cyderUserFile);
     }
 
     /**
@@ -114,7 +137,6 @@ public class UserUtil {
      */
     public static void setCyderUser(User u) {
         cyderUser = u;
-        writeUser();
     }
 
     /**
@@ -128,6 +150,7 @@ public class UserUtil {
 
     /**
      * Sets the key for the current user to the provided data.
+     * Note this is not written to the json.
      *
      * @param name the name of the data to set
      * @param value the new value
@@ -139,7 +162,6 @@ public class UserUtil {
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
                     m.invoke(cyderUser, value);
-                    writeUser();
                     break;
                 }
             }
@@ -167,10 +189,6 @@ public class UserUtil {
             userIOSemaphore.acquire();
             gson.toJson(u, writer);
             writer.close();
-
-            Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
-                    + OSUtil.buildPath(f.getParentFile().getName(), f.getName()));
-
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -364,10 +382,15 @@ public class UserUtil {
             return;
         }
 
+        // read user into object (gson parses what it
+        // can and leaves some fields null if they're not there.
+        // What a GOD AWFUL design to not havea way to tell me if
+        // this happened so I have to check to make sure
+        // it contains ALL the fields)
         User user = extractUser(userJsonFile);
 
         try {
-            // for all methods in User.class
+            // for all getter methods in User.class
             for (Method getterMethod : user.getClass().getMethods()) {
                 // if it's a getter
                 if (getterMethod.getName().startsWith("get")

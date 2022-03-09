@@ -129,21 +129,6 @@ public class PaintWidget {
                 defaultFilename = base + increment + ".png";
             }
 
-            //todo don't backup a json unless it can be parsed as a user with ALL getters called
-            // and not return null
-
-            //todo pref injection passes but comment better?
-
-            // todo double comma fucks it up somewhere and it unparses it? but leaves window color out
-            // but doesn't continue with pref injections which trips up later
-
-            // maybe re-use it to validate getters and setters
-
-            // todo why is it parsing AWAY A DAMN VALUE THAT IS IN THE USER CLASS?
-
-            // attempt to backup the most recent state of the json
-            //todo userJsonBackupSubroutine(f);
-
             GetterBuilder builder = new GetterBuilder("Filename");
             builder.setRelativeTo(paintFrame);
             builder.setInitialString(defaultFilename);

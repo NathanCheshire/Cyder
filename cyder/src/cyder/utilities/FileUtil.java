@@ -8,6 +8,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utilities having to do with files, their names, properties, and attributes.
  */
@@ -116,6 +119,36 @@ public class FileUtil {
     }
 
     /**
+     * Returns whether the provided file ends in the expected extension.
+     *
+     * @param file the file to validate the extension again
+     * @param expectedExtension the expected extension such as ".json"
+     * @return whether the provided file ends in the expected extension
+     */
+    public static boolean validateExtension(File file, String expectedExtension) {
+        checkNotNull(file);
+        checkNotNull(expectedExtension);
+        checkArgument(expectedExtension.length() > 0);
+
+        return getExtension(file).equals(expectedExtension);
+    }
+
+    /**
+     * Returns whether the file's name without the extension matches the expected name.
+     *
+     * @param file the file
+     * @param expectedName the expected name
+     * @return whether the file's name without the extension matches the expected name
+     */
+    public static boolean validateFileName(File file, String expectedName) {
+        checkNotNull(file);
+        checkNotNull(expectedName);
+        checkArgument(expectedName.length() > 0);
+
+        return getFilename(file).equals(expectedName);
+    }
+
+    /**
      * Supported font types that are loaded upon Cyder's start.
      */
     public static final ArrayList<String> validFontExtensions = new ArrayList<>() {{
@@ -129,7 +162,6 @@ public class FileUtil {
      * @param fileTwo the second file
      * @return whether the contents of the two file are equal
      */
-    @SuppressWarnings("UnstableApiUsage") /* Guava */
     public static boolean fileContentsEqual(File fileOne, File fileTwo) {
         if (fileOne == null || fileTwo == null)
             return false;
