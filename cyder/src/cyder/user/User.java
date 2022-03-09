@@ -38,7 +38,7 @@ public class User {
     private String ffmpegpath;
     private String youtubedlpath;
     private String roundedwindows; 
-    private String windowColor;
+    private String windowcolor;
     private String consoleclockformat;
     private String typingsound; 
     private String youtubeuuid;
@@ -279,11 +279,11 @@ public class User {
     }
 
     public String getWindowColor() {
-        return windowColor;
+        return windowcolor;
     }
 
-    public void setWindowColor(String windowColor) {
-        this.windowColor = windowColor;
+    public void setWindowColor(String windowcolor) {
+        this.windowcolor = windowcolor;
     }
 
     public String getConsoleclockformat() {

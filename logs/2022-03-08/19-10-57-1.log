@@ -1,0 +1,10 @@
+[19-10-57] [ENTRY]: [Nathan]
+[19-10-58] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-10-58] [THREAD STARTED]: Splash Loader
+[19-11-14] [THREAD STARTED]: Splash Animation
+[19-11-14] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-11-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-11-14] [THREAD STARTED]: JVM Logger
+[19-11-14] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-11-14] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-12-44] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

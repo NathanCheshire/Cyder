@@ -268,7 +268,8 @@ public final class ConsoleFrame {
             }
 
             //figure out the theme color
-            CyderColors.setGuiThemeColor(ColorUtil.hexToRgb(UserUtil.getUserData("windowcolor")));
+            String color = UserUtil.extractUser().getWindowColor();
+            CyderColors.setGuiThemeColor(ColorUtil.hexToRgb(color));
 
             //get proper width, height, and background image icon,
             // we take into account console rotation and fullscreen here

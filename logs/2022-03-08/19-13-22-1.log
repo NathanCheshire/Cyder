@@ -1,0 +1,27 @@
+[19-13-22] [ENTRY]: [Nathan]
+[19-13-22] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-13-23] [THREAD STARTED]: Splash Loader
+[19-13-23] [CORRUPTION]: [BACKUP SUCCESS] Successfully restored 7d7ebb00-81fe-329f-8a78-62f463d0b7da from: 7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787699135
+[19-13-23] [THREAD STARTED]: Splash Animation
+[19-13-23] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-13-23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-13-23] [THREAD STARTED]: JVM Logger
+[19-13-23] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-13-23] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-13-23] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [3x]
+[19-13-24] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-13-24] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[19-13-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-13-24] [SYSTEM_IO]: Created temperatory file: 19-13-24.stacktrace
+[19-13-24] [EXCEPTION]:
+Exception origin: cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+From line: 31
+Trace: java.lang.NullPointerException
+at cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:272)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[19-13-24] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[19-14-17] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

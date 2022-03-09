@@ -1,0 +1,38 @@
+[18-49-35] [ENTRY]: [Nathan]
+[18-49-35] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-49-36] [THREAD STARTED]: Splash Loader
+[18-49-36] [THREAD STARTED]: Splash Animation
+[18-49-36] [SYSTEM_IO]: Created temperatory file: 18-49-36.stacktrace
+[18-49-36] [EXCEPTION]:
+Exception origin: line 1 column 167 path $.null
+From line: 1006
+Trace: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 167 path $.null
+at com.google.gson.Gson.fromJson(Gson.java:1006)
+at com.google.gson.Gson.fromJson(Gson.java:929)
+at cyder.utilities.UserUtil.userJsonCorruption(UserUtil.java:846)
+at cyder.utilities.UserUtil.preferenceInjectAllUsers(UserUtil.java:465)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+Caused by: com.google.gson.stream.MalformedJsonException: Unterminated object at line 1 column 167 path $.null
+at com.google.gson.stream.JsonReader.syntaxError(JsonReader.java:1597)
+at com.google.gson.stream.JsonReader.doPeek(JsonReader.java:491)
+at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
+at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:215)
+at com.google.gson.Gson.fromJson(Gson.java:991)
+... 4 more
+[18-49-36] [CORRUPTION]: [BACKUP FAILURE] attempted restoration of 7d7ebb00-81fe-329f-8a78-62f463d0b7da failed
+[18-49-37] [CORRUPTION]: [Resulting Popup]
+Unfortunately a user's data file was corrupted and had to be deleted. The following files still exists and are associated with the user at the following path:<br/><b>dynamic\users\7d7ebb00-81fe-329f-8a78-62f463d0b7da</b><br/>Files:<br/>Elon<br/>AlbumArt<br/>Anne-Marie - 2002 (slowed & reverb)<br/>Chillstep  Wayr - Follow the Light<br/>Chillstep Anima - You Are Truth<br/>Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]<br/>Userdata
+[18-49-37] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-49-37] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-49-37] [THREAD STARTED]: JVM Logger
+[18-49-37] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[18-49-37] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-49-37] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [151136172], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-49-37] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[18-49-37] [THREAD STARTED]: Login printing animation
+[18-49-37] [THREAD STARTED]: Login Input Caret Position Updater
+[18-49-44] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 1164, 28)], hash = [-13945565], parentFrame = [Userdata Corruption], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-49-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(696, 536, 1168, 320)], hash = [1481594086], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Userdata Corruption]
+[18-49-44] [THREAD STARTED]: Userdata Corruption CyderFrame dispose thread
+[18-49-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-50-30] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

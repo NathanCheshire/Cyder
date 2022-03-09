@@ -171,8 +171,6 @@ public class UserUtil {
             Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
                     + OSUtil.buildPath(f.getParentFile().getName(), f.getName()));
 
-            // attempt to backup the most recent state of the json
-            userJsonBackupSubroutine(f);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -755,17 +753,17 @@ public class UserUtil {
                 StringBuilder appendBuilder = new StringBuilder();
 
                 for (int i = 0 ; i < injections.size() ; i++) {
-                    appendBuilder.append(injections.get(i));
+                    appendBuilder.append("[").append(injections.get(i)).append("]");
 
                     if (i != injections.size() - 1)
-                        appendBuilder.append(", ");
+                        appendBuilder.append("\n");
                 }
 
                 //log the injection
                 Logger.log(Logger.Tag.ACTION,
                         "User " + f.getParentFile().getName() +
-                        " was found to have an outdated userdata file; preference injection " +
-                        "was attempted on the following: [" + appendBuilder + "]");
+                        " was found to have an outdated userdata file.\npreference injection " +
+                        "was attempted on the following:\n" + appendBuilder + "");
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

@@ -1,0 +1,22 @@
+[18-54-39] [ENTRY]: [Nathan]
+[18-54-39] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-54-40] [THREAD STARTED]: Splash Loader
+[18-54-40] [ACTION]: User 7d7ebb00-81fe-329f-8a78-62f463d0b7da was found to have an outdated userdata file.
+preference injection was attempted on the following:
+[[windowcolor = 1A2033]]
+[18-54-40] [THREAD STARTED]: Splash Animation
+[18-54-40] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-54-40] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-54-40] [THREAD STARTED]: JVM Logger
+[18-54-40] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-54-40] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-54-40] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787157801.json
+[18-54-40] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-54-40] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787280705.json
+[18-54-40] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-54-40] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787280729.json
+[18-54-41] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[18-54-41] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-54-41] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787280738.json
+[18-54-41] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-57-00] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
