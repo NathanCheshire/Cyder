@@ -13,6 +13,7 @@ import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.user.objects.Preference;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 
@@ -230,7 +231,7 @@ public class UserCreator {
             public void mouseReleased(MouseEvent e) {
                 try {
                     if (!createUser(newUserName.getText(), newUserPassword.getPassword(),
-                            newUserPasswordConf.getPassword(), createUserBackground)) {
+                            newUserPasswordConf.getPassword())) {
                         createUserFrame.notify("Failed to create user");
 
                         if (lastGeneratedUUID != null) {
@@ -277,7 +278,7 @@ public class UserCreator {
     /**
      * The last generated UUID.
      */
-    private static String lastGeneratedUUID = null;
+    private static String lastGeneratedUUID;
 
     /**
      * Initializes the new user's background.
@@ -319,13 +320,9 @@ public class UserCreator {
      * @param name the requested name of the new user
      * @param password the password of the new user
      * @param passwordConf the password confirmation of the new user
-     * @param chosenBackground the background file of the new user
-     *
      * @return whether the user was created
      */
-    public static boolean createUser(String name, char[] password,
-                                     char[] passwordConf, File chosenBackground) {
-
+    public static boolean createUser(String name, char[] password, char[] passwordConf) {
         //validate data for basic correctness
         if (StringUtil.isNull(name) ) {
             return false;
@@ -457,7 +454,7 @@ public class UserCreator {
                 SecurityUtil.toHexString(SecurityUtil.getSHA256(password)).toCharArray())));
 
         // default preferences
-        for (Preferences.Preference pref : Preferences.getPreferences()) {
+        for (Preference pref : Preferences.getPreferences()) {
             //as per convention, IGNORE for tooltip means ignore when creating user
             // whilst IGNORE for default value means ignore for edit user
             if (!pref.getTooltip().equals("IGNORE")) {

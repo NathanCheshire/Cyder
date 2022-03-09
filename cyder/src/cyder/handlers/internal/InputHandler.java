@@ -21,6 +21,7 @@ import cyder.ui.*;
 import cyder.user.Preferences;
 import cyder.user.UserCreator;
 import cyder.user.UserFile;
+import cyder.user.objects.Preference;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 import cyder.utilities.objects.WidgetDescription;
@@ -1510,7 +1511,7 @@ public class InputHandler {
 
         boolean ret = false;
 
-        for (Preferences.Preference pref : Preferences.getPreferences()) {
+        for (Preference pref : Preferences.getPreferences()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
                 if (!pref.getDisplayName().equals("IGNORE")) {
                     String newVal = UserUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";

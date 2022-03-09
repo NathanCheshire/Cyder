@@ -13,6 +13,7 @@ import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
 import cyder.user.UserFile;
+import cyder.user.objects.Preference;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -71,6 +72,7 @@ public class UserUtil {
      * Blocks any future user IO by acquiring the semaphore and never releasing it.
      * This method blocks until the IO semaphore can be acquired.
      */
+    @SuppressWarnings("unused")
     public static synchronized void blockFutureIO() {
         try {
             userIOSemaphore.acquire();
@@ -419,7 +421,6 @@ public class UserUtil {
      */
     public static final int MAX_GETTER_SETTER_VALIDATION_ATTEMPTS = 10;
 
-    // todo ensure always returns and exceptions are caught
     /**
      * Attempts to fix any user data via GSON serialization
      * and invoking all setters with default data for corresponding
@@ -464,7 +465,45 @@ public class UserUtil {
 
                 // for all getters (primitive values)
                 for (Method getterMethod : user.getClass().getMethods()) {
+                    // invoke the getter
+                    System.out.println("Invoking getter: " + getterMethod.getName());
+                    Object getter = getterMethod.invoke(user);
 
+                    if (!(getter instanceof String) || (String) getter == null) {
+                        // invalid getter result so find default value and set
+
+                        // find the preference associated with this getter
+                        Preference preference = null;
+                        for (Preference pref : Preferences.getPreferences()) {
+                            if (pref.getID().equalsIgnoreCase(getterMethod.getName()
+                                    .replace("get",""))) {
+                                preference = pref;
+                                break;
+                            }
+                        }
+
+                        // cannot attempt to restore objects who's tooltip is IGNORE
+                        if (preference.getTooltip().equalsIgnoreCase("IGNORE")) {
+                            ret = false;
+                            break;
+                        }
+
+                        // attempt to restore by using default value
+
+                        // find setter
+                        for (Method setterMethod : user.getClass().getMethods()) {
+                            // if the setter matches our getter
+                            if (setterMethod.getName().startsWith("set")
+                                    && setterMethod.getParameterTypes().length == 1
+                                    && setterMethod.getName().replace("set","")
+                                    .equalsIgnoreCase(getterMethod.getName().replace("get",""))) {
+
+                                // invoke setter method with default value
+                                setterMethod.invoke(user, preference.getDefaultValue());
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 // validate and remove possibly duplicate exes
@@ -486,11 +525,13 @@ public class UserUtil {
                     exes = new LinkedList<>();
                 }
 
-
-                // screen stat
-
+                // screen stat restoration
+                user.setScreenStat(new User.ScreenStat(0, 0,
+                        0, 0, 0, false));
 
                 // success in parsing so break out of loop
+                ret = true;
+                setUserData(userJson, user);
                 break;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -498,67 +539,7 @@ public class UserUtil {
             }
         }
 
-        try {
-            // for all getter methods in User.class
-            for (Method getterMethod : user.getClass().getMethods()) {
-                // if it's a getter
-                if (getterMethod.getName().startsWith("get")
-                        && getterMethod.getParameterTypes().length == 0) {
-                    // invoke the getter
-                    Object getterRet = getterMethod.invoke(user);
-
-                    // the data for this user is empty or not a string
-                    if (!(getterRet instanceof String) || StringUtil.isNull((String) getterRet)) {
-
-                        // getter result was invalid so attempt to fix
-
-                        // cannot attempt to restore objects who's tooltip is IGNORE
-                        if (getterMethod.getName().toLowerCase().contains("pass") ||
-                            getterMethod.getName().toLowerCase().contains("name")) {
-                            //userJsonCorruption(UUID);
-                            return false;
-                        }
-
-                        // non-fatal data that we can attempt to restore from the default data
-                        else {
-                            // find all setter methods
-                            for (Method setterMethod : user.getClass().getMethods()) {
-                                // if the setter matches our getter
-                                if (setterMethod.getName().startsWith("set")
-                                        && setterMethod.getParameterTypes().length == 1
-                                        && setterMethod.getName().toLowerCase().contains(getterMethod.getName()
-                                        .toLowerCase().replace("get",""))) {
-
-                                    Object defaultValue = null;
-
-                                    // find the default value from preferences list
-                                    for (Preferences.Preference pref : Preferences.getPreferences()) {
-                                        if (pref.getID().toLowerCase().contains(getterMethod.getName()
-                                                .toLowerCase().replace("get",""))) {
-                                            defaultValue = pref.getDefaultValue();
-                                            break;
-                                        }
-                                    }
-
-                                    // invoke setter method
-                                    setterMethod.invoke(user, defaultValue);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // write data changes to file
-            setUserData(userJson, user);
-            ret = true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return false;
+        return ret;
     }
 
     /**
@@ -722,7 +703,7 @@ public class UserUtil {
         User ret = new User();
 
         //for all the preferences
-        for (Preferences.Preference pref : Preferences.getPreferences()) {
+        for (Preference pref : Preferences.getPreferences()) {
             //get all methods of user
             for (Method m : ret.getClass().getMethods()) {
                 //make sure it's a setter with one parameter
@@ -824,7 +805,7 @@ public class UserUtil {
      *
      * @param f the file to check for corrections
      */
-    @SuppressWarnings("unused") //todo delete soon
+
     public static boolean preferenceInjection(File f) {
         if (!FileUtil.getExtension(f).equals(".json")) {
             throw new IllegalArgumentException("Provided file is not a json");
@@ -909,7 +890,7 @@ public class UserUtil {
             LinkedList<String> injections = new LinkedList<>();
 
             //loop through default preferences
-            for (Preferences.Preference pref : Preferences.getPreferences()) {
+            for (Preference pref : Preferences.getPreferences()) {
                 //old json detected, and we found a pref that doesn't exist
                 if (!masterJson.toString().toLowerCase().contains(pref.getID().toLowerCase())) {
                     //inject into json
@@ -1011,8 +992,6 @@ public class UserUtil {
         try {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
-
-            // todo test restoration works, test to make sure ,, is recoverable
 
             try {
                // attempt to recovery a backup

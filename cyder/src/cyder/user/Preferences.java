@@ -4,15 +4,14 @@ import cyder.constants.CyderStrings;
 import cyder.handlers.internal.Logger;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderScrollList;
+import cyder.user.objects.Preference;
 import cyder.utilities.ColorUtil;
 import cyder.utilities.FrameUtil;
-import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.util.ArrayList;
-import java.util.function.Function;
 
 /**
  * Preferences class to hold and allow access to the default CyderUser preferences.
@@ -370,7 +369,7 @@ public class Preferences {
             return null;
         }));
 
-        // IGNORE for display name means ignore for UserEditor,
+        // IGNORE for display name means ignore for UserEditor checkboxes,
         // IGNORE for tooltip means don't write when creating user since it was already set
         // such as the case for name and password
 
@@ -395,99 +394,8 @@ public class Preferences {
     public static void invokeRefresh(String preferenceID) {
         for (Preference pref : prefs) {
             if (pref.getID().equalsIgnoreCase(preferenceID)) {
-                pref.onChangeFunction.apply(null);
+                pref.getOnChangeFunction().apply(null);
             }
-        }
-    }
-
-    /**
-     * Preference class used to hold user data in the form of strings.
-     */
-    public static class Preference {
-        private String ID;
-        private String displayName;
-        private String tooltip;
-        private String defaultValue;
-        private Function<Void, Void> onChangeFunction;
-
-        public Preference(String id, String displayName,
-                          String tooltip, String defaultValue,
-                            Function<Void, Void> onChangeFunction) {
-            this.ID = id;
-            this.displayName = displayName;
-            this.tooltip = tooltip;
-            this.defaultValue = defaultValue;
-            this.onChangeFunction = onChangeFunction;
-        }
-
-        public String getID() {
-            return ID;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-
-        public String getTooltip() {
-            return tooltip;
-        }
-
-        public String getDefaultValue() {
-            return defaultValue;
-        }
-
-        public void setID(String ID) {
-            this.ID = ID;
-        }
-
-        public void setDisplayName(String displayName) {
-            this.displayName = displayName;
-        }
-
-        public void setTooltip(String tooltip) {
-            this.tooltip = tooltip;
-        }
-
-        public void setDefaultValue(String defaultValue) {
-            this.defaultValue = defaultValue;
-        }
-
-        public Function<Void, Void> getOnChangeFunction() {
-            return onChangeFunction;
-        }
-
-        public void setOnChangeFunction(Function<Void, Void> onChangeFunction) {
-            this.onChangeFunction = onChangeFunction;
-        }
-
-        @Override
-        public String toString() {
-            return ReflectionUtil.commonCyderToString(this);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            else if (!(o instanceof Preference))
-                return false;
-
-            return ((Preference) o).getID().equals(this.getID());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            int result = ID.hashCode();
-            result = 31 * result + displayName.hashCode();
-            result = 31 * result + tooltip.hashCode();
-            result = 31 * result + defaultValue.hashCode();
-            return result;
         }
     }
 }

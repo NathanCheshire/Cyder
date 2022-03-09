@@ -1,7 +1,8 @@
-Exception origin: cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:720)
-From line: 720
+Exception origin: cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+From line: 31
 Trace: java.lang.NullPointerException
-	at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:720)
+	at cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+	at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:272)
 	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
 	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
 	at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)

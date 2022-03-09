@@ -1,0 +1,145 @@
+[17-50-16] [ENTRY]: [Nathan]
+[17-50-17] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-50-17] [THREAD STARTED]: Splash Loader
+[17-50-17] [SYSTEM_IO]: Unable to create all userfiles for user [7d7ebb00-81fe-329f-8a78-62f463d0b7da] after 1000 attempts [4x]
+[17-50-18] [THREAD STARTED]: Splash Animation
+[17-50-18] [SYSTEM_IO]: Created temperatory file: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [SYSTEM_IO]: File already existed in userspace: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: wrong number of arguments
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:469)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:561)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-50-18] [CORRUPTION]: [BACKUP SUCCESS] Successfully restored 7d7ebb00-81fe-329f-8a78-62f463d0b7da from: 7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787699135
+[17-50-18] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-50-18] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-50-18] [THREAD STARTED]: JVM Logger
+[17-50-18] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-50-18] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[17-50-18] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-50-18] [SYSTEM_IO]: Created temperatory file: 17-50-18.stacktrace
+[17-50-18] [EXCEPTION]:
+Exception origin: cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+From line: 31
+Trace: java.lang.NullPointerException
+at cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:272)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[17-50-18] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[17-51-10] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 11
