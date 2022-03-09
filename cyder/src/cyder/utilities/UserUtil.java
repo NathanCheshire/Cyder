@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
@@ -235,7 +237,7 @@ public class UserUtil {
 
             // find most recent file
             File[] backups = backupDirectory.listFiles();
-            Preconditions.checkNotNull(backups);
+            checkNotNull(backups);
             long currentMaxTimestamp = 0;
 
             // find most recent timestamp that matches our uuid
@@ -283,7 +285,7 @@ public class UserUtil {
                 jsonWriter.close();
 
                 backups = backupDirectory.listFiles();
-                Preconditions.checkNotNull(backups);
+                checkNotNull(backups);
 
                 for (File backup : backups) {
                     String filename = FileUtil.getFilename(backup);
@@ -360,6 +362,57 @@ public class UserUtil {
         return ret;
     }
 
+    /**
+     * The maximum number of times to attempt to create a file/directory.
+     */
+    public static final int MAX_CREATION_ATTEMPTS = 1000;
+
+    /**
+     * Creates all the user files in {@link UserFile} for the user with the provided uuid.
+     *
+     * @param uuid the user uuid
+     */
+    public static void ensureUserFilesExist(String uuid) {
+        checkNotNull(uuid);
+
+        for (UserFile val : UserFile.values()) {
+            if (val.getName().equals(UserFile.USERDATA.getName()))
+                continue;
+
+            File currentUserFile = new File(OSUtil.buildPath("dynamic","users",
+                    uuid, val.getName()));
+
+            if (!currentUserFile.exists()) {
+                int attempts = 0;
+
+                while (attempts > MAX_CREATION_ATTEMPTS) {
+                    try {
+                        boolean success;
+
+                        if (currentUserFile.isFile()) {
+                            success = currentUserFile.createNewFile();
+                        } else {
+                            success = currentUserFile.mkdir();
+                        }
+
+                        // if created, break
+                        if (success)
+                            break;
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+
+                        // couldn't create so try again
+                        attempts++;
+                    }
+                }
+            }
+
+            // log the failure
+            Logger.log(Logger.Tag.SYSTEM_IO,
+                    "Unable to create all userfiles for user [" + uuid
+                            + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+        }
+    }
 
     /**
      * Attempts to fix any user data via GSON serialization
@@ -367,10 +420,9 @@ public class UserUtil {
      * getters which returned null.
      *
      * @param userJson the json file to validate
-     * @return whether the file could be handled correctly as au ser
+     * @return whether the file could be handled correctly as a user
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") /* making directories */
-    public static boolean getterSetterFixer(File userJson) {
+    public static boolean getterSetterValidator(File userJson) {
         Preconditions.checkArgument(userJson != null);
 
         // user doesn't have json so ignore it during Cyder instance
@@ -380,20 +432,11 @@ public class UserUtil {
 
         String uuid = userJson.getParentFile().getName();
 
-        File userBackgroundsFile = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.BACKGROUNDS.getName()));
-        File userMusicFile = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.MUSIC.getName()));
+        // ensure all the user files are created
+        ensureUserFilesExist(uuid);
+
         File userJsonFile = new File(OSUtil.buildPath("dynamic","users",
                 uuid, UserFile.USERDATA.getName()));
-
-        if (!userBackgroundsFile.exists())
-            userBackgroundsFile.mkdir();
-
-        if (!userMusicFile.exists())
-            userMusicFile.mkdir();
-
-        //todo here
 
         // read user into object (gson parses what it
         // can and leaves some fields null if they're not there.
@@ -419,8 +462,8 @@ public class UserUtil {
                         // cannot attempt to restore objects who's tooltip is IGNORE
                         if (getterMethod.getName().toLowerCase().contains("pass") ||
                             getterMethod.getName().toLowerCase().contains("name")) {
-                            userJsonCorruption(UUID);
-                            return;
+                            //userJsonCorruption(UUID);
+                            return false;
                         }
 
                         // non-fatal data that we can attempt to restore from the default data
@@ -454,10 +497,10 @@ public class UserUtil {
                 }
             }
 
+            // remove possibly duplicate exes
             LinkedList<User.MappedExecutable> exes = user.getExecutables();
             LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
 
-            // remove possibly duplicate exes
             if (exes != null && !exes.isEmpty()) {
                 for (User.MappedExecutable me : exes) {
                     if (!nonDuplicates.contains(me)) {
@@ -471,14 +514,18 @@ public class UserUtil {
 
             // write data changes to file
             setUserData(userJsonFile, user);
+            return true;
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+
+        return false;
     }
 
     /**
      * Attempts preference injection and getter/setter validation for all users.
-     * If any subroutine fails, and the user cannot be recovered, the user is corrupted.
+     * If any subroutine fails, and the user cannot be recovered, the user is corrupted
+     * for the current session meaning it is not usable.
      */
     public static void validateAllusers() {
         // we use all user files here since we are determining if they are corrupted or not
@@ -491,11 +538,20 @@ public class UserUtil {
                     userFile.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (json.exists()) {
-                // ensure user directories exist
-                boolean serializationPass = getterSetterFixer(json);
+                // ensure parsable and with all data before pref injection
+                if (!getterSetterValidator(json))
+                    userJsonCorruption(userFile.getName());
 
                 // attempt to preference inject
-                boolean passInjection = preferenceInjection(json);
+                if (!preferenceInjection(json))
+                    userJsonCorruption(userFile.getName());
+
+                // ensure still parsable
+                if (!getterSetterValidator(json))
+                    userJsonCorruption(userFile.getName());
+
+                //todo ensure neither of these ever fail, and they return false worse
+                // case meaning that the user is corruptable for the current session
             }
         }
     }
