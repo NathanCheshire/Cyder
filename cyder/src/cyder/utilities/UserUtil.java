@@ -45,7 +45,8 @@ public class UserUtil {
     private static final Semaphore userIOSemaphore = new Semaphore(1);
 
     /**
-     * The user used for IO to the user's json every {@link UserUtil#IO_TIMEOUT}
+     * The user used for IO to the user's json everytime this object
+     * is assigned using {@link UserUtil#setCyderUser(User)}.
      */
     private static User cyderUser = buildDefaultUser();
 
@@ -53,11 +54,6 @@ public class UserUtil {
      * The corresponding file for cyderUser.
      */
     private static File cyderUserFile;
-
-    /**
-     * The timeout between writes to the user json file in ms.
-     */
-    public static final int IO_TIMEOUT = 10000;
 
     /**
      * Returns the semaphore used for IO to/from the user's JSON file.
@@ -95,11 +91,6 @@ public class UserUtil {
         cyderUserFile = f;
     }
 
-    // todo double comma messes it up
-
-    // todo utilze method to write ONLY if sure it's safe, also
-    //  backup here, maybe havea timer that calls this every timeout
-
     /**
      * Writes the current User, {@link UserUtil#cyderUser},
      * to the user's json if the json exists AND the provided user
@@ -107,19 +98,11 @@ public class UserUtil {
      * Upon a successful serialization/de-serialization, the json
      * is backed up and placed in dynamic/backup.
      */
-    @SuppressWarnings("unused")
-    public static synchronized void writeUser() {
+    private static synchronized void writeUser() {
         if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
             return;
 
        try {
-           // acquire to ensure user doesn't change during this
-           userIOSemaphore.acquire();
-
-           // todo ensure user is parsable via a getter setter validater, that method itself should
-           // attempt preference injection too and then recall itself if not already called and if so,
-           // then screwed so finally attempt to restore and if not, corrupt
-
            // log the write since we know the user is valid
            Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
                    + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
@@ -127,11 +110,11 @@ public class UserUtil {
            // write to user data file
            setUserData(cyderUserFile, cyderUser);
 
+           // validate the user is still valid
+           getterSetterValidator(cyderUserFile);
+
            // backup the file
            userJsonBackupSubroutine(cyderUserFile);
-
-           // release sem
-           userIOSemaphore.release();
        } catch (Exception e) {
            ExceptionHandler.handle(e);
        }
@@ -144,9 +127,8 @@ public class UserUtil {
      */
     public static void setCyderUser(User u) {
         try {
-            userIOSemaphore.acquire();
             cyderUser = u;
-            userIOSemaphore.release();
+            writeUser();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -189,7 +171,7 @@ public class UserUtil {
      * @param f the file to write to
      * @param u the user object to write to the file
      */
-    public static void setUserData(File f, User u) {
+    public static synchronized void setUserData(File f, User u) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
         if (!FileUtil.getExtension(f).equals(".json"))
@@ -202,7 +184,6 @@ public class UserUtil {
             userIOSemaphore.acquire();
             gson.toJson(u, writer);
             writer.close();
-            System.out.println("wrote to file: " + f);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -365,6 +346,10 @@ public class UserUtil {
         return ret;
     }
 
+    //todo ensure console frame stats are saved instantly along with other sets to data file
+
+    //todo it's inverted right now some how
+
     /**
      * The maximum number of times to attempt to create a file/directory.
      */
@@ -408,12 +393,12 @@ public class UserUtil {
                         attempts++;
                     }
                 }
-            }
 
-            // log the failure
-            Logger.log(Logger.Tag.SYSTEM_IO,
-                    "Unable to create all userfiles for user [" + uuid
-                            + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+                // log the failure
+                Logger.log(Logger.Tag.SYSTEM_IO,
+                        "Unable to create all userfiles for user [" + uuid
+                                + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+            }
         }
     }
 
@@ -427,8 +412,9 @@ public class UserUtil {
      * and invoking all setters with default data for corresponding
      * getters which returned null.
      *
-     * @param userJson the json file to validate
+     * @param userJson the json file to validate and fix if needed
      * @return whether the file could be handled correctly as a user
+     *                 and was fixed if it was incorrect at first
      */
     public static boolean getterSetterValidator(File userJson) {
         Preconditions.checkArgument(userJson != null);
@@ -474,8 +460,6 @@ public class UserUtil {
                             // find the preference associated with this getter
                             Preference preference = null;
                             for (Preference pref : Preferences.getPreferences()) {
-                                System.out.println(getterMethod.getName().replace("get","")
-                                        + "," + pref.getID());
                                 if (pref.getID().equalsIgnoreCase(getterMethod.getName()
                                         .replace("get",""))) {
                                     preference = pref;
@@ -802,151 +786,6 @@ public class UserUtil {
         }
     }
 
-    // todo redo method to ensure works
-    // todo ensure always returns false worse case
-    /**
-     * Injects new preferences and their default values into an old json
-     * if it is found to not contain all the required user data.
-     *
-     * @param f the file to check for corrections
-     */
-
-    public static boolean preferenceInjection(File f) {
-        if (!FileUtil.getExtension(f).equals(".json")) {
-            throw new IllegalArgumentException("Provided file is not a json");
-        } else if (!FileUtil.getFilename(f).equalsIgnoreCase(FileUtil.getFilename(UserFile.USERDATA.getName()))) {
-            throw new IllegalArgumentException("Provided file is not a userdata file");
-        }
-
-        boolean ret = false;
-
-        try {
-            // acquire sem
-            userIOSemaphore.acquire();
-            Gson gson = new Gson();
-            Reader reader = new FileReader(f);
-            User userObj;
-
-            try {
-                userObj = gson.fromJson(reader, User.class);
-            } catch (Exception ignored) {
-                //couldn't be parsed
-                userIOSemaphore.release();
-                reader.close();
-                return false;
-            }
-
-            //validate all fields, if anything isn't there, delete the json so this user is ignored
-
-            //so google is literally NO help in searching "gson tell if field was ignored"
-            // so let's just find all getters and call them and see if the thing returned is null-like
-            // if so, we're fucked so delete the file
-
-            if (userObj == null) {
-                userIOSemaphore.release();
-                reader.close();
-                return false;
-            }
-
-            //for all methods
-            for (Method m : userObj.getClass().getMethods()) {
-                //get the getter method
-                if (m.getName().toLowerCase().contains("get") && m.getParameterCount() == 0) {
-                    //all getters return strings for user objects so invoke the method
-                    Object object = m.invoke(userObj);
-
-                    if (object instanceof String) {
-                        String value = (String) object;
-
-                        if (value == null || value.equalsIgnoreCase("null")) {
-                            //this thing doesn't exist so return false where the IOUtil method will delete the file
-                            userIOSemaphore.release();
-                            reader.close();
-                            return false;
-                        }
-                    }
-                }
-            }
-
-            //write back so that it's a singular line to prepare for pref injection
-            Writer writer = new FileWriter(f);
-            gson.toJson(userObj, writer);
-            writer.close();
-
-            //read contents into master String
-            BufferedReader jsonReader = new BufferedReader(new FileReader(f));
-            StringBuilder masterJson = new StringBuilder(jsonReader.readLine());
-            jsonReader.close();
-
-            //make sure contents are not null-like
-            if (masterJson == null || masterJson.toString().trim().isEmpty()
-                    || masterJson.toString().equalsIgnoreCase("null")) {
-                userIOSemaphore.release();
-                reader.close();
-                writer.close();
-                jsonReader.close();
-                return false;
-            }
-
-            //remove closing curly brace
-            masterJson = new StringBuilder(masterJson.substring(0, masterJson.length() - 1));
-
-            //keep track of if we injected anything
-            LinkedList<String> injections = new LinkedList<>();
-
-            //loop through default preferences
-            for (Preference pref : Preferences.getPreferences()) {
-                //old json detected, and we found a pref that doesn't exist
-                if (!masterJson.toString().toLowerCase().contains(pref.getID().toLowerCase())) {
-                    //inject into json
-                    String injectionBuilder = ",\"" +
-                            pref.getID() +
-                            "\":\"" +
-                            pref.getDefaultValue() + "\"";
-
-                    masterJson.append(injectionBuilder);
-
-                    // add what was injected so that we can log it
-                    injections.add(pref.getID() + " = " + pref.getDefaultValue());
-                }
-            }
-
-            //add closing curly brace back in
-            masterJson.append("}");
-
-            // write json string to file
-            BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(f,false));
-            jsonWriter.write(masterJson.toString());
-            jsonWriter.close();
-
-            // if injections, log them
-            if (!injections.isEmpty()) {
-                StringBuilder appendBuilder = new StringBuilder();
-
-                for (int i = 0 ; i < injections.size() ; i++) {
-                    appendBuilder.append("[").append(injections.get(i)).append("]");
-
-                    if (i != injections.size() - 1)
-                        appendBuilder.append("\n");
-                }
-
-                Logger.log(Logger.Tag.ACTION,
-                        "User " + f.getParentFile().getName() +
-                        " was found to have an outdated userdata file.\npreference injection " +
-                        "was attempted on the following:\n" + appendBuilder + "");
-            }
-
-            ret = true;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-            ret = false;
-        } finally {
-            userIOSemaphore.release();
-        }
-
-        return ret;
-    }
-
     /**
      * The linked list of invalid users which this instance of Cyder will ignore.
      */
@@ -1041,6 +880,16 @@ public class UserUtil {
 
             // create parent directory
             File userDir = new File(OSUtil.buildPath("dynamic","users", uuid));
+            File json = new File(OSUtil.buildPath("dynamic","users",uuid, UserFile.USERDATA.getName()));
+
+            // check for empty content
+            if (json.exists()) {
+                BufferedReader reader = new BufferedReader(new FileReader(json));
+                if (StringUtil.isNull(reader.readLine())) {
+                    reader.close();
+                    OSUtil.delete(json);
+                }
+            }
 
             //if there's nothing left in the user dir for some reason, delete the whole folder
             if (userDir.listFiles().length == 0) {

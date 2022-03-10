@@ -1073,8 +1073,6 @@ public class CyderGrid extends JLabel {
 
     //todo look at logs and look for ways to improve clarity and readability
 
-    //todo reclone project to see warnings
-
     //todo utilize surrounding methods for relative zooming after
     // rest of painting widget is implemented
 

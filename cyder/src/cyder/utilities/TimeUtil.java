@@ -248,8 +248,6 @@ public class TimeUtil {
         return hour > 11 && hour < 17;
     }
 
-    //todo why does this return negative shit for random youtube?
-
     /**
      * Returns a string detailing how many years/months/days/hours/minutes/seconds
      * are represented by the given input parameter.

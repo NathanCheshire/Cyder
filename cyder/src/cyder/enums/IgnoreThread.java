@@ -9,7 +9,7 @@ public enum IgnoreThread {
     DestroyJavaVm("DestroyJavaVM"),
     ConsoleInputCaret("Console Input Caret Position Updater"),
     ConsolePrintingAnimation("Console Printing Animation"),
-    ConsoleDataSaver("ConsoleFrame Data Saver"),
+    ConsoleDataSaver("ConsoleFrame Stat Saver"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     SimilarCommandFinder("Similar Command Finder"),
     GitRepoCloner("Git Repo Cloner"),

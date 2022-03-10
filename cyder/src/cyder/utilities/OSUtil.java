@@ -222,7 +222,7 @@ public class OSUtil {
                 case UNIX:
                     //fall through
                 case OSX:
-                    String[] args = new String[]{"/bin/bash", "-c"};
+                    String[] args = {"/bin/bash", "-c"};
                     Process proc = new ProcessBuilder(args).start();
                     break;
                 case UNKNOWN:
@@ -315,7 +315,7 @@ public class OSUtil {
      */
     public static void deleteTempDir() {
         try {
-            OSUtil.delete(new File(OSUtil.TMP_DIR_PATH));
+            delete(new File(TMP_DIR_PATH));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -416,6 +416,11 @@ public class OSUtil {
     }
 
     /**
+     * The maximum number of times something should be attepted to be deleted.
+     */
+    public static final int MAX_DELETION_ATTEMPTS = 100;
+
+    /**
      * Deletes the provided file/folder recursively.
      *
      * @param folder the folder/file to delete
@@ -424,30 +429,30 @@ public class OSUtil {
     public static boolean delete(File folder) {
         Logger.log(Logger.Tag.ACTION, "Requested deletion of: " + folder.getAbsolutePath());
 
-        File[] files = folder.listFiles();
+        if (folder.isDirectory()) {
+            File[] files = folder.listFiles();
 
-        if (files != null) {
-            for (File f : files) {
-                if (f.isDirectory()) {
-                    if (!delete(f)) {
-                        return false;
-                    }
-                }
-
-                else {
-                    if (!f.delete()) {
-                        return false;
-                    }
+            if (files.length != 0) {
+                for (File file : files) {
+                    delete(file);
                 }
             }
+
+
         }
 
-        boolean ret = folder.delete();
+        int inc = 0;
+        while (inc < MAX_DELETION_ATTEMPTS) {
+            if (folder.delete()) {
+                return true;
+            }
 
-        if (!ret)
-            Logger.log(Logger.Tag.ACTION, "[DELETION FAILED] " + folder.getAbsolutePath());
+            inc++;
+        }
 
-        return ret;
+        // deletion failed
+        Logger.log(Logger.Tag.ACTION, "[DELETION FAILED] " + folder.getAbsolutePath());
+        return false;
     }
 
     /**
@@ -491,7 +496,7 @@ public class OSUtil {
      * @param source the file/dir to zip
      * @param destination the destination of the zip archive
      */
-    public static void zip(final String source, final String destination)  {
+    public static void zip(String source, String destination)  {
         AtomicBoolean ret = new AtomicBoolean(true);
 
         String usedFileName;

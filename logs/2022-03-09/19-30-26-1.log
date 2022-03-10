@@ -1,0 +1,69 @@
+[19-30-26] [ENTRY]: [Nathan]
+[19-30-26] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-30-27] [THREAD STARTED]: Splash Loader
+[19-30-27] [THREAD STARTED]: Splash Animation
+[19-30-28] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-30-28] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-30-28] [THREAD STARTED]: JVM Logger
+[19-30-28] [LOGIN]: [AUTOCYPHER FAIL] [2x]
+[19-30-28] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-30-28] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[19-30-28] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [156263261], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[19-30-28] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[19-30-28] [THREAD STARTED]: Login printing animation
+[19-30-28] [THREAD STARTED]: Login Input Caret Position Updater
+[19-30-33] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[19-30-34] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[19-30-36] [LOGIN]: [LOGIN FAIL]
+[19-30-37] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ create
+[19-30-37] [WIDGET OPENED]: USER CREATED
+[19-30-43] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(60, 390, 240, 40)], hash = [1264624763], parentFrame = [Create User], associated text = [Create User], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-30-43] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1567, 460, 356, 473)], hash = [2088598653], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[19-30-43] [THREAD STARTED]: Create User CyderFrame dispose thread
+[19-30-43] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-30-44] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 427, 28)], hash = [-14653822], parentFrame = [Creation Success], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[19-30-44] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1529, 646, 431, 100)], hash = [728047849], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Creation Success]
+[19-30-44] [THREAD STARTED]: Creation Success CyderFrame dispose thread
+[19-30-44] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-30-45] [CLIENT_IO]: [LOGIN FRAME] Nathan@CypherLenovo:~$ login
+[19-30-46] [CLIENT_IO]: [LOGIN FRAME] Username: nathan
+[19-30-47] [LOGIN]: [[STD LOGIN]: 07625597-92f4-3675-b248-bbc04ec77933]
+[19-30-47] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-30-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-47] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-30-47] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[19-30-47] [THREAD STARTED]: Console Printing Animation
+[19-30-47] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-30-47] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-30-47] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-30-47] [THREAD STARTED]: Console Input Caret Position Updater
+[19-30-47] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-30-47] [SYSTEM_IO]: Userdata requested: InputFill
+[19-30-47] [THREAD STARTED]: High Ping Checker
+[19-30-47] [THREAD STARTED]: Hourly Chime Checker
+[19-30-47] [THREAD STARTED]: Console Clock Updater
+[19-30-47] [THREAD STARTED]: Cyder Busy Checker
+[19-30-47] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-30-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1445, 496, 600, 400)], hash = [382627885], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[19-30-47] [THREAD STARTED]: Cyder Login [Insomnia Build] CyderFrame dispose thread
+[19-30-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1567, -470, 356, 473)], hash = [2088598653], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Create User]
+[19-30-47] [THREAD STARTED]: Create User CyderFrame dispose thread
+[19-30-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1529, -89, 431, 100)], hash = [728047849], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Creation Success]
+[19-30-47] [THREAD STARTED]: Creation Success CyderFrame dispose thread
+[19-30-47] [ACTION]: Console loaded in 21256ms
+[19-30-47] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1445, 496, 600, 400)], hash = [382627885], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Login [Insomnia Build]]
+[19-30-47] [THREAD STARTED]: Cyder Login [Insomnia Build] CyderFrame dispose thread
+[19-30-47] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-30-47] [ENTRY]: [TESTING MODE]
+[19-30-47] [SYSTEM_IO]: Userdata requested: laststart
+[19-30-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 07625597-92f4-3675-b248-bbc04ec77933\Userdata.json
+[19-30-51] [SYSTEM_IO]: Unable to create all userfiles for user [07625597-92f4-3675-b248-bbc04ec77933] after 1000 attempts [4x]
+[19-30-53] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-30-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 07625597-92f4-3675-b248-bbc04ec77933\Userdata.json
+[19-30-53] [SYSTEM_IO]: Unable to create all userfiles for user [07625597-92f4-3675-b248-bbc04ec77933] after 1000 attempts [4x]
+[19-30-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\07625597-92f4-3675-b248-bbc04ec77933_1646875851267.json
+[19-30-53] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(992, 234, 1000, 1000)], hash = [460917908], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[19-30-53] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[19-30-53] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-30-53] [EXIT]: [RUNTIME] 27s
+[19-30-53] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

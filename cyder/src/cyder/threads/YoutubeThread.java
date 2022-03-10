@@ -232,7 +232,7 @@ public class YoutubeThread {
      * last checked.
      */
     public void kill() {
-        this.exit = true;
+        exit = true;
         UserUtil.setUserData("youtubeuuid", uuid);
     }
 

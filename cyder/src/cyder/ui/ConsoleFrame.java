@@ -1007,11 +1007,11 @@ public final class ConsoleFrame {
         }, "Cyder Busy Checker");
 
         CyderThreadRunner.submit(() -> {
-            final int timeout = UserUtil.IO_TIMEOUT;
+            int setDelay = 3000;
 
             try {
                 // initial delay
-                Thread.sleep(timeout);
+                Thread.sleep(setDelay);
 
                 OUTER:
                 while (true) {
@@ -1035,7 +1035,7 @@ public final class ConsoleFrame {
                     }
 
                     int i = 0;
-                    while (i < timeout) {
+                    while (i < setDelay) {
                         //noinspection BusyWait
                         Thread.sleep(50);
                         if (consoleFrameClosed) {
@@ -1047,7 +1047,7 @@ public final class ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "User Data Saver");
+        }, "ConsoleFrame Stat Saver");
     }
 
     //one time run things such as notifying due to special days, debug properties,
