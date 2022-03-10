@@ -1,0 +1,107 @@
+[17-59-25] [ENTRY]: [Nathan]
+[17-59-25] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-59-26] [THREAD STARTED]: Splash Loader
+[17-59-26] [SYSTEM_IO]: Unable to create all userfiles for user [7d7ebb00-81fe-329f-8a78-62f463d0b7da] after 1000 attempts [4x]
+[17-59-26] [SYSTEM_IO]: Created temperatory file: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [SYSTEM_IO]: File already existed in userspace: 17-59-26.stacktrace
+[17-59-26] [EXCEPTION]:
+Exception origin: cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+From line: 486
+Trace: java.lang.NullPointerException
+at cyder.utilities.UserUtil.getterSetterValidator(UserUtil.java:486)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:562)
+at cyder.genesis.Cyder.main(Cyder.java:96)
+[17-59-26] [THREAD STARTED]: Splash Animation
+[17-59-26] [CORRUPTION]: [BACKUP SUCCESS] Successfully restored 7d7ebb00-81fe-329f-8a78-62f463d0b7da from: 7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646787699135
+[17-59-27] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-59-27] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-59-27] [THREAD STARTED]: JVM Logger
+[17-59-27] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-59-27] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[17-59-27] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-59-27] [SYSTEM_IO]: Created temperatory file: 17-59-27.stacktrace
+[17-59-27] [EXCEPTION]:
+Exception origin: cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+From line: 31
+Trace: java.lang.NullPointerException
+at cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:31)
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:272)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[17-59-27] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-00-17] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1555628132], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[18-00-17] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[18-00-46] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 11

@@ -540,7 +540,8 @@ public final class ConsoleFrame {
                             .trim().replace(consoleBashString, "");
 
                     if (!StringUtil.isNull(op)) {
-                        if (!commandList.isEmpty() && !commandList.get(commandList.size() - 1).equals(op)) {
+                        // add op unless last thing
+                        if (commandList.isEmpty() ||!commandList.get(commandList.size() - 1).equals(op)) {
                             commandList.add(op);
                         }
 

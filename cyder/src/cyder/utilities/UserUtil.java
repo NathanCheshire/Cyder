@@ -202,6 +202,7 @@ public class UserUtil {
             userIOSemaphore.acquire();
             gson.toJson(u, writer);
             writer.close();
+            System.out.println("wrote to file: " + f);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -444,8 +445,7 @@ public class UserUtil {
         User user = null;
         try {
             user = extractUser(userJson);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        } catch (Exception ignored) {
             return false;
         }
 
@@ -465,42 +465,48 @@ public class UserUtil {
 
                 // for all getters (primitive values)
                 for (Method getterMethod : user.getClass().getMethods()) {
-                    // invoke the getter
-                    System.out.println("Invoking getter: " + getterMethod.getName());
-                    Object getter = getterMethod.invoke(user);
+                    if (getterMethod.getName().startsWith("get")) {
+                        Object getter = getterMethod.invoke(user);
 
-                    if (!(getter instanceof String) || (String) getter == null) {
-                        // invalid getter result so find default value and set
+                        if (!(getter instanceof String) || (String) getter == null) {
+                            // invalid getter result so find default value and set
 
-                        // find the preference associated with this getter
-                        Preference preference = null;
-                        for (Preference pref : Preferences.getPreferences()) {
-                            if (pref.getID().equalsIgnoreCase(getterMethod.getName()
-                                    .replace("get",""))) {
-                                preference = pref;
-                                break;
+                            // find the preference associated with this getter
+                            Preference preference = null;
+                            for (Preference pref : Preferences.getPreferences()) {
+                                System.out.println(getterMethod.getName().replace("get","")
+                                        + "," + pref.getID());
+                                if (pref.getID().equalsIgnoreCase(getterMethod.getName()
+                                        .replace("get",""))) {
+                                    preference = pref;
+                                    break;
+                                }
                             }
-                        }
 
-                        // cannot attempt to restore objects who's tooltip is IGNORE
-                        if (preference.getTooltip().equalsIgnoreCase("IGNORE")) {
-                            ret = false;
-                            break;
-                        }
+                            // this skips for non primitive vals
+                            if (preference == null) {
+                                continue;
+                            }
 
-                        // attempt to restore by using default value
+                            // cannot attempt to restore objects who's tooltip is IGNORE
+                            if (preference.getTooltip().equalsIgnoreCase("IGNORE")) {
+                                return false;
+                            }
 
-                        // find setter
-                        for (Method setterMethod : user.getClass().getMethods()) {
-                            // if the setter matches our getter
-                            if (setterMethod.getName().startsWith("set")
-                                    && setterMethod.getParameterTypes().length == 1
-                                    && setterMethod.getName().replace("set","")
-                                    .equalsIgnoreCase(getterMethod.getName().replace("get",""))) {
+                            // attempt to restore by using default value
 
-                                // invoke setter method with default value
-                                setterMethod.invoke(user, preference.getDefaultValue());
-                                break;
+                            // find setter
+                            for (Method setterMethod : user.getClass().getMethods()) {
+                                // if the setter matches our getter
+                                if (setterMethod.getName().startsWith("set")
+                                        && setterMethod.getParameterTypes().length == 1
+                                        && setterMethod.getName().replace("set","")
+                                        .equalsIgnoreCase(getterMethod.getName().replace("get",""))) {
+
+                                    // invoke setter method with default value
+                                    setterMethod.invoke(user, preference.getDefaultValue());
+                                    break;
+                                }
                             }
                         }
                     }
@@ -533,8 +539,7 @@ public class UserUtil {
                 ret = true;
                 setUserData(userJson, user);
                 break;
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            } catch (Exception ignored) {
                 iterations++;
             }
         }
