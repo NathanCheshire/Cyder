@@ -80,7 +80,7 @@ public class Preferences {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = foreground");
 
             ConsoleFrame.getConsoleFrame().getInputField()
-                    .setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
+                    .setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
 
             return null;
         }));
@@ -151,7 +151,7 @@ public class Preferences {
                 "Fullscreen cyder (Extremely experimental)","0",(optionalParam) -> {
             Logger.log(Logger.Tag.PREFERENCE_REFRESH, "key = fullscreen");
 
-            ConsoleFrame.getConsoleFrame().setFullscreen(UserUtil.extractUser().getFullscreen().equals("1"));
+            ConsoleFrame.getConsoleFrame().setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
 
             return null;
         }));

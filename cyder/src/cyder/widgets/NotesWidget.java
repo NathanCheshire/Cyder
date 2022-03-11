@@ -61,8 +61,8 @@ public class NotesWidget {
         noteFrames = new LinkedList<>();
 
         noteFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
-        noteFrame.setTitle(UserUtil.extractUser().getName() +
-                StringUtil.getApostrophe(UserUtil.extractUser().getName()) + " notes");
+        noteFrame.setTitle(UserUtil.getCyderUser().getName() +
+                StringUtil.getApostrophe(UserUtil.getCyderUser().getName()) + " notes");
 
         initializeNotesList();
 

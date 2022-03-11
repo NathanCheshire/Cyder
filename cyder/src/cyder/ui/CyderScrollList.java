@@ -96,7 +96,7 @@ public class CyderScrollList {
      * Refreshes the list belonging to this instance of CyderScrollList.
      */
     public final void refreshList() {
-        boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
+        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         CyderOutputPane cop = new CyderOutputPane(listPane);
         cop.getJTextPane().setText("");

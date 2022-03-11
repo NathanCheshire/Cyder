@@ -256,7 +256,7 @@ public class CyderFrame extends JFrame {
 
         //try and get preference for frame shape
         if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
-            if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
+            if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
                 setShape(new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), 20, 20));
             } else {
@@ -1192,7 +1192,7 @@ public class CyderFrame extends JFrame {
         try {
             // if we are the ConsoleFrame, save position vars
             if (this == ConsoleFrame.getConsoleFrame().getConsoleCyderFrame())
-                ConsoleFrame.getConsoleFrame().saveConsoleFramePosition();
+                ConsoleFrame.getConsoleFrame().saveScreenStat();
 
             //set restore vars here
             setRestoreX(getX());
@@ -1535,7 +1535,7 @@ public class CyderFrame extends JFrame {
         height = Math.max(MINIMUM_HEIGHT, height);
         super.setSize(width, height);
 
-        if (isVisible() && UserUtil.extractUser().getRoundedwindows().equals("1")) {
+        if (isVisible() && UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
             setShape(new RoundRectangle2D.Double(0, 0,
                     getWidth(), getHeight(), 20, 20));
         } else {
@@ -1987,7 +1987,7 @@ public class CyderFrame extends JFrame {
             //fix shape
             if (cr == null) {
                 if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
-                    if (UserUtil.extractUser().getRoundedwindows().equals("1")) {
+                    if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
                         setShape(new RoundRectangle2D.Double(0, 0,
                                 getWidth(), getHeight(), 20, 20));
                     } else {

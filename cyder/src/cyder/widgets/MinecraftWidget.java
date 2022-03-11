@@ -138,7 +138,7 @@ public class MinecraftWidget {
         minecraftFrame.setIconImage(new ImageIcon("static/pictures/minecraft/Block.png").getImage());
 
         //open minecraft if map exists
-        for (User.MappedExecutable exe : UserUtil.extractUser().getExecutables()) {
+        for (User.MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
             if (exe.getName().equalsIgnoreCase("minecraft") ||
                 exe.getName().equalsIgnoreCase("lunar") ||
                 exe.getName().equalsIgnoreCase("badlion")) {

@@ -114,7 +114,7 @@ public class UserCreator {
         boolean exists = false;
 
         for (File userJson : UserUtil.getUserJsons()) {
-            User u = UserUtil.extractUser(userJson);
+            User u = UserUtil.getCyderUser(userJson);
             if (u.getName().equalsIgnoreCase(osUserName)) {
                 exists = true;
                 break;
@@ -393,7 +393,7 @@ public class UserCreator {
             if (!f.isDirectory())
                 continue;
             try {
-                if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
+                if (UserUtil.getCyderUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
                     userNameExists = true;
                     break;
                 }

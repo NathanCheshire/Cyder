@@ -211,7 +211,7 @@ public class InputHandler {
         //check for bad language if filterchat
         if (UserUtil.getUserData("filterchat").equals("1")
                 && StringUtil.containsBlockedWords(this.command, true)) {
-            println("Sorry, " + UserUtil.extractUser().getName() + ", but that language is prohibited.");
+            println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited.");
             return false;
         }
 
@@ -287,24 +287,24 @@ public class InputHandler {
 
             switch (choice) {
                 case 1:
-                    println("Hello, " + UserUtil.extractUser().getName() + ".");
+                    println("Hello, " + UserUtil.getCyderUser().getName() + ".");
                     break;
                 case 2:
                     if (TimeUtil.isEvening())
-                        println("Good evening, " + UserUtil.extractUser().getName() + ". How can I help?");
+                        println("Good evening, " + UserUtil.getCyderUser().getName() + ". How can I help?");
                     else if (TimeUtil.isMorning())
-                        println("Good morning, " + UserUtil.extractUser().getName() + ". How can I help?");
+                        println("Good morning, " + UserUtil.getCyderUser().getName() + ". How can I help?");
                     else
-                        println("Good afternoon, " + UserUtil.extractUser().getName() + ". How can I help?");
+                        println("Good afternoon, " + UserUtil.getCyderUser().getName() + ". How can I help?");
                     break;
                 case 3:
-                    println("What's up, " + UserUtil.extractUser().getName() + "?");
+                    println("What's up, " + UserUtil.getCyderUser().getName() + "?");
                     break;
                 case 4:
-                    println("How are you doing, " + UserUtil.extractUser().getName() + "?");
+                    println("How are you doing, " + UserUtil.getCyderUser().getName() + "?");
                     break;
                 case 5:
-                    println("Greetings, " + UserUtil.extractUser().getName() + ".");
+                    println("Greetings, " + UserUtil.getCyderUser().getName() + ".");
                     break;
                 case 6:
                     println("I'm here....");
@@ -370,12 +370,12 @@ public class InputHandler {
         } else if (commandIs("home")) {
             println("There's no place like localhost/127.0.0.1");
         } else if (commandIs("love")) {
-            println("Sorry, " + UserUtil.extractUser().getName() + ", but I don't understand human emotions or affections.");
+            println("Sorry, " + UserUtil.getCyderUser().getName() + ", but I don't understand human emotions or affections.");
         } else if (commandIs("loop")) {
             println("InputHandler.handle(\"loop\", true);");
         } else if (commandIs("story")) {
             println("It was a lazy day. Cyder was enjoying a deep sleep when suddenly "
-                    + UserUtil.extractUser().getName() + " started talking to Cyder."
+                    + UserUtil.getCyderUser().getName() + " started talking to Cyder."
                     + " It was at this moment that Cyder knew its day had been ruined.");
         } else if (commandIs("i hate you")) {
             println("That's not very nice.");
@@ -632,7 +632,7 @@ public class InputHandler {
                     int w = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getWidth();
                     int h = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getHeight();
 
-                    if (UserUtil.extractUser().getFullscreen().equals("1")) {
+                    if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
                         w = ScreenUtil.getScreenWidth();
                         h = ScreenUtil.getScreenHeight();
                     }
@@ -703,7 +703,7 @@ public class InputHandler {
             }
         } else if (commandIs("pixelate") && checkArgsLength(0)) {
             if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackground().getReferenceFile())) {
-                println("Silly " + UserUtil.extractUser().getName() + "; your background " +
+                println("Silly " + UserUtil.getCyderUser().getName() + "; your background " +
                         "is a solid color :P");
             } else {
                 CyderThreadRunner.submit(() -> {
@@ -1365,7 +1365,7 @@ public class InputHandler {
             }, "Location Finder");
         } else if (commandIs("whoami")) {
             println(OSUtil.getComputerName() + OSUtil.FILE_SEP
-                    + StringUtil.capsCheck(UserUtil.extractUser().getName()));
+                    + StringUtil.capsCheck(UserUtil.getCyderUser().getName()));
         }
 
         else ret = false;
@@ -1615,7 +1615,7 @@ public class InputHandler {
      * Checks for wrap terminal mode and passes the args and command to the native termainl.
      */
     private void wrapTerminalCheck() {
-        if (UserUtil.extractUser().getWrapterminal().equalsIgnoreCase("1")) {
+        if (UserUtil.getCyderUser().getWrapterminal().equalsIgnoreCase("1")) {
             println("Unknown command, passing to native terminal...");
 
             CyderThreadRunner.submit(() -> {
@@ -2027,7 +2027,7 @@ public class InputHandler {
 
             //this sometimes throws so we ignore it
             try {
-                capsMode = UserUtil.extractUser().getCapsmode().equals("1");
+                capsMode = UserUtil.getCyderUser().getCapsmode().equals("1");
             } catch (Exception ignored) {}
 
             StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
@@ -2036,7 +2036,7 @@ public class InputHandler {
             outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
 
             if (playInc == playRate - 1) {
-                if (!finishPrinting && UserUtil.extractUser().getTypingsound().equals("1")) {
+                if (!finishPrinting && UserUtil.getCyderUser().getTypingsound().equals("1")) {
                     IOUtil.playSystemAudio("static/audio/Typing.mp3");
                     playInc = 0;
                 }

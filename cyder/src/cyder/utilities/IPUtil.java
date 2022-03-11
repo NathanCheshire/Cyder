@@ -34,10 +34,10 @@ public class IPUtil {
     public static void parseData() {
         Gson gson = new Gson();
 
-        if (UserUtil.extractUser() == null)
+        if (UserUtil.getCyderUser() == null)
             return;
 
-        String key = UserUtil.extractUser().getIpkey();
+        String key = UserUtil.getCyderUser().getIpkey();
 
         if (key.trim().length() == 0) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the IP Key has not been set or is invalid" +

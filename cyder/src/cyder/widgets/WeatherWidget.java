@@ -113,7 +113,7 @@ public class WeatherWidget {
         Logger.log(Logger.Tag.WIDGET_OPENED, "WEATHER");
 
         if (CyderCommon.isHighLatency()) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, " + UserUtil.extractUser().getName() + ", but" +
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, " + UserUtil.getCyderUser().getName() + ", but" +
                     " this feature is suspended until a stable internet connection can be established");
             return;
         }
@@ -530,7 +530,7 @@ public class WeatherWidget {
                 if (!useCustomLoc)
                     locationString = userCity + ", " + userState + ", " + userCountry;
 
-                String key = UserUtil.extractUser().getWeatherkey();
+                String key = UserUtil.getCyderUser().getWeatherkey();
 
                 if (key.trim().length() == 0) {
                     ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +

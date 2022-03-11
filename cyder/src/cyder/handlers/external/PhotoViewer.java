@@ -240,7 +240,7 @@ public class PhotoViewer {
                 .getCurrentBackground().getReferenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
-           pictureFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", but you're not allowed to" +
+           pictureFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", but you're not allowed to" +
                     " rename the background you are currently using");
             return;
         }

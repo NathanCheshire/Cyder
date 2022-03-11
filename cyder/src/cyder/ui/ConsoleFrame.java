@@ -241,7 +241,7 @@ public final class ConsoleFrame {
             resizeBackgrounds();
 
             //set BashString based on cyder username
-            consoleBashString = UserUtil.extractUser().getName() + "@Cyder:~$ ";
+            consoleBashString = UserUtil.getCyderUser().getName() + "@Cyder:~$ ";
 
             //init slide and dir directions
             lastSlideDirection = Direction.LEFT;
@@ -261,7 +261,7 @@ public final class ConsoleFrame {
             //handle random background by setting a random background index
             if (UserUtil.getUserData("RandomBackground").equals("1")) {
                 if (getBackgrounds().size() <= 1) {
-                    consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
+                    consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
                 } else {
                     backgroundIndex = NumberUtil.randInt(0,backgrounds.size() - 1);
@@ -269,7 +269,7 @@ public final class ConsoleFrame {
             }
 
             //figure out the theme color
-            String color = UserUtil.extractUser().getWindowColor();
+            String color = UserUtil.getCyderUser().getWindowColor();
             CyderColors.setGuiThemeColor(ColorUtil.hexToRgb(color));
 
             //get proper width, height, and background image icon,
@@ -363,7 +363,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.setPaintWindowTitle(false);
             consoleCyderFrame.setPaintSuperTitle(true);
             consoleCyderFrame.setTitle(CyderCommon.VERSION +
-                    " Cyder [" + UserUtil.extractUser().getName() + "]");
+                    " Cyder [" + UserUtil.getCyderUser().getName() + "]");
 
             // ConsoleFrame resizing
             consoleCyderFrame.initializeResizing();
@@ -403,8 +403,8 @@ public final class ConsoleFrame {
             });
 
             outputArea.setEditable(false);
-            outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
-            outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground())));
+            outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
+            outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
             outputArea.setAutoscrolls(true);
             outputArea.setBounds(10, 62, getConsoleFrame().getBackgroundWidth() - 20,
                     getConsoleFrame().getBackgroundHeight() - 204);
@@ -417,14 +417,14 @@ public final class ConsoleFrame {
 
                 @Override
                 public void focusLost(FocusEvent e) {
-                    if (UserUtil.extractUser().getOutputborder().equals("0"))
+                    if (UserUtil.getCyderUser().getOutputborder().equals("0"))
                         outputScroll.setBorder(BorderFactory.createEmptyBorder());
                 }
             });
             outputArea.setSelectionColor(CyderColors.selectionColor);
             outputArea.setOpaque(false);
             outputArea.setBackground(CyderColors.nullus);
-            outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
+            outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             outputArea.setFont(getConsoleFrame().generateUserFont());
 
             //init input handler
@@ -566,9 +566,9 @@ public final class ConsoleFrame {
                 }
             });
 
-            inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
-            inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground())));
-            inputField.setForeground(ColorUtil.hexToRgb(UserUtil.extractUser().getForeground()));
+            inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
+            inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
+            inputField.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             inputField.setFont(getConsoleFrame().generateUserFont());
 
             if (UserUtil.getUserData("OutputFill").equals("1")) {
@@ -688,27 +688,15 @@ public final class ConsoleFrame {
             pin.addActionListener(e -> {
                 if (consoleCyderFrame.isAlwaysOnTop()) {
                     consoleCyderFrame.setAlwaysOnTop(false);
-
-                    User user = UserUtil.extractUser();
-                    User.ScreenStat screenStat = user.getScreenStat();
-                    screenStat.setConsoleOnTop(false);
-                    user.setScreenStat(screenStat);
-                    UserUtil.setCyderUser(user);
-
                     pin.setIcon(CyderIcons.pinIcon);
+                    saveScreenStat();
                 } else {
                     consoleCyderFrame.setAlwaysOnTop(true);
-
-                    User user = UserUtil.extractUser();
-                    User.ScreenStat screenStat = user.getScreenStat();
-                    screenStat.setConsoleOnTop(true);
-                    user.setScreenStat(screenStat);
-                    UserUtil.setCyderUser(user);
-
                     pin.setIcon(CyderIcons.pinIconHover);
+                    saveScreenStat();
                 }
             });
-            pin.setIcon(UserUtil.extractUser().getScreenStat().isConsoleOnTop() ?
+            pin.setIcon(UserUtil.getCyderUser().getScreenStat().isConsoleOnTop() ?
                     CyderIcons.pinIconHover : CyderIcons.pinIcon);
             consoleDragButtonList.add(pin);
 
@@ -817,7 +805,7 @@ public final class ConsoleFrame {
             FrameUtil.closeAllFrames(true, consoleCyderFrame, CyderSplash.getSplashFrame());
 
             //restore prior session's frame stats
-            User.ScreenStat requestedConsoleStats = UserUtil.extractUser().getScreenStat();
+            User.ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
             consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
 
             int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
@@ -864,7 +852,7 @@ public final class ConsoleFrame {
                 OUTER:
                 while (true) {
                     if (!isClosed() && !NetworkUtil.decentPing()) {
-                        consoleCyderFrame.notify("Sorry, " + UserUtil.extractUser().getName() +
+                        consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() +
                                 ", but I had trouble connecting to the internet.\n" +
                                 "As a result, some features have been restricted until a " +
                                 "stable connection can be established.");
@@ -1016,24 +1004,7 @@ public final class ConsoleFrame {
 
                 OUTER:
                 while (true) {
-                    // extract user
-                    User user = UserUtil.extractUser();
-
-                    // get and set screen size
-                    User.ScreenStat screenStat = UserUtil.extractUser().getScreenStat();
-                    screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
-                    screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
-                    screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
-                    screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
-                            .getDevice().getIDstring().replaceAll("[^0-9]", "")));
-                    screenStat.setConsoleX(consoleCyderFrame.getX());
-                    screenStat.setConsoleY(consoleCyderFrame.getY());
-                    user.setScreenStat(screenStat);
-
-                    // just to be safe
-                    if (!isClosed()) {
-                        UserUtil.setCyderUser(user);
-                    }
+                    saveScreenStat();
 
                     int i = 0;
                     while (i < setDelay) {
@@ -1101,7 +1072,7 @@ public final class ConsoleFrame {
         //last start time operations
         if (TimeUtil.millisToDays(System.currentTimeMillis() -
                 Long.parseLong(UserUtil.getUserData("laststart"))) > 1) {
-            consoleCyderFrame.notify("Welcome back, " + UserUtil.extractUser().getName() + "!");
+            consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
         }
 
         UserUtil.setUserData("laststart", String.valueOf(System.currentTimeMillis()));
@@ -1140,7 +1111,7 @@ public final class ConsoleFrame {
      */
     private void introMusicCheck() {
         //if the user wants some custom intro music
-        if (UserUtil.extractUser().getIntromusic().equalsIgnoreCase("1")) {
+        if (UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1")) {
             ArrayList<String> musicList = new ArrayList<>();
 
             File userMusicDir = new File(OSUtil.buildPath("dynamic","users",
@@ -1265,7 +1236,7 @@ public final class ConsoleFrame {
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
     private void installMenuTaskbarIcons() {
-        boolean compactMode = UserUtil.extractUser().getCompactTextMode().equals("1");
+        boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         StyledDocument doc = menuPane.getStyledDocument();
         SimpleAttributeSet alignment = new SimpleAttributeSet();
@@ -1304,7 +1275,7 @@ public final class ConsoleFrame {
 
         //mapped executables
         try {
-           exes = UserUtil.extractUser().getExecutables();
+           exes = UserUtil.getCyderUser().getExecutables();
         } catch (Exception e) {
             installMenuTaskbarIcons();
         }
@@ -1611,7 +1582,7 @@ public final class ConsoleFrame {
     @SuppressWarnings("MagicConstant") /* Loading font metric */
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
-            int size = Integer.parseInt(UserUtil.extractUser().getFontsize());
+            int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
 
             if (e.getWheelRotation() == -1) {
                 size++;
@@ -1622,8 +1593,8 @@ public final class ConsoleFrame {
             if (size > Preferences.FONT_MAX_SIZE || size < Preferences.FONT_MIN_SIZE)
                 return;
             try {
-                String fontName = UserUtil.extractUser().getFont();
-                int fontMetric = Integer.parseInt(UserUtil.extractUser().getFontmetric());
+                String fontName = UserUtil.getCyderUser().getFont();
+                int fontMetric = Integer.parseInt(UserUtil.getCyderUser().getFontmetric());
 
                 inputField.setFont(new Font(fontName, fontMetric, size));
                 outputArea.setFont(new Font(fontName, fontMetric, size));
@@ -1656,7 +1627,7 @@ public final class ConsoleFrame {
 
         // build file and pass to user util for user and user file
         File json = OSUtil.buildFile("dynamic","users",uuid, UserFile.USERDATA.getName());
-        UserUtil.setCyderUser(UserUtil.extractUser(json));
+        UserUtil.setCyderUser(UserUtil.getCyderUser(json));
         UserUtil.setCyderUserFile(json);
 
         // log out all users that may have been left as logged in
@@ -1686,9 +1657,9 @@ public final class ConsoleFrame {
      */
     @SuppressWarnings("MagicConstant") /* Loading font */
     public Font generateUserFont() {
-        return new Font(UserUtil.extractUser().getFont(),
-                Integer.parseInt(UserUtil.extractUser().getFontmetric()),
-                Integer.parseInt(UserUtil.extractUser().getFontsize()));
+        return new Font(UserUtil.getCyderUser().getFont(),
+                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
+                Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
     }
 
     // -----------------
@@ -2295,7 +2266,7 @@ public final class ConsoleFrame {
      * @return whether fullscreen is on
      */
     private boolean isFullscreen() {
-        return UserUtil.extractUser().getFullscreen().equals("1");
+        return UserUtil.getCyderUser().getFullscreen().equals("1");
     }
 
     /**
@@ -2489,7 +2460,7 @@ public final class ConsoleFrame {
             }
 
             UserUtil.setUserData("fullscreen", "0");
-        } else if (maintainFullscreen && UserUtil.extractUser().getFullscreen().equals("1")) {
+        } else if (maintainFullscreen && UserUtil.getCyderUser().getFullscreen().equals("1")) {
             // have fullscreen on current monitor
             background = ImageUtil.resizeImage(getCurrentBackground().generateImageIcon(),
                     (int) consoleCyderFrame.getMonitorBounds().getWidth(),
@@ -2893,7 +2864,7 @@ public final class ConsoleFrame {
            if (consoleClockLabel == null)
                return;
 
-           if (UserUtil.extractUser().getClockonconsole().equals("1")) {
+           if (UserUtil.getCyderUser().getClockonconsole().equals("1")) {
                consoleClockLabel.setVisible(true);
            } else {
                consoleClockLabel.setVisible(false);
@@ -2901,7 +2872,7 @@ public final class ConsoleFrame {
            }
 
            // get pattern
-           String pattern = UserUtil.extractUser().getConsoleclockformat();
+           String pattern = UserUtil.getCyderUser().getConsoleclockformat();
 
            //get time according to the pattern
            String time = TimeUtil.getTime(pattern);
@@ -2911,7 +2882,7 @@ public final class ConsoleFrame {
 
            // no custom pattern so take into account showSeconds
            if (time.equalsIgnoreCase(regularSecondTime) || time.equalsIgnoreCase(regularNoSecondTime)) {
-               if (UserUtil.extractUser().getShowseconds().equalsIgnoreCase("1")) {
+               if (UserUtil.getCyderUser().getShowseconds().equalsIgnoreCase("1")) {
                    time = regularSecondTime;
                } else {
                    time = regularNoSecondTime;
@@ -2935,7 +2906,7 @@ public final class ConsoleFrame {
      */
     public void closeConsoleFrame(boolean exit, boolean logoutUser) {
         consoleFrameClosed = true;
-        saveConsoleFramePosition();
+        saveScreenStat();
 
         //stop any audio
         IOUtil.stopAudio();
@@ -2946,7 +2917,7 @@ public final class ConsoleFrame {
 
         //logs
         if (logoutUser) {
-            Logger.log(Logger.Tag.LOGOUT, "[" + UserUtil.extractUser().getName() + "]");
+            Logger.log(Logger.Tag.LOGOUT, "[" + UserUtil.getCyderUser().getName() + "]");
             UserUtil.setUserData("loggedin","0");
         }
 
@@ -2973,27 +2944,26 @@ public final class ConsoleFrame {
     /**
      * Saves the console frame's position and window stats to the currently logged-in user's json file.
      */
-    public void saveConsoleFramePosition() {
+    public void saveScreenStat() {
         if (getUUID() == null)
             return;
 
         if (consoleCyderFrame != null) {
-            User.ScreenStat screenStat = new User.ScreenStat();
-
+            // create new screen stat object
+            User.ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();
             screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
             screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
+            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
+            screenStat.setMonitor(Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration()
+                    .getDevice().getIDstring().replaceAll("[^0-9]", "")));
             screenStat.setConsoleX(consoleCyderFrame.getX());
             screenStat.setConsoleY(consoleCyderFrame.getY());
-            screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
 
-            int monitor = Integer.parseInt(consoleCyderFrame.getGraphicsConfiguration().getDevice()
-                    .getIDstring().replaceAll("[^0-9]", ""));
-
-            screenStat.setMonitor(monitor);
-
-            User user = UserUtil.extractUser();
-            user.setScreenStat(screenStat);
-            UserUtil.setCyderUser(user);
+            // just to be safe
+            if (!isClosed()) {
+                // set new screen stat
+                UserUtil.getCyderUser().setScreenStat(screenStat);
+            }
         }
     }
 

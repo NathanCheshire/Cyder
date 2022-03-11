@@ -51,8 +51,8 @@ public class UserUtil {
     private static final Semaphore userIOSemaphore = new Semaphore(1);
 
     /**
-     * The user used for IO to the user's json everytime this object
-     * is assigned using {@link UserUtil#setCyderUser(User)}.
+     * The current Cyder user stored in memory and written to the
+     * current user file whenever time data changes.
      */
     private static User cyderUser;
 
@@ -123,30 +123,40 @@ public class UserUtil {
        }
     }
 
-    // todo we shouldn't do copies, just pass the user object around to things that need to set it
-    // i.e. the console frame position saver
+    // todo look into any time a getter is called to write the data
+
     /**
      * Sets the given user to the current Cyder user.
+     * This method should only be called if the current contents
+     * of the user, meaning possible writes within the past 100ms,
+     * can be discarded.
      *
+     * This method should only be called when setting
+     * the user due to a Cyder login event.
+     *
+     * If you are trying to set data for the current cyder user,
+     * call {@link UserUtil#getCyderUser()}.
+     *
+     * Common usages of this, such as setting an object such
+     * as the screen stat would look like the following:
+     *
+     * <pre>{@code UserUtil.getCyderUser().setFfmpegpath(text);}</pre>
      * @param u the user to set as the current Cyder user
      */
-    // todo deprecate this and don't rly use it, just write it and
-    //  other things can directly call setters on the cyderUser obj
     public static void setCyderUser(User u) {
         try {
             cyderUser = u;
-            writeUser();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
     /**
-     * Returns the current cyderUser.
+     * Returns the currently set Cyder user.
      *
-     * @return the resulting user object
+     * @return the currently set Cyder user
      */
-    public static User extractUser() {
+    public static User getCyderUser() {
         return cyderUser;
     }
 
@@ -349,10 +359,6 @@ public class UserUtil {
         return ret;
     }
 
-    //todo ensure console frame stats are saved instantly along with other sets to data file
-
-    //todo it's inverted right now some how
-
     /**
      * The maximum number of times to attempt to create a file/directory.
      */
@@ -435,7 +441,7 @@ public class UserUtil {
         // serialze the user, if this fails we're screwed from the start
         User user = null;
         try {
-            user = extractUser(userJson);
+            user = getCyderUser(userJson);
         } catch (Exception ignored) {
             return false;
         }
@@ -604,7 +610,7 @@ public class UserUtil {
      * @param f the json file to extract a user object from
      * @return the resulting user object
      */
-    public static User extractUser(File f) {
+    public static User getCyderUser(File f) {
         Preconditions.checkArgument(f.exists(), "Provided file does not exist");
         Preconditions.checkArgument(FileUtil.validateExtension(f, ".json"),
                 "Provided file is not a json");
@@ -1023,7 +1029,7 @@ public class UserUtil {
      */
     public static void logoutAllUsers() {
         for (File json : getUserJsons()) {
-            User u = extractUser(json);
+            User u = getCyderUser(json);
             u.setLoggedin("0");
             setUserData(json, u);
         }
@@ -1036,7 +1042,7 @@ public class UserUtil {
      */
     public static Optional<String> getFirstLoggedInUser() {
         for (File userJSON : getUserJsons()) {
-            if (extractUser(userJSON).getLoggedin().equals("1"))
+            if (getCyderUser(userJSON).getLoggedin().equals("1"))
                 return Optional.of(FileUtil.getFilename(userJSON.getParentFile().getName()));
         }
 

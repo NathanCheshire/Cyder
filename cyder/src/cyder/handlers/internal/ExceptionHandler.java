@@ -26,7 +26,7 @@ public class ExceptionHandler {
         try {
             Optional<String> write = getPrintableException(e);
 
-            if (write.isPresent() && write.get().trim().length() > 0)
+            if (write.isPresent() && !write.get().trim().isEmpty())
                 Logger.log(Logger.Tag.EXCEPTION, write.get());
 
             //if the user has show errors configured, then we open the file
@@ -52,7 +52,7 @@ public class ExceptionHandler {
         try {
             Optional<String> write = getPrintableException(e);
 
-            if (write.isPresent() && write.get().trim().length() > 0)
+            if (write.isPresent() && !write.get().trim().isEmpty())
                 Logger.log(Logger.Tag.EXCEPTION, write.get());
         } catch (Exception ex) {
             silentHandleWithoutLogging(ex);

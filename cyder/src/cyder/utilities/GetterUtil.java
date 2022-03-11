@@ -88,7 +88,7 @@ public class GetterUtil {
                 submit.setFont(CyderFonts.segoe20);
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
-                    returnString.set((inputField.getText() == null || inputField.getText().length() == 0 ?
+                    returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
                             "NULL" : inputField.getText()));
                     inputFrame.dispose();
                 });
@@ -333,7 +333,7 @@ public class GetterUtil {
      * @param dirFrame the directory frame
      * @param dirField the directory field
      */
-    private void refreshFromTraversalButton(AtomicReference<File> setOnFileChosen,
+    private void refreshFromTraversalButton(AtomicReference<? super File> setOnFileChosen,
                                             CyderFrame dirFrame, CyderTextField dirField) {
         //get files
         File[] files = currentDirectory.listFiles();
@@ -396,7 +396,7 @@ public class GetterUtil {
      * @param dirFrame the directory frame
      * @param dirField the directory field
      */
-    private void refreshBasedOnDir(File directory, AtomicReference<File> setOnFileChosen,
+    private void refreshBasedOnDir(File directory, AtomicReference<? super File> setOnFileChosen,
                                    CyderFrame dirFrame, CyderTextField dirField) {
         //clear forward since a new path
         forward.clear();
@@ -484,8 +484,8 @@ public class GetterUtil {
      * @return whether the user confirmed the operation
      */
     public boolean getConfirmation(GetterBuilder builder) {
-        final String[] retString = {null};
-        final CyderFrame[] confirmationFrame = {null};
+        AtomicReference<String> ret = new AtomicReference<>();
+        AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -496,33 +496,33 @@ public class GetterUtil {
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());
 
-                confirmationFrame[0] = new CyderFrame(w + 40,
+                CyderFrame frame = new CyderFrame(w + 40,
                         h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
-                confirmationFrame[0].setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                confirmationFrame[0].setTitle("Confirmation");
-                confirmationFrame[0].addPreCloseAction(() -> retString[0] = "false");
+                frameReference.set(frame);
+                frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                frame.setTitle("Confirmation");
+                frame.addPreCloseAction(() -> ret.set("false"));
 
                 textLabel.setBounds(10,35, w, h);
-                confirmationFrame[0].getContentPane().add(textLabel);
+                frame.getContentPane().add(textLabel);
 
                 //accounting for offset above
                 w += 40;
 
                 CyderButton yes = new CyderButton("Yes");
                 yes.setColors(builder.getSubmitButtonColor());
-                yes.addActionListener(e -> retString[0] = "true");
+                yes.addActionListener(e -> ret.set("true"));
                 yes.setBounds(20,35 + h + 20, (w - 60) / 2, 40);
-                confirmationFrame[0].getContentPane().add(yes);
+                frame.getContentPane().add(yes);
 
                 CyderButton no = new CyderButton("No");
                 no.setColors(builder.getSubmitButtonColor());
-                no.addActionListener(e -> retString[0] = "false");
+                no.addActionListener(e -> ret.set("false"));
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
-                confirmationFrame[0].getContentPane().add(no);
+                frame.getContentPane().add(no);
 
-                confirmationFrame[0].setVisible(true);
-                confirmationFrame[0].setLocationRelativeTo(builder.getRelativeTo());
-
+                frame.setVisible(true);
+                frame.setLocationRelativeTo(builder.getRelativeTo());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -530,16 +530,16 @@ public class GetterUtil {
 
         try {
             //noinspection LoopConditionNotUpdatedInsideLoop
-            while (retString[0] == null) {
+            while (ret.get() == null) {
                 Thread.onSpinWait();
             }
 
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         } finally {
-            confirmationFrame[0].dispose();
+            frameReference.get().dispose();
         }
 
-        return retString[0].equals("true");
+        return ret.get().equals("true");
     }
 }

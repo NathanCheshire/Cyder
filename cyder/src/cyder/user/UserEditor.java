@@ -137,8 +137,6 @@ public class UserEditor {
             filesList.add(file.getAbsoluteFile());
             filesNameList.add("Files/" + FileUtil.getFilename(file));
         }
-
-        String[] BackgroundsArray = new String[filesNameList.size()];
     }
 
     private static void nextEditUser() {
@@ -692,7 +690,7 @@ public class UserEditor {
         switchingLabel.add(fillField);
 
         JLabel FontLabel = new JLabel("FONTS", SwingConstants.CENTER);
-        FontLabel.setFont(new Font(UserUtil.extractUser().getFont(),Font.BOLD, 30));
+        FontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(),Font.BOLD, 30));
         FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(50, 60, 300, 30);
         switchingLabel.add(FontLabel);
@@ -719,8 +717,8 @@ public class UserEditor {
                     public void fire() {
                         //noinspection MagicConstant
                         FontLabel.setFont(new Font(fontList.get(finalI),
-                                Integer.parseInt(UserUtil.extractUser().getFontmetric()),
-                                Integer.parseInt(UserUtil.extractUser().getFontsize())));
+                                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
+                                Integer.parseInt(UserUtil.getCyderUser().getFontsize())));
                     }
                 }
 
@@ -750,7 +748,7 @@ public class UserEditor {
         applyFont.setFocusPainted(false);
         applyFont.setBackground(CyderColors.regularRed);
         applyFont.addActionListener(e -> {
-            if (fontScrollList == null || fontScrollList.getSelectedElements().size() == 0)
+            if (fontScrollList == null || fontScrollList.getSelectedElements().isEmpty())
                 return;
 
             String selectedFont = fontScrollList.getSelectedElements().get(0);
@@ -759,8 +757,8 @@ public class UserEditor {
                 UserUtil.setUserData("Font", selectedFont);
                 //noinspection MagicConstant
                 Font ApplyFont = new Font(selectedFont,
-                        Integer.parseInt(UserUtil.extractUser().getFontmetric()),
-                        Integer.parseInt(UserUtil.extractUser().getFontsize()));
+                        Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
+                        Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
                 ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
                 ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
                 ConsoleFrame.getConsoleFrame().getInputHandler().println("The font \"" + selectedFont + "\" has been applied.");
@@ -1027,7 +1025,7 @@ public class UserEditor {
         changeUsernameField.setOpaque(true);
         CyderTextField.addAutoCapitalizationAdapter(changeUsernameField);
         printingUtil.printlnComponent(changeUsernameField);
-        changeUsernameField.setText(UserUtil.extractUser().getName());
+        changeUsernameField.setText(UserUtil.getCyderUser().getName());
 
         printingUtil.print("\n");
 
@@ -1036,12 +1034,12 @@ public class UserEditor {
         changeUsernameButton.setFont(CyderFonts.segoe20);
         changeUsernameButton.addActionListener(e -> {
             String newUsername = changeUsernameField.getText();
-            if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.extractUser().getName())) {
+            if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
                 ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
                         .setTitle(CyderCommon.VERSION + " Cyder [" + newUsername + "]");
-                changeUsernameField.setText(UserUtil.extractUser().getName());
+                changeUsernameField.setText(UserUtil.getCyderUser().getName());
             }
         });
         printingUtil.printlnComponent(changeUsernameButton);
@@ -1090,12 +1088,12 @@ public class UserEditor {
             }
 
             if (newPassword.length < 5 || !number || !alphabet) {
-                editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName()
+                editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
                         + ", " + "but your password must contain at least"
                         + " one number, one letter, and be 5 characters long");
             } else {
                 if (!Arrays.equals(newPasswordConf,newPassword)) {
-                    editUserFrame.notify("Sorry, " + UserUtil.extractUser().getName() + ", " +
+                    editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
                             "but your provided passwords were not equal");
                     changePasswordField.setText("");
                     changePasswordConfField.setText("");
@@ -1150,7 +1148,7 @@ public class UserEditor {
         consoleDatePatternField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         consoleDatePatternField.setOpaque(true);
         printingUtil.printlnComponent(consoleDatePatternField);
-        consoleDatePatternField.setText(UserUtil.extractUser().getConsoleclockformat());
+        consoleDatePatternField.setText(UserUtil.getCyderUser().getConsoleclockformat());
 
         printingUtil.print("\n");
 
@@ -1158,9 +1156,9 @@ public class UserEditor {
             String fieldText = StringUtil.getTrimmedText(consoleDatePatternField.getText());
 
             try {
-                Date Time = new Date();
-                SimpleDateFormat dateFormatter = new SimpleDateFormat(fieldText);
-                String formatted =  dateFormatter.format(Time);
+                // if success, valid date pattern
+                //noinspection UseOfObsoleteDateTimeApi
+                new SimpleDateFormat(fieldText).format(new Date());
 
                 //valid so write and refresh ConsoleClock
                 UserUtil.setUserData("consoleclockformat", fieldText);
@@ -1197,7 +1195,7 @@ public class UserEditor {
         printingUtil.print("\n");
 
         addMapButton.addActionListener(e -> {
-            if (addMapField.getText().trim().length() > 0) {
+            if (!addMapField.getText().trim().isEmpty()) {
                 if (!addMapField.getText().trim().contains(",")) {
                     editUserFrame.notify("Invalid map format");
                 } else {
@@ -1224,8 +1222,8 @@ public class UserEditor {
                         if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink && !pointerFile.isDirectory()) {
                             editUserFrame.notify("File does not exist or link is invalid");
                         } else {
-                            if (name.length() > 0) {
-                                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+                            if (!name.isEmpty()) {
+                                LinkedList<User.MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
                                 boolean exists = false;
 
                                 for (User.MappedExecutable exe : exes) {
@@ -1239,11 +1237,10 @@ public class UserEditor {
                                     editUserFrame.notify("Mapped exe name already in use");
                                 } else {
                                     User.MappedExecutable addExe = new User.MappedExecutable(name, path);
-                                    User user = UserUtil.extractUser();
-                                    LinkedList<User.MappedExecutable> currentExes = user.getExecutables();
-                                    currentExes.add(addExe);
-                                    user.setExecutables(currentExes);
-                                    UserUtil.setCyderUser(user);
+                                    LinkedList<User.MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
+                                    newExes.add(addExe);
+                                    UserUtil.getCyderUser().setExecutables(newExes);
+
                                     editUserFrame.notify("Mapped exe successfully added");
                                     ConsoleFrame.getConsoleFrame().revalidateMenu();
                                 }
@@ -1286,8 +1283,8 @@ public class UserEditor {
         removeMapButton.addActionListener(e -> {
             String text = removeMapField.getText().trim();
 
-            if (text.length() > 0) {
-                LinkedList<User.MappedExecutable> exes = UserUtil.extractUser().getExecutables();
+            if (!text.isEmpty()) {
+                LinkedList<User.MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
                 boolean found = false;
 
                 for (User.MappedExecutable exe : exes) {
@@ -1299,9 +1296,7 @@ public class UserEditor {
                 }
 
                 if (found) {
-                    User user = UserUtil.extractUser();
-                    user.setExecutables(exes);
-                    UserUtil.setCyderUser(user);
+                    UserUtil.getCyderUser().setExecutables(exes);
                     editUserFrame.notify("Map successfully removed");
                     ConsoleFrame.getConsoleFrame().revalidateMenu();
                 } else {
@@ -1341,13 +1336,11 @@ public class UserEditor {
         validateFfmpegButton.addActionListener(e -> {
             String text = ffmpegField.getText().trim();
 
-            if (text.length() > 0) {
+            if (!text.isEmpty()) {
                 File ffmpegMaybe = new File(text);
                 if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
                         FileUtil.getExtension(ffmpegMaybe).equals(".exe")) {
-                    User user = UserUtil.extractUser();
-                    user.setFfmpegpath(text);
-                    UserUtil.setCyderUser(user);
+                    UserUtil.getCyderUser().setFfmpegpath(text);
                     editUserFrame.notify("ffmpeg path successfully set");
                 } else {
                     editUserFrame.notify("ffmpeg does not exist at the provided path");
@@ -1385,13 +1378,11 @@ public class UserEditor {
         validateYouTubeDL.addActionListener(e -> {
             String text = youtubedlField.getText().trim();
 
-            if (text.length() > 0) {
+            if (!text.isEmpty()) {
                 File youtubeDLMaybe = new File(text);
                 if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
                         FileUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
-                    User user = UserUtil.extractUser();
-                    user.setYoutubedlpath(text);
-                    UserUtil.setCyderUser(user);
+                    UserUtil.getCyderUser().setYoutubedlpath(text);
                     editUserFrame.notify("youtube-dl path successfully set");
                 } else {
                     editUserFrame.notify("youtube-dl does not exist at the provided path");
@@ -1417,7 +1408,7 @@ public class UserEditor {
         deleteUserButton.addActionListener(e -> {
             String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
 
-            if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray())).equals(UserUtil.extractUser().getPass())) {
+            if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray())).equals(UserUtil.getCyderUser().getPass())) {
                 editUserFrame.notify("Sorry, but the password you entered was incorrect; user not deleted");
                 deletePasswordField.setText("");
             } else {
@@ -1484,14 +1475,14 @@ public class UserEditor {
         weatherKeyField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         weatherKeyField.setOpaque(true);
         printingUtil.printlnComponent(weatherKeyField);
-        weatherKeyField.setText(UserUtil.extractUser().getWeatherkey());
+        weatherKeyField.setText(UserUtil.getCyderUser().getWeatherkey());
 
         printingUtil.print("\n");
 
         validateWeatherKey.addActionListener(e -> CyderThreadRunner.submit(() -> {
             String text = weatherKeyField.getText().trim();
 
-            if (text.length() > 0) {
+            if (!text.isEmpty()) {
                 String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
                         //default location
                         "Austin,Tx,USA" + "&appid=" + text + "&units=imperial";
@@ -1555,14 +1546,14 @@ public class UserEditor {
         ipKeyField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ipKeyField.setOpaque(true);
         printingUtil.printlnComponent(ipKeyField);
-        ipKeyField.setText(UserUtil.extractUser().getIpkey());
+        ipKeyField.setText(UserUtil.getCyderUser().getIpkey());
 
         printingUtil.print("\n");
 
         validateIpKey.addActionListener(e -> CyderThreadRunner.submit(() -> {
             String text = ipKeyField.getText().trim();
 
-            if (text.length() > 0) {
+            if (!text.isEmpty()) {
                 String url = "https://api.ipdata.co/?api-key=" + text;
 
                 boolean valid = false;
@@ -1603,8 +1594,8 @@ public class UserEditor {
         fontMetricField.setSelectionColor(CyderColors.selectionColor);
         //noinspection MagicConstant
         fontMetricField.setFont(new Font(
-                UserUtil.extractUser().getFont(),
-                Integer.parseInt(UserUtil.extractUser().getFontmetric()),
+                UserUtil.getCyderUser().getFont(),
+                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
                 20));
         fontMetricField.setForeground(CyderColors.navy);
         fontMetricField.setCaretColor(CyderColors.navy);
@@ -1612,15 +1603,15 @@ public class UserEditor {
         fontMetricField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         fontMetricField.setOpaque(true);
         printingUtil.printlnComponent(fontMetricField);
-        fontMetricField.setText(UserUtil.extractUser().getFontmetric());
+        fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
         fontMetricField.addActionListener(e -> {
             String numbers = fontMetricField.getText().replace("[^0-9]+","");
 
-            if (numbers.length() > 0) {
+            if (!numbers.isEmpty()) {
                 int number = Integer.parseInt(numbers);
 
                 if (number < 0 || number > 3) {
-                    fontMetricField.setText(UserUtil.extractUser().getFontmetric());
+                    fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
                     editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");
                     return;
                 }
@@ -1629,11 +1620,11 @@ public class UserEditor {
 
                 //noinspection MagicConstant
                 fontMetricField.setFont(new Font(
-                        UserUtil.extractUser().getFont(), number,
-                        Integer.parseInt(UserUtil.extractUser().getFontsize())));
+                        UserUtil.getCyderUser().getFont(), number,
+                        Integer.parseInt(UserUtil.getCyderUser().getFontsize())));
                 Preferences.invokeRefresh("fontmetric");
             } else {
-                fontMetricField.setText(UserUtil.extractUser().getFontmetric());
+                fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
                 editUserFrame.notify("Font metric has to be in the list [0,1,2,3]");
             }
         });
@@ -1674,14 +1665,14 @@ public class UserEditor {
         youtubeAPI3Field.setBorder(new LineBorder(CyderColors.navy, 5, false));
         youtubeAPI3Field.setOpaque(true);
         printingUtil.printlnComponent(youtubeAPI3Field);
-        youtubeAPI3Field.setText(UserUtil.extractUser().getYouTubeAPI3Key());
+        youtubeAPI3Field.setText(UserUtil.getCyderUser().getYouTubeAPI3Key());
 
         printingUtil.print("\n");
 
         validateYoutubeAPI.addActionListener(e -> CyderThreadRunner.submit(() -> {
             String text = youtubeAPI3Field.getText().trim();
 
-            if (text.length() > 0) {
+            if (!text.isEmpty()) {
                 try {
                     NetworkUtil.readUrl("https://www.googleapis.com/youtube/v3/search" +
                             "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
@@ -1690,7 +1681,7 @@ public class UserEditor {
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
                     editUserFrame.notify("Invalid api key");
-                    youtubeAPI3Field.setText(UserUtil.extractUser().getYouTubeAPI3Key());
+                    youtubeAPI3Field.setText(UserUtil.getCyderUser().getYouTubeAPI3Key());
                 }
             }
         }, "YouTubeAPI3 key validator"));

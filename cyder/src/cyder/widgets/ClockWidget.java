@@ -381,7 +381,7 @@ public class ClockWidget {
 
                 if (possibleLocation.length() > 0) {
                     try {
-                        String key = UserUtil.extractUser().getWeatherkey();
+                        String key = UserUtil.getCyderUser().getWeatherkey();
 
                         if (key.trim().length() == 0) {
                             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, " +
@@ -515,7 +515,7 @@ public class ClockWidget {
     }
 
     private static int gmtBasedOffLocation() {
-        String key = UserUtil.extractUser().getWeatherkey();
+        String key = UserUtil.getCyderUser().getWeatherkey();
 
         if (key.trim().length() == 0) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, " +

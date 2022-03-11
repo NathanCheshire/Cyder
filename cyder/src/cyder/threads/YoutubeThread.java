@@ -61,7 +61,7 @@ public class YoutubeThread {
 
         CyderThreadRunner.submit(() -> {
             //init as user's stored value
-            uuid = UserUtil.extractUser().getYoutubeuuid();
+            uuid = UserUtil.getCyderUser().getYoutubeuuid();
 
             try {
                 if (uuid.length() != 11)

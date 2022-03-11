@@ -112,7 +112,7 @@ public class TimeUtil {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             throw new IllegalStateException("The console frame uuid is not set");
 
-        return getTime(UserUtil.extractUser().getConsoleclockformat());
+        return getTime(UserUtil.getCyderUser().getConsoleclockformat());
     }
 
     /**
