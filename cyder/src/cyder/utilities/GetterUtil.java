@@ -67,7 +67,7 @@ public class GetterUtil {
             try {
                 CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                inputFrame.setTitle(builder.getText());
+                inputFrame.setTitle(builder.getTitle());
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setHorizontalAlignment(JTextField.CENTER);
@@ -491,7 +491,7 @@ public class GetterUtil {
             try {
                 CyderLabel textLabel = new CyderLabel();
 
-                BoundsString bs = BoundsUtil.widthHeightCalculation(builder.getText(), textLabel.getFont());
+                BoundsString bs = BoundsUtil.widthHeightCalculation(builder.getInitialString(), textLabel.getFont());
                 int w = bs.getWidth();
                 int h = bs.getHeight();
                 textLabel.setText(bs.getText());
@@ -500,7 +500,7 @@ public class GetterUtil {
                         h + 25 + 20 + 40 + 40, CyderIcons.defaultBackgroundLarge);
                 frameReference.set(frame);
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
-                frame.setTitle("Confirmation");
+                frame.setTitle(builder.getTitle());
                 frame.addPreCloseAction(() -> ret.set("false"));
 
                 textLabel.setBounds(10,35, w, h);

@@ -15,8 +15,7 @@
 [12-44-43] [SYSTEM_IO]: Userdata requested: RandomBackground
 [12-44-43] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-44-43] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-44-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-44-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-44-43] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [12-44-43] [THREAD STARTED]: Console Printing Animation
 [12-44-43] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-44-43] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -101,22 +100,20 @@
 [12-46-17] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024373466.json
 [12-46-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-46-21] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024377595.json
-[12-46-23] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1380777753], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[12-46-23] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1380777753], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[12-46-23] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1380777753], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-46-23] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [1380777753], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [3x]
 [12-46-25] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-46-25] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024381400.json
 [12-46-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1357, 606, 400, 170)], hash = [315008082], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter grid length]
 [12-46-25] [THREAD STARTED]: Enter grid length CyderFrame dispose thread
-[12-46-25] [EXCEPTION]: 
+[12-46-25] [EXCEPTION]:
 Exception origin: java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
 From line: 65
 Trace: java.lang.NumberFormatException: For input string: "asdf"
-	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
-	at java.base/java.lang.Integer.parseInt(Integer.java:652)
-	at java.base/java.lang.Integer.parseInt(Integer.java:770)
-	at cyder.widgets.PaintWidget.lambda$showGUI$7(PaintWidget.java:205)
-	at java.base/java.lang.Thread.run(Thread.java:844)
+at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+at java.base/java.lang.Integer.parseInt(Integer.java:652)
+at java.base/java.lang.Integer.parseInt(Integer.java:770)
+at cyder.widgets.PaintWidget.lambda$showGUI$7(PaintWidget.java:205)
+at java.base/java.lang.Thread.run(Thread.java:844)
 [12-46-25] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1008511517], parentFrame = [Enter grid length], associated text = [Resize], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [12-46-25] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [12-46-25] [THREAD STARTED]: Component name = [cyder.ui.CyderFrame], bounds = [(1117, 241, 800, 830)], hash = [985602943], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint] notification queue checker
@@ -124,8 +121,7 @@ Trace: java.lang.NumberFormatException: For input string: "asdf"
 [12-46-25] [THREAD STARTED]: notification appear animation
 [12-46-25] [SYSTEM_IO]: Userdata requested: closeanimation
 [12-46-25] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[12-46-25] [THREAD STARTED]: Notificaiton Vanish Animator
-[12-46-27] [THREAD STARTED]: Notificaiton Vanish Animator
+[12-46-27] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
 [12-46-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-46-28] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024385164.json
 [12-46-32] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
@@ -144,8 +140,7 @@ Trace: java.lang.NumberFormatException: For input string: "asdf"
 [12-46-55] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024411734.json
 [12-46-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-46-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024415519.json
-[12-47-01] [THREAD STARTED]: Paint Grid Pixelator
-[12-47-02] [THREAD STARTED]: Paint Grid Pixelator
+[12-47-02] [THREAD STARTED]: Paint Grid Pixelator [2x]
 [12-47-03] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-47-03] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024419296.json
 [12-47-06] [THREAD STARTED]: Paint Grid Pixelator
@@ -156,8 +151,7 @@ Trace: java.lang.NumberFormatException: For input string: "asdf"
 [12-47-10] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024426836.json
 [12-47-12] [THREAD STARTED]: Paint Grid Resizer
 [12-47-12] [THREAD STARTED]: cyder.utilities.GetterUtil@692996c2getString thread
-[12-47-13] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [917426310], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[12-47-13] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [917426310], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[12-47-13] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [917426310], parentFrame = [Enter grid length], associated text = [200], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [12-47-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-47-14] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024430606.json
 [12-47-16] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1317, 571, 400, 170)], hash = [625880551], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter grid length]
@@ -166,21 +160,16 @@ Trace: java.lang.NumberFormatException: For input string: "asdf"
 [12-47-16] [SYSTEM_IO]: Userdata requested: closeanimation
 [12-47-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-47-18] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024434369.json
-[12-47-18] [THREAD STARTED]: Paint menu label animator
-[12-47-19] [THREAD STARTED]: Paint menu label animator
-[12-47-19] [THREAD STARTED]: Paint menu label animator
-[12-47-20] [THREAD STARTED]: Paint menu label animator
+[12-47-20] [THREAD STARTED]: Paint menu label animator [4x]
 [12-47-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-47-21] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024438087.json
 [12-47-21] [THREAD STARTED]: Paint menu label animator
 [12-47-24] [THREAD STARTED]: minimize menu thread
-[12-47-24] [THREAD STARTED]: Console menu animator
-[12-47-25] [THREAD STARTED]: Console menu animator
+[12-47-25] [THREAD STARTED]: Console menu animator [2x]
 [12-47-25] [THREAD STARTED]: minimize menu thread
 [12-47-25] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-47-25] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024441628.json
-[12-47-26] [THREAD STARTED]: Paint menu label animator
-[12-47-26] [THREAD STARTED]: Paint menu label animator
+[12-47-26] [THREAD STARTED]: Paint menu label animator [2x]
 [12-47-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [12-47-28] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647024445319.json
 [12-47-32] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json

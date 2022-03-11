@@ -1255,25 +1255,28 @@ public class CyderFrame extends JFrame {
      * @param fastClose whether to animate the frame away or immediately dispose the frame
      */
     public void dispose(boolean fastClose) {
-        Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: "
-                + fastClose + ", CyderFrame: " + this);
-
+        // thread since possible confirmation
         CyderThreadRunner.submit(() -> {
             try {
                 if (this == null || disposed)
                     return;
 
-                disposed = true;
-
                 //if closing confirmation exists and the user decides they do not want to exit the frame
                 if (closingConfirmationMessage != null) {
-                    GetterBuilder builder = new GetterBuilder(closingConfirmationMessage);
+                    GetterBuilder builder = new GetterBuilder("Confirmation");
+                    builder.setInitialString(closingConfirmationMessage);
                     builder.setRelativeTo(this);
                     boolean exit = GetterUtil.getInstance().getConfirmation(builder);
 
                     if (!exit)
                         return;
                 }
+
+                disposed = true;
+
+                // confirmation passed so log
+                Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: "
+                        + fastClose + ", CyderFrame: " + this);
 
                 //run all preCloseActions if any exists, this is performed after the confirmation check
                 // since now we are sure that we wish to close the frame

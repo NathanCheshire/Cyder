@@ -12,11 +12,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class GetterBuilder {
     //required params
-    private final String text;
+    private final String title;
 
     //optional params
     private String submitButtonText = "Submit";
-    private String fieldTooltip = "";
+
+    private String fieldTooltip = "Input";
+    private String fieldRegex;
+
     private Component relativeTo;
     private Color submitButtonColor = CyderColors.regularRed;
     private String initialString = "";
@@ -24,17 +27,17 @@ public class GetterBuilder {
     /**
      * Constructs a new GetterBuilder.
      *
-     * @param text the frame title/the text for confirmations.
+     * @param title the frame title/the text for confirmations.
      */
-    public GetterBuilder(String text) {
-        checkNotNull(text, "title/text is null");
-        checkArgument(text.length() > 2, "Text length is less than three");
+    public GetterBuilder(String title) {
+        checkNotNull(title, "title is null");
+        checkArgument(title.length() > 2, "Title length is less than three");
 
-        this.text = text;
+        this.title = title;
     }
 
-    public String getText() {
-        return text;
+    public String getTitle() {
+        return title;
     }
 
     public String getSubmitButtonText() {
@@ -51,6 +54,14 @@ public class GetterBuilder {
 
     public void setFieldTooltip(String fieldTooltip) {
         this.fieldTooltip = fieldTooltip;
+    }
+
+    public String getFieldRegex() {
+        return fieldRegex;
+    }
+
+    public void setFieldRegex(String fieldRegex) {
+        this.fieldRegex = fieldRegex;
     }
 
     public Component getRelativeTo() {

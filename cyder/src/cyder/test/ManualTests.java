@@ -19,7 +19,9 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
+import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +38,14 @@ public class ManualTests {
     @ManualTest(trigger = "launch")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
+        GetterBuilder builder = new GetterBuilder("title");
+        builder.setInitialString("You are about to do an irreversible action, how do you plead?");
+        builder.setRelativeTo(ConsoleFrame.getConsoleFrame().getConsoleCyderFrame());
 
+        //todo test custom button list
+
+        CyderThreadRunner.submit(() ->
+                System.out.println(GetterUtil.getInstance().getConfirmation(builder)), "test");
     }
 
     /**

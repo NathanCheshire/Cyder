@@ -832,16 +832,18 @@ public class UserUtil {
                     uuid, UserFile.USERDATA.getName()));
 
             // todo test actually restoring from a backup
+
             // todo confirmation doesn't work after once
 
-            // todo refine getter builder
-            // add an option for field regex for getter util
-            // be able to give list of buttons with mapped actions
-            // other ideas here too
+            // todo test confirmation with other strings
 
-            // todo add color label for paint's new color field
+            // todo add "New color" label for paint's new color field
 
             // todo come up with solution for constant logging of backups and deleting the old json
+
+            // todo look at logs and figure out how to clean up logs
+
+            // make a debug one that prints a debug print easy to spot like from log4j
 
             try {
                // attempt to recovery a backup

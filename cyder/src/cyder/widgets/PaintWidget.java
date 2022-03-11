@@ -133,6 +133,7 @@ public class PaintWidget {
             builder.setSubmitButtonText("Save Image");
             builder.setFieldTooltip("The filename to save the image");
             String filename = GetterUtil.getInstance().getString(builder);
+
             if (OSUtil.isValidFilename(filename)) {
                 BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
                         cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
@@ -190,7 +191,7 @@ public class PaintWidget {
                 GetterBuilder builder = new GetterBuilder("Enter pixel size");
                 builder.setFieldTooltip("Pixel size");
                 builder.setRelativeTo(paintFrame);
-                builder.setSubmitButtonText("Pixelate grid");
+                builder.setSubmitButtonText("Pixelate Grid");
                 builder.setInitialString(String.valueOf(1));
                 String pixelSizeString = GetterUtil.getInstance().getString(builder);
 
@@ -221,6 +222,13 @@ public class PaintWidget {
                 String dimension = GetterUtil.getInstance().getString(builder);
 
                 int dimensionInt = Integer.parseInt(dimension);
+
+                // get grid
+
+                // use resize algorithm from widget that will go away to resize the grid
+                // copy to image
+                // use algorithm
+                // put back on grid
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not resize at this time");
