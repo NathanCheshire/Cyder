@@ -33,6 +33,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class UserUtil {
     /**
+     * The url of the default background to give to newly created users provided a
+     * connection is available.
+     */
+    public static final String DEFAULT_BACKGROUND_URL = "https://i.imgur.com/kniH8y9.png";
+
+    /**
      * Instantiation of util method not allowed.
      */
     private UserUtil() {
@@ -794,17 +800,9 @@ public class UserUtil {
      * @param uuid the uuid to ignore
      */
     public static void addInvalidUuid(String uuid) {
-        boolean in = false;
-
-        for (String aUuid : invalidUUIDs) {
-            if (uuid.equals(aUuid)) {
-                in = true;
-                break;
-            }
-        }
-
-        if (!in)
+        if (!StringUtil.in(uuid, false, invalidUUIDs)) {
             invalidUUIDs.add(uuid);
+        }
     }
 
     /**
@@ -834,6 +832,7 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
+            // todo test actually restoring from a backup
             try {
                // attempt to recovery a backup
                Optional<File> userJsonBackup = getUserJsonBackup(uuid);
@@ -942,25 +941,23 @@ public class UserUtil {
      *
      * @param fileName the file name of the user file to return a reference to
      * @return the provided user file
-     * @throws IllegalArgumentException if the filename is not a standard enum
-     * @throws RuntimeException if the file/directory fails to be created
-     * @throws IllegalStateException if the consoleFrame uuid has not yet been set
      */
     public static File getUserFile(String fileName) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            throw new IllegalStateException("ConsoleFrame UUID is not yet set");
+        Preconditions.checkArgument(ConsoleFrame.getConsoleFrame().getUUID() != null,
+                "ConsoleFrame uuid is not yet set");
 
-        boolean valid = false;
+        boolean in = false;
 
-        for (UserFile userFile : UserFile.getFiles()) {
-            if (fileName.equalsIgnoreCase(userFile.getName())) {
-                valid = true;
+        for (UserFile f : UserFile.values()) {
+            if (fileName.equalsIgnoreCase(f.getName())) {
+                in = true;
                 break;
             }
         }
 
-        if (!valid)
+        if (!in) {
             throw new IllegalArgumentException("Provided userfile does not exists as standard enum type");
+        }
 
         File ret = new File(OSUtil.buildPath("dynamic",
                 "users", ConsoleFrame.getConsoleFrame().getUUID(), fileName));
@@ -990,7 +987,6 @@ public class UserUtil {
      *
      * @return a list of valid uuids associated with Cyder users
      */
-    @SuppressWarnings("unused")
     public static ArrayList<String> getUserUUIDs() {
         ArrayList<String> uuids = new ArrayList<>();
 
@@ -1061,7 +1057,7 @@ public class UserUtil {
 
         //try to get default image that isn't bundled with Cyder
         try {
-            bi = ImageIO.read(new URL("https://i.imgur.com/kniH8y9.png"));
+            bi = ImageIO.read(new URL(DEFAULT_BACKGROUND_URL));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
 

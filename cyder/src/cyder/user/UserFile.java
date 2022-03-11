@@ -67,13 +67,4 @@ public enum UserFile {
         this.name = name;
         this.isFile = isFile;
     }
-
-    /**
-     * Returns all files/directories that should exist within the user directory.
-     *
-     * @return all files/directories that should exist within the user directory
-     */
-    public static UserFile[] getFiles() {
-        return UserFile.class.getEnumConstants();
-    }
 }

@@ -414,7 +414,7 @@ public class UserCreator {
             return false;
 
         //create the default user files
-        for (UserFile f : UserFile.getFiles()) {
+        for (UserFile f : UserFile.values()) {
             File makeMe = new File(OSUtil.buildPath("dynamic","users",uuid,f.getName()));
 
             if (f.isFile()) {
