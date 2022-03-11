@@ -832,6 +832,8 @@ public class UserUtil {
                     uuid, UserFile.USERDATA.getName()));
 
             // todo test actually restoring from a backup
+            // todo confirmation doesn't work after once
+
             try {
                // attempt to recovery a backup
                Optional<File> userJsonBackup = getUserJsonBackup(uuid);

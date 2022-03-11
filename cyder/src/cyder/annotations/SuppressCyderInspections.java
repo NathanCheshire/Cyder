@@ -10,7 +10,12 @@ import java.lang.annotation.Target;
  * ignore when performing certain tests/checks.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({
+        ElementType.METHOD,
+        ElementType.CONSTRUCTOR,
+        ElementType.FIELD,
+        ElementType.TYPE
+})
 public @interface SuppressCyderInspections {
     String[] values();
 }

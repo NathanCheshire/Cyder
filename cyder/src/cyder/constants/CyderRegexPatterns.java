@@ -1,5 +1,6 @@
 package cyder.constants;
 
+@SuppressWarnings("unused") /* some patterns not used */
 public final class CyderRegexPatterns {
     /**
      * Pattern used to validate an IPV4 address

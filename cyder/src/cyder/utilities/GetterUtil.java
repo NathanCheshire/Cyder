@@ -97,9 +97,9 @@ public class GetterUtil {
 
                 inputFrame.addPreCloseAction(submit::doClick);
 
-                inputFrame.setVisible(true);
                 inputFrame.setAlwaysOnTop(true);
                 inputFrame.setLocationRelativeTo(builder.getRelativeTo());
+                inputFrame.setVisible(true);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -521,8 +521,8 @@ public class GetterUtil {
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(no);
 
-                frame.setVisible(true);
                 frame.setLocationRelativeTo(builder.getRelativeTo());
+                frame.setVisible(true);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
