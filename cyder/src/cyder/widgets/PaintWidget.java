@@ -13,10 +13,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.GridNode;
 import cyder.ui.objects.NotificationBuilder;
-import cyder.utilities.ColorUtil;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.OSUtil;
+import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
@@ -165,7 +162,24 @@ public class PaintWidget {
         }, "Paint Grid Exporter"));
         paintFrame.addMenuItem("Layer Image", () -> CyderThreadRunner.submit(() -> {
             try {
-                //todo
+                GetterBuilder builder = new GetterBuilder("Layer Image");
+                builder.setRelativeTo(paintFrame);
+                builder.setFieldTooltip("Choose a png or jpg");
+                File chosenImage = GetterUtil.getInstance().getFile(builder);
+
+                if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
+                    BufferedImage layerImage = ImageIO.read(chosenImage);
+                    int newLen = Math.max(layerImage.getWidth(), layerImage.getHeight());
+
+                    // resize grid to newlen x new len
+
+                    // leave grid in same position, don't center
+                    // layer image on top, adding to pixel values
+
+                    // make sure state is still traversable
+                } else {
+                    paintFrame.notify("Image type not supported");
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not add image at this time");
@@ -173,7 +187,25 @@ public class PaintWidget {
         }, "Paint Grid Image Layerer"));
         paintFrame.addMenuItem("Pixelate", () -> CyderThreadRunner.submit(() -> {
             try {
-                //todo
+                GetterBuilder builder = new GetterBuilder("Enter pixel size");
+                builder.setFieldTooltip("Pixel size");
+                builder.setRelativeTo(paintFrame);
+                builder.setSubmitButtonText("Pixelate grid");
+                builder.setInitialString(String.valueOf(1));
+                String pixelSizeString = GetterUtil.getInstance().getString(builder);
+
+                int pixelSize = Integer.parseInt(pixelSizeString);
+
+                // no change
+                if (pixelSize == 1) {
+                    return;
+                }
+
+                // convert to image
+
+                // use algorithm to pixelate image
+
+                // init new grid and copy over pixelated data
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not pixelate image at this time");
@@ -181,7 +213,14 @@ public class PaintWidget {
         }, "Paint Grid Pixelator"));
         paintFrame.addMenuItem("Resize", () -> CyderThreadRunner.submit(() -> {
             try {
-                //todo
+                GetterBuilder builder = new GetterBuilder("Enter grid length");
+                builder.setFieldTooltip("Grid length");
+                builder.setRelativeTo(paintFrame);
+                builder.setSubmitButtonText("Resize");
+                builder.setInitialString(String.valueOf(cyderGrid.getNodeDimensionLength()));
+                String dimension = GetterUtil.getInstance().getString(builder);
+
+                int dimensionInt = Integer.parseInt(dimension);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not resize at this time");

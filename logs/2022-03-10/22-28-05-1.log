@@ -15,8 +15,7 @@
 [22-28-07] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-28-07] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-28-07] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-28-07] [THREAD STARTED]: Console Printing Animation
 [22-28-07] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-28-07] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -176,8 +175,7 @@
 [22-29-45] [ACTION]: [Editing note: My custom note] [NOTIFICATION] w = 281, h = 58, text = <html>My custom note has been<br/>successfully saved</html>
 [22-29-45] [THREAD STARTED]: notification appear animation
 [22-29-45] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[22-29-45] [THREAD STARTED]: Notificaiton Vanish Animator
-[22-29-46] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-29-46] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
 [22-29-46] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-29-46] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(753, 420, 600, 625)], hash = [1128055638], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [22-29-46] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
@@ -210,8 +208,7 @@
 [22-30-07] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1266, 579, 500, 153)], hash = [703269295], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Confirmation]
 [22-30-07] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(20, 83, 220, 40)], hash = [126071313], parentFrame = [Confirmation], associated text = [Yes], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [22-30-07] [THREAD STARTED]: Confirmation CyderFrame dispose thread
-[22-30-07] [SYSTEM_IO]: Userdata requested: closeanimation
-[22-30-07] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-30-07] [SYSTEM_IO]: Userdata requested: closeanimation [2x]
 [22-30-10] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [22-30-10] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646973006775.json
 [22-30-10] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]

@@ -17,14 +17,14 @@ public class GetterBuilder {
     //optional params
     private String submitButtonText = "Submit";
     private String fieldTooltip = "";
-    private Component relativeTo = null;
+    private Component relativeTo;
     private Color submitButtonColor = CyderColors.regularRed;
     private String initialString = "";
 
     /**
      * Constructs a new GetterBuilder.
      *
-     * @param text the text/the frame title
+     * @param text the frame title/the text for confirmations.
      */
     public GetterBuilder(String text) {
         checkNotNull(text, "title/text is null");

@@ -834,6 +834,15 @@ public class UserUtil {
             // todo test actually restoring from a backup
             // todo confirmation doesn't work after once
 
+            // todo refine getter builder
+            // add an option for field regex for getter util
+            // be able to give list of buttons with mapped actions
+            // other ideas here too
+
+            // todo add color label for paint's new color field
+
+            // todo come up with solution for constant logging of backups and deleting the old json
+
             try {
                // attempt to recovery a backup
                Optional<File> userJsonBackup = getUserJsonBackup(uuid);

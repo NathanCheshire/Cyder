@@ -18,17 +18,17 @@ public class FileUtil {
     /**
      * The image formats Cyder supports.
      */
-    public static final String[] SUPPORTED_IMAGE_EXTENSIONS = new String[] {".png", ".jpg", ".jpeg"};
+    public static final String[] SUPPORTED_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg"};
 
     /**
      * The metadata signature for a png file.
      */
-    public static final int[] PNG_SIGNATURE =  new int[]{0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
+    public static final int[] PNG_SIGNATURE = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 
     /**
      * The metadata signature for a jpg file.
      */
-    public static final int[] JPG_SIGNATURE = new int[]{0xFF, 0xD8, 0xFF};
+    public static final int[] JPG_SIGNATURE = {0xFF, 0xD8, 0xFF};
 
     /**
      * Returns whether the provided file is a supported image file by validating
@@ -128,9 +128,24 @@ public class FileUtil {
     public static boolean validateExtension(File file, String expectedExtension) {
         checkNotNull(file);
         checkNotNull(expectedExtension);
-        checkArgument(expectedExtension.length() > 0);
+        checkArgument(!expectedExtension.isEmpty());
 
         return getExtension(file).equals(expectedExtension);
+    }
+
+    /**
+     * Returns whether the provided file ends in one of the expected extensions.
+     *
+     * @param file the file to validate the extension again
+     * @param expectedExtensions the expected extensions such as ".json", ".mp3", ".png", etc.
+     * @return whether the provided file ends in one of the expected extension
+     */
+    public static boolean validateExtension(File file, String... expectedExtensions) {
+        checkNotNull(file);
+        checkNotNull(expectedExtensions);
+        checkArgument(expectedExtensions.length > 0);
+
+        return StringUtil.in(getExtension(file), false, expectedExtensions);
     }
 
     /**
@@ -140,10 +155,11 @@ public class FileUtil {
      * @param expectedName the expected name
      * @return whether the file's name without the extension matches the expected name
      */
+    @SuppressWarnings("unused")
     public static boolean validateFileName(File file, String expectedName) {
         checkNotNull(file);
         checkNotNull(expectedName);
-        checkArgument(expectedName.length() > 0);
+        checkArgument(!expectedName.isEmpty());
 
         return getFilename(file).equals(expectedName);
     }
