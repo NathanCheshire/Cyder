@@ -1625,10 +1625,8 @@ public final class ConsoleFrame {
         // set the current uuid
         this.uuid = uuid;
 
-        // build file and pass to user util for user and user file
-        File json = OSUtil.buildFile("dynamic","users",uuid, UserFile.USERDATA.getName());
-        UserUtil.setCyderUser(UserUtil.getCyderUser(json));
-        UserUtil.setCyderUserFile(json);
+        // build file and pass to user util to set user and user file
+        UserUtil.setCyderUser(OSUtil.buildFile("dynamic","users",uuid, UserFile.USERDATA.getName()));
 
         // log out all users that may have been left as logged in
         // since we are now logging in this one

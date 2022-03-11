@@ -35,7 +35,7 @@ public class Logger {
     /**
      * Whether the current log should not be written to again.
      */
-    private static boolean logConcluded = false;
+    private static boolean logConcluded;
 
     /**
      * The file that is currently being written to on log calls.
@@ -118,13 +118,6 @@ public class Logger {
                 //any exceptions thrown are passed from ExceptionHandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
-
-                File writeTo = OSUtil.createFileInSystemSpace(TimeUtil.logTime() + ".stacktrace");
-
-                try (BufferedWriter bw = new BufferedWriter(new FileWriter(writeTo, false))) {
-                    bw.write(String.valueOf(representation).trim());
-                    bw.newLine();
-                } catch (Exception ignored) {}
 
                 break;
             case ACTION:
@@ -453,7 +446,7 @@ public class Logger {
 
         String retString = ret.toString().trim();
 
-        return retString.length() == 0 ? "s" : retString;
+        return retString.isEmpty() ? "s" : retString;
     }
 
     /**
@@ -632,7 +625,7 @@ public class Logger {
                     return;
 
                 for (File log : logs) {
-                    if (!log.equals(Logger.getCurrentLog())) {
+                    if (!log.equals(getCurrentLog())) {
                         BufferedReader br = new BufferedReader(new FileReader(log));
                         String line;
                         boolean containsEOL = false;

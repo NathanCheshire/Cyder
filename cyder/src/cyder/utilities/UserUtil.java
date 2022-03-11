@@ -83,18 +83,6 @@ public class UserUtil {
     }
 
     /**
-     * Sets the cyderUser's corresponding Json file.
-     *
-     * @param f the cyderUser's corresponding Json file
-     */
-    public static void setCyderUserFile(File f) {
-        Preconditions.checkArgument(f.exists(), "File does not exist");
-        Preconditions.checkArgument(FileUtil.getExtension(f).equals(".json"),"File is not a json type");
-
-        cyderUserFile = f;
-    }
-
-    /**
      * Writes the current User, {@link UserUtil#cyderUser},
      * to the user's json if the json exists AND the provided user
      * object contains all the data required by a user object.
@@ -123,8 +111,6 @@ public class UserUtil {
        }
     }
 
-    // todo look into any time a getter is called to write the data
-
     /**
      * Sets the given user to the current Cyder user.
      * This method should only be called if the current contents
@@ -141,14 +127,15 @@ public class UserUtil {
      * as the screen stat would look like the following:
      *
      * <pre>{@code UserUtil.getCyderUser().setFfmpegpath(text);}</pre>
-     * @param u the user to set as the current Cyder user
+     * @param jsonFile the use's json file to set as the userJson and extract
+     *        and serialize as the current user object
      */
-    public static void setCyderUser(User u) {
-        try {
-            cyderUser = u;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+    public static void setCyderUser(File jsonFile) {
+        Preconditions.checkArgument(jsonFile.exists(), "File does not exist");
+        Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(".json"), "File is not a json type");
+
+        cyderUserFile = jsonFile;
+        cyderUser = getCyderUser(jsonFile);
     }
 
     /**
