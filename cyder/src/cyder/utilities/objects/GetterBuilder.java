@@ -24,6 +24,9 @@ public class GetterBuilder {
     private Color submitButtonColor = CyderColors.regularRed;
     private String initialString = "";
 
+    private String yesButtonText = "Yes";
+    private String noButtonText = "No";
+
     /**
      * Constructs a new GetterBuilder.
      *
@@ -86,5 +89,21 @@ public class GetterBuilder {
 
     public void setInitialString(String initialString) {
         this.initialString = initialString;
+    }
+
+    public String getYesButtonText() {
+        return yesButtonText;
+    }
+
+    public void setYesButtonText(String yesButtonText) {
+        this.yesButtonText = yesButtonText;
+    }
+
+    public String getNoButtonText() {
+        return noButtonText;
+    }
+
+    public void setNoButtonText(String noButtonText) {
+        this.noButtonText = noButtonText;
     }
 }

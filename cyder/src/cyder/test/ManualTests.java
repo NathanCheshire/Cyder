@@ -19,9 +19,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
-import cyder.utilities.GetterUtil;
 import cyder.utilities.ImageUtil;
-import cyder.utilities.objects.GetterBuilder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +28,7 @@ import java.util.ArrayList;
 /**
  * Tests which must be performed manually and cannot be unit tested.
  */
+@SuppressWarnings("unused") /* methods invoked via reflection and annotation */
 public class ManualTests {
     /**
      * Runs the tests within the method.
@@ -38,14 +37,7 @@ public class ManualTests {
     @ManualTest(trigger = "launch")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        GetterBuilder builder = new GetterBuilder("title");
-        builder.setInitialString("You are about to do an irreversible action, how do you plead?");
-        builder.setRelativeTo(ConsoleFrame.getConsoleFrame().getConsoleCyderFrame());
 
-        //todo test custom button list
-
-        CyderThreadRunner.submit(() ->
-                System.out.println(GetterUtil.getInstance().getConfirmation(builder)), "test");
     }
 
     /**
@@ -690,8 +682,9 @@ public class ManualTests {
         ctf.addActionListener(e -> {
             String text = ctf.getText();
 
-            if (text.length() > 0)
+            if (!text.isEmpty()) {
                 PopupHandler.inform(text);
+            }
         });
         testFrame.getContentPane().add(ctf);
 

@@ -833,17 +833,14 @@ public class UserUtil {
 
             // todo test actually restoring from a backup
 
-            // todo confirmation doesn't work after once
-
-            // todo test confirmation with other strings
+            // todo ensure logs are zipped after consolidating lines AND
+            // after the current log file is made to ensure not zipping wrong log even further
 
             // todo add "New color" label for paint's new color field
-
             // todo come up with solution for constant logging of backups and deleting the old json
-
             // todo look at logs and figure out how to clean up logs
-
-            // make a debug one that prints a debug print easy to spot like from log4j
+            // todo make a debug one that prints a debug print easy to spot like from log4j
+            // todo need to clean up tags for logging and add more
 
             try {
                // attempt to recovery a backup

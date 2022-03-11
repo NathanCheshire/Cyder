@@ -71,6 +71,10 @@ public class Logger {
         PREFERENCE_REFRESH, // used in Preferences class for when update functions are invoked
         THREAD, // used to log threads that are invoked
         UNKNOWN, // not sure/all else failed
+        /**
+         * When an object's constructor is invoked.
+         */
+        OBJECT_CREATION,
     }
 
     /**
@@ -220,6 +224,9 @@ public class Logger {
             case THREAD:
                 logBuilder.append("[THREAD STARTED]: ");
                 logBuilder.append(representation);
+                break;
+            case OBJECT_CREATION:
+                logBuilder.append("Instance of " + representation.getClass().getName() + " created");
                 break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if

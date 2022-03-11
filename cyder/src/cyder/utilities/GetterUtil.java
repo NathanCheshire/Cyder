@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.objects.BoundsString;
@@ -23,10 +24,11 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class GetterUtil {
     /**
-     * Constructs a new GetterUtil object.
      * To obtain an instance, use {@link GetterUtil#getInstance()}.
      */
-    private GetterUtil() {}
+    private GetterUtil() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
 
     /**
      * Returns a GetterUtil instance.
@@ -36,6 +38,11 @@ public class GetterUtil {
     public static GetterUtil getInstance() {
         return new GetterUtil();
     }
+
+    private static final int getStringWidth = 400;
+    private static final int getStringHeight = 170;
+    private static final int getStringYPadding = 10;
+    private static final int getStringXPadding = 40;
 
     /**
      * Custom getString() method, see usage below for how to
@@ -65,7 +72,7 @@ public class GetterUtil {
 
         CyderThreadRunner.submit(() -> {
             try {
-                CyderFrame inputFrame = new CyderFrame(400,170, CyderIcons.defaultBackground);
+                CyderFrame inputFrame = new CyderFrame(getStringWidth, getStringHeight, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(builder.getTitle());
 
@@ -78,7 +85,8 @@ public class GetterUtil {
                 if (!StringUtil.isNull(builder.getFieldTooltip()))
                     inputField.setToolTipText(builder.getFieldTooltip());
 
-                inputField.setBounds(40,40,320,40);
+                inputField.setBounds(getStringXPadding,DragLabel.DEFAULT_HEIGHT + getStringYPadding,
+                        getStringWidth - 2 * getStringXPadding,40);
                 inputFrame.getContentPane().add(inputField);
 
                 CyderButton submit = new CyderButton(builder.getSubmitButtonText());
@@ -92,7 +100,8 @@ public class GetterUtil {
                             "NULL" : inputField.getText()));
                     inputFrame.dispose();
                 });
-                submit.setBounds(40,100,320,40);
+                submit.setBounds(getStringXPadding,100,
+                        getStringWidth - 2 * getStringXPadding,40);
                 inputFrame.getContentPane().add(submit);
 
                 inputFrame.addPreCloseAction(submit::doClick);
@@ -103,7 +112,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + "getString thread");
+        }, "getString() thread, title = [" + builder.getTitle() + "]");
 
         try {
             while (returnString.get() == null) {
@@ -312,7 +321,7 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + " getFile thread");
+        }, " getFile() thread, title = [" + builder.getTitle() + "]");
 
         try {
             while (setOnFileChosen.get() == null)
@@ -509,13 +518,13 @@ public class GetterUtil {
                 //accounting for offset above
                 w += 40;
 
-                CyderButton yes = new CyderButton("Yes");
+                CyderButton yes = new CyderButton(builder.getYesButtonText());
                 yes.setColors(builder.getSubmitButtonColor());
                 yes.addActionListener(e -> ret.set("true"));
                 yes.setBounds(20,35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(yes);
 
-                CyderButton no = new CyderButton("No");
+                CyderButton no = new CyderButton(builder.getNoButtonText());
                 no.setColors(builder.getSubmitButtonColor());
                 no.addActionListener(e -> ret.set("false"));
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
@@ -526,18 +535,17 @@ public class GetterUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, this + "getConfirmation thread");
+        }, " getConfirmation() thread, title = [" + builder.getTitle() + "]");
 
         try {
-            //noinspection LoopConditionNotUpdatedInsideLoop
             while (ret.get() == null) {
                 Thread.onSpinWait();
             }
 
+            frameReference.get().removePreCloseActions();
+            frameReference.get().dispose();
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
-        } finally {
-            frameReference.get().dispose();
         }
 
         return ret.get().equals("true");
