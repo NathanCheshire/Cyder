@@ -48,7 +48,7 @@ public class UserUtil {
      * The user used for IO to the user's json everytime this object
      * is assigned using {@link UserUtil#setCyderUser(User)}.
      */
-    private static User cyderUser = buildDefaultUser();
+    private static User cyderUser;
 
     /**
      * The corresponding file for cyderUser.
@@ -68,7 +68,6 @@ public class UserUtil {
      * Blocks any future user IO by acquiring the semaphore and never releasing it.
      * This method blocks until the IO semaphore can be acquired.
      */
-    @SuppressWarnings("unused")
     public static synchronized void blockFutureIO() {
         try {
             userIOSemaphore.acquire();
@@ -83,10 +82,8 @@ public class UserUtil {
      * @param f the cyderUser's corresponding Json file
      */
     public static void setCyderUserFile(File f) {
-        if (!f.exists())
-            throw new IllegalArgumentException("File does not exist");
-        if (!FileUtil.getExtension(f).equals(".json"))
-            throw new IllegalArgumentException("File is not a json type");
+        Preconditions.checkArgument(f.exists(), "File does not exist");
+        Preconditions.checkArgument(FileUtil.getExtension(f).equals(".json"),"File is not a json type");
 
         cyderUserFile = f;
     }
@@ -120,11 +117,15 @@ public class UserUtil {
        }
     }
 
+    // todo we shouldn't do copies, just pass the user object around to things that need to set it
+    // i.e. the console frame position saver
     /**
      * Sets the given user to the current Cyder user.
      *
      * @param u the user to set as the current Cyder user
      */
+    // todo deprecate this and don't rly use it, just write it and
+    //  other things can directly call setters on the cyderUser obj
     public static void setCyderUser(User u) {
         try {
             cyderUser = u;
@@ -144,8 +145,7 @@ public class UserUtil {
     }
 
     /**
-     * Sets the key for the current user to the provided data.
-     * Note this is not written to the json.
+     * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
      *
      * @param name the name of the data to set
      * @param value the new value
@@ -206,9 +206,6 @@ public class UserUtil {
      */
     public static void userJsonBackupSubroutine(File jsonFile) {
         try {
-            // Note: this is called from the above function meaning the
-            //       user WAS parsable without exceptions
-
             // ensure save directory exists
             if (!backupDirectory.exists()) {
                 backupDirectory.mkdir();
@@ -394,10 +391,12 @@ public class UserUtil {
                     }
                 }
 
-                // log the failure
-                Logger.log(Logger.Tag.SYSTEM_IO,
-                        "Unable to create all userfiles for user [" + uuid
-                                + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+                if (attempts == MAX_CREATION_ATTEMPTS) {
+                    // log the failure
+                    Logger.log(Logger.Tag.SYSTEM_IO,
+                            "Unable to create all userfiles for user [" + uuid
+                                    + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
+                }
             }
         }
     }
@@ -532,8 +531,8 @@ public class UserUtil {
     }
 
     /**
-     * Attempts preference injection and getter/setter validation for all users.
-     * If any subroutine fails, and the user cannot be recovered, the user is corrupted
+     * Attempts getter/setter validation for all users.
+     * If this fails for a user, they become corrupted
      * for the current session meaning it is not usable.
      */
     public static void validateAllusers() {
@@ -575,17 +574,14 @@ public class UserUtil {
                 boolean valid = true;
 
                 try (FileInputStream fi = new FileInputStream(f)) {
-                    BufferedImage sourceImg = ImageIO.read(fi);
-                    //noinspection unused, need access to ensure image is valid
-                    int w = sourceImg.getWidth();
+                    ImageIO.read(fi).getWidth();
                 } catch (Exception e) {
                     valid = false;
                     ExceptionHandler.silentHandle(e);
                 }
 
                 if (!valid) {
-                    //noinspection ResultOfMethodCallIgnored
-                    f.delete();
+                    OSUtil.delete(f);
                 }
             }
 
@@ -603,23 +599,19 @@ public class UserUtil {
      * @return the resulting user object
      */
     public static User extractUser(File f) {
-        if (!f.exists())
-            throw new IllegalArgumentException("Provided file does not exist");
-        if (!FileUtil.getExtension(f).equals(".json"))
-            throw new IllegalArgumentException("Provided file is not a json");
+        Preconditions.checkArgument(f.exists(), "Provided file does not exist");
+        Preconditions.checkArgument(FileUtil.validateExtension(f, ".json"),
+                "Provided file is not a json");
 
         User ret = null;
         Gson gson = new Gson();
 
         try {
-            userIOSemaphore.acquire();
             Reader reader = new FileReader(f);
             ret = gson.fromJson(reader, User.class);
             reader.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
-        } finally {
-            userIOSemaphore.release();
         }
 
         return ret;
@@ -634,23 +626,23 @@ public class UserUtil {
      * @return the resulting data
      */
     public static String getUserData(String name) {
-        return extractUserData(extractUser(), name);
+        return extractUserData(cyderUser, name);
     }
 
     /**
      * Assuming the corresponding getter function exist in User.java,
      * this method will call the getter method that matches the provided data.
-     * This method exists purely for legacy calls such as extractUserData("font")
-     * Ideally this method should be done away with if possible, perhaps adding a default function
-     * o the {@code Preference} object could lead to a new path of thinking about user prefs/data.
+     * This method exists purely for legacy calls such as extractUserData("font").
      *
-     * @param u the initialized user containing the data we want to obtain
+     * @param u the user containing the data we want to obtain
      * @param id the data id for which to return
      * @return the requested data
      */
     public static String extractUserData(User u, String id) {
-        if (u == null || u.getClass() == null || u.getClass().getMethods() == null)
-            throw new IllegalArgumentException("Something is null :/\nUser: " + u + "\nID: " + id);
+        Preconditions.checkArgument(u != null, "User is null");
+        Preconditions.checkArgument(u.getClass() != null, "User class is null somehow");
+        Preconditions.checkArgument(u.getClass().getMethods() != null, "No user methods found");
+        Preconditions.checkArgument(!StringUtil.isNull(id), "Invalid id argument: " + id);
 
         String ret = null;
 
@@ -664,8 +656,9 @@ public class UserUtil {
             }
         }
 
-        if (!in)
+        if (!in) {
             Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);
+        }
 
         try {
             for (Method m : u.getClass().getMethods()) {
@@ -685,6 +678,10 @@ public class UserUtil {
     }
 
     /**
+     * Returns a user with all the default values set.
+     * Note some default values are empty strings and others
+     * are objects that should not be cast to strings.
+     *
      * @return a user object with all the default
      * {@link Preferences} found in {@code GenesisShare}.
      */
@@ -728,15 +725,15 @@ public class UserUtil {
     }
 
     /**
-     * Clean the users/ directory. Currently this means deleting
-     * non mp3 files from the Music/ directory
-     * and removing music album art that is not linked to an mp3.
+     * Clean the user directories meaning the following actions are taken:
+     *
+     * Deleting non mp3 files from the Music/ directory
+     * Removing album art not linked to an mp3
      */
     public static void cleanUsers() {
         File users = new File(OSUtil.buildPath("dynamic","users"));
 
         if (!users.exists()) {
-            //noinspection ResultOfMethodCallIgnored
             users.mkdirs();
         } else {
             File[] UUIDs = users.listFiles();
@@ -941,26 +938,6 @@ public class UserUtil {
     }
 
     /**
-     * Ensure all user files from {@link UserFile} are created.
-     */
-    public static void createUserFiles() {
-        for (UserFile userFile : UserFile.getFiles()) {
-            getUserFile(userFile.getName());
-        }
-    }
-
-    /**
-     * Returns the provided user file after creating it if it did not exist.
-     *
-     * @param userFile the user file to return a reference to
-     * @return the provided user file
-     */
-    @SuppressWarnings("unused")
-    public File getUserFile(UserFile userFile) {
-        return getUserFile(userFile.getName());
-    }
-
-    /**
      * Returns the provided user file after creating it if it did not exist.
      *
      * @param fileName the file name of the user file to return a reference to
@@ -1000,23 +977,12 @@ public class UserUtil {
     }
 
     /**
-     * Returns the number of users associated with Cyder.
+     * Returns the number of valid users associated with Cyder.
      *
-     * @return the number of users associated with Cyder
+     * @return the number of valid users associated with Cyder
      */
     public static int getUserCount() {
-        ArrayList<File> userJsons = new ArrayList<>();
-
-        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
-            if (user.isDirectory() && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
-                File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-                if (json.exists())
-                    userJsons.add(json);
-            }
-        }
-
-        return userJsons.size();
+       return getUserUUIDs().size();
     }
 
     /**
@@ -1060,29 +1026,10 @@ public class UserUtil {
      * Sets the loggedin keys of all users to 0.
      */
     public static void logoutAllUsers() {
-        File usersDir = new File(OSUtil.buildPath("dynamic","users"));
-
-        if (!usersDir.exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            usersDir.mkdir();
-            return;
-        }
-
-        File[] users = usersDir.listFiles();
-
-        if (users.length == 0)
-            throw new IllegalArgumentException("No users were found");
-
-        for (File user : users) {
-            File jsonFile = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
-
-            if (jsonFile.exists()
-                    && !FileUtil.getFilename(jsonFile).equals(ConsoleFrame.getConsoleFrame().getUUID())
-                    && !StringUtil.in(user.getName(), false, invalidUUIDs)) {
-                User u = extractUser(jsonFile);
-                u.setLoggedin("0");
-                setUserData(jsonFile, u);
-            }
+        for (File json : getUserJsons()) {
+            User u = extractUser(json);
+            u.setLoggedin("0");
+            setUserData(json, u);
         }
     }
 
@@ -1106,7 +1053,6 @@ public class UserUtil {
      * @param uuid the user's uuid to save the default background to
      * @return a reference to the file created
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") /* Creating a file result does not matter */
     public static File createDefaultBackground(String uuid) {
         //default background is creating an image gradient
         Image img = CyderIcons.defaultBackground.getImage();

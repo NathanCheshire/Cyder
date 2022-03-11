@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.algorithoms.GeometryAlgorithms;
 import cyder.constants.*;
 import cyder.enums.*;
@@ -232,7 +233,7 @@ public final class ConsoleFrame {
 
             //create user files now that we have a valid uuid
             setLoadingMessage("Creating user files");
-            UserUtil.createUserFiles();
+            UserUtil.ensureUserFilesExist(uuid);
 
             //make sure backgrounds are properly sized,
             // method also loads backgrounds after resizing
@@ -1645,25 +1646,27 @@ public final class ConsoleFrame {
      *             information specific to this instance of the console frame
      */
     public void setUUID(String uuid) {
-        if (uuid == null)
-            throw new IllegalArgumentException("Provided uuid is null");
+        Preconditions.checkNotNull(uuid, "Provided UUID is null");
 
+        // set previous ID to the current one
         previousUuid = this.uuid;
+
+        // set the current uuid
         this.uuid = uuid;
 
-        File json = OSUtil.buildFile(
-                "dynamic","users",uuid, UserFile.USERDATA.getName());
+        // build file and pass to user util for user and user file
+        File json = OSUtil.buildFile("dynamic","users",uuid, UserFile.USERDATA.getName());
         UserUtil.setCyderUser(UserUtil.extractUser(json));
         UserUtil.setCyderUserFile(json);
 
-        //log out all users that may have been left as logged in
+        // log out all users that may have been left as logged in
         // since we are now logging in this one
         UserUtil.logoutAllUsers();
 
-        //log the current user in
+        // log in the current user
         UserUtil.setUserData("loggedin","1");
 
-        // delete invalid backgrounds backgrounds
+        // delete invalid backgrounds backgrounds before they're used
         UserUtil.deleteInvalidBackgrounds(uuid);
     }
 

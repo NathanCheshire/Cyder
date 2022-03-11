@@ -127,7 +127,7 @@ public class LoginHandler {
                 //while the animation should be performed
                 while (doLoginAnimations && loginFrame != null)  {
                     //pull from the priority list first
-                    if (priorityPrintingList.size() > 0) {
+                    if (!priorityPrintingList.isEmpty()) {
                         //ensure concurrency
                         referencePane.getSemaphore().acquire();
 
@@ -143,7 +143,7 @@ public class LoginHandler {
                         referencePane.getSemaphore().release();
                     }
                     //pull from the regular list second
-                    else if (printingList.size() > 0) {
+                    else if (!printingList.isEmpty()) {
                         //ensure concurrency
                         referencePane.getSemaphore().acquire();
 

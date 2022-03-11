@@ -86,12 +86,12 @@ public class CyderCommon {
     /**
      * The time at which Cyder was first started.
      */
-    private static long absoluteStartTime = 0;
+    private static long absoluteStartTime;
 
     /**
      * The time at which the console frame first appeared.
      */
-    private static long consoleStartTime = 0;
+    private static long consoleStartTime;
 
     /**
      * Returns the absolute start time of Cyder.
