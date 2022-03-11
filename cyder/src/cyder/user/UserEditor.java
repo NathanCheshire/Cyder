@@ -16,6 +16,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
+import cyder.user.objects.MappedExecutable;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.ColorConverterWidget;
@@ -814,11 +815,11 @@ public class UserEditor {
             }
 
             //windowcolor
-            UserUtil.setUserData("windowcolor",UserUtil.buildDefaultUser().getWindowColor());
-            windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowColor()));
-            windowField.setText(UserUtil.buildDefaultUser().getWindowColor());
-            windowColorBlock.setBackground((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowColor())));
-            CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowColor())));
+            UserUtil.setUserData("windowcolor",UserUtil.buildDefaultUser().getWindowcolor());
+            windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor()));
+            windowField.setText(UserUtil.buildDefaultUser().getWindowcolor());
+            windowColorBlock.setBackground((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
+            CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
 
             for (Frame f : Frame.getFrames()) {
                 if (f instanceof CyderFrame)
@@ -1223,10 +1224,10 @@ public class UserEditor {
                             editUserFrame.notify("File does not exist or link is invalid");
                         } else {
                             if (!name.isEmpty()) {
-                                LinkedList<User.MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+                                LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
                                 boolean exists = false;
 
-                                for (User.MappedExecutable exe : exes) {
+                                for (MappedExecutable exe : exes) {
                                     if (exe.getName().equalsIgnoreCase(name)) {
                                         exists = true;
                                         break;
@@ -1236,8 +1237,8 @@ public class UserEditor {
                                 if (exists) {
                                     editUserFrame.notify("Mapped exe name already in use");
                                 } else {
-                                    User.MappedExecutable addExe = new User.MappedExecutable(name, path);
-                                    LinkedList<User.MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
+                                    MappedExecutable addExe = new MappedExecutable(name, path);
+                                    LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
                                     newExes.add(addExe);
                                     UserUtil.getCyderUser().setExecutables(newExes);
 
@@ -1284,10 +1285,10 @@ public class UserEditor {
             String text = removeMapField.getText().trim();
 
             if (!text.isEmpty()) {
-                LinkedList<User.MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+                LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
                 boolean found = false;
 
-                for (User.MappedExecutable exe : exes) {
+                for (MappedExecutable exe : exes) {
                     if (exe.getName().equalsIgnoreCase(text)) {
                         found = true;
                         exes.remove(exe);

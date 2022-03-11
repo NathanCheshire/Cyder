@@ -14,9 +14,10 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.user.Preferences;
-import cyder.user.User;
 import cyder.user.UserEditor;
 import cyder.user.UserFile;
+import cyder.user.objects.MappedExecutable;
+import cyder.user.objects.ScreenStat;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.CardWidget;
@@ -269,7 +270,7 @@ public final class ConsoleFrame {
             }
 
             //figure out the theme color
-            String color = UserUtil.getCyderUser().getWindowColor();
+            String color = UserUtil.getCyderUser().getWindowcolor();
             CyderColors.setGuiThemeColor(ColorUtil.hexToRgb(color));
 
             //get proper width, height, and background image icon,
@@ -805,7 +806,7 @@ public final class ConsoleFrame {
             FrameUtil.closeAllFrames(true, consoleCyderFrame, CyderSplash.getSplashFrame());
 
             //restore prior session's frame stats
-            User.ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
+            ScreenStat requestedConsoleStats = UserUtil.getCyderUser().getScreenStat();
             consoleCyderFrame.setAlwaysOnTop(requestedConsoleStats.isConsoleOnTop());
 
             int requestedConsoleWidth = requestedConsoleStats.getConsoleWidth();
@@ -1271,7 +1272,7 @@ public final class ConsoleFrame {
             }
         }
 
-        LinkedList<User.MappedExecutable> exes = null;
+        LinkedList<MappedExecutable> exes = null;
 
         //mapped executables
         try {
@@ -1288,7 +1289,7 @@ public final class ConsoleFrame {
                     printingUtil.println("");
             }
 
-            for (User.MappedExecutable exe : exes) {
+            for (MappedExecutable exe : exes) {
                 if (compactMode) {
                     printingUtil.printlnComponent(
                             CyderFrame.generateDefaultCompactTaskbarComponent(exe.getName(), () -> {
@@ -2948,7 +2949,7 @@ public final class ConsoleFrame {
 
         if (consoleCyderFrame != null) {
             // create new screen stat object
-            User.ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();
+            ScreenStat screenStat = UserUtil.getCyderUser().getScreenStat();
             screenStat.setConsoleWidth(consoleCyderFrame.getWidth());
             screenStat.setConsoleHeight(consoleCyderFrame.getHeight());
             screenStat.setConsoleOnTop(consoleCyderFrame.isAlwaysOnTop());
@@ -2961,6 +2962,9 @@ public final class ConsoleFrame {
             if (!isClosed()) {
                 // set new screen stat
                 UserUtil.getCyderUser().setScreenStat(screenStat);
+
+                // this also saves the user every time the screen stats are saved
+                UserUtil.writeUser();
             }
         }
     }

@@ -13,7 +13,9 @@ import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
 import cyder.user.UserFile;
+import cyder.user.objects.MappedExecutable;
 import cyder.user.objects.Preference;
+import cyder.user.objects.ScreenStat;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -89,7 +91,7 @@ public class UserUtil {
      * Upon a successful serialization/de-serialization, the json
      * is backed up and placed in dynamic/backup.
      */
-    private static synchronized void writeUser() {
+    public static synchronized  void writeUser() {
         if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
             return;
 
@@ -100,6 +102,7 @@ public class UserUtil {
 
            // write to user data file
            setUserData(cyderUserFile, cyderUser);
+           // somehow overridden with something
 
            // validate the user is still valid
            getterSetterValidator(cyderUserFile);
@@ -135,7 +138,7 @@ public class UserUtil {
         Preconditions.checkArgument(FileUtil.getExtension(jsonFile).equals(".json"), "File is not a json type");
 
         cyderUserFile = jsonFile;
-        cyderUser = getCyderUser(jsonFile);
+        cyderUser = extractUser(jsonFile);
     }
 
     /**
@@ -160,6 +163,7 @@ public class UserUtil {
                         && m.getParameterTypes().length == 1
                         && m.getName().replace("set","").equalsIgnoreCase(name)) {
                     m.invoke(cyderUser, value);
+                    writeUser();
                     break;
                 }
             }
@@ -174,11 +178,13 @@ public class UserUtil {
      * @param f the file to write to
      * @param u the user object to write to the file
      */
-    public static synchronized void setUserData(File f, User u) {
+    public static void setUserData(File f, User u) {
         if (!f.exists())
             throw new IllegalArgumentException("File does not exist");
         if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
+
+        System.out.println(u.getScreenStat().getConsoleX());
 
         Gson gson = new Gson();
 
@@ -428,7 +434,7 @@ public class UserUtil {
         // serialze the user, if this fails we're screwed from the start
         User user = null;
         try {
-            user = getCyderUser(userJson);
+            user = extractUser(userJson);
         } catch (Exception ignored) {
             return false;
         }
@@ -495,11 +501,11 @@ public class UserUtil {
                 }
 
                 // validate and remove possibly duplicate exes
-                LinkedList<User.MappedExecutable> exes = user.getExecutables();
-                LinkedList<User.MappedExecutable> nonDuplicates = new LinkedList<>();
+                LinkedList<MappedExecutable> exes = user.getExecutables();
+                LinkedList<MappedExecutable> nonDuplicates = new LinkedList<>();
 
                 if (exes != null && !exes.isEmpty()) {
-                    for (User.MappedExecutable me : exes) {
+                    for (MappedExecutable me : exes) {
                         if (!nonDuplicates.contains(me)) {
                             nonDuplicates.add(me);
                         }
@@ -513,9 +519,11 @@ public class UserUtil {
                     exes = new LinkedList<>();
                 }
 
-                // screen stat restoration
-                user.setScreenStat(new User.ScreenStat(0, 0,
-                        0, 0, 0, false));
+                if (user.getScreenStat() == null) {
+                    // screen stat restoration
+                    user.setScreenStat(new ScreenStat(0, 0,
+                            0, 0, 0, false));
+                }
 
                 // success in parsing so break out of loop
                 ret = true;
@@ -597,7 +605,7 @@ public class UserUtil {
      * @param f the json file to extract a user object from
      * @return the resulting user object
      */
-    public static User getCyderUser(File f) {
+    public static User extractUser(File f) {
         Preconditions.checkArgument(f.exists(), "Provided file does not exist");
         Preconditions.checkArgument(FileUtil.validateExtension(f, ".json"),
                 "Provided file is not a json");
@@ -1016,7 +1024,7 @@ public class UserUtil {
      */
     public static void logoutAllUsers() {
         for (File json : getUserJsons()) {
-            User u = getCyderUser(json);
+            User u = extractUser(json);
             u.setLoggedin("0");
             setUserData(json, u);
         }
@@ -1029,7 +1037,7 @@ public class UserUtil {
      */
     public static Optional<String> getFirstLoggedInUser() {
         for (File userJSON : getUserJsons()) {
-            if (getCyderUser(userJSON).getLoggedin().equals("1"))
+            if (extractUser(userJSON).getLoggedin().equals("1"))
                 return Optional.of(FileUtil.getFilename(userJSON.getParentFile().getName()));
         }
 

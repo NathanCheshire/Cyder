@@ -14,6 +14,7 @@ import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.objects.Preference;
+import cyder.user.objects.ScreenStat;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 
@@ -114,7 +115,7 @@ public class UserCreator {
         boolean exists = false;
 
         for (File userJson : UserUtil.getUserJsons()) {
-            User u = UserUtil.getCyderUser(userJson);
+            User u = UserUtil.extractUser(userJson);
             if (u.getName().equalsIgnoreCase(osUserName)) {
                 exists = true;
                 break;
@@ -393,7 +394,7 @@ public class UserCreator {
             if (!f.isDirectory())
                 continue;
             try {
-                if (UserUtil.getCyderUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
+                if (UserUtil.extractUser(f).getName().equalsIgnoreCase(newUserName.getText().trim())) {
                     userNameExists = true;
                     break;
                 }
@@ -516,7 +517,7 @@ public class UserCreator {
             y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
         }
 
-        user.setScreenStat(new User.ScreenStat(x, y, background.getWidth(),
+        user.setScreenStat(new ScreenStat(x, y, background.getWidth(),
                 background.getHeight(), monitorNum, false));
 
         // executables

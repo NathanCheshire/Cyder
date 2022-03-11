@@ -578,7 +578,7 @@ public class LoginHandler {
             LinkedList<String> userNames = new LinkedList<>();
 
             for (File userJsonFile : UserUtil.getUserJsons()) {
-                userNames.add(UserUtil.getCyderUser(userJsonFile).getName());
+                userNames.add(UserUtil.extractUser(userJsonFile).getName());
             }
 
             if (!StringUtil.in(name, true, userNames)) {
@@ -587,7 +587,7 @@ public class LoginHandler {
             }
 
             for (File userJsonFile : UserUtil.getUserJsons()) {
-                User user = UserUtil.getCyderUser(userJsonFile);
+                User user = UserUtil.extractUser(userJsonFile);
 
                 //we always hash again here
                 if (name.equalsIgnoreCase(user.getName()) && SecurityUtil.toHexString(SecurityUtil.getSHA256(

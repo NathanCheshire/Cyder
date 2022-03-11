@@ -30,7 +30,7 @@ import java.util.concurrent.Future;
 /**
  * Utilities for methods regarding reflection.
  */
-@SuppressWarnings({"UnstableApiUsage", "ConstantConditions"}) /* Guava Reflection */
+@SuppressWarnings("ConstantConditions") /* Guava Reflection */
 public class ReflectionUtil {
     /**
      * Prevent illegal class instantiation.
@@ -81,9 +81,9 @@ public class ReflectionUtil {
         String superName = obj.getClass().getName();
         int hash = obj.hashCode();
 
-        String reflectedFields = ReflectionUtil.toStringFromGetters(obj);
+        String reflectedFields = toStringFromGetters(obj);
 
-        if (reflectedFields == null || reflectedFields.length() == 0)
+        if (reflectedFields == null || reflectedFields.isEmpty())
             reflectedFields = "No reflection data acquired";
 
         //remove anything after the $int if superName contains a $
@@ -100,7 +100,6 @@ public class ReflectionUtil {
      * @param obj the object to invoke toString() on
      * @return a custom toString() representation of the provided object
      */
-    @SuppressWarnings("ConstantConditions") /* this is just due to limited usage */
     public static String commonCyderUIReflection(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
         String frameRep;
@@ -135,7 +134,7 @@ public class ReflectionUtil {
                    if (locGetText instanceof String) {
                        String locGetTextString = (String) locGetText;
 
-                       if (locGetTextString != null && locGetTextString.length() > 0
+                       if (locGetTextString != null && !locGetTextString.isEmpty()
                                && !locGetTextString.equalsIgnoreCase("null")) {
                            getTextResult = locGetTextString;
                        }
@@ -146,7 +145,7 @@ public class ReflectionUtil {
                    if (locGetTooltipText instanceof String) {
                        String locGetTooltipTextString = (String) locGetTooltipText;
 
-                       if (locGetTooltipTextString != null && locGetTooltipTextString.length() > 0
+                       if (locGetTooltipTextString != null && !locGetTooltipTextString.isEmpty()
                                && !locGetTooltipTextString.equalsIgnoreCase("null")) {
                            getTooltipResult = locGetTooltipTextString;
                        }
@@ -157,7 +156,7 @@ public class ReflectionUtil {
                    if (locGetTitle instanceof String) {
                        String locGetTitleString = (String) locGetTitle;
 
-                       if (locGetTitleString != null && locGetTitleString.length() > 0
+                       if (locGetTitleString != null && !locGetTitleString.isEmpty()
                                && !locGetTitleString.equalsIgnoreCase("null")) {
                            getTitleResult = locGetTitleString;
                        }
@@ -202,7 +201,7 @@ public class ReflectionUtil {
      *
      * @throws IllegalMethodException if an invalid {@link Widget} annotation is located
      */
-    public static void validateWidgets() throws IllegalMethodException {
+    public static void validateWidgets() {
         for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> classer = classInfo.load();
 
@@ -251,7 +250,7 @@ public class ReflectionUtil {
      *
      * @throws IllegalMethodException if an invalid {@link ManualTest} annotation is located
      */
-    public static void validateTests() throws IllegalMethodException {
+    public static void validateTests() {
         LinkedList<String> foundTriggers = new LinkedList<>();
 
         for (ClassPath.ClassInfo classInfo : cyderClasses) {

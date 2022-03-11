@@ -1,10 +1,16 @@
 package cyder.user;
 
+import cyder.user.objects.MappedExecutable;
+import cyder.user.objects.ScreenStat;
 import cyder.utilities.ReflectionUtil;
 
 import java.util.LinkedList;
 
-@SuppressWarnings("UnusedReturnValue") /* lots of things are simply setting */
+/**
+ * A user object which holds all relavent data about a Cyder user.
+ * Note that the default constructor is not restricted due to GSON parsing.
+ */
+@SuppressWarnings({"UnusedReturnValue", "unused"}) /* lots of things are invoked via reflection */
 public class User {
     // ------------------------------------
     // primitive data types. In the future, allow this to be anything
@@ -64,290 +70,153 @@ public class User {
      */
     private ScreenStat screenStat;
 
-    // -------------------
-    // non primitive lists
-    // -------------------
+    // --------------------------
+    // data structures of objects
+    // --------------------------
 
     /**
      * List of mapped executables that map a string to a file path.
      */
     private LinkedList<MappedExecutable> executables;
 
-    /**
-     * Default constructor not restricted due to GSON json parsing.
-     */
-    public User() {}
+    // -------
+    // getters
+    // -------
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPass() {
         return pass;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     public String getFont() {
         return font;
     }
 
-    public void setFont(String font) {
-        this.font = font;
+    public String getFontmetric() {
+        return fontmetric;
+    }
+
+    public String getFontsize() {
+        return fontsize;
     }
 
     public String getForeground() {
         return foreground;
     }
 
-    public void setForeground(String foreground) {
-        this.foreground = foreground;
-    }
-
     public String getBackground() {
         return background;
-    }
-
-    public void setBackground(String background) {
-        this.background = background;
     }
 
     public String getIntromusic() {
         return intromusic;
     }
 
-    public void setIntromusic(String intromusic) {
-        this.intromusic = intromusic;
-    }
-
     public String getDebugwindows() {
         return debugwindows;
-    }
-
-    public void setDebugwindows(String debugwindows) {
-        this.debugwindows = debugwindows;
     }
 
     public String getRandombackground() {
         return randombackground;
     }
 
-    public void setRandombackground(String randombackground) {
-        this.randombackground = randombackground;
-    }
-
     public String getOutputborder() {
         return outputborder;
-    }
-
-    public void setOutputborder(String outputborder) {
-        this.outputborder = outputborder;
     }
 
     public String getInputborder() {
         return inputborder;
     }
 
-    public void setInputborder(String inputborder) {
-        this.inputborder = inputborder;
-    }
-
     public String getHourlychimes() {
         return hourlychimes;
-    }
-
-    public void setHourlychimes(String hourlychimes) {
-        this.hourlychimes = hourlychimes;
     }
 
     public String getSilenceerrors() {
         return silenceerrors;
     }
 
-    public void setSilenceerrors(String silenceerrors) {
-        this.silenceerrors = silenceerrors;
-    }
-
     public String getFullscreen() {
         return fullscreen;
-    }
-
-    public void setFullscreen(String fullscreen) {
-        this.fullscreen = fullscreen;
     }
 
     public String getOutputfill() {
         return outputfill;
     }
 
-    public void setOutputfill(String outputfill) {
-        this.outputfill = outputfill;
-    }
-
     public String getInputfill() {
         return inputfill;
-    }
-
-    public void setInputfill(String inputfill) {
-        this.inputfill = inputfill;
     }
 
     public String getClockonconsole() {
         return clockonconsole;
     }
 
-    public void setClockonconsole(String clockonconsole) {
-        this.clockonconsole = clockonconsole;
-    }
-
     public String getShowseconds() {
         return showseconds;
-    }
-
-    public void setShowseconds(String showseconds) {
-        this.showseconds = showseconds;
     }
 
     public String getFilterchat() {
         return filterchat;
     }
 
-    public void setFilterchat(String filterchat) {
-        this.filterchat = filterchat;
-    }
-
     public String getLaststart() {
         return laststart;
-    }
-
-    public void setLaststart(String laststart) {
-        this.laststart = laststart;
     }
 
     public String getMinimizeonclose() {
         return minimizeonclose;
     }
 
-    public void setMinimizeonclose(String minimizeonclose) {
-        this.minimizeonclose = minimizeonclose;
-    }
-
     public String getTypinganimation() {
         return typinganimation;
-    }
-
-    public void setTypinganimation(String typinganimation) {
-        this.typinganimation = typinganimation;
     }
 
     public String getShowbusyicon() {
         return showbusyicon;
     }
 
-    public void setShowbusyicon(String showbusyicon) {
-        this.showbusyicon = showbusyicon;
-    }
-
     public String getFfmpegpath() {
         return ffmpegpath;
-    }
-
-    public void setFfmpegpath(String ffmpegpath) {
-        this.ffmpegpath = ffmpegpath;
     }
 
     public String getYoutubedlpath() {
         return youtubedlpath;
     }
 
-    public void setYoutubedlpath(String youtubedlpath) {
-        this.youtubedlpath = youtubedlpath;
-    }
-
     public String getRoundedwindows() {
         return roundedwindows;
     }
 
-    public void setRoundedwindows(String roundedwindows) {
-        this.roundedwindows = roundedwindows;
-    }
-
-    public String getWindowColor() {
+    public String getWindowcolor() {
         return windowcolor;
-    }
-
-    public void setWindowColor(String windowcolor) {
-        this.windowcolor = windowcolor;
     }
 
     public String getConsoleclockformat() {
         return consoleclockformat;
     }
 
-    public void setConsoleclockformat(String consoleclockformat) {
-        this.consoleclockformat = consoleclockformat;
-    }
-
     public String getTypingsound() {
         return typingsound;
-    }
-
-    public void setTypingsound(String typingsound) {
-        this.typingsound = typingsound;
     }
 
     public String getYoutubeuuid() {
         return youtubeuuid;
     }
 
-    public void setYoutubeuuid(String youtubeuuid) {
-        this.youtubeuuid = youtubeuuid;
-    }
-
     public String getIpkey() {
         return ipkey;
-    }
-
-    public void setIpkey(String ipkey) {
-        this.ipkey = ipkey;
     }
 
     public String getWeatherkey() {
         return weatherkey;
     }
 
-    public void setWeatherkey(String weatherkey) {
-        this.weatherkey = weatherkey;
-    }
-
     public String getCapsmode() {
         return capsmode;
-    }
-
-    public void setCapsmode(String capsmode) {
-        this.capsmode = capsmode;
-    }
-
-    public LinkedList<MappedExecutable> getExecutables() {
-        return executables;
-    }
-
-    public void setExecutables(LinkedList<MappedExecutable> executables) {
-        this.executables = executables;
-    }
-
-    public String isLoggedin() {
-        return loggedin;
-    }
-
-    public void setLoggedin(String loggedin) {
-        this.loggedin = loggedin;
     }
 
     public String getLoggedin() {
@@ -358,81 +227,281 @@ public class User {
         return audiolength;
     }
 
-    public void setAudiolength(String audiolength) {
-        this.audiolength = audiolength;
-    }
-
     public String getPersistentnotifications() {
         return persistentnotifications;
-    }
-
-    public void setPersistentnotifications(String persistentnotifications) {
-        this.persistentnotifications = persistentnotifications;
     }
 
     public String getCloseAnimation() {
         return closeAnimation;
     }
 
-    public void setCloseAnimation(String closeAnimation) {
-        this.closeAnimation = closeAnimation;
-    }
-
     public String getMinimizeAnimation() {
         return minimizeAnimation;
-    }
-
-    public void setMinimizeAnimation(String minimizeAnimation) {
-        this.minimizeAnimation = minimizeAnimation;
-    }
-
-    public ScreenStat getScreenStat() {
-        return screenStat;
-    }
-
-    public User setScreenStat(ScreenStat screenStat) {
-        this.screenStat = screenStat;
-        return this;
     }
 
     public String getCompactTextMode() {
         return compactTextMode;
     }
 
-    public void setCompactTextMode(String compactTextMode) {
-        this.compactTextMode = compactTextMode;
-    }
-
-    public String getFontmetric() {
-        return fontmetric;
-    }
-
-    public void setFontmetric(String fontmetric) {
-        this.fontmetric = fontmetric;
-    }
-
-    public String getFontsize() {
-        return fontsize;
-    }
-
-    public void setFontsize(String fontsize) {
-        this.fontsize = fontsize;
-    }
-
     public String getYouTubeAPI3Key() {
         return youTubeAPI3Key;
-    }
-
-    public void setYouTubeAPI3Key(String youTubeAPI3Key) {
-        this.youTubeAPI3Key = youTubeAPI3Key;
     }
 
     public String getWrapterminal() {
         return wrapterminal;
     }
 
+    public ScreenStat getScreenStat() {
+        return screenStat;
+    }
+
+    public LinkedList<MappedExecutable> getExecutables() {
+        return executables;
+    }
+
+    // -------
+    // setters
+    // -------
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setFont(String font) {
+        this.font = font;
+    }
+
+    public void setFontmetric(String fontmetric) {
+        this.fontmetric = fontmetric;
+    }
+
+    public void setFontsize(String fontsize) {
+        this.fontsize = fontsize;
+    }
+
+    public void setForeground(String foreground) {
+        this.foreground = foreground;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public void setIntromusic(String intromusic) {
+        this.intromusic = intromusic;
+    }
+
+    public void setDebugwindows(String debugwindows) {
+        this.debugwindows = debugwindows;
+    }
+
+    public void setRandombackground(String randombackground) {
+        this.randombackground = randombackground;
+    }
+
+    public void setOutputborder(String outputborder) {
+        this.outputborder = outputborder;
+    }
+
+    public void setInputborder(String inputborder) {
+        this.inputborder = inputborder;
+    }
+
+    public void setHourlychimes(String hourlychimes) {
+        this.hourlychimes = hourlychimes;
+    }
+
+    public void setSilenceerrors(String silenceerrors) {
+        this.silenceerrors = silenceerrors;
+    }
+
+    public void setFullscreen(String fullscreen) {
+        this.fullscreen = fullscreen;
+    }
+
+    public void setOutputfill(String outputfill) {
+        this.outputfill = outputfill;
+    }
+
+    public void setInputfill(String inputfill) {
+        this.inputfill = inputfill;
+    }
+
+    public void setClockonconsole(String clockonconsole) {
+        this.clockonconsole = clockonconsole;
+    }
+
+    public void setShowseconds(String showseconds) {
+        this.showseconds = showseconds;
+    }
+
+    public void setFilterchat(String filterchat) {
+        this.filterchat = filterchat;
+    }
+
+    public void setLaststart(String laststart) {
+        this.laststart = laststart;
+    }
+
+    public void setMinimizeonclose(String minimizeonclose) {
+        this.minimizeonclose = minimizeonclose;
+    }
+
+    public void setTypinganimation(String typinganimation) {
+        this.typinganimation = typinganimation;
+    }
+
+    public void setShowbusyicon(String showbusyicon) {
+        this.showbusyicon = showbusyicon;
+    }
+
+    public void setFfmpegpath(String ffmpegpath) {
+        this.ffmpegpath = ffmpegpath;
+    }
+
+    public void setYoutubedlpath(String youtubedlpath) {
+        this.youtubedlpath = youtubedlpath;
+    }
+
+    public void setRoundedwindows(String roundedwindows) {
+        this.roundedwindows = roundedwindows;
+    }
+
+    public void setWindowcolor(String windowcolor) {
+        this.windowcolor = windowcolor;
+    }
+
+    public void setConsoleclockformat(String consoleclockformat) {
+        this.consoleclockformat = consoleclockformat;
+    }
+
+    public void setTypingsound(String typingsound) {
+        this.typingsound = typingsound;
+    }
+
+    public void setYoutubeuuid(String youtubeuuid) {
+        this.youtubeuuid = youtubeuuid;
+    }
+
+    public void setIpkey(String ipkey) {
+        this.ipkey = ipkey;
+    }
+
+    public void setWeatherkey(String weatherkey) {
+        this.weatherkey = weatherkey;
+    }
+
+    public void setCapsmode(String capsmode) {
+        this.capsmode = capsmode;
+    }
+
+    public void setLoggedin(String loggedin) {
+        this.loggedin = loggedin;
+    }
+
+    public void setAudiolength(String audiolength) {
+        this.audiolength = audiolength;
+    }
+
+    public void setPersistentnotifications(String persistentnotifications) {
+        this.persistentnotifications = persistentnotifications;
+    }
+
+    public void setCloseAnimation(String closeAnimation) {
+        this.closeAnimation = closeAnimation;
+    }
+
+    public void setMinimizeAnimation(String minimizeAnimation) {
+        this.minimizeAnimation = minimizeAnimation;
+    }
+
+    public void setCompactTextMode(String compactTextMode) {
+        this.compactTextMode = compactTextMode;
+    }
+
+    public void setYouTubeAPI3Key(String youTubeAPI3Key) {
+        this.youTubeAPI3Key = youTubeAPI3Key;
+    }
+
     public void setWrapterminal(String wrapterminal) {
         this.wrapterminal = wrapterminal;
+    }
+
+    public void setScreenStat(ScreenStat screenStat) {
+        this.screenStat = screenStat;
+    }
+
+    public void setExecutables(LinkedList<MappedExecutable> executables) {
+        this.executables = executables;
+    }
+
+    // ------------------------------------------
+    // methods that are good practice to override
+    // ------------------------------------------
+
+    @Override
+    public int hashCode() {
+        int ret = name.hashCode();
+
+        ret = 31 * ret + name.hashCode();
+        ret = 31 * ret + pass.hashCode();
+        ret = 31 * ret + font.hashCode();
+        ret = 31 * ret + fontmetric.hashCode();
+        ret = 31 * ret + foreground.hashCode();
+        ret = 31 * ret + background.hashCode();
+        ret = 31 * ret + intromusic.hashCode();
+        ret = 31 * ret + debugwindows.hashCode();
+        ret = 31 * ret + inputborder.hashCode();
+        ret = 31 * ret + outputborder.hashCode();
+        ret = 31 * ret + hourlychimes.hashCode();
+        ret = 31 * ret + silenceerrors.hashCode();
+        ret = 31 * ret + fullscreen.hashCode();
+        ret = 31 * ret + outputfill.hashCode();
+        ret = 31 * ret + inputfill.hashCode();
+        ret = 31 * ret + clockonconsole.hashCode();
+        ret = 31 * ret + showseconds.hashCode();
+        ret = 31 * ret + filterchat.hashCode();
+        ret = 31 * ret + laststart.hashCode();
+        ret = 31 * ret + minimizeAnimation.hashCode();
+        ret = 31 * ret + typinganimation.hashCode();
+        ret = 31 * ret + showbusyicon.hashCode();
+        ret = 31 * ret + ffmpegpath.hashCode();
+        ret = 31 * ret + youtubedlpath.hashCode();
+        ret = 31 * ret + roundedwindows.hashCode();
+        ret = 31 * ret + windowcolor.hashCode();
+        ret = 31 * ret + consoleclockformat.hashCode();
+        ret = 31 * ret + typingsound.hashCode();
+        ret = 31 * ret + youtubeuuid.hashCode();
+        ret = 31 * ret + ipkey.hashCode();
+        ret = 31 * ret + weatherkey.hashCode();
+        ret = 31 * ret + capsmode.hashCode();
+        ret = 31 * ret + loggedin.hashCode();
+        ret = 31 * ret + audiolength.hashCode();
+        ret = 31 * ret + persistentnotifications.hashCode();
+        ret = 31 * ret + closeAnimation.hashCode();
+        ret = 31 * ret + compactTextMode.hashCode();
+        ret = 31 * ret + youTubeAPI3Key.hashCode();
+        ret = 31 * ret + wrapterminal.hashCode();
+        ret = 31 * ret + screenStat.hashCode();
+        ret = 31 * ret + executables.hashCode();
+        return ret;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof User))
+            return false;
+
+        User other = (User) o;
+
+        // name and password serve as a primary key so we only need to compare them
+        return other.getPass().equals(getPass()) && other.getName().equals(getName());
     }
 
     /**
@@ -441,127 +510,5 @@ public class User {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);
-    }
-
-    /**
-     * Class representing a name and a path to an executable/link to open.
-     */
-    public static class MappedExecutable {
-        private final String name;
-        private final String filepath;
-
-        public MappedExecutable(String name, String filepath) {
-            this.name = name;
-            this.filepath = filepath;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getFilepath() {
-            return filepath;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o instanceof MappedExecutable) {
-                return ((MappedExecutable) o).getName().equals(this.getName())
-                        || ((MappedExecutable) o).getFilepath().equals(this.getFilepath());
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        public String toString() {
-            return ReflectionUtil.commonCyderToString(this);
-        }
-
-        @Override
-        public int hashCode() {
-            int ret = this.name.hashCode();
-            ret = 31 * ret + filepath.hashCode();
-            return ret;
-        }
-    }
-
-    /**
-     * Object to store statistics about the ConsoleFrame and where it is.
-     */
-    public static class ScreenStat {
-        private int consoleX;
-        private int consoleY;
-        private int consoleWidth;
-        private int consoleHeight;
-        private int monitor;
-        private boolean consoleOnTop;
-
-        public ScreenStat() {}
-
-        public ScreenStat(int consoleX, int consoleY, int consoleWidth,
-                          int consoleHeight, int monitor, boolean consoleOnTop) {
-            this.consoleX = consoleX;
-            this.consoleY = consoleY;
-            this.consoleWidth = consoleWidth;
-            this.consoleHeight = consoleHeight;
-            this.monitor = monitor;
-            this.consoleOnTop = consoleOnTop;
-        }
-
-        public int getConsoleX() {
-            return consoleX;
-        }
-
-        public void setConsoleX(int consoleX) {
-            this.consoleX = consoleX;
-        }
-
-        public int getConsoleY() {
-            return consoleY;
-        }
-
-        public void setConsoleY(int consoleY) {
-            this.consoleY = consoleY;
-        }
-
-        public int getConsoleWidth() {
-            return consoleWidth;
-        }
-
-        public void setConsoleWidth(int consoleWidth) {
-            this.consoleWidth = consoleWidth;
-        }
-
-        public int getConsoleHeight() {
-            return consoleHeight;
-        }
-
-        public void setConsoleHeight(int consoleHeight) {
-            this.consoleHeight = consoleHeight;
-        }
-
-        public int getMonitor() {
-            return monitor;
-        }
-
-        public void setMonitor(int monitor) {
-            this.monitor = monitor;
-        }
-
-        public boolean isConsoleOnTop() {
-            return consoleOnTop;
-        }
-
-        public void setConsoleOnTop(boolean consoleOnTop) {
-            this.consoleOnTop = consoleOnTop;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + this.consoleX + ", " + this.consoleY + ", "
-                    + this.consoleWidth + ", " + this.consoleHeight + ", "
-                    + this.monitor + ", " + this.consoleOnTop + "]";
-        }
     }
 }

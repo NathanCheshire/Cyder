@@ -1,0 +1,47 @@
+[22-06-02] [ENTRY]: [Nathan]
+[22-06-02] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-06-03] [THREAD STARTED]: Splash Loader
+[22-06-06] [THREAD STARTED]: Splash Animation
+[22-06-07] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-06-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-06-07] [THREAD STARTED]: JVM Logger
+[22-06-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-06-07] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-06-09] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-06-11] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646971543072.json
+[22-06-11] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-06-11] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-06-14] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646971571365.json
+[22-06-14] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-06-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-06-14] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-06-14] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-06-14] [THREAD STARTED]: Console Printing Animation
+[22-06-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-06-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-06-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-06-14] [THREAD STARTED]: Console Input Caret Position Updater
+[22-06-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-06-14] [SYSTEM_IO]: Userdata requested: InputFill
+[22-06-14] [THREAD STARTED]: High Ping Checker
+[22-06-14] [THREAD STARTED]: Hourly Chime Checker
+[22-06-14] [THREAD STARTED]: Console Clock Updater
+[22-06-14] [THREAD STARTED]: Cyder Busy Checker
+[22-06-14] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-06-14] [ACTION]: Console loaded in 12451ms
+[22-06-14] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(-1000, 0, 1000, 1000)], hash = [2023026843], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-06-14] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [300910553], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-06-14] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-06-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-06-14] [ENTRY]: [TESTING MODE]
+[22-06-14] [SYSTEM_IO]: Userdata requested: laststart
+[22-06-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-06-18] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646971574565.json
+[22-06-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-06-23] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646971578696.json
+[22-06-23] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 296, h = 29, text = <html>Console loaded in 12451ms</html>
+[22-06-23] [THREAD STARTED]: notification appear animation
+[22-06-23] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-06-23] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-06-26] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-07-36] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

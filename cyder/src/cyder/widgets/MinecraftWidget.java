@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
-import cyder.user.User;
+import cyder.user.objects.MappedExecutable;
 import cyder.utilities.IOUtil;
 import cyder.utilities.NetworkUtil;
 import cyder.utilities.UserUtil;
@@ -138,7 +138,7 @@ public class MinecraftWidget {
         minecraftFrame.setIconImage(new ImageIcon("static/pictures/minecraft/Block.png").getImage());
 
         //open minecraft if map exists
-        for (User.MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
+        for (MappedExecutable exe : UserUtil.getCyderUser().getExecutables()) {
             if (exe.getName().equalsIgnoreCase("minecraft") ||
                 exe.getName().equalsIgnoreCase("lunar") ||
                 exe.getName().equalsIgnoreCase("badlion")) {
