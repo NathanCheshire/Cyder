@@ -388,7 +388,7 @@ public class Logger {
             ExceptionHandler.handle(e);
         } finally {
             // print to standard output
-            OSUtil.out.println(line.trim());
+            System.out.println(line.trim());
         }
     }
 

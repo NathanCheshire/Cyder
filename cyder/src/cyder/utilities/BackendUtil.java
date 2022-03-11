@@ -114,8 +114,6 @@ public class BackendUtil {
             }
             in.close();
 
-            OSUtil.out.println(content);
-
             con.disconnect();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

@@ -5,7 +5,6 @@ import cyder.enums.ExitCondition;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.ConsoleFrame;
-import cyder.utilities.OSUtil;
 import cyder.utilities.UserUtil;
 
 import java.io.PrintWriter;
@@ -65,7 +64,7 @@ public class ExceptionHandler {
      * @param e the exception to be displayed
      */
     private static void silentHandleWithoutLogging(Exception e) {
-       OSUtil.out.println(getPrintableException(e));
+       System.out.println(getPrintableException(e));
     }
 
     /**

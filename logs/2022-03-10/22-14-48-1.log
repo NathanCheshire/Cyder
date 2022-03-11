@@ -1,0 +1,136 @@
+[22-14-48] [ENTRY]: [Nathan]
+[22-14-48] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-14-49] [THREAD STARTED]: Splash Loader
+[22-14-49] [THREAD STARTED]: Splash Animation
+[22-14-50] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-14-50] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-14-50] [THREAD STARTED]: JVM Logger
+[22-14-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-14-50] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-14-50] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-14-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972081877.json
+[22-14-50] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-14-50] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-14-50] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972090219.json
+[22-14-50] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-14-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-50] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-14-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-50] [THREAD STARTED]: Console Printing Animation
+[22-14-50] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-14-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-50] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-14-50] [THREAD STARTED]: Console Input Caret Position Updater
+[22-14-50] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-14-50] [SYSTEM_IO]: Userdata requested: InputFill
+[22-14-50] [THREAD STARTED]: High Ping Checker
+[22-14-50] [THREAD STARTED]: Hourly Chime Checker
+[22-14-50] [THREAD STARTED]: Console Clock Updater
+[22-14-50] [THREAD STARTED]: Cyder Busy Checker
+[22-14-50] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-14-50] [ACTION]: Console loaded in 3007ms
+[22-14-50] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(401, 221, 707, 744)], hash = [353023213], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-14-51] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [2058905349], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-14-51] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-14-51] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-14-51] [ENTRY]: [TESTING MODE]
+[22-14-51] [SYSTEM_IO]: Userdata requested: laststart
+[22-14-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-14-51] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972090696.json
+[22-14-51] [ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in 3007ms</html>
+[22-14-51] [THREAD STARTED]: notification appear animation
+[22-14-51] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-14-51] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-14-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-14-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972091093.json
+[22-14-54] [CLIENT]: mp3
+[22-14-54] [SYSTEM_IO]: Userdata requested: filterchat
+[22-14-54] [WIDGET OPENED]: AUDIO PLAYER
+[22-14-54] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[22-14-54] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-54] [HANDLE]: PRIMARY HANDLE
+[22-14-55] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-55] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-55] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-55] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-55] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[22-14-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-14-57] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-14-57] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972093887.json
+[22-14-57] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-57] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-57] [THREAD STARTED]: Flash Player Audio Thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-57] [THREAD STARTED]: Flash Player scrolling title thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-57] [THREAD STARTED]: Flash Player Progress Thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-57] [THREAD STARTED]: Flash Player Progress Thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-57] [THREAD STARTED]: Flash Player scrolling title thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-57] [ACTION]: [AUDIO PLAYER] Anne-Marie - 2002 (slowed & reverb).mp3
+[22-14-58] [THREAD STARTED]: Flash Player Progress Thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-58] [THREAD STARTED]: Flash Player scrolling title thread[Anne-Marie - 2002 (slowed & reverb)]
+[22-14-58] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
+[22-14-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[22-14-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[22-14-58] [ACTION]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[22-14-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[22-14-58] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[22-14-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[22-14-58] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[22-14-58] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[22-14-59] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[22-14-59] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-59] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-59] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-59] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-59] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-14-59] [ACTION]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
+[22-15-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-15-00] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[22-15-00] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[22-15-00] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[22-15-01] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[22-15-01] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[22-15-01] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-01] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972097518.json
+[22-15-02] [ACTION]: Component name = [cyder.ui.CyderLabel], bounds = [(55, 420, 385, 35)], hash = [383834612], parentFrame = [Chillstep Anima - You Are Truth], associated text = [<html><div style='text-align: center;'>0s played, 6m 47s left</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-15-02] [THREAD STARTED]: Flash Player Audio Thread[Chillstep Anima - You Are Truth]
+[22-15-02] [THREAD STARTED]: Flash Player Progress Thread[Chillstep Anima - You Are Truth]
+[22-15-02] [ACTION]: [AUDIO PLAYER] Chillstep Anima - You Are Truth.mp3
+[22-15-05] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-05] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972101267.json
+[22-15-09] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-09] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972105012.json
+[22-15-12] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-12] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972109027.json
+[22-15-16] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-16] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972112920.json
+[22-15-20] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-20] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972116669.json
+[22-15-24] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-24] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972120411.json
+[22-15-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-28] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972124156.json
+[22-15-31] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-32] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972128177.json
+[22-15-35] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-36] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972132010.json
+[22-15-39] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-39] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972136005.json
+[22-15-43] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-43] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972139819.json
+[22-15-47] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-47] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972143743.json
+[22-15-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-51] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972147789.json
+[22-15-55] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-55] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972151604.json
+[22-15-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-15-59] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972155539.json
+[22-16-03] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-16-03] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972159298.json
+[22-16-06] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-16-06] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972163044.json
+[22-16-10] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-16-10] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972166783.json
+[22-16-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-16-14] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1646972170517.json

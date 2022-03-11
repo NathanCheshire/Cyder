@@ -34,7 +34,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * CyderFrame component is the primary backbone that all of Cyder lays on.
  */
-@SuppressWarnings("unused") /* some methods have yet to be used */
+@SuppressWarnings({"unused",
+        "ThisEscapedInObjectConstruction",
+        "OverridableMethodCallDuringObjectConstruction"})
 public class CyderFrame extends JFrame {
     /**
      * The maximum allowable frame dimension to notification dimension before
@@ -172,7 +174,7 @@ public class CyderFrame extends JFrame {
     /**
      * The text displayed on the title label.
      */
-    private String title = "CyderFrame [" + hashCode() + "]";
+    private String title = "CyderFrame";
 
     /**
      * The "content pane" of the CyderFrame. This is what is returned
@@ -196,7 +198,7 @@ public class CyderFrame extends JFrame {
      * Speeds up performance by not repainting anything on t
      * he frame during animations such as minimize and close.
      */
-    private boolean disableContentRepainting = false;
+    private boolean disableContentRepainting;
 
     /**
      * The background color of our CyderFrame.
@@ -452,7 +454,6 @@ public class CyderFrame extends JFrame {
                 }
             }
         };
-        iconLabel.setIcon(background);
         iconLabel.setBounds(frameResizingLen,frameResizingLen,
                 width - 2 * frameResizingLen,height - 2 * frameResizingLen);
         iconLabel.setFocusable(false);
@@ -841,7 +842,7 @@ public class CyderFrame extends JFrame {
      * @param title the String representing the chosen CyderFrame title
      */
     @Override
-    public void setTitle(final String title) {
+    public void setTitle(String title) {
         // super call, super title will alway be provided title
         super.setTitle(paintSuperTitle ? title : "");
 
@@ -895,7 +896,7 @@ public class CyderFrame extends JFrame {
     /**
      * Whether the notification thread has been started for this frame.
      */
-    private boolean notificationCheckerStarted = false;
+    private boolean notificationCheckerStarted;
 
     /**
      * Returns the current notification.
@@ -948,7 +949,7 @@ public class CyderFrame extends JFrame {
     private final Runnable notificationQueue = () -> {
         try {
             while (this != null && !threadsKilled) {
-                if (notificationList.size() > 0) {
+                if (!notificationList.isEmpty()) {
                     QueuedNotification currentQueuedNotification = notificationList.remove(0);
 
                     //init notification object
@@ -1368,7 +1369,7 @@ public class CyderFrame extends JFrame {
     /**
      * Whether dancing has finished for this frame.
      */
-    private boolean dancingFinished = false;
+    private boolean dancingFinished;
 
     /**
      * Sets the direction the frame is currently dancing in.
@@ -1462,7 +1463,7 @@ public class CyderFrame extends JFrame {
         Timer finalTimer = timer;
 
         timer = new Timer(10, new ActionListener() {
-            private double angle = 0;
+            private double angle;
 
             BufferedImage rotated;
 
@@ -2090,7 +2091,7 @@ public class CyderFrame extends JFrame {
     /**
      * A message to display before the frame is actually disposed.
      */
-    private String closingConfirmationMessage = null;
+    private String closingConfirmationMessage;
 
     /**
      * Displays a confirmation dialog to the user to confirm
@@ -2188,12 +2189,12 @@ public class CyderFrame extends JFrame {
     /**
      * The relative x value of this frame to the console frame, used for console pin dragging actions.
      */
-    private int relativeX = 0;
+    private int relativeX;
 
     /**
      * The relative y value of this frame to the console frame, used for console pin dragging actions.
      */
-    private int relativeY = 0;
+    private int relativeY;
 
     /**
      * Returns the relative x of this frame to the console frame.
@@ -2266,7 +2267,7 @@ public class CyderFrame extends JFrame {
     /**
      * The index which determines which color to choose for the border color.
      */
-    private static int colorIndex = 0;
+    private static int colorIndex;
 
     /**
      * The taskbar icon border color for this CyderFrame instance.
@@ -2427,7 +2428,7 @@ public class CyderFrame extends JFrame {
      * @return a taskbar component with the currently set border color
      */
     public JLabel getTaskbarButton() {
-        if (getTitle() == null || getTitle().length() == 0)
+        if (getTitle() == null || getTitle().isEmpty())
             throw new IllegalArgumentException("Title not set or long enough");
 
         return getTaskbarButton(taskbarIconBorderColor);
@@ -2753,7 +2754,7 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public String getTitle() {
-        if (titleLabel != null && titleLabel.getText().length() > 0) {
+        if (titleLabel != null && !titleLabel.getText().isEmpty()) {
             return titleLabel.getText();
         } else {
             return super.getTitle();
@@ -2839,7 +2840,7 @@ public class CyderFrame extends JFrame {
                 ret = super.remove(o);
             }
 
-            if (menuItems.size() == 0)
+            if (menuItems.isEmpty())
                 titleLabel.addMouseListener(titleLabelListener);
 
             return ret;

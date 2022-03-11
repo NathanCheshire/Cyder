@@ -184,8 +184,6 @@ public class UserUtil {
         if (!FileUtil.getExtension(f).equals(".json"))
             throw new IllegalArgumentException("File is not a json type");
 
-        System.out.println(u.getScreenStat().getConsoleX());
-
         Gson gson = new Gson();
 
         try {

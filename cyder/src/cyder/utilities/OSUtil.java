@@ -13,7 +13,6 @@ import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.file.Files;
@@ -143,11 +142,6 @@ public class OSUtil {
      * The standard operating system enum.
      */
     public static final OperatingSystem OPERATING_SYSTEM = initializeOperatingSystem();
-
-    /**
-     * The system output stream so as to not have any System dot out calls within Cyder.
-     */
-    public static final PrintStream out = System.out;
 
     /**
      * Initializes the operating system enum type.
