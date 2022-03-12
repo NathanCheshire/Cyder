@@ -1,5 +1,6 @@
 package cyder.layouts;
 
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
@@ -70,6 +71,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
         this.alignment = alignment;
         this.hgap = hgap;
         this.vgap = vgap;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     // keep track of components on this panel
@@ -192,7 +195,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
         //add final row to rows if it has a component since it might have
         // not been added above due to possibly running out of components
         // before meeting the maximum width constraint
-        if (currentRow.size() > 0) {
+        if (!currentRow.isEmpty()) {
             rows.add(currentRow);
         }
 
@@ -358,7 +361,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
      */
     @Override
     public void setAssociatedPanel(CyderPanel panel) {
-        this.associatedPanel = panel;
+        associatedPanel = panel;
         revalidateComponents();
     }
 

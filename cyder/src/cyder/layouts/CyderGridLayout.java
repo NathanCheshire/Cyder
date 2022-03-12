@@ -61,8 +61,8 @@ public class CyderGridLayout extends CyderBaseLayout {
         if (xCells < 1 || yCells < 1)
             throw new IllegalArgumentException("Provided cell length does not meet the minimum requirement");
 
-        this.horizontalCells = xCells;
-        this.vertialCells = yCells;
+        horizontalCells = xCells;
+        vertialCells = yCells;
 
         components = new GridComponent[xCells][yCells];
     }
@@ -262,7 +262,7 @@ public class CyderGridLayout extends CyderBaseLayout {
 
         components[x][y] = new GridComponent(component, component.getWidth(),
                 component.getHeight(), Position.MIDDLE_CENTER);
-        this.repaint();
+        repaint();
     }
 
     /**
@@ -287,7 +287,7 @@ public class CyderGridLayout extends CyderBaseLayout {
 
         components[x][y] = new GridComponent(component, component.getWidth(),
                 component.getHeight(), sectionPosition);
-        this.repaint();
+        repaint();
     }
 
     /**

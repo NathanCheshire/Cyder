@@ -15,8 +15,7 @@
 [00-23-51] [SYSTEM_IO]: Userdata requested: RandomBackground
 [00-23-51] [SYSTEM_IO]: Userdata requested: FullScreen
 [00-23-51] [SYSTEM_IO]: Userdata requested: fullscreen
-[00-23-51] [SYSTEM_IO]: Userdata requested: FullScreen
-[00-23-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-23-51] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [00-23-51] [THREAD STARTED]: Console Printing Animation
 [00-23-51] [SYSTEM_IO]: Userdata requested: OutputBorder
 [00-23-51] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -56,8 +55,7 @@
 [00-24-09] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647066246231.json
 [00-24-11] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [00-24-11] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[00-24-11] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[00-24-11] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[00-24-11] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
 [00-24-11] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [00-24-11] [AUDIO] [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
 [00-24-13] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -92,8 +90,7 @@
 [00-24-21] [THREAD STARTED]: Notificaiton Vanish Animator
 [00-24-22] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse]
 [00-24-22] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse]
-[00-24-22] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse]
-[00-24-22] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse]
+[00-24-22] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse] [2x]
 [00-24-22] [AUDIO] [AUDIO PLAYER] Skizzy Mars - Gift and Curse.mp3
 [00-24-24] [UI ACTION] Component name = [cyder.ui.CyderLabel], bounds = [(55, 420, 385, 35)], hash = [887258900], parentFrame = [Skizzy Mars - Gift and Curse], associated text = [<html><div style='text-align: center;'>1s played, 2m 39s left</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [00-24-24] [THREAD STARTED]: Flash Player Audio Thread[Skizzy Mars - Gift and Curse]
@@ -109,8 +106,7 @@
 [00-24-27] [THREAD STARTED]: Console Audio Menu Minimizer
 [00-24-27] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
 [00-24-27] [THREAD STARTED]: Flash Player scrolling title thread[Chillstep  Wayr - Follow the Light]
-[00-24-27] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
-[00-24-28] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[00-24-28] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light] [2x]
 [00-24-28] [AUDIO] [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
 [00-24-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [00-24-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647066264977.json

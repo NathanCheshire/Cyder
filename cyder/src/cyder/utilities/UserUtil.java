@@ -831,6 +831,8 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
+            //todo similar command finder sitll outputs unknown command if it finds one to suggest
+
             //todo stuff that uses a lable button in the drag label
             // switch to using a menu
 
@@ -843,7 +845,7 @@ public class UserUtil {
             // todo come up with solution for constant logging of backups and deleting the old json
             // todo look at logs and figure out how to clean up logs
 
-            //todo up to handlers/internal for object creation log call
+            //todo up to start on ui/ for object creation log call
 
             //todo use illegal method exception for all private constructor restrictors
 

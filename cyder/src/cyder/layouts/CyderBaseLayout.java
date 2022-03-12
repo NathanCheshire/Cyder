@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class CyderBaseLayout extends JLabel implements ICyderLayout {
     /*
-    ICyderLayout methodsw to force a child class to override them
+    ICyderLayout methods to force a child class to override them
      */
 
     @Override

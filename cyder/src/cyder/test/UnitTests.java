@@ -1,6 +1,8 @@
 package cyder.test;
 
 import cyder.constants.CyderRegexPatterns;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
@@ -16,6 +18,13 @@ import static org.junit.Assert.*;
  * and more unit tests are added for every util function.
  */
 public class UnitTests {
+    /**
+     * Restrict default instantiation.
+     */
+    private UnitTests() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
     @Test
     public void testInsertBreaks() {
         assertEquals("It's the strangest feeling,<br/>feeling this way for you.", BoundsUtil.insertBreaks(

@@ -1,5 +1,7 @@
 package cyder.threads;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.ReflectionUtil;
 
@@ -16,12 +18,19 @@ public class MasterYoutubeThread {
     /**
      * Whether any instances of helper YouTube threads are running.
      */
-    private static boolean isActive = false;
+    private static boolean isActive;
 
     /**
      * The linked JTextPane's semaphore object to use to block text from being appended to it during script execution.
      */
     private static Semaphore semaphore;
+
+    /**
+     * Restrict default instantiation.
+     */
+    private MasterYoutubeThread() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
 
     /**
      * Protected getter for semaphore so helper threads may acquire when needed.

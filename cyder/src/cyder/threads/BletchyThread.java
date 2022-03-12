@@ -1,5 +1,7 @@
 package cyder.threads;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderOutputPane;
@@ -13,6 +15,13 @@ import java.util.concurrent.Semaphore;
 
 public class BletchyThread {
     /**
+     * Restrict default instantiation.
+     */
+    private BletchyThread() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
+    /**
      * Inner animator class.
      */
     private static BletchyAnimator bletchyAnimator;
@@ -20,7 +29,7 @@ public class BletchyThread {
     /**
      * Whether or not bletchyAnimator is active.
      */
-    private static boolean isActive = false;
+    private static boolean isActive;
 
     /**
      * Common printing methods Cyder uses for JTextPane access.
@@ -54,7 +63,7 @@ public class BletchyThread {
      */
     public static void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
         //starting not permitting if bletchy or this is already underway
-        if (BletchyThread.isActive() || MasterYoutubeThread.isActive()) {
+        if (isActive() || MasterYoutubeThread.isActive()) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
@@ -98,10 +107,10 @@ public class BletchyThread {
                     stringUtil.println(print[print.length - 1]);
                     printingSemaphore.release();
 
-                    this.kill();
+                    kill();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
-                    this.kill();
+                    kill();
                 }
             },"bletchy printing thread: finalString = " + print[print.length - 1]);
         }
@@ -141,7 +150,7 @@ public class BletchyThread {
     /**
      * Character array of all lowercase latin chars and the base 10 numbers.
      */
-    private static Character[] alphaNumeric =
+    private static final Character[] alphaNumeric =
             {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
             '0','1','2','3','4','5','6','7','8','9'};
 
@@ -153,10 +162,10 @@ public class BletchyThread {
      * @param useUnicode a boolean turning on random unicode chars
      * @return the string array to be used by a bletchy thread
      */
-    private static String[] getBletchyArray(final String decodeString, boolean useNumbers, boolean useUnicode) {
+    private static String[] getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
         LinkedList<String> retList = new LinkedList<>();
 
-        final String decodeUsage = decodeString.toLowerCase().trim();
+        String decodeUsage = decodeString.toLowerCase().trim();
 
         int len = decodeUsage.length();
 

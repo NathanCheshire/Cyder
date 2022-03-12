@@ -1,5 +1,6 @@
 package cyder.threads;
 
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class CyderThreadFactory implements ThreadFactory {
      */
     public CyderThreadFactory(String name) {
         this.name = name;
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -40,7 +42,7 @@ public class CyderThreadFactory implements ThreadFactory {
      * @return the name of this thread factory
      */
     public String getName() {
-        return this.name;
+        return name;
     }
 
     /**
@@ -50,7 +52,7 @@ public class CyderThreadFactory implements ThreadFactory {
      * @return a new thread using the provided runnable and name
      */
     public Thread newThread(@NotNull Runnable runnable) {
-        return new Thread(runnable, this.name);
+        return new Thread(runnable, name);
     }
 
     /**

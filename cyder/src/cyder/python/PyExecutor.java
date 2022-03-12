@@ -1,5 +1,7 @@
 package cyder.python;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.utilities.OSUtil;
@@ -10,7 +12,17 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * A python script executor class.
+ */
 public class PyExecutor {
+    /**
+     * Restrict default instantiation.
+     */
+    private PyExecutor() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
     /**
      * Executes the USBq.py script.
      */

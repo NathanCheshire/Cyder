@@ -10,6 +10,7 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -30,6 +31,13 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("unused") /* methods invoked via reflection and annotation */
 public class ManualTests {
+    /**
+     * Restricts default instantiation.
+     */
+    private ManualTests() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
     /**
      * Runs the tests within the method.
      * This method is used purely for testing purposes.

@@ -1,5 +1,7 @@
 package cyder.threads;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
@@ -18,7 +20,7 @@ public class YoutubeThread {
     /**
      * Boolean used for killing the YouTube threads.
      */
-    private boolean exit = false;
+    private boolean exit;
 
     /**
      * StringUtil to append text to the linked JTextPane.
@@ -50,6 +52,13 @@ public class YoutubeThread {
             '3', '4', '5', '6', '7', '8', '9', '-', '_'};
 
     /**
+     * Suppress default constructor. Requires two parameters for instantiation.D
+     */
+    private YoutubeThread() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
+    /**
      * Starts generating UUIDs and checking them against YouTube for a valid uuid.
      * Text is appended to the provided JTextPane.
      *
@@ -57,7 +66,7 @@ public class YoutubeThread {
      * @param threadNumber the number this thread is in the YouTube thread list
      */
     public YoutubeThread(JTextPane jTextPane, int threadNumber) {
-        this.stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
+        stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
 
         CyderThreadRunner.submit(() -> {
             //init as user's stored value
@@ -66,7 +75,7 @@ public class YoutubeThread {
             try {
                 if (uuid.length() != 11)
                     throw new IllegalArgumentException("Youtube Thread UUID not length 11");
-                else if (uuid.length() == 0 || uuid == null)
+                else if (uuid.isEmpty() || uuid == null)
                     throw new IllegalArgumentException("Youtube Thread UUID length 0 or null");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -210,13 +219,13 @@ public class YoutubeThread {
      * @return the index of the provided char in the provided array
      */
     private int findIndex(char c) {
-        if (YoutubeThread.validChars == null)
+        if (validChars == null)
             return -1;
 
         int i = 0;
 
-        while (i < YoutubeThread.validChars.length)
-            if (YoutubeThread.validChars[i] == c) {
+        while (i < validChars.length)
+            if (validChars[i] == c) {
                 return i;
             } else {
                 i = i + 1;
