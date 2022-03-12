@@ -171,15 +171,8 @@ public class PaintWidget {
                 File chosenImage = GetterUtil.getInstance().getFile(builder);
 
                 if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
-                    BufferedImage layerImage = ImageIO.read(chosenImage);
-                    int newLen = Math.max(layerImage.getWidth(), layerImage.getHeight());
-
-                    // resize grid to newlen x new len
-
-                    // leave grid in same position, don't center
-                    // layer image on top, adding to pixel values
-
-                    // make sure state is still traversable
+                    // todo implement after figuring out solution to large grids
+                    // todo figure ensure nodes aren't painted out of bounds and grid is always inside by 10 pixels
                 } else {
                     paintFrame.notify("Image type not supported");
                 }
@@ -228,6 +221,8 @@ public class PaintWidget {
                                 (color >> 8) & 0xFF,
                                 color & 0xFF);
 
+                        // todo need new pixelation algorithm
+                        // so you don't have to account for this
                         if (newColor.equals(Color.BLACK))
                             continue;
 
@@ -294,13 +289,6 @@ public class PaintWidget {
                 } else {
                     paintFrame.notify("Invalid dimensional length");
                 }
-
-                // get grid
-
-                // use resize algorithm from widget that will go away to resize the grid
-                // copy to image
-                // use algorithm
-                // put back on grid
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not resize at this time");

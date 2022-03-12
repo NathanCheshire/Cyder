@@ -2,51 +2,8 @@
 [13-39-19] [THREAD STARTED]: Singular Cyder Instance Ensurer
 [13-39-19] [THREAD STARTED]: Splash Loader
 [13-39-19] [OBJECT CREATED] Instance of cyder.user.User created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
-[13-39-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-19] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [42x]
+[13-39-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-19] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-19] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-39-19] [THREAD STARTED]: Splash Animation
@@ -56,46 +13,33 @@
 [13-39-20] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [13-39-20] [THREAD STARTED]: JVM Logger
 [13-39-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[13-39-20] [OBJECT CREATED] Instance of cyder.user.User created
-[13-39-20] [OBJECT CREATED] Instance of cyder.user.User created
+[13-39-20] [OBJECT CREATED] Instance of cyder.user.User created [2x]
 [13-39-20] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
-[13-39-20] [OBJECT CREATED] Instance of cyder.user.User created
-[13-39-20] [OBJECT CREATED] Instance of cyder.user.User created
+[13-39-20] [OBJECT CREATED] Instance of cyder.user.User created [2x]
 [13-39-20] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [13-39-20] [OBJECT CREATED] Instance of cyder.user.User created
 [13-39-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113898711.json
 [13-39-20] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created [2x]
 [13-39-20] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [13-39-20] [OBJECT CREATED] Instance of cyder.user.User created
 [13-39-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113960302.json
 [13-39-20] [SYSTEM_IO]: Userdata requested: RandomBackground
 [13-39-20] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame$1 created
 [13-39-20] [SYSTEM_IO]: Userdata requested: fullscreen
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
-[13-39-20] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-39-20] [SYSTEM_IO]: Userdata requested: FullScreen
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created
+[13-39-20] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created [2x]
 [13-39-20] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
 [13-39-20] [THREAD STARTED]: Console Printing Animation
 [13-39-20] [SYSTEM_IO]: Userdata requested: OutputBorder
@@ -105,13 +49,7 @@
 [13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
 [13-39-20] [SYSTEM_IO]: Userdata requested: OutputFill
 [13-39-20] [SYSTEM_IO]: Userdata requested: InputFill
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-20] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [7x]
 [13-39-20] [THREAD STARTED]: High Ping Checker
 [13-39-20] [THREAD STARTED]: Hourly Chime Checker
 [13-39-20] [THREAD STARTED]: Console Clock Updater
@@ -137,56 +75,36 @@
 [13-39-21] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
 [13-39-21] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-39-21] [THREAD STARTED]: Notificaiton Vanish Animator
-[13-39-21] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
-[13-39-22] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[13-39-22] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
 [13-39-23] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [13-39-23] [OBJECT CREATED] Instance of cyder.user.User created
 [13-39-23] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113960906.json
 [13-39-24] [CLIENT]: paint
 [13-39-24] [SYSTEM_IO]: Userdata requested: filterchat
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderGrid created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created [2x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderTextField created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
+[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderCheckboxGroup created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
@@ -196,13 +114,9 @@
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderCheckbox created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
 [13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderSliderUI created
-[13-39-24] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [4x]
 [13-39-25] [CONSOLE_OUT]: [STRING] Opening widget: PaintWidget
-[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
 [13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created
 [13-39-25] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
 [13-39-25] [WIDGET OPENED]: PaintWidget, trigger = paint, triggers = [paint, draw, ]
@@ -216,21 +130,13 @@
 [13-39-29] [OBJECT CREATED] Instance of cyder.utilities.objects.GetterBuilder created
 [13-39-29] [OBJECT CREATED] Instance of cyder.utilities.GetterUtil created
 [13-39-29] [THREAD STARTED]: getString() thread, title = [Enter pixel size]
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-39-29] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
@@ -244,21 +150,13 @@
 [13-39-31] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [13-39-31] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1336539568], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-39-31] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(853, 687, 400, 170)], hash = [105118309], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-31] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-31] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [13-39-31] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1336539568], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-39-31] [SYSTEM_IO]: Userdata requested: closeanimation
@@ -274,21 +172,13 @@
 [13-39-39] [OBJECT CREATED] Instance of cyder.utilities.objects.GetterBuilder created
 [13-39-39] [OBJECT CREATED] Instance of cyder.utilities.GetterUtil created
 [13-39-39] [THREAD STARTED]: getString() thread, title = [Enter pixel size]
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-39-39] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
@@ -303,24 +193,17 @@
 [13-39-42] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [13-39-42] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [245677513], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-39-42] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(853, 687, 400, 170)], hash = [1138241434], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
 [13-39-42] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [13-39-42] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [245677513], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-39-42] [SYSTEM_IO]: Userdata requested: closeanimation
 [13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
 [13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-42] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-39-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
@@ -330,21 +213,13 @@
 [13-39-47] [OBJECT CREATED] Instance of cyder.utilities.objects.GetterBuilder created
 [13-39-47] [OBJECT CREATED] Instance of cyder.utilities.GetterUtil created
 [13-39-47] [THREAD STARTED]: getString() thread, title = [Enter pixel size]
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-39-47] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
@@ -355,21 +230,13 @@
 [13-39-49] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [13-39-49] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [454795230], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [13-39-49] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(853, 687, 400, 170)], hash = [458886278], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-39-49] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-39-49] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [13-39-49] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [454795230], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
@@ -403,21 +270,13 @@
 [13-40-01] [OBJECT CREATED] Instance of cyder.utilities.objects.GetterBuilder created
 [13-40-01] [OBJECT CREATED] Instance of cyder.utilities.GetterUtil created
 [13-40-01] [THREAD STARTED]: getString() thread, title = [Filename]
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-40-01] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
@@ -441,21 +300,13 @@
 [13-40-02] [THREAD STARTED]: notification appear animation
 [13-40-02] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [13-40-02] [THREAD STARTED]: Notificaiton Vanish Animator
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
-[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
 [13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
 [13-40-03] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
 [13-40-04] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
