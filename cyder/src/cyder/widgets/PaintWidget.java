@@ -217,9 +217,6 @@ public class PaintWidget {
 
                 BufferedImage newStateImage = ImageUtil.pixelate(image, pixelSize);
 
-                // todo how to filter out alpha remnants
-                ImageUtil.drawBufferedImage(newStateImage);
-
                 LinkedList<GridNode> newState = new LinkedList<>();
 
                 for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
@@ -230,6 +227,9 @@ public class PaintWidget {
                                 (color >> 16) & 0xFF,
                                 (color >> 8) & 0xFF,
                                 color & 0xFF);
+
+                        if (newColor.equals(Color.BLACK))
+                            continue;
 
                         newState.add(new GridNode(newColor, x, y));
                     }

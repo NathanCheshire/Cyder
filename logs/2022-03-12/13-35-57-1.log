@@ -1,0 +1,874 @@
+[13-35-57] [ENTRY]: [Nathan]
+[13-35-58] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[13-35-58] [THREAD STARTED]: Splash Loader
+[13-35-58] [OBJECT CREATED] Instance of cyder.user.User created
+[13-35-58] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [40x]
+[13-35-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-35-58] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [2x]
+[13-35-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
+[13-35-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-35-58] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[13-35-58] [THREAD STARTED]: Splash Animation
+[13-35-58] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame created
+[13-35-59] [OBJECT CREATED] Instance of cyder.threads.CyderThreadFactory created
+[13-35-59] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[13-35-59] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[13-35-59] [THREAD STARTED]: JVM Logger
+[13-35-59] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-35-59] [OBJECT CREATED] Instance of cyder.user.User created [2x]
+[13-35-59] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[13-35-59] [OBJECT CREATED] Instance of cyder.user.User created [2x]
+[13-35-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-35-59] [OBJECT CREATED] Instance of cyder.user.User created
+[13-35-59] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113732027.json
+[13-35-59] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created [2x]
+[13-35-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-35-59] [OBJECT CREATED] Instance of cyder.user.User created
+[13-35-59] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113759343.json
+[13-35-59] [SYSTEM_IO]: Userdata requested: RandomBackground
+[13-35-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame$1 created
+[13-35-59] [SYSTEM_IO]: Userdata requested: fullscreen
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[13-35-59] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created [2x]
+[13-35-59] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
+[13-35-59] [THREAD STARTED]: Console Printing Animation
+[13-35-59] [SYSTEM_IO]: Userdata requested: OutputBorder
+[13-35-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[13-35-59] [SYSTEM_IO]: Userdata requested: InputBorder
+[13-35-59] [THREAD STARTED]: Console Input Caret Position Updater
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[13-35-59] [SYSTEM_IO]: Userdata requested: OutputFill
+[13-35-59] [SYSTEM_IO]: Userdata requested: InputFill
+[13-35-59] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [7x]
+[13-35-59] [THREAD STARTED]: High Ping Checker
+[13-35-59] [THREAD STARTED]: Hourly Chime Checker
+[13-35-59] [THREAD STARTED]: Console Clock Updater
+[13-35-59] [THREAD STARTED]: Cyder Busy Checker
+[13-35-59] [THREAD STARTED]: ConsoleFrame Stat Saver
+[13-36-00] [UI ACTION] Console loaded in 2399ms
+[13-36-00] [OBJECT CREATED] Instance of cyder.ui.objects.NotificationBuilder created
+[13-36-00] [OBJECT CREATED] Instance of cyder.utilities.objects.TaggedString created
+[13-36-00] [OBJECT CREATED] Instance of cyder.ui.objects.QueuedNotification created
+[13-36-00] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1517, 295, 707, 744)], hash = [1434066477], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[13-36-00] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[13-36-00] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [986715464], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[13-36-00] [OBJECT CREATED] Instance of cyder.ui.CyderNotification created
+[13-36-00] [SYSTEM_IO]: Userdata requested: DebugWindows
+[13-36-00] [ENTRY]: [TESTING MODE]
+[13-36-00] [SYSTEM_IO]: Userdata requested: laststart
+[13-36-00] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-00] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-00] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113759714.json
+[13-36-00] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[13-36-00] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[13-36-00] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in 2399ms</html>
+[13-36-00] [THREAD STARTED]: notification appear animation
+[13-36-00] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[13-36-00] [THREAD STARTED]: Notificaiton Vanish Animator
+[13-36-01] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
+[13-36-02] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-02] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113760096.json
+[13-36-03] [CLIENT]: paint
+[13-36-03] [SYSTEM_IO]: Userdata requested: filterchat
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderGrid created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created [2x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderTextField created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
+[13-36-04] [CONSOLE_OUT]: [STRING] Opening widget: PaintWidget
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderCheckboxGroup created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderCheckbox created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderCheckbox created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderSliderUI created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [6x]
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created
+[13-36-04] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[13-36-04] [WIDGET OPENED]: PaintWidget, trigger = paint, triggers = [paint, draw, ]
+[13-36-04] [HANDLE]: PRIMARY HANDLE
+[13-36-06] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-06] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-06] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113762920.json
+[13-36-10] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-10] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-10] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113766560.json
+[13-36-11] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created
+[13-36-11] [THREAD STARTED]: Paint menu label animator
+[13-36-12] [THREAD STARTED]: Paint Grid Image Layerer
+[13-36-12] [OBJECT CREATED] Instance of cyder.utilities.objects.GetterBuilder created
+[13-36-12] [OBJECT CREATED] Instance of cyder.utilities.GetterUtil created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[13-36-12] [THREAD STARTED]:  getFile() thread, title = [Layer Image]
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderTextField created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderButton created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderButton created
+[13-36-12] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created [50x]
+[13-36-13] [THREAD STARTED]: Paint Grid Pixelator
+[13-36-13] [OBJECT CREATED] Instance of cyder.utilities.objects.GetterBuilder created
+[13-36-13] [OBJECT CREATED] Instance of cyder.utilities.GetterUtil created
+[13-36-13] [THREAD STARTED]: getString() thread, title = [Enter pixel size]
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created [3x]
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderTextField created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[13-36-13] [OBJECT CREATED] Instance of cyder.ui.CyderButton created
+[13-36-14] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created [23x]
+[13-36-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-14] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-14] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created [2x]
+[13-36-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113770321.json
+[13-36-14] [OBJECT CREATED] Instance of cyder.ui.CyderScrollList$3 created [4x]
+[13-36-14] [OBJECT CREATED] Instance of cyder.ui.CyderScrollPane created
+[13-36-17] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 626, 28)], hash = [-14462583], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-36-17] [THREAD STARTED]: Cyder CyderFrame dispose thread
+[13-36-17] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(738, 517, 630, 510)], hash = [95323023], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
+[13-36-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-36-17] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-17] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113774038.json
+[13-36-19] [UI ACTION] Component name = [cyder.ui.CyderTextField], bounds = [(40, 40, 320, 40)], hash = [591028036], parentFrame = [Enter pixel size], associated text = [1], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-36-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-21] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-21] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113777822.json
+[13-36-21] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
+[13-36-21] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [2138072938], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-36-21] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(853, 687, 400, 170)], hash = [431308617], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
+[13-36-21] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-21] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-21] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-21] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-21] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-21] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-22] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[13-36-22] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[13-36-22] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
+[13-36-22] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [2138072938], parentFrame = [Enter pixel size], associated text = [Pixelate Grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[13-36-22] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[13-36-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [2050x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-23] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [140x]
+[13-36-23] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [60x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [110x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-24] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-24] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [17x]
+[13-36-25] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [11x]
+[13-36-25] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [14x]
+[13-36-25] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113781597.json
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [38x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [50x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-25] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-25] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-26] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-26] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [40x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-27] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-27] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-28] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-28] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [36x]
+[13-36-29] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [13x]
+[13-36-29] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [12x]
+[13-36-29] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113785336.json
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [8x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [50x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-29] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-29] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [30x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-30] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-30] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [100x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-31] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-31] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [110x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [10x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [38x]
+[13-36-32] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [9x]
+[13-36-32] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [12x]
+[13-36-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113789102.json
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-32] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-32] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [20x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [80x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [40x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [60x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [70x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [130x]
+[13-36-33] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [90x]
+[13-36-33] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-34] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [130x]
+[13-36-34] [DEBUG]: java.awt.Color[r=85,g=85,b=255] [70x]
+[13-36-36] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [5322x]
+[13-36-36] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-36] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [10x]
+[13-36-36] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-36] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [13x]
+[13-36-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113792878.json
+[13-36-37] [DEBUG]: java.awt.Color[r=0,g=0,b=0] [2715x]
+[13-36-40] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-40] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-40] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113796643.json
+[13-36-44] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-44] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-44] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113800413.json
+[13-36-47] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-47] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-47] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113804196.json
+[13-36-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-51] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-51] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113807987.json
+[13-36-55] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[13-36-55] [OBJECT CREATED] Instance of cyder.user.User created
+[13-36-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647113811771.json
+[13-37-20] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
