@@ -1,5 +1,6 @@
 package cyder.user;
 
+import cyder.handlers.internal.Logger;
 import cyder.user.objects.MappedExecutable;
 import cyder.user.objects.ScreenStat;
 import cyder.utilities.ReflectionUtil;
@@ -12,6 +13,13 @@ import java.util.LinkedList;
  */
 @SuppressWarnings({"UnusedReturnValue", "unused"}) /* lots of things are invoked via reflection */
 public class User {
+    /**
+     * Creates a new User object.
+     */
+    public User() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
     // ------------------------------------
     // primitive data types. In the future, allow this to be anything
     // which will require methods that use generic classes and instanceof operators.

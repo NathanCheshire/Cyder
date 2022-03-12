@@ -128,7 +128,7 @@ public class NumberUtil {
      */
     public static String toWords(String wordRep) {
         //check for invalid input
-        if (wordRep == null || wordRep.length() == 0)
+        if (wordRep == null || wordRep.isEmpty())
             return "ERROR";
 
         //convert to a big interger

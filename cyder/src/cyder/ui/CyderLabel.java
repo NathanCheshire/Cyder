@@ -6,6 +6,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
+import cyder.utilities.objects.TaggedString;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -143,7 +144,7 @@ public class CyderLabel extends JLabel {
                 String parsedChars = Jsoup.clean(getText(), Safelist.none());
 
                 //init list for strings by tag
-                LinkedList<StringUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
+                LinkedList<TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
 
                 //init ripple iterations list
                 LinkedList<String> rippleTextIterations = new LinkedList<>();
@@ -163,9 +164,9 @@ public class CyderLabel extends JLabel {
                     int rippled = 0;
 
                     //loop through all our tagged string
-                    for (StringUtil.TaggedString ts : taggedStrings) {
+                    for (TaggedString ts : taggedStrings) {
                         //if it's html simply add it to the builder
-                        if (ts.getType() == StringUtil.TaggedStringType.HTML) {
+                        if (ts.getType() == TaggedString.Type.HTML) {
                             builder.append(ts.getText());
                         }
                         //otherwise we might need to ripple some  chars

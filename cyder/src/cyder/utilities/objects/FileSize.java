@@ -1,5 +1,7 @@
 package cyder.utilities.objects;
 
+import cyder.handlers.internal.Logger;
+
 /**
  * Associated name of a file and it's size.
  */
@@ -23,6 +25,8 @@ public final class FileSize {
     public FileSize(String name, long size) {
         this.size = size;
         this.name = name;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

@@ -189,7 +189,7 @@ public class StatUtil {
 
                 while ((line = lineReader.readLine()) != null)
                     //not blank and not a comment means a code line
-                    if (line.trim().length() > 0 && !isComment(line.trim()))
+                    if (!line.trim().isEmpty() && !isComment(line.trim()))
                         localRet++;
 
                 return localRet;
@@ -290,7 +290,7 @@ public class StatUtil {
                     if (blockComment)
                         localRet++;
                     //otherwise if the line has text and is a comment inc
-                    else if (line.trim().length() > 0 && (isComment(line)))
+                    else if (!line.trim().isEmpty() && (isComment(line)))
                         localRet++;
                 }
 
@@ -332,7 +332,7 @@ public class StatUtil {
                 int localRet = 0;
 
                 while ((line = lineReader.readLine()) != null)
-                    if (line.trim().length() == 0)
+                    if (line.trim().isEmpty())
                         localRet++;
 
                 return localRet;

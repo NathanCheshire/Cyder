@@ -18,7 +18,7 @@ public class IPUtil {
     }
 
     private static IPData ipdata;
-    private static boolean fetched = false;
+    private static boolean fetched;
 
     public static IPData getIpdata() {
         if (!fetched) {
@@ -39,7 +39,7 @@ public class IPUtil {
 
         String key = UserUtil.getCyderUser().getIpkey();
 
-        if (key.trim().length() == 0) {
+        if (key.trim().isEmpty()) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the IP Key has not been set or is invalid" +
                     ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
                     " user editor to learn how to acquire a key and set it.","IP Key Not Set");

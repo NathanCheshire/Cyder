@@ -1,5 +1,7 @@
 package cyder.utilities;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
 import java.io.BufferedInputStream;
@@ -29,6 +31,13 @@ public class FileUtil {
      * The metadata signature for a jpg file.
      */
     public static final int[] JPG_SIGNATURE = {0xFF, 0xD8, 0xFF};
+
+    /**
+     * Suppress default constructor.
+     */
+    private FileUtil() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
 
     /**
      * Returns whether the provided file is a supported image file by validating

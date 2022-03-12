@@ -43,7 +43,7 @@ public class ColorUtil {
         }
 
         if (hex.length() < 6) {
-            if (hex.length() == 0)
+            if (hex.isEmpty())
                 hex = "000000";
 
             hex = String.valueOf(hex.charAt(0));

@@ -1,14 +1,27 @@
 package cyder.utilities.objects;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.Logger;
+
 public class WidgetDescription {
     private final String name;
     private final String description;
     private final String[] triggers;
 
+    /**
+     * Suppress instantiation without all params.
+     */
+    private WidgetDescription() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
     public WidgetDescription(String name, String description, String[] triggers) {
         this.name = name;
         this.description = description;
         this.triggers = triggers;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public final String getName() {

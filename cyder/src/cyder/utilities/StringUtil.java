@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.common.base.CharMatcher;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
+import cyder.utilities.objects.TaggedString;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -45,7 +46,7 @@ public class StringUtil {
         if (cyderOutputPane == null)
             throw new IllegalArgumentException("Provided output pane is null");
 
-        this.linkedCyderPane = cyderOutputPane;
+        linkedCyderPane = cyderOutputPane;
     }
 
     /**
@@ -511,7 +512,7 @@ public class StringUtil {
      * @return the resultant string
      */
     public static String capsFirst(String word) {
-        if (word.length() == 0)
+        if (word.isEmpty())
             return word;
 
         StringBuilder sb = new StringBuilder(word.length());
@@ -533,7 +534,7 @@ public class StringUtil {
      * @return the resultant string after filtering
      */
     public static String filterLeet(String filter) {
-        if (filter == null || filter.length() == 0)
+        if (filter == null || filter.isEmpty())
             return null;
 
         //split at spaces and run leet in each of those
@@ -684,7 +685,7 @@ public class StringUtil {
      * @return the resultant string
      */
     public static String firstCharToLowerCase(String str) {
-        if (str == null || str.length() == 0)
+        if (str == null || str.isEmpty())
             return "";
 
         if(str.length() == 1)
@@ -814,55 +815,19 @@ public class StringUtil {
             String regularText = textCopy.substring(0, firstOpeningTag);
             String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
-            if (regularText.length() > 0)
-                taggedStrings.add(new TaggedString(regularText, TaggedStringType.TEXT));
-            if (firstHtml.length() > 0)
-                taggedStrings.add(new TaggedString(firstHtml, TaggedStringType.HTML));
+            if (!regularText.isEmpty())
+                taggedStrings.add(new TaggedString(regularText, TaggedString.Type.TEXT));
+            if (!firstHtml.isEmpty())
+                taggedStrings.add(new TaggedString(firstHtml, TaggedString.Type.HTML));
 
             textCopy = textCopy.substring(firstClosingTag + 1);
         }
 
         //if there's remaining text, it's just non-html
-        if (textCopy.length() > 0)
-            taggedStrings.add(new TaggedString(textCopy, TaggedStringType.TEXT));
+        if (!textCopy.isEmpty())
+            taggedStrings.add(new TaggedString(textCopy, TaggedString.Type.TEXT));
 
         return taggedStrings;
-    }
-
-    /**
-     * The type a given String is: HTML or TEXT
-     */
-    public enum TaggedStringType {
-        HTML,TEXT
-    }
-
-    /**
-     * Class representing a segment of text as either being raw text or an html tag
-     */
-    public static class TaggedString {
-        private String text;
-        private TaggedStringType type;
-
-        public TaggedString(String text, TaggedStringType type) {
-            this.text = text;
-            this.type = type;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public void setText(String text) {
-            this.text = text;
-        }
-
-        public TaggedStringType getType() {
-            return type;
-        }
-
-        public void setType(TaggedStringType type) {
-            this.type = type;
-        }
     }
 
     /**
@@ -878,7 +843,7 @@ public class StringUtil {
 
         nullCheck = nullCheck.trim();
 
-        return  nullCheck.length() == 0 ||
+        return nullCheck.isEmpty() ||
                 nullCheck.equalsIgnoreCase("NUL") ||
                 nullCheck.equalsIgnoreCase("NULL");
     }
@@ -924,7 +889,7 @@ public class StringUtil {
             length = htmlText.length();
         } else {
             for (TaggedString ts : taggedStrings) {
-                if (ts.getType() == TaggedStringType.TEXT)
+                if (ts.getType() == TaggedString.Type.TEXT)
                     length += ts.getText().length();
             }
         }

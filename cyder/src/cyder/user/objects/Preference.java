@@ -1,5 +1,6 @@
 package cyder.user.objects;
 
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 import java.util.function.Function;
@@ -23,6 +24,8 @@ public class Preference {
         this.tooltip = tooltip;
         this.defaultValue = defaultValue;
         this.onChangeFunction = onChangeFunction;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public String getID() {

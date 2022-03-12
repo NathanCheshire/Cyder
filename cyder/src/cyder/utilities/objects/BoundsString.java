@@ -1,6 +1,7 @@
 package cyder.utilities.objects;
 
 import cyder.constants.CyderStrings;
+import cyder.handlers.internal.Logger;
 
 /**
  * A String associated with the width and height it should fit in
@@ -33,6 +34,8 @@ public class BoundsString {
         this.width = width;
         this.height = height;
         this.text = text;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -101,7 +104,7 @@ public class BoundsString {
      */
     @Override
     public String toString() {
-        return "[" + this.width + "x" + this.height + "], Text: \"" + this.text + "\"";
+        return "[" + width + "x" + height + "], Text: \"" + text + "\"";
     }
 
     /**
@@ -115,17 +118,17 @@ public class BoundsString {
             return false;
 
         BoundsString other = (BoundsString) o;
-        return other.getWidth() == this.getWidth()
-                && other.getHeight() == this.getHeight()
-                && other.getText().equals(this.getText());
+        return other.getWidth() == getWidth()
+                && other.getHeight() == getHeight()
+                && other.getText().equals(getText());
     }
 
     /**
      * {@inheritDoc}
      */
     public int hashCode() {
-        int ret = Integer.hashCode(this.width);
-        ret = 31 * ret + Integer.hashCode(this.height);
-        return 31 * ret + this.text.hashCode();
+        int ret = Integer.hashCode(width);
+        ret = 31 * ret + Integer.hashCode(height);
+        return 31 * ret + text.hashCode();
     }
 }

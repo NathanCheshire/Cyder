@@ -79,10 +79,10 @@ public class YoutubeUtil {
                 parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
 
             // if for some reason this case happens, account for it
-            if (parsedAsciiSaveName.length() == 0)
+            if (parsedAsciiSaveName.isEmpty())
                 parsedAsciiSaveName = SecurityUtil.generateUUID();
 
-            final String finalParsedAsciiSaveName = parsedAsciiSaveName;
+            String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
             String[] commands = {
                     "youtube-dl",
@@ -248,7 +248,7 @@ public class YoutubeUtil {
             throw new IllegalStateException("No user is associated with Cyder");
 
         // get thumbnail url and file name to save it as
-        BufferedImage save = YoutubeUtil.getSquareThumbnail(url, dimension);
+        BufferedImage save = getSquareThumbnail(url, dimension);
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                         .replace("- YouTube","")
@@ -259,10 +259,10 @@ public class YoutubeUtil {
             parsedAsciiSaveName = parsedAsciiSaveName.substring(0, parsedAsciiSaveName.length() - 1);
 
         // if for some reason this case happens, account for it
-        if (parsedAsciiSaveName.length() == 0)
+        if (parsedAsciiSaveName.isEmpty())
             parsedAsciiSaveName = SecurityUtil.generateUUID();
 
-        final String finalParsedAsciiSaveName = parsedAsciiSaveName;
+        String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
         // init album art dir
         File albumArtDir = new File(OSUtil.buildPath("dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(),

@@ -1,11 +1,18 @@
 package cyder.utilities;
 
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
+
 import java.awt.*;
 
 /**
  * Static util class for utilities revolving around the possibility of multiple monitors/displays.
  */
 public class ScreenUtil {
+    private ScreenUtil() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
     /**
      * Returns the width of the primary display.
      *

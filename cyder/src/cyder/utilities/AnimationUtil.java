@@ -88,7 +88,7 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp the component to move
      */
-    public static void componentUp(final int start, final int stop, final int delay, final int increment, final Component comp) {
+    public static void componentUp(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getY() == start)
             CyderThreadRunner.submit(() -> {
                 for (int i = start; i >= stop; i -= increment) {
@@ -111,7 +111,7 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp the component to move
      */
-    public static void componentDown(final int start, final int stop, final int delay, final int increment, final Component comp) {
+    public static void componentDown(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getY() == start)
             CyderThreadRunner.submit(() -> {
                 for (int i = start; i <= stop; i += increment) {
@@ -134,7 +134,7 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp the component to move
      */
-    public static void componentLeft(final int start, final int stop, final int delay, final int increment, final Component comp) {
+    public static void componentLeft(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getX() == start)
             CyderThreadRunner.submit(() -> {
                 for (int i = start; i >= stop; i -= increment) {
@@ -157,7 +157,7 @@ public class AnimationUtil {
      * @param increment the increment value
      * @param comp the component to move
      */
-    public static void componentRight(final int start, final int stop, final int delay, final int increment, final Component comp) {
+    public static void componentRight(int start, int stop, int delay, int increment, Component comp) {
         if (comp.getX() == start)
             CyderThreadRunner.submit(() -> {
                 for (int i = start; i <= stop; i += increment) {
@@ -182,7 +182,7 @@ public class AnimationUtil {
      * @deprecated use {@link AnimationUtil#componentUp(int, int, int, int, Component)}
      */
     @Deprecated
-    public static void jLabelYUp(final int start, final int stop, final int delay, final int increment, final JLabel jLabel) {
+    public static void jLabelYUp(int start, int stop, int delay, int increment, JLabel jLabel) {
         componentUp(start, stop, delay, increment, jLabel);
     }
 

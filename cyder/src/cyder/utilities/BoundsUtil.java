@@ -3,6 +3,7 @@ package cyder.utilities;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.utilities.objects.BoundsString;
+import cyder.utilities.objects.TaggedString;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -10,9 +11,6 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.LinkedList;
-
-import static cyder.utilities.StringUtil.TaggedString;
-import static cyder.utilities.StringUtil.TaggedStringType;
 
 /**
  * Utility methods to calculate the needed space for a String of text.
@@ -57,7 +55,7 @@ public class BoundsUtil {
      * @return an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    public static BoundsString widthHeightCalculation(final String text, int maxWidth, Font font) {
+    public static BoundsString widthHeightCalculation(String text, int maxWidth, Font font) {
         // init red object
         BoundsString ret;
 
@@ -107,23 +105,23 @@ public class BoundsUtil {
                 String firstHtml = textCopy.substring(firstOpeningTag, firstClosingTag + 1);
 
                 // add tagged strings
-                if (regularText.length() > 0)
-                    taggedStrings.add(new TaggedString(regularText, TaggedStringType.TEXT));
-                if (firstHtml.length() > 0)
-                    taggedStrings.add(new TaggedString(firstHtml, TaggedStringType.HTML));
+                if (!regularText.isEmpty())
+                    taggedStrings.add(new TaggedString(regularText, TaggedString.Type.TEXT));
+                if (!firstHtml.isEmpty())
+                    taggedStrings.add(new TaggedString(firstHtml, TaggedString.Type.HTML));
 
                 // move text copy along
                 textCopy = textCopy.substring(firstClosingTag + 1);
             }
 
             // if there's remaining text, it's non-html
-            if (textCopy.length() > 0)
-                taggedStrings.add(new TaggedString(textCopy, TaggedStringType.TEXT));
+            if (!textCopy.isEmpty())
+                taggedStrings.add(new TaggedString(textCopy, TaggedString.Type.TEXT));
 
             // now add breaks into the lines that are needed
             for (TaggedString taggedString : taggedStrings) {
                 // if it's a text tag
-                if (taggedString.getType() == TaggedStringType.TEXT) {
+                if (taggedString.getType() == TaggedString.Type.TEXT) {
                     // get full line width
                     int fullLineWidth = (int) (font.getStringBounds(
                             taggedString.getText(), frc).getWidth() + widthAddition);
@@ -160,7 +158,7 @@ public class BoundsUtil {
             // for all lines
             for (TaggedString ts : taggedStrings) {
                 // if non format text
-                if (ts.getType() == TaggedStringType.HTML)
+                if (ts.getType() == TaggedString.Type.HTML)
                     continue;
 
                 // get breaks of the tagged string
@@ -249,12 +247,12 @@ public class BoundsUtil {
 
     /**
      * Inserts breaks into the raw text based on the amount of lines needed.
-     * Note that <br/> tags may NOT exist in this string and should be parsed
+     * Note that break tags may NOT exist in this string and should be parsed
      * away prior to invoking this method.
      *
      * @param rawText the raw text
      * @param numLines the numbr of lines required
-     * @return the text with line breaks inserted (<br/>)
+     * @return the text with html line breaks inserted
      */
     public static String insertBreaks(String rawText, int numLines) {
         if (numLines == 1)
@@ -348,7 +346,7 @@ public class BoundsUtil {
 
     /**
      * Returns the provided string after ensuring it is of the form:
-     * <html><div style = 'text-align: center;'></>TEXT</html>
+     * <html><div style = 'text-align: center;'>TEXT</div</html>
      *
      * @param html the text to insert a div style into
      * @return the string with a div style inserted

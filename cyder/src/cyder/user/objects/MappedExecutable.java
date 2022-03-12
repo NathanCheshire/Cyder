@@ -1,5 +1,6 @@
 package cyder.user.objects;
 
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 /**
@@ -12,6 +13,8 @@ public class MappedExecutable {
     public MappedExecutable(String name, String filepath) {
         this.name = name;
         this.filepath = filepath;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public String getName() {

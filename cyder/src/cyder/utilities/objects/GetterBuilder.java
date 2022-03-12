@@ -1,6 +1,7 @@
 package cyder.utilities.objects;
 
 import cyder.constants.CyderColors;
+import cyder.handlers.internal.Logger;
 
 import java.awt.*;
 
@@ -27,6 +28,8 @@ public class GetterBuilder {
     private String yesButtonText = "Yes";
     private String noButtonText = "No";
 
+    public static final int MINIMUM_TITLE_LENGTH = 3;
+
     /**
      * Constructs a new GetterBuilder.
      *
@@ -34,9 +37,12 @@ public class GetterBuilder {
      */
     public GetterBuilder(String title) {
         checkNotNull(title, "title is null");
-        checkArgument(title.length() > 2, "Title length is less than three");
+        checkArgument(title.length() >= MINIMUM_TITLE_LENGTH,
+                "Title length is less than " + MINIMUM_TITLE_LENGTH);
 
         this.title = title;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public String getTitle() {

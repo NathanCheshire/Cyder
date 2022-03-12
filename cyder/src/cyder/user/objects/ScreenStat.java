@@ -1,5 +1,6 @@
 package cyder.user.objects;
 
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 /**
@@ -21,6 +22,8 @@ public class ScreenStat {
         this.consoleHeight = consoleHeight;
         this.monitor = monitor;
         this.consoleOnTop = consoleOnTop;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public int getConsoleX() {
