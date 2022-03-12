@@ -1,0 +1,186 @@
+[11-20-42] [ENTRY]: [Nathan]
+[11-20-42] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[11-20-43] [THREAD STARTED]: Splash Loader
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [32x]
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [2x]
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [2x]
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [4x]
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
+[11-20-43] [THREAD STARTED]: Splash Animation
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame created
+[11-20-43] [OBJECT CREATED] Instance of cyder.threads.CyderThreadFactory created
+[11-20-43] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[11-20-43] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-20-43] [THREAD STARTED]: JVM Logger
+[11-20-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-43] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.User created [3x]
+[11-20-43] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104440791.json
+[11-20-43] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[11-20-43] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created [2x]
+[11-20-43] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-43] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105643629.json
+[11-20-43] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-20-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame$1 created
+[11-20-44] [SYSTEM_IO]: Userdata requested: fullscreen
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[11-20-44] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created [2x]
+[11-20-44] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
+[11-20-44] [THREAD STARTED]: Console Printing Animation
+[11-20-44] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-20-44] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-20-44] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-20-44] [THREAD STARTED]: Console Input Caret Position Updater
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[11-20-44] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-20-44] [SYSTEM_IO]: Userdata requested: InputFill
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [7x]
+[11-20-44] [THREAD STARTED]: High Ping Checker
+[11-20-44] [THREAD STARTED]: Hourly Chime Checker
+[11-20-44] [THREAD STARTED]: Console Clock Updater
+[11-20-44] [THREAD STARTED]: Cyder Busy Checker
+[11-20-44] [THREAD STARTED]: ConsoleFrame Stat Saver
+[11-20-44] [UI ACTION] Console loaded in 2359ms
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.objects.NotificationBuilder created
+[11-20-44] [OBJECT CREATED] Instance of cyder.utilities.objects.TaggedString created
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.objects.QueuedNotification created
+[11-20-44] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-20-44] [ENTRY]: [TESTING MODE]
+[11-20-44] [SYSTEM_IO]: Userdata requested: laststart
+[11-20-44] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1593, 214, 707, 744)], hash = [2056234595], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[11-20-44] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-44] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[11-20-44] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-44] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1529294908], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-20-44] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105643977.json
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderNotification created
+[11-20-44] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[11-20-44] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in 2359ms</html>
+[11-20-44] [THREAD STARTED]: notification appear animation
+[11-20-44] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[11-20-44] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-20-44] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-20-45] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
+[11-20-46] [CLIENT]: weather
+[11-20-46] [SYSTEM_IO]: Userdata requested: filterchat
+[11-20-46] [EXCEPTION]:
+Exception origin: java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+From line: -2
+Trace: java.lang.IllegalArgumentException: object is not an instance of declaring class
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+at cyder.utilities.ReflectionUtil.openWidget(ReflectionUtil.java:338)
+at cyder.handlers.internal.InputHandler.handle(InputHandler.java:236)
+at cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:554)
+at java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+at java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+at java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+at java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+at java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+at java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+at java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+at java.desktop/java.awt.Component.processEvent(Component.java:6355)
+at java.desktop/java.awt.Container.processEvent(Container.java:2259)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+at java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+at java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+at java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+at java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+at java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+at java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+at java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+at java.base/java.security.AccessController.doPrivileged(Native Method)
+at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[11-20-46] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[11-20-46] [THREAD STARTED]: Unknown Input Handler
+[11-20-46] [CONSOLE_OUT]: [STRING] Opening widget: WeatherWidget
+[11-20-46] [DEBUG]: Similar command to "weather" found with tol of 0.5714286, command = "center"
+[11-20-46] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[11-20-47] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-47] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-47] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105644259.json
+[11-20-47] [CONSOLE_OUT]: [STRING] Unknown command
+[11-20-50] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-50] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105647179.json
+[11-20-54] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-54] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105650760.json
+[11-20-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-20-58] [OBJECT CREATED] Instance of cyder.user.User created
+[11-20-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105654554.json
+[11-21-02] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-02] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105658407.json
+[11-21-05] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-05] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-05] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105662145.json
+[11-21-09] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-09] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-09] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105665958.json
+[11-21-13] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-13] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-13] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105669690.json
+[11-21-17] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-17] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105673429.json
+[11-21-20] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-20] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105677164.json
+[11-21-24] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-24] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105680911.json
+[11-21-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-28] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105684722.json
+[11-21-32] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-32] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105688445.json
+[11-21-35] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-21-35] [OBJECT CREATED] Instance of cyder.user.User created
+[11-21-35] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105692177.json
+[11-21-58] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1

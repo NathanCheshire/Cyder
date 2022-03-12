@@ -28,20 +28,27 @@ public class TemperatureWidget {
     private CyderCheckbox newKelvin;
 
     /**
+     * Returns a new instance of the temperature converter widget.
+     *
+     * @return a new instance of the temperature converter widget
+     */
+    public static TemperatureWidget getInstance() {
+        return new TemperatureWidget();
+    }
+
+    /**
      * Temperature converter widget to convert between kelvin, fahrenheit, and celsius
      */
-    public TemperatureWidget() {
-        //multiple instances are allowed
+    private TemperatureWidget() {
+        // invoked via getInstance
     }
 
     @Widget(triggers = {"temperature", "temp"}, description = "A temperature conversion widget for the three standard temperature units")
     public static void showGUI() {
-        new TemperatureWidget().innerShowGUI();
+        getInstance().innerShowGUI();
     }
 
     public void innerShowGUI() {
-        
-
         if (temperatureFrame != null)
             temperatureFrame.dispose();
 
@@ -279,7 +286,7 @@ public class TemperatureWidget {
             }
 
             catch (Exception ex) {
-                if (startingValue.getText().length() == 0) {
+                if (startingValue.getText().isEmpty()) {
                     temperatureFrame.notify("Please enter a starting value.");
                 } else {
                     temperatureFrame.notify("Your value must only contain numbers.");

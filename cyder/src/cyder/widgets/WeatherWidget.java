@@ -8,6 +8,7 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderButton;
@@ -93,15 +94,26 @@ public class WeatherWidget {
     private boolean GMTset;
 
     /**
+     * Returns a new instance of weather widget.
+     *
+     * @return a new instance of weather widget
+     */
+    public static WeatherWidget getInstance() {
+        return new WeatherWidget();
+    }
+
+    /**
      * Creates a new weather widget initialized to the user's current location.
      */
-    public WeatherWidget() {}
+    private WeatherWidget() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
 
     //show gui method as per standard
-    @Widget(triggers = {"weather"}, description = "A widget that displays weather data for the current " +
+    @Widget(triggers = "weather", description = "A widget that displays weather data for the current " +
             "city you are in. The location is also changeable")
     public static void showGUI() {
-        new WeatherWidget().innerShowGUI();
+        getInstance().innerShowGUI();
     }
 
     /**
@@ -344,7 +356,7 @@ public class WeatherWidget {
                 g.fillRect(0,0, 50, 50);
 
                 g.setColor(CyderColors.navy);
-                g.fillRect(3, 3, this.getWidth() - 6, this.getHeight() - 6);
+                g.fillRect(3, 3, getWidth() - 6, getHeight() - 6);
 
                 int radius = 20;
                 double theta = Double.parseDouble(windBearing) * Math.PI / 180.0;
@@ -356,8 +368,8 @@ public class WeatherWidget {
 
                 ((Graphics2D) g).setStroke(new BasicStroke(3));
                 g.setColor(CyderColors.regularPink);
-                g.drawLine(this.getWidth() / 2, this.getHeight() / 2,
-                        this.getWidth() / 2 + drawToX,  this.getWidth() / 2 + drawToY);
+                g.drawLine(getWidth() / 2, getHeight() / 2,
+                        getWidth() / 2 + drawToX,  getWidth() / 2 + drawToY);
             }
         };
         windDirectionLabel.setBounds(weatherFrame.getWidth() / 2 - 50 / 2, 430, 50, 50);
@@ -483,7 +495,7 @@ public class WeatherWidget {
             String[] parts = locationString.split(",");
 
             //frame title
-            if (parts[0].trim().length() > 0) {
+            if (!parts[0].trim().isEmpty()) {
                 String city = StringUtil.capsFirst(parts[0].trim()).trim();
                 weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
             } else {
@@ -529,7 +541,7 @@ public class WeatherWidget {
 
                 String key = UserUtil.getCyderUser().getWeatherkey();
 
-                if (key.trim().length() == 0) {
+                if (key.trim().isEmpty()) {
                     ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
                             ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
                             " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
@@ -582,7 +594,7 @@ public class WeatherWidget {
                     String[] parts = locationString.split(",");
 
                     //frame title
-                    if (parts[0].trim().length() > 0) {
+                    if (!parts[0].trim().isEmpty()) {
                         String city = StringUtil.capsFirst(parts[0].trim()).trim();
                         weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
                     } else {
