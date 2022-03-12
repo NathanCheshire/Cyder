@@ -273,13 +273,19 @@ public class Logger {
                 logBuilder.append(representation);
                 break;
             case OBJECT_CREATION:
-                logBuilder.append("Instance of " + representation.getClass().getName() + " created");
+                logBuilder.append("[OBJECT CREATED] Instance of " + representation.getClass().getName() + " created");
+                break;
+            case AUDIO:
+                logBuilder.append("[AUDIO] [Audio action taken] ").append(representation);
+                break;
+            case UI_ACTION:
+                logBuilder.append("[UI ACTION] ").append(representation);
                 break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
-                        "idiot and added an enum type but forgot to handle the case in Logger");
+                        "idiot and added an enum type but forgot to handle the case in Logger: " + tag);
         }
 
         //write to log file

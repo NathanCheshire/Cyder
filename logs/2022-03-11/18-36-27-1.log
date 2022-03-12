@@ -1,0 +1,65 @@
+[18-36-27] [ENTRY]: [Nathan]
+[18-36-27] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-36-28] [THREAD STARTED]: Splash Loader
+[18-36-28] [THREAD STARTED]: Splash Animation
+[18-36-28] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-36-28] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-36-28] [THREAD STARTED]: JVM Logger
+[18-36-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-36-28] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[18-36-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647041670037.json
+[18-36-29] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[18-36-29] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-29] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045388759.json
+[18-36-29] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-36-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-36-29] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-36-29] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-36-29] [THREAD STARTED]: Console Printing Animation
+[18-36-29] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-36-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-36-29] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-36-29] [THREAD STARTED]: Console Input Caret Position Updater
+[18-36-29] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-36-29] [SYSTEM_IO]: Userdata requested: InputFill
+[18-36-29] [THREAD STARTED]: High Ping Checker
+[18-36-29] [THREAD STARTED]: Hourly Chime Checker
+[18-36-29] [THREAD STARTED]: Console Clock Updater
+[18-36-29] [THREAD STARTED]: Cyder Busy Checker
+[18-36-29] [THREAD STARTED]: ConsoleFrame Stat Saver
+[18-36-29] [EXCEPTION]:
+Exception origin: cyder.handlers.internal.Logger.log(Logger.java:281)
+From line: 281
+Trace: java.lang.IllegalArgumentException: Handle case not found; you're probably an idiot and added an enum type but forgot to handle the case in Logger
+at cyder.handlers.internal.Logger.log(Logger.java:281)
+at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:835)
+at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+at cyder.genesis.Cyder.main(Cyder.java:119)
+[18-36-29] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[18-36-29] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-36-29] [ENTRY]: [TESTING MODE]
+[18-36-29] [SYSTEM_IO]: Userdata requested: laststart
+[18-36-29] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-29] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045389144.json
+[18-36-32] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045389415.json
+[18-36-36] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045392326.json
+[18-36-39] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-39] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045396064.json
+[18-36-43] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045399801.json
+[18-36-47] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-47] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045403544.json
+[18-36-51] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-51] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045407273.json
+[18-36-54] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045411010.json
+[18-36-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-36-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045414750.json
+[18-37-02] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[18-37-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045418557.json
+[18-37-27] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 1
