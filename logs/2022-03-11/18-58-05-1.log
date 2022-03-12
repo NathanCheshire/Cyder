@@ -15,8 +15,7 @@
 [18-58-06] [SYSTEM_IO]: Userdata requested: RandomBackground
 [18-58-06] [SYSTEM_IO]: Userdata requested: FullScreen
 [18-58-06] [SYSTEM_IO]: Userdata requested: fullscreen
-[18-58-06] [SYSTEM_IO]: Userdata requested: FullScreen
-[18-58-06] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-58-06] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [18-58-06] [THREAD STARTED]: Console Printing Animation
 [18-58-07] [SYSTEM_IO]: Userdata requested: OutputBorder
 [18-58-07] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -53,8 +52,7 @@
 [18-58-15] [HANDLE]: PRIMARY HANDLE
 [18-58-15] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
 [18-58-16] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[18-58-16] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
-[18-58-16] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
+[18-58-16] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]] [2x]
 [18-58-16] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video]]
 [18-58-16] [AUDIO] [AUDIO PLAYER] Skizzy Mars - Gift and Curse feat. Yung Pinch [Music Video].mp3
 [18-58-17] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json

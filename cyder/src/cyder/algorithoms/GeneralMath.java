@@ -5,9 +5,12 @@ import cyder.constants.CyderStrings;
 import java.awt.*;
 
 /**
- * General math methods
+ * General mathematical functions and methods.
  */
 public class GeneralMath {
+    /**
+     * Restrict class instnatiation.
+     */
     private GeneralMath() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
@@ -91,5 +94,16 @@ public class GeneralMath {
         double rad = Math.toRadians(deg);
         return new Point((int) (point.x * Math.cos(rad) - point.y * Math.sin(rad)),
                          (int) (point.x * Math.sin(rad) + point.y * Math.cos(rad)));
+    }
+
+    /**
+     * Determines if the rectangles intersect i.e. overlap each other.
+     *
+     * @param r1 the first rectangle
+     * @param r2 the second rectangle
+     * @return whether or not the rectangles intersect each other
+     */
+    public static boolean overlaps(Rectangle r1, Rectangle r2) {
+        return r2.x < r1.x + r1.width && r2.x + r2.width > r1.x && r2.y < r1.y + r1.height && r2.y + r2.height > r1.y;
     }
 }

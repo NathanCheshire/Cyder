@@ -1,7 +1,7 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import cyder.algorithoms.GeometryAlgorithms;
+import cyder.algorithoms.GeneralMath;
 import cyder.constants.*;
 import cyder.enums.*;
 import cyder.genesis.CyderShare;
@@ -786,7 +786,7 @@ public final class ConsoleFrame {
                                     !f.getTitle().equals(consoleCyderFrame.getTitle())) {
                                 Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
-                                if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                                if (GeneralMath.overlaps(consoleRect,frameRect)) {
                                     ((CyderFrame) f).setRelativeX(-consoleCyderFrame.getX() + f.getX());
                                     ((CyderFrame) f).setRelativeY(-consoleCyderFrame.getY() + f.getY());
                                 } else {
@@ -2843,7 +2843,7 @@ public final class ConsoleFrame {
                         !f.getTitle().equals(consoleCyderFrame.getTitle())) {
                     Rectangle frameRect = new Rectangle(f.getX(), f.getY(), f.getWidth(), f.getHeight());
 
-                    if (GeometryAlgorithms.overlaps(consoleRect,frameRect)) {
+                    if (GeneralMath.overlaps(consoleRect,frameRect)) {
                         frames.add(new RelativeFrame((CyderFrame) f,
                                 f.getX() - consoleCyderFrame.getX(), f.getY() - consoleCyderFrame.getY()));
                     }

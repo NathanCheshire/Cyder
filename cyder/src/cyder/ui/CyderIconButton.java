@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class CyderIconButton extends JButton {
     /**
-     * Supress default JButton constructor.
+     * Suppress default JButton constructor.
      */
     private CyderIconButton() {
         super();

@@ -1,0 +1,98 @@
+[23-50-12] [ENTRY]: [Nathan]
+[23-50-12] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-50-13] [THREAD STARTED]: Splash Loader
+[23-50-13] [THREAD STARTED]: Splash Animation
+[23-50-14] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-50-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-50-14] [THREAD STARTED]: JVM Logger
+[23-50-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-50-14] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-50-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647046734574.json
+[23-50-14] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[23-50-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064214175.json
+[23-50-14] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-50-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-50-14] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-50-14] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-50-14] [THREAD STARTED]: Console Printing Animation
+[23-50-14] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-50-14] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-50-14] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-50-14] [THREAD STARTED]: Console Input Caret Position Updater
+[23-50-14] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-50-14] [SYSTEM_IO]: Userdata requested: InputFill
+[23-50-14] [THREAD STARTED]: High Ping Checker
+[23-50-14] [THREAD STARTED]: Hourly Chime Checker
+[23-50-14] [THREAD STARTED]: Console Clock Updater
+[23-50-14] [THREAD STARTED]: Cyder Busy Checker
+[23-50-14] [THREAD STARTED]: ConsoleFrame Stat Saver
+[23-50-14] [UI ACTION] Console loaded in 2742ms
+[23-50-14] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(575, 340, 707, 744)], hash = [979550238], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-50-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-50-14] [ENTRY]: [TESTING MODE]
+[23-50-14] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-50-14] [SYSTEM_IO]: Userdata requested: laststart
+[23-50-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064214523.json
+[23-50-14] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [93438432], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-50-14] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 288, h = 29, text = <html>Console loaded in 2742ms</html>
+[23-50-14] [THREAD STARTED]: notification appear animation
+[23-50-15] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-50-15] [THREAD STARTED]: Notificaiton Vanish Animator
+[23-50-17] [CLIENT]: perlin
+[23-50-17] [SYSTEM_IO]: Userdata requested: filterchat
+[23-50-17] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-17] [CONSOLE_OUT]: [STRING] Opening widget: PerlinWidget
+[23-50-17] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064214812.json
+[23-50-17] [WIDGET OPENED]: PerlinWidget, trigger = perlin, triggers = [perlin, ]
+[23-50-17] [HANDLE]: PRIMARY HANDLE
+[23-50-19] [UI ACTION] Component name = [cyder.ui.CyderCheckbox], bounds = [(120, 650, 50, 50)], hash = [75035119], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-20] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-21] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064217690.json
+[23-50-25] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-25] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064221360.json
+[23-50-28] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064225114.json
+[23-50-32] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064228849.json
+[23-50-32] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-34] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 0, 40, 40)], hash = [686962988], parentFrame = [Perlin Noise], associated text = [?], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-34] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Stop], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-36] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064232605.json
+[23-50-37] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-37] [UI ACTION] Component name = [cyder.ui.CyderCheckbox], bounds = [(120, 650, 50, 50)], hash = [75035119], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-38] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-38] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-38] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-38] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-40] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-40] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064236357.json
+[23-50-43] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064240120.json
+[23-50-46] [UI ACTION] Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 708, 28)], hash = [-14383781], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-50-46] [THREAD STARTED]: Perlin Noise CyderFrame dispose thread
+[23-50-46] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(409, 280, 712, 750)], hash = [1070845331], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Perlin Noise]
+[23-50-46] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-50-47] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-50-47] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064243876.json
+[23-50-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-50-49] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[23-50-49] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(575, 340, 707, 744)], hash = [979550238], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[23-50-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-50-49] [EXIT]: [RUNTIME] 37s
+[23-50-49] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

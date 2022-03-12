@@ -30,7 +30,7 @@ import java.util.TimeZone;
 @SuppressWarnings({"FieldMayBeFinal", "UnnecessaryLocalVariable"}) /* use of arrays on purpose, readability */
 public class ClockWidget {
     /**
-     * Supress default constructor.
+     * Suppress default constructor.
      */
     private ClockWidget() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);

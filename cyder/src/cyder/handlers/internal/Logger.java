@@ -127,7 +127,7 @@ public class Logger {
         /**
          * When an object's constructor is invoked.
          */
-        OBJECT_CREATION, // todo use me during
+        OBJECT_CREATION,
     }
 
     /**
