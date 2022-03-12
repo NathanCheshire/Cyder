@@ -12,7 +12,7 @@ import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.PopupHandler;
+import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
@@ -683,7 +683,7 @@ public class ManualTests {
             String text = ctf.getText();
 
             if (!text.isEmpty()) {
-                PopupHandler.inform(text);
+                InformHandler.inform(text);
             }
         });
         testFrame.getContentPane().add(ctf);

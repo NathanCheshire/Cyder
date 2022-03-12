@@ -7,9 +7,9 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
-import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.user.objects.Preference;
@@ -241,11 +241,11 @@ public class UserCreator {
                     } else {
                         createUserFrame.dispose();
 
-                        PopupBuilder builder = new PopupBuilder("The new user \"" + newUserName.getText().trim()
+                        InformBuilder builder = new InformBuilder("The new user \"" + newUserName.getText().trim()
                                 + "\" has been created successfully.");
                         builder.setTitle("Creation Success");
                         builder.setRelativeTo(CyderShare.getDominantFrame());
-                        PopupHandler.inform(builder);
+                        InformHandler.inform(builder);
 
                         //attempt to log in new user if it's the only user
                         if (new File(OSUtil.buildPath("dynamic","users")).listFiles().length == 1) {

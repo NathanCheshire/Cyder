@@ -4,8 +4,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -212,10 +212,10 @@ public class CyderSplash {
 
                             // this has been going on for over a minute at this point if the program reaches here
                             // clearly something is wrong so exit
-                            PopupBuilder builder = new PopupBuilder("idk what happened but you screwed something up");
+                            InformBuilder builder = new InformBuilder("idk what happened but you screwed something up");
                             builder.setTitle("Startup Exception");
                             builder.setPostCloseAction(() -> CyderShare.exit(ExitCondition.FatalTimeout));
-                            PopupHandler.inform(builder);
+                            InformHandler.inform(builder);
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);

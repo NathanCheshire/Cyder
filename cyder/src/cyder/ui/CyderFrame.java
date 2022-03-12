@@ -4,9 +4,9 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.QueuedNotification;
@@ -1170,10 +1170,10 @@ public class CyderFrame extends JFrame {
      * @param title The title of the CyderFrame which will be opened to display the text
      */
     public void inform(String text, String title) {
-        PopupBuilder builder = new PopupBuilder(text);
+        InformBuilder builder = new InformBuilder(text);
         builder.setTitle(title);
         builder.setRelativeTo(this);
-        PopupHandler.inform(builder);
+        InformHandler.inform(builder);
     }
 
     // -------------

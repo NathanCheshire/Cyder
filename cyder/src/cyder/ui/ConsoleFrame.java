@@ -7,7 +7,7 @@ import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.CyderBackground;
@@ -1696,10 +1696,10 @@ public final class ConsoleFrame {
                 boolean resizeNeeded = backgroundWidth > maxWidth || backgroundHeight > maxHeight ||
                         backgroundWidth < minWidth || backgroundHeight < minHeight;
                 if (resizeNeeded) {
-                    PopupBuilder builder = new PopupBuilder(
+                    InformBuilder builder = new InformBuilder(
                             "Resizing the background image \"" + currentFile.getName() + "\"");
                     builder.setTitle("System Action");
-                    PopupHandler.inform(builder);
+                    InformHandler.inform(builder);
                 }
 
                 Dimension resizeDimensions = ImageUtil.getImageResizeDimensions(minWidth,minHeight,maxWidth,maxHeight,currentImage);

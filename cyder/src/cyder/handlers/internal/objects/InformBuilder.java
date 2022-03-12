@@ -1,42 +1,44 @@
 package cyder.handlers.internal.objects;
 
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 
 import java.awt.*;
 
 /**
- * PopupBuilder for Cyder popups as opposed to telescoping patterns.
+ * InformBuilder for Cyder inform frames as opposed to telescoping patterns.
  */
-public final class PopupBuilder {
+public final class InformBuilder {
     /**
-     * The minimum allowable text length for a popup.
+     * The minimum allowable text length for an information pane.
      */
     public static final int MINIMUM_TEXT_LENGTH = 4;
 
     /**
-     * The default title for popups which are provided no title.
+     * The default title for an information pane which are provided no title.
      */
-    public static final String DEFAULT_TITLE = "Cyder Popup";
+    public static final String DEFAULT_TITLE = "Information";
 
     //required params
     private final String htmlText;
 
     //optional params
     private String title = DEFAULT_TITLE;
-    private Component relativeTo = null;
-    private CyderFrame.PreCloseAction preCloseAction = null;
-    private CyderFrame.PostCloseAction postCloseAction = null;
+    private Component relativeTo;
+    private CyderFrame.PreCloseAction preCloseAction;
+    private CyderFrame.PostCloseAction postCloseAction;
 
     /**
-     * Default constructor for a Popup with the required parameters.
+     * Default constructor for an inform pane with the required parameters.
      *
-     * @param htmlText the html styled text to display on the popup
+     * @param htmlText the html styled text to display on the inform pane
      */
-    public PopupBuilder(String htmlText) {
+    public InformBuilder(String htmlText) {
         if (htmlText == null || htmlText.length() < MINIMUM_TEXT_LENGTH)
             throw new IllegalArgumentException("Html text is null or less than " + MINIMUM_TEXT_LENGTH + " chars");
 
         this.htmlText = htmlText;
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public String getHtmlText() {

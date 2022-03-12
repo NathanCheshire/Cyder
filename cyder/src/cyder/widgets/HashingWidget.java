@@ -5,8 +5,8 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.genesis.CyderShare;
-import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPasswordField;
@@ -77,10 +77,10 @@ public class HashingWidget {
                 inform = "Your hashed password is:<br/>" + hashResult
                         + "<br/>It has also been copied to your clipboard.<br/>Provided by " + algorithm;
 
-                PopupBuilder builder = new PopupBuilder(inform);
+                InformBuilder builder = new InformBuilder(inform);
                 builder.setTitle(algorithm + " Hash Result");
                 builder.setRelativeTo(hashFrame);
-                PopupHandler.inform(builder);
+                InformHandler.inform(builder);
 
                 OSUtil.setClipboard(hashResult);
 

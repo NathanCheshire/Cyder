@@ -118,6 +118,8 @@ public class InputHandler {
         //printing threads initialization with JTextPane and sem -------------------
         MasterYoutubeThread.initialize(outputArea, makePrintingThreadsafeAgain);
         BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

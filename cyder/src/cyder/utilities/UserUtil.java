@@ -6,9 +6,9 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreData;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
-import cyder.handlers.internal.PopupHandler;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.ConsoleFrame;
 import cyder.user.Preferences;
 import cyder.user.User;
@@ -843,8 +843,6 @@ public class UserUtil {
             // todo come up with solution for constant logging of backups and deleting the old json
             // todo look at logs and figure out how to clean up logs
 
-            // todo try to eliminate/coalesce some enums
-
             //todo up to handlers/internal for object creation log call
 
             //todo use illegal method exception for all private constructor restrictors
@@ -940,9 +938,9 @@ public class UserUtil {
                 }
 
                 //inform of message
-                PopupBuilder builder = new PopupBuilder(informString);
+                InformBuilder builder = new InformBuilder(informString);
                 builder.setTitle("Userdata Corruption");
-                PopupHandler.inform(builder);
+                InformHandler.inform(builder);
 
                 //log the corruption
                 Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);

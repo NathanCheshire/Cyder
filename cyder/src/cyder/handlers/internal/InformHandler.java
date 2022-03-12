@@ -2,7 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -10,28 +10,28 @@ import cyder.utilities.BoundsUtil;
 import cyder.utilities.objects.BoundsString;
 
 /**
- * Popups on their own frame for usage throughout Cyder.
+ * Information frames throughout Cyder.
  */
-public class PopupHandler {
+public class InformHandler {
     /**
      * Prevent illegal instantiation.
      */
-    private PopupHandler() {
+    private InformHandler() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
     /**
-     * A quick popup.
+     * A quick information pane.
      *
      * @param text the possibly html styled text to display.
      */
     public static void inform(String text) {
-        PopupBuilder builder = new PopupBuilder(text);
-        builder.setTitle(PopupBuilder.DEFAULT_TITLE);
+        InformBuilder builder = new InformBuilder(text);
+        builder.setTitle(InformBuilder.DEFAULT_TITLE);
         inform(builder);
     }
 
-    public static void inform(PopupBuilder builder) {
+    public static void inform(InformBuilder builder) {
         try {
             CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());

@@ -3,7 +3,7 @@ package cyder.handlers.internal;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.genesis.CyderShare;
-import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
 
@@ -12,6 +12,9 @@ import java.io.StringWriter;
 import java.util.Optional;
 
 public class ExceptionHandler {
+    /**
+     * Restrict default instantiation.
+     */
     private ExceptionHandler() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
@@ -121,9 +124,9 @@ public class ExceptionHandler {
      * @param condition the exit condition to log when exiting
      */
     public static void exceptionExit(String message, String title, ExitCondition condition) {
-        PopupBuilder builder = new PopupBuilder(message);
+        InformBuilder builder = new InformBuilder(message);
         builder.setTitle(title);
         builder.setPostCloseAction(() -> CyderShare.exit(condition));
-        PopupHandler.inform(builder);
+        InformHandler.inform(builder);
     }
 }
