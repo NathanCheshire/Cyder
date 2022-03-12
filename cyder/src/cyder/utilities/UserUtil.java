@@ -840,6 +840,8 @@ public class UserUtil {
             // todo come up with solution for constant logging of backups and deleting the old json
             // todo look at logs and figure out how to clean up logs
 
+            // todo try to eliminate/coalesce some enums
+
             try {
                // attempt to recovery a backup
                Optional<File> userJsonBackup = getUserJsonBackup(uuid);

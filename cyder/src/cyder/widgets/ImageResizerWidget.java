@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
@@ -237,7 +237,7 @@ public class ImageResizerWidget {
         resizeFrame.getContentPane().add(approve);
 
         resizeFrame.setVisible(true);
-        resizeFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        resizeFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 
     private static double getAspectRatio(ImageIcon im) {

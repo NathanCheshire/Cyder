@@ -8,7 +8,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -290,6 +290,6 @@ public class CalculatorWidget {
         calculatorCloseP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + ")"));
 
         calculatorFrame.setVisible(true);
-        calculatorFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        calculatorFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 }

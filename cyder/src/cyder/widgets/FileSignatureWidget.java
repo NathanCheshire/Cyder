@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
@@ -106,7 +106,7 @@ public class FileSignatureWidget {
         signatureFrame.getContentPane().add(resultLabel);
 
         signatureFrame.setVisible(true);
-        signatureFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        signatureFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 
     private static void validate() {

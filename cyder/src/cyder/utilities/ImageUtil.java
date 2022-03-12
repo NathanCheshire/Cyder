@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 
@@ -369,7 +369,7 @@ public class ImageUtil {
         frame.getContentPane().add(label);
 
         frame.setVisible(true);
-        frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        frame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 
     /**

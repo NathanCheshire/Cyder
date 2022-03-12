@@ -6,7 +6,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
@@ -109,7 +109,7 @@ public class WeatherWidget {
      * while still having the public static showGUI() method with the @Widget annotation.
      */
     private void innerShowGUI() {
-        if (CyderCommon.isHighLatency()) {
+        if (CyderShare.isHighLatency()) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, " + UserUtil.getCyderUser().getName() + ", but" +
                     " this feature is suspended until a stable internet connection can be established");
             return;
@@ -383,7 +383,7 @@ public class WeatherWidget {
         weatherFrame.getContentPane().add(timezoneLabel);
 
         weatherFrame.setVisible(true);
-        weatherFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        weatherFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
 
         update = true;
 

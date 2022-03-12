@@ -6,7 +6,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -455,7 +455,7 @@ public class YoutubeUtil {
         });
 
         uuidFrame.setVisible(true);
-        uuidFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        uuidFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 
     /**

@@ -1,5 +1,7 @@
 package cyder.enums;
 
+import cyder.genesis.CyderShare;
+
 /**
  * Cyder exit codes and their corresponding meanings.
  */
@@ -31,7 +33,7 @@ public enum ExitCondition {
 
     /**
      * The code associated with this ExitCondition.
-     * {@link cyder.genesis.CyderCommon#exit(ExitCondition)} will invoke
+     * {@link CyderShare#exit(ExitCondition)} will invoke
      * {@link System#exit(int)} using this code.
      */
     private final int code;

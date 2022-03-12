@@ -6,7 +6,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
@@ -105,7 +105,7 @@ public class PaintWidget {
         cyderGrid.setNodeColor(currentPaintColor);
 
         paintFrame.setVisible(true);
-        paintFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        paintFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
 
         paintFrame.setMenuEnabled(true);
         paintFrame.addMenuItem("Export png", () -> CyderThreadRunner.submit(() -> {

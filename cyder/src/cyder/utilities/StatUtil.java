@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
@@ -99,7 +99,7 @@ public class StatUtil {
     public static void debugMenu() {
         CyderThreadRunner.submit(() -> {
             try {
-                if (CyderCommon.isHighLatency()) {
+                if (CyderShare.isHighLatency()) {
                     throw new RuntimeException("Stable connection not established");
                 }
 

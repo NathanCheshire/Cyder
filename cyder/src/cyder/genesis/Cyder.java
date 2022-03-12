@@ -40,7 +40,7 @@ public class Cyder {
      */
     public static void main(String[] ca) {
         // set start time, this should be the first call always
-        CyderCommon.setAbsoluteStartTime(System.currentTimeMillis());
+        CyderShare.setAbsoluteStartTime(System.currentTimeMillis());
 
         //set shutdown hooks
         addExitHook();
@@ -63,7 +63,7 @@ public class Cyder {
         }
 
         // check for fast testing
-        if (CyderCommon.isFastTestingMode()) {
+        if (CyderShare.isFastTestingMode()) {
             ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
                     ExitCondition.TestingModeExit);

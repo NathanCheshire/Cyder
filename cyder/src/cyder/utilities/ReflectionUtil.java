@@ -7,7 +7,7 @@ import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
@@ -384,7 +384,7 @@ public class ReflectionUtil {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
                         OSUtil.buildPath("cyder","src","cyder","python","commandFinder.py"),
-                        command, String.valueOf(CyderCommon.JAR_MODE)};
+                        command, String.valueOf(CyderShare.JAR_MODE)};
                 //noinspection CallToRuntimeExec
                 Process proc = rt.exec(commands);
 

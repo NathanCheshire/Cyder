@@ -6,7 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
 import cyder.enums.DebugHash;
 import cyder.enums.ExitCondition;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -110,9 +110,9 @@ public class LoginHandler {
         printingList.clear();
 
         //add the standard login animation
-        printingList.add("Cyder version: " + CyderCommon.VERSION + "\n");
+        printingList.add("Cyder version: " + CyderShare.VERSION + "\n");
         printingList.add("Type \"help\" for a list of valid commands\n");
-        printingList.add("Build: " + CyderCommon.RELEASE_DATE +"\n");
+        printingList.add("Build: " + CyderShare.RELEASE_DATE +"\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
@@ -218,7 +218,7 @@ public class LoginHandler {
         //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
                 ImageUtil.imageIconFromColor(new Color(21,23,24), 1, 1));
-        loginFrame.setTitle("Cyder Login [" + CyderCommon.VERSION + " Build]");
+        loginFrame.setTitle("Cyder Login [" + CyderShare.VERSION + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
 
         //whether the frame is open or closed handling
@@ -238,7 +238,7 @@ public class LoginHandler {
 
         //exit cyder frame on disposal call of login frame if ConsoleFrame isn't active
         if (ConsoleFrame.getConsoleFrame().isClosed()) {
-            loginFrame.addPostCloseAction(() -> CyderCommon.exit(ExitCondition.GenesisControlledExit));
+            loginFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
         }
 
         //printing animation output
@@ -289,8 +289,8 @@ public class LoginHandler {
         //set visibility and location
         loginFrame.setVisible(true);
 
-        loginFrame.setLocationRelativeTo(CyderCommon.getDominantFrame() == loginFrame
-                ? null : CyderCommon.getDominantFrame());
+        loginFrame.setLocationRelativeTo(CyderShare.getDominantFrame() == loginFrame
+                ? null : CyderShare.getDominantFrame());
 
         //dispose the splash frame immediately
         CyderSplash.fastDispose();
@@ -344,7 +344,7 @@ public class LoginHandler {
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
                                 if (ConsoleFrame.getConsoleFrame().isClosed())
-                                    CyderCommon.exit(ExitCondition.GenesisControlledExit);
+                                    CyderShare.exit(ExitCondition.GenesisControlledExit);
 
                             } else if (inputString.equalsIgnoreCase("help")) {
                                 loginField.setText(currentBashString);
@@ -439,7 +439,7 @@ public class LoginHandler {
         CyderSplash.setLoadingMessage("Checking for an AutoCypher");
 
         //if AutoCyphering is enabled, attempt all cyphers
-        if (CyderCommon.isAutoCypher()) {
+        if (CyderShare.isAutoCypher()) {
             Logger.log(Logger.Tag.LOGIN, "AUTOCYPHER ATTEMPT");
             CyderSplash.setLoadingMessage("Auto Cyphering");
 
@@ -450,7 +450,7 @@ public class LoginHandler {
             }
         }
         // otherwise, unreleased exit
-        else if (!CyderCommon.isReleased()) {
+        else if (!CyderShare.isReleased()) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception", ExitCondition.NotReleased);
         }
         // otherwise, if Cyder is released/usage is permitted

@@ -214,7 +214,7 @@ public class CyderSplash {
                             // clearly something is wrong so exit
                             PopupBuilder builder = new PopupBuilder("idk what happened but you screwed something up");
                             builder.setTitle("Startup Exception");
-                            builder.setPostCloseAction(() -> CyderCommon.exit(ExitCondition.FatalTimeout));
+                            builder.setPostCloseAction(() -> CyderShare.exit(ExitCondition.FatalTimeout));
                             PopupHandler.inform(builder);
                         }
                     } catch (Exception e) {
@@ -223,7 +223,7 @@ public class CyderSplash {
                 },"Splash Animation");
 
                 splashFrame.setVisible(true);
-                splashFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+                splashFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

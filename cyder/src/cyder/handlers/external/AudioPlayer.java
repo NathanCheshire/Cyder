@@ -7,7 +7,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -593,7 +593,7 @@ public class AudioPlayer {
         audioProgress.repaint();
         audioFrame.getContentPane().add(audioProgress);
 
-        audioFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        audioFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         audioFrame.setVisible(true);
         audioFrame.requestFocus();
 

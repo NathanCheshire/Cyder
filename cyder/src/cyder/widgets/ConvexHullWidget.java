@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
@@ -80,7 +80,7 @@ public class ConvexHullWidget {
         resetButton.setBounds(50 + 375, 700 + 80,325, 40);
         hullFrame.getContentPane().add(resetButton);
 
-        hullFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        hullFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         hullFrame.setVisible(true);
     }
 

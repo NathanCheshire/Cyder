@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -536,7 +536,7 @@ public class PathFinderWidget {
         dijkstraSwitch.getSwitchButton().addActionListener(e -> performDijkstras = !performDijkstras);
 
         pathFindingFrame.setVisible(true);
-        pathFindingFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        pathFindingFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
 
         Timer pathDrawingTimer = new Timer(50, pathDrawingAnimation);
         pathDrawingTimer.start();

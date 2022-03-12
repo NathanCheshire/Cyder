@@ -1,7 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
@@ -133,7 +133,7 @@ public class IOUtil {
                         .append(", isp = ").append(StringUtil.capsFirst(isp));
 
                 // only log if autoCypher, means either Nathan or an advanced developer
-                if (!CyderCommon.isAutoCypher())
+                if (!CyderShare.isAutoCypher())
                     Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
 
                 BackendUtil.put(String.valueOf(argBuilder), BackendUtil.JVM_PATH);

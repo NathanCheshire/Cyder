@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -235,7 +235,7 @@ public class PhoneWidget {
             }
         });
 
-        phoneFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        phoneFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         phoneFrame.setVisible(true);
     }
 

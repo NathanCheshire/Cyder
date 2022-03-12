@@ -11,7 +11,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.ScreenPosition;
 import cyder.enums.SliderShape;
 import cyder.enums.Suggestion;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.python.PyExecutor;
 import cyder.test.ManualTests;
 import cyder.threads.BletchyThread;
@@ -687,7 +687,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
-                CyderCommon.exit(ExitCondition.GenesisControlledExit);
+                CyderShare.exit(ExitCondition.GenesisControlledExit);
             }
         } else if (commandIs("define")) {
             if (!args.isEmpty()) {
@@ -745,7 +745,7 @@ public class InputHandler {
         } else if (commandIs("hide")) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
-            if (CyderCommon.JAR_MODE) {
+            if (CyderShare.JAR_MODE) {
                 println("Code analyzing is not available when in Jar mode");
             } else {
                 if (checkArgsLength(0) || checkArgsLength(1)) {
@@ -936,7 +936,7 @@ public class InputHandler {
         } else if (commandIs("help")) {
             help();
         } else if (commandIs("todos")) {
-            if (CyderCommon.JAR_MODE) {
+            if (CyderShare.JAR_MODE) {
                 println("Todos not available in jar mode");
             } else {
                 int total = StatUtil.totalTodos(new File("cyder"));
@@ -1121,7 +1121,7 @@ public class InputHandler {
         } else if (commandIs("filesizes")) {
             StatUtil.fileSizes();
         } else if (commandIs("badwords") ) {
-            if (CyderCommon.JAR_MODE) {
+            if (CyderShare.JAR_MODE) {
                 println("Bad words not available in jar mode");
             } else {
                 CyderThreadRunner.submit(() -> {
@@ -1180,7 +1180,7 @@ public class InputHandler {
                 println("-------------------------------------");
             }
         } else if (commandIs("jarmode")) {
-            println(CyderCommon.JAR_MODE ? "Cyder is currently running from a JAR"
+            println(CyderShare.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");
         } else if (commandIs("git")) {
             if (!checkArgsLength(2)) {

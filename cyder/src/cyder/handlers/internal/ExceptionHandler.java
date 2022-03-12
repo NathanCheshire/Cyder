@@ -2,7 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
@@ -123,7 +123,7 @@ public class ExceptionHandler {
     public static void exceptionExit(String message, String title, ExitCondition condition) {
         PopupBuilder builder = new PopupBuilder(message);
         builder.setTitle(title);
-        builder.setPostCloseAction(() -> CyderCommon.exit(condition));
+        builder.setPostCloseAction(() -> CyderShare.exit(condition));
         PopupHandler.inform(builder);
     }
 }

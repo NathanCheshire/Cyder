@@ -5,7 +5,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
@@ -69,7 +69,7 @@ public class CardWidget {
         cardLabel.setBounds(498 + 40,40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
-        christmas2020Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        christmas2020Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
         christmas2020Frame.setVisible(true);
     }
 
@@ -96,7 +96,7 @@ public class CardWidget {
         cardLabel.setBounds(5,40, fathersDay2021Frame.getWidth() - 40, 240);
         fathersDay2021Frame.getContentPane().add(cardLabel);
 
-        fathersDay2021Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        fathersDay2021Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
         fathersDay2021Frame.setVisible(true);
     }
 
@@ -123,7 +123,7 @@ public class CardWidget {
         cardLabel.setBounds(5,40, birthday2021Frame.getWidth() - 40, 240);
         birthday2021Frame.getContentPane().add(cardLabel);
 
-        birthday2021Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        birthday2021Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
         birthday2021Frame.setVisible(true);
 
         try {
@@ -169,7 +169,7 @@ public class CardWidget {
 
         christmas2021Frame.addPreCloseAction(() -> cardLabel.setRippling(false));
 
-        christmas2021Frame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        christmas2021Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
         christmas2021Frame.setVisible(true);
     }
 }

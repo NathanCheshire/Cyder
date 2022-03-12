@@ -17,11 +17,11 @@ import java.util.Objects;
  * Methods common to all Cyder that don't exactly belong in a utility class.
  */
 @SuppressWarnings("FieldCanBeLocal") /* we want to declare some vars values on their line and not in the method */
-public class CyderCommon {
+public class CyderShare {
     /**
      * Instantiation of CyderCommon class not allowed
      */
-    private CyderCommon() {
+    private CyderShare() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 
@@ -80,7 +80,7 @@ public class CyderCommon {
      * @param highLatency the value of high latency
      */
     public static void setHighLatency(boolean highLatency) {
-        CyderCommon.highLatency = highLatency;
+        CyderShare.highLatency = highLatency;
     }
 
     /**
@@ -108,10 +108,10 @@ public class CyderCommon {
      * @param absoluteStartTime the absolute start time of Cyder
      */
     static void setAbsoluteStartTime(long absoluteStartTime) {
-        if (CyderCommon.absoluteStartTime != 0)
+        if (CyderShare.absoluteStartTime != 0)
             throw new IllegalArgumentException("Absolute Start Time already set");
 
-        CyderCommon.absoluteStartTime = absoluteStartTime;
+        CyderShare.absoluteStartTime = absoluteStartTime;
     }
 
     /**
@@ -130,10 +130,10 @@ public class CyderCommon {
      * @param consoleStartTime the time the console frame was shown
      */
     public static void setConsoleStartTime(long consoleStartTime) {
-        if (CyderCommon.consoleStartTime != 0)
+        if (CyderShare.consoleStartTime != 0)
             return;
 
-        CyderCommon.consoleStartTime = consoleStartTime;
+        CyderShare.consoleStartTime = consoleStartTime;
     }
 
     /**

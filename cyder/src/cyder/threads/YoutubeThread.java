@@ -1,6 +1,6 @@
 package cyder.threads;
 
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -115,7 +115,7 @@ public class YoutubeThread {
                     thumbnailFrame.getContentPane().add(pictureLabel);
 
                     thumbnailFrame.setVisible(true);
-                    thumbnailFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+                    thumbnailFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
                 } catch (Exception ignored) {
                     //invalid UUID, so we ignore the exception and increment the UUID here to ensure we checked it
                     try {

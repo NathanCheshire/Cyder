@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.algorithoms.GeometryAlgorithms;
 import cyder.constants.*;
 import cyder.enums.*;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
@@ -338,7 +338,7 @@ public final class ConsoleFrame {
             consoleCyderFrame.setBackground(Color.black);
 
             //more of a failsafe and not really necessary
-            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(ExitCondition.GenesisControlledExit));
+            consoleCyderFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
 
             if (UserUtil.getUserData("fullscreen").equals("1")) {
                 consoleCyderFrame.disableDragging();
@@ -363,7 +363,7 @@ public final class ConsoleFrame {
 
             consoleCyderFrame.setPaintWindowTitle(false);
             consoleCyderFrame.setPaintSuperTitle(true);
-            consoleCyderFrame.setTitle(CyderCommon.VERSION +
+            consoleCyderFrame.setTitle(CyderShare.VERSION +
                     " Cyder [" + UserUtil.getCyderUser().getName() + "]");
 
             // ConsoleFrame resizing
@@ -497,7 +497,7 @@ public final class ConsoleFrame {
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    CyderCommon.exit(ExitCondition.ForcedImmediateExit);
+                    CyderShare.exit(ExitCondition.ForcedImmediateExit);
                 }
             });
 
@@ -827,11 +827,11 @@ public final class ConsoleFrame {
             consoleCyderFrame.setVisible(true);
 
             // log how long it took to start
-            CyderCommon.setConsoleStartTime(System.currentTimeMillis());
+            CyderShare.setConsoleStartTime(System.currentTimeMillis());
 
             //noinspection StringConcatenationMissingWhitespace
             String logString = "Console loaded in " +
-                    (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
+                    (CyderShare.getConsoleStartTime() - CyderShare.getAbsoluteStartTime()) + "ms";
             Logger.log(Logger.Tag.UI_ACTION, logString);
 
             if (entryPoint == CyderEntry.AutoCypher) {
@@ -857,9 +857,9 @@ public final class ConsoleFrame {
                                 ", but I had trouble connecting to the internet.\n" +
                                 "As a result, some features have been restricted until a " +
                                 "stable connection can be established.");
-                        CyderCommon.setHighLatency(true);
+                        CyderShare.setHighLatency(true);
                     } else {
-                        CyderCommon.setHighLatency(false);
+                        CyderShare.setHighLatency(false);
                     }
 
                     //sleep 2 minutes
@@ -1065,7 +1065,7 @@ public final class ConsoleFrame {
         }
 
         //testing mode to auto execute Debug tests
-        if (CyderCommon.isTestingMode()) {
+        if (CyderShare.isTestingMode()) {
             Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
             ManualTests.launchTests();
         }
@@ -1089,7 +1089,7 @@ public final class ConsoleFrame {
      */
     private void cardReflector(String holiday, int year) {
         //don't reflect if in testing mode
-        if (CyderCommon.isTestingMode())
+        if (CyderShare.isTestingMode())
             return;
 
         try {
@@ -1141,7 +1141,7 @@ public final class ConsoleFrame {
             }
         }
         // otherwise, no intro music so check for gray scale image/play startup sound if released
-        else if (CyderCommon.isReleased()) {
+        else if (CyderShare.isReleased()) {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
@@ -1167,7 +1167,7 @@ public final class ConsoleFrame {
                         if (correct) {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
-                        } else if (CyderCommon.isReleased()) {
+                        } else if (CyderShare.isReleased()) {
                             IOUtil.playSystemAudio("static/audio/startup.mp3");
                         }
                     } catch (Exception e) {
@@ -2925,7 +2925,7 @@ public final class ConsoleFrame {
 
         //dispose and set closed var as true
         if (exit) {
-            consoleCyderFrame.addPostCloseAction(() -> CyderCommon.exit(ExitCondition.GenesisControlledExit));
+            consoleCyderFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
         }
 
         consoleCyderFrame.dispose();

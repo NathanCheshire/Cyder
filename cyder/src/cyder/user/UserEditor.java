@@ -8,7 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -108,7 +108,7 @@ public class UserEditor {
         editUserFrame.getContentPane().add(forwardButton);
 
         editUserFrame.setVisible(true);
-        editUserFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        editUserFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 
     private static void initFilesList() {
@@ -1038,7 +1038,7 @@ public class UserEditor {
                 IOUtil.changeUsername(newUsername);
                 editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
                 ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
-                        .setTitle(CyderCommon.VERSION + " Cyder [" + newUsername + "]");
+                        .setTitle(CyderShare.VERSION + " Cyder [" + newUsername + "]");
                 changeUsernameField.setText(UserUtil.getCyderUser().getName());
             }
         });
@@ -1429,7 +1429,7 @@ public class UserEditor {
                         OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()));
 
                         // exit with proper condition
-                        CyderCommon.exit(ExitCondition.UserDeleted);
+                        CyderShare.exit(ExitCondition.UserDeleted);
                     } else {
                        deletePasswordField.setText("");
                        editUserFrame.notify("Account not deleted");

@@ -5,7 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.genesis.CyderCommon;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
@@ -244,7 +244,7 @@ public class UserCreator {
                         PopupBuilder builder = new PopupBuilder("The new user \"" + newUserName.getText().trim()
                                 + "\" has been created successfully.");
                         builder.setTitle("Creation Success");
-                        builder.setRelativeTo(CyderCommon.getDominantFrame());
+                        builder.setRelativeTo(CyderShare.getDominantFrame());
                         PopupHandler.inform(builder);
 
                         //attempt to log in new user if it's the only user
@@ -266,7 +266,7 @@ public class UserCreator {
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        createUserFrame.setLocationRelativeTo(CyderCommon.getDominantFrame());
+        createUserFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
 
         createUserFrame.setVisible(true);
         newUserName.requestFocus();
@@ -287,7 +287,7 @@ public class UserCreator {
         CyderThreadRunner.submit(() -> {
             try {
                 GetterBuilder builder = new GetterBuilder("Choose new user's background file");
-                builder.setRelativeTo(CyderCommon.getDominantFrame());
+                builder.setRelativeTo(CyderShare.getDominantFrame());
                 File temp = GetterUtil.getInstance().getFile(builder);
                 if (temp != null) {
                     createUserBackground = temp;
