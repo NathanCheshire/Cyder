@@ -11,7 +11,6 @@ import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
@@ -73,7 +72,7 @@ public class UserEditor {
     }
 
     public static void showGUI(int startingIndex) {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "PREFS");
+        
 
         if (editUserFrame != null)
             editUserFrame.dispose();
@@ -1505,7 +1504,7 @@ public class UserEditor {
                     editUserFrame.notify("Weather key validated and set");
                 } else {
                     editUserFrame.notify("Invalid weather key");
-                    weatherKeyField.setText("");
+                    weatherKeyField.setText(UserUtil.getCyderUser().getWeatherkey());
                 }
             }
         }, "Weather key validator"));
@@ -1575,7 +1574,7 @@ public class UserEditor {
                     IPUtil.parseData();
                 } else {
                     editUserFrame.notify("Invalid IP key");
-                    ipKeyField.setText("");
+                    ipKeyField.setText(UserUtil.getCyderUser().getIpkey());
                 }
             }
         }, "IP key validator"));

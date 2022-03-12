@@ -251,8 +251,6 @@ public class AudioPlayer {
      * Pass {@code null} to attempt to find valid audio files from the user's Music/ directory.
      */
     public static void showGUI(File startPlaying) {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "AUDIO PLAYER");
-
         queue = new ArrayList<>();
 
         if (audioFrame != null) {

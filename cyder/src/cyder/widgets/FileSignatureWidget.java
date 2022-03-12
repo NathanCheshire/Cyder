@@ -7,7 +7,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -37,7 +36,7 @@ public class FileSignatureWidget {
     @Widget(triggers = "filesignature", description = "A widget to read the raw file " +
             "hex data and determine if the file signature matches the provided extension")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "FILE SIGNATURE");
+        
 
         signatureFrame = new CyderFrame(400,420, CyderIcons.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");

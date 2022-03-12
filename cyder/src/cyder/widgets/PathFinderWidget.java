@@ -7,7 +7,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.ColorUtil;
@@ -64,7 +63,7 @@ public class PathFinderWidget {
 
     @Widget(triggers = {"path","pathfinder"}, description = "A pathfinding visualizer for A* and Dijkstras algorithms")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "PATHFINDER");
+        
 
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();

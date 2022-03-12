@@ -6,7 +6,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderGridLayout;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
@@ -37,7 +36,7 @@ public class ColorConverterWidget {
     @Widget(triggers = {"colorconverter", "color"},
             description = "A color converter widget to convert from rgb to hex and vice versa")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "COLOR");
+        
 
         CyderFrame colorFrame = new CyderFrame(300,400, CyderIcons.defaultBackground);
         colorFrame.setTitle("Color Converter");

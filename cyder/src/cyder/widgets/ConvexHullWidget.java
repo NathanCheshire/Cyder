@@ -6,7 +6,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
@@ -52,7 +51,7 @@ public class ConvexHullWidget {
      */
     @Widget(triggers = "convexhull", description = "A convex hull algorithm visualizer")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "CONVEX HULL");
+        
 
         if (hullFrame != null) {
             hullFrame.dispose();

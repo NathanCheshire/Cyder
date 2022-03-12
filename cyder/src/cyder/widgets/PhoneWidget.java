@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.utilities.IOUtil;
@@ -24,7 +23,7 @@ public class PhoneWidget {
 
     @Widget(triggers = "phone", description = "A phone emulating widget")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "PHONE");
+        
 
         CyderFrame phoneFrame = new CyderFrame(320,500, CyderIcons.defaultBackground);
         phoneFrame.setTitle("Phone");

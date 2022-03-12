@@ -10,7 +10,6 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -38,7 +37,7 @@ public class CalculatorWidget {
     @Widget(triggers = {"calculator", "calc"}, description =
             "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "CALCULATOR");
+        
 
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");

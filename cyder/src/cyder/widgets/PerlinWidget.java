@@ -6,7 +6,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
@@ -178,7 +177,7 @@ public class PerlinWidget {
      */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "PERLIN");
+        
 
         if (perlinFrame != null)
             perlinFrame.dispose(true);

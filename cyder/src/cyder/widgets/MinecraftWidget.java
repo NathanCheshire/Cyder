@@ -4,7 +4,6 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.user.objects.MappedExecutable;
 import cyder.utilities.IOUtil;
@@ -28,7 +27,7 @@ public class MinecraftWidget {
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "MINECRAFT");
+        
 
         if (minecraftFrame != null)
             minecraftFrame.dispose();

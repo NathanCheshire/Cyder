@@ -8,7 +8,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 
@@ -50,7 +49,7 @@ public class GameOfLifeWidget {
 
     @Widget(triggers = "conway", description = "Conway's game of life visualizer")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "CONWAY");
+        
 
         grid = new int[defaultGridLen][defaultGridLen];
         conwayFrame = new CyderFrame(940,1120, CyderIcons.defaultBackgroundLarge);

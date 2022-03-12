@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.NumberUtil;
 
@@ -22,8 +21,6 @@ public class ClickWidget {
     @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")
     public static void showGUI() {
         try {
-            Logger.log(Logger.Tag.WIDGET_OPENED, "CLICKME");
-
             CyderFrame clickMeFrame = new CyderFrame(220,100) {
                 @Override
                 public void dispose() {

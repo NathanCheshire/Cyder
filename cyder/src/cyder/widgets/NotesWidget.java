@@ -7,7 +7,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.ui.*;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
@@ -50,7 +49,7 @@ public class NotesWidget {
 
     @Widget(triggers = {"note", "notes"}, description = "A note taking widget that can save and display multiple notes")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "NOTE");
+        
 
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             return;

@@ -7,7 +7,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
@@ -39,8 +38,6 @@ public class HangmanGame {
 
     @Widget(triggers = "hangman", description = "A hangman game")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "HANGMAN");
-
         if (HangmanFrame != null)
             HangmanFrame.dispose();
 

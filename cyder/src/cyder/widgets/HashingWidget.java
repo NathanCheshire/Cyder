@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
 import cyder.ui.CyderButton;
@@ -38,7 +37,7 @@ public class HashingWidget {
     }
 
     public void innerShowGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "HASH");
+        
 
         CyderFrame hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

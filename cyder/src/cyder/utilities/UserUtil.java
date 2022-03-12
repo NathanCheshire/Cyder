@@ -839,8 +839,6 @@ public class UserUtil {
             // todo add "New color" label for paint's new color field
             // todo come up with solution for constant logging of backups and deleting the old json
             // todo look at logs and figure out how to clean up logs
-            // todo make a debug one that prints a debug print easy to spot like from log4j
-            // todo need to clean up tags for logging and add more
 
             try {
                // attempt to recovery a backup

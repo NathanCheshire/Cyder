@@ -330,11 +330,25 @@ public class ReflectionUtil {
 
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                            ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: "
-                                    + classer.getName().split("\\.")[classer.getName().split("\\.").length - 1]);
+                            String shortWidgetName = classer.getName()
+                                    .split("\\.")[classer.getName().split("\\.").length - 1];
+                            ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: " + shortWidgetName);
                             try {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(classer);
+                                    
+                                    StringBuilder triggerBuilder = new StringBuilder();
+                                    
+                                    for (int i = 0 ; i < widgetTriggers.length ; i++) {
+                                        triggerBuilder.append(widgetTriggers[i]);
+                                        
+                                        if (i != widgetTrigger.length() - 1)
+                                            triggerBuilder.append(", ");
+                                    }
+                                    
+                                    Logger.log(Logger.Tag.WIDGET_OPENED,
+                                            shortWidgetName + ", trigger = "
+                                                    + trigger + ", triggers = [" + triggerBuilder + "]");
                                     return true;
                                 } else throw new IllegalStateException("Found widget showGUI()" +
                                         " method with parameters: " + m.getName() + ", class: " + classer);

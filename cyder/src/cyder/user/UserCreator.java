@@ -7,7 +7,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.PopupHandler;
 import cyder.handlers.internal.objects.PopupBuilder;
@@ -66,9 +65,6 @@ public class UserCreator {
     public static void showGUI() {
         if (createUserFrame != null)
             createUserFrame.dispose();
-
-        Logger.log(Logger.Tag.WIDGET_OPENED, "USER CREATED");
-
         createUserBackground = null;
 
         createUserFrame = new CyderFrame(356, 473, CyderIcons.defaultBackground);

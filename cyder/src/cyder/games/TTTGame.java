@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
-import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -67,8 +66,6 @@ public class TTTGame {
 
     @Widget(triggers = {"ttt", "tictactoe"}, description = "A TicTacToe widget")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "TTT");
-
         if (tttFrame != null)
             tttFrame.dispose();
 

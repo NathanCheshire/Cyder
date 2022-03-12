@@ -9,7 +9,6 @@ import cyder.enums.AnimationDirection;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 
@@ -374,7 +373,7 @@ public class YoutubeUtil {
      */
     @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGUI() {
-        Logger.log(Logger.Tag.WIDGET_OPENED, "YOUTUBE");
+        
 
         CyderFrame uuidFrame = new CyderFrame(400,240, CyderIcons.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");

@@ -7,7 +7,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.genesis.CyderCommon;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.utilities.*;
@@ -60,7 +59,7 @@ public class ClockWidget {
     //it's ya boi, Greenwich
     public static void showGUI() {
         CyderThreadRunner.submit(() -> {
-            Logger.log(Logger.Tag.WIDGET_OPENED, "CLOCK");
+            
 
             if (clockFrame != null)
                 clockFrame.dispose();

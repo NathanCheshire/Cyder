@@ -113,7 +113,7 @@ public class Logger {
          */
         HANDLE_METHOD,
         /**
-         * A widget was invoked todo make this dynamic since you have the @widget annotation
+         * A widget was opened via the reflection method.
          */
         WIDGET_OPENED,
         /**
@@ -276,7 +276,7 @@ public class Logger {
                 logBuilder.append("[OBJECT CREATED] Instance of " + representation.getClass().getName() + " created");
                 break;
             case AUDIO:
-                logBuilder.append("[AUDIO] [Audio action taken] ").append(representation);
+                logBuilder.append("[AUDIO] ").append(representation);
                 break;
             case UI_ACTION:
                 logBuilder.append("[UI ACTION] ").append(representation);
