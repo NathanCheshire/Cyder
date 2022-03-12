@@ -70,7 +70,7 @@ public class CyderNotification extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
     }
@@ -104,23 +104,23 @@ public class CyderNotification extends JLabel {
     }
 
     public int getArrowSize() {
-        return this.arrowSize;
+        return arrowSize;
     }
 
     public void setWidth(int w) {
-        this.width = w;
+        width = w;
     }
 
     public void setHeight(int h) {
-        this.height = h;
+        height = h;
     }
 
     public void setArrow(Direction type) {
-        this.ArrowType = type;
+        ArrowType = type;
     }
 
     public Direction getArrow() {
-        return this.ArrowType;
+        return ArrowType;
     }
 
     /**
@@ -131,7 +131,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int getWidth() {
-        return this.width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT
+        return width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT
                 || ArrowType == Direction.RIGHT) ? arrowSize : 0);
     }
 
@@ -143,7 +143,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int getHeight() {
-        return this.height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM
+        return height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM
                 || ArrowType == Direction.TOP) ? arrowSize : 0);
     }
 
@@ -153,8 +153,8 @@ public class CyderNotification extends JLabel {
     }
 
     @Override
-    protected void paintComponent(final Graphics g) {
-        final Graphics2D graphics2D = (Graphics2D) g;
+    protected void paintComponent(Graphics g) {
+        Graphics2D graphics2D = (Graphics2D) g;
 
         RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -168,29 +168,29 @@ public class CyderNotification extends JLabel {
         outlinePath.moveTo(8, 8 + 2);
 
         outlinePath.curveTo(8, 8 + 2,10,6 + 2, 12, 4 + 2);
-        outlinePath.lineTo(this.width + 14 + 2, 4 + 2);
+        outlinePath.lineTo(width + 14 + 2, 4 + 2);
 
-        outlinePath.curveTo(this.width + 14 + 2, 4 + 2,
-                this.width + 16 + 2, 6 + 2,
-                this.width + 18 + 2, 8 + 2);
-        outlinePath.lineTo(this.width + 18 + 2, this.height + 10 + 2 + 2);
+        outlinePath.curveTo(width + 14 + 2, 4 + 2,
+                width + 16 + 2, 6 + 2,
+                width + 18 + 2, 8 + 2);
+        outlinePath.lineTo(width + 18 + 2, height + 10 + 2 + 2);
 
-        outlinePath.curveTo(this.width + 18 + 2, this.height + 10 + 2 + 2,
-                this.width + 16 + 2, this.height + 12 + 2  + 2,
-                this.width + 14 + 2, this.height + 14 + 2  + 2);
-        outlinePath.lineTo(12, this.height + 14 + 2 + 2);
+        outlinePath.curveTo(width + 18 + 2, height + 10 + 2 + 2,
+                width + 16 + 2, height + 12 + 2  + 2,
+                width + 14 + 2, height + 14 + 2  + 2);
+        outlinePath.lineTo(12, height + 14 + 2 + 2);
 
-        outlinePath.curveTo(12, this.height + 14 + 2 + 2,
-                10, this.height + 12 + 2 + 2,
-                8, this.height + 10 + 2 + 2);
+        outlinePath.curveTo(12, height + 14 + 2 + 2,
+                10, height + 12 + 2 + 2,
+                8, height + 10 + 2 + 2);
         outlinePath.lineTo( 8, 8 + 2);
 
         switch (ArrowType) {
             case TOP:
-                outlinePath.moveTo(6 + this.width / 2, 6 + 2);
-                outlinePath.lineTo(14 + this.width / 2, -2 + 2);
-                outlinePath.lineTo(22 + this.width / 2, 6 + 2);
-                outlinePath.lineTo(6 + this.width / 2, 6 + 2);
+                outlinePath.moveTo(6 + width / 2, 6 + 2);
+                outlinePath.lineTo(14 + width / 2, -2 + 2);
+                outlinePath.lineTo(22 + width / 2, 6 + 2);
+                outlinePath.lineTo(6 + width / 2, 6 + 2);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
                 break;
@@ -203,10 +203,10 @@ public class CyderNotification extends JLabel {
                 graphics2D.fill(outlinePath);
                 break;
             case RIGHT:
-                outlinePath.moveTo(18 + this.width, 2 + height / 2 + 2);
-                outlinePath.lineTo(26 + this.width, 10 + height / 2 + 2);
-                outlinePath.lineTo(18 + this.width, 18 + height / 2 + 2);
-                outlinePath.lineTo(18 + this.width, 2 + height / 2 + 2);
+                outlinePath.moveTo(18 + width, 2 + height / 2 + 2);
+                outlinePath.lineTo(26 + width, 10 + height / 2 + 2);
+                outlinePath.lineTo(18 + width, 18 + height / 2 + 2);
+                outlinePath.lineTo(18 + width, 2 + height / 2 + 2);
                 outlinePath.closePath();
                 graphics2D.fill(outlinePath);
                 break;
@@ -220,25 +220,25 @@ public class CyderNotification extends JLabel {
                 break;
         }
 
-        graphics2D.setPaint(this.backgroundColor);
+        graphics2D.setPaint(backgroundColor);
 
         GeneralPath fillPath = new GeneralPath();
 
         fillPath.moveTo(10, 10 + 2);
 
         fillPath.curveTo(10, 10 + 2,12,8 + 2, 14, 6 + 2);
-        fillPath.lineTo(this.width + 14, 6 + 2);
+        fillPath.lineTo(width + 14, 6 + 2);
 
-        fillPath.curveTo(this.width + 14, 6 + 2,
-                this.width + 16, 8 + 2, this.width + 18, 10 + 2);
-        fillPath.lineTo(this.width + 18, this.height + 10 + 2);
+        fillPath.curveTo(width + 14, 6 + 2,
+                width + 16, 8 + 2, width + 18, 10 + 2);
+        fillPath.lineTo(width + 18, height + 10 + 2);
 
-        fillPath.curveTo(this.width + 18, this.height + 10 + 2,
-                this.width + 16, this.height + 12 + 2, this.width + 14, this.height + 14 + 2);
-        fillPath.lineTo(14, this.height + 14 + 2);
+        fillPath.curveTo(width + 18, height + 10 + 2,
+                width + 16, height + 12 + 2, width + 14, height + 14 + 2);
+        fillPath.lineTo(14, height + 14 + 2);
 
-        fillPath.curveTo(14, this.height + 14 + 2,
-                12, this.height + 12 + 2, 10, this.height + 10 + 2);
+        fillPath.curveTo(14, height + 14 + 2,
+                12, height + 12 + 2, 10, height + 10 + 2);
         fillPath.lineTo( 10, 10 + 2);
 
         fillPath.closePath();
@@ -246,10 +246,10 @@ public class CyderNotification extends JLabel {
 
         switch (ArrowType) {
             case TOP:
-                fillPath.moveTo(8 + this.width / 2, 6 + 2);
-                fillPath.lineTo(14 + this.width / 2, 2);
-                fillPath.lineTo(20 + this.width / 2, 6 + 2);
-                fillPath.lineTo(8 + this.width / 2, 6 + 2);
+                fillPath.moveTo(8 + width / 2, 6 + 2);
+                fillPath.lineTo(14 + width / 2, 2);
+                fillPath.lineTo(20 + width / 2, 6 + 2);
+                fillPath.lineTo(8 + width / 2, 6 + 2);
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
                 break;
@@ -262,10 +262,10 @@ public class CyderNotification extends JLabel {
                 graphics2D.fill(fillPath);
                 break;
             case RIGHT:
-                fillPath.moveTo(18 + this.width, 4 + height / 2 + 2);
-                fillPath.lineTo(24 + this.width, 10 + height / 2 + 2);
-                fillPath.lineTo(18 + this.width, 16 + height / 2 + 2);
-                fillPath.lineTo(18 + this.width, 4 + height / 2 + 2);
+                fillPath.moveTo(18 + width, 4 + height / 2 + 2);
+                fillPath.lineTo(24 + width, 10 + height / 2 + 2);
+                fillPath.lineTo(18 + width, 16 + height / 2 + 2);
+                fillPath.lineTo(18 + width, 4 + height / 2 + 2);
                 fillPath.closePath();
                 graphics2D.fill(fillPath);
                 break;
@@ -301,14 +301,14 @@ public class CyderNotification extends JLabel {
                         setBounds(getX(), DragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
                         break;
                     case TOP_RIGHT:
-                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= increment) {
+                        for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(parent.getWidth() - this.getWidth() + 5, getY(), getWidth(), getHeight());
+                        setBounds(parent.getWidth() - getWidth() + 5, getY(), getWidth(), getHeight());
                         break;
                     case TOP_LEFT:
                         for (int i = getX(); i < 5; i += increment) {
@@ -328,28 +328,28 @@ public class CyderNotification extends JLabel {
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(2, parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
+                        setBounds(2, parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                         break;
                     case RIGHT:
-                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= increment) {
+                        for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(parent.getWidth() - this.getWidth() + 5,
-                                parent.getHeight() / 2 - this.getHeight() / 2, getWidth(), getHeight());
+                        setBounds(parent.getWidth() - getWidth() + 5,
+                                parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                         break;
                     case BOTTOM:
-                        for (int i = getY(); i > parent.getHeight() - this.getHeight() + 5; i -= increment) {
+                        for (int i = getY(); i > parent.getHeight() - getHeight() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(getX(), parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
+                        setBounds(getX(), parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
                         break;
                     case BOTTOM_LEFT:
                         for (int i = getX(); i < 5; i += increment) {
@@ -359,18 +359,18 @@ public class CyderNotification extends JLabel {
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(2, parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
+                        setBounds(2, parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
                         break;
                     case BOTTOM_RIGHT:
-                        for (int i = getX(); i > parent.getWidth() - this.getWidth() + 5; i -= increment) {
+                        for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= increment) {
                             if (killed)
                                 break;
 
                             setBounds(i, getY(), getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(parent.getWidth() - this.getWidth() + 5,
-                                parent.getHeight() - this.getHeight() + 10, getWidth(), getHeight());
+                        setBounds(parent.getWidth() - getWidth() + 5,
+                                parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
                         break;
                     default:
                         throw new IllegalStateException("Unexpected value: " + notificationDirection);
@@ -378,7 +378,7 @@ public class CyderNotification extends JLabel {
 
                 //now that it's visible, call vanish with the proper delay if enabled
                 if (UserUtil.getUserData("persistentnotifications").equals("0") && delay != -1)
-                    this.vanish(notificationDirection, parent, delay);
+                    vanish(notificationDirection, parent, delay);
             }
 
             catch (Exception e) {
@@ -394,7 +394,7 @@ public class CyderNotification extends JLabel {
      */
     public void kill() {
         killed = true;
-        this.setVisible(false);
+        setVisible(false);
     }
 
     /**
@@ -478,9 +478,9 @@ public class CyderNotification extends JLabel {
                         break;
                 }
 
-                if (this.isVisible() && this != null) {
-                    this.getParent().remove(this);
-                    this.setVisible(false);
+                if (isVisible() && this != null) {
+                    getParent().remove(this);
+                    setVisible(false);
                 }
             }
 
@@ -501,9 +501,9 @@ public class CyderNotification extends JLabel {
             return false;
         } else {
             CyderNotification other = (CyderNotification) o;
-            return this.getArrow() == other.getArrow()
-                    && this.getWidth() == other.getWidth()
-                    && this.getHeight() == other.getHeight();
+            return getArrow() == other.getArrow()
+                    && getWidth() == other.getWidth()
+                    && getHeight() == other.getHeight();
         }
     }
 
@@ -513,8 +513,8 @@ public class CyderNotification extends JLabel {
     @Override
     public int hashCode() {
         int ret = getArrow().hashCode();
-        ret = 31 * ret + Integer.hashCode(this.getWidth());
-        ret = 31 * ret + Integer.hashCode(this.getHeight());
+        ret = 31 * ret + Integer.hashCode(getWidth());
+        ret = 31 * ret + Integer.hashCode(getHeight());
         return ret;
     }
 

@@ -18,7 +18,7 @@ import java.awt.event.FocusListener;
 public class CyderButton extends JButton {
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
-    private boolean threadsKilled = false;
+    private boolean threadsKilled;
     private Color originalColor;
 
     public CyderButton() {
@@ -30,7 +30,7 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> Logger.log(Logger.Tag.ACTION, this));
+        addActionListener(e -> Logger.log(Logger.Tag.UI_ACTION, this));
 
         setFont(CyderFonts.segoe20);
         setColors(CyderColors.buttonColor);
@@ -49,8 +49,8 @@ public class CyderButton extends JButton {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        this.setFocusPainted(false);
-        this.setBorder(new LineBorder(CyderColors.navy,5,false));
+        setFocusPainted(false);
+        setBorder(new LineBorder(CyderColors.navy,5,false));
         if (getModel().isPressed()) {
             g.setColor(pressedBackgroundColor);
         } else if (getModel().isRollover()) {
@@ -74,8 +74,8 @@ public class CyderButton extends JButton {
     @Override
     public void setBackground(Color color) {
         super.setBackground(color);
-        this.pressedBackgroundColor = color.darker().darker();
-        this.hoverBackgroundColor = color.darker();
+        pressedBackgroundColor = color.darker().darker();
+        hoverBackgroundColor = color.darker();
     }
 
     /**
@@ -84,11 +84,11 @@ public class CyderButton extends JButton {
      * @param c the color to use for the outlined properties
      */
     public void setColors(Color c) {
-        this.originalColor = c;
+        originalColor = c;
 
-        this.pressedBackgroundColor = c.darker().darker();
-        this.hoverBackgroundColor = c.darker();
-        this.setBackground(c);
+        pressedBackgroundColor = c.darker().darker();
+        hoverBackgroundColor = c.darker();
+        setBackground(c);
     }
 
     public Color getHoverBackgroundColor() {
@@ -110,16 +110,16 @@ public class CyderButton extends JButton {
     public void alert() {
         new Thread(() -> {
             try {
-                Color c1 = this.getBackground();
+                Color c1 = getBackground();
                 Color c2 = c1.darker();
 
                 for (int i = 0 ; i < 8 ; i++) {
-                    this.setBackground(c2);
+                    setBackground(c2);
                     Thread.sleep(300);
-                    this.setBackground(c1);
+                    setBackground(c1);
                     Thread.sleep(300);
 
-                    if (this.getParent() == null) {
+                    if (getParent() == null) {
                         killThreads();
                         return;
                     }
@@ -132,7 +132,7 @@ public class CyderButton extends JButton {
             catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },this.getName() + " alert thread").start();
+        }, getName() + " alert thread").start();
     }
 
     public void killThreads() {

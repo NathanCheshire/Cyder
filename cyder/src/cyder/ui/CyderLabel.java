@@ -30,7 +30,7 @@ public class CyderLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
     }
@@ -58,14 +58,14 @@ public class CyderLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
     }
 
     @Override
     public void setText(String text) {
-        if (text == null || text.length() == 0) {
+        if (text == null || text.isEmpty()) {
             super.setText(text);
         } else if (!text.startsWith("<html>")) {
             super.setText("<html><div style='text-align: center;'>" + text + "</html>");
@@ -86,7 +86,7 @@ public class CyderLabel extends JLabel {
     private boolean isRippling;
 
     public int getRawTextLength() {
-        return Jsoup.clean(this.getText(), Safelist.none()).length();
+        return Jsoup.clean(getText(), Safelist.none()).length();
     }
 
     public int getRippleChars() {
@@ -94,7 +94,7 @@ public class CyderLabel extends JLabel {
     }
 
     public void setRippleChars(int rippleChars) {
-        if (this.getText() != null && rippleChars > getRawTextLength() / 2)
+        if (getText() != null && rippleChars > getRawTextLength() / 2)
             this.rippleChars = getRawTextLength() / 2;
         else
             this.rippleChars = rippleChars;
@@ -131,12 +131,12 @@ public class CyderLabel extends JLabel {
         new Thread(() -> {
             try {
                 //restore color so everything goes back to original foreground
-                Color restoreColor = this.getForeground();
+                Color restoreColor = getForeground();
 
-                final String originalText = this.getText();
+                String originalText = getText();
 
                 //used to insert color properly
-                String parsedChars = Jsoup.clean(this.getText(), Safelist.none());
+                String parsedChars = Jsoup.clean(getText(), Safelist.none());
 
                 //init list for strings by tag
                 LinkedList<StringUtil.TaggedString> taggedStrings = StringUtil.getTaggedStrings(originalText);
@@ -198,9 +198,9 @@ public class CyderLabel extends JLabel {
                 RIPPLING:
                     while (isRippling && !((((CyderFrame) SwingUtilities.getWindowAncestor(this))).isDisposed())) {
                         for (String rippleText : rippleTextIterations) {
-                            this.setText(rippleText);
+                            setText(rippleText);
 
-                            this.repaint();
+                            repaint();
                             Thread.sleep(rippleMsTimeout);
 
                             //check for break to free resources quickly
@@ -213,8 +213,8 @@ public class CyderLabel extends JLabel {
                     }
 
                 //fix foreground and text
-                this.setText(originalText);
-                this.setForeground(restoreColor);
+                setText(originalText);
+                setForeground(restoreColor);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

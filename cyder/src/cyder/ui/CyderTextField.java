@@ -54,15 +54,15 @@ public class CyderTextField extends JTextField {
         if (charLimit == 0)
             charLimit = Integer.MAX_VALUE;
 
-        this.limit = charLimit;
+        limit = charLimit;
         regex = null;
 
-        this.addKeyListener(new KeyAdapter() {
+        addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (regex != null && regex.length() != 0 && getText() != null && getText().length() > 0 ) {
+                } else if (regex != null && !regex.isEmpty() && getText() != null && !getText().isEmpty()) {
                     if (!getText().matches(regex)) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
@@ -74,7 +74,7 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (regex != null && regex.length() != 0 && getText() != null && getText().length() > 0 ) {
+                } else if (regex != null && !regex.isEmpty() && getText() != null && !getText().isEmpty()) {
                     if (!getText().matches(regex)) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
@@ -86,7 +86,7 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (regex != null && regex.length() != 0 && getText() != null && getText().length() > 0 ) {
+                } else if (regex != null && !regex.isEmpty() && getText() != null && !getText().isEmpty()) {
                     if (!getText().matches(regex)) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
@@ -98,18 +98,18 @@ public class CyderTextField extends JTextField {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
 
-        this.setBackground(backgroundColor);
-        this.setSelectionColor(CyderColors.selectionColor);
-        this.setFont(CyderFonts.segoe20);
-        this.setForeground(CyderColors.navy);
-        this.setCaretColor(CyderColors.navy);
-        this.setCaret(new CyderCaret(CyderColors.navy));
-        this.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        this.setOpaque(true);
+        setBackground(backgroundColor);
+        setSelectionColor(CyderColors.selectionColor);
+        setFont(CyderFonts.segoe20);
+        setForeground(CyderColors.navy);
+        setCaretColor(CyderColors.navy);
+        setCaret(new CyderCaret(CyderColors.navy));
+        setBorder(new LineBorder(CyderColors.navy, 5, false));
+        setOpaque(true);
     }
 
     /**
@@ -119,7 +119,7 @@ public class CyderTextField extends JTextField {
     public void setBackground(Color newBackgroundColor) {
         super.setBackground(newBackgroundColor);
         backgroundColor = newBackgroundColor;
-        this.setOpaque(true);
+        setOpaque(true);
     }
 
     /**
@@ -143,7 +143,7 @@ public class CyderTextField extends JTextField {
      * Removes the regex from the text field.
      */
     public void removeRegexMatcher() {
-        this.regex = null;
+        regex = null;
     }
 
     /**
@@ -173,7 +173,7 @@ public class CyderTextField extends JTextField {
      * @return the character limit for the text field
      */
     public int getCharLimit() {
-        return this.limit;
+        return limit;
     }
 
     /**
@@ -220,7 +220,7 @@ public class CyderTextField extends JTextField {
     public void informValidData() {
         checkArgument(lineBorder != null);
 
-        this.setBorder(new LineBorder(validFormDataColor,
+        setBorder(new LineBorder(validFormDataColor,
                 lineBorder.getThickness(), lineBorder.getRoundedCorners()));
     }
 
@@ -230,7 +230,7 @@ public class CyderTextField extends JTextField {
     public void informInvalidData() {
         checkArgument(lineBorder != null);
 
-        this.setBorder(new LineBorder(invalidFormDataColor,
+        setBorder(new LineBorder(invalidFormDataColor,
                 lineBorder.getThickness(), lineBorder.getRoundedCorners()));
     }
 
@@ -263,7 +263,7 @@ public class CyderTextField extends JTextField {
     /**
      * Whether auto capitalization is on.
      */
-    private boolean autoCapitalize = false;
+    private boolean autoCapitalize;
 
     /**
      * Sets whether to capitalize the first letter of the form.
@@ -317,6 +317,6 @@ public class CyderTextField extends JTextField {
      * @return the text with trimming performed
      */
     public String getTrimmedText() {
-        return this.getText().replaceAll("\\s+"," ").trim();
+        return getText().replaceAll("\\s+"," ").trim();
     }
 }

@@ -21,7 +21,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
 
             if (x >= 0 && y >= 0 && x < refFrame.getWidth() && y < refFrame.getHeight()) {
                 e.getComponent().setLocation(x,y);
-                Logger.log(Logger.Tag.DEBUG_PRINT, x + "," + y);
+                Logger.log(Logger.Tag.DEBUG, x + "," + y);
             }
         }
     }

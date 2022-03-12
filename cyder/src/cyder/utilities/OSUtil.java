@@ -421,7 +421,7 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     public static boolean delete(File folder) {
-        Logger.log(Logger.Tag.ACTION, "Requested deletion of: " + folder.getAbsolutePath());
+        Logger.log(Logger.Tag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
 
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
@@ -431,8 +431,6 @@ public class OSUtil {
                     delete(file);
                 }
             }
-
-
         }
 
         int inc = 0;
@@ -445,7 +443,7 @@ public class OSUtil {
         }
 
         // deletion failed
-        Logger.log(Logger.Tag.ACTION, "[DELETION FAILED] " + folder.getAbsolutePath());
+        Logger.log(Logger.Tag.SYSTEM_IO, "[DELETION FAILED] " + folder.getAbsolutePath());
         return false;
     }
 

@@ -325,7 +325,7 @@ public class LoginHandler {
                 if (loginMode != 2) {
                     inputString = new String(input).replace(currentBashString,"");
 
-                    Logger.log(Logger.Tag.CLIENT_IO, "[LOGIN FRAME] " + String.valueOf(input));
+                    Logger.log(Logger.Tag.CLIENT, "[LOGIN FRAME] " + String.valueOf(input));
                 }
 
                 switch (loginMode) {

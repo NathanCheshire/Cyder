@@ -219,7 +219,7 @@ public class ReflectionUtil {
                         if (values != null && StringUtil.in("WidgetInspection", false, values))
                             continue;
 
-                        Logger.log(Logger.Tag.DEBUG_PRINT, "Method annotated with @Widget is not named" +
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named" +
                                 " showGUI(); name: " + m.getName());
                     }
 
@@ -269,7 +269,7 @@ public class ReflectionUtil {
                         if (values != null && StringUtil.in("TestInspection", false, values))
                             continue;
 
-                        Logger.log(Logger.Tag.DEBUG_PRINT, "Method annotated with @ManualTest does not end" +
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end" +
                                 " with test; name: " + m.getName());
                     }
 

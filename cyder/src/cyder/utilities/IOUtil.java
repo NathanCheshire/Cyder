@@ -151,7 +151,7 @@ public class IOUtil {
     public static void openFile(String filePath) {
         //use our custom text editor
         if (filePath.endsWith(".txt")) {
-            TextViewer te = new TextViewer(filePath);
+            TextViewer te = new TextViewer(filePath); //todo fix these with get isntances
         }
         //use our custom photo viewer
         else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
@@ -190,7 +190,7 @@ public class IOUtil {
             stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
-            Logger.log(Logger.Tag.ACTION,"[AUDIO] " + FilePath);
+            Logger.log(Logger.Tag.AUDIO, FilePath);
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -229,7 +229,7 @@ public class IOUtil {
             Player systemPlayer = new Player(FileInputStream);
 
             if (!FilePath.equals("static/audio/Typing.mp3"))
-                Logger.log(Logger.Tag.ACTION,"[SYSTEM AUDIO] " + FilePath);
+                Logger.log(Logger.Tag.AUDIO,"[SYSTEM AUDIO] " + FilePath);
             CyderThreadRunner.submit(() -> {
                 try {
                     systemPlayer.play();
@@ -263,7 +263,7 @@ public class IOUtil {
      * Stops any and all audio playing either through the audio player or the general player.
      */
     public static void stopAllAudio() {
-        if (IOUtil.generalAudioPlaying()) {
+        if (generalAudioPlaying()) {
             stopAudio();
         }
 
@@ -276,7 +276,7 @@ public class IOUtil {
     public static void pauseAudio() {
         if (AudioPlayer.audioPlaying()) {
             AudioPlayer.pauseAudio();
-        } else if (IOUtil.generalAudioPlaying()) {
+        } else if (generalAudioPlaying()) {
             stopAudio();
         }
     }
@@ -315,6 +315,7 @@ public class IOUtil {
      *              isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
      *              lastAccessTime, lastModifiedTime
      */
+    @SuppressWarnings("unused")
     public static String[] getDOSAttributes(File file) {
         String[] ret = new String[10];
 
@@ -423,64 +424,6 @@ public class IOUtil {
         if (!sandbox.exists()) {
             //noinspection ResultOfMethodCallIgnored
             sandbox.mkdir();
-        }
-    }
-
-    /**
-     * Wipes the Sandbox of files if we are not in developer mode, ensures the folder stays though.
-     */
-    public static void wipeSandbox() {
-        File sandbox = new File("static/sandbox");
-
-        if (sandbox.exists()) {
-            OSUtil.delete(sandbox);
-        }
-    }
-
-    /**
-     * Suggestion class used to store and output command suggestions to the user.
-     */
-    public static class Suggestion {
-        private String command;
-        private String result;
-
-        public Suggestion(String command, String result) {
-            this.command = command;
-            this.result = result;
-        }
-
-        public String getCommand() {
-            return command;
-        }
-
-        public void setCommand(String command) {
-            this.command = command;
-        }
-
-        public String getResult() {
-            return result;
-        }
-
-        public void setResult(String result) {
-            this.result = result;
-        }
-
-        @Override
-        public String toString() {
-            return "\"" + command + "\" should trigger: \"" + result + "\"";
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            if (!(o instanceof Suggestion))
-                return false;
-
-            Suggestion sug = (Suggestion) o;
-
-            return sug.getResult().equals(this.getResult())
-                    && sug.getCommand().equals(this.getCommand());
         }
     }
 }

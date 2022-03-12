@@ -64,7 +64,7 @@ public class ExceptionHandler {
      * @param e the exception to be displayed
      */
     private static void silentHandleWithoutLogging(Exception e) {
-       System.out.println(getPrintableException(e));
+       Logger.Debug(getPrintableException(e));
     }
 
     /**

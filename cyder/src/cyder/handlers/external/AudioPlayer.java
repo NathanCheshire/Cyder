@@ -1046,7 +1046,7 @@ public class AudioPlayer {
                 refreshFrameTitle();
 
                 //log the audio we're playing
-                Logger.log(Logger.Tag.ACTION,
+                Logger.log(Logger.Tag.AUDIO,
                         "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
 
                 //playing blocks until the audio finishes
@@ -1134,7 +1134,7 @@ public class AudioPlayer {
      * @param startPosition the byte value to skip to when starting the audio
      */
     public static void resumeAudio(long startPosition) {
-        if (audioFiles.size() == 0)
+        if (audioFiles.isEmpty())
             return;
 
         if (lastAction == LastAction.STOP) {
@@ -1176,7 +1176,7 @@ public class AudioPlayer {
 
                     refreshFrameTitle();
 
-                    Logger.log(Logger.Tag.ACTION,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
+                    Logger.log(Logger.Tag.AUDIO,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
 
                     try {
                         player.play();

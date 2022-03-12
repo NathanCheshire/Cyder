@@ -14,7 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 @SuppressWarnings("FieldCanBeLocal") /* border width */
 public class CyderCheckbox extends JLabel {
     private final int borderWidth = 3;
-    private boolean selected = false;
+    private boolean selected;
     private boolean enabled = true;
     public static final int sideLength = 50;
     private Color background = new Color(21,23,24);
@@ -66,11 +66,11 @@ public class CyderCheckbox extends JLabel {
     }
 
     public boolean getRoundedCorners() {
-        return this.roundedCorners;
+        return roundedCorners;
     }
 
     public void setRoundedCorners(Boolean b) {
-        this.roundedCorners = b;
+        roundedCorners = b;
         repaint();
     }
 
@@ -91,7 +91,7 @@ public class CyderCheckbox extends JLabel {
                     repaint();
                 }
 
-                Logger.log(Logger.Tag.ACTION, e.getComponent());
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
 
@@ -115,15 +115,15 @@ public class CyderCheckbox extends JLabel {
     }
 
     @Override
-    protected void paintComponent(final Graphics g) {
-        final Graphics2D graphics2D = (Graphics2D) g;
+    protected void paintComponent(Graphics g) {
+        Graphics2D graphics2D = (Graphics2D) g;
 
         RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
         if (roundedCorners) {
-            if (this.isSelected()) {
+            if (isSelected()) {
                 graphics2D.setPaint(background);
                 graphics2D.setStroke(new BasicStroke(2.0f));
                 graphics2D.fill(new RoundRectangle2D.Double(0, 0, sideLength, sideLength, 20, 20));
@@ -158,7 +158,7 @@ public class CyderCheckbox extends JLabel {
                 graphics2D.fill(new RoundRectangle2D.Double(3, 3, sideLength - 6, sideLength - 6, 20, 20));
             }
         } else {
-            if (this.isSelected()) {
+            if (isSelected()) {
                 graphics2D.setPaint(background);
                 GeneralPath outlinePath = new GeneralPath();
                 outlinePath.moveTo(0, 0);

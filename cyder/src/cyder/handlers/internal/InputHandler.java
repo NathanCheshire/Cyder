@@ -157,7 +157,7 @@ public class InputHandler {
             //add all that have length greater than 0 after trimming
             // and that are not the first since that is "command"
             for (int i = 1 ; i < arrArgs.length ; i++) {
-                if (arrArgs[i].trim().length() > 0) {
+                if (!arrArgs[i].trim().isEmpty()) {
                     args.add(arrArgs[i].trim());
                 }
             }
@@ -176,7 +176,7 @@ public class InputHandler {
             String filename = getArg(1);
 
             //noinspection ConstantConditions, safe due to checking arg size
-            if (filename.trim().length() > 0) {
+            if (!filename.trim().isEmpty()) {
                 //check for validity of requested filename
                 if (OSUtil.isValidFilename(filename)) {
                     redirection = true;
@@ -621,7 +621,7 @@ public class InputHandler {
         return ret;
     }
 
-    private boolean generalCommandCheck() throws Exception {
+    private boolean generalCommandCheck() throws IOException, AWTException {
         boolean ret = true;
 
         if (commandIs("createuser")) {
@@ -690,13 +690,13 @@ public class InputHandler {
                 CyderCommon.exit(ExitCondition.GenesisControlledExit);
             }
         } else if (commandIs("define")) {
-            if (args.size() > 0) {
+            if (!args.isEmpty()) {
                 println(StringUtil.getDefinition(argsToString()));
             } else {
                 println("define usage: define YOUR_WORD/expression");
             }
         } else if (commandIs("wikisum")) {
-            if (args.size() > 0) {
+            if (!args.isEmpty()) {
                 println(StringUtil.getWikipediaSummary(argsToString()));
             } else {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
@@ -865,7 +865,7 @@ public class InputHandler {
 
                         long streamPtr = 0;
                         while (inputStream.available() > 0) {
-                            final long col = streamPtr++ % numberOfColumns;
+                            long col = streamPtr++ % numberOfColumns;
                             sb.append(String.format("%02x ", inputStream.read()));
                             if (col == (numberOfColumns - 1)) {
                                 sb.append("\n");
@@ -890,7 +890,7 @@ public class InputHandler {
             ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (commandIs("clearops")) {
             ConsoleFrame.getConsoleFrame().clearCommandHistory();
-            Logger.log(Logger.Tag.ACTION, "User cleared command history");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
             println("Command history reset");
         } else if (commandIs("stopscript")) {
             MasterYoutubeThread.killAll();
@@ -1038,7 +1038,7 @@ public class InputHandler {
                 println("pastebin usage: pastebin [URL/UUID]\nExample: pastebin xa7sJvNm");
             }
         } else if (commandIs("screenshot")) {
-            if (args.size() > 0) {
+            if (!args.isEmpty()) {
                if (getArg(0).equalsIgnoreCase("frames")) {
                    FrameUtil.screenshotCyderFrames();
                    println("Successfully saved to your Files directory");
@@ -1280,7 +1280,7 @@ public class InputHandler {
                     String saveName = SecurityUtil.generateUUID();
 
                     if (responseName != null) {
-                        if (responseName.length() > 0) {
+                        if (!responseName.isEmpty()) {
                             saveName = responseName;
                         }
                     }
@@ -1323,7 +1323,7 @@ public class InputHandler {
                 println("Curl command usage: curl URL");
             }
         } else if (commandIs("gitme")) {
-            if (args.size() > 0) {
+            if (!args.isEmpty()) {
                 ProcessBuilder processBuilderAdd = new ProcessBuilder("git", "add", ".");
                 ProcessBuilder processBuilderCommit = new ProcessBuilder(
                         "git", "commit", "-m", "\"" + argsToString() + "\"");
@@ -1589,7 +1589,7 @@ public class InputHandler {
 
                         float tol = Float.parseFloat(parts[1]);
 
-                        Logger.log(Logger.Tag.ACTION, "Similar command to \""
+                        Logger.log(Logger.Tag.DEBUG, "Similar command to \""
                                 + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
                         if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
@@ -1609,7 +1609,7 @@ public class InputHandler {
     /**
      * Used to escape the terminal wrapper.
      */
-    private boolean escapeWrapTerminal = false;
+    private boolean escapeWrapTerminal;
 
     /**
      * Checks for wrap terminal mode and passes the args and command to the native termainl.
@@ -1652,7 +1652,7 @@ public class InputHandler {
      * @return the current user issued command
      */
     public final String getCommand() {
-        return this.command;
+        return command;
     }
 
     /**
@@ -1662,7 +1662,7 @@ public class InputHandler {
      * @return whether the arguments array contains the expected number of arguments
      */
     private boolean checkArgsLength(int expectedSize) {
-        return this.args.size() == expectedSize;
+        return args.size() == expectedSize;
     }
 
     /**
@@ -1769,7 +1769,7 @@ public class InputHandler {
      * @return the linked JTextPane
      */
     public final JTextPane getOutputArea() {
-        return this.outputArea.getJTextPane();
+        return outputArea.getJTextPane();
     }
 
     /**
@@ -1778,7 +1778,7 @@ public class InputHandler {
      * @return the value of user input mode
      */
     public final boolean getUserInputMode() {
-        return this.userInputMode;
+        return userInputMode;
     }
 
     /**
@@ -1787,7 +1787,7 @@ public class InputHandler {
      * @param b the value of input mode
      */
     public final void setUserInputMode(boolean b) {
-        this.userInputMode = b;
+        userInputMode = b;
     }
 
     /**
@@ -1796,7 +1796,7 @@ public class InputHandler {
      * @return the input description
      */
     private String getUserInputDesc() {
-        return this.userInputDesc;
+        return userInputDesc;
     }
 
     /**
@@ -1805,7 +1805,7 @@ public class InputHandler {
      * @param s the description of the input we expect to receive next
      */
     public final void setUserInputDesc(String s) {
-        this.userInputDesc = s;
+        userInputDesc = s;
     }
 
     /**
@@ -1887,7 +1887,7 @@ public class InputHandler {
     /**
      * Boolean describing whether the console printing animation thread has been invoked and begun.
      */
-    private boolean printingAnimationInvoked = false;
+    private boolean printingAnimationInvoked;
 
     /**
      * Begins the printing animation for the linked JTextPane. The typing animation is only
@@ -1918,7 +1918,7 @@ public class InputHandler {
                         typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
                     }
 
-                    if (consolePriorityPrintingList.size() > 0) {
+                    if (!consolePriorityPrintingList.isEmpty()) {
                         Object line = consolePriorityPrintingList.removeFirst();
                         Logger.log(Logger.Tag.CONSOLE_OUT,line);
 
@@ -1945,7 +1945,7 @@ public class InputHandler {
                     //regular will perform a typing animation on strings if no method
                     // is currently running, such as random YouTube or bletchy, that would cause
                     // concurrency issues
-                    else if (consolePrintingList.size() > 0) {
+                    else if (!consolePrintingList.isEmpty()) {
                         Object line = consolePrintingList.removeFirst();
                         Logger.log(Logger.Tag.CONSOLE_OUT,line);
 
@@ -2008,7 +2008,7 @@ public class InputHandler {
      * The increment we are currently on for inner char printing.
      * Used to determine when to play a typing animation sound.
      */
-    private static int playInc = 0;
+    private static int playInc;
 
     /**
      * The frequency at which we should play a printing animation sound.

@@ -832,7 +832,7 @@ public final class ConsoleFrame {
             //noinspection StringConcatenationMissingWhitespace
             String logString = "Console loaded in " +
                     (CyderCommon.getConsoleStartTime() - CyderCommon.getAbsoluteStartTime()) + "ms";
-            Logger.log(Logger.Tag.ACTION, logString);
+            Logger.log(Logger.Tag.UI_ACTION, logString);
 
             if (entryPoint == CyderEntry.AutoCypher) {
                 consoleCyderFrame.notify(logString);

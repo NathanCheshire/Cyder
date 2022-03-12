@@ -982,7 +982,7 @@ public class CyderFrame extends JFrame {
                         JLabel textLabel = new JLabel(text);
 
                         // log the bounds and text of the notification
-                        Logger.log(Logger.Tag.ACTION, "[" +
+                        Logger.log(Logger.Tag.UI_ACTION, "[" +
                                 getTitle() + "] [NOTIFICATION] w = " +
                                 w + ", h = " + h + ", text = " + text);
 
@@ -1275,7 +1275,7 @@ public class CyderFrame extends JFrame {
                 disposed = true;
 
                 // confirmation passed so log
-                Logger.log(Logger.Tag.ACTION, "CyderFrame disposed with fastclose: "
+                Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose: "
                         + fastClose + ", CyderFrame: " + this);
 
                 //run all preCloseActions if any exists, this is performed after the confirmation check

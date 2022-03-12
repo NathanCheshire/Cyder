@@ -3,21 +3,17 @@ package cyder.handlers.internal;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
-import cyder.ui.ConsoleFrame;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.TimeUtil;
 
 import javax.swing.*;
-import javax.swing.text.Element;
-import javax.swing.text.ElementIterator;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -51,30 +47,97 @@ public class Logger {
      * Supported tags for log entries
      */
     public enum Tag {
-        CLIENT, // client typed something
-        CONSOLE_OUT, // printing something to the console frame
-        EXCEPTION, // an exception
-        ACTION, // an action taken
-        LINK, // a link in any way is printed, represented, etc.
-        SUGGESTION, // logging a suggestion
-        SYSTEM_IO, // system input or output
-        CLIENT_IO, // input or output to/from userdata file
-        LOGIN, // user is logged in
-        LOGOUT, // user is logged out
-        JVM_ARGS, // java args upon JVM entry to Cyder.main
-        ENTRY, // entry of program
-        EXIT, // exit of program
-        CORRUPTION, // corruption of userdata file
-        DEBUG_PRINT, // used for debug printing
-        HANDLE_METHOD, // used for boolean returning handle methods within InputHandler
-        WIDGET_OPENED, // used if a widget from the widgets package was opened
-        PREFERENCE_REFRESH, // used in Preferences class for when update functions are invoked
-        THREAD, // used to log threads that are invoked
-        UNKNOWN, // not sure/all else failed
+        /**
+         * The cyder user typed something through the console input field.
+         */
+        CLIENT,
+        /**
+         * Whatever is printed/appended to the CyderTextPane from the console frame.
+         */
+        CONSOLE_OUT,
+        /**
+         * An exception was thrown and handled by the ExceptionHandler.
+         */
+        EXCEPTION,
+        /**
+         * Audio played/stoped/paused/etc.
+         */
+        AUDIO,
+        /**
+         * Frame control actions.
+         */
+        UI_ACTION,
+        /**
+         * A link was printed or opened.
+         */
+        LINK,
+        /**
+         * A user made a suggestion which will probably be ignored.
+         */
+        SUGGESTION,
+        /**
+         * IO by Cyder typically to/from a json file but moreso to files within dynamic/
+         */
+        SYSTEM_IO,
+        /**
+         * A user starts Cyder or enters the main program, that of the ConsoleFrame.
+         */
+        LOGIN,
+        /**
+         * A user logs out of Cyder, not necessarily a program exit.
+         */
+        LOGOUT,
+        /**
+         * When Cyder.java is first invoked by the JVM, we log certain properties about
+         * the JVM/JRE and send them to the Cyder backend as well.
+         */
+        JVM_ARGS,
+        /**
+         * JVM program entry.
+         */
+        ENTRY,
+        /**
+         * Program controlled exit, right before EOL tags.
+         */
+        EXIT,
+        /**
+         * A user became corrupted invoking the userJsonCorrupted method.
+         */
+        CORRUPTION,
+        /**
+         * A quick debug information statment.
+         */
+        DEBUG,
+        /**
+         * A type of input was handled via the InputHandler.
+         */
+        HANDLE_METHOD,
+        /**
+         * A widget was invoked todo make this dynamic since you have the @widget annotation
+         */
+        WIDGET_OPENED,
+        /**
+         * A userdata which exists as a Preference object was toggled between states and refreshed.
+         */
+        PREFERENCE_REFRESH,
+        /**
+         * A thread was spun up and started by CyderThreadRunner.
+         */
+        THREAD,
         /**
          * When an object's constructor is invoked.
          */
-        OBJECT_CREATION,
+        OBJECT_CREATION, // todo use me during
+    }
+
+    /**
+     * Calls string.valueOf on the provided generic and prints to the debug console
+     * using the debug tag.
+     *
+     * @param representation the object to debug print
+     */
+    public static <T> void Debug(T representation) {
+        log(Tag.DEBUG, String.valueOf(representation));
     }
 
     /**
@@ -124,10 +187,6 @@ public class Logger {
                 logBuilder.append(representation);
 
                 break;
-            case ACTION:
-                logBuilder.append("[ACTION]: ");
-                logBuilder.append(representation);
-                break;
             case LINK:
                 //files opened, links opened
                 logBuilder.append("[LINK]: ");
@@ -138,13 +197,6 @@ public class Logger {
                 break;
             case SUGGESTION:
                 logBuilder.append("[SUGGESTION]: ").append(representation);
-                break;
-            case CLIENT_IO:
-                //userdata read or write
-                //[CLIENT_IO]: [SET] [KEY] NAME [VALUE] NATHAN
-                //[CLIENT_IO]: [GET] [KEY] VERSION [RETURN VALUE] 9.2.21
-                logBuilder.append("[CLIENT_IO]: ");
-                logBuilder.append(representation);
                 break;
             case SYSTEM_IO:
                 // General System IO
@@ -200,12 +252,7 @@ public class Logger {
                 //before user corruption method is called
                 logBuilder.append("[CORRUPTION]: ").append(representation);
                 break;
-            case UNKNOWN:
-                //[UNKNOWN]: CyderString.instance really anything that doesn't get caught above
-                logBuilder.append("[UNKNOWN]: ");
-                logBuilder.append(representation);
-                break;
-            case DEBUG_PRINT:
+            case DEBUG:
                 logBuilder.append("[DEBUG]: ");
                 logBuilder.append(representation);
                 break;
@@ -232,55 +279,13 @@ public class Logger {
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
-                        "idiot and added an enum type but forgot to implement it here");
+                        "idiot and added an enum type but forgot to handle the case in Logger");
         }
 
         //write to log file
         if (logBuilder.toString().equalsIgnoreCase(initialTimeTag))
             throw new IllegalArgumentException("Attempting to write nothing to the log file");
         writeLine(logBuilder.toString());
-    }
-
-    /**
-     * Attempt to figure out what Tag representation should be and log it.
-     * @param representation the object we are trying to log
-     * @param <T> any object
-     */
-    public static <T> void log(T representation) {
-        if (representation instanceof JComponent) {
-            LinkedList<Element> elements = new LinkedList<>();
-            ElementIterator iterator = new ElementIterator(ConsoleFrame.getConsoleFrame().getOutputArea().getStyledDocument());
-            Element element;
-
-            while ((element = iterator.next()) != null) {
-                elements.add(element);
-            }
-
-            for (Element value : elements) {
-                if (value.toString().toLowerCase().contains(representation.toString().toLowerCase())) {
-                    log(Tag.CONSOLE_OUT, representation);
-                    return;
-                }
-            }
-            log(Tag.CONSOLE_OUT, representation);
-        } else if (representation instanceof File) {
-            log(Tag.LINK, representation);
-        } else if (representation.toString().toLowerCase().contains("exception")) {
-            log(Tag.EXCEPTION, representation);
-        } else if (representation.toString().contains("CLIENT_IO")) {
-            log(Tag.CLIENT_IO, representation);
-        } else if (representation.toString().contains("SYSTEM_IO")) {
-            log(Tag.SYSTEM_IO, representation);
-        } else {
-            ArrayList<String> ops = ConsoleFrame.getConsoleFrame().getCommandHistory();
-            for (String op : ops) {
-                if (op.toLowerCase().contains(representation.toString())) {
-                    log(Tag.CLIENT, representation);
-                    return;
-                }
-            }
-            log(Tag.UNKNOWN, representation);
-        }
     }
 
     /**
@@ -394,7 +399,7 @@ public class Logger {
         } catch(Exception e) {
             ExceptionHandler.handle(e);
         } finally {
-            // print to standard output
+            // print to standard output, the only System.out in the entire program that should exist
             System.out.println(line.trim());
         }
     }

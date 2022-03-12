@@ -88,7 +88,7 @@ public class DragLabel extends JLabel {
         setBackground(backgroundColor);
 
         // this is clearer to me than a global variable
-        int[] mousePoints = new int[]{0, 0};
+        int[] mousePoints = {0, 0};
 
         // add listener to drag
         addMouseMotionListener(new MouseMotionListener() {
@@ -193,7 +193,7 @@ public class DragLabel extends JLabel {
      */
     @Override
     public int getWidth() {
-        return this.width;
+        return width;
     }
 
     /**
@@ -203,7 +203,7 @@ public class DragLabel extends JLabel {
      */
     @Override
     public int getHeight() {
-        return this.height;
+        return height;
     }
 
     /**
@@ -212,8 +212,8 @@ public class DragLabel extends JLabel {
      * @param c the background color of this drag label
      */
     public void setColor(Color c) {
-        this.backgroundColor = c;
-        this.repaint();
+        backgroundColor = c;
+        repaint();
     }
 
     /**
@@ -221,8 +221,9 @@ public class DragLabel extends JLabel {
      *
      * @return the associated CyderFrame
      */
+    @SuppressWarnings("unused")
     public CyderFrame getEffectFrame() {
-        return this.effectFrame;
+        return effectFrame;
     }
 
     /**
@@ -267,9 +268,9 @@ public class DragLabel extends JLabel {
      */
     @Override
     public int hashCode() {
-        int ret = Integer.hashCode(this.width);
-        ret = 31 * ret + Integer.hashCode(this.height);
-        ret = 31 * ret + this.backgroundColor.hashCode();
+        int ret = Integer.hashCode(width);
+        ret = 31 * ret + Integer.hashCode(height);
+        ret = 31 * ret + backgroundColor.hashCode();
         return ret;
     }
 
@@ -284,9 +285,9 @@ public class DragLabel extends JLabel {
 
         DragLabel other = (DragLabel) o;
 
-        return other.getWidth() == this.getWidth()
-                && other.getHeight() == this.getHeight()
-                && other.getBackground() == this.getBackground();
+        return other.getWidth() == getWidth()
+                && other.getHeight() == getHeight()
+                && other.getBackground() == getBackground();
     }
 
     /**
@@ -311,7 +312,7 @@ public class DragLabel extends JLabel {
         CyderIconButton minimize = new CyderIconButton("Minimize",
                 CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
         minimize.addActionListener(e -> {
-            Logger.log(Logger.Tag.ACTION, this);
+            Logger.log(Logger.Tag.UI_ACTION, this);
             effectFrame.minimizeAnimation();
         });
         ret.add(minimize);
@@ -343,7 +344,7 @@ public class DragLabel extends JLabel {
                     }
                 });
         pinButton.addActionListener(e -> {
-            Logger.log(Logger.Tag.ACTION, this);
+            Logger.log(Logger.Tag.UI_ACTION, this);
 
             if (effectFrame.getPinned()) {
                 effectFrame.setPinned(false);
@@ -362,7 +363,7 @@ public class DragLabel extends JLabel {
         CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon,
                 CyderIcons.closeIconHover, null);
         close.addActionListener(e -> {
-            Logger.log(Logger.Tag.ACTION, this);
+            Logger.log(Logger.Tag.UI_ACTION, this);
             effectFrame.dispose();
         });
         ret.add(close);
@@ -376,11 +377,12 @@ public class DragLabel extends JLabel {
      * @param index the index of the button to be returned
      * @return the button at the provided index
      */
+    @SuppressWarnings("unused")
     public JButton getButton(int index) {
         if (index < 0 || index > buttonsList.size() - 1)
             throw new IllegalArgumentException("Attempting to get button from invalid index");
 
-        return this.buttonsList.get(index);
+        return buttonsList.get(index);
     }
 
     /**
@@ -410,6 +412,7 @@ public class DragLabel extends JLabel {
      * @param button the button to move to the specified index
      * @param newIndex the index to move the specified button to
      */
+    @SuppressWarnings("unused")
     public void setButtonIndex(JButton button, int newIndex) {
         if (!buttonsList.contains(button))
             throw new IllegalArgumentException("Button list does not contain provided button");
@@ -438,6 +441,7 @@ public class DragLabel extends JLabel {
      * @param oldIndex the position of the button to target
      * @param newIndex the index to move the targeted button to
      */
+    @SuppressWarnings("unused")
     public void setButtonIndex(int oldIndex, int newIndex) {
         JButton popButton = buttonsList.remove(oldIndex);
         buttonsList.add(newIndex, popButton);
@@ -452,14 +456,14 @@ public class DragLabel extends JLabel {
     public void removeButton(int removeIndex) {
         if (removeIndex > buttonsList.size() - 1)
             throw new IllegalArgumentException("Invalid index");
-        else if (buttonsList.size() == 0)
+        else if (buttonsList.isEmpty())
             throw new IllegalArgumentException("Empty list");
         else {
             for (Component c : getComponents()) {
                 if (c instanceof JButton && buttonsList.contains((JButton) c)) {
-                    this.remove(c);
-                    this.revalidate();
-                    this.repaint();
+                    remove(c);
+                    revalidate();
+                    repaint();
                 }
             }
 
@@ -475,7 +479,7 @@ public class DragLabel extends JLabel {
      * @return the current button list
      */
     public LinkedList<JButton> getButtonsList() {
-        return this.buttonsList;
+        return buttonsList;
     }
 
     /**
@@ -487,12 +491,12 @@ public class DragLabel extends JLabel {
         //remove all buttons from button list
         for (Component c : getComponents()) {
             if (c instanceof JButton && buttonsList.contains((JButton) c)) {
-                this.remove(c);
-                this.revalidate();
-                this.repaint();
+                remove(c);
+                revalidate();
+                repaint();
             }
         }
-        this.buttonsList = list;
+        buttonsList = list;
         refreshButtons();
     }
 
@@ -503,9 +507,9 @@ public class DragLabel extends JLabel {
         //remove all buttons to repaint them
         for (Component c : getComponents()) {
             if (c instanceof JButton && buttonsList.contains((JButton) c)) {
-                this.remove(c);
-                this.revalidate();
-                this.repaint();
+                remove(c);
+                revalidate();
+                repaint();
             }
         }
 
@@ -519,7 +523,7 @@ public class DragLabel extends JLabel {
                 for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if(buttonsList.get(i).getText().length() > 0) {
+                    if(!buttonsList.get(i).getText().isEmpty()) {
                         textWidth = StringUtil.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
                     }
 
@@ -536,7 +540,7 @@ public class DragLabel extends JLabel {
                 for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if(buttonsList.get(i).getText().length() > 0) {
+                    if(!buttonsList.get(i).getText().isEmpty()) {
                         textWidth = StringUtil.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
                     }
 
@@ -549,8 +553,8 @@ public class DragLabel extends JLabel {
                 break;
         }
 
-        this.revalidate();
-        this.repaint();
+        revalidate();
+        repaint();
     }
 
     /**
@@ -558,6 +562,7 @@ public class DragLabel extends JLabel {
      *
      * @return the x offset of this drag label
      */
+    @SuppressWarnings("unused")
     public int getxOffset() {
         return xOffset;
     }
@@ -567,6 +572,7 @@ public class DragLabel extends JLabel {
      *
      * @return the y offset of this drag label
      */
+    @SuppressWarnings("unused")
     public int getyOffset() {
         return yOffset;
     }
@@ -598,7 +604,7 @@ public class DragLabel extends JLabel {
         if (buttonPosition == pos)
             return;
 
-        this.buttonPosition = pos;
+        buttonPosition = pos;
         refreshButtons();
     }
 
@@ -607,8 +613,9 @@ public class DragLabel extends JLabel {
      *
      * @return the current button position
      */
+    @SuppressWarnings("unused")
     public ButtonPosition getButtonPosition() {
-        return this.buttonPosition;
+        return buttonPosition;
     }
 
     /**
@@ -616,14 +623,14 @@ public class DragLabel extends JLabel {
      * of the pinning state of the effect frame.
      */
     public void refreshPinButton() {
-        for (JButton dragLabelButton : this.getButtonsList()) {
+        for (JButton dragLabelButton : getButtonsList()) {
             String tooltipText = dragLabelButton.getToolTipText();
             if (!StringUtil.isNull(tooltipText) && tooltipText.equals(pinButton.getToolTipText())) {
-                if (this.effectFrame.isAlwaysOnTop()) {
+                if (effectFrame.isAlwaysOnTop()) {
                     pinButton.setIcon(CyderIcons.pinIconHover);
                     effectFrame.setConsolePinned(false);
                     effectFrame.setPinned(true);
-                } else if (this.effectFrame.isConsolePinned()) {
+                } else if (effectFrame.isConsolePinned()) {
                     pinButton.setIcon(CyderIcons.pinIconHoverPink);
                     effectFrame.setPinned(false);
                     effectFrame.setConsolePinned(true);
