@@ -835,18 +835,16 @@ public class UserUtil {
             //todo stuff that uses a lable button in the drag label
             // switch to using a menu
             // search for adding to the drag label to find these
+            // todo menu is cut off too, need better algorithm
 
             // todo test actually restoring from a backup
-
             // todo ensure logs are zipped after consolidating lines AND
             // after the current log file is made to ensure not zipping wrong log even further
-
             // todo add "New color" label for paint's new color field
-            // todo come up with solution for constant logging of backups and deleting the old json
             // todo look at logs and figure out how to clean up logs
-
-            //todo if minimizse, disable content repainting to and re-enable and repaint on deiconification
-
+            // todo need to tie grid size into a grid state object, as well as relative positions
+            // todo grid state objects should store the difference from the last state
+            // todo if minimizse, disable content repainting to and re-enable and repaint on deiconification
             // todo add painting widget with drawing and save option active to README, put before weather
 
             try {

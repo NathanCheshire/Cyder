@@ -199,16 +199,44 @@ public class PaintWidget {
 
                 int pixelSize = Integer.parseInt(pixelSizeString);
 
-                // no change
+                // no change so continue
                 if (pixelSize == 1) {
                     return;
                 }
 
                 // convert to image
+                BufferedImage image = new BufferedImage(cyderGrid.getNodeDimensionLength(),
+                        cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
 
-                // use algorithm to pixelate image
+                Graphics2D g2d = (Graphics2D) image.getGraphics();
 
-                // init new grid and copy over pixelated data
+                for (GridNode node : cyderGrid.getGridNodes()) {
+                    g2d.setColor(node.getColor());
+                    g2d.fillRect(node.getX(), node.getY(), 1, 1);
+                }
+
+                BufferedImage newStateImage = ImageUtil.pixelate(image, pixelSize);
+
+                // todo how to filter out alpha remnants
+                ImageUtil.drawBufferedImage(newStateImage);
+
+                LinkedList<GridNode> newState = new LinkedList<>();
+
+                for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
+                    for (int y = 0 ; y < newStateImage.getHeight() ; y++) {
+                        int color = newStateImage.getRGB(x, y);
+
+                        Color newColor = new Color(
+                                (color >> 16) & 0xFF,
+                                (color >> 8) & 0xFF,
+                                color & 0xFF);
+
+                        newState.add(new GridNode(newColor, x, y));
+                    }
+                }
+
+                // set new state
+                cyderGrid.setGridState(newState);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not pixelate image at this time");
