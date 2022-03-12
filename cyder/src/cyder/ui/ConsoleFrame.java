@@ -735,10 +735,10 @@ public final class ConsoleFrame {
             consoleDragButtonList.add(close);
 
             //set top drag's button list and others to none
-            consoleCyderFrame.getTopDragLabel().setButtonsList(consoleDragButtonList);
-            consoleCyderFrame.getBottomDragLabel().setButtonsList(null);
-            consoleCyderFrame.getLeftDragLabel().setButtonsList(null);
-            consoleCyderFrame.getRightDragLabel().setButtonsList(null);
+            consoleCyderFrame.getTopDragLabel().setButtonList(consoleDragButtonList);
+            consoleCyderFrame.getBottomDragLabel().setButtonList(null);
+            consoleCyderFrame.getLeftDragLabel().setButtonList(null);
+            consoleCyderFrame.getRightDragLabel().setButtonList(null);
 
             //audio controls
             generateAudioMenu();

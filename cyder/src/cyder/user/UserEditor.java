@@ -73,8 +73,6 @@ public class UserEditor {
     }
 
     public static void showGUI(int startingIndex) {
-        
-
         if (editUserFrame != null)
             editUserFrame.dispose();
 
@@ -205,7 +203,8 @@ public class UserEditor {
             class thisAction implements CyderScrollList.ScrollAction {
                 @Override
                 public void fire() {
-                   IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
+                    System.out.println("opening: " + filesList.get(finalI));
+                    IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
                 }
             }
 

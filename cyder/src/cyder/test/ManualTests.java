@@ -122,7 +122,7 @@ public class ManualTests {
 
         CyderButton cb1 = new CyderButton("Remove last");
         cb1.setBounds(100, 180, 150, 40);
-        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(testFrame.getTopDragLabel().getButtonsList().size() - 1));
+        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(testFrame.getTopDragLabel().getButtonList().size() - 1));
         testFrame.getContentPane().add(cb1);
 
         CyderButton addPinFirst = new CyderButton("Add Random Butter first");

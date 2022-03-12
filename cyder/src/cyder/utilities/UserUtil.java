@@ -842,9 +842,8 @@ public class UserUtil {
             // after the current log file is made to ensure not zipping wrong log even further
             // todo add "New color" label for paint's new color field
             // todo look at logs and figure out how to clean up logs
-            // todo need to tie grid size into a grid state object, as well as relative positions
-            // todo grid state objects should store the difference from the last state
-            // todo if minimizse, disable content repainting to and re-enable and repaint on deiconification
+
+            // todo if minimize, disable content repainting to and re-enable and repaint on deiconification
             // todo add painting widget with drawing and save option active to README, put before weather
 
             try {

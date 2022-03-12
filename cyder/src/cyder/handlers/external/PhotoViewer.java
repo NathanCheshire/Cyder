@@ -1,7 +1,5 @@
 package cyder.handlers.external;
 
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -63,11 +61,20 @@ public class PhotoViewer {
 
         File currentImage = validImages.get(0);
 
+        if (startDir.isFile()) {
+            for (int i = 0 ; i < validImages.size() ; i++) {
+                if (validImages.get(i).equals(startDir)) {
+                    currentImage = validImages.get(i);
+                    break;
+                }
+            }
+        }
+
         ImageIcon newImage;
         newImage = checkImage(currentImage);
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
-        pictureFrame.setBackground(CyderColors.guiThemeColor);
+        pictureFrame.setBackground(Color.BLACK);
         pictureFrame.setTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         pictureFrame.initializeResizing();
@@ -79,27 +86,10 @@ public class PhotoViewer {
 
         pictureFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
 
-        renameButton = new JButton("Rename");
-        renameButton.setForeground(CyderColors.vanila);
-        renameButton.setFont(CyderFonts.defaultFontSmall);
-        renameButton.setToolTipText("Rename image");
-        renameButton.addActionListener(e -> rename());
-        renameButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                renameButton.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                renameButton.setForeground(CyderColors.vanila);
-            }
+        pictureFrame.setMenuEnabled(true);
+        pictureFrame.addMenuItem("Rename", () -> {
+            rename();
         });
-
-        renameButton.setContentAreaFilled(false);
-        renameButton.setBorderPainted(false);
-        renameButton.setFocusPainted(false);
-        pictureFrame.getTopDragLabel().addButton(renameButton, 0);
 
         nextImage = new JButton("");
         nextImage.setToolTipText("Next image");
@@ -120,7 +110,7 @@ public class PhotoViewer {
         nextImage.setContentAreaFilled(false);
         nextImage.setBorderPainted(false);
         nextImage.setFocusPainted(false);
-        pictureFrame.getTopDragLabel().addButton(nextImage, 1);
+        pictureFrame.getTopDragLabel().addButton(nextImage, 0);
 
         lastImage = new JButton("");
         lastImage.setToolTipText("Previous image");

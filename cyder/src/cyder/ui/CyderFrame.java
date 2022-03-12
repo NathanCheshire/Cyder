@@ -337,7 +337,7 @@ public class CyderFrame extends JFrame {
         leftDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
         leftDrag.setFocusable(false);
-        leftDrag.setButtonsList(null);
+        leftDrag.setButtonList(null);
 
         leftDragCover = new JLabel();
         leftDragCover.setBounds(0, 0 , 2, height);
@@ -352,7 +352,7 @@ public class CyderFrame extends JFrame {
         rightDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
         rightDrag.setFocusable(false);
-        rightDrag.setButtonsList(null);
+        rightDrag.setButtonList(null);
 
         rightDragCover = new JLabel();
         rightDragCover.setBounds(width - 2, 0 , 2, height);
@@ -367,7 +367,7 @@ public class CyderFrame extends JFrame {
         bottomDrag.setyOffset(height - 5);
         contentLabel.add(bottomDrag, JLayeredPane.DRAG_LAYER);
         bottomDrag.setFocusable(false);
-        bottomDrag.setButtonsList(null);
+        bottomDrag.setButtonList(null);
 
         bottomDragCover = new JLabel();
         bottomDragCover.setBounds(0, height - 2 , width, 2);
@@ -417,7 +417,7 @@ public class CyderFrame extends JFrame {
         setSize(new Dimension(width, height));
         setResizable(false);
         setUndecorated(true);
-        setBackground(CyderColors.navy);
+        setBackground(Color.BLACK);
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
         //listener to ensure the close button was always pressed which ensures
@@ -470,7 +470,7 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         CyderDragLabel masterDrag = new CyderDragLabel(width, height, this);
-        masterDrag.setButtonsList(null);
+        masterDrag.setButtonList(null);
         masterDrag.setBounds(0, 0, width, height);
         contentLabel.add(masterDrag, JLayeredPane.DRAG_LAYER);
         masterDrag.setFocusable(false);

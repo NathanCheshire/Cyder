@@ -173,6 +173,9 @@ public class PaintWidget {
                 if (FileUtil.validateExtension(chosenImage, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)) {
                     // todo implement after figuring out solution to large grids
                     // todo figure ensure nodes aren't painted out of bounds and grid is always inside by 10 pixels
+
+                    // todo need to tie grid size into a grid state object, as well as relative positions
+                    // todo grid state objects should store the difference from the last state
                 } else {
                     paintFrame.notify("Image type not supported");
                 }

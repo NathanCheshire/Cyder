@@ -295,7 +295,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * The list of buttons to paint for the drag label.
      */
-    private LinkedList<JButton> buttonsList = buildDefaultButtons();
+    private LinkedList<JButton> buttonList = buildDefaultButtons();
 
     /**
      * The pin button used for the default drag label.
@@ -381,10 +381,10 @@ public class CyderDragLabel extends JLabel {
      */
     @SuppressWarnings("unused")
     public JButton getButton(int index) {
-        if (index < 0 || index > buttonsList.size() - 1)
+        if (index < 0 || index > buttonList.size() - 1)
             throw new IllegalArgumentException("Attempting to get button from invalid index");
 
-        return buttonsList.get(index);
+        return buttonList.get(index);
     }
 
     /**
@@ -404,7 +404,7 @@ public class CyderDragLabel extends JLabel {
             }
         }
 
-        buttonsList.add(addIndex, button);
+        buttonList.add(addIndex, button);
         refreshButtons();
     }
 
@@ -416,22 +416,22 @@ public class CyderDragLabel extends JLabel {
      */
     @SuppressWarnings("unused")
     public void setButtonIndex(JButton button, int newIndex) {
-        if (!buttonsList.contains(button))
+        if (!buttonList.contains(button))
             throw new IllegalArgumentException("Button list does not contain provided button");
-        else if (newIndex > buttonsList.size() - 1)
+        else if (newIndex > buttonList.size() - 1)
             throw new IndexOutOfBoundsException("Provided index does not exist within the current button list");
 
         int oldIndex = -1;
 
-        for (int i = 0 ; i < buttonsList.size() ; i++) {
-            if (button == buttonsList.get(i)) {
+        for (int i = 0; i < buttonList.size() ; i++) {
+            if (button == buttonList.get(i)) {
                 oldIndex = i;
                 break;
             }
         }
 
-        JButton popButton = buttonsList.remove(oldIndex);
-        buttonsList.add(newIndex, popButton);
+        JButton popButton = buttonList.remove(oldIndex);
+        buttonList.add(newIndex, popButton);
 
         refreshButtons();
     }
@@ -445,8 +445,8 @@ public class CyderDragLabel extends JLabel {
      */
     @SuppressWarnings("unused")
     public void setButtonIndex(int oldIndex, int newIndex) {
-        JButton popButton = buttonsList.remove(oldIndex);
-        buttonsList.add(newIndex, popButton);
+        JButton popButton = buttonList.remove(oldIndex);
+        buttonList.add(newIndex, popButton);
         refreshButtons();
     }
 
@@ -456,20 +456,20 @@ public class CyderDragLabel extends JLabel {
      * @param removeIndex index of button to remove
      */
     public void removeButton(int removeIndex) {
-        if (removeIndex > buttonsList.size() - 1)
+        if (removeIndex > buttonList.size() - 1)
             throw new IllegalArgumentException("Invalid index");
-        else if (buttonsList.isEmpty())
+        else if (buttonList.isEmpty())
             throw new IllegalArgumentException("Empty list");
         else {
             for (Component c : getComponents()) {
-                if (c instanceof JButton && buttonsList.contains((JButton) c)) {
+                if (c instanceof JButton && buttonList.contains((JButton) c)) {
                     remove(c);
                     revalidate();
                     repaint();
                 }
             }
 
-            buttonsList.remove(removeIndex);
+            buttonList.remove(removeIndex);
 
             refreshButtons();
         }
@@ -480,8 +480,8 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the current button list
      */
-    public LinkedList<JButton> getButtonsList() {
-        return buttonsList;
+    public LinkedList<JButton> getButtonList() {
+        return buttonList;
     }
 
     /**
@@ -489,16 +489,16 @@ public class CyderDragLabel extends JLabel {
      *
      * @param list the button list to use for this drag label
      */
-    public void setButtonsList(LinkedList<JButton> list) {
+    public void setButtonList(LinkedList<JButton> list) {
         //remove all buttons from button list
         for (Component c : getComponents()) {
-            if (c instanceof JButton && buttonsList.contains((JButton) c)) {
+            if (c instanceof JButton && buttonList.contains((JButton) c)) {
                 remove(c);
                 revalidate();
                 repaint();
             }
         }
-        buttonsList = list;
+        buttonList = list;
         refreshButtons();
     }
 
@@ -508,48 +508,48 @@ public class CyderDragLabel extends JLabel {
     public void refreshButtons() {
         //remove all buttons to repaint them
         for (Component c : getComponents()) {
-            if (c instanceof JButton && buttonsList.contains((JButton) c)) {
+            if (c instanceof JButton && buttonList.contains((JButton) c)) {
                 remove(c);
                 revalidate();
                 repaint();
             }
         }
 
-        if (buttonsList == null)
+        if (buttonList == null)
             return;
 
         switch (buttonPosition) {
             case RIGHT:
                 int addWidth = width - 26;
 
-                for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
+                for (int i = buttonList.size() - 1; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if(!buttonsList.get(i).getText().isEmpty()) {
-                        textWidth = StringUtil.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+                    if(!buttonList.get(i).getText().isEmpty()) {
+                        textWidth = StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
-                    buttonsList.get(i).setBounds(addWidth - textWidth,
+                    buttonList.get(i).setBounds(addWidth - textWidth,
                             0, textWidth == 0 ? 22 : textWidth + 26, 28);
-                    add(buttonsList.get(i));
+                    add(buttonList.get(i));
                     addWidth -= (26 + textWidth);
                 }
                 break;
             case LEFT:
-                int leftAddWidth = 26 * (buttonsList.size() - 1) + 5;
+                int leftAddWidth = 26 * (buttonList.size() - 1) + 5;
 
-                for (int i = buttonsList.size() - 1 ; i >= 0 ; i--) {
+                for (int i = buttonList.size() - 1; i >= 0 ; i--) {
                     int textWidth = 0;
 
-                    if(!buttonsList.get(i).getText().isEmpty()) {
-                        textWidth = StringUtil.getMinWidth(buttonsList.get(i).getText().trim(), buttonsList.get(i).getFont());
+                    if(!buttonList.get(i).getText().isEmpty()) {
+                        textWidth = StringUtil.getMinWidth(buttonList.get(i).getText().trim(), buttonList.get(i).getFont());
                     }
 
                     //might have to fix this method here depending on how many more buttons with text you add
-                    buttonsList.get(i).setBounds(leftAddWidth - textWidth, 0,
+                    buttonList.get(i).setBounds(leftAddWidth - textWidth, 0,
                             textWidth == 0 ? 22 : textWidth + 26, 28);
-                    add(buttonsList.get(i));
+                    add(buttonList.get(i));
                     leftAddWidth -= (26 + textWidth);
                 }
                 break;
@@ -625,7 +625,7 @@ public class CyderDragLabel extends JLabel {
      * of the pinning state of the effect frame.
      */
     public void refreshPinButton() {
-        for (JButton dragLabelButton : getButtonsList()) {
+        for (JButton dragLabelButton : getButtonList()) {
             String tooltipText = dragLabelButton.getToolTipText();
             if (!StringUtil.isNull(tooltipText) && tooltipText.equals(pinButton.getToolTipText())) {
                 if (effectFrame.isAlwaysOnTop()) {
