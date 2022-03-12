@@ -149,27 +149,20 @@ public class IOUtil {
      * @param filePath the path to the file to open
      */
     public static void openFile(String filePath) {
-        //use our custom text editor
+        File file = new File(filePath);
+
         if (filePath.endsWith(".txt")) {
-            TextViewer te = new TextViewer(filePath); //todo fix these with get isntances
-        }
-        //use our custom photo viewer
-        else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
-            PhotoViewer pv = new PhotoViewer(new File(filePath));
-        }
-        //use our own mp3 player
-        else if (filePath.endsWith(".mp3")) {
-            AudioPlayer.showGUI(new File(filePath));
-        }
-        //welp just open it outside of the program :(
-        else {
+            TextViewer.getInstance(file).showGUI();
+        } else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
+            PhotoViewer.getInstance(file).showGUI();
+        } else if (filePath.endsWith(".mp3")) {
+            AudioPlayer.showGUI(file);
+        } else {
             Desktop OpenFile = Desktop.getDesktop();
 
             try {
-                File FileToOpen = new File(filePath);
-                URI FileURI = FileToOpen.toURI();
-                OpenFile.browse(FileURI);
-                Logger.log(Logger.Tag.LINK, FileToOpen.getAbsoluteFile());
+                OpenFile.browse(file.toURI());
+                Logger.log(Logger.Tag.LINK, file.getAbsoluteFile());
             } catch (Exception e) {
                 try {
                     Runtime.getRuntime().exec("explorer.exe /select," + filePath);

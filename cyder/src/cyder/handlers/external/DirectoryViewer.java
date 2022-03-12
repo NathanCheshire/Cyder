@@ -40,7 +40,9 @@ public class DirectoryViewer {
     private static File currentDirectory = new File("c:\\users\\"
             + OSUtil.getSystemUsername() + "\\Downloads");
 
-    //private constructor since static
+    /**
+     * Restrict instantiation.
+     */
     private DirectoryViewer() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }

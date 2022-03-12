@@ -21,12 +21,12 @@ public class CyderSplash {
     /**
      * Whether the splash screen has been shown.
      */
-    private static boolean splashShown = false;
+    private static boolean splashShown;
 
     /**
      * Whether the splash has been disposed this instance.
      */
-    private static boolean disposed = false;
+    private static boolean disposed;
 
     /**
      * The splash screen CyderFrame.
@@ -263,7 +263,7 @@ public class CyderSplash {
         if (splashFrame == null || splashFrame.isDisposed())
             return;
 
-        if (loadingMessage.trim().length() > 0)
+        if (!loadingMessage.trim().isEmpty())
             CyderSplash.loadingMessage = loadingMessage.trim();
 
         if (loadingLabel != null) {

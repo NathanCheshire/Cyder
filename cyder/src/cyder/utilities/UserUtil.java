@@ -831,6 +831,9 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
+            //todo stuff that uses a lable button in the drag label
+            // switch to using a menu
+
             // todo test actually restoring from a backup
 
             // todo ensure logs are zipped after consolidating lines AND
@@ -841,6 +844,10 @@ public class UserUtil {
             // todo look at logs and figure out how to clean up logs
 
             // todo try to eliminate/coalesce some enums
+
+            //todo up to handlers/internal for object creation log call
+
+            //todo use illegal method exception for all private constructor restrictors
 
             try {
                // attempt to recovery a backup

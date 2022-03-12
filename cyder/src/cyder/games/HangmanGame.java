@@ -11,6 +11,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.utilities.NumberUtil;
+import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -32,6 +33,9 @@ public class HangmanGame {
     private static int HangmanWrongGuesses = 1;
     private static String chosenLetters = "";
 
+    /**
+     * Restrict default instantiation.
+     */
     private HangmanGame() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
@@ -215,6 +219,6 @@ public class HangmanGame {
 
     @Override
     public String toString() {
-        return "Hangman object, hash=" + this.hashCode();
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

@@ -20,23 +20,39 @@ public class TextViewer {
     private CyderFrame textEditorFrame;
     private CyderTextField textNameEditField;
     private JTextArea textEditArea;
+    private final File file;
 
-    public TextViewer(String filePath) {
-        openTextFile(new File(filePath));
+    /**
+     * Returns a new text viewer instance to view the provided file.
+     *
+     * @param file the file to view
+     * @return a text viewer instance
+     */
+    public static TextViewer getInstance(File file) {
+        return new TextViewer(file);
     }
 
-    private void openTextFile(File File) {
-        if (textEditorFrame != null)
-            textEditorFrame.dispose();
+    /**
+     * Constructs a new text viewer with the provided file.
+     *
+     * @param file the file to display for the text file
+     */
+    private TextViewer(File file) {
+        this.file = file;
+    }
 
+    /**
+     * Opens the text viewer gui.
+     */
+    public void showGUI() {
         textEditorFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
-        textEditorFrame.setTitle("Editing: " + File.getName().replace(".txt", ""));
+        textEditorFrame.setTitle("Editing: " + file.getName().replace(".txt", ""));
 
         textNameEditField = new CyderTextField(0);
         textNameEditField.setHorizontalAlignment(JTextField.CENTER);
         textNameEditField.setBackground(Color.white);
         textNameEditField.setToolTipText("Change Name");
-        textNameEditField.setText(File.getName().replaceFirst(".txt",""));
+        textNameEditField.setText(file.getName().replaceFirst(".txt",""));
         textNameEditField.setBounds(50,50,600 - 50 - 50, 40);
         textEditorFrame.getContentPane().add(textNameEditField);
 
@@ -58,7 +74,7 @@ public class TextViewer {
         textEditorFrame.getContentPane().add(textScroll);
 
         try {
-            BufferedReader textReader = new BufferedReader(new FileReader(File));
+            BufferedReader textReader = new BufferedReader(new FileReader(file));
             String line = textReader.readLine();
 
             while (line != null) {
@@ -80,21 +96,21 @@ public class TextViewer {
         saveText.setFont(CyderFonts.segoe20);
         saveText.addActionListener(e -> {
             try {
-                BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(File, false));
+                BufferedWriter SaveWriter = new BufferedWriter(new FileWriter(file, false));
                 SaveWriter.write(textEditArea.getText());
                 SaveWriter.close();
 
                 File newName = null;
 
-                if (textNameEditField.getText().length() > 0) {
-                    newName = new File(File.getAbsolutePath().replace(File.getName(), textNameEditField.getText() + ".txt"));
-                    File.renameTo(newName);
+                if (!textNameEditField.getText().isEmpty()) {
+                    newName = new File(file.getAbsolutePath().replace(file.getName(), textNameEditField.getText() + ".txt"));
+                    file.renameTo(newName);
                     textEditorFrame.notify(newName.getName().replace(".txt", "")
                             + " has been successfully saved");
                 }
 
                 else {
-                    textEditorFrame.notify(File.getName().replace(".txt", "")
+                    textEditorFrame.notify(file.getName().replace(".txt", "")
                             + " has been successfully saved");
                 }
 

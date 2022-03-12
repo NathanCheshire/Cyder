@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
@@ -19,7 +20,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
-@SuppressWarnings("FieldNotUsedInToString") /* why is this necessary? */
 public class PhotoViewer {
     private final LinkedList<File> validImages = new LinkedList<>();
     private final File startDir;
@@ -27,22 +27,41 @@ public class PhotoViewer {
 
     private CyderFrame pictureFrame;
 
-    private final JButton nextImage;
-    private final JButton lastImage;
-    private final JButton renameButton;
+    private JButton nextImage;
+    private JButton lastImage;
+    private JButton renameButton;
 
     private int oldCenterX;
     private int oldCenterY;
 
-    //start instance
-    public PhotoViewer(File startDir) {
+    /**
+     * Returns a new instance of photo viewer with the provided starting directory.
+     *
+     * @param startDir the starting directory
+     * @return a new instance of photo viewer
+     */
+    public static PhotoViewer getInstance(File startDir) {
+        return new PhotoViewer(startDir);
+    }
+
+    /**
+     * Creates a new photo viewer object.
+     *
+     * @param startDir the starting directory of the photo viewer.
+     */
+    private PhotoViewer(File startDir) {
         this.startDir = startDir;
+    }
+
+    /**
+     * Opens the instance of photo viewer.
+     */
+    public void showGUI() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+
         initFiles();
 
-        File currentImage = validImages.get(currentIndex);
-
-        if (pictureFrame != null)
-            pictureFrame.dispose();
+        File currentImage = validImages.get(0);
 
         ImageIcon newImage;
         newImage = checkImage(currentImage);

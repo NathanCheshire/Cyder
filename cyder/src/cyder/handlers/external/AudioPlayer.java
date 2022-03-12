@@ -257,7 +257,7 @@ public class AudioPlayer {
             stopAudio();
             refreshAudioFiles(startPlaying);
 
-            if (audioFiles.size() != 0)
+            if (!audioFiles.isEmpty())
                 startAudio();
 
             return;
@@ -721,7 +721,7 @@ public class AudioPlayer {
         //if provided file is null
         if (refreshOnFile == null) {
             //if no audio files to refresh on
-            if (audioFiles.size() == 0) {
+            if (audioFiles.isEmpty()) {
                 //get the music directory of the user
                 File[] userMusicFiles = UserUtil.getUserFile(UserFile.MUSIC.getName()).listFiles();
 
@@ -750,7 +750,7 @@ public class AudioPlayer {
                 audioIndex = i;
         }
 
-        if (audioFiles.size() == 0)
+        if (audioFiles.isEmpty())
             audioFiles = null;
     }
 
@@ -759,7 +759,7 @@ public class AudioPlayer {
      * in preparation to resume at the current location.
      */
     public static void pauseAudio() {
-        if (audioFiles.size() == 0)
+        if (audioFiles.isEmpty())
             return;
 
         //set last action
@@ -789,7 +789,7 @@ public class AudioPlayer {
      * Stops the audio and all visual indication threads.
      */
     public static void stopAudio() {
-        if (audioFiles.size() == 0)
+        if (audioFiles.isEmpty())
             return;
 
         //set last action
@@ -852,7 +852,7 @@ public class AudioPlayer {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public static void previousAudio() {
-        if (audioFiles.size() == 0 || !allowButtonClick())
+        if (audioFiles.isEmpty() || !allowButtonClick())
             return;
 
         //refresh files just to be safe
@@ -892,7 +892,7 @@ public class AudioPlayer {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public static void nextAudio() {
-        if (audioFiles.size() == 0 || !allowButtonClick())
+        if (audioFiles.isEmpty() || !allowButtonClick())
             return;
 
         //just to be safe
@@ -1120,7 +1120,7 @@ public class AudioPlayer {
      * at the previously paused position.
      */
     public static void resumeAudio() {
-        if (audioFiles == null || audioFiles.size() == 0)
+        if (audioFiles == null || audioFiles.isEmpty())
             return;
 
         resumeAudio(pauseLocation);
@@ -1384,7 +1384,7 @@ public class AudioPlayer {
         }
 
         public void kill() {
-            this.scroll = false;
+            scroll = false;
         }
     }
 
@@ -1597,7 +1597,7 @@ public class AudioPlayer {
      */
     public static boolean refreshAlbumArt() {
         try {
-            if (audioFiles == null || audioFiles.size() == 0)
+            if (audioFiles == null || audioFiles.isEmpty())
                 return false;
 
             String currentName = FileUtil.getFilename(audioFiles.get(audioIndex));
