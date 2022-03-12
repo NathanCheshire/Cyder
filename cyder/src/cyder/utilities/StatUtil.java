@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -22,7 +23,7 @@ import java.util.*;
 
 public class StatUtil {
     private StatUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     public static void javaProperties() {

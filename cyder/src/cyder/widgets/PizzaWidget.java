@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.*;
 
@@ -37,7 +38,7 @@ public class PizzaWidget {
      * Restrict default constructor.
      */
     private PizzaWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "pizza", description = "A very old widget I built using Swing in 2017 for AP Comp. Sci. " +

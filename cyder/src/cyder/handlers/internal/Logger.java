@@ -3,6 +3,7 @@ package cyder.handlers.internal;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.FatalException;
+import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
@@ -25,7 +26,7 @@ public class Logger {
      * Instances of Logger not allowed.
      */
     private Logger() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

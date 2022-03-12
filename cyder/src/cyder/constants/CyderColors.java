@@ -1,5 +1,7 @@
 package cyder.constants;
 
+import cyder.exceptions.IllegalMethodException;
+
 import java.awt.*;
 
 /**
@@ -137,7 +139,7 @@ public class CyderColors {
      * Instantiation of the CyderColors class is not allowed
      */
     private CyderColors() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

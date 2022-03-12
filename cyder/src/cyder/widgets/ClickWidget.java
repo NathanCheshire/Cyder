@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 import cyder.utilities.NumberUtil;
@@ -18,7 +19,7 @@ public class ClickWidget {
      * Restrict default instantiation.
      */
     private ClickWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")

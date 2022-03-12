@@ -3,6 +3,7 @@ package cyder.widgets;
 
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.CyderFrame;
 import cyder.user.objects.MappedExecutable;
@@ -22,7 +23,7 @@ public class MinecraftWidget {
     private static JLabel blockLabel;
 
     private MinecraftWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")

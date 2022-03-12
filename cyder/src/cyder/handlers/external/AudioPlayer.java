@@ -7,6 +7,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
 import cyder.enums.SliderShape;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -232,7 +233,7 @@ public class AudioPlayer {
      * Instantiation of AudioPlayer not allowed.
      */
     private AudioPlayer() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

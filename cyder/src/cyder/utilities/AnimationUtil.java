@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
@@ -11,7 +12,7 @@ import java.awt.*;
 public class AnimationUtil {
     //private constructor to avoid object creation
     private AnimationUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

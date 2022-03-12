@@ -11,6 +11,7 @@ import cyder.enums.ExitCondition;
 import cyder.enums.ScreenPosition;
 import cyder.enums.SliderShape;
 import cyder.enums.Suggestion;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.python.PyExecutor;
 import cyder.test.ManualTests;
@@ -101,7 +102,7 @@ public class InputHandler {
      * Private constructor to avoid incorrect instantiation.
      */
     private InputHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
@@ -1595,8 +1596,7 @@ public class InputHandler {
                                 + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
                         if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
-                            println("Unknown command");
-                            println("Most similar command: \"" + parts[0] + "\"");
+                            println("Unknown command; Most similar command: \"" + parts[0] + "\"");
                         } else {
                             wrapTerminalCheck();
                         }

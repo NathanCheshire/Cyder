@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.*;
 import cyder.ui.objects.SwitcherState;
@@ -28,7 +29,7 @@ public class PerlinWidget {
      * Prevent illegal class instantiation.
      */
     private PerlinWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

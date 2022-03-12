@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
 import cyder.ui.ConsoleFrame;
@@ -19,7 +20,7 @@ import java.util.concurrent.Future;
 
 public class GitHubUtil {
     private GitHubUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     public static Issue[] getIssues() {

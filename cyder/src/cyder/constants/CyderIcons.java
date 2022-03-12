@@ -1,5 +1,6 @@
 package cyder.constants;
 
+import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.ScreenUtil;
 
@@ -84,7 +85,7 @@ public class CyderIcons {
      * Instantiation of images class not allowed
      */
     private CyderIcons() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

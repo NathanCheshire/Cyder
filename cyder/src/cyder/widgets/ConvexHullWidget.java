@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -43,7 +44,7 @@ public class ConvexHullWidget {
      * Instantiation of convex hull not allowed.
      */
     private ConvexHullWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

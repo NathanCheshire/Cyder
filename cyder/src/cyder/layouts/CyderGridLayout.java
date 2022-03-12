@@ -1,6 +1,7 @@
 package cyder.layouts;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
@@ -47,7 +48,7 @@ public class CyderGridLayout extends CyderBaseLayout {
      * Class instantiation is not allowed unless the cells are specified
      */
     public CyderGridLayout() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

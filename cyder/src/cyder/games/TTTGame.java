@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -61,7 +62,7 @@ public class TTTGame {
      * Prevent instantiation of class.
      */
     private TTTGame() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"ttt", "tictactoe"}, description = "A TicTacToe widget")

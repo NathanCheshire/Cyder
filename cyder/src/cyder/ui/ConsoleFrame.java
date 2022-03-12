@@ -3,6 +3,7 @@ package cyder.ui;
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
 import cyder.enums.*;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
@@ -74,7 +75,7 @@ public final class ConsoleFrame {
      */
     private ConsoleFrame() {
         if (singletonCreated)
-            throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+            throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
 
         singletonCreated = true;
         Logger.log(Logger.Tag.OBJECT_CREATION, this);

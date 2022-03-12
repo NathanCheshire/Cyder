@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class ColorUtil {
      * Instantiation of util class not allowed.
      */
     private ColorUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

@@ -6,6 +6,7 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
@@ -26,6 +27,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * A painting widget, not currently intended to be able to edit/markup images.
@@ -60,7 +62,7 @@ public class PaintWidget {
      * Prevent illegal class instantiation.
      */
     private PaintWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
@@ -212,16 +214,58 @@ public class PaintWidget {
                 paintFrame.notify("Could not pixelate image at this time");
             }
         }, "Paint Grid Pixelator"));
-        paintFrame.addMenuItem("Resize", () -> CyderThreadRunner.submit(() -> {
+        paintFrame.addMenuItem("Scale", () -> CyderThreadRunner.submit(() -> {
             try {
-                GetterBuilder builder = new GetterBuilder("Enter grid length");
+                GetterBuilder builder = new GetterBuilder("Enter length");
                 builder.setFieldTooltip("Grid length");
                 builder.setRelativeTo(paintFrame);
-                builder.setSubmitButtonText("Resize");
+                builder.setSubmitButtonText("Scale grid");
                 builder.setInitialString(String.valueOf(cyderGrid.getNodeDimensionLength()));
                 String dimension = GetterUtil.getInstance().getString(builder);
 
                 int dimensionInt = Integer.parseInt(dimension);
+
+                if (dimensionInt > 0) {
+                    // create reference image to resize
+                    BufferedImage referenceImage = new BufferedImage(cyderGrid.getNodeDimensionLength(),
+                            cyderGrid.getNodeDimensionLength(), BufferedImage.TYPE_INT_ARGB);
+
+                    Graphics2D g2d = (Graphics2D) referenceImage.getGraphics();
+
+                    for (GridNode node : cyderGrid.getGridNodes()) {
+                        g2d.setColor(node.getColor());
+                        g2d.fillRect(node.getX(), node.getY(), 1, 1);
+                    }
+
+                    double scaler = (double) dimensionInt / cyderGrid.getNodeDimensionLength();
+                    int len =  (int) (scaler * referenceImage.getWidth());
+
+                    BufferedImage newStateImage = ImageUtil.resizeImage(
+                            referenceImage, BufferedImage.TYPE_INT_ARGB, len, len);
+
+                    cyderGrid.setNodeDimensionLength(len);
+
+                    LinkedList<GridNode> newState = new LinkedList<>();
+
+                    for (int x = 0 ; x < newStateImage.getWidth() ; x++) {
+                        for (int y = 0 ; y < newStateImage.getHeight() ; y++) {
+                            int color = newStateImage.getRGB(x, y);
+
+                            // if alpha is empty, don't copy over
+                            if (((color >> 24) & 0xFF) == 0)
+                                continue;
+
+                            newState.add(new GridNode(new Color(
+                                    (color >> 16) & 0xFF,
+                                    (color >> 8) & 0xFF,
+                                    color & 0xFF), x, y));
+                        }
+                    }
+
+                    cyderGrid.setGridState(newState);
+                } else {
+                    paintFrame.notify("Invalid dimensional length");
+                }
 
                 // get grid
 
@@ -233,9 +277,19 @@ public class PaintWidget {
                 ExceptionHandler.handle(e);
                 paintFrame.notify("Could not resize at this time");
             }
-        }, "Paint Grid Resizer"));
+        }, "Paint Grid Scaler"));
 
         installControlFrames();
+    }
+
+    /**
+     * Returns the aspect ratio of the provided buffered image.
+     *
+     * @param img the image to find the aspect ratio of
+     * @return the aspect ratio of the provided buffered image
+     */
+    private static double getAspectRatio(BufferedImage img) {
+        return ((double) img.getWidth() / (double) img.getHeight());
     }
 
     /**

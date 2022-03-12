@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
@@ -68,7 +69,7 @@ public class OSUtil {
      * Prevent illegal class instantiation.
      */
     public OSUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

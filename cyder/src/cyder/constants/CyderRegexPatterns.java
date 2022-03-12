@@ -1,5 +1,7 @@
 package cyder.constants;
 
+import cyder.exceptions.IllegalMethodException;
+
 @SuppressWarnings("unused") /* some patterns not used */
 public final class CyderRegexPatterns {
     /**
@@ -68,7 +70,7 @@ public final class CyderRegexPatterns {
      * Prevent illegal class instantiation.
      */
     private CyderRegexPatterns() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     public static final String openGroup = "(";

@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderBaseLayout;
 import cyder.utilities.ReflectionUtil;
@@ -19,7 +20,7 @@ public class CyderPanel extends JLabel {
      * Restict class instnatiation without a valid cyder layout.
      */
     private CyderPanel() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

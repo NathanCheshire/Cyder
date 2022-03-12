@@ -1,5 +1,7 @@
 package cyder.constants;
 
+import cyder.exceptions.IllegalMethodException;
+
 import java.awt.*;
 
 /**
@@ -42,6 +44,6 @@ public class CyderFonts {
      * No class instantiation allowed for CyderFonts
      */
     private CyderFonts() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 }

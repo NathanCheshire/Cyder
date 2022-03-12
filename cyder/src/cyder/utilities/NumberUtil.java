@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class NumberUtil {
      * Instantiation of NumberUtil is not allowed
      */
     private NumberUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

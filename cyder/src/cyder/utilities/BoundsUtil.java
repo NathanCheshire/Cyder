@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.objects.BoundsString;
 import cyder.utilities.objects.TaggedString;
 import org.jsoup.Jsoup;
@@ -30,7 +31,7 @@ public class BoundsUtil {
      * Restrict instantiation of class.
      */
     private BoundsUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

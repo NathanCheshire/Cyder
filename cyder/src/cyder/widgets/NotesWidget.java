@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
@@ -44,7 +45,7 @@ public class NotesWidget {
     private static LinkedList<CyderFrame> noteFrames;
 
     private NotesWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     } //no objects
 
     @Widget(triggers = {"note", "notes"}, description = "A note taking widget that can save and display multiple notes")

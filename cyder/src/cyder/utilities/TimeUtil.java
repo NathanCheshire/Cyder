@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.ui.ConsoleFrame;
 
 import java.text.DecimalFormat;
@@ -24,7 +25,7 @@ public class TimeUtil {
      * Instantiation of TimeUtil class is not allowed.
      */
     public TimeUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

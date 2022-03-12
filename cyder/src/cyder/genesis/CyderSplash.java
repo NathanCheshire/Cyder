@@ -3,6 +3,7 @@ package cyder.genesis;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -42,7 +43,7 @@ public class CyderSplash {
      * Instantiation of CyderSplash is not allowed
      */
     private CyderSplash() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

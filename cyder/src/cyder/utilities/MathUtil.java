@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 
 import java.awt.*;
 
@@ -12,7 +13,7 @@ public class MathUtil {
      * Restrict class instnatiation.
      */
     private MathUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

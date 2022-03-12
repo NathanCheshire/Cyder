@@ -1,0 +1,146 @@
+[11-38-12] [ENTRY]: [Nathan]
+[11-38-12] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[11-38-12] [THREAD STARTED]: Splash Loader
+[11-38-12] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-13] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [42x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[11-38-13] [THREAD STARTED]: Splash Animation
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame created
+[11-38-13] [OBJECT CREATED] Instance of cyder.threads.CyderThreadFactory created
+[11-38-13] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[11-38-13] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-38-13] [THREAD STARTED]: JVM Logger
+[11-38-13] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-38-13] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-13] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-38-13] [OBJECT CREATED] Instance of cyder.user.User created [3x]
+[11-38-13] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-13] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-13] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647105927999.json
+[11-38-13] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created [2x]
+[11-38-13] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-13] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-13] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106693403.json
+[11-38-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-38-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame$1 created
+[11-38-13] [SYSTEM_IO]: Userdata requested: fullscreen
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[11-38-13] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created [2x]
+[11-38-13] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
+[11-38-13] [THREAD STARTED]: Console Printing Animation
+[11-38-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-38-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-38-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-38-13] [THREAD STARTED]: Console Input Caret Position Updater
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[11-38-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-38-13] [SYSTEM_IO]: Userdata requested: InputFill
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [7x]
+[11-38-13] [THREAD STARTED]: High Ping Checker
+[11-38-13] [THREAD STARTED]: Hourly Chime Checker
+[11-38-13] [THREAD STARTED]: Console Clock Updater
+[11-38-13] [THREAD STARTED]: Cyder Busy Checker
+[11-38-13] [THREAD STARTED]: ConsoleFrame Stat Saver
+[11-38-13] [UI ACTION] Console loaded in 2123ms
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.objects.NotificationBuilder created
+[11-38-13] [OBJECT CREATED] Instance of cyder.utilities.objects.TaggedString created
+[11-38-13] [OBJECT CREATED] Instance of cyder.ui.objects.QueuedNotification created
+[11-38-14] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(1593, 214, 707, 744)], hash = [2056234595], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[11-38-14] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[11-38-14] [OBJECT CREATED] Instance of cyder.ui.CyderNotification created
+[11-38-14] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1733261849], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[11-38-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-38-14] [ENTRY]: [TESTING MODE]
+[11-38-14] [SYSTEM_IO]: Userdata requested: laststart
+[11-38-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-14] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106693751.json
+[11-38-14] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[11-38-14] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 285, h = 29, text = <html>Console loaded in 2123ms</html>
+[11-38-14] [THREAD STARTED]: notification appear animation
+[11-38-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-38-14] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-38-15] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [3x]
+[11-38-16] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-16] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-16] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106694022.json
+[11-38-20] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-20] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106696908.json
+[11-38-22] [CLIENT]: lol
+[11-38-22] [SYSTEM_IO]: Userdata requested: filterchat
+[11-38-22] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[11-38-22] [HANDLE]: PRIMARY HANDLE
+[11-38-22] [CONSOLE_OUT]: [STRING] My memes are better.
+[11-38-24] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-24] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106700624.json
+[11-38-25] [CLIENT]: loll
+[11-38-25] [SYSTEM_IO]: Userdata requested: filterchat
+[11-38-25] [THREAD STARTED]: Unknown Input Handler
+[11-38-25] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[11-38-26] [DEBUG]: Similar command to "loll" found with tol of 0.75, command = "lol"
+[11-38-26] [CONSOLE_OUT]: [STRING] Unknown command
+[11-38-27] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-27] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-27] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106704281.json
+[11-38-30] [CLIENT]: helpp
+[11-38-30] [SYSTEM_IO]: Userdata requested: filterchat
+[11-38-30] [THREAD STARTED]: Unknown Input Handler
+[11-38-30] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[11-38-30] [DEBUG]: Similar command to "helpp" found with tol of 0.8, command = "help"
+[11-38-31] [CONSOLE_OUT]: [STRING] Unknown command
+[11-38-31] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-31] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-31] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106707848.json
+[11-38-34] [CLIENT]: helllo
+[11-38-34] [SYSTEM_IO]: Userdata requested: filterchat
+[11-38-34] [THREAD STARTED]: Unknown Input Handler
+[11-38-34] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[11-38-34] [DEBUG]: Similar command to "helllo" found with tol of 0.8333333, command = "hello"
+[11-38-35] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-35] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-35] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106711401.json
+[11-38-35] [CONSOLE_OUT]: [STRING] Unknown command
+[11-38-36] [CONSOLE_OUT]: [STRING] Most similar command: "hello"
+[11-38-38] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-38] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106715053.json
+[11-38-42] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-42] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-42] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106718545.json
+[11-38-46] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-46] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-46] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106722362.json
+[11-38-50] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-50] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106726142.json
+[11-38-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-53] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106730145.json
+[11-38-57] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-38-57] [OBJECT CREATED] Instance of cyder.user.User created
+[11-38-57] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106733880.json
+[11-39-01] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[11-39-01] [OBJECT CREATED] Instance of cyder.user.User created
+[11-39-01] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647106737632.json
+[11-39-04] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[11-39-04] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[11-39-04] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(571, 264, 707, 744)], hash = [2056234595], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[11-39-04] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-39-04] [EXIT]: [RUNTIME] 52s
+[11-39-04] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

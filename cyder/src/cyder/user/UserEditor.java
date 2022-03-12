@@ -8,6 +8,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
 import cyder.enums.NotificationDirection;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -63,7 +64,7 @@ public class UserEditor {
      * No instances of user editor are allowed
      */
     private UserEditor() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = {"prefs", "edituser"}, description = "A widget to edit your user preferences and files")

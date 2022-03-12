@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.ConsoleFrame;
@@ -16,7 +17,7 @@ public class ExceptionHandler {
      * Restrict default instantiation.
      */
     private ExceptionHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

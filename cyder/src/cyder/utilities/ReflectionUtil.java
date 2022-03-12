@@ -36,7 +36,7 @@ public class ReflectionUtil {
      * Prevent illegal class instantiation.
      */
     private ReflectionUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

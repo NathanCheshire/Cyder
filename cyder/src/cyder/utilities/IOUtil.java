@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
@@ -30,7 +31,7 @@ public class IOUtil {
      * No objects of util methods allowed.
      */
     private IOUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

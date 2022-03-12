@@ -1,6 +1,7 @@
 package cyder.utilities.objects;
 
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 
 /**
@@ -42,7 +43,7 @@ public class BoundsString {
      * Restrict class instantiation.
      */
     private BoundsString() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

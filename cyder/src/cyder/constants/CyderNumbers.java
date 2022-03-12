@@ -1,5 +1,7 @@
 package cyder.constants;
 
+import cyder.exceptions.IllegalMethodException;
+
 /**
  * A class of commonly used integers throughout Cyder
  */
@@ -40,6 +42,6 @@ public class CyderNumbers {
      * Instantiation of CyderInts is not allowed
      */
     private CyderNumbers() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 }

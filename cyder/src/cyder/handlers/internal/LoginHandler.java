@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.CyderEntry;
 import cyder.enums.DebugHash;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.threads.CyderThreadRunner;
@@ -33,7 +34,7 @@ public class LoginHandler {
      * Instances of LoginHandler not permitted.
      */
     private LoginHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

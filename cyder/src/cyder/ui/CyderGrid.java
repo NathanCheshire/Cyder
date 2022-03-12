@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.handlers.internal.Logger;
 import cyder.ui.objects.GridNode;
@@ -236,6 +237,18 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Sets the node dimension length.
+     *
+     * @param len the new node dimensional length
+     */
+    public void setNodeDimensionLength(int len) {
+        Preconditions.checkArgument(len > 0, "Dimensional length must be at least 1");
+        nodes = len;
+        // redraw after the zoom
+        repaint();
+    }
+
+    /**
      * Clears the grid of all nodes.
      */
     public void clearGrid() {
@@ -456,6 +469,25 @@ public class CyderGrid extends JLabel {
         // redraw grid
         revalidate();
         repaint();
+    }
+
+    /**
+     * Sets the state of the grid to the provided state.
+     *
+     * @param nextState the new grid state
+     */
+    public void setGridState(LinkedList<GridNode> nextState) {
+        if (backwardStates.isEmpty() || !backwardStates.peek().equals(nextState))
+            backwardStates.push(new LinkedList<>(grid));
+
+        grid = nextState;
+
+        // new history so clear forward traversal
+        forwardStates.clear();
+
+        // clear selection
+        point1Selection = null;
+        point2Selection = null;
     }
 
     /**

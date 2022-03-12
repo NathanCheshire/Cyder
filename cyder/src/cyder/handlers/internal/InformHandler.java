@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
@@ -17,7 +18,7 @@ public class InformHandler {
      * Prevent illegal instantiation.
      */
     private InformHandler() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreData;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -44,7 +45,7 @@ public class UserUtil {
      * Instantiation of util method not allowed.
      */
     private UserUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
@@ -831,10 +832,9 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            //todo similar command finder sitll outputs unknown command if it finds one to suggest
-
             //todo stuff that uses a lable button in the drag label
             // switch to using a menu
+            // search for adding to the drag label to find these
 
             // todo test actually restoring from a backup
 
@@ -846,11 +846,6 @@ public class UserUtil {
             // todo look at logs and figure out how to clean up logs
 
             //todo if minimizse, disable content repainting to and re-enable and repaint on deiconification
-
-            //todo up to start on ui/ for object creation log call
-            //Logger.log(Logger.Tag.OBJECT_CREATION, this);
-
-            //todo use illegal method exception for all private constructor restrictors
 
             // todo add painting widget with drawing and save option active to README, put before weather
 

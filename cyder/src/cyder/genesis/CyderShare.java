@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
@@ -11,6 +12,7 @@ import cyder.ui.CyderFrame;
 import cyder.utilities.UserUtil;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.Objects;
 
 /**
@@ -22,7 +24,7 @@ public class CyderShare {
      * Instantiation of CyderCommon class not allowed
      */
     private CyderShare() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
@@ -52,7 +54,9 @@ public class CyderShare {
      */
     public static @Nullable CyderFrame getDominantFrame() {
         if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-            return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+            if (ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getState() == JFrame.ICONIFIED) {
+                return null;
+            } else return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
         } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null){
             return LoginHandler.getLoginFrame();
         }

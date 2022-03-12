@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
@@ -24,7 +25,7 @@ public class ImageUtil {
      * Prevent class instantiation.
      */
     private ImageUtil() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

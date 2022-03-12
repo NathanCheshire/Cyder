@@ -5,6 +5,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
@@ -30,7 +31,7 @@ public class Cyder {
      * Instantiation of the Cyder class is not allowed.
      */
     private Cyder() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**

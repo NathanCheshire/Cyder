@@ -1,7 +1,5 @@
 package cyder.ui.objects;
 
-import cyder.handlers.internal.Logger;
-
 import java.awt.*;
 
 /**
@@ -16,7 +14,6 @@ public final class GridNode {
         this.color = color;
         this.x = x;
         this.y = y;
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public Color getColor() {
