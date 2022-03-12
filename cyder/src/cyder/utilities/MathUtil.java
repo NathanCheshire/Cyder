@@ -1,4 +1,4 @@
-package cyder.algorithoms;
+package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 
@@ -7,11 +7,11 @@ import java.awt.*;
 /**
  * General mathematical functions and methods.
  */
-public class GeneralMath {
+public class MathUtil {
     /**
      * Restrict class instnatiation.
      */
-    private GeneralMath() {
+    private MathUtil() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
 

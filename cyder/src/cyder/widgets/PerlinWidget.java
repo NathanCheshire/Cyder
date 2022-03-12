@@ -1,6 +1,5 @@
 package cyder.widgets;
 
-import cyder.algorithoms.OpenSimplexAlgorithms;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -10,6 +9,7 @@ import cyder.ui.*;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
+import cyder.utilities.SimplexNoiseUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,7 +78,7 @@ public class PerlinWidget {
     /**
      * The open simplex noise object.
      */
-    private static OpenSimplexAlgorithms noise = new OpenSimplexAlgorithms(0);
+    private static SimplexNoiseUtil noise = new SimplexNoiseUtil(0);
 
     /**
      * The timestep current at.
@@ -456,7 +456,7 @@ public class PerlinWidget {
                 //reset timeStep
                 timeStep = 0;
 
-                noise = new OpenSimplexAlgorithms(NumberUtil.randInt(0,1000));
+                noise = new SimplexNoiseUtil(NumberUtil.randInt(0,1000));
                 for (int y = 0; y < resolution; y++) {
                     for (int x = 0; x < resolution; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);

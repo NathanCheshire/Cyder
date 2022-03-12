@@ -1,27 +1,44 @@
-package cyder.algorithoms;
+package cyder.utilities;
 
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
 
 /**
  * Class for generated OpenSimplexNoise. I obviouly didn't write this since I
  * have somewhat of a life (as much as a full-time employed software engineer with
  * massive passion projects can have).
  *
- * Source: https://gist.github.com/KdotJPG/b1270127455a94ac5d19
+ * @see <a href="https://gist.github.com/KdotJPG/b1270127455a94ac5d19">Source gist</a>
+ * @author Kurt Spencer
  */
-public class OpenSimplexAlgorithms {
-    // (1/Math.sqrt(2+1)-1)/2;
+public class SimplexNoiseUtil {
+    /**
+     * (1 / Math.sqrt(2 + 1) - 1) / 2;
+     */
     private static final double STRETCH_CONSTANT_2D = -0.211324865405187;
-    // (Math.sqrt(2+1)-1)/2;
+
+    /**
+     * (Math.sqrt(2 + 1) - 1) / 2;
+     */
     private static final double SQUISH_CONSTANT_2D = 0.366025403784439;
-    // (1/Math.sqrt(3+1)-1)/3;
+
+    /**
+     * (1 / Math.sqrt(3 + 1) - 1) / 3;
+     */
     private static final double STRETCH_CONSTANT_3D = -1.0 / 6;
-    // (Math.sqrt(3+1)-1)/3;
+
+    /**
+     * (Math.sqrt(3 + 1) - 1) / 3;
+     */
     private static final double SQUISH_CONSTANT_3D = 1.0 / 3;
-    // (1/Math.sqrt(4+1)-1)/4;
+
+    /**
+     * (1 / Math.sqrt(4 + 1) - 1) / 4;
+     */
     private static final double STRETCH_CONSTANT_4D = -0.138196601125011;
-    // (Math.sqrt(4+1)-1)/4;
+
+    /**
+     * (Math.sqrt(4 + 1) - 1) / 4;
+     */
     private static final double SQUISH_CONSTANT_4D = 0.309016994374947;
 
     private static final long DEFAULT_SEED = 25;
@@ -34,12 +51,12 @@ public class OpenSimplexAlgorithms {
     private final Grad3[] permGrad3;
     private final Grad4[] permGrad4;
 
-    public OpenSimplexAlgorithms() {
+    public SimplexNoiseUtil() {
         this(DEFAULT_SEED);
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
-    public OpenSimplexAlgorithms(short[] perm) {
+    public SimplexNoiseUtil(short[] perm) {
         this.perm = perm;
         permGrad2 = new Grad2[PSIZE];
         permGrad3 = new Grad3[PSIZE];
@@ -54,7 +71,7 @@ public class OpenSimplexAlgorithms {
         Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
-    public OpenSimplexAlgorithms(long seed) {
+    public SimplexNoiseUtil(long seed) {
         perm = new short[PSIZE];
         permGrad2 = new Grad2[PSIZE];
         permGrad3 = new Grad3[PSIZE];
@@ -2389,6 +2406,9 @@ public class OpenSimplexAlgorithms {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderToString(this);

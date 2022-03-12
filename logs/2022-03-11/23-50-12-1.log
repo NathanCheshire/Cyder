@@ -43,7 +43,7 @@
 [23-50-15] [THREAD STARTED]: Notificaiton Vanish Animator
 [23-50-17] [CLIENT]: perlin
 [23-50-17] [SYSTEM_IO]: Userdata requested: filterchat
-[23-50-17] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-17] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-17] [CONSOLE_OUT]: [STRING] Opening widget: PerlinWidget
 [23-50-17] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [23-50-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064214812.json
@@ -66,19 +66,19 @@
 [23-50-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064232605.json
 [23-50-37] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [23-50-37] [UI ACTION] Component name = [cyder.ui.CyderCheckbox], bounds = [(120, 650, 50, 50)], hash = [75035119], parentFrame = [Perlin Noise], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-38] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-38] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-38] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-38] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-38] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-38] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.OpenSimplexAlgorithms created
+[23-50-39] [OBJECT CREATED] Instance of cyder.algorithoms.SimplexNoiseUtil created
 [23-50-39] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(230, 630, 150, 40)], hash = [1915900817], parentFrame = [Perlin Noise], associated text = [Generate], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [23-50-40] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [23-50-40] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647064236357.json
