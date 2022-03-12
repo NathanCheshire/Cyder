@@ -77,6 +77,7 @@ public final class ConsoleFrame {
             throw new IllegalStateException(CyderStrings.attemptedInstantiation);
 
         singletonCreated = true;
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

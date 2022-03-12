@@ -1,7 +1,10 @@
 package cyder.ui;
 
 import cyder.constants.CyderIcons;
+import cyder.constants.CyderStrings;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.StringUtil;
 
@@ -18,7 +21,7 @@ public class CyderIconButton extends JButton {
      * Suppress default JButton constructor.
      */
     private CyderIconButton() {
-        super();
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
@@ -122,6 +125,8 @@ public class CyderIconButton extends JButton {
         setContentAreaFilled(false);
         setBorderPainted(false);
         setVisible(true);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

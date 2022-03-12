@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 import cyder.utilities.UserUtil;
@@ -52,16 +53,18 @@ public class CyderScrollList {
         this.height = height;
         this.selectionPolicy = selectionPolicy;
         elements = new LinkedList<>();
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     private Font scrollFont = CyderFonts.segoe20;
 
     public final Font getScrollFont() {
-        return this.scrollFont;
+        return scrollFont;
     }
 
     public final void setScrollFont(Font f) {
-        this.scrollFont = f;
+        scrollFont = f;
     }
 
     private Border border = new LineBorder(CyderColors.navy,5,false);
@@ -120,7 +123,7 @@ public class CyderScrollList {
         int fontHeight = StringUtil.getMinHeight("TURNED MYSELF INTO A PICKLE MORTY!", menuFont);
 
         JLabel retLabel = new JLabel("");
-        retLabel.setSize(this.width, this.height);
+        retLabel.setSize(width, height);
         retLabel.setBackground(CyderColors.vanila);
         retLabel.setOpaque(true);
         retLabel.setVisible(true);
@@ -128,7 +131,7 @@ public class CyderScrollList {
         listPane = new JTextPane();
         listPane.setEditable(false);
         listPane.setAutoscrolls(false);
-        listPane.setBounds(0, 0, this.width , this.height);
+        listPane.setBounds(0, 0, width , height);
         listPane.setFocusable(true);
         listPane.setOpaque(false);
         listPane.setBackground(CyderColors.vanila);
@@ -150,7 +153,7 @@ public class CyderScrollList {
         scrollPane.setBorder(border);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBounds(0, 0, this.width, this.height);
+        scrollPane.setBounds(0, 0, width, height);
         retLabel.add(scrollPane);
 
         //set list location to top
@@ -206,7 +209,7 @@ public class CyderScrollList {
     }
 
     public final void removeAllElements() {
-        this.elements = new LinkedList<>();
+        elements = new LinkedList<>();
     }
 
     public final void removeElement(String labelText) {
@@ -305,7 +308,7 @@ public class CyderScrollList {
             @Override
             public void paintComponent(Graphics g) {
                 g.setColor(CyderColors.navy);
-                g.fillRect(0, 10, this.getWidth(), 5);
+                g.fillRect(0, 10, getWidth(), 5);
                 g.dispose();
             }
         };

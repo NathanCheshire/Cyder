@@ -73,6 +73,8 @@ public class CyderNotification extends JLabel {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public Color getBackgroundColor() {

@@ -387,6 +387,8 @@ public class CyderFrame extends JFrame {
 
         //frame type handling
         setFrameType(frameType);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -397,6 +399,7 @@ public class CyderFrame extends JFrame {
     public static CyderFrame getBorderlessFrame(int width, int height) {
         return new CyderFrame(width, height, true);
     }
+    //todo fix solutuion for making a borderless frame
 
     /**
      * Constructs a CyderFrame object as a CyderFrame that exists without
@@ -476,6 +479,8 @@ public class CyderFrame extends JFrame {
 
         //default boolean values
         threadsKilled = false;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

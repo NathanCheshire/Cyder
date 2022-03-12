@@ -1,7 +1,9 @@
 package cyder.ui.objects;
 
+import com.google.common.base.Preconditions;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 
 import java.awt.*;
@@ -21,10 +23,10 @@ public final class NotificationBuilder {
     //optional params
     private int viewDuration = 5000;
     private Direction arrowDir = Direction.TOP;
-    private CyderFrame.ClickAction onKillAction = null;
+    private CyderFrame.ClickAction onKillAction;
     private NotificationDirection notificationDirection = NotificationDirection.TOP;
-    private Container container = null;
-    private Color notificationBackground = null;
+    private Container container;
+    private Color notificationBackground;
 
     /**
      * Default constructor for a Notification with the required parameters for the Notification.
@@ -32,10 +34,12 @@ public final class NotificationBuilder {
      * @param htmlText the html styled text to display
      */
     public NotificationBuilder(String htmlText) {
-        if (htmlText == null || htmlText.length() < MINIMUM_TEXT_LENGTH)
-            throw new IllegalArgumentException("Html text is null or less than " + MINIMUM_TEXT_LENGTH + " chars");
+        Preconditions.checkArgument(htmlText != null, "HTML text is null");
+        Preconditions.checkArgument(htmlText.length() >= MINIMUM_TEXT_LENGTH,
+                "HTML text length is less than " + MINIMUM_TEXT_LENGTH);
 
         this.htmlText = htmlText;
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public void setViewDuration(int viewDuration) {

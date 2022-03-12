@@ -1,6 +1,7 @@
 package cyder.ui.objects;
 
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ImageUtil;
 
 import javax.imageio.ImageIO;
@@ -17,7 +18,7 @@ public class CyderBackground {
     /**
      * The file associated with this background.
      */
-    private File referenceFile;
+    private final File referenceFile;
 
     /**
      * Constructs a new CyderBackground from the provided file if it can be read as an image.
@@ -28,15 +29,11 @@ public class CyderBackground {
     public CyderBackground(File referenceFile) {
         if (!referenceFile.exists())
             throw new IllegalArgumentException("Provided file is null");
-
-        try {
-            ImageIO.read(referenceFile);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        if (!ImageUtil.isValidImage(referenceFile))
             throw new IllegalArgumentException("Provided file is not a valid image file");
-        }
 
         this.referenceFile = referenceFile;
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -89,7 +86,7 @@ public class CyderBackground {
             return false;
         else {
             try {
-                return Arrays.equals(Files.readAllBytes(this.getReferenceFile().toPath()),
+                return Arrays.equals(Files.readAllBytes(getReferenceFile().toPath()),
                         Files.readAllBytes(((CyderBackground) o).getReferenceFile().toPath()));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

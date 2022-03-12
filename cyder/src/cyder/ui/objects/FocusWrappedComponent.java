@@ -1,5 +1,8 @@
 package cyder.ui.objects;
 
+import cyder.handlers.internal.Logger;
+import cyder.utilities.ReflectionUtil;
+
 import java.awt.*;
 
 /**
@@ -23,7 +26,8 @@ public class FocusWrappedComponent {
      */
     public FocusWrappedComponent(Component comp) {
         this.comp = comp;
-        this.canFocus = comp.isFocusable();
+        canFocus = comp.isFocusable();
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -51,5 +55,35 @@ public class FocusWrappedComponent {
         if (canFocus) {
             comp.setFocusable(canFocus);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        else if (!(o instanceof FocusWrappedComponent))
+            return false;
+
+        FocusWrappedComponent other = (FocusWrappedComponent) o;
+
+        return other.canFocus == canFocus() && other.getComp().equals(getComp());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+        int ret = comp.hashCode();
+        ret = 31 * ret + Boolean.hashCode(canFocus);
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return ReflectionUtil.commonCyderToString(this);
     }
 }

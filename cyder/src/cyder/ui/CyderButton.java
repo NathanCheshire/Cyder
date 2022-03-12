@@ -14,7 +14,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-
 public class CyderButton extends JButton {
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
@@ -42,6 +41,8 @@ public class CyderButton extends JButton {
                 return Color.black;
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

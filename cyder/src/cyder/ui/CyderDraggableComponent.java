@@ -12,6 +12,10 @@ public class CyderDraggableComponent implements MouseMotionListener {
     private int xMouse;
     private int yMouse;
 
+    public CyderDraggableComponent() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
     @Override
     public final void mouseDragged(MouseEvent e) {
         if (CyderShare.areComponentsRelocatable()) {

@@ -1,5 +1,7 @@
 package cyder.ui;
 
+import cyder.handlers.internal.Logger;
+
 import java.util.LinkedList;
 
 /**
@@ -19,7 +21,9 @@ public class CyderCheckboxGroup {
     /**
      * Constructs a new CyderCheckboxGroup object.
      */
-    public CyderCheckboxGroup() {}
+    public CyderCheckboxGroup() {
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
 
     /**
      * Clears all selected checkboxes in this group.
@@ -97,7 +101,7 @@ public class CyderCheckboxGroup {
      */
     @Override
     public String toString() {
-        if (checkboxes == null || checkboxes.size() == 0)
+        if (checkboxes == null || checkboxes.isEmpty())
             return "Empty checkbox group";
 
         StringBuilder sb = new StringBuilder();

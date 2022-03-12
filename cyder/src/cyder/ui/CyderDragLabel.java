@@ -145,6 +145,8 @@ public class CyderDragLabel extends JLabel {
                 }
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

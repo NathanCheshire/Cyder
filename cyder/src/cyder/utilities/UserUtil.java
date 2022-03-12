@@ -846,8 +846,11 @@ public class UserUtil {
             // todo look at logs and figure out how to clean up logs
 
             //todo up to start on ui/ for object creation log call
+            //Logger.log(Logger.Tag.OBJECT_CREATION, this);
 
             //todo use illegal method exception for all private constructor restrictors
+
+            // todo add painting widget with drawing and save option active to README, put before weather
 
             try {
                // attempt to recovery a backup

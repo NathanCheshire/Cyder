@@ -2,6 +2,7 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.handlers.internal.Logger;
 import cyder.ui.objects.SwitcherState;
 
 import javax.swing.*;
@@ -66,11 +67,11 @@ public class CyderSwitcher extends JLabel {
             throw new IllegalArgumentException("Provided states do not contain the starting state");
 
         this.states = states;
-        this.currentState = startingState;
+        currentState = startingState;
         this.width = width;
         this.height = height;
 
-        this.setSize(width, height);
+        setSize(width, height);
 
         int borderOffset = 5;
 
@@ -78,14 +79,14 @@ public class CyderSwitcher extends JLabel {
         valueDisplayField.setEditable(false);
         valueDisplayField.setFocusable(false);
         valueDisplayField.setSize(width - height + borderOffset, height);
-        this.add(valueDisplayField);
+        add(valueDisplayField);
         valueDisplayField.setText(currentState.getDisplayValue());
         valueDisplayField.setToolTipText(currentState.getMappedValue());
 
         iterationButton = new CyderButton(CyderStrings.downArrow);
         iterationButton.setSize(height, height);
         iterationButton.setLocation(width - height, 0);
-        this.add(iterationButton);
+        add(iterationButton);
 
         iterationButton.addActionListener(e -> {
             currentState = getNextState();
@@ -94,6 +95,8 @@ public class CyderSwitcher extends JLabel {
         });
 
         valueDisplayField.setText(startingState.getDisplayValue());
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

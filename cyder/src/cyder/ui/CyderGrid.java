@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.constants.CyderColors;
+import cyder.handlers.internal.Logger;
 import cyder.ui.objects.GridNode;
 import cyder.utilities.ReflectionUtil;
 import cyder.widgets.PaintWidget;
@@ -57,7 +58,7 @@ public class CyderGrid extends JLabel {
     /**
      * Whether the grid is resizable via mouse actions.
      */
-    private boolean resizable = false;
+    private boolean resizable;
 
     /**
      * The list which holds the nodes to display on the grid.
@@ -94,7 +95,7 @@ public class CyderGrid extends JLabel {
     /**
      * The offset of pixels by which we must translate to center the grid in it's provided area.
      */
-    private float centeringDrawOffset = 0.0f;
+    private float centeringDrawOffset;
 
     /**
      * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
@@ -143,6 +144,8 @@ public class CyderGrid extends JLabel {
         };
 
         increments = getNodesForMaxWidth(gridComponentLength);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -210,7 +213,7 @@ public class CyderGrid extends JLabel {
      * @return the nodes on the current grid
      */
     public LinkedList<GridNode> getGridNodes() {
-        return this.grid;
+        return grid;
     }
 
     /**
@@ -219,8 +222,8 @@ public class CyderGrid extends JLabel {
      * @param newGrid the nodes for the current grid
      */
     public void setGridNodes(LinkedList<GridNode> newGrid) {
-        this.grid.clear();
-        this.grid.addAll(newGrid);
+        grid.clear();
+        grid.addAll(newGrid);
     }
 
     /**
@@ -229,7 +232,7 @@ public class CyderGrid extends JLabel {
      * @return the node length of a single dimension of nodes
      */
     public int getNodeDimensionLength() {
-        return this.nodes;
+        return nodes;
     }
 
     /**
@@ -257,31 +260,31 @@ public class CyderGrid extends JLabel {
 
         if (this != null) {
             //failsafe
-            if (this.nodes < minNodes)
+            if (nodes < minNodes)
                 return;
 
             Graphics2D g2d = (Graphics2D) g;
             g2d.setStroke(new BasicStroke(2));
 
             //in order to fit this many nodes, we need to figure out the length
-            int squareLen = this.gridComponentLength / this.nodes;
+            int squareLen = gridComponentLength / nodes;
 
             //bounds of drawing that we cannot draw over since it may be less if we
             // can't fit an even number of square on the grid
-            int drawTo = squareLen * this.nodes;
+            int drawTo = squareLen * nodes;
 
             // you can't split x 1's into y (y < x) places, pigeonhole principle isn't met
             // this is why there might seem to be a lot of space left over sometimes when
             // the number of nodes is relatively high
 
             //keep the grid centered on its parent
-            int offset = (this.gridComponentLength - drawTo) / 2;
+            int offset = (gridComponentLength - drawTo) / 2;
             g2d.translate(offset, offset);
-            this.centeringDrawOffset = offset;
+            centeringDrawOffset = offset;
 
             //fill the background in if it is set
-            if (this.getBackground() != null) {
-                g2d.setColor(this.getBackground());
+            if (getBackground() != null) {
+                g2d.setColor(getBackground());
                 g2d.fillRect(0,0, drawTo, drawTo);
             }
 
@@ -341,7 +344,7 @@ public class CyderGrid extends JLabel {
 
             // draw extended, true border if enabled
             if (drawExtendedBorder) {
-                super.setBorder(new LineBorder(CyderColors.navy, 3));
+                setBorder(new LineBorder(CyderColors.navy, 3));
             }
         }
     }
@@ -363,9 +366,9 @@ public class CyderGrid extends JLabel {
     public void setResizable(boolean resizable) {
         if (this.resizable != resizable) {
             if (resizable) {
-                this.addMouseWheelListener(zoomListener);
+                addMouseWheelListener(zoomListener);
             } else {
-                this.removeMouseWheelListener(zoomListener);
+                removeMouseWheelListener(zoomListener);
             }
         }
 
@@ -376,7 +379,7 @@ public class CyderGrid extends JLabel {
      * Adds the listener which allows nodes to be placed via click on the grid.
      */
     public void installClickPlacer() {
-        this.addMouseListener(clickPlacer);
+        addMouseListener(clickPlacer);
     }
 
     /**
@@ -483,7 +486,7 @@ public class CyderGrid extends JLabel {
      * Adds the listener which allows nodes to be placed via drag events on the grid.
      */
     public void installDragPlacer() {
-        this.addMouseMotionListener(dragPlacer);
+        addMouseMotionListener(dragPlacer);
     }
 
     /**
@@ -539,7 +542,7 @@ public class CyderGrid extends JLabel {
     /**
      * Whether to draw the actual bounds border of the component.
      */
-    private boolean drawExtendedBorder = false;
+    private boolean drawExtendedBorder;
 
     /**
      * Returns whether to draw the extended border.
@@ -624,7 +627,7 @@ public class CyderGrid extends JLabel {
     /**
      * Whether grid zooming should only be allowed in increments which result in perfect divisibility.
      */
-    private boolean smoothScrolling = false;
+    private boolean smoothScrolling;
 
     /**
      * Returns whether grid zooming is only allowed in perfect increments.
@@ -723,10 +726,10 @@ public class CyderGrid extends JLabel {
     public void forwardState() {
         if (!forwardStates.isEmpty()) {
             // push current state backwards
-            this.backwardStates.push(new LinkedList<>(grid));
+            backwardStates.push(new LinkedList<>(grid));
 
             // set to next state
-            this.grid = forwardStates.pop();
+            grid = forwardStates.pop();
 
             // repaint grid
             repaint();
@@ -739,10 +742,10 @@ public class CyderGrid extends JLabel {
     public void backwardState() {
         if (!backwardStates.isEmpty()) {
             // push current state forward
-            this.forwardStates.push(new LinkedList<>(grid));
+            forwardStates.push(new LinkedList<>(grid));
 
             // set to last state
-            this.grid = backwardStates.pop();
+            grid = backwardStates.pop();
 
             // repaint grid
             repaint();
@@ -753,8 +756,8 @@ public class CyderGrid extends JLabel {
     // croping logic
     // --------------
 
-    private Point point1Selection = null;
-    private Point point2Selection = null;
+    private Point point1Selection;
+    private Point point2Selection;
 
     /**
      * Handles a crop action and updates the highlighted region if intended to be drawn.
@@ -959,7 +962,7 @@ public class CyderGrid extends JLabel {
             Point newBottomRight = new Point(point1Selection.x, point2Selection.y);
 
             // lossless conversion to mouse space
-            double halfNodeLen = (this.gridComponentLength / (float) this.nodes) / 2.0;
+            double halfNodeLen = (gridComponentLength / (float) nodes) / 2.0;
             double rotationX = (((gridComponentLength * centerOfRotation.x) / (float) nodes)
                     + centeringDrawOffset) + halfNodeLen;
             double rotationY = (((gridComponentLength * centerOfRotation.y) / (float) nodes)
@@ -1071,8 +1074,6 @@ public class CyderGrid extends JLabel {
         return (mousePoint - centeringDrawOffset) / (gridComponentLength / (float) nodes);
     }
 
-    //todo look at logs and look for ways to improve clarity and readability
-
     //todo utilize surrounding methods for relative zooming after
     // rest of painting widget is implemented
 
@@ -1088,7 +1089,7 @@ public class CyderGrid extends JLabel {
     public float gridToMouseSpace(int gridPoint) {
         checkNotNull(gridPoint);
 
-        float halfNodeLen = (this.gridComponentLength / (float) this.nodes) / 2.0f;
+        float halfNodeLen = (gridComponentLength / (float) nodes) / 2.0f;
 
         // account for node length and shift to node's center
         return (((gridComponentLength * gridPoint) / (float) nodes) + centeringDrawOffset) + halfNodeLen;

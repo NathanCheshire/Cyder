@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.constants.CyderStrings;
+import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderBaseLayout;
 import cyder.utilities.ReflectionUtil;
 
@@ -30,6 +31,8 @@ public class CyderPanel extends JLabel {
         this.cyderLayout = cyderLayout;
         cyderLayout.setAssociatedPanel(this);
         revalidateComponents();
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -39,7 +42,7 @@ public class CyderPanel extends JLabel {
 
     /**
      * Sets the layout manager to null due to this being a CyderPanel.
-     * Use a custom {@link CyderBaseLayout} class, add that to a {@link CyderPanel},
+     * Use a custom {@link CyderBaseLayout} class, add that to a CyderPanel,
      * and then set the panel to a {@link CyderFrame}'s content pane to use layouts with Cyder.
      */
     @Override
@@ -50,7 +53,7 @@ public class CyderPanel extends JLabel {
     /**
      * Whether the content pane should be repainted.
      */
-    private boolean disableContentRepainting = false;
+    private boolean disableContentRepainting;
 
     /**
      * Returns whether content pane painting is disabled.

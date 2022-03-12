@@ -38,6 +38,8 @@ public class CyderScrollPane extends JScrollPane {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public CyderScrollPane(int vsbPolicy, int hsbPolicy) {
@@ -53,6 +55,8 @@ public class CyderScrollPane extends JScrollPane {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public void setScrollBarAlphaRollover(int alpha) {

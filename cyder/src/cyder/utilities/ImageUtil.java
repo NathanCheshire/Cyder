@@ -238,13 +238,13 @@ public class ImageUtil {
     public static BufferedImage getRotatedImage(String filepath, Direction direction) {
         switch (direction) {
             case TOP:
-                return ImageUtil.getBi(filepath);
+                return getBi(filepath);
             case RIGHT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(filepath), 90);
+                return rotateImageByDegrees(getBi(filepath), 90);
             case BOTTOM:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(filepath), 180);
+                return rotateImageByDegrees(getBi(filepath), 180);
             case LEFT:
-                return ImageUtil.rotateImageByDegrees(ImageUtil.getBi(filepath), -90);
+                return rotateImageByDegrees(getBi(filepath), -90);
             default:
                 throw new IllegalArgumentException("Invalid direction: " + direction);
         }
@@ -361,7 +361,7 @@ public class ImageUtil {
     public static void drawImageIcon(ImageIcon icon, String frameTitle) {
         CyderFrame frame = new CyderFrame(icon.getIconWidth() + 10, icon.getIconHeight() + 35);
 
-        if (frameTitle != null && frameTitle.length() > 0)
+        if (frameTitle != null && !frameTitle.isEmpty())
             frame.setTitle(frameTitle);
 
         JLabel label = new JLabel(icon);

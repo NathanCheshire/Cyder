@@ -1,5 +1,7 @@
 package cyder.ui.objects;
 
+import com.google.common.base.Preconditions;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 /**
@@ -23,8 +25,13 @@ public class SwitcherState {
      * @param mappedValue the underlying value of the state
      */
     public SwitcherState(String displayValue, String mappedValue) {
+        Preconditions.checkArgument(displayValue != null, "Display value is null");
+        Preconditions.checkArgument(mappedValue != null, "Mapped value is null");
+
         this.displayValue = displayValue;
         this.mappedValue = mappedValue;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -75,8 +82,8 @@ public class SwitcherState {
 
         SwitcherState other = (SwitcherState) o;
 
-        return other.getDisplayValue().equals(this.getDisplayValue())
-                && other.getMappedValue().equals(this.getMappedValue());
+        return other.getDisplayValue().equals(getDisplayValue())
+                && other.getMappedValue().equals(getMappedValue());
     }
 
     /**
@@ -84,8 +91,8 @@ public class SwitcherState {
      */
     @Override
     public int hashCode() {
-        int ret = this.displayValue.hashCode();
-        ret = 31 * ret + this.mappedValue.hashCode();
+        int ret = displayValue.hashCode();
+        ret = 31 * ret + mappedValue.hashCode();
         return ret;
     }
 

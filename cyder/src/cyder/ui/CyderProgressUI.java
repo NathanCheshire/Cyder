@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.enums.AnimationDirection;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -12,7 +13,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CyderProgressUI extends BasicProgressBarUI {
-
     @Override
     protected void installDefaults() {
         super.installDefaults();
@@ -26,6 +26,8 @@ public class CyderProgressUI extends BasicProgressBarUI {
      */
     public CyderProgressUI() {
         startAnimationTimer();
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public void stopAnimationTimer() {
@@ -41,7 +43,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
     }
 
     public int getNumFrames() {
-        return this.numFrames;
+        return numFrames;
     }
 
     //two colors for the buffered image used for animation
@@ -56,7 +58,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
     }
 
     private Color[] getColors() {
-        return this.colors;
+        return colors;
     }
 
     //the image used for the animation
@@ -125,11 +127,11 @@ public class CyderProgressUI extends BasicProgressBarUI {
     private Shape shape = Shape.SQUARE;
 
     public void setShape(Shape s) {
-        this.shape = s;
+        shape = s;
     }
 
     public Shape getShape() {
-        return this.shape;
+        return shape;
     }
 
     //NOTE: animation direction is simply the direction the bar animation moves,
@@ -137,7 +139,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
     @Override
     protected void paintDeterminate(Graphics g, JComponent c) {
         //square uses the custom animation
-        if (this.shape == Shape.SQUARE) {
+        if (shape == Shape.SQUARE) {
             c.setBackground(CyderColors.vanila);
 
             BufferedImage barImage;

@@ -21,6 +21,38 @@ public class CyderCheckbox extends JLabel {
     private boolean roundedCorners = true;
     private CyderCheckboxGroup cyderCheckboxGroup;
 
+    public CyderCheckbox() {
+        this(false);
+    }
+
+    public CyderCheckbox(boolean initalValue) {
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (enabled) {
+                    if (selected) {
+                        setNotSelected();
+                    } else {
+                        setSelected();
+                    }
+
+                    repaint();
+                }
+
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
+            }
+        });
+
+        setBorder(null);
+        repaint();
+
+        selected = initalValue;
+        repaint();
+
+        addMouseMotionListener(new CyderDraggableComponent());
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+    }
+
     protected CyderCheckboxGroup getCyderCheckboxGroup() {
         return cyderCheckboxGroup;
     }
@@ -72,36 +104,6 @@ public class CyderCheckbox extends JLabel {
     public void setRoundedCorners(Boolean b) {
         roundedCorners = b;
         repaint();
-    }
-
-    public CyderCheckbox() {
-       this(false);
-    }
-
-    public CyderCheckbox(boolean initalValue) {
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (enabled) {
-                    if (selected)
-                        setNotSelected();
-                    else
-                        setSelected();
-
-                    repaint();
-                }
-
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
-            }
-        });
-
-        setBorder(null);
-        repaint();
-
-        selected = initalValue;
-        repaint();
-
-        addMouseMotionListener(new CyderDraggableComponent());
     }
 
     @Override

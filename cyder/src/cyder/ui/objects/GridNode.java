@@ -1,5 +1,7 @@
 package cyder.ui.objects;
 
+import cyder.handlers.internal.Logger;
+
 import java.awt.*;
 
 /**
@@ -14,6 +16,7 @@ public final class GridNode {
         this.color = color;
         this.x = x;
         this.y = y;
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public Color getColor() {
@@ -41,7 +44,7 @@ public final class GridNode {
     }
 
     public Point getPoint() {
-        return new Point(this.x, this.y);
+        return new Point(x, y);
     }
 
     /**
@@ -56,7 +59,7 @@ public final class GridNode {
 
         GridNode other = (GridNode) node;
 
-        return (this.x == other.x && this.y == other.y
+        return (x == other.x && y == other.y
                 );
     }
 
@@ -65,8 +68,8 @@ public final class GridNode {
      */
     @Override
     public int hashCode() {
-        int ret = Integer.hashCode(this.x);
-        ret = 31 * ret + Integer.hashCode(this.y);
+        int ret = Integer.hashCode(x);
+        ret = 31 * ret + Integer.hashCode(y);
         ret = 31 * ret + color.hashCode();
         return ret;
     }
@@ -76,7 +79,7 @@ public final class GridNode {
      */
     @Override
     public String toString() {
-        return this.x + ", " + this.y + ", (" + color.getRed()
+        return x + ", " + y + ", (" + color.getRed()
                 + "," + color.getGreen() + "," + color.getBlue() + ")";
     }
 }

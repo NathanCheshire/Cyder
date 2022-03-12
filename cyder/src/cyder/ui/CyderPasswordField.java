@@ -28,14 +28,14 @@ public class CyderPasswordField extends JPasswordField {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
+    // suppress other default constructors of JPasswordField
     private CyderPasswordField(int col) {}
-
     private CyderPasswordField(String text) {}
-
     private CyderPasswordField(String text, int col) {}
-
     private CyderPasswordField(Document doc, String text, int col) {}
 
     @Override

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.handlers.internal.Logger;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -16,23 +17,24 @@ public class CyderOutputPane {
     /**
      * The linked JTextPane.
      */
-    private JTextPane jTextPane;
+    private final JTextPane jTextPane;
 
     /**
      * The StringUtil object to perform common operations on the JTextPane.
      */
-    private StringUtil stringUtil;
+    private final StringUtil stringUtil;
 
     /**
      * The linked Semaphore to make appending/removing to/from the JTextPane thread-safe.
      */
-    private Semaphore semaphore;
+    private final Semaphore semaphore;
 
     /**
      * Instantiation not allowed unless all three arguments are provided
      */
     private CyderOutputPane() {
-        throw new IllegalStateException("Instances of CyderOutputPane are not allowed unless all parameters are given at once");
+        throw new IllegalStateException("Instances of CyderOutputPane are not allowed " +
+                "unless all parameters are given at once");
     }
 
     /**
@@ -52,7 +54,9 @@ public class CyderOutputPane {
         this.stringUtil = stringUtil;
 
         //ensure only one permit is granted at a time
-        this.semaphore = new Semaphore(1);
+        semaphore = new Semaphore(1);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -66,10 +70,12 @@ public class CyderOutputPane {
             throw new IllegalArgumentException("Provided JTextPane is null");
 
         this.jTextPane = jTextPane;
-        this.stringUtil = new StringUtil(this);
+        stringUtil = new StringUtil(this);
 
         //ensure only one permit is granted at a time
-        this.semaphore = new Semaphore(1);
+        semaphore = new Semaphore(1);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

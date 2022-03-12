@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import cyder.enums.SliderShape;
+import cyder.handlers.internal.Logger;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -10,7 +11,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CyderSliderUI extends BasicSliderUI {
-
     private BasicStroke stroke = new BasicStroke(3.0f);
     private BasicStroke thumbStroke = new BasicStroke(3.0f);
 
@@ -20,53 +20,55 @@ public class CyderSliderUI extends BasicSliderUI {
     private Color outlineColor;
     private int thumbDiameter = 10;
 
-    private JSlider slider;
+    private final JSlider slider;
 
     private SliderShape sliderShape = SliderShape.RECT;
 
     public void setThumbDiameter(int radius) {
         if (radius <= 0)
             throw new IllegalArgumentException("Thumb radius must be greater than 0");
-        this.thumbDiameter = radius;
+        thumbDiameter = radius;
     }
 
     public int getThumbDiameter() {
-        return this.thumbDiameter;
+        return thumbDiameter;
     }
 
     public void setSliderShape(SliderShape shape) {
-        this.sliderShape = shape;
+        sliderShape = shape;
     }
 
     private transient boolean upperDragging;
 
     public void setOldValColor(Color c) {
-        this.oldValColor = c;
+        oldValColor = c;
     }
 
     public void setNewValColor(Color c) {
-        this.newValColor = c;
+        newValColor = c;
     }
 
     public void setFillColor(Color c) {
-        this.fillColor = c;
+        fillColor = c;
     }
 
     public void setOutlineColor(Color c) {
-        this.outlineColor = c;
+        outlineColor = c;
     }
 
     public void setTrackStroke(BasicStroke s) {
-        this.stroke = s;
+        stroke = s;
     }
 
     public void setThumbStroke(BasicStroke s) {
-        this.thumbStroke = s;
+        thumbStroke = s;
     }
 
     public CyderSliderUI(JSlider b) {
         super(b);
-        this.slider = b;
+        slider = b;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class CyderSliderUI extends BasicSliderUI {
      * Creates a listener to handle track events in the specified slider.
      */
     @Override
-    protected TrackListener createTrackListener(JSlider slider) {
+    protected BasicSliderUI.TrackListener createTrackListener(JSlider slider) {
         return new RangeTrackListener();
     }
 
@@ -204,13 +206,13 @@ public class CyderSliderUI extends BasicSliderUI {
         }
     }
 
-    private BufferedImage customThumb = null;
+    private BufferedImage customThumb;
 
     public void setCustomThumb(BufferedImage customThumb) {
         this.customThumb = customThumb;
     }
 
-    public class RangeTrackListener extends TrackListener {
+    public class RangeTrackListener extends BasicSliderUI.TrackListener {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (!slider.isEnabled()) {

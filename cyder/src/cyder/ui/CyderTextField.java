@@ -110,6 +110,8 @@ public class CyderTextField extends JTextField {
         setCaret(new CyderCaret(CyderColors.navy));
         setBorder(new LineBorder(CyderColors.navy, 5, false));
         setOpaque(true);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

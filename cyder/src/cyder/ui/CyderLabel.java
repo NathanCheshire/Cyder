@@ -33,6 +33,8 @@ public class CyderLabel extends JLabel {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -61,6 +63,8 @@ public class CyderLabel extends JLabel {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Override

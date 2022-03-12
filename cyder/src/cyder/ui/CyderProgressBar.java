@@ -16,6 +16,8 @@ public class CyderProgressBar extends JProgressBar {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public CyderProgressBar(int min, int max) {
@@ -26,6 +28,8 @@ public class CyderProgressBar extends JProgressBar {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public CyderProgressBar(int orientation, int min, int max) {
@@ -36,6 +40,8 @@ public class CyderProgressBar extends JProgressBar {
                 Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Override

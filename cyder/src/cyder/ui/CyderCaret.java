@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.text.BadLocationException;
@@ -9,13 +10,14 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class CyderCaret extends DefaultCaret {
-
-    private String mark = "<";
-    private Color caretColor;
+    private final String mark = "<";
+    private final Color caretColor;
 
     public CyderCaret(Color caretColor) {
         setBlinkRate(500);
         this.caretColor = caretColor;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Override

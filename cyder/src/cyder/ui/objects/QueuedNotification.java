@@ -2,6 +2,7 @@ package cyder.ui.objects;
 
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 import cyder.utilities.ReflectionUtil;
 
@@ -34,14 +35,17 @@ public final class QueuedNotification {
                               NotificationDirection notificationDirection,
                               CyderFrame.ClickAction onKillAction, Container container,
                               Color notificationBackground, String time) {
-        this.htmlText = text;
-        this.duration = dur;
+        htmlText = text;
+        duration = dur;
+        contianer = container;
+
         this.arrowDir = arrowDir;
         this.notificationDirection = notificationDirection;
         this.onKillAction = onKillAction;
-        this.contianer = container;
         this.notificationBackground = notificationBackground;
         this.time = time;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public void setHtmlText(String htmlText) {
@@ -105,7 +109,7 @@ public final class QueuedNotification {
     }
 
     public void setNotificationBackground(Color notificaitonBackground) {
-        this.notificationBackground = notificaitonBackground;
+        notificationBackground = notificaitonBackground;
     }
 
     /**
@@ -145,14 +149,14 @@ public final class QueuedNotification {
             //guaranteed to succeed
             QueuedNotification otherNotification = (QueuedNotification) o;
 
-            return this.htmlText.equals(otherNotification.htmlText)
-                    && this.duration == otherNotification.duration
-                    && this.arrowDir == otherNotification.arrowDir
-                    && this.notificationDirection == otherNotification.notificationDirection
-                    && this.onKillAction == otherNotification.onKillAction
-                    && this.time.equals(otherNotification.time)
-                    && this.contianer == otherNotification.contianer
-                    && this.notificationBackground == otherNotification.notificationBackground;
+            return htmlText.equals(otherNotification.htmlText)
+                    && duration == otherNotification.duration
+                    && arrowDir == otherNotification.arrowDir
+                    && notificationDirection == otherNotification.notificationDirection
+                    && onKillAction == otherNotification.onKillAction
+                    && time.equals(otherNotification.time)
+                    && contianer == otherNotification.contianer
+                    && notificationBackground == otherNotification.notificationBackground;
         }
     }
 }

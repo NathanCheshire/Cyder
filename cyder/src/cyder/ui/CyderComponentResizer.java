@@ -1,6 +1,7 @@
 package cyder.ui;
 
 import com.google.common.collect.ImmutableMap;
+import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderBaseLayout;
 import cyder.ui.objects.FocusWrappedComponent;
 import cyder.utilities.ReflectionUtil;
@@ -125,8 +126,10 @@ public class CyderComponentResizer extends MouseAdapter {
      * @param snapSize the snap size for the component
      */
     private CyderComponentResizer(Insets dragInsets, Dimension snapSize) {
-        this.setDragInsets(dragInsets);
-        this.setSnapSize(snapSize);
+        setDragInsets(dragInsets);
+        setSnapSize(snapSize);
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -355,7 +358,7 @@ public class CyderComponentResizer extends MouseAdapter {
         return ret;
     }
 
-    private Component originalFocusOwner = null;
+    private Component originalFocusOwner;
     private final ArrayList<FocusWrappedComponent> focusableComponents = new ArrayList<>();
 
     /**
