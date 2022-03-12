@@ -56,13 +56,13 @@
 [16-36-19] [THREAD STARTED]: notification appear animation
 [16-36-19] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [16-36-20] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
-[16-36-22] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-22] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 414, 600, 625)], hash = [1545687907], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-22] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-22] [SYSTEM_IO]: Userdata requested: closeanimation
 [16-36-22] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-36-22] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038178948.json
-[16-36-25] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-25] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-25] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 414, 600, 625)], hash = [1560471377], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-25] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-25] [SYSTEM_IO]: Userdata requested: closeanimation
@@ -77,7 +77,7 @@
 [16-36-29] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
 [16-36-30] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-36-30] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038186380.json
-[16-36-30] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-30] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-30] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 414, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-30] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-30] [THREAD STARTED]: cyder.utilities.GetterUtil@6f41f128getConfirmation thread
@@ -85,22 +85,22 @@
 [16-36-31] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1488, 650, 500, 153)], hash = [419607164], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Confirmation]
 [16-36-31] [THREAD STARTED]: Confirmation CyderFrame dispose thread
 [16-36-31] [SYSTEM_IO]: Userdata requested: closeanimation
-[16-36-32] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-32] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-32] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 414, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-32] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-33] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-36-33] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038190052.json
 [16-36-35] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(50, 50, 500, 40)], hash = [785395782], parentFrame = [Editing note: My custom note], associated text = [My custom note], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[16-36-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-36] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 414, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-36] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
-[16-36-36] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-36] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-36] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 414, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-36] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-37] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-36-37] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038193815.json
 [16-36-38] [ACTION]: Component name = [cyder.ui.CyderTextField], bounds = [(50, 50, 500, 40)], hash = [785395782], parentFrame = [Editing note: My custom note], associated text = [My custom note], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[16-36-39] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-39] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-39] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1438, 410, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-39] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-41] [SYSTEM_IO]: Userdata requested: Background
@@ -118,12 +118,12 @@
 [16-36-53] [THREAD STARTED]: notification appear animation
 [16-36-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [16-36-54] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
-[16-36-55] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-55] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-55] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1431, 435, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-55] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-56] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-36-56] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038212602.json
-[16-36-56] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-36-56] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 596, 28)], hash = [-14491413], parentFrame = [Editing note: My custom note], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-36-56] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1431, 435, 600, 625)], hash = [2115991644], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Editing note: My custom note]
 [16-36-56] [THREAD STARTED]: Editing note: My custom note CyderFrame dispose thread
 [16-36-58] [SYSTEM_IO]: Userdata requested: Background
@@ -144,13 +144,13 @@
 [16-37-03] [THREAD STARTED]: cyder.utilities.GetterUtil@30c5c952 getFile thread
 [16-37-03] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-37-03] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038220050.json
-[16-37-06] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [-14462583], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-06] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 626, 28)], hash = [-14462583], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-06] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1485, 462, 630, 510)], hash = [1331354800], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
 [16-37-06] [THREAD STARTED]: Cyder CyderFrame dispose thread
 [16-37-06] [SYSTEM_IO]: Userdata requested: closeanimation
 [16-37-07] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-37-07] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038223699.json
-[16-37-08] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-08] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-08] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1550, 477, 500, 480)], hash = [1301960428], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Skizzy Mars - Gift and Curse feat. Yung Pinch [...]
 [16-37-08] [THREAD STARTED]: Skizzy Mars - Gift and Curse feat. Yung Pinch [... CyderFrame dispose thread
 [16-37-08] [SYSTEM_IO]: Userdata requested: closeanimation
@@ -177,7 +177,7 @@
 [16-37-18] [THREAD STARTED]: Notificaiton Vanish Animator
 [16-37-18] [THREAD STARTED]: Paint Grid Image Layerer
 [16-37-18] [THREAD STARTED]: cyder.utilities.GetterUtil@372b5198 getFile thread
-[16-37-20] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 626, 28)], hash = [-14462583], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-20] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 626, 28)], hash = [-14462583], parentFrame = [Cyder], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-20] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1486, 462, 630, 510)], hash = [1473775277], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder]
 [16-37-20] [THREAD STARTED]: Cyder CyderFrame dispose thread
 [16-37-20] [SYSTEM_IO]: Userdata requested: closeanimation
@@ -185,7 +185,7 @@
 [16-37-21] [THREAD STARTED]: cyder.utilities.GetterUtil@4eaab6bdgetString thread
 [16-37-21] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-37-21] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038237940.json
-[16-37-22] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Enter pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-22] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Enter pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1601, 632, 400, 170)], hash = [1679453661], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
 [16-37-22] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [16-37-22] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1601, 632, 400, 170)], hash = [1679453661], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
@@ -194,7 +194,7 @@
 [16-37-22] [SYSTEM_IO]: Userdata requested: closeanimation
 [16-37-23] [THREAD STARTED]: Paint Grid Resizer
 [16-37-23] [THREAD STARTED]: cyder.utilities.GetterUtil@3b4f1b57getString thread
-[16-37-24] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Enter grid length], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-24] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Enter grid length], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1601, 632, 400, 170)], hash = [98643724], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter grid length]
 [16-37-24] [THREAD STARTED]: Enter grid length CyderFrame dispose thread
 [16-37-24] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1601, 632, 400, 170)], hash = [98643724], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter grid length]
@@ -205,14 +205,14 @@
 [16-37-25] [THREAD STARTED]: cyder.utilities.GetterUtil@12c4b458getString thread
 [16-37-25] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [16-37-25] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647038241670.json
-[16-37-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Enter pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-27] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 396, 28)], hash = [-14683613], parentFrame = [Enter pixel size], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1601, 632, 400, 170)], hash = [2012134096], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
 [16-37-27] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [16-37-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1601, 632, 400, 170)], hash = [2012134096], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Enter pixel size]
 [16-37-27] [THREAD STARTED]: Enter pixel size CyderFrame dispose thread
 [16-37-27] [ACTION]: Component name = [cyder.ui.CyderButton], bounds = [(40, 100, 320, 40)], hash = [1821211109], parentFrame = [Enter pixel size], associated text = [Pixelate grid], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-27] [SYSTEM_IO]: Userdata requested: closeanimation
-[16-37-27] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[16-37-27] [ACTION]: Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [16-37-27] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1401, 302, 800, 830)], hash = [1930846594], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
 [16-37-27] [THREAD STARTED]: Paint CyderFrame dispose thread
 [16-37-27] [SYSTEM_IO]: Userdata requested: closeanimation

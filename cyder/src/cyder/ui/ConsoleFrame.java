@@ -312,14 +312,14 @@ public final class ConsoleFrame {
 
                     //menu label bounds
                     if (menuLabel != null && menuLabel.isVisible()) {
-                        menuLabel.setBounds(3, DragLabel.DEFAULT_HEIGHT - 2,
+                        menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                                 menuLabel.getWidth(), consoleCyderFrame.getHeight()
-                                        - DragLabel.DEFAULT_HEIGHT - 5);
+                                        - CyderDragLabel.DEFAULT_HEIGHT - 5);
                     }
 
                     //audio menu bounds
                     if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-                        audioControlsLabel.setBounds(w - 156, DragLabel.DEFAULT_HEIGHT - 2,
+                        audioControlsLabel.setBounds(w - 156, CyderDragLabel.DEFAULT_HEIGHT - 2,
                                 audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
                     }
 
@@ -1182,7 +1182,7 @@ public final class ConsoleFrame {
     private final ActionListener menuButtonListener = e -> {
         if (!menuLabel.isVisible()) {
             CyderThreadRunner.submit(() -> {
-                menuLabel.setLocation(-150, DragLabel.DEFAULT_HEIGHT - 2);
+                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
                 int y = menuLabel.getY();
 
                 for (int i = -150 ; i < 2 ; i+= 8) {
@@ -1201,7 +1201,7 @@ public final class ConsoleFrame {
 
             CyderThreadRunner.submit(() -> {
                 generateConsoleMenu();
-                menuLabel.setLocation(-150,DragLabel.DEFAULT_HEIGHT - 2);
+                menuLabel.setLocation(-150, CyderDragLabel.DEFAULT_HEIGHT - 2);
                 menuLabel.setVisible(true);
 
                 int addX = 0;
@@ -1346,7 +1346,7 @@ public final class ConsoleFrame {
      * Revalidates the taskbar bounds and revalidates the icons.
      */
     private void generateConsoleMenu() {
-        int menuHeight = consoleCyderFrame.getHeight() - DragLabel.DEFAULT_HEIGHT - 5;
+        int menuHeight = consoleCyderFrame.getHeight() - CyderDragLabel.DEFAULT_HEIGHT - 5;
 
         menuButton.setIcon(CyderIcons.menuIcon);
 
@@ -1357,7 +1357,7 @@ public final class ConsoleFrame {
         int menuWidth = 110;
 
         menuLabel = new JLabel("");
-        menuLabel.setBounds(-menuWidth, DragLabel.DEFAULT_HEIGHT - 2,
+        menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2,
                 menuWidth, menuHeight);
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.guiThemeColor);
@@ -1458,7 +1458,7 @@ public final class ConsoleFrame {
             },"Console menu animator");
 
             CyderThreadRunner.submit(() -> {
-                menuLabel.setLocation(2, DragLabel.DEFAULT_HEIGHT - 2);
+                menuLabel.setLocation(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
                 int y = menuLabel.getY();
 
                 for (int i = 0 ; i > -150 ; i-= 8) {
@@ -2512,7 +2512,7 @@ public final class ConsoleFrame {
 
         //audio menu bounds
         if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
-            audioControlsLabel.setBounds(w - 156, DragLabel.DEFAULT_HEIGHT - 2,
+            audioControlsLabel.setBounds(w - 156, CyderDragLabel.DEFAULT_HEIGHT - 2,
                     audioControlsLabel.getWidth(), audioControlsLabel.getHeight());
         }
 
@@ -2541,9 +2541,9 @@ public final class ConsoleFrame {
         if (menuLabel.isVisible()) {
             menuButton.setIcon(CyderIcons.menuIconHover);
             installMenuTaskbarIcons();
-            menuLabel.setBounds(3, DragLabel.DEFAULT_HEIGHT - 2,
+            menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
-                            - DragLabel.DEFAULT_HEIGHT - 5);
+                            - CyderDragLabel.DEFAULT_HEIGHT - 5);
         } else {
             menuButton.setIcon(CyderIcons.menuIcon);
             //no other actions needed
@@ -2604,14 +2604,14 @@ public final class ConsoleFrame {
         CyderThreadRunner.submit(() -> {
             audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, -40);
             audioControlsLabel.setVisible(true);
-            for (int i = -40 ; i < DragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
+            for (int i = -40; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
                     //noinspection BusyWait
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
             }
-            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, DragLabel.DEFAULT_HEIGHT - 2);
+            audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, CyderDragLabel.DEFAULT_HEIGHT - 2);
         }, "Console Audio Menu Minimizer");
     }
 

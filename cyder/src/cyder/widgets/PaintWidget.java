@@ -75,7 +75,7 @@ public class PaintWidget {
         int padding = 0;
 
         paintFrame = new CyderFrame(frameLength + padding * 2,
-                frameLength + DragLabel.DEFAULT_HEIGHT + padding * 2);
+                frameLength + CyderDragLabel.DEFAULT_HEIGHT + padding * 2);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
         paintFrame.addWindowListener(new WindowAdapter() {
@@ -93,7 +93,7 @@ public class PaintWidget {
         });
 
         cyderGrid = new CyderGrid(200, frameLength);
-        cyderGrid.setBounds(padding,DragLabel.DEFAULT_HEIGHT + padding - 5, frameLength, frameLength);
+        cyderGrid.setBounds(padding, CyderDragLabel.DEFAULT_HEIGHT + padding - 5, frameLength, frameLength);
         paintFrame.getContentPane().add(cyderGrid);
         cyderGrid.setDrawExtendedBorder(true);
         cyderGrid.setResizable(true);

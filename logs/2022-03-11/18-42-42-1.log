@@ -108,7 +108,7 @@
 [18-43-55] [THREAD STARTED]: notification appear animation
 [18-43-55] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [18-43-56] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
-[18-43-57] [UI ACTION] Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 476, 28)], hash = [-14606733], parentFrame = [Dallas' weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-43-57] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 476, 28)], hash = [-14606733], parentFrame = [Dallas' weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-43-57] [THREAD STARTED]: Dallas' weather CyderFrame dispose thread
 [18-43-57] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.widgets.WeatherWidget], bounds = [(1699, 256, 480, 640)], hash = [1038960555], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Dallas' weather]
 [18-43-57] [SYSTEM_IO]: Userdata requested: closeanimation

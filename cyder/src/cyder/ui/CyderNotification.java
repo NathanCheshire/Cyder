@@ -291,14 +291,14 @@ public class CyderNotification extends JLabel {
                 setVisible(true);
                 switch (notificationDirection) {
                     case TOP:
-                        for (int i = getY(); i < DragLabel.DEFAULT_HEIGHT; i += increment) {
+                        for (int i = getY(); i < CyderDragLabel.DEFAULT_HEIGHT; i += increment) {
                             if (killed)
                                 break;
 
                             setBounds(getX(), i, getWidth(), getHeight());
                             Thread.sleep(CyderNotification.delay);
                         }
-                        setBounds(getX(), DragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
+                        setBounds(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
                         break;
                     case TOP_RIGHT:
                         for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= increment) {

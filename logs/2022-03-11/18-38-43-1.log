@@ -157,7 +157,7 @@ at cyder.widgets.WeatherWidget.showGUI(WeatherWidget.java:105)
 [18-39-29] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647045566168.json
 [18-39-29] [CONSOLE_OUT]: [STRING] Unknown command
 [18-39-30] [CONSOLE_OUT]: [STRING] Most similar command: "weather"
-[18-39-31] [UI ACTION] Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 769, 28)], hash = [-14325160], parentFrame = [IP Key Not Set], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[18-39-31] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 769, 28)], hash = [-14325160], parentFrame = [IP Key Not Set], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [18-39-31] [THREAD STARTED]: IP Key Not Set CyderFrame dispose thread
 [18-39-31] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1350, 669, 773, 100)], hash = [848649494], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [IP Key Not Set]
 [18-39-31] [SYSTEM_IO]: Userdata requested: closeanimation

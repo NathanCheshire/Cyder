@@ -3,9 +3,9 @@ package cyder.handlers.internal;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.handlers.internal.objects.PopupBuilder;
+import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
-import cyder.ui.DragLabel;
 import cyder.utilities.BoundsUtil;
 import cyder.utilities.objects.BoundsString;
 
@@ -38,7 +38,7 @@ public class PopupHandler {
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
             int xOffset = 10;
-            int yOffset = DragLabel.DEFAULT_HEIGHT;
+            int yOffset = CyderDragLabel.DEFAULT_HEIGHT;
             int yBottomPadding = 10;
             int widthOffsetFromBoundsCalc = 5;
 

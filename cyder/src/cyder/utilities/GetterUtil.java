@@ -85,7 +85,7 @@ public class GetterUtil {
                 if (!StringUtil.isNull(builder.getFieldTooltip()))
                     inputField.setToolTipText(builder.getFieldTooltip());
 
-                inputField.setBounds(getStringXPadding,DragLabel.DEFAULT_HEIGHT + getStringYPadding,
+                inputField.setBounds(getStringXPadding, CyderDragLabel.DEFAULT_HEIGHT + getStringYPadding,
                         getStringWidth - 2 * getStringXPadding,40);
                 inputFrame.getContentPane().add(inputField);
 

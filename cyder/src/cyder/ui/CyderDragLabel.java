@@ -15,7 +15,7 @@ import java.util.LinkedList;
 /**
  * Class to be used for CyderFrames, the parent is expected to be an instance of CyderFrame.
  */
-public class DragLabel extends JLabel {
+public class CyderDragLabel extends JLabel {
     /**
      * The width of this DragLabel.
      */
@@ -72,10 +72,10 @@ public class DragLabel extends JLabel {
      * Constructs a new drag label with the provided bounds and frame to effect.
      *
      * @param width the width of the drag label, typically the width of the effect frame.
-     * @param height the height of the drag label, typically {@link DragLabel#DEFAULT_HEIGHT}
+     * @param height the height of the drag label, typically {@link CyderDragLabel#DEFAULT_HEIGHT}
      * @param effectFrame the cyder frame object to control
      */
-    public DragLabel(int width, int height, CyderFrame effectFrame) {
+    public CyderDragLabel(int width, int height, CyderFrame effectFrame) {
         // init passed vars
         this.width = width;
         this.height = height;
@@ -280,10 +280,10 @@ public class DragLabel extends JLabel {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        else if (!(o instanceof DragLabel))
+        else if (!(o instanceof CyderDragLabel))
             return false;
 
-        DragLabel other = (DragLabel) o;
+        CyderDragLabel other = (CyderDragLabel) o;
 
         return other.getWidth() == getWidth()
                 && other.getHeight() == getHeight()
@@ -386,7 +386,7 @@ public class DragLabel extends JLabel {
     }
 
     /**
-     * Adds the button at the given index, 0 means add to the start and {@link DragLabel#getButton(int)#getSize()}
+     * Adds the button at the given index, 0 means add to the start and {@link CyderDragLabel#getButton(int)#getSize()}
      *  means add to the end.
      *
      * @param button the JButton with all the properties already set such as listeners, visuals, etc. to add
