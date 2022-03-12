@@ -24,7 +24,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class FileSignatureWidget {
-    private static File currentFile = null;
+    private static File currentFile;
     private static CyderFrame signatureFrame;
     private static CyderTextField signatureField;
     private static CyderLabel resultLabel;
@@ -113,7 +113,7 @@ public class FileSignatureWidget {
         try {
             if (currentFile == null) {
                 signatureFrame.notify("Please choose a file");
-            } else if (signatureField.getText().trim().length() == 0) {
+            } else if (signatureField.getText().trim().isEmpty()) {
                 signatureFrame.notify("Please enter a file extension");
             } else {
                 String byteSignature = signatureField.getText().trim()

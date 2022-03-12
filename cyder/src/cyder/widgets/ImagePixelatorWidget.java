@@ -103,7 +103,7 @@ public class ImagePixelatorWidget {
                 try {
                     int pixelSize = 1;
 
-                    if (integerField.getText() != null && integerField.getText().length() > 0) {
+                    if (integerField.getText() != null && !integerField.getText().isEmpty()) {
                         if (Integer.parseInt(integerField.getText()) == 0) {
                             pixelSize = 1;
                         } else {
@@ -126,7 +126,7 @@ public class ImagePixelatorWidget {
         approveImage.setBounds(800 - 50 - 200,100,200,40);
         pixelFrame.getContentPane().add(approveImage);
         approveImage.addActionListener(e -> {
-            if (integerField.getText() != null && integerField.getText().length() > 0) {
+            if (integerField.getText() != null && !integerField.getText().isEmpty()) {
                 int pixel = Integer.parseInt(integerField.getText());
 
                 if (pixel > 1) {

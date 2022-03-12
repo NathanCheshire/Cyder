@@ -127,7 +127,7 @@ public class ImageResizerWidget {
             }
 
             else if (maintainAspectRatio){
-                if (xdim.getText().length() > 0) {
+                if (!xdim.getText().isEmpty()) {
                     ydim.setText(String.valueOf(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio)));
                 }
 
@@ -150,7 +150,7 @@ public class ImageResizerWidget {
 
                 if (maintainAspectRatio) {
                     if (leftLastEdited) {
-                        if (xdim.getText().length() > 0) {
+                        if (!xdim.getText().isEmpty()) {
                             ydim.setText(String.valueOf(Math.round(Integer.parseInt(xdim.getText()) * 1.0 / aspectRatio)));
                         }
 
@@ -160,7 +160,7 @@ public class ImageResizerWidget {
                     }
 
                     else {
-                        if (ydim.getText().length() > 0) {
+                        if (!ydim.getText().isEmpty()) {
                             xdim.setText(String.valueOf(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio)));
                         }
 
@@ -188,7 +188,7 @@ public class ImageResizerWidget {
             }
 
             else if (maintainAspectRatio){
-                if (ydim.getText().length() > 0) {
+                if (!ydim.getText().isEmpty()) {
                     xdim.setText(String.valueOf(Math.round(Integer.parseInt(ydim.getText()) * aspectRatio)));
                 }
 
@@ -219,7 +219,7 @@ public class ImageResizerWidget {
                 resizeFrame.notify("Sorry, but you have no image selected to resize");
             }
 
-            else if (xdim.getText().length() > 0 && ydim.getText().length() > 0) {
+            else if (!xdim.getText().isEmpty() && !ydim.getText().isEmpty()) {
                 try {
                     BufferedImage replace = resizeImage(resizeImage, Integer.parseInt(xdim.getText()), Integer.parseInt(ydim.getText()));
                     ImageIO.write(replace, "png", resizeImage);

@@ -101,7 +101,7 @@ public class NotesWidget {
         openNote.addActionListener(e -> {
             LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
 
-            if (selectedNames.size() == 0)
+            if (selectedNames.isEmpty())
                 return;
 
             String selectedName = selectedNames.get(0);
@@ -124,7 +124,7 @@ public class NotesWidget {
         deleteNote.addActionListener(e -> {
             LinkedList<String> selectedNames = cyderScrollList.getSelectedElements();
 
-            if (selectedNames.size() == 0)
+            if (selectedNames.isEmpty())
                 return;
 
             String selectedName = selectedNames.get(0);
@@ -199,6 +199,7 @@ public class NotesWidget {
         newNoteArea.setWrapStyleWord(true);
         newNoteArea.setSelectionColor(CyderColors.selectionColor);
         newNoteArea.setBorder(new LineBorder(new Color(0, 0, 0)));
+        newNoteArea.setCaret(new CyderCaret(CyderColors.navy));
 
         CyderScrollPane NewNoteScroll = new CyderScrollPane(newNoteArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -219,7 +220,7 @@ public class NotesWidget {
         submitNewNote.setBackground(CyderColors.regularRed);
         submitNewNote.setFont(CyderFonts.segoe20);
         submitNewNote.addActionListener(e -> {
-            if (newNoteField.getText().trim().length() == 0 || newNoteArea.getText().trim().length() == 0) {
+            if (newNoteField.getText().trim().isEmpty() || newNoteArea.getText().trim().isEmpty()) {
                 newNoteFrame.notify("Please enter both a title and contents");
                 return;
             }
@@ -327,6 +328,7 @@ public class NotesWidget {
                 }
             }
         });
+        noteEditArea.setCaret(new CyderCaret(CyderColors.navy));
 
         CyderScrollPane noteScroll = new CyderScrollPane(noteEditArea,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -386,7 +388,7 @@ public class NotesWidget {
                 //saved so remove closing confirmation
                 noteEditorFrame.removeClosingConfirmation();
 
-                if (noteEditField.getText().length() > 0 && !FileUtil.getFilename(currentUserNote).equals(noteEditField.getText().trim())) {
+                if (!noteEditField.getText().isEmpty() && !FileUtil.getFilename(currentUserNote).equals(noteEditField.getText().trim())) {
                     File newName = new File(currentUserNote.getAbsolutePath().replace(
                             currentUserNote.getName(),noteEditField.getText().trim() + ".txt"));
                     boolean updated = File.renameTo(newName);

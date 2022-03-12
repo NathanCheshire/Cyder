@@ -4,8 +4,8 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
 import cyder.genesis.CyderShare;
+import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderGridLayout;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderPanel;
@@ -23,11 +23,16 @@ import static cyder.constants.CyderColors.navy;
  * A widget for converting between rgb and hex colors.
  */
 public class ColorConverterWidget {
+    public static ColorConverterWidget getInstance() {
+        return new ColorConverterWidget();
+    }
+
     /**
-     * Prevent illegal class instnation.
+     * Creates a new Color Converter Widget.
      */
     private ColorConverterWidget() {
-        throw new IllegalStateException(CyderStrings.attemptedInstantiation);
+        // invoked via getInstance()
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -36,8 +41,10 @@ public class ColorConverterWidget {
     @Widget(triggers = {"colorconverter", "color"},
             description = "A color converter widget to convert from rgb to hex and vice versa")
     public static void showGUI() {
-        
+        getInstance().innerShowGUI();
+    }
 
+    public void innerShowGUI() {
         CyderFrame colorFrame = new CyderFrame(300,400, CyderIcons.defaultBackground);
         colorFrame.setTitle("Color Converter");
         colorFrame.initializeResizing();

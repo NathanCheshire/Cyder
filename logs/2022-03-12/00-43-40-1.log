@@ -16,8 +16,7 @@
 [00-43-42] [SYSTEM_IO]: Userdata requested: RandomBackground
 [00-43-42] [SYSTEM_IO]: Userdata requested: FullScreen
 [00-43-42] [SYSTEM_IO]: Userdata requested: fullscreen
-[00-43-42] [SYSTEM_IO]: Userdata requested: FullScreen
-[00-43-42] [SYSTEM_IO]: Userdata requested: FullScreen
+[00-43-42] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [00-43-42] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
 [00-43-42] [THREAD STARTED]: Console Printing Animation
 [00-43-42] [SYSTEM_IO]: Userdata requested: OutputBorder

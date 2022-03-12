@@ -36,12 +36,12 @@ public class GameOfLifeWidget {
     private static CyderLabel populationLabel;
     private static CyderLabel maxPopulationLabel;
 
-    private static boolean detectOscillations = false;
+    private static boolean detectOscillations;
 
-    private static int generationCount = 0;
-    private static int populationCount = 0;
-    private static int maxPopulation = 0;
-    private static int maxPopulationGeneration = 0;
+    private static int generationCount;
+    private static int populationCount;
+    private static int maxPopulation;
+    private static int maxPopulationGeneration;
 
     private GameOfLifeWidget() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);

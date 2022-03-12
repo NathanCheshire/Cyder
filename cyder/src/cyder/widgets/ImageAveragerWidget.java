@@ -334,10 +334,10 @@ public class ImageAveragerWidget {
      * @return an array of pixel data
      */
     private static int[][] get2DRGBArr(BufferedImage image) {
-        final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-        final int width = image.getWidth();
-        final int height = image.getHeight();
-        final boolean hasAlphaChannel = image.getAlphaRaster() != null;
+        byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+        int width = image.getWidth();
+        int height = image.getHeight();
+        boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
         int[][] result = new int[height][width];
         if (hasAlphaChannel) {

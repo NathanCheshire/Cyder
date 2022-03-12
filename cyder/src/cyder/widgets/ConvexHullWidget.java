@@ -182,7 +182,7 @@ public class ConvexHullWidget {
      * @param points the list of points
      * @return the points in the convex hull
      */
-    private static LinkedList<Point> solveGrahamScan(LinkedList<Point> points) {
+    private static LinkedList<Point> solveGrahamScan(LinkedList<? extends Point> points) {
         Deque<Point> stack = new ArrayDeque<>();
 
         Point minYPoint = getMinY(points);
@@ -267,7 +267,7 @@ public class ConvexHullWidget {
      * @param ref the reference point
      */
     @SuppressWarnings("ComparatorMethodParameterNotUsed")
-    private static void sortByAngle(LinkedList<Point> points, Point ref) {
+    private static void sortByAngle(LinkedList<? extends Point> points, Point ref) {
         points.sort((b, c) -> {
             if (b == ref) return -1;
             if (c == ref) return 1;

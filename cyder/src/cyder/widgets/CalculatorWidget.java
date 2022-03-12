@@ -37,8 +37,6 @@ public class CalculatorWidget {
     @Widget(triggers = {"calculator", "calc"}, description =
             "A calculator widget capable of performing complex expressions such as e^x, sinx, cosx, and so forth.")
     public static void showGUI() {
-        
-
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 

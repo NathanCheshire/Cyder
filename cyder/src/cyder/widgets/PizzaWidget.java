@@ -303,13 +303,13 @@ public class PizzaWidget {
 
                 String Comments = orderComments.getText().trim();
 
-                if (Extras.length() == 0) {
+                if (Extras.isEmpty()) {
                     Extras = "";
                 } else {
                     Extras = "<br/>Extras: " + "<br/>" + Extras;
                 }
 
-                Comments = Comments.trim().length() == 0 ? "" : "<br/>Comments: " + "<br/>" + Comments;
+                Comments = Comments.trim().isEmpty() ? "" : "<br/>Comments: " + "<br/>" + Comments;
 
                 pizzaFrame.inform("Customer Name: " + "<br/>" + Name + "<br/>" + "Size: "
                     + "<br/>" + Size + "<br/>" + "Crust: " + "<br/>" + Crust + "<br/><br/>" + "Toppings: " + "<br/>" + ToppingsChosen

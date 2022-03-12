@@ -24,21 +24,28 @@ public class HashingWidget {
     private CyderSwitcher switcher;
 
     /**
+     * Constructs and returns a new hashing widget.
+     *
+     * @return a new hashing widget
+     */
+    public static HashingWidget getInstance() {
+        return new HashingWidget();
+    }
+
+    /**
      * Constructs a new hashing widget.
      */
     private HashingWidget() {
-        //multiple widgets should be allowed
+        // to be called by method above
     }
 
     @Widget(triggers = {"hash", "hasher"}, description =
             "A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1")
     public static void showGUI() {
-        new HashingWidget().innerShowGUI();
+        getInstance().innerShowGUI();
     }
 
     public void innerShowGUI() {
-        
-
         CyderFrame hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");

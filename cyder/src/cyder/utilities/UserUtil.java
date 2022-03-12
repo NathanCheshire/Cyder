@@ -845,8 +845,12 @@ public class UserUtil {
             // todo come up with solution for constant logging of backups and deleting the old json
             // todo look at logs and figure out how to clean up logs
 
+            //todo if minimizse, disable content repainting to and re-enable and repaint on deiconification
+
             //todo up to start on ui/ for object creation log call
             //Logger.log(Logger.Tag.OBJECT_CREATION, this);
+
+            //todo allow multiple instances of color converter widget using getInstance pattern
 
             //todo use illegal method exception for all private constructor restrictors
 

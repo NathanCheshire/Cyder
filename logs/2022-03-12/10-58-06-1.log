@@ -1,0 +1,201 @@
+[10-58-06] [ENTRY]: [Nathan]
+[10-58-06] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[10-58-07] [THREAD STARTED]: Splash Loader
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [35x]
+[10-58-07] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [3x]
+[10-58-07] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.objects.Preference created
+[10-58-07] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [3x]
+[10-58-07] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-07] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[10-58-07] [THREAD STARTED]: Splash Animation
+[10-58-07] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame created
+[10-58-07] [OBJECT CREATED] Instance of cyder.threads.CyderThreadFactory created
+[10-58-07] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[10-58-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[10-58-07] [THREAD STARTED]: JVM Logger
+[10-58-07] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.User created [2x]
+[10-58-07] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.User created [2x]
+[10-58-07] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-07] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-07] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104260791.json
+[10-58-07] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created [2x]
+[10-58-08] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-08] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104287688.json
+[10-58-08] [SYSTEM_IO]: Userdata requested: RandomBackground
+[10-58-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame$1 created
+[10-58-08] [SYSTEM_IO]: Userdata requested: fullscreen
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[10-58-08] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created [2x]
+[10-58-08] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
+[10-58-08] [THREAD STARTED]: Console Printing Animation
+[10-58-08] [SYSTEM_IO]: Userdata requested: OutputBorder
+[10-58-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[10-58-08] [SYSTEM_IO]: Userdata requested: InputBorder
+[10-58-08] [THREAD STARTED]: Console Input Caret Position Updater
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[10-58-08] [SYSTEM_IO]: Userdata requested: OutputFill
+[10-58-08] [SYSTEM_IO]: Userdata requested: InputFill
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [7x]
+[10-58-08] [THREAD STARTED]: High Ping Checker
+[10-58-08] [THREAD STARTED]: Hourly Chime Checker
+[10-58-08] [THREAD STARTED]: Console Clock Updater
+[10-58-08] [THREAD STARTED]: Cyder Busy Checker
+[10-58-08] [THREAD STARTED]: ConsoleFrame Stat Saver
+[10-58-08] [UI ACTION] Console loaded in 2128ms
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.objects.NotificationBuilder created
+[10-58-08] [OBJECT CREATED] Instance of cyder.utilities.objects.TaggedString created
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.objects.QueuedNotification created
+[10-58-08] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(715, 648, 707, 744)], hash = [660595570], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[10-58-08] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[10-58-08] [SYSTEM_IO]: Userdata requested: DebugWindows
+[10-58-08] [ENTRY]: [TESTING MODE]
+[10-58-08] [SYSTEM_IO]: Userdata requested: laststart
+[10-58-08] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderNotification created
+[10-58-08] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-08] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1822589716], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[10-58-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104288034.json
+[10-58-08] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[10-58-08] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 285, h = 29, text = <html>Console loaded in 2128ms</html>
+[10-58-08] [THREAD STARTED]: notification appear animation
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-08] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[10-58-08] [THREAD STARTED]: Notificaiton Vanish Animator
+[10-58-08] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-09] [CLIENT]: hash
+[10-58-09] [SYSTEM_IO]: Userdata requested: filterchat
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderPasswordField created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderButton created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.objects.SwitcherState created [3x]
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderTextField created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderButton created
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderSwitcher created
+[10-58-09] [WIDGET OPENED]: HashingWidget, trigger = hash, triggers = [hash, hasher, ]
+[10-58-09] [HANDLE]: PRIMARY HANDLE
+[10-58-09] [CONSOLE_OUT]: [STRING] Opening widget: HashingWidget
+[10-58-09] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-11] [UI ACTION] Component name = [cyder.ui.CyderPasswordField], bounds = [(50, 90, 400, 40)], hash = [1311578126], parentFrame = [Hasher], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-11] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-11] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104288292.json
+[10-58-11] [OBJECT CREATED] Instance of cyder.handlers.internal.objects.InformBuilder created
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-12] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-12] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[10-58-12] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(50, 140, 180, 40)], hash = [1028245298], parentFrame = [Hasher], associated text = [Hash], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-13] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 582, 28)], hash = [-14504867], parentFrame = [SHA-256 Hash Result], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-13] [THREAD STARTED]: SHA-256 Hash Result CyderFrame dispose thread
+[10-58-13] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(775, 944, 586, 152)], hash = [927947142], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [SHA-256 Hash Result]
+[10-58-13] [SYSTEM_IO]: Userdata requested: closeanimation
+[10-58-13] [UI ACTION] Component name = [cyder.ui.CyderPasswordField], bounds = [(50, 90, 400, 40)], hash = [1311578126], parentFrame = [Hasher], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-14] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104291194.json
+[10-58-15] [OBJECT CREATED] Instance of cyder.handlers.internal.objects.InformBuilder created
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-15] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-15] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[10-58-15] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(50, 140, 180, 40)], hash = [1028245298], parentFrame = [Hasher], associated text = [Hash], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-17] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 620, 28)], hash = [-14468349], parentFrame = [SHA-256 Hash Result], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-17] [THREAD STARTED]: SHA-256 Hash Result CyderFrame dispose thread
+[10-58-17] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(756, 944, 624, 152)], hash = [490788745], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [SHA-256 Hash Result]
+[10-58-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[10-58-17] [OBJECT CREATED] Instance of cyder.handlers.internal.objects.InformBuilder created
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-17] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-17] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[10-58-17] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(50, 140, 180, 40)], hash = [1028245298], parentFrame = [Hasher], associated text = [Hash], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-18] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104294919.json
+[10-58-19] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 598, 28)], hash = [-14489491], parentFrame = [SHA-256 Hash Result], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-19] [THREAD STARTED]: SHA-256 Hash Result CyderFrame dispose thread
+[10-58-19] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(767, 944, 602, 152)], hash = [756311095], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [SHA-256 Hash Result]
+[10-58-19] [SYSTEM_IO]: Userdata requested: closeanimation
+[10-58-19] [UI ACTION] Component name = [cyder.ui.CyderPasswordField], bounds = [(50, 90, 400, 40)], hash = [1311578126], parentFrame = [Hasher], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-19] [OBJECT CREATED] Instance of cyder.handlers.internal.objects.InformBuilder created
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[10-58-19] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[10-58-19] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[10-58-19] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(50, 140, 180, 40)], hash = [1028245298], parentFrame = [Hasher], associated text = [Hash], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-21] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 599, 28)], hash = [-14488530], parentFrame = [SHA-256 Hash Result], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-21] [THREAD STARTED]: SHA-256 Hash Result CyderFrame dispose thread
+[10-58-21] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(767, 944, 603, 152)], hash = [1551493649], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [SHA-256 Hash Result]
+[10-58-21] [SYSTEM_IO]: Userdata requested: closeanimation
+[10-58-21] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Hasher], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-58-21] [THREAD STARTED]: Hasher CyderFrame dispose thread
+[10-58-21] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(818, 920, 500, 200)], hash = [1788911469], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Hasher]
+[10-58-21] [SYSTEM_IO]: Userdata requested: closeanimation
+[10-58-22] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[10-58-22] [OBJECT CREATED] Instance of cyder.user.User created
+[10-58-22] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647104298647.json
+[10-58-22] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[10-58-22] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[10-58-22] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(715, 648, 707, 744)], hash = [660595570], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[10-58-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[10-58-22] [EXIT]: [RUNTIME] 16s
+[10-58-22] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

@@ -500,7 +500,7 @@ public class UserEditor {
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.showGUI();
+                ColorConverterWidget.getInstance().innerShowGUI();
             }
 
             @Override
@@ -564,7 +564,7 @@ public class UserEditor {
         hexWindowLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.showGUI();
+                ColorConverterWidget.getInstance().innerShowGUI();
             }
 
             @Override
@@ -629,7 +629,7 @@ public class UserEditor {
         hexLabelFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.showGUI();
+                ColorConverterWidget.getInstance().innerShowGUI();
             }
 
             @Override

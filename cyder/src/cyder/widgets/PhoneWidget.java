@@ -163,7 +163,7 @@ public class PhoneWidget {
         });
 
         back.addActionListener(e -> {
-            if (phoneNum.length() > 0) {
+            if (!phoneNum.isEmpty()) {
                 phoneNum = phoneNum.substring(0, phoneNum.length() - 1);
                 numberLabel.setText(phoneNumFormat(phoneNum));
             }
@@ -216,7 +216,7 @@ public class PhoneWidget {
         dialNumber.setBackground(CyderColors.regularOrange);
         dialNumber.setFont(CyderFonts.segoe30);
         dialNumber.addActionListener(e -> {
-            if (phoneNum.length() > 0) {
+            if (!phoneNum.isEmpty()) {
                 checkFor223();
                 checkForSuicideHotline();
 
@@ -248,23 +248,22 @@ public class PhoneWidget {
         } else if (len > 0 && len <= 4) {
             return num;
         } else if (len == 5) {
-            return (num.charAt(0) + "-" + num.substring(1,len));
+            return (num.charAt(0) + "-" + num.substring(1, 5));
         } else if (len == 6) {
-            return (num.substring(0,2) + "-" + num.substring(2,len));
+            return (num.substring(0,2) + "-" + num.substring(2, 6));
         } else if (len == 7) {
-            return (num.substring(0,3) + "-" + num.substring(3,len));
+            return (num.substring(0,3) + "-" + num.substring(3, 7));
         } else if (len == 8) {
-            return ("(" + num.charAt(0) + ") " + num.substring(1,4) + " " + num.substring(4,len));
+            return ("(" + num.charAt(0) + ") " + num.substring(1,4) + " " + num.substring(4, 8));
         } else if (len == 9) {
-            return ("(" + num.substring(0,2) + ") " + num.substring(2,5) + " " + num.substring(5,len));
+            return ("(" + num.substring(0,2) + ") " + num.substring(2,5) + " " + num.substring(5, 9));
         } else if (len == 10) {
-            return ("(" + num.substring(0,3) + ") " + num.substring(3,6) + " " + num.substring(6,len));
+            return ("(" + num.substring(0,3) + ") " + num.substring(3,6) + " " + num.substring(6, 10));
         } else if (len > 10) {
             if (len > 15) {
                 phoneNum = numberLabel.getText();
                 return numberLabel.getText();
             }
-
 
             String leadingDigits = num.substring(0, len - 10);
             int offset = leadingDigits.length();

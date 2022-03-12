@@ -22,6 +22,7 @@ import java.util.Random;
 /**
  * A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise.
  */
+@SuppressWarnings("NonFinalStaticVariableUsedInClassInitialization") /* closed */
 public class PerlinWidget {
     /**
      * Prevent illegal class instantiation.
@@ -83,7 +84,7 @@ public class PerlinWidget {
     /**
      * The timestep current at.
      */
-    private static double timeStep = 0;
+    private static double timeStep;
 
     /**
      * The slider used to change the open simplex noise feature size.
@@ -514,17 +515,17 @@ public class PerlinWidget {
      * @return 2D perlin noise representation (values are between 0 and 1)
      */
     private static float[] generate2DNoise(float[] fSeed, int nOctaves) {
-        float[] ret = new float[PerlinWidget.resolution];
+        float[] ret = new float[resolution];
 
-        for (int x = 0; x < PerlinWidget.resolution; x++) {
+        for (int x = 0; x < resolution; x++) {
            float fNoise = 0.0f;
            float fScale = 1.0f;
            float fScaleAcc = 0.0f;
 
            for (int o = 0 ; o < nOctaves ; o++) {
-               int nPitch = PerlinWidget.resolution >> o; //assuming octaves is a power of 2
+               int nPitch = resolution >> o; //assuming octaves is a power of 2
                int nSample1 =  (x / nPitch) * nPitch;
-               int nSample2 = (nSample1 + nPitch) % PerlinWidget.resolution;
+               int nSample2 = (nSample1 + nPitch) % resolution;
 
                float fBlend = (float) (x - nSample1) / (float) nPitch;
                float fSample = (1.0f - fBlend) * fSeed[nSample1] + fBlend * fSeed[nSample2];

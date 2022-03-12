@@ -53,7 +53,7 @@ public class ClockWidget {
     private static int[] currentHour = {0};
 
     private static String currentLocation = "Greenwich, London";
-    private static int currentGMTOffset = 0;
+    private static int currentGMTOffset;
 
     @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone")
     //it's ya boi, Greenwich
@@ -354,7 +354,7 @@ public class ClockWidget {
             hexLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    ColorConverterWidget.showGUI();
+                    ColorConverterWidget.getInstance().innerShowGUI();
                 }
 
                 @Override
@@ -378,11 +378,11 @@ public class ClockWidget {
             locationField.addActionListener(e -> {
                 String possibleLocation = locationField.getText().trim();
 
-                if (possibleLocation.length() > 0) {
+                if (!possibleLocation.isEmpty()) {
                     try {
                         String key = UserUtil.getCyderUser().getWeatherkey();
 
-                        if (key.trim().length() == 0) {
+                        if (key.trim().isEmpty()) {
                             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, " +
                                     "but the Weather Key has not been set or is invalid" +
                                     ", as a result, many features of Cyder will not work as intended. " +
@@ -433,7 +433,7 @@ public class ClockWidget {
     }
 
     private static void spawnMiniClock() {
-        final boolean[] updateMiniClock = {true};
+        boolean[] updateMiniClock = {true};
 
         CyderFrame miniFrame = new CyderFrame(600,150) {
             @Override
@@ -452,10 +452,10 @@ public class ClockWidget {
         currentTimeLabel.setBounds(0, 50, 600, 30);
         miniFrame.getContentPane().add(currentTimeLabel);
 
-        if (currentLocation.trim().length() > 0) {
+        if (!currentLocation.trim().isEmpty()) {
             String labelText = "(GMT" + currentGMTOffset + ")";
 
-            if (currentLocation.trim().length() > 0) {
+            if (!currentLocation.trim().isEmpty()) {
                 labelText = StringUtil.formatCommas(currentLocation) + " " + ("(GMT" + currentGMTOffset + ")");
             }
 
@@ -468,7 +468,7 @@ public class ClockWidget {
 
         CyderThreadRunner.submit(() -> {
             try {
-                final int effectivelyFinal = currentGMTOffset;
+                int effectivelyFinal = currentGMTOffset;
                 while (updateMiniClock[0]) {
                     Thread.sleep(500);
                     currentTimeLabel.setText(getWeatherTime(effectivelyFinal));
@@ -516,7 +516,7 @@ public class ClockWidget {
     private static int gmtBasedOffLocation() {
         String key = UserUtil.getCyderUser().getWeatherkey();
 
-        if (key.trim().length() == 0) {
+        if (key.trim().isEmpty()) {
             ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, " +
                     "but the Weather Key has not been set or is invalid" +
                     ", as a result, many features of Cyder will not work as intended. " +

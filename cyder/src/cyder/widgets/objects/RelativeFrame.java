@@ -1,5 +1,6 @@
 package cyder.widgets.objects;
 
+import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 
 /**
@@ -32,6 +33,8 @@ public class RelativeFrame {
         this.frame = frame;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
+
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

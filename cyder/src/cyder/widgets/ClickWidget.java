@@ -14,6 +14,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ClickWidget {
+    /**
+     * Restrict default instantiation.
+     */
     private ClickWidget() {
         throw new IllegalStateException(CyderStrings.attemptedInstantiation);
     }
@@ -24,7 +27,7 @@ public class ClickWidget {
             CyderFrame clickMeFrame = new CyderFrame(220,100) {
                 @Override
                 public void dispose() {
-                    super.dispose(true);
+                    dispose(true);
                 }
             };
             clickMeFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

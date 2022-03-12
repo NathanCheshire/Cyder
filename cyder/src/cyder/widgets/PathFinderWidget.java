@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+@SuppressWarnings("NonFinalStaticVariableUsedInClassInitialization") /* path index */
 public class PathFinderWidget {
     private static int squareLen = 30;
     private static int numSquares;
@@ -63,8 +64,6 @@ public class PathFinderWidget {
 
     @Widget(triggers = {"path","pathfinder"}, description = "A pathfinding visualizer for A* and Dijkstras algorithms")
     public static void showGUI() {
-        
-
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();
 
@@ -828,7 +827,7 @@ public class PathFinderWidget {
         }
 
         public double getF() {
-            return this.h + this.g;
+            return h + g;
         }
 
         public Node getParent() {
@@ -845,8 +844,8 @@ public class PathFinderWidget {
         }
 
         public Node() {
-            this.x = 0;
-            this.y = 0;
+            x = 0;
+            y = 0;
         }
 
         @Override
