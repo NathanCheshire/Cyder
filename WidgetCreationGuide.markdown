@@ -105,7 +105,7 @@ Adding a component to the frame:
 ```java
 CyderButton myButton = new CyderButton("Button");
 myButton.setBounds(40,40,200,40);
-myButton.addActionListener(e->{
+myButton.addActionListener(e- > {
     // your logic here or a lambda to a class level private method    
 });
 myFrame.getContentPane().add(myButton);
@@ -113,6 +113,16 @@ myFrame.getContentPane().add(myButton);
 
 If you want to have a bit of fun with the UI and not use the default absolute layout, take a look at the `layouts`
 package for layouts such as the `CyderFlowLayout` and `CyderGridLayout`.
+
+## Logic
+
+You have essentially two options for logic as the widget construction should be as minimal as possible. First, you
+can simply invoke a method within or outside of the class. Alternatively, you could use a lambda for the action listener
+to run the needed logic to drive your widget. The logic implementation is essentially all up to you, just make sure to
+follow proper Java standards and remember to write javadoc.
+
+Make sure to check the `utilities` package as it includes copious utililty classes for performing operations needed throughout
+Cyder.
 
 ## Finishing calls
 
