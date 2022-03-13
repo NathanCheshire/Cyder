@@ -1,0 +1,149 @@
+[20-59-53] [ENTRY]: [Nathan]
+[20-59-54] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[20-59-54] [THREAD STARTED]: Splash Loader
+[20-59-54] [OBJECT CREATED] Instance of cyder.user.User created
+[20-59-54] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [36x]
+[20-59-54] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[20-59-54] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [2x]
+[20-59-54] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[20-59-54] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [2x]
+[20-59-54] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[20-59-54] [OBJECT CREATED] Instance of cyder.user.objects.Preference created [2x]
+[20-59-54] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-54] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[20-59-54] [THREAD STARTED]: Splash Animation
+[20-59-54] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame created
+[20-59-55] [OBJECT CREATED] Instance of cyder.threads.CyderThreadFactory created
+[20-59-55] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[20-59-55] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[20-59-55] [THREAD STARTED]: JVM Logger
+[20-59-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-59-55] [OBJECT CREATED] Instance of cyder.user.User created
+[20-59-55] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[20-59-55] [OBJECT CREATED] Instance of cyder.user.User created [3x]
+[20-59-55] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-59-55] [OBJECT CREATED] Instance of cyder.user.User created
+[20-59-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140367617.json
+[20-59-55] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.objects.CyderBackground created [2x]
+[20-59-55] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-59-55] [OBJECT CREATED] Instance of cyder.user.User created
+[20-59-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140395387.json
+[20-59-55] [SYSTEM_IO]: Userdata requested: RandomBackground
+[20-59-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.ConsoleFrame$1 created
+[20-59-55] [SYSTEM_IO]: Userdata requested: fullscreen
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[20-59-55] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created [2x]
+[20-59-55] [OBJECT CREATED] Instance of cyder.handlers.internal.InputHandler created
+[20-59-55] [THREAD STARTED]: Console Printing Animation
+[20-59-55] [SYSTEM_IO]: Userdata requested: OutputBorder
+[20-59-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[20-59-55] [SYSTEM_IO]: Userdata requested: InputBorder
+[20-59-55] [THREAD STARTED]: Console Input Caret Position Updater
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[20-59-55] [SYSTEM_IO]: Userdata requested: OutputFill
+[20-59-55] [SYSTEM_IO]: Userdata requested: InputFill
+[20-59-55] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [7x]
+[20-59-55] [THREAD STARTED]: High Ping Checker
+[20-59-55] [THREAD STARTED]: Hourly Chime Checker
+[20-59-55] [THREAD STARTED]: Console Clock Updater
+[20-59-55] [THREAD STARTED]: Cyder Busy Checker
+[20-59-55] [THREAD STARTED]: ConsoleFrame Stat Saver
+[20-59-56] [UI ACTION] Console loaded in 2538ms
+[20-59-56] [OBJECT CREATED] Instance of cyder.ui.objects.NotificationBuilder created
+[20-59-56] [OBJECT CREATED] Instance of cyder.utilities.objects.TaggedString created
+[20-59-56] [OBJECT CREATED] Instance of cyder.ui.objects.QueuedNotification created
+[20-59-56] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(522, 433, 707, 744)], hash = [1434066477], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[20-59-56] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[20-59-56] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [670313083], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[20-59-56] [OBJECT CREATED] Instance of cyder.ui.CyderNotification created
+[20-59-56] [SYSTEM_IO]: Userdata requested: DebugWindows
+[20-59-56] [ENTRY]: [TESTING MODE]
+[20-59-56] [SYSTEM_IO]: Userdata requested: laststart
+[20-59-56] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-59-56] [OBJECT CREATED] Instance of cyder.utilities.objects.BoundsString created
+[20-59-56] [OBJECT CREATED] Instance of cyder.user.User created
+[20-59-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140395822.json
+[20-59-56] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[20-59-56] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in 2538ms</html>
+[20-59-56] [THREAD STARTED]: notification appear animation
+[20-59-56] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[20-59-56] [THREAD STARTED]: Notificaiton Vanish Animator
+[20-59-57] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
+[20-59-58] [CLIENT]: paint
+[20-59-58] [SYSTEM_IO]: Userdata requested: filterchat
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderGrid created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [3x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDragLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderFrame created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created [2x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderCaret created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderTextField created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created [2x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [2x]
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderCheckboxGroup created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderCheckbox created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderDraggableComponent created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderCheckbox created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderLabel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderSliderUI created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created [5x]
+[20-59-58] [CONSOLE_OUT]: [STRING] Opening widget: PaintWidget
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderIconButton created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderPanel created
+[20-59-58] [OBJECT CREATED] Instance of cyder.ui.CyderComponentResizer created
+[20-59-58] [WIDGET OPENED]: PaintWidget, trigger = paint, triggers = [paint, draw, ]
+[20-59-58] [HANDLE]: PRIMARY HANDLE
+[20-59-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[20-59-58] [OBJECT CREATED] Instance of cyder.user.User created
+[20-59-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140396161.json
+[20-59-59] [OBJECT CREATED] Instance of cyder.ui.CyderOutputPane created
+[20-59-59] [THREAD STARTED]: Paint menu label animator
+[21-00-01] [SYSTEM_IO]: Userdata requested: HourlyChimes
+[21-00-02] [AUDIO] [SYSTEM AUDIO] static/audio/chime.mp3
+[21-00-02] [THREAD STARTED]: system audio thread
+[21-00-02] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[21-00-02] [OBJECT CREATED] Instance of cyder.user.User created
+[21-00-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140398989.json
+[21-00-06] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[21-00-06] [OBJECT CREATED] Instance of cyder.user.User created
+[21-00-06] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140402664.json
+[21-00-10] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[21-00-10] [OBJECT CREATED] Instance of cyder.user.User created
+[21-00-10] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140406439.json
+[21-00-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[21-00-14] [OBJECT CREATED] Instance of cyder.user.User created
+[21-00-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140410769.json
+[21-00-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[21-00-18] [OBJECT CREATED] Instance of cyder.user.User created
+[21-00-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647140414553.json
+[21-01-09] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

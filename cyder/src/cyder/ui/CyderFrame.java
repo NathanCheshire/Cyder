@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -2855,6 +2856,8 @@ public class CyderFrame extends JFrame {
         }
     };
 
+    private static final int maxTextLength = 11;
+
     /**
      * Adds a new menu item to the menu and revalidates the menu.
      *
@@ -2862,7 +2865,17 @@ public class CyderFrame extends JFrame {
      * @param onClick the function to run upon clicking
      */
     public void addMenuItem(String text, Runnable onClick) {
-        text = text.substring(0, Math.min(12, text.length()));
+        Preconditions.checkArgument(text != null, "Text is null");
+        checkNotNull(!text.isEmpty(), "Provided text is empty");
+        checkNotNull(onClick != null, "onClick runnable action is null");
+
+        // just to be safe
+        text = text.trim();
+
+        // account for possible overflow in clean way
+        if (text.length() > maxTextLength)
+            text = (text.substring(0, 9).trim() + "...");
+
         JLabel newLabel = new JLabel(text);
         newLabel.setFont(CyderFonts.defaultFontSmall);
         newLabel.setForeground(CyderColors.vanila);
@@ -2884,7 +2897,7 @@ public class CyderFrame extends JFrame {
         });
         menuItems.add(newLabel);
 
-        // regenerate if visible
+        // regenerate if menu is already visible
         if (menuLabel != null && menuLabel.isVisible()) {
             generateMenu();
             menuLabel.setVisible(true);
@@ -2979,25 +2992,29 @@ public class CyderFrame extends JFrame {
         }, getTitle() + " menu label animator");
     }
 
+    private static final int menuWidth = 120;
+    private static final int paddingHeight = 5;
+    private static final int menuPadding = 5;
+
     /**
      * Generates the menu based off of the current menu components
      * and sets the location to the starting point for inward animation.
      */
     private void generateMenu() {
-        int menuWidth = 100;
-        int paddingHeight = 5;
-
         menuLabel = new JLabel();
+        menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.navy);
         menuLabel.setBorder(new LineBorder(Color.black, 4));
         menuLabel.setSize(menuWidth, 2 * paddingHeight +
-                (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 10)));
+                (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 8)));
 
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setFocusable(false);
         menuPane.setBackground(CyderColors.navy);
-        menuPane.setBounds(4, 4, menuWidth - 8, menuLabel.getHeight() - 8);
+        menuPane.setBounds(menuPadding, menuPadding,
+                menuWidth - 2 * menuPadding,
+                menuLabel.getHeight() - 2 * menuPadding);
         menuLabel.add(menuPane);
 
         StyledDocument doc = menuPane.getStyledDocument();
