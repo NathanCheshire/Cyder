@@ -105,7 +105,7 @@ Adding a component to the frame:
 ```java
 CyderButton myButton = new CyderButton("Button");
 myButton.setBounds(40,40,200,40);
-myButton.addActionListener(e- > {
+myButton.addActionListener(e -> {
     // your logic here or a lambda to a class level private method    
 });
 myFrame.getContentPane().add(myButton);
