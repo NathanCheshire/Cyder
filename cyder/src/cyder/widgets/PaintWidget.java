@@ -7,7 +7,6 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
@@ -105,9 +104,6 @@ public class PaintWidget {
         cyderGrid.setSmoothScrolling(true);
         cyderGrid.setDrawWidth(DEFAULT_BRUSH_WIDTH);
         cyderGrid.setNodeColor(currentPaintColor);
-
-        paintFrame.setVisible(true);
-        paintFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
 
         paintFrame.setMenuEnabled(true);
         paintFrame.addMenuItem("Export png", () -> CyderThreadRunner.submit(() -> {
@@ -297,6 +293,7 @@ public class PaintWidget {
                 paintFrame.notify("Could not resize at this time");
             }
         }, "Paint Grid Scaler"));
+        paintFrame.addMenuItem("Controls", () -> installControlFrames());
 
         installControlFrames();
     }
@@ -696,14 +693,20 @@ public class PaintWidget {
         setNewPaintColor(CyderColors.regularBlue);
         setNewPaintColor(CyderColors.tooltipForegroundColor);
 
-        // set visibility
+        // 60 is a taskbar offset estimate
+        int y = ScreenUtil.getScreenHeight() - paintControlsFrame.getHeight() - 60;
+        Rectangle screen = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getMonitorBounds();
+        int x = screen.x + (screen.width - paintControlsFrame.getWidth()) / 2;
+
+        paintControlsFrame.setPinned(true);
+        paintControlsFrame.setLocation(x, y);
         paintControlsFrame.setVisible(true);
 
-        // place controls right below grid frame
-        int y = paintFrame.getY() + paintFrame.getHeight();
-        if (y + paintControlsFrame.getHeight() > paintFrame.getMonitorBounds().getHeight())
-            y = paintFrame.getMonitorBounds().getBounds().height - paintControlsFrame.getHeight();
-        paintControlsFrame.setLocation(paintFrame.getX(), y);
+        if (paintFrame.isVisible())
+            return;
+
+        paintFrame.setLocation(x, y - paintFrame.getHeight());
+        paintFrame.setVisible(true);
     }
 
     /**

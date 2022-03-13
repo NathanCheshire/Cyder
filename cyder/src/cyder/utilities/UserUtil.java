@@ -833,7 +833,7 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo paint controls should be always on top, place them bottom center, and place paint frame above it
+            // todo boolean toggle to not dispose splash frame for when showing off
 
             // todo replace all clickaction and such with just Runnables passed as lambdas
 
