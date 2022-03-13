@@ -13,7 +13,8 @@ public enum IgnoreThread {
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     SimilarCommandFinder("Similar Command Finder"),
     GitRepoCloner("Git Repo Cloner"),
-    YoutubeAudioExtractor("Youtube Audio Extractor");
+    YoutubeAudioExtractor("Youtube Audio Extractor"),
+    ObjectCreationLogger("Object Creation Logger");
 
     /**
      * The name associated with the thread to ignore.

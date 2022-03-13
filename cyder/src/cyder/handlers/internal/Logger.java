@@ -2,8 +2,8 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
-import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.threads.CyderThreadRunner;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
@@ -28,6 +29,16 @@ public class Logger {
     private Logger() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
+
+    /**
+     * The counter used to log the number of objects created each deltaT seconds.
+     */
+    private static final AtomicInteger objectCreationCounter = new AtomicInteger();
+
+    /**
+     * The rate at which to log the amount of objects created since the last log.
+     */
+    public static final int deltaT = 5;
 
     /**
      * Whether the current log should not be written to again.
@@ -274,8 +285,10 @@ public class Logger {
                 logBuilder.append(representation);
                 break;
             case OBJECT_CREATION:
-                logBuilder.append("[OBJECT CREATED] Instance of " + representation.getClass().getName() + " created");
-                break;
+                objectCreationCounter.incrementAndGet();
+
+                // don't write so return
+                return;
             case AUDIO:
                 logBuilder.append("[AUDIO] ").append(representation);
                 break;
@@ -296,35 +309,13 @@ public class Logger {
     }
 
     /**
-     * Constructor that accepts a file in case we want to use a different file.
-     * @param outputFile the file to write the log to
-     */
-    public static void initialize(File outputFile) {
-        try {
-            if (!outputFile.exists())
-                if (!outputFile.createNewFile())
-                    throw new FatalException("Log file could not be created");
-
-            currentLog = outputFile;
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
      * Constructor for the logger to create a file and write to for the current session.
      */
     public static void initialize() {
-        //create the log file
         generateAndSetLogFile();
-
-        //fix last line of log files
-        fixLogs();
-
-        //consolidate lines of log files
+        startObjectCreationLogger();
+        concludeLogs();
         consolidateLines();
-
-        //zip past log directories
         zipPastLogs();
     }
 
@@ -380,7 +371,7 @@ public class Logger {
      *
      * @param line the single line to write
      */
-    private static void writeLine(String line) {
+    private static synchronized void writeLine(String line) {
         //if we have to make a new line
         String recoveryLine = null;
 
@@ -533,8 +524,7 @@ public class Logger {
      *
      * @param file the file to consolidate duplicate lines of
      */
-    @SuppressWarnings("StringConcatenationMissingWhitespace") /* outputs [10x] or similar */
-    public static void consolidateLines(File file) {
+    private static void consolidateLines(File file) {
         if (!file.exists())
             throw new IllegalArgumentException("Provided file does not exist: " + file);
         else if (!FileUtil.getExtension(file).equalsIgnoreCase(".log"))
@@ -621,7 +611,7 @@ public class Logger {
      * Upon entry this method attempts to fix any user logs that ended abruptly (an exit code of -1 )
      * as a result of an IDE stop or OS Task Manager Stop.
      */
-    public static void fixLogs() {
+    public static void concludeLogs() {
         try {
             File logDir = new File("logs");
 
@@ -681,5 +671,30 @@ public class Logger {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
+    }
+
+    /**
+     * Starts the object creation logger to log object creation calls every deltaT seconds.
+     */
+    private static void startObjectCreationLogger() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                // initial timeout from program initialization
+                Thread.sleep(3000);
+
+                while (true) {
+                    if (objectCreationCounter.get() > 0) {
+                        // a less elegant solution but necessary
+                        writeLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: Objects created since last delta: "
+                                + objectCreationCounter.getAndSet(0));
+                    }
+
+                    // no need to check in small increments here
+                    Thread.sleep(deltaT * 1000);
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "Object Creation Logger");
     }
 }
