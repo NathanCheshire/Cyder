@@ -3,7 +3,6 @@ package cyder.ui;
 import com.google.common.collect.ImmutableMap;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
-import cyder.layouts.CyderBaseLayout;
 import cyder.ui.objects.FocusWrappedComponent;
 import cyder.utilities.ReflectionUtil;
 
@@ -348,8 +347,7 @@ public class CyderComponentResizer extends MouseAdapter {
         ArrayList<Component> ret = new ArrayList<>();
 
         for (Component child : parentLayout.getLayoutComponents()) {
-            // oh boy
-            if (child instanceof CyderBaseLayout) {
+            if (child instanceof CyderPanel) {
                 ret.addAll(recursivelyFindComponents((CyderPanel) child));
             }
 

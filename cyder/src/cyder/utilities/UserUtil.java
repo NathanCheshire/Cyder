@@ -837,8 +837,6 @@ public class UserUtil {
 
             // todo test actually restoring from a backup
 
-            // todo add "New color" label for paint's new color field
-
             // todo look at logs and figure out how to clean up logs
 
             try {

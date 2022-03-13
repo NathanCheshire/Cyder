@@ -471,15 +471,16 @@ public class PaintWidget {
         });
         colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
 
-        JLabel colorLabel = new JLabel();
-        colorLabel.setSize(110,110);
+        CyderGridLayout innerLayout = new CyderGridLayout(1,2);
 
         CyderLabel colorTextLabel = new CyderLabel("New Color");
         colorTextLabel.setBounds(5, 5, 100, 40);
-        colorLabel.add(colorTextLabel);
+        innerLayout.addComponent(colorTextLabel, 0, 0);
 
-        colorLabel.add(colorHexField);
-        topLayout.addComponent(colorLabel, 1, 0);
+        innerLayout.addComponent(colorHexField,0, 1);
+        CyderPanel innerPanel = new CyderPanel(innerLayout);
+
+        topLayout.addComponent(innerPanel, 1, 0);
 
         JLabel historyLabel = new JLabel();
         historyLabel.setSize(120, 100);
