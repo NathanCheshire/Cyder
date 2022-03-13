@@ -837,11 +837,6 @@ public class UserUtil {
 
             // todo replace all clickaction and such with just Runnables passed as lambdas
 
-            //todo stuff that uses a lable button in the drag label
-            // switch to using a menu
-            // search for adding to the drag label to find these
-            // todo menu is cut off too, need better algorithm
-
             // todo test actually restoring from a backup
             // todo ensure logs are zipped after consolidating lines AND
             // after the current log file is made to ensure not zipping wrong log even further

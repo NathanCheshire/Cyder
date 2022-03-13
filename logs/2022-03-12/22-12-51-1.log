@@ -1,0 +1,134 @@
+[22-12-51] [THREAD STARTED]: Object Creation Logger
+[22-12-51] [ENTRY]: [Nathan]
+[22-12-51] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-12-52] [THREAD STARTED]: Splash Loader
+[22-12-52] [THREAD STARTED]: Splash Animation
+[22-12-53] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-12-53] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-12-53] [THREAD STARTED]: JVM Logger
+[22-12-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-12-53] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-12-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-12-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144539257.json
+[22-12-53] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-12-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-12-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144773060.json
+[22-12-53] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-12-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-12-53] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-12-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-12-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-12-53] [THREAD STARTED]: Console Printing Animation
+[22-12-53] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-12-53] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-12-53] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-12-53] [THREAD STARTED]: Console Input Caret Position Updater
+[22-12-53] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-12-53] [SYSTEM_IO]: Userdata requested: InputFill
+[22-12-53] [THREAD STARTED]: High Ping Checker
+[22-12-53] [THREAD STARTED]: Hourly Chime Checker
+[22-12-53] [THREAD STARTED]: Console Clock Updater
+[22-12-53] [THREAD STARTED]: Cyder Busy Checker
+[22-12-53] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-12-53] [UI ACTION] Console loaded in 2141ms
+[22-12-53] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-12-53] [ENTRY]: [TESTING MODE]
+[22-12-53] [SYSTEM_IO]: Userdata requested: laststart
+[22-12-53] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-12-53] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(444, 251, 707, 744)], hash = [2023917549], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[22-12-53] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[22-12-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144773381.json
+[22-12-53] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [997929049], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[22-12-53] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 283, h = 29, text = <html>Console loaded in 2141ms</html>
+[22-12-53] [THREAD STARTED]: notification appear animation
+[22-12-53] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-12-53] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-12-54] [OBJECT CREATION]: Objects created since last delta: 96
+[22-12-56] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-12-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144773592.json
+[22-12-57] [CLIENT]: weather
+[22-12-57] [SYSTEM_IO]: Userdata requested: filterchat
+[22-12-57] [THREAD STARTED]: Weather Stats Updater
+[22-12-57] [CONSOLE_OUT]: [STRING] Opening widget: WeatherWidget
+[22-12-58] [THREAD STARTED]: Weather Stats Updater
+[22-12-58] [THREAD STARTED]: Weather Clock Updater
+[22-12-58] [WIDGET OPENED]: WeatherWidget, trigger = weather, triggers = [weather, ]
+[22-12-58] [HANDLE]: PRIMARY HANDLE
+[22-12-58] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(557, 303, 480, 640)], hash = [1105970539], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[22-12-58] [UI ACTION] [Starkville's weather] [NOTIFICATION] w = 114, h = 29, text = <html>Refreshed</html>
+[22-12-58] [THREAD STARTED]: notification appear animation
+[22-12-58] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-12-58] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-12-59] [OBJECT CREATION]: Objects created since last delta: 25
+[22-13-00] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-00] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144776512.json
+[22-13-00] [THREAD STARTED]: Starkville's weather menu label animator
+[22-13-03] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-03] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144780114.json
+[22-13-04] [UI ACTION] Component name = [cyder.ui.CyderTextField], bounds = [(40, 200, 520, 40)], hash = [560206166], parentFrame = [Change Location], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-13-04] [OBJECT CREATION]: Objects created since last delta: 24
+[22-13-07] [THREAD STARTED]: Change Location CyderFrame dispose thread
+[22-13-07] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(497, 468, 600, 310)], hash = [2011134325], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Change Location]
+[22-13-07] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(557, 303, 480, 640)], hash = [1105970539], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[22-13-07] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-13-07] [THREAD STARTED]: Weather Stats Updater
+[22-13-07] [UI ACTION] Component name = [cyder.ui.CyderButton], bounds = [(40, 250, 520, 40)], hash = [1087078817], parentFrame = [Change Location], associated text = [Change Location], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-13-07] [UI ACTION] [Starkville's weather] [NOTIFICATION] w = 399, h = 58, text = <html>Attempting to refresh weather stats<br/>for location "Slidell,La,Usa"</html>
+[22-13-07] [THREAD STARTED]: notification appear animation
+[22-13-07] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-13-07] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-13-07] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-07] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144783764.json
+[22-13-09] [OBJECT CREATION]: Objects created since last delta: 9
+[22-13-09] [THREAD STARTED]: Slidell's weather menu label animator
+[22-13-11] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144787453.json
+[22-13-12] [UI ACTION] [Slidell's weather] [NOTIFICATION] w = 114, h = 29, text = <html>Refreshed</html>
+[22-13-12] [THREAD STARTED]: notification appear animation
+[22-13-12] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-13-12] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-13-13] [UI ACTION] Component name = [cyder.ui.CyderNotification], bounds = [(2, 585, 148, 61)], hash = [-1348326432], parentFrame = [Slidell's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-13-14] [OBJECT CREATION]: Objects created since last delta: 3
+[22-13-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144791140.json
+[22-13-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144794795.json
+[22-13-19] [OBJECT CREATION]: Objects created since last delta: 2
+[22-13-22] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-22] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144798521.json
+[22-13-24] [OBJECT CREATION]: Objects created since last delta: 1
+[22-13-26] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-26] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144802256.json
+[22-13-29] [OBJECT CREATION]: Objects created since last delta: 1
+[22-13-29] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-29] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144806010.json
+[22-13-31] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 476, 28)], hash = [-14606733], parentFrame = [Slidell's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-13-31] [THREAD STARTED]: Slidell's weather CyderFrame dispose thread
+[22-13-31] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.widgets.WeatherWidget], bounds = [(557, 303, 480, 640)], hash = [1105970539], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Slidell's weather]
+[22-13-31] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-13-32] [CLIENT]: weather
+[22-13-32] [SYSTEM_IO]: Userdata requested: filterchat
+[22-13-32] [THREAD STARTED]: Weather Stats Updater
+[22-13-32] [THREAD STARTED]: Weather Stats Updater
+[22-13-32] [THREAD STARTED]: Weather Clock Updater
+[22-13-32] [WIDGET OPENED]: WeatherWidget, trigger = weather, triggers = [weather, ]
+[22-13-32] [HANDLE]: PRIMARY HANDLE
+[22-13-32] [CONSOLE_OUT]: [STRING] Opening widget: WeatherWidget
+[22-13-32] [THREAD STARTED]: Component name = [cyder.widgets.WeatherWidget], bounds = [(557, 303, 480, 640)], hash = [1346470190], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather] notification queue checker
+[22-13-32] [UI ACTION] [Starkville's weather] [NOTIFICATION] w = 114, h = 29, text = <html>Refreshed</html>
+[22-13-32] [THREAD STARTED]: notification appear animation
+[22-13-33] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-13-33] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-13-33] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[22-13-33] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144809764.json
+[22-13-34] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 476, 28)], hash = [-14606733], parentFrame = [Starkville's weather], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[22-13-34] [THREAD STARTED]: Starkville's weather CyderFrame dispose thread
+[22-13-34] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.widgets.WeatherWidget], bounds = [(557, 303, 480, 640)], hash = [1346470190], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Starkville's weather]
+[22-13-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-13-34] [OBJECT CREATION]: Objects created since last delta: 25
+[22-13-34] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-13-34] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-13-34] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(444, 251, 707, 744)], hash = [2023917549], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-13-34] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-13-34] [EXIT]: [RUNTIME] 43s
+[22-13-34] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

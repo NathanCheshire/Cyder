@@ -16,8 +16,7 @@
 [22-08-11] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-08-11] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-08-11] [THREAD STARTED]: Console Printing Animation
 [22-08-11] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-08-11] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -96,3 +95,9 @@
 [22-08-57] [OBJECT CREATION]: Objects created since last delta: 1
 [22-08-59] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [22-08-59] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647144535504.json
+[22-08-59] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-08-59] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[22-08-59] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(444, 251, 707, 744)], hash = [648315947], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[22-08-59] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-08-59] [EXIT]: [RUNTIME] 50s
+[22-08-59] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

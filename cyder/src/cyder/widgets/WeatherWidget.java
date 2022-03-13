@@ -23,8 +23,6 @@ import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
@@ -35,7 +33,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.TimeZone;
 
-@SuppressWarnings("FieldMayBeFinal")
 public class WeatherWidget {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;
@@ -69,15 +66,7 @@ public class WeatherWidget {
 
     private String userCity = "";
     private String userState = "";
-    private String userStateAbr = "";
-    private String isp = "";
-    private String lat = "";
-    private String lon = "";
     private String userCountry = "";
-    private String userCountryAbr = "";
-    private String userIP = "";
-    private String userPostalCode = "";
-    private String userFlagURL = "";
     private String gmtOffset = "0";
 
     private JButton closeWeather;
@@ -123,8 +112,9 @@ public class WeatherWidget {
      */
     private void innerShowGUI() {
         if (CyderShare.isHighLatency()) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, " + UserUtil.getCyderUser().getName() + ", but" +
-                    " this feature is suspended until a stable internet connection can be established");
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, "
+                    + UserUtil.getCyderUser().getName() + ", but"
+                    + " this feature is suspended until a stable internet connection can be established");
             return;
         }
 
@@ -197,10 +187,8 @@ public class WeatherWidget {
         currentWeatherLabel.setBounds(0, 245, 480, 30);
         weatherFrame.getContentPane().add(currentWeatherLabel);
 
-        JButton changeLocButton = new JButton("Location");
-        changeLocButton.setForeground(CyderColors.vanila);
-        changeLocButton.setFont(CyderFonts.defaultFontSmall);
-        changeLocButton.addActionListener(e -> {
+        weatherFrame.setMenuEnabled(true);
+        weatherFrame.addMenuItem("Location", () -> {
             CyderFrame changeLocationFrame = new CyderFrame(600,310);
             changeLocationFrame.setBackground(CyderColors.vanila);
             changeLocationFrame.setTitle("Change Location");
@@ -258,22 +246,6 @@ public class WeatherWidget {
             changeLocationFrame.setVisible(true);
             changeLocationFrame.setLocationRelativeTo(weatherFrame);
         });
-        changeLocButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                changeLocButton.setForeground(CyderColors.regularRed);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                changeLocButton.setForeground(CyderColors.vanila);
-            }
-        });
-
-        changeLocButton.setContentAreaFilled(false);
-        changeLocButton.setBorderPainted(false);
-        changeLocButton.setFocusPainted(false);
-        weatherFrame.getTopDragLabel().addButton(changeLocButton, 0);
 
         JLabel minTempLabel = new JLabel("");
         minTempLabel.setForeground(CyderColors.vanila);
