@@ -149,7 +149,6 @@ public class Logger {
                 logBuilder.append(representation);
                 break;
             case JVM_ENTRY:
-                //[ENTRY]: [USER = NATHAN]
                 logBuilder.append("[JVM_ENTRY]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
@@ -234,7 +233,7 @@ public class Logger {
         generateAndSetLogFile();
 
         // first log call should always be a JVM_ENTRY tag
-        log(LoggerTag.JVM_ENTRY, "[" + OSUtil.getSystemUsername() + "]");
+        log(LoggerTag.JVM_ENTRY, OSUtil.getSystemUsername());
 
         startObjectCreationLogger();
         concludeLogs();

@@ -16,8 +16,7 @@
 [10-54-44] [SYSTEM_IO]: Userdata requested: RandomBackground
 [10-54-44] [SYSTEM_IO]: Userdata requested: FullScreen
 [10-54-44] [SYSTEM_IO]: Userdata requested: fullscreen
-[10-54-45] [SYSTEM_IO]: Userdata requested: FullScreen
-[10-54-45] [SYSTEM_IO]: Userdata requested: FullScreen
+[10-54-45] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [10-54-45] [THREAD STARTED]: Console Printing Animation
 [10-54-45] [SYSTEM_IO]: Userdata requested: OutputBorder
 [10-54-45] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -61,22 +60,22 @@
 [10-54-52] [HANDLE]: PRIMARY HANDLE
 [10-54-52] [CONSOLE_OUT]: [STRING] Try typing:
 [10-54-52] [CONSOLE_OUT]: [STRING] •	pathfinder
-	Description: open an A* and Dijkstras algorithm path finding visualizer
+Description: open an A* and Dijkstras algorithm path finding visualizer
 [10-54-54] [CONSOLE_OUT]: [STRING] •	e^pi
-	Description: calculate e^pi using the command line mathematical expression parser
+Description: calculate e^pi using the command line mathematical expression parser
 [10-54-55] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [10-54-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647186891798.json
 [10-54-55] [OBJECT CREATION]: Objects created since last delta: 2
 [10-54-55] [CONSOLE_OUT]: [STRING] •	mp3
-	Description: open Cyder's custom MP3 audio player
+Description: open Cyder's custom MP3 audio player
 [10-54-55] [CONSOLE_OUT]: [STRING] •	prefs
-	Description: open up the preference editor
+Description: open up the preference editor
 [10-54-55] [CONSOLE_OUT]: [STRING] •	weather
-	Description: open up the weather widget
+Description: open up the weather widget
 [10-54-55] [CONSOLE_OUT]: [STRING] •	curl
-	Description: curl a url just like linux
+Description: curl a url just like linux
 [10-54-55] [CONSOLE_OUT]: [STRING] •	play
-	Description: downloads a youtube video's audio and plays it using the audio player
+Description: downloads a youtube video's audio and plays it using the audio player
 [10-54-55] [CONSOLE_OUT]: [STRING] Escaped
 [10-54-56] [CLIENT]: clear
 [10-54-56] [SYSTEM_IO]: Userdata requested: filterchat
@@ -89,16 +88,14 @@
 [10-54-57] [HANDLE]: PRIMARY HANDLE
 [10-54-58] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
 [10-54-58] [THREAD STARTED]: Flash Player scrolling title thread[Skizzy Mars - Gift and Curse]
-[10-54-58] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse]
-[10-54-58] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse]
+[10-54-58] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse] [2x]
 [10-54-58] [AUDIO] [AUDIO PLAYER] Skizzy Mars - Gift and Curse.mp3
 [10-54-58] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [10-54-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647186895035.json
 [10-55-00] [OBJECT CREATION]: Objects created since last delta: 22
 [10-55-00] [THREAD STARTED]: Flash Player Progress Thread[Skizzy Mars - Gift and Curse]
 [10-55-00] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
-[10-55-00] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
-[10-55-00] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light]
+[10-55-00] [THREAD STARTED]: Flash Player Progress Thread[Chillstep  Wayr - Follow the Light] [2x]
 [10-55-00] [AUDIO] [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
 [10-55-02] [UI ACTION] Component name = [cyder.ui.CyderLabel], bounds = [(55, 420, 385, 35)], hash = [927648533], parentFrame = [Chillstep Wayr - Follow the Light], associated text = [<html><div style='text-align: center;'>0s played, 5m 12s left</html>], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
 [10-55-02] [THREAD STARTED]: Flash Player Audio Thread[Chillstep  Wayr - Follow the Light]
@@ -112,8 +109,7 @@
 [10-55-05] [OBJECT CREATION]: Objects created since last delta: 3
 [10-55-06] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [10-55-06] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647186902300.json
-[10-55-06] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Chillstep Wayr - Follow the Light], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
-[10-55-07] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Chillstep Wayr - Follow the Light], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[10-55-07] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 496, 28)], hash = [-14587513], parentFrame = [Chillstep Wayr - Follow the Light], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found] [2x]
 [10-55-07] [THREAD STARTED]: Chillstep Wayr - Follow the Light CyderFrame dispose thread
 [10-55-07] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(673, 494, 500, 480)], hash = [1503506098], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Chillstep Wayr - Follow the Light]
 [10-55-07] [SYSTEM_IO]: Userdata requested: closeanimation
@@ -151,8 +147,7 @@
 [10-55-15] [SYSTEM_IO]: Userdata requested: RandomBackground
 [10-55-15] [SYSTEM_IO]: Userdata requested: FullScreen
 [10-55-15] [SYSTEM_IO]: Userdata requested: fullscreen
-[10-55-15] [SYSTEM_IO]: Userdata requested: FullScreen
-[10-55-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[10-55-15] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [10-55-15] [THREAD STARTED]: Console Printing Animation
 [10-55-15] [SYSTEM_IO]: Userdata requested: OutputBorder
 [10-55-15] [SYSTEM_IO]: Userdata requested: FullScreen

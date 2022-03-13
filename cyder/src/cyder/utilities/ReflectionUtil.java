@@ -183,7 +183,7 @@ public class ReflectionUtil {
      * @return the bottom level class name
      */
     public static String getBottomLevelClass(Class<?> clazz) {
-        String superName = clazz.getClass().getName();
+        String superName = clazz.toString();
 
         boolean inner = false;
 
@@ -195,7 +195,7 @@ public class ReflectionUtil {
 
         // remove package info
         if (superName.contains(".")) {
-            String[] parts = superName.split(".");
+            String[] parts = superName.split("\\.");
             superName = parts[parts.length - 1];
         }
 

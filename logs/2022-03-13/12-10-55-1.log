@@ -1,0 +1,33 @@
+[12-10-55] [JVM_ENTRY]: [Nathan]
+[12-10-55] [THREAD STARTED]: Object Creation Logger
+[12-10-55] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-10-56] [THREAD STARTED]: Splash Loader
+[12-10-56] [THREAD STARTED]: Splash Animation
+[12-10-57] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[12-10-57] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-10-57] [THREAD STARTED]: JVM Logger
+[12-10-57] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-10-57] [SYSTEM_IO]: [DELETION FAILED] file already existed: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-10-57] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-10-57] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647191318417.json
+[12-10-57] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[12-10-57] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[12-10-57] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647191457460.json
+[12-10-57] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-10-57] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-10-57] [SYSTEM_IO]: Userdata requested: fullscreen
+[12-10-58] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[12-10-58] [THREAD STARTED]: Console Printing Animation
+[12-10-58] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-10-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-10-58] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-10-58] [THREAD STARTED]: Console Input Caret Position Updater
+[12-10-58] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-10-58] [SYSTEM_IO]: Userdata requested: InputFill
+[12-10-58] [THREAD STARTED]: High Ping Checker
+[12-10-58] [THREAD STARTED]: Hourly Chime Checker
+[12-10-58] [THREAD STARTED]: Console Clock Updater
+[12-10-58] [THREAD STARTED]: Cyder Busy Checker
+[12-10-58] [THREAD STARTED]: ConsoleFrame Stat Saver
+[12-10-58] [UI ACTION]: Console loaded in 3047ms
+[12-11-57] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
