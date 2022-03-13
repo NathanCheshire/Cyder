@@ -1,0 +1,111 @@
+[23-12-10] [THREAD STARTED]: Object Creation Logger
+[23-12-10] [ENTRY]: [Nathan]
+[23-12-10] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-12-11] [THREAD STARTED]: Splash Loader
+[23-12-11] [THREAD STARTED]: Splash Animation
+[23-12-11] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-12-11] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-12-11] [THREAD STARTED]: JVM Logger
+[23-12-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-12-11] [SYSTEM_IO]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-12-11] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148306104.json
+[23-12-12] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[23-12-12] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-12] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148331748.json
+[23-12-12] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-12-12] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-12] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-12-12] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[23-12-12] [THREAD STARTED]: Console Printing Animation
+[23-12-12] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-12-12] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-12-12] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-12-12] [THREAD STARTED]: Console Input Caret Position Updater
+[23-12-12] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-12-12] [SYSTEM_IO]: Userdata requested: InputFill
+[23-12-12] [THREAD STARTED]: High Ping Checker
+[23-12-12] [THREAD STARTED]: Hourly Chime Checker
+[23-12-12] [THREAD STARTED]: Console Clock Updater
+[23-12-12] [THREAD STARTED]: Cyder Busy Checker
+[23-12-12] [THREAD STARTED]: ConsoleFrame Stat Saver
+[23-12-12] [UI ACTION] Console loaded in 2226ms
+[23-12-12] [THREAD STARTED]: Component name = [cyder.ui.ConsoleFrame], bounds = [(447, 453, 707, 744)], hash = [913242382], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]] notification queue checker
+[23-12-12] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-12-12] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-12-12] [ENTRY]: [TESTING MODE]
+[23-12-12] [SYSTEM_IO]: Userdata requested: laststart
+[23-12-12] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-12] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [1638677549], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-12-12] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148332075.json
+[23-12-12] [UI ACTION] [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in 2226ms</html>
+[23-12-12] [THREAD STARTED]: notification appear animation
+[23-12-12] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-12-12] [THREAD STARTED]: Notificaiton Vanish Animator
+[23-12-13] [OBJECT CREATION]: Objects created since last delta: 96
+[23-12-14] [CLIENT]: paint
+[23-12-14] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-14] [CONSOLE_OUT]: [STRING] Opening widget: PaintWidget
+[23-12-14] [WIDGET OPENED]: PaintWidget, trigger = paint, triggers = [paint, draw, ]
+[23-12-14] [HANDLE]: PRIMARY HANDLE
+[23-12-15] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-15] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148332309.json
+[23-12-18] [OBJECT CREATION]: Objects created since last delta: 63
+[23-12-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148335224.json
+[23-12-22] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-22] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148338982.json
+[23-12-23] [OBJECT CREATION]: Objects created since last delta: 2
+[23-12-26] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-26] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148342820.json
+[23-12-28] [OBJECT CREATION]: Objects created since last delta: 1
+[23-12-30] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-30] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148346602.json
+[23-12-33] [OBJECT CREATION]: Objects created since last delta: 1
+[23-12-34] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-34] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148350357.json
+[23-12-37] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-37] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148354129.json
+[23-12-38] [OBJECT CREATION]: Objects created since last delta: 13
+[23-12-41] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-41] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148357877.json
+[23-12-43] [OBJECT CREATION]: Objects created since last delta: 12
+[23-12-45] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-45] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148361636.json
+[23-12-48] [OBJECT CREATION]: Objects created since last delta: 12
+[23-12-48] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 807, 28)], hash = [-14288642], parentFrame = [Paint Controls], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-12-48] [THREAD STARTED]: Paint Controls CyderFrame dispose thread
+[23-12-48] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(432, 873, 811, 230)], hash = [1193333525], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint Controls]
+[23-12-48] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-12-49] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-49] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148365396.json
+[23-12-49] [THREAD STARTED]: Paint menu label animator
+[23-12-50] [THREAD STARTED]: Paint Controls CyderFrame dispose thread
+[23-12-52] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-52] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148369170.json
+[23-12-53] [OBJECT CREATION]: Objects created since last delta: 57
+[23-12-56] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-12-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148372868.json
+[23-12-56] [CLIENT]: color
+[23-12-56] [SYSTEM_IO]: Userdata requested: filterchat
+[23-12-56] [WIDGET OPENED]: ColorConverterWidget, trigger = color, triggers = [colorconverter, color, ]
+[23-12-56] [HANDLE]: PRIMARY HANDLE
+[23-12-56] [CONSOLE_OUT]: [STRING] Opening widget: ColorConverterWidget
+[23-12-58] [OBJECT CREATION]: Objects created since last delta: 25
+[23-13-00] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-13-00] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148376645.json
+[23-13-02] [UI ACTION] Component name = [cyder.ui.CyderDragLabel], bounds = [(2, 2, 796, 28)], hash = [-14299213], parentFrame = [Paint], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-13-02] [THREAD STARTED]: Paint CyderFrame dispose thread
+[23-13-02] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(880, 340, 800, 830)], hash = [379409957], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint]
+[23-13-02] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-13-02] [THREAD STARTED]: Paint Controls CyderFrame dispose thread
+[23-13-02] [UI ACTION] CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(880, 1170, 1200, 230)], hash = [1780503579], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Paint Controls]
+[23-13-03] [OBJECT CREATION]: Objects created since last delta: 6
+[23-13-04] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-13-04] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647148380289.json
+[23-13-07] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-13-07] [THREAD STARTED]: Insomnia Cyder [Nathan] CyderFrame dispose thread
+[23-13-07] [UI ACTION] CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.ConsoleFrame], bounds = [(447, 453, 707, 744)], hash = [913242382], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Insomnia Cyder [Nathan]]
+[23-13-07] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-13-07] [EXIT]: [RUNTIME] 57s
+[23-13-07] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

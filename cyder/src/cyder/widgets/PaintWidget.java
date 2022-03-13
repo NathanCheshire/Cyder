@@ -370,6 +370,7 @@ public class PaintWidget {
         recentColorsBlock = new JLabel() {
             @Override
             protected void paintComponent(Graphics g) {
+                g.translate(0,10);
                 g.setColor(Color.BLACK);
                 g.fillRect(0,0,colorsPerRow * colorBlockLen + 2 * padding,50);
                 g.setColor(CyderColors.vanila);
@@ -408,12 +409,12 @@ public class PaintWidget {
                 }
             }
         };
-        recentColorsBlock.setSize(130,50);
+        recentColorsBlock.setSize(130,60);
         recentColorsBlock.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
-                int y = e .getY();
+                int y = e.getY();
 
                 // sub padding from both
                 x -= padding;
@@ -437,7 +438,7 @@ public class PaintWidget {
         colorHexField = new CyderTextField(11);
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
-        colorHexField.setSize(110, 40);
+        colorHexField.setBounds(0, 40, 110, 40);
         colorHexField.setRegexMatcher(CyderRegexPatterns.rgbOrHex);
         colorHexField.addActionListener(e -> {
             String text = colorHexField.getText();
@@ -469,7 +470,16 @@ public class PaintWidget {
             }
         });
         colorHexField.setText(ColorUtil.rgbToHexString(currentPaintColor));
-        topLayout.addComponent(colorHexField, 1, 0);
+
+        JLabel colorLabel = new JLabel();
+        colorLabel.setSize(110,110);
+
+        CyderLabel colorTextLabel = new CyderLabel("New Color");
+        colorTextLabel.setBounds(5, 5, 100, 40);
+        colorLabel.add(colorTextLabel);
+
+        colorLabel.add(colorHexField);
+        topLayout.addComponent(colorLabel, 1, 0);
 
         JLabel historyLabel = new JLabel();
         historyLabel.setSize(120, 100);
