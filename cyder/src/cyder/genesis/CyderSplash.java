@@ -207,8 +207,10 @@ public class CyderSplash {
                             loadingLabel.repaint();
 
                             // if disposed, exit thread
-                            if (splashFrame.isDisposed())
+                            if (splashFrame.isDisposed()) {
+                                loadingLabel.setText("Subroutines Complete");
                                 return;
+                            }
                         }
 
                         // if frame is still active and it should have been dispoed

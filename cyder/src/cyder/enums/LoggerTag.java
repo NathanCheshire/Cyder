@@ -52,7 +52,7 @@ public enum LoggerTag {
     /**
      * JVM program entry.
      */
-    ENTRY,
+    JVM_ENTRY,
     /**
      * Program controlled exit, right before EOL tags.
      */
@@ -85,4 +85,8 @@ public enum LoggerTag {
      * When an object's constructor is invoked.
      */
     OBJECT_CREATION,
+    /**
+     * The console was loaded.
+     */
+    CONSOLE_LOAD,
 }

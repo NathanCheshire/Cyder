@@ -423,8 +423,10 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     public static boolean delete(File folder) {
+        // log requested deltion of file/folder
         Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
 
+        // directory means recursive case to delete contents
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
 
@@ -435,6 +437,7 @@ public class OSUtil {
             }
         }
 
+        // contents deleted so now can delete as if it was a file if it isn't
         int inc = 0;
         while (inc < MAX_DELETION_ATTEMPTS) {
             if (folder.delete()) {
@@ -444,8 +447,14 @@ public class OSUtil {
             inc++;
         }
 
-        // deletion failed
-        Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] " + folder.getAbsolutePath());
+        // deletion failed or it didn't exist in the firstp lace
+        if (!folder.exists()) {
+            Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] file already existed: "
+                    + folder.getAbsolutePath());
+        } else {
+            Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] " + folder.getAbsolutePath());
+        }
+
         return false;
     }
 

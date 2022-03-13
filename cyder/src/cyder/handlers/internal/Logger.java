@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// todo if log line is greater than a certain char limit, need to split and add two tabs at beginning of broken lines
+
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
  * runtime to exit at JVM termination.
@@ -146,9 +148,9 @@ public class Logger {
                 logBuilder.append("[JVM ARGS]: ");
                 logBuilder.append(representation);
                 break;
-            case ENTRY:
+            case JVM_ENTRY:
                 //[ENTRY]: [USER = NATHAN]
-                logBuilder.append("[ENTRY]: [");
+                logBuilder.append("[JVM_ENTRY]: [");
                 logBuilder.append(representation);
                 logBuilder.append("]");
                 break;
@@ -204,10 +206,13 @@ public class Logger {
                 // don't write so return
                 return;
             case AUDIO:
-                logBuilder.append("[AUDIO] ").append(representation);
+                logBuilder.append("[AUDIO]: ").append(representation);
                 break;
             case UI_ACTION:
-                logBuilder.append("[UI ACTION] ").append(representation);
+                logBuilder.append("[UI ACTION]: ").append(representation);
+                break;
+            case CONSOLE_LOAD:
+                logBuilder.append("[CONSOLE LOADED]: ").append(representation);
                 break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
@@ -227,6 +232,10 @@ public class Logger {
      */
     public static void initialize() {
         generateAndSetLogFile();
+
+        // first log call should always be a JVM_ENTRY tag
+        log(LoggerTag.JVM_ENTRY, "[" + OSUtil.getSystemUsername() + "]");
+
         startObjectCreationLogger();
         concludeLogs();
         consolidateLines();
@@ -599,7 +608,8 @@ public class Logger {
                 while (true) {
                     if (objectCreationCounter.get() > 0) {
                         // a less elegant solution but necessary
-                        writeLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: Objects created since last delta: "
+                        writeLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
+                                + "Objects created since last delta (" + deltaT + "s): "
                                 + objectCreationCounter.getAndSet(0));
                     }
 

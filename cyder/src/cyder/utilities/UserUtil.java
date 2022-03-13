@@ -99,7 +99,7 @@ public class UserUtil {
 
        try {
            // log the write since we know the user is valid
-           Logger.log(LoggerTag.SYSTEM_IO, "[JSON Saved] User was written to file: "
+           Logger.log(LoggerTag.SYSTEM_IO, "[JSON WRITE] User was written to file: "
                    + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
            // write to user data file
@@ -834,8 +834,6 @@ public class UserUtil {
                     uuid, UserFile.USERDATA.getName()));
 
             // todo test actually restoring from a backup
-
-            // todo look at logs and figure out how to clean up logs
 
             try {
                // attempt to recovery a backup

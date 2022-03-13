@@ -469,8 +469,8 @@ public class LoginHandler {
 
                 ConsoleFrame.getConsoleFrame().setUUID(loggedInUUID);
 
-                Logger.log(LoggerTag.LOGIN, "["
-                        + CyderEntry.PreviouslyLoggedIn.getName().toUpperCase() + "] " + loggedInUUID);
+                Logger.log(LoggerTag.LOGIN,  CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
+                        + ", " + loggedInUUID);
 
                 ConsoleFrame.getConsoleFrame().launch(CyderEntry.PreviouslyLoggedIn);
             } else {
@@ -506,7 +506,7 @@ public class LoginHandler {
                 doLoginAnimations = false;
 
                 Logger.log(LoggerTag.LOGIN, (autoCypherAttempt
-                        ? "[AUTOCYPHER PASS]: " : "[STD LOGIN]: ") + uuid);
+                        ? "AUTOCYPHER PASS, " : "[STD LOGIN], ") + uuid);
 
                 if (!ConsoleFrame.getConsoleFrame().isClosed()) {
                     ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);

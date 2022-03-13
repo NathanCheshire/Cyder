@@ -49,7 +49,6 @@ public class Cyder {
 
         // start session logger
         Logger.initialize();
-        Logger.log(LoggerTag.ENTRY, OSUtil.getSystemUsername());
 
         // subroutines
         initSystemKeys();

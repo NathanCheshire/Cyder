@@ -836,12 +836,7 @@ public final class ConsoleFrame {
             String logString = "Console loaded in " +
                     (CyderShare.getConsoleStartTime() - CyderShare.getAbsoluteStartTime()) + "ms";
             Logger.log(LoggerTag.UI_ACTION, logString);
-
-            if (entryPoint == CyderEntry.AutoCypher) {
-                consoleCyderFrame.notify(logString);
-            }
-
-            setLoadingMessage("Console Built");
+            consoleCyderFrame.notify(logString);
 
             CyderSplash.fastDispose();
         } catch (Exception e) {
@@ -1071,7 +1066,7 @@ public final class ConsoleFrame {
 
         //testing mode to auto execute Debug tests
         if (CyderShare.isTestingMode()) {
-            Logger.log(LoggerTag.ENTRY, "TESTING MODE");
+            Logger.log(LoggerTag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
@@ -2921,7 +2916,7 @@ public final class ConsoleFrame {
 
         //logs
         if (logoutUser) {
-            Logger.log(LoggerTag.LOGOUT, "[" + UserUtil.getCyderUser().getName() + "]");
+            Logger.log(LoggerTag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
             UserUtil.setUserData("loggedin","0");
         }
 

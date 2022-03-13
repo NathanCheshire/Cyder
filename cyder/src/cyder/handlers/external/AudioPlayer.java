@@ -346,7 +346,7 @@ public class AudioPlayer {
                             startAudio();
                         }
                     }
-                }, "inner wait thread for audio player file getter");
+                }, "AudioPlayer getFile()");
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             } finally {
@@ -1114,7 +1114,7 @@ public class AudioPlayer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+        },DEFAULT_TITLE + " Audio Thread [" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
     }
 
     /**
@@ -1226,7 +1226,7 @@ public class AudioPlayer {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },DEFAULT_TITLE + " Audio Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+            },DEFAULT_TITLE + " Audio Thread [" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
         }
     }
 
@@ -1279,7 +1279,7 @@ public class AudioPlayer {
                             ExceptionHandler.handle(e);
                         }
                     }
-                },DEFAULT_TITLE + " Progress Thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+                },DEFAULT_TITLE + " Progress Thread [" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1352,7 +1352,8 @@ public class AudioPlayer {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    },DEFAULT_TITLE + " scrolling title thread[" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+                    },DEFAULT_TITLE + " scrolling title thread ["
+                            + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
                 } else {
                     String text = FileUtil.getFilename(audioFiles.get(audioIndex));
                     effectLabel.setText(text);

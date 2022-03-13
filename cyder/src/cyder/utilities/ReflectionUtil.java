@@ -31,7 +31,6 @@ import java.util.concurrent.Future;
 /**
  * Utilities for methods regarding reflection.
  */
-@SuppressWarnings("ConstantConditions") /* Guava Reflection */
 public class ReflectionUtil {
     /**
      * Prevent illegal class instantiation.
@@ -47,11 +46,12 @@ public class ReflectionUtil {
      * @param obj the object to build into a String
      * @return the string representation of the object
      */
-    private static String toStringFromGetters(Object obj) {
+    private static String buildGetterString(Object obj) {
         StringBuilder ret = new StringBuilder();
 
-        ret.append(obj.getClass().getName());
-        ret.append("(");
+        ret.append("class = ");
+        ret.append(getBottomLevelClass(obj.getClass()));
+        ret.append(", ");
 
         for (Method m : obj.getClass().getMethods()) {
             if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
@@ -66,8 +66,8 @@ public class ReflectionUtil {
             }
         }
 
-        String retString = ret.toString();
-        return retString.substring(0, retString.length() - 3) + ")";
+        String retString = ret.toString().trim();
+        return retString.substring(0, retString.length() - 3).trim();
     }
 
     /**
@@ -79,53 +79,37 @@ public class ReflectionUtil {
      * detailing the classname, hashcode, and reflected data
      */
     public static String commonCyderToString(Object obj) {
-        String superName = obj.getClass().getName();
-        int hash = obj.hashCode();
-
-        String reflectedFields = toStringFromGetters(obj);
+        String reflectedFields = buildGetterString(obj);
 
         if (reflectedFields == null || reflectedFields.isEmpty())
             reflectedFields = "No reflection data acquired";
 
-        //remove anything after the $int if superName contains a $
-        if (superName.contains("$")) {
-            superName = superName.split("\\$")[0];
-        }
-
-        return superName + ",hash = " + hash + ", reflection data = " + reflectedFields;
+        return getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
+                + ", reflection data = " + reflectedFields;
     }
 
     /**
-     * A toString() replacement method used by most Cyder classes.
+     * A toString() replacement method used by most Cyder ui classes.
      *
      * @param obj the object to invoke toString() on
      * @return a custom toString() representation of the provided object
      */
     public static String commonCyderUIReflection(Component obj) {
         CyderFrame topFrame = (CyderFrame) SwingUtilities.getWindowAncestor(obj);
-        String frameRep;
+        String parentFrame;
 
         if (topFrame != null) {
-            frameRep = topFrame.getTitle();
+            parentFrame = topFrame.getTitle();
+        } else if (obj instanceof CyderFrame) {
+            parentFrame = "Component is top frame";
         } else {
-            if (obj instanceof CyderFrame) {
-                frameRep = "Object itself is the top level frame";
-            } else {
-                frameRep = "No associated frame";
-            }
+            parentFrame = "No parent frame";
         }
 
-        String superName = obj.getClass().getName();
-        int hash = obj.hashCode();
-
-        //remove anything after the $int if superName contains a $
-        if (superName.contains("$")) {
-            superName = superName.split("\\$")[0];
-        }
-
-        String getTitleResult = "No getTitle() method found";
-        String getTextResult = "No getText() method found";
-        String getTooltipResult = "No getTooltipText() method found";
+        // special methods to look for as a Component
+        String getTitleResult = null;
+        String getTextResult = null;
+        String getTooltipResult = null;
 
         try {
            for (Method method : obj.getClass().getMethods()) {
@@ -168,10 +152,54 @@ public class ReflectionUtil {
            ExceptionHandler.handle(e);
         }
 
-        return "Component name = [" + superName + "], bounds = [(" + obj.getX() + ", "
-                + obj.getY() + ", " + obj.getWidth() + ", " + obj.getHeight() + ")], hash = [" + hash + "], " +
-                "parentFrame = [" + frameRep + "], associated text = [" + getTextResult + "], tooltip text = [" +
-                getTooltipResult + "], title = [" + getTitleResult + "]";
+        StringBuilder ret = new StringBuilder();
+        ret.append("Component = " + getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
+                + ", bounds = (" + obj.getX() + ", " + obj.getY() + ", " + obj.getWidth() + ", "
+                + obj.getHeight() + ")");
+        ret.append(", parent frame = " + parentFrame);
+
+        if (!StringUtil.isNull(getTextResult)) {
+            ret.append(", getText() = " + getTextResult);
+        }
+
+        if (!StringUtil.isNull(getTooltipResult)) {
+            ret.append(", getTooltip() = " + getTooltipResult);
+        }
+
+        if (!StringUtil.isNull(getTitleResult)) {
+            ret.append(", getTitle() = " + getTitleResult);
+        }
+
+        return ret.toString();
+    }
+
+    /**
+     * Returns the name of the class without all the package info.
+     * Example: if {@link CyderFrame} was provided, typically invoking
+     * getClass() on CyderFrame would return "cyder.ui.CyderFrame" but
+     * this method will simply return CyderFrame.
+     *
+     * @param clazz the class to find the name of
+     * @return the bottom level class name
+     */
+    public static String getBottomLevelClass(Class<?> clazz) {
+        String superName = clazz.getClass().getName();
+
+        boolean inner = false;
+
+        // remove inner class IDs
+        if (superName.contains("$")) {
+            superName = superName.split("\\$")[0];
+            inner = true;
+        }
+
+        // remove package info
+        if (superName.contains(".")) {
+            String[] parts = superName.split(".");
+            superName = parts[parts.length - 1];
+        }
+
+        return superName + (inner ? " (inner)" : "");
     }
 
     /**
@@ -331,25 +359,15 @@ public class ReflectionUtil {
 
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                            String shortWidgetName = classer.getName()
-                                    .split("\\.")[classer.getName().split("\\.").length - 1];
+                            String shortWidgetName = getBottomLevelClass(classer);
                             ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: " + shortWidgetName);
                             try {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(classer);
-                                    
-                                    StringBuilder triggerBuilder = new StringBuilder();
-                                    
-                                    for (int i = 0 ; i < widgetTriggers.length ; i++) {
-                                        triggerBuilder.append(widgetTriggers[i]);
-                                        
-                                        if (i != widgetTrigger.length() - 1)
-                                            triggerBuilder.append(", ");
-                                    }
-                                    
+
                                     Logger.log(LoggerTag.WIDGET_OPENED,
-                                            shortWidgetName + ", trigger = "
-                                                    + trigger + ", triggers = [" + triggerBuilder + "]");
+                                            shortWidgetName + ", trigger = " + trigger);
+
                                     return true;
                                 } else throw new IllegalStateException("Found widget showGUI()" +
                                         " method with parameters: " + m.getName() + ", class: " + classer);

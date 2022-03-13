@@ -1282,7 +1282,7 @@ public class CyderFrame extends JFrame {
 
                 // confirmation passed so log
                 Logger.log(LoggerTag.UI_ACTION, "CyderFrame disposed with fastclose: "
-                        + fastClose + ", CyderFrame: " + this);
+                        + fastClose + ", CyderFrame = " + this);
 
                 //run all preCloseActions if any exists, this is performed after the confirmation check
                 // since now we are sure that we wish to close the frame
@@ -1328,7 +1328,7 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, getTitle() + " CyderFrame dispose thread");
+        }, "[" + getTitle() + "]  dispose() animation thread");
     }
 
     /**
@@ -1338,7 +1338,6 @@ public class CyderFrame extends JFrame {
     public void dispose() {
         dispose(false);
     }
-
 
     /**
      * Whether to allow the frame to be relocated via dragging.
