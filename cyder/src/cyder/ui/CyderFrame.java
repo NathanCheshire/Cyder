@@ -1205,8 +1205,6 @@ public class CyderFrame extends JFrame {
                     Thread.sleep(1);
                     setLocation(getX(), i);
                 }
-
-                setDisableContentRepainting(false);
             }
 
             setState(Frame.ICONIFIED);
@@ -1215,6 +1213,20 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    // overridden to disable/enable content area repainting for optimization.
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setState(int state) {
+        if (state == JFrame.ICONIFIED) {
+            setDisableContentRepainting(true);
+        } else if (state == JFrame.NORMAL) {
+            setDisableContentRepainting(false);
+        }
+
+        super.setState(state);
+    }
 
     /**
      * Whether this frame's dispose() method has been invoked before.

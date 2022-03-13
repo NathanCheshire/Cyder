@@ -342,7 +342,6 @@ public class CyderDragLabel extends JLabel {
                             pinButton.setIcon(CyderIcons.pinIconHoverPink);
                         } else {
                             pinButton.setIcon(CyderIcons.pinIcon);
-
                         }
                     }
                 });
@@ -642,7 +641,22 @@ public class CyderDragLabel extends JLabel {
                     effectFrame.setPinned(false);
                     effectFrame.setConsolePinned(false);
                 }
+
+                break;
             }
+        }
+    }
+
+    /**
+     * Refreshes the pin icon.
+     */
+    public void refreshPinIcon() {
+        if (effectFrame.getPinned()) {
+            pinButton.setIcon(CyderIcons.pinIconHover);
+        } else if (effectFrame.isConsolePinned()) {
+            pinButton.setIcon(CyderIcons.pinIconHoverPink);
+        } else {
+            pinButton.setIcon(CyderIcons.pinIcon);
         }
     }
 }

@@ -693,14 +693,16 @@ public class PaintWidget {
         setNewPaintColor(CyderColors.regularBlue);
         setNewPaintColor(CyderColors.tooltipForegroundColor);
 
-        // 60 is a taskbar offset estimate
-        int y = ScreenUtil.getScreenHeight() - paintControlsFrame.getHeight() - 60;
+        // 40 is a taskbar offset estimate
+        int y = ScreenUtil.getScreenHeight() - paintControlsFrame.getHeight() - 40;
         Rectangle screen = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getMonitorBounds();
         int x = screen.x + (screen.width - paintControlsFrame.getWidth()) / 2;
 
-        paintControlsFrame.setPinned(true);
         paintControlsFrame.setLocation(x, y);
         paintControlsFrame.setVisible(true);
+
+        paintControlsFrame.setPinned(true);
+        paintControlsFrame.getTopDragLabel().refreshPinIcon();
 
         if (paintFrame.isVisible())
             return;
