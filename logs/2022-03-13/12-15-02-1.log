@@ -16,8 +16,7 @@
 [12-15-04] [SYSTEM_IO]: Userdata requested: RandomBackground
 [12-15-04] [SYSTEM_IO]: Userdata requested: FullScreen
 [12-15-04] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-15-04] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-15-04] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-15-04] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [12-15-04] [THREAD STARTED]: Console Printing Animation
 [12-15-04] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-15-04] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -85,8 +84,7 @@
 [12-15-48] [HANDLE]: PRIMARY HANDLE
 [12-15-49] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
 [12-15-49] [THREAD STARTED]: Flash Player scrolling title thread [Skizzy Mars - Gift and Curse]
-[12-15-49] [THREAD STARTED]: Flash Player Progress Thread [Skizzy Mars - Gift and Curse]
-[12-15-49] [THREAD STARTED]: Flash Player Progress Thread [Skizzy Mars - Gift and Curse]
+[12-15-49] [THREAD STARTED]: Flash Player Progress Thread [Skizzy Mars - Gift and Curse] [2x]
 [12-15-49] [AUDIO]: [AUDIO PLAYER] Skizzy Mars - Gift and Curse.mp3
 [12-15-50] [OBJECT CREATION]: Objects created since last delta (5s): 25
 [12-15-52] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json

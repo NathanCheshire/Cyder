@@ -1,0 +1,7 @@
+[13-01-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\
+[13-01-38] [SYSTEM_IO]: [DELETION FAILED] file already existed: C:\Users\Nathan\Documents\I
+[13-01-38] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f4
+[13-01-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\
+[13-01-38] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f4
+[13-01-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\
+[13-26-38] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

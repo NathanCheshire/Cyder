@@ -16,10 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
-
-// todo if log line is greater than a certain char limit, need to split and add two tabs at beginning of broken lines
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
@@ -42,6 +41,11 @@ public class Logger {
      * The rate at which to log the amount of objects created since the last log.
      */
     public static final int deltaT = 5;
+
+    /**
+     * The maximum number of chars per line of a log
+     */
+    public static final int MAX_LINE_LENGTH = 90;
 
     /**
      * Whether the current log should not be written to again.
@@ -294,6 +298,8 @@ public class Logger {
      * @param line the single line to write
      */
     private static synchronized void writeLine(String line) {
+        line = line.trim();
+
         //if we have to make a new line
         String recoveryLine = null;
 
@@ -301,19 +307,25 @@ public class Logger {
         if (!getCurrentLog().exists()) {
             generateAndSetLogFile();
 
-            recoveryLine = "[log file/directory was deleted during runtime, recreating and restarting log: "
+            recoveryLine = "[Log filewas deleted during runtime, recreating and restarting log at: "
                     + TimeUtil.userTime() + "]";
+
+            writeLine(line);
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
             writingSemaphore.acquire();
 
-            if (recoveryLine != null) {
-                bw.write(recoveryLine.trim());
-            }
+            LinkedList<String> lines = lengthCheck(line);
 
-            bw.write(line.trim());
-            bw.newLine();
+            for (int i = 0 ; i < lines.size() ; i++) {
+                if (i != 0) {
+                    bw.write("           "); // 11 spaces
+                }
+
+                bw.write(lines.get(i));
+                bw.newLine();
+            }
 
             writingSemaphore.release();
         } catch(Exception e) {
@@ -322,6 +334,64 @@ public class Logger {
             // print to standard output, the only System.out in the entire program that should exist
             System.out.println(line.trim());
         }
+    }
+
+    /**
+     * Only check 10 chars to the left of a line unless we force a break regardless
+     * of whether a space is at that char.
+     */
+    private static final int BREAK_INSERTION_TOL = 10;
+
+    public static void main(String[] args) {
+        String liner = "alpah beta gamma delta epsilon zeta eta theta iota lambda " +
+                "chi nu xu omicronalpah beta gamma delta epsilon zeta eta theta iota" +
+                " lambda chi nu xu omicronalpah beta gamma delta epsilon zeta eta theta iota lambda chi nu xu omicron";
+
+        LinkedList<String> lines = lengthCheck(liner);
+
+        for (int i = 0 ; i < lines.size() ; i++) {
+            if (i != 0)
+                System.out.println("\t\t" + lines.get(0));
+            else
+                System.out.println(lines.get(0));
+        }
+    }
+
+    /**
+     * Returns the provided string with line breaks inserted if needed to ensure
+     * the line length does not surpass {@link Logger#MAX_LINE_LENGTH}.
+     *
+     * @param line the line to insert breaks in if needed
+     * @return the formatted lines
+     */
+    private static LinkedList<String> lengthCheck(String line) {
+        LinkedList<String> ret = new LinkedList<>();
+
+        // while the remaining length is greater than max
+        while (line.length() > MAX_LINE_LENGTH) {
+            // if the ideal split works
+            if (line.charAt(MAX_LINE_LENGTH) == ' ') {
+                ret.add(line.substring(0, MAX_LINE_LENGTH + 1));
+                line = line.substring(MAX_LINE_LENGTH + 1);
+            } else {
+                // otherwise need to check left
+                for (int i = MAX_LINE_LENGTH ; i > MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i--) {
+                    if (line.charAt(i) == ' ') {
+                        ret.add(line.substring(0, i).trim());
+                        line = line.substring(i).trim();
+                        break;
+                    } else if (i == MAX_LINE_LENGTH - BREAK_INSERTION_TOL + 1) {
+                        // end of the check so just split at the end
+                        ret.add(line.substring(0, MAX_LINE_LENGTH).trim());
+                        line = line.substring(MAX_LINE_LENGTH).trim();
+                    }
+                }
+            }
+        }
+
+        ret.add(line.trim());
+
+        return ret;
     }
 
     /**

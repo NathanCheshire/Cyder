@@ -165,7 +165,7 @@ public class InputHandler {
 
         //log input as user triggered or simulated client input
         if (userTriggered) {
-            Logger.log(LoggerTag.CLIENT, this.command);
+            Logger.log(LoggerTag.CLIENT, argsAndCommandToString());
         } else {
             Logger.log(LoggerTag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
