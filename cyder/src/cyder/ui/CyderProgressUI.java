@@ -299,7 +299,6 @@ public class CyderProgressUI extends BasicProgressBarUI {
      * @param high2 the max value of the new range
      * @return the mapped value
      */
-    @SuppressWarnings("SameParameterValue") /* for readability */
     private static double rangeMap(double value, double low1, double high1, double low2, double high2) {
         return linearInterpolate(low2, high2, (value - low1) / (high1 - low1));
     }

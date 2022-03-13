@@ -587,7 +587,7 @@ public class AudioPlayer {
         audioProgress.setMinimum(0);
         audioProgress.setMaximum(10000);
         audioProgress.setBorder(new LineBorder(Color.black, 4));
-        audioProgress.setVisible(true);
+        audioProgress.setVisible(false);
         audioProgress.setValue(0);
         audioProgress.setOpaque(false);
         audioProgress.setToolTipText("Audio Location");
@@ -854,7 +854,7 @@ public class AudioPlayer {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public static void previousAudio() {
-        if (audioFiles.isEmpty() || !allowButtonClick())
+        if (audioFiles.isEmpty() || !shouldAllowAction())
             return;
 
         //refresh files just to be safe
@@ -894,7 +894,7 @@ public class AudioPlayer {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public static void nextAudio() {
-        if (audioFiles.isEmpty() || !allowButtonClick())
+        if (audioFiles.isEmpty() || !shouldAllowAction())
             return;
 
         //just to be safe
@@ -1632,10 +1632,12 @@ public class AudioPlayer {
      * Refreshes the frame's painted title, super title, and console frame menu name.
      */
     public static void refreshFrameTitle() {
-        if (lastAction == LastAction.STOP)
+        if (lastAction == LastAction.STOP) {
             audioFrame.setTitle(DEFAULT_TITLE);
-        else
+        } else {
             audioFrame.setTitle(FileUtil.getFilename(audioFiles.get(audioIndex).getName()));
+        }
+
         ConsoleFrame.getConsoleFrame().revalidateMenu();
     }
 
@@ -1645,8 +1647,7 @@ public class AudioPlayer {
      *
      * @return whether the button click should be allowed to to pass
      */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted") /* intellij being dumb */
-    private static boolean allowButtonClick() {
+    private static boolean shouldAllowAction() {
         if (System.currentTimeMillis() - lastActionTime > actionTimeoutMS) {
             lastActionTime = System.currentTimeMillis();
             return true;

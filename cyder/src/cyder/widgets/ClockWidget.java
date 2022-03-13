@@ -28,7 +28,6 @@ import java.util.TimeZone;
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.
  */
-@SuppressWarnings({"FieldMayBeFinal", "UnnecessaryLocalVariable"}) /* use of arrays on purpose, readability */
 public class ClockWidget {
     /**
      * Suppress default constructor.

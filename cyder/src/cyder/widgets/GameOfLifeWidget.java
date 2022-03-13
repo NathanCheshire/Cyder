@@ -375,7 +375,6 @@ public class GameOfLifeWidget {
     private static int[][] lastGen;
     private static int[][] secondToLastGen;
 
-    @SuppressWarnings("ForLoopReplaceableByForEach")
     private static void start() {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {

@@ -8,7 +8,6 @@ import cyder.utilities.ReflectionUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-@SuppressWarnings("FieldMayBeFinal") /* will become redundant eventually */
 public class CyderGridLayout extends CyderBaseLayout {
     //the default cells to use for both the vertical and horizontal axes
     public static final int DEFAULT_CELLS = 1;

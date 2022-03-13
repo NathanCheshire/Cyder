@@ -36,9 +36,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * CyderFrame component is the primary backbone that all of Cyder lays on.
  */
-@SuppressWarnings({"unused",
-        "ThisEscapedInObjectConstruction",
-        "OverridableMethodCallDuringObjectConstruction"})
 public class CyderFrame extends JFrame {
     /**
      * The maximum allowable frame dimension to notification dimension before
@@ -381,13 +378,11 @@ public class CyderFrame extends JFrame {
         titleLabel = new JLabel("");
         titleLabel.setFont(CyderFonts.frameTitleFont);
         titleLabel.setForeground(CyderColors.vanila);
+        titleLabel.setOpaque(false);
         titleLabel.setFocusable(false);
         topDrag.add(titleLabel);
 
-        //default boolean values
         threadsKilled = false;
-
-        //frame type handling
         setFrameType(frameType);
 
         Logger.log(LoggerTag.OBJECT_CREATION, this);
@@ -856,8 +851,9 @@ public class CyderFrame extends JFrame {
 
             // if the width is not equal to the original one
             if (StringUtil.getMinWidth(title, titleLabel.getFont()) > width * MAX_TITLE_LENGTH_RATIO
-                    && !shortenedTitle.equalsIgnoreCase(title))
+                    && !shortenedTitle.equalsIgnoreCase(title)) {
                 shortenedTitle += "...";
+            }
 
             this.title = shortenedTitle;
             titleLabel.setText(this.title);
@@ -1371,7 +1367,6 @@ public class CyderFrame extends JFrame {
     /**
      * How much the frame location is incremented each dance step.
      */
-    @SuppressWarnings("FieldCanBeLocal")
     private final int dancingIncrement = 10;
 
     /**
@@ -1384,7 +1379,6 @@ public class CyderFrame extends JFrame {
      *
      * @param dancingDirection the direction the frame is currently dancing in
      */
-    @SuppressWarnings("SameParameterValue")
     protected void setDancingDirection(DancingDirection dancingDirection) {
         this.dancingDirection = dancingDirection;
     }
@@ -1403,7 +1397,6 @@ public class CyderFrame extends JFrame {
      *
      * @param dancingFinished whether dancing has concluded
      */
-    @SuppressWarnings("SameParameterValue") /* inspection being dumb */
     protected void setDancingFinished(boolean dancingFinished) {
         this.dancingFinished = dancingFinished;
     }

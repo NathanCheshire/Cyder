@@ -51,7 +51,6 @@ public class FrameUtil {
      *
      * @return a list of non CyderFrame frame objects opened by this instance
      */
-    @SuppressWarnings("unused") /* for consistency purposes */
     public static ArrayList<Frame> getNonCyderFrames() {
         ArrayList<Frame> ret = new ArrayList<>();
 
@@ -201,7 +200,6 @@ public class FrameUtil {
     /**
      * Closes all instances of Frame.
      */
-    @SuppressWarnings("unused") /* for consistency purposes */
     public static void closeAllFrames() {
         for (Frame frame : Frame.getFrames()) {
             frame.dispose();
@@ -258,7 +256,6 @@ public class FrameUtil {
     /**
      * Closes all instances of CyderFrame.
      */
-    @SuppressWarnings("unused") /* for consistency purposes */
     public static void closeAllCyderFrames() {
         closeAllCyderFrames(false);
     }

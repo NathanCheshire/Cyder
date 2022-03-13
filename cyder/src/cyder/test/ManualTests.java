@@ -29,7 +29,6 @@ import java.util.ArrayList;
 /**
  * Tests which must be performed manually and cannot be unit tested.
  */
-@SuppressWarnings("unused") /* methods invoked via reflection and annotation */
 public class ManualTests {
     /**
      * Restricts default instantiation.

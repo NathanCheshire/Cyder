@@ -47,7 +47,7 @@ import static cyder.genesis.CyderSplash.setLoadingMessage;
  * Class of components that represent the main way a user
  * interacts with Cyder and its copious functions.
  */
-@SuppressWarnings({"unused", "FieldNotUsedInToString"})
+
 /* Some methods aren't used yet,
 toString() uses the inner CyderFrame's toString method */
 public final class ConsoleFrame {
@@ -1580,7 +1580,6 @@ public final class ConsoleFrame {
      * The MouseWheelListener used for increasing/decreasing the
      * font size for input field and output area.
      */
-    @SuppressWarnings("MagicConstant") /* Loading font metric */
     private final MouseWheelListener fontSizerListener = e -> {
         if (e.isControlDown()) {
             int size = Integer.parseInt(UserUtil.getCyderUser().getFontsize());
@@ -1654,7 +1653,6 @@ public final class ConsoleFrame {
      *
      * @return the font to use for the input and output areas
      */
-    @SuppressWarnings("MagicConstant") /* Loading font */
     public Font generateUserFont() {
         return new Font(UserUtil.getCyderUser().getFont(),
                 Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
@@ -1930,7 +1928,6 @@ public final class ConsoleFrame {
      * The ConsoleFrame will remain in fullscreen mode if in fullscreen mode as well as maintain
      * whatever size it was at before a background switch was requested.
      */
-    @SuppressWarnings("BusyWait") /* Animations */
     private void switchBackground() {
         // always load first to ensure we're up-to-date with the valid backgrounds
         loadBackgrounds();
@@ -2216,7 +2213,6 @@ public final class ConsoleFrame {
      *
      * @param degree the degree by which to smoothly rotate
      */
-    @SuppressWarnings("unused") /* to be used */
     private void rotateConsole(int degree) {
         ImageIcon masterIcon = (ImageIcon) ((JLabel) consoleCyderFrame.getContentPane()).getIcon();
         BufferedImage master = ImageUtil.getBi(masterIcon);
@@ -2992,7 +2988,6 @@ public final class ConsoleFrame {
      * Invokes dance in a synchronous way on all CyderFrame instances.
      */
     public void dance() {
-        @SuppressWarnings("ClassHasNoToStringMethod")
         class RestoreFrame {
             private final int restoreX;
             private final int restoreY;

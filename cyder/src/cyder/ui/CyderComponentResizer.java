@@ -230,7 +230,6 @@ public class CyderComponentResizer extends MouseAdapter {
      * {@inheritDoc}
      */
     @Override
-    @SuppressWarnings("MagicConstant") /* usage of integer to cursor map */
     public void mouseMoved(MouseEvent e) {
         Component source = e.getComponent();
         Point location = e.getPoint();

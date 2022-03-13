@@ -20,7 +20,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-@SuppressWarnings("unused")
 public class CyderScrollList {
     private int width;
     private int height;

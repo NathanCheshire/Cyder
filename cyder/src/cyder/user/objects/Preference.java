@@ -9,7 +9,6 @@ import java.util.function.Function;
 /**
  * Preference class used to hold user data in the form of strings.
  */
-@SuppressWarnings("unused") /* unused getters/setters */
 public class Preference {
     private String id;
     private String displayName;

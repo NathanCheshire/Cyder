@@ -2,57 +2,56 @@
 [17-51-06] [THREAD STARTED]: Object Creation Logger
 [17-51-06] [THREAD STARTED]: Singular Cyder Instance Ensurer
 [17-51-07] [THREAD STARTED]: Splash Loader
-[17-51-07] [EXCEPTION]: 
+[17-51-07] [EXCEPTION]:
 Exception origin: line 1 column 84 path $.pass
 From line:
-           1006
+1006
 Trace: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonExcep
-           tion: Unterminated object at line 1 column 84 path $.pass
-	at com.google.gson.Gson.fromJs
-           on(Gson.java:1006)
-	at com.google.gson.Gson.fromJson(Gson.java:929)
-	at cyder.utilities.
-           UserUtil.extractUser(UserUtil.java:618)
-	at cyder.utilities.UserUtil.getterSetterValidato
-           r(UserUtil.java:437)
-	at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:557)
-	a
-           t cyder.genesis.Cyder.main(Cyder.java:97)
+tion: Unterminated object at line 1 column 84 path $.pass
+at com.google.gson.Gson.fromJs
+on(Gson.java:1006)
+at com.google.gson.Gson.fromJson(Gson.java:929)
+at cyder.utilities.
+UserUtil.extractUser(UserUtil.java:618)
+at cyder.utilities.UserUtil.getterSetterValidato
+r(UserUtil.java:437)
+at cyder.utilities.UserUtil.validateAllusers(UserUtil.java:557)
+a
+t cyder.genesis.Cyder.main(Cyder.java:97)
 Caused by: com.google.gson.stream.MalformedJson
-           Exception: Unterminated object at line 1 column 84 path $.pass
-	at com.google.gson.stream
-           .JsonReader.syntaxError(JsonReader.java:1597)
-	at com.google.gson.stream.JsonReader.doPee
-           k(JsonReader.java:491)
-	at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
-           at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeA
-           dapterFactory.java:215)
-	at com.google.gson.Gson.fromJson(Gson.java:991)
-	... 5 more
+Exception: Unterminated object at line 1 column 84 path $.pass
+at com.google.gson.stream
+.JsonReader.syntaxError(JsonReader.java:1597)
+at com.google.gson.stream.JsonReader.doPee
+k(JsonReader.java:491)
+at com.google.gson.stream.JsonReader.hasNext(JsonReader.java:414)
+at com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeA
+dapterFactory.java:215)
+at com.google.gson.Gson.fromJson(Gson.java:991)
+... 5 more
 [17-51-07] [CORRUPTION]: [BACKUP SUCCESS] Successfully restored 7d7ebb00-81fe-329f-8a78-62
-           f463d0b7da from: 7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211780925
+f463d0b7da from: 7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211780925
 [17-51-07] [THREAD STARTED]: Splash Animation
 [17-51-07] [THREAD STARTED]: Cyder Start Secondary Subroutines
 [17-51-07] [LOGIN]: [AUTOCYPHER ATTEMPT]
 [17-51-07] [THREAD STARTED]: JVM Logger
 [17-51-07] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\tmp
+\dynamic\tmp
 [17-51-07] [SYSTEM_IO]: [DELETION FAILED] file already existed: C:\Users\Nathan\Documents\
-           IntelliJava\Cyder\dynamic\tmp
+IntelliJava\Cyder\dynamic\tmp
 [17-51-07] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211780925.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211780925.json
 [17-51-08] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
 [17-51-08] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211868004.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211868004.json
 [17-51-08] [SYSTEM_IO]: Userdata requested: RandomBackground
 [17-51-08] [SYSTEM_IO]: Userdata requested: FullScreen
 [17-51-08] [SYSTEM_IO]: Userdata requested: fullscreen
-[17-51-08] [SYSTEM_IO]: Userdata requested: FullScreen
-[17-51-08] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-51-08] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [17-51-08] [THREAD STARTED]: Console Printing Animation
 [17-51-08] [SYSTEM_IO]: Userdata requested: OutputBorder
 [17-51-08] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -66,65 +65,65 @@ Caused by: com.google.gson.stream.MalformedJson
 [17-51-08] [THREAD STARTED]: Cyder Busy Checker
 [17-51-08] [THREAD STARTED]: ConsoleFrame Stat Saver
 [17-51-08] [UI ACTION]: Console loaded in 2468ms
-[17-51-08] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1205580258, bounds = 
-           (512, 301, 707, 744), parent frame = Component is top frame, getTitle() = Insomnia Cyder
-           [Nathan] notification queue checker
+[17-51-08] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1205580258, bounds =
+(512, 301, 707, 744), parent frame = Component is top frame, getTitle() = Insomnia Cyder
+[Nathan] notification queue checker
 [17-51-08] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
 [17-51-08] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame,
-           hash = 541188019, bounds = (980, 396, 600, 600), parent frame = Component is top frame,
-           getTitle() = Cyder Splash
+hash = 541188019, bounds = (980, 396, 600, 600), parent frame = Component is top frame,
+getTitle() = Cyder Splash
 [17-51-08] [SYSTEM_IO]: Userdata requested: DebugWindows
 [17-51-08] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
 [17-51-08] [SYSTEM_IO]: Userdata requested: laststart
 [17-51-08] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-08] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 288, h = 29, text =
-           <html>Console loaded in 2468ms</html>
+<html>Console loaded in 2468ms</html>
 [17-51-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211868412.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211868412.json
 [17-51-08] [THREAD STARTED]: notification appear animation
 [17-51-09] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [17-51-09] [THREAD STARTED]: Notificaiton Vanish Animator
 [17-51-09] [OBJECT CREATION]: Objects created since last delta (5s): 97
 [17-51-11] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211868856.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211868856.json
 [17-51-14] [OBJECT CREATION]: Objects created since last delta (5s): 2
 [17-51-15] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-15] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211871619.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211871619.json
 [17-51-19] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-19] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211875490.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211875490.json
 [17-51-19] [OBJECT CREATION]: Objects created since last delta (5s): 2
 [17-51-23] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-23] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211879244.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211879244.json
 [17-51-24] [OBJECT CREATION]: Objects created since last delta (5s): 1
 [17-51-26] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-26] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211883009.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211883009.json
 [17-51-29] [OBJECT CREATION]: Objects created since last delta (5s): 1
 [17-51-30] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-30] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211886745.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211886745.json
 [17-51-34] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
-           463d0b7da\Userdata.json
+463d0b7da\Userdata.json
 [17-51-34] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
-           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211890480.json
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647211890480.json
 [17-51-34] [OBJECT CREATION]: Objects created since last delta (5s): 2
 [17-51-35] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [17-51-35] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
 [17-51-35] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFram
-           e (inner), hash = 1205580258, bounds = (512, 301, 707, 744), parent frame = Component is
-           top frame, getTitle() = Insomnia Cyder [Nathan]
+e (inner), hash = 1205580258, bounds = (512, 301, 707, 744), parent frame = Component is
+top frame, getTitle() = Insomnia Cyder [Nathan]
 [17-51-35] [SYSTEM_IO]: Userdata requested: closeanimation
 [17-51-35] [EXIT]: [RUNTIME] 29s
 [17-51-35] [EOL]: Log completed, exiting Cyder with exit
-           code: 0 [Genesis Controlled Exit], exceptions thrown: 1
+code: 0 [Genesis Controlled Exit], exceptions thrown: 1

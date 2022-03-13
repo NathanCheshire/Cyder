@@ -12,7 +12,6 @@ import java.util.LinkedList;
  * A user object which holds all relavent data about a Cyder user.
  * Note that the default constructor is not restricted due to GSON parsing.
  */
-@SuppressWarnings({"UnusedReturnValue", "unused"}) /* lots of things are invoked via reflection */
 public class User {
     /**
      * Creates a new User object.

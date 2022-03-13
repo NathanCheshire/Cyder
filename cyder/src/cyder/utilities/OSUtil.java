@@ -35,7 +35,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Helper methods to sort out differences between operating systems Cyder might be running on.
  */
-@SuppressWarnings({"unused", "WeakerAccess"}) /* Some methods have no use still, some methods aren't used yet */
 public class OSUtil {
     /**
      * A list of the restricted windows filenames due to backwards compatibility
@@ -81,7 +80,6 @@ public class OSUtil {
      * @return whether the provided filename is valid for the operating system
      * Cyder is currently running on
      */
-    @SuppressWarnings("HardcodedFileSeparator") /* that's the point of this method */
     public static boolean isValidFilename(String filename) {
         filename = filename.trim();
 
@@ -130,7 +128,6 @@ public class OSUtil {
     /**
      * The raw operating system name.
      */
-    @SuppressWarnings("WeakerAccess") /* anything can access this since it's final */
     public static final String OPERATING_SYSTEM_NAME = System.getProperty("os.name");
 
     /**
@@ -208,7 +205,6 @@ public class OSUtil {
     /**
      * Opens the command shell for the operating system.
      */
-    @SuppressWarnings({"CallToRuntimeExec", "HardcodedFileSeparator"}) /* the point of this method is to handle non-portability */
     public static void openShell() {
         try {
             switch (OPERATING_SYSTEM) {
@@ -243,7 +239,6 @@ public class OSUtil {
      * @return a File object representing the file that was created
      * @throws IllegalStateException if the file could not be created at this time
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") /* The point is to create files so ignore */
     public static File createFileInUserSpace(String name) {
         if (!StringUtil.isNull(ConsoleFrame.getConsoleFrame().getUUID())) {
             File saveDir = new File("dynamic" + FILE_SEP
@@ -280,7 +275,6 @@ public class OSUtil {
      * @return a File object representing the file that was created
      * @throws IllegalStateException if the file could not be created
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") /* Creating files */
     public static File createFileInSystemSpace(String name) {
         File tmpDir = new File(TMP_DIR_PATH);
 
@@ -447,12 +441,9 @@ public class OSUtil {
             inc++;
         }
 
-        // deletion failed or it didn't exist in the firstp lace
-        if (!folder.exists()) {
-            Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] file already existed: "
+        if (folder.exists()) {
+            Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] file: "
                     + folder.getAbsolutePath());
-        } else {
-            Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] " + folder.getAbsolutePath());
         }
 
         return false;

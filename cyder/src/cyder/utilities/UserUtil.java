@@ -811,7 +811,6 @@ public class UserUtil {
      *
      * @param uuid the specified uuid to remove from the invalid uuids list
      */
-    @SuppressWarnings("unused")
     private static void removeInvalidUuid(String uuid) {
         //method purposefully left blank since this isn't something
         // that should be fixed and revalidated at runtime.
@@ -832,8 +831,6 @@ public class UserUtil {
         try {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
-
-            // todo opening mp3 after closing it in a smaller state messes it up
 
             try {
                // attempt to recovery a backup

@@ -19,7 +19,6 @@ import java.util.Objects;
 /**
  * Methods common to all Cyder that don't exactly belong in a utility class.
  */
-@SuppressWarnings("FieldCanBeLocal") /* we want to declare some vars values on their line and not in the method */
 public class CyderShare {
     /**
      * Instantiation of CyderCommon class not allowed

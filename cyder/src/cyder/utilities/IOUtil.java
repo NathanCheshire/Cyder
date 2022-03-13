@@ -310,7 +310,6 @@ public class IOUtil {
      *              isReadOnly, isSystem, creationTime, isDirectory, isOther, isSymbolicLink,
      *              lastAccessTime, lastModifiedTime
      */
-    @SuppressWarnings("unused")
     public static String[] getDOSAttributes(File file) {
         String[] ret = new String[10];
 

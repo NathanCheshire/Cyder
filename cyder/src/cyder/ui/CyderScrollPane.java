@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
  * Credit: Philipp Danner from Stack Overflow
  * https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
  */
-@SuppressWarnings("unused")
+
 public class CyderScrollPane extends JScrollPane {
     private static int SCROLL_BAR_ALPHA_ROLLOVER = 100;
     private static int SCROLL_BAR_ALPHA = 60;

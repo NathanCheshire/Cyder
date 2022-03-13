@@ -164,7 +164,6 @@ public class FileUtil {
      * @param expectedName the expected name
      * @return whether the file's name without the extension matches the expected name
      */
-    @SuppressWarnings("unused")
     public static boolean validateFileName(File file, String expectedName) {
         checkNotNull(file);
         checkNotNull(expectedName);

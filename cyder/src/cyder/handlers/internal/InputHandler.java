@@ -52,7 +52,6 @@ import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings({"unused", "ConstantConditions"})
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
 public class InputHandler {
     /**
@@ -128,7 +127,6 @@ public class InputHandler {
      * @param userTriggered whether the provided operation was produced via a user
      * @return whether the process may proceed
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored") /* file deletions and creations*/
     private boolean handlePreliminaries(String command, boolean userTriggered) {
         //check for null link (should be impossible)
         if (outputArea == null)

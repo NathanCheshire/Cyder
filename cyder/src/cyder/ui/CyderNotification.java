@@ -420,7 +420,6 @@ public class CyderNotification extends JLabel {
      * @param parent the component the notification is on
      * @param delay the delay before vanishing
      */
-    @SuppressWarnings("SameParameterValue")
     protected void vanish(Component parent, int delay) {
         vanish(vanishDirection, parent, delay);
     }

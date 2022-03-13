@@ -23,7 +23,6 @@ import java.util.Random;
 /**
  * A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise.
  */
-@SuppressWarnings("NonFinalStaticVariableUsedInClassInitialization") /* closed */
 public class PerlinWidget {
     /**
      * Prevent illegal class instantiation.

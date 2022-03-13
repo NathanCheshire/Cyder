@@ -17,7 +17,6 @@ import java.util.Date;
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
-@SuppressWarnings({"unused", "SpellCheckingInspection", "UseOfObsoleteDateTimeApi"})
 /* some methods unused still, date patterns */
 public class TimeUtil {
 

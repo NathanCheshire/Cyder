@@ -170,7 +170,6 @@ public class ColorUtil {
      * @return the dominant color
      */
     public static Color getDominantColor(Map<Integer, Integer> colorCounter) {
-        @SuppressWarnings("all")
         int dominantRGB = colorCounter.entrySet().stream()
                 .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1)
                 .get()

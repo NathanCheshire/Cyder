@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-@SuppressWarnings("NonFinalStaticVariableUsedInClassInitialization") /* path index */
 public class PathFinderWidget {
     private static int squareLen = 30;
     private static int numSquares;

@@ -224,7 +224,6 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the associated CyderFrame
      */
-    @SuppressWarnings("unused")
     public CyderFrame getEffectFrame() {
         return effectFrame;
     }
@@ -379,7 +378,6 @@ public class CyderDragLabel extends JLabel {
      * @param index the index of the button to be returned
      * @return the button at the provided index
      */
-    @SuppressWarnings("unused")
     public JButton getButton(int index) {
         if (index < 0 || index > buttonList.size() - 1)
             throw new IllegalArgumentException("Attempting to get button from invalid index");
@@ -414,7 +412,6 @@ public class CyderDragLabel extends JLabel {
      * @param button the button to move to the specified index
      * @param newIndex the index to move the specified button to
      */
-    @SuppressWarnings("unused")
     public void setButtonIndex(JButton button, int newIndex) {
         if (!buttonList.contains(button))
             throw new IllegalArgumentException("Button list does not contain provided button");
@@ -443,7 +440,6 @@ public class CyderDragLabel extends JLabel {
      * @param oldIndex the position of the button to target
      * @param newIndex the index to move the targeted button to
      */
-    @SuppressWarnings("unused")
     public void setButtonIndex(int oldIndex, int newIndex) {
         JButton popButton = buttonList.remove(oldIndex);
         buttonList.add(newIndex, popButton);
@@ -564,7 +560,6 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the x offset of this drag label
      */
-    @SuppressWarnings("unused")
     public int getxOffset() {
         return xOffset;
     }
@@ -574,7 +569,6 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the y offset of this drag label
      */
-    @SuppressWarnings("unused")
     public int getyOffset() {
         return yOffset;
     }
@@ -615,7 +609,6 @@ public class CyderDragLabel extends JLabel {
      *
      * @return the current button position
      */
-    @SuppressWarnings("unused")
     public ButtonPosition getButtonPosition() {
         return buttonPosition;
     }

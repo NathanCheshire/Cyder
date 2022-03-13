@@ -12,7 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
-@SuppressWarnings("FieldCanBeLocal") /* border width */
 public class CyderCheckbox extends JLabel {
     private final int borderWidth = 3;
     private boolean selected;

@@ -267,7 +267,6 @@ public class ConvexHullWidget {
      * @param points the list of points
      * @param ref the reference point
      */
-    @SuppressWarnings("ComparatorMethodParameterNotUsed")
     private static void sortByAngle(LinkedList<? extends Point> points, Point ref) {
         points.sort((b, c) -> {
             if (b == ref) return -1;

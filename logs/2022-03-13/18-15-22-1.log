@@ -1,0 +1,467 @@
+[18-15-22] [JVM_ENTRY]: [Nathan]
+[18-15-22] [THREAD STARTED]: Object Creation Logger
+[18-15-22] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[18-15-23] [THREAD STARTED]: Splash Loader
+[18-15-23] [THREAD STARTED]: Splash Animation
+[18-15-23] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[18-15-23] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[18-15-23] [THREAD STARTED]: JVM Logger
+[18-15-23] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\tmp
+[18-15-23] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-23] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213297816.json
+[18-15-24] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[18-15-24] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213323756.json
+[18-15-24] [SYSTEM_IO]: Userdata requested: RandomBackground
+[18-15-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-15-24] [SYSTEM_IO]: Userdata requested: fullscreen
+[18-15-24] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[18-15-24] [THREAD STARTED]: Console Printing Animation
+[18-15-24] [SYSTEM_IO]: Userdata requested: OutputBorder
+[18-15-24] [SYSTEM_IO]: Userdata requested: FullScreen
+[18-15-24] [SYSTEM_IO]: Userdata requested: InputBorder
+[18-15-24] [THREAD STARTED]: Console Input Caret Position Updater
+[18-15-24] [SYSTEM_IO]: Userdata requested: OutputFill
+[18-15-24] [SYSTEM_IO]: Userdata requested: InputFill
+[18-15-24] [THREAD STARTED]: High Ping Checker
+[18-15-24] [THREAD STARTED]: Hourly Chime Checker
+[18-15-24] [THREAD STARTED]: Console Clock Updater
+[18-15-24] [THREAD STARTED]: Cyder Busy Checker
+[18-15-24] [THREAD STARTED]: ConsoleFrame Stat Saver
+[18-15-24] [UI ACTION]: Console loaded in 2359ms
+[18-15-24] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 2117642238, bounds =
+(380, 454, 707, 744), parent frame = Component is top frame, getTitle() = Insomnia Cyder
+[Nathan] notification queue checker
+[18-15-24] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[18-15-24] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame,
+hash = 366850824, bounds = (980, 396, 600, 600), parent frame = Component is top frame,
+getTitle() = Cyder Splash
+[18-15-24] [SYSTEM_IO]: Userdata requested: DebugWindows
+[18-15-24] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[18-15-24] [SYSTEM_IO]: Userdata requested: laststart
+[18-15-24] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213324119.json
+[18-15-24] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text =
+<html>Console loaded in 2359ms</html>
+[18-15-24] [THREAD STARTED]: notification appear animation
+[18-15-24] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[18-15-24] [THREAD STARTED]: Notificaiton Vanish Animator
+[18-15-25] [OBJECT CREATION]: Objects created since last delta (5s): 96
+[18-15-27] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-27] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213324403.json
+[18-15-30] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-15-31] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-31] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213327289.json
+[18-15-34] [CLIENT]: ml3
+[18-15-34] [SYSTEM_IO]: Userdata requested: filterchat
+[18-15-34] [THREAD STARTED]: Unknown Input Handler
+[18-15-34] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[18-15-34] [DEBUG]: Similar command to "ml3" found with tol of 0.5714286, command = "mp3"
+[18-15-34] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-34] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213331039.json
+[18-15-35] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-15-35] [CONSOLE_OUT]: [STRING] Unknown command
+[18-15-35] [CLIENT]: mp3
+[18-15-35] [SYSTEM_IO]: Userdata requested: filterchat
+[18-15-35] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-35] [WIDGET OPENED]: AudioPlayer, trigger = mp3
+[18-15-35] [HANDLE]: PRIMARY HANDLE
+[18-15-35] [CONSOLE_OUT]: [STRING] Opening widget: AudioPlayer
+[18-15-36] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-36] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-36] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-36] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-36] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-37] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-37] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-38] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213334707.json
+[18-15-39] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-39] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-39] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-39] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-39] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-39] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-40] [OBJECT CREATION]: Objects created since last delta (5s): 22
+[18-15-40] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-40] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-41] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-41] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-41] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-41] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-41] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213338191.json
+[18-15-41] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-41] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-41] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-43] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-43] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-44] [UI ACTION]: Component = CyderLabel, hash = 880174803, bounds = (55, 420, 385,
+35), parent frame = Flash Player, getText() = <html><div style='text-align: center;'>1s
+played, 1m 58s left</html>
+[18-15-45] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-15-45] [UI ACTION]: Component = CyderLabel, hash = 880174803, bounds = (55, 420, 385,
+35), parent frame = Flash Player, getText() = <html><div style='text-align: center;'>1s
+played, 1m 58s left</html>
+[18-15-45] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-45] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213341927.json
+[18-15-45] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-46] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-46] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-46] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-46] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-46] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-46] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-46] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-46] [THREAD STARTED]: Flash Player Audio Thread [Chillstep  Wayr - Follow the
+Light]
+[18-15-46] [THREAD STARTED]: Flash Player Progress Thread [Chillstep  Wayr - Follow the
+Light]
+[18-15-46] [THREAD STARTED]: Flash Player Progress Thread [Chillstep  Wayr - Follow the
+Light]
+[18-15-46] [AUDIO]: [AUDIO PLAYER] Chillstep  Wayr - Follow the Light.mp3
+[18-15-47] [THREAD STARTED]: Flash Player Progress Thread [Chillstep  Wayr - Follow the
+Light]
+[18-15-47] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-47] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-47] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-47] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-47] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-47] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-48] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-48] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-49] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-49] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213345665.json
+[18-15-50] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-15-52] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-52] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-52] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-52] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-52] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-52] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-53] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213349409.json
+[18-15-53] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-53] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-53] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-53] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-53] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-54] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-54] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-54] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-54] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-54] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-54] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-55] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-15-56] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-56] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-56] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-15-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213353138.json
+[18-15-56] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-56] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-56] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-56] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-56] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-56] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-15-57] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-57] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-58] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-58] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-15-59] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-00] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-00] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-00] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-16-00] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-00] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213356873.json
+[18-16-01] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-01] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-01] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-01] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-01] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-01] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-16-02] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-02] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-03] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-03] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-16-04] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-04] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213360611.json
+[18-16-04] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-04] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-05] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-16-05] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-05] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-05] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-05] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-05] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-05] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-05] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-05] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-16-06] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-06] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-06] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-06] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-06] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-06] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-07] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-07] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-16-07] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-07] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-08] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213364330.json
+[18-16-08] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-08] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-08] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-08] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-08] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-08] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-16-09] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-09] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-10] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-10] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-10] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-16-10] [THREAD STARTED]: Flash Player Audio Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-10] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-10] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-10] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-10] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-10] [AUDIO]: [AUDIO PLAYER] drippin so pretty ft. Brennan Savage- Loaded (official
+music video).mp3
+[18-16-11] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213368073.json
+[18-16-15] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-16-15] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-15] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213371816.json
+[18-16-18] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213375318.json
+[18-16-20] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-16-21] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-21] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213378380.json
+[18-16-25] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-25] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213381439.json
+[18-16-25] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-16-28] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213385079.json
+[18-16-30] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-16-30] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-30] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-31] [UI ACTION]: Component = CyderDragLabel, hash = -14587513, bounds = (2, 2, 496,
+28), parent frame = drippin so pretty ft. Brennan Savage- Loaded (...
+[18-16-31] [THREAD STARTED]: [drippin so pretty ft. Brennan Savage- Loaded (...]
+dispose() animation thread
+[18-16-31] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame,
+hash = 1157929402, bounds = (483, 586, 500, 480), parent frame = Component is top frame,
+getTitle() = drippin so pretty ft. Brennan Savage- Loaded (...
+[18-16-31] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-16-32] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+463d0b7da\Userdata.json
+[18-16-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647213388672.json
+[18-16-32] [THREAD STARTED]: Flash Player Progress Thread [drippin so pretty ft. Brennan
+Savage- Loaded (official music video)]
+[18-16-32] [THREAD STARTED]: Flash Player scrolling title thread [drippin so pretty ft.
+Brennan Savage- Loaded (official music video)]
+[18-16-32] [THREAD STARTED]: Console Audio Menu Minimizer
+[18-16-32] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[18-16-32] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[18-16-32] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFram
+e (inner), hash = 2117642238, bounds = (380, 454, 707, 744), parent frame = Component is
+top frame, getTitle() = Insomnia Cyder [Nathan]
+[18-16-32] [SYSTEM_IO]: Userdata requested: closeanimation
+[18-16-32] [EXIT]: [RUNTIME] 1m 10s
+[18-16-32] [EOL]: Log completed, exiting Cyder with
+exit code: 0 [Genesis Controlled Exit], exceptions thrown: 0

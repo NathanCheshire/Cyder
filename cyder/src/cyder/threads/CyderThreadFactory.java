@@ -10,7 +10,6 @@ import java.util.concurrent.ThreadFactory;
 /**
  * A custom thread factory for Cyder.
  */
-@SuppressWarnings("UnusedAssignment") /* some things have yet to be used */
 public class CyderThreadFactory implements ThreadFactory {
 
     /**

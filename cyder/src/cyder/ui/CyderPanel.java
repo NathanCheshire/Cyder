@@ -15,7 +15,6 @@ import java.util.ArrayList;
  * CyderPanels are what hold and manage where components go on them.
  * They basically are a wrapper for layouts that extends {@link CyderBaseLayout}.
  */
-@SuppressWarnings("FieldMayBeFinal")
 public class CyderPanel extends JLabel {
     /**
      * Restict class instnatiation without a valid cyder layout.

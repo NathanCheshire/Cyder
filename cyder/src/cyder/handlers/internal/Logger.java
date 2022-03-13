@@ -256,7 +256,6 @@ public class Logger {
     /**
      * Creates the log file if it is not set/DNE
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void generateAndSetLogFile() {
         try {
             File logsDir = new File("logs");

@@ -51,7 +51,6 @@ public class CyderSplash {
     /**
      * Shows the splash screen as long as it has not already been shown.
      */
-    @SuppressWarnings("BusyWait") /* Sleeping in loops for animations */
     public static void showSplash() {
         if (splashShown)
             throw new IllegalStateException("Program has already been loaded");
