@@ -833,7 +833,7 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo test actually restoring from a backup
+            // todo opening mp3 after closing it in a smaller state messes it up
 
             try {
                // attempt to recovery a backup

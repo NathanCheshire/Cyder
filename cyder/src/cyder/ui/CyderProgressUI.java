@@ -108,16 +108,10 @@ public class CyderProgressUI extends BasicProgressBarUI {
         this.direction = direction;
     }
 
-    //overridden since custom animation
     @Override
     protected void incrementAnimationIndex() {
-        int newValue = getAnimationIndex() + 1;
-
-        if (newValue < numFrames) {
-            setAnimationIndex(newValue);
-        } else {
-            setAnimationIndex(0);
-        }
+        int val = getAnimationIndex() + 1;
+        setAnimationIndex(val < numFrames ? val : 0);
     }
 
     //UI Shape, currently only SQUARE works, rounded still being implemented
