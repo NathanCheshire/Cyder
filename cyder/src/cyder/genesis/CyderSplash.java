@@ -165,7 +165,7 @@ public class CyderSplash {
                         creatorLabel.setFont(nathanFont);
                         creatorLabel.setForeground(CyderColors.vanila);
                         creatorLabel.setBounds(0, 600, 600,
-                                StringUtil.getMinHeight("By Nathan Cheshire",nathanFont));
+                                StringUtil.getMinHeight("By Nathan Cheshire",nathanFont) + 10);
                         splashFrame.getContentPane().add(creatorLabel);
 
                         while (creatorLabel.getY() > 600 / 2 + 150 / 2 + creatorLabel.getHeight() + 10) {
@@ -206,11 +206,13 @@ public class CyderSplash {
                             Thread.sleep(dotTimeout);
                             loadingLabel.repaint();
 
+                            // if disposed, exit thread
                             if (splashFrame.isDisposed())
                                 return;
                         }
 
-                        if (splashFrame != null) {
+                        // if frame is still active and it should have been dispoed
+                        if (splashFrame != null && CyderShare.isDisposeFlash()) {
                             splashFrame.dispose(true);
 
                             // this has been going on for over a minute at this point if the program reaches here
@@ -239,6 +241,9 @@ public class CyderSplash {
     public static void fastDispose() {
         if (disposed)
             return;
+        if (!CyderShare.isDisposeFlash())
+            return;
+
         splashFrame.dispose(true);
         disposed = true;
     }

@@ -227,4 +227,18 @@ public class CyderShare {
     public static boolean isAutoCypher() {
         return autoCypher;
     }
+
+    /**
+     * Whether the splash frame should be auto disposed.
+     */
+    private static final boolean disposeFlash = true;
+
+    /**
+     * Returns whether the splash frame should be auto-disposed.
+     *
+     * @return whether the splash frame should be auto-disposed
+     */
+    public static boolean isDisposeFlash() {
+        return disposeFlash;
+    }
 }

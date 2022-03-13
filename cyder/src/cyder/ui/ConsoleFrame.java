@@ -233,6 +233,8 @@ public final class ConsoleFrame {
             if (!isClosed())
                 throw new RuntimeException("ConsoleFrame was left open: old uuid: " + previousUuid);
 
+            setLoadingMessage("Building Console");
+
             //create user files now that we have a valid uuid
             setLoadingMessage("Creating user files");
             UserUtil.ensureUserFilesExist(uuid);
@@ -838,6 +840,8 @@ public final class ConsoleFrame {
             if (entryPoint == CyderEntry.AutoCypher) {
                 consoleCyderFrame.notify(logString);
             }
+
+            setLoadingMessage("Console Built");
 
             CyderSplash.fastDispose();
         } catch (Exception e) {

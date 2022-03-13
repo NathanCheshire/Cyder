@@ -16,8 +16,7 @@
 [22-32-52] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-32-52] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-32-52] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-32-52] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-32-52] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-32-52] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-32-52] [THREAD STARTED]: Console Printing Animation
 [22-32-52] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-32-52] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -72,9 +71,7 @@
 [22-33-14] [THREAD STARTED]: Paint menu label animator
 [22-33-14] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [22-33-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647145990965.json
-[22-33-15] [THREAD STARTED]: Paint menu label animator
-[22-33-15] [THREAD STARTED]: Paint menu label animator
-[22-33-16] [THREAD STARTED]: Paint menu label animator
+[22-33-16] [THREAD STARTED]: Paint menu label animator [3x]
 [22-33-18] [SYSTEM_IO]: [JSON Saved] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
 [22-33-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647145994717.json
 [22-33-18] [THREAD STARTED]: Paint Controls CyderFrame dispose thread

@@ -833,17 +833,13 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo boolean toggle to not dispose splash frame for when showing off
-
             // todo replace all clickaction and such with just Runnables passed as lambdas
 
             // todo test actually restoring from a backup
-            // todo ensure logs are zipped after consolidating lines AND
-            // after the current log file is made to ensure not zipping wrong log even further
-            // todo add "New color" label for paint's new color field
-            // todo look at logs and figure out how to clean up logs
 
-            // todo if minimize, disable content repainting to and re-enable and repaint on deiconification
+            // todo add "New color" label for paint's new color field
+
+            // todo look at logs and figure out how to clean up logs
 
             try {
                // attempt to recovery a backup
