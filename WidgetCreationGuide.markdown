@@ -40,7 +40,7 @@ class MyWidget {
     private MyWidget() {
         Logger.log(LoggerTag.OJBECT_CREATION, this);
     }
-    
+
     public static MyWidget getInstance() {
         return new MyWidget();
     }
@@ -49,7 +49,7 @@ class MyWidget {
     public static void showGUI() {
         getInstance().innerShowGUI();
     }
-    
+
     public void innerShowGUI() {
         // building the widget
     }
@@ -73,7 +73,7 @@ class MyWidget {
     private MyWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
-    
+
     @Widget(triggers = "my trigger", description = "My widget description")
     public static void showGUI() {
         // building the widget
@@ -84,9 +84,43 @@ class MyWidget {
 
 ## Adding components
 
-Now that the preliminarie are out of the way, we may begin building the widget itself.
+Now that the preliminaries are out of the way, we may begin building the widget itself. First, you'll want to create
+a `CyderFrame` object and initialize it with a width and height. After that, make sure to set the title as well as the
+title position if a center title is desired.
+
+Calls:
+
+```java
+CyderFrame myFrame = new CyderFrame(600,600);
+myFrame.setTitle("My Title");
+myFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+```
+
+Now comes the fun part, building the rest of the UI. As stated previously make sure to use already built Cyder
+components before attempting to make your own. If the rare case of needing your own custom UI component does come about,
+I'd prefer it that you make it in the ui/ library and create a separate PR to add that UI component to Cyder itself.
+
+Adding a component to the frame:
+
+```java
+CyderButton myButton = new CyderButton("Button");
+myButton.setBounds(40,40,200,40);
+myButton.addActionListener(e->{
+    // your logic here or a lambda to a class level private method    
+});
+myFrame.getContentPane().add(myButton);
+```
+
+If you want to have a bit of fun with the UI and not use the default absolute layout, take a look at the `layouts`
+package for layouts such as the `CyderFlowLayout` and `CyderGridLayout`.
 
 ## Finishing calls
 
-## Allowing your widget to be invokable
+To finalize your frame, make sure to set the frame's visibility and location. Typically in Cyder, component's locations
+are set relatively to the current dominant frame. You don't have to worry about this, however, `CyderShare` takes care
+of this for you.
 
+```java
+myFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+myFrame.setVisible(true);
+```
