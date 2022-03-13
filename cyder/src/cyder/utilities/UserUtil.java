@@ -832,7 +832,7 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            //todo look into moving log tags out of logger.java
+            // todo look into moving log tags out of logger.java
 
             // todo paint controls should be always on top, place them bottom center, and place paint frame above it
 

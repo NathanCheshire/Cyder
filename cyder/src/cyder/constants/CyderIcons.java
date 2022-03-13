@@ -18,7 +18,7 @@ public class CyderIcons {
     /**
      * The Cyder logo used to indicate a background process is running.
      */
-    public static final ImageIcon CYDER_ICON_BLINK = new ImageIcon("static/pictures/CyderIconBlink.png");
+    public static final ImageIcon CYDER_BUSY_ICON = new ImageIcon("static/pictures/CyderBusyIcon.png");
 
     /**
      * The x easter egg icon.

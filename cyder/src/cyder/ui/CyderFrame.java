@@ -393,28 +393,15 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns an instance of a CyderFrame lacking any borders. The content label
-     * itself has is a DragLabel used for dragging the frame. It is up to you to determine
-     * how the frame is filled with components and most importantly, how it is disposed properly.
-     */
-    public static CyderFrame getBorderlessFrame(int width, int height) {
-        return new CyderFrame(width, height, true);
-    }
-    //todo fix solutuion for making a borderless frame
-
-    /**
-     * Constructs a CyderFrame object as a CyderFrame that exists without
+     * Constructs a CyderFrame object that exists without
      * surrounding drag labels, the title label, and the button list.
      *
-     * @param width the width of this CyderFrame
-     * @param height the height of this CyderFrame
-     * @param borderless whether the frame is borderless
+     * @param len the length of this borderless frame
      */
-    private CyderFrame(int width, int height, boolean borderless) {
-        this.width = width;
-        this.height = height;
+    public CyderFrame(int len) {
+        width = len;
+        height = len;
 
-        //this . methods
         setSize(new Dimension(width, height));
         setResizable(false);
         setUndecorated(true);

@@ -970,7 +970,7 @@ public final class ConsoleFrame {
                         if (busyThreads == 0 && CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
                             CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
                         } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
-                            CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON_BLINK);
+                            CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_BUSY_ICON);
                         }
                     } else if (CyderIcons.getCurrentCyderIcon() != CyderIcons.xxxIcon) {
                         CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);

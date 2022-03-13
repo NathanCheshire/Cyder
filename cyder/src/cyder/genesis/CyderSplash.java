@@ -58,7 +58,7 @@ public class CyderSplash {
 
         CyderThreadRunner.submit(() -> {
             try {
-                splashFrame = CyderFrame.getBorderlessFrame(600,600);
+                splashFrame = new CyderFrame(600);
                 splashFrame.setTitle("Cyder Splash");
 
                 // set AlwaysOnTop, this will be quickly turned off
