@@ -1,0 +1,92 @@
+# Creating a Cyder Widget
+
+By <b>Nathan Cheshire</b>
+
+Last updated: 3-13-21
+
+## Gettering started
+
+Making your own widget in Cyder is intended to be as easy and modern as possible. With the UI library as your skeleton,
+the styling up to you, and the `utilities` packge full of rich and useful methods for logic implementation, the freedom
+to manipulate Cyder is essentially limitless.
+
+## The Cyder UI library
+
+Lots of components exist within Cyder's `ui` package. The most important is the `CyderFrame`. The CyderFrame is
+constructed as an extension of `JFrame` that is undecorated with it's own drag listeners, menu bar, menu icons, and
+minimize and disposal animations. Other components include the `CyderTextField`, `CyderButton`, `CyderLabel`, and many
+more. Before creating your own ui component, you should ensure that a pre-built Cyder specific component doesn't already
+exist in this package.
+
+## Setting up the frame
+
+First, create a class in the `widgets` package following the same naming standard: `MyWidgetWidget`. Now you must decide
+if you want to allow multiple instances of your widget or not.
+
+### Option 1: Multiple Instances
+
+Multiple instances are allowed for your widget, splendid! Start off your class by making the default constructor private
+and make sure to include the following call to the `Logger` class: `Logger.log(LoggerTag.OJBECT_CREATION, this);`. Now
+create a `public static MyClass` method named `getInstance()` to return a new instance of your class.
+
+Now to allow your widget to be found and triggered via the `ReflectionUtil` widget finder and validator, you need to
+create a `public static void` method named `showGUI()`. Additionally, this method must be annotated with the `@Widget`
+annotation to allow it to be discovered. The annotation requries a single string or list of strings to allow a user to
+trigger it as well as a description. Additionally, since multiple instances are allowed, this method should ONLY invoke
+the following: `getInstance().showGUI()`. Thus, after following these steps, your class should look like the following:
+
+```java
+class MyWidget {
+    private MyWidget() {
+        Logger.log(LoggerTag.OJBECT_CREATION, this);
+    }
+    
+    public static MyWidget getInstance() {
+        return new MyWidget();
+    }
+
+    @Widget(triggers = "my trigger", description = "My widget description")
+    public static void showGUI() {
+        getInstance().innerShowGUI();
+    }
+    
+    public void innerShowGUI() {
+        // building the widget
+    }
+}
+```
+
+### Option 2: Singular Instance
+
+If a singular instance is desired, restrict the default constructor by making it private. To follow good programming
+practice set forth by [Effective Java](https://www.amazon.com/Effective-Java-Joshua-Bloch/dp/0134685997), include the
+following throw statement in the private
+constructor: `throw new IllegalMethodException(CyderStrings.attemptedInstantiation)`.
+
+Now to allow your widget to be found and triggered via the `ReflectionUtil` widget finder and validator, you need to
+create a `public static void` method named `showGUI()`. Additionally, this method must be annotated with the `@Widget`
+annotation to allow it to be discovered. The annotation requries a single string or list of strings to allow a user to
+trigger it as well as a description. Thus, after following these steps, your class should look like the following:
+
+```java
+class MyWidget {
+    private MyWidget() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+    
+    @Widget(triggers = "my trigger", description = "My widget description")
+    public static void showGUI() {
+        // building the widget
+    }
+}
+
+```
+
+## Adding components
+
+Now that the preliminarie are out of the way, we may begin building the widget itself.
+
+## Finishing calls
+
+## Allowing your widget to be invokable
+
