@@ -169,7 +169,7 @@ public class CyderScrollList {
         return scrollPane;
     }
 
-    public final void addElement(String labelText, ScrollAction sa) {
+    public final void addElement(String labelText, Runnable sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
         add.setFont(CyderFonts.segoe20);
@@ -178,7 +178,7 @@ public class CyderScrollList {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2 && sa != null) {
-                    sa.fire();
+                    sa.run();
                     add.setForeground(CyderColors.navy);
                 } else {
                     handleElementClick(add.getText());
@@ -189,7 +189,7 @@ public class CyderScrollList {
         elements.add(add);
     }
 
-    public final void addElementWithSingleCLickAction(String labelText, @NotNull ScrollAction sa) {
+    public final void addElementWithSingleCLickAction(String labelText, @NotNull Runnable sa) {
         JLabel add = new JLabel(labelText);
         add.setForeground(CyderColors.navy);
         add.setFont(CyderFonts.segoe20);
@@ -197,7 +197,7 @@ public class CyderScrollList {
         add.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                sa.fire();
+                sa.run();
                 handleElementClick(add.getText());
             }
         });

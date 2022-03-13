@@ -833,8 +833,6 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo replace all clickaction and such with just Runnables passed as lambdas
-
             // todo test actually restoring from a backup
 
             // todo look at logs and figure out how to clean up logs

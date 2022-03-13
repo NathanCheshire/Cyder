@@ -5,7 +5,6 @@ import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderFrame;
 
 import java.awt.*;
 
@@ -24,7 +23,7 @@ public final class NotificationBuilder {
     //optional params
     private int viewDuration = 5000;
     private Direction arrowDir = Direction.TOP;
-    private CyderFrame.ClickAction onKillAction;
+    private Runnable onKillAction;
     private NotificationDirection notificationDirection = NotificationDirection.TOP;
     private Container container;
     private Color notificationBackground;
@@ -51,7 +50,7 @@ public final class NotificationBuilder {
         this.arrowDir = arrowDir;
     }
 
-    public void setOnKillAction(CyderFrame.ClickAction onKillAction) {
+    public void setOnKillAction(Runnable onKillAction) {
         this.onKillAction = onKillAction;
     }
 
@@ -79,7 +78,7 @@ public final class NotificationBuilder {
         return arrowDir;
     }
 
-    public CyderFrame.ClickAction getOnKillAction() {
+    public Runnable getOnKillAction() {
         return onKillAction;
     }
 

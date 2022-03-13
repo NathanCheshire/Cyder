@@ -160,15 +160,8 @@ public class ImageAveragerWidget {
 
         for (int j = 0 ; j < files.size() ; j++) {
             int finalJ = j;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    IOUtil.openFile(files.get(finalJ).getAbsolutePath());
-                }
-            }
-
-            thisAction action = new thisAction();
-            imagesScroll.addElement(files.get(j).getName(), action);
+            imagesScroll.addElement(files.get(j).getName(),
+                    () -> IOUtil.openFile(files.get(finalJ).getAbsolutePath()));
         }
 
         imagesScroll.setItemAlignment(StyleConstants.ALIGN_LEFT);

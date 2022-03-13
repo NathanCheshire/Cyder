@@ -138,19 +138,13 @@ public class DirectoryViewer {
         //adding things to the list and setting up actions for what to do when an element is clicked
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public final void fire() {
-                    if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), true);
-                    } else {
-                        IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
-                    }
+            cyderScrollList.addElement(directoryNameList.get(i), () -> {
+                if (directoryFileList.get(finalI).isDirectory()) {
+                    refreshBasedOnDir(directoryFileList.get(finalI), true);
+                } else {
+                    IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
                 }
-            }
-
-            thisAction action = new thisAction();
-            cyderScrollList.addElement(directoryNameList.get(i), action);
+            });
         }
 
         //generate the scroll label
@@ -186,18 +180,13 @@ public class DirectoryViewer {
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public final void fire() {
-                    if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), true);
-                    } else {
-                        IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
-                    }
+            cyderScrollList.addElement(directoryNameList.get(i), () -> {
+                if (directoryFileList.get(finalI).isDirectory()) {
+                    refreshBasedOnDir(directoryFileList.get(finalI), true);
+                } else {
+                    IOUtil.openFile(directoryFileList.get(finalI).getAbsolutePath());
                 }
-            }
-            thisAction action = new thisAction();
-            cyderScrollList.addElement(directoryNameList.get(i), action);
+            });
         }
         dirScrollLabel = cyderScrollList.generateScrollList();
         dirScrollLabel.setBounds(10,90,600, 400);

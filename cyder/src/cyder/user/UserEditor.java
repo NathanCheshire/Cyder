@@ -200,16 +200,8 @@ public class UserEditor {
 
         for (int i = 0; i < filesNameList.size() ; i++) {
             int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    System.out.println("opening: " + filesList.get(finalI));
-                    IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
-                }
-            }
-
-            thisAction action = new thisAction();
-            filesScroll.addElement(filesNameList.get(i), action);
+            filesScroll.addElement(filesNameList.get(i),
+                    () -> IOUtil.openFile(filesList.get(finalI).getAbsolutePath()));
         }
 
         filesLabel = filesScroll.generateScrollList();
@@ -458,15 +450,8 @@ public class UserEditor {
 
         for (int j = 0; j < filesNameList.size() ; j++) {
             int finalJ = j;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    IOUtil.openFile(filesList.get(finalJ).getAbsolutePath());
-                }
-            }
-
-            thisAction action = new thisAction();
-            filesScroll.addElement(filesNameList.get(j), action);
+            filesScroll.addElement(filesNameList.get(j),
+                    () -> IOUtil.openFile(filesList.get(finalJ).getAbsolutePath()));
         }
 
         filesLabel = filesScroll.generateScrollList();
@@ -712,18 +697,10 @@ public class UserEditor {
 
             for (int i = 0 ; i < fontList.size() ; i++) {
                 int finalI = i;
-                class thisAction implements CyderScrollList.ScrollAction {
-                    @Override
-                    public void fire() {
-                        //noinspection MagicConstant
-                        FontLabel.setFont(new Font(fontList.get(finalI),
-                                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
-                                Integer.parseInt(UserUtil.getCyderUser().getFontsize())));
-                    }
-                }
-
-                thisAction action = new thisAction();
-                fontScrollList.addElementWithSingleCLickAction(fontList.get(i), action);
+                fontScrollList.addElementWithSingleCLickAction(fontList.get(i),
+                        () -> FontLabel.setFont(new Font(fontList.get(finalI),
+                        Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
+                        Integer.parseInt(UserUtil.getCyderUser().getFontsize()))));
             }
 
             fontScrollLabel.set(fontScrollList.generateScrollList());

@@ -70,15 +70,8 @@ public class NotesWidget {
 
         for (int i = 0 ; i < noteNameList.size() ; i++) {
             int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    openNote(noteList.get(finalI));
-                }
-            }
-
-            thisAction action = new thisAction();
-            cyderScrollList.addElement(noteNameList.get(i), action);
+            cyderScrollList.addElement(noteNameList.get(i),
+                    () ->  openNote(noteList.get(finalI)));
         }
 
         noteScrollLabel = cyderScrollList.generateScrollList();
@@ -151,15 +144,8 @@ public class NotesWidget {
 
                     for (int j = 0 ; j < noteNameList.size() ; j++) {
                         int finalJ = j;
-                        class thisAction implements CyderScrollList.ScrollAction {
-                            @Override
-                            public void fire() {
-                                openNote(noteList.get(finalJ));
-                            }
-                        }
-
-                        thisAction action = new thisAction();
-                        cyderScrollList.addElement(noteNameList.get(j), action);
+                        cyderScrollList.addElement(noteNameList.get(j),
+                                () -> openNote(noteList.get(finalJ)));
                     }
 
                     noteScrollLabel = cyderScrollList.generateScrollList();
@@ -247,15 +233,8 @@ public class NotesWidget {
 
             for (int i = 0 ; i < noteNameList.size() ; i++) {
                 int finalI = i;
-                class thisAction implements CyderScrollList.ScrollAction {
-                    @Override
-                    public void fire() {
-                        openNote(noteList.get(finalI));
-                    }
-                }
-
-                thisAction action = new thisAction();
-                cyderScrollList.addElement(noteNameList.get(i), action);
+                cyderScrollList.addElement(noteNameList.get(i),
+                        () -> openNote(noteList.get(finalI)));
             }
             noteScrollLabel = cyderScrollList.generateScrollList();
             noteScrollLabel.setBounds(40, 40, 520, 500);
@@ -408,15 +387,7 @@ public class NotesWidget {
 
                     for (int i = 0 ; i < noteNameList.size() ; i++) {
                         int finalI = i;
-                        class thisAction implements CyderScrollList.ScrollAction {
-                            @Override
-                            public void fire() {
-                                openNote(noteList.get(finalI));
-                            }
-                        }
-
-                        thisAction action = new thisAction();
-                        cyderScrollList.addElement(noteNameList.get(i), action);
+                        cyderScrollList.addElement(noteNameList.get(i), () -> openNote(noteList.get(finalI)));
                     }
 
                     noteScrollLabel = cyderScrollList.generateScrollList();

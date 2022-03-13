@@ -4,7 +4,6 @@ import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderFrame;
 import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
@@ -17,7 +16,7 @@ public final class QueuedNotification {
     private int duration;
     private Direction arrowDir;
     private NotificationDirection notificationDirection;
-    private CyderFrame.ClickAction onKillAction;
+    private Runnable onKillAction;
     private String time;
     private Container contianer;
     private Color notificationBackground;
@@ -34,7 +33,7 @@ public final class QueuedNotification {
      */
     public QueuedNotification(String text, int dur, Direction arrowDir,
                               NotificationDirection notificationDirection,
-                              CyderFrame.ClickAction onKillAction, Container container,
+                              Runnable onKillAction, Container container,
                               Color notificationBackground, String time) {
         htmlText = text;
         duration = dur;
@@ -81,11 +80,11 @@ public final class QueuedNotification {
         return notificationDirection;
     }
 
-    public CyderFrame.ClickAction getOnKillAction() {
+    public Runnable getOnKillAction() {
         return onKillAction;
     }
 
-    public void setOnKillAction(CyderFrame.ClickAction onKillAction) {
+    public void setOnKillAction(Runnable onKillAction) {
         this.onKillAction = onKillAction;
     }
 

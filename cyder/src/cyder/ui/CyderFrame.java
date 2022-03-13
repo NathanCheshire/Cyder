@@ -1001,7 +1001,7 @@ public class CyderFrame extends JFrame {
                                 //fire any on kill actions if it's not null
                                 if (currentQueuedNotification.getOnKillAction() != null) {
                                     currentNotification.kill();
-                                    currentQueuedNotification.getOnKillAction().fire();
+                                    currentQueuedNotification.getOnKillAction().run();
                                 } else {
                                     //smoothly animate notification away
                                     currentNotification.vanish(currentQueuedNotification.getNotificationDirection(),
@@ -2469,7 +2469,7 @@ public class CyderFrame extends JFrame {
      * @param clickAction the action to invoke upon clicking the compact component
      * @return the compact taskbar component
      */
-    public static JLabel generateDefaultCompactTaskbarComponent(String title, ClickAction clickAction) {
+    public static JLabel generateDefaultCompactTaskbarComponent(String title, Runnable clickAction) {
         JLabel ret = new JLabel(title.substring(0, Math.min(MAX_COMPACT_MENU_CHARS, title.length())));
         ret.setForeground(CyderColors.vanila);
         ret.setFont(CyderFonts.defaultFontSmall);
@@ -2477,7 +2477,7 @@ public class CyderFrame extends JFrame {
         ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                clickAction.fire();
+                clickAction.run();
             }
 
             @Override
@@ -2506,7 +2506,7 @@ public class CyderFrame extends JFrame {
      * @param borderColor the color of the border around the component
      * @return the taskbar component
      */
-    public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction, Color borderColor) {
+    public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction, Color borderColor) {
         JLabel ret = new JLabel();
 
         BufferedImage bufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
@@ -2563,7 +2563,7 @@ public class CyderFrame extends JFrame {
         ret.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                clickAction.fire();
+                clickAction.run();
             }
 
             @Override
@@ -2587,15 +2587,8 @@ public class CyderFrame extends JFrame {
      * @param clickAction the action to invoke when the icon is clicked
      * @return the taskbar component
      */
-    public static JLabel generateDefaultTaskbarComponent(String title, ClickAction clickAction) {
+    public static JLabel generateDefaultTaskbarComponent(String title, Runnable clickAction) {
         return generateDefaultTaskbarComponent(title, clickAction, CyderColors.taskbarDefaultColor);
-    }
-
-    /**
-     * An action performed when this frame is clicked in ConsoleFrame's taskbar.
-     */
-    public interface ClickAction {
-        void fire();
     }
 
     /**

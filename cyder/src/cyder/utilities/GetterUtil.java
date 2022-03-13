@@ -295,19 +295,13 @@ public class GetterUtil {
                 //adding things to the list and setting up actions for what to do when an element is clicked
                 for (int i = 0 ; i < directoryNameList.size() ; i++) {
                     int finalI = i;
-                    class thisAction implements CyderScrollList.ScrollAction {
-                        @Override
-                        public void fire() {
-                            if (directoryFileList.get(finalI).isDirectory()) {
-                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
-                            } else {
-                                setOnFileChosen.set(directoryFileList.get(finalI));
-                            }
+                    cyderScrollList.addElement(directoryNameList.get(i), () -> {
+                        if (directoryFileList.get(finalI).isDirectory()) {
+                            refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
+                        } else {
+                            setOnFileChosen.set(directoryFileList.get(finalI));
                         }
-                    }
-
-                    thisAction action = new thisAction();
-                    cyderScrollList.addElement(directoryNameList.get(i), action);
+                    });
                 }
 
                 //generate the scroll label
@@ -371,19 +365,13 @@ public class GetterUtil {
         //add new items to scroll and actions
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
-                    } else {
-                        setOnFileChosen.set(directoryFileList.get(finalI));
-                    }
+            cyderScrollList.addElement(directoryNameList.get(i), () -> {
+                if (directoryFileList.get(finalI).isDirectory()) {
+                    refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
+                } else {
+                    setOnFileChosen.set(directoryFileList.get(finalI));
                 }
-            }
-
-            thisAction action = new thisAction();
-            cyderScrollList.addElement(directoryNameList.get(i), action);
+            });
         }
 
         //regenerate scroll
@@ -445,19 +433,13 @@ public class GetterUtil {
         //add items with coresponding actions to scroll
         for (int i = 0 ; i < directoryNameList.size() ; i++) {
             int finalI = i;
-            class thisAction implements CyderScrollList.ScrollAction {
-                @Override
-                public void fire() {
-                    if (directoryFileList.get(finalI).isDirectory()) {
-                        refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
-                    } else {
-                        setOnFileChosen.set(directoryFileList.get(finalI));
-                    }
+            cyderScrollList.addElement(directoryNameList.get(i), () -> {
+                if (directoryFileList.get(finalI).isDirectory()) {
+                    refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
+                } else {
+                    setOnFileChosen.set(directoryFileList.get(finalI));
                 }
-            }
-
-            thisAction action = new thisAction();
-            cyderScrollList.addElement(directoryNameList.get(i), action);
+            });
         }
 
         //generate scroll and add it
