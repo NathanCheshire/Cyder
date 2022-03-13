@@ -10,10 +10,12 @@ import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
+import cyder.utilities.ImageUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * The splash screen for Cyder when it is originally first launched.
@@ -66,11 +68,11 @@ public class CyderSplash {
 
                 CyderThreadRunner.submit(() -> {
                     try {
-                        JLabel cBlock = new JLabel(new ImageIcon("static/pictures/C.png"));
+                        JLabel cBlock = new JLabel(generateCIcon());
                         cBlock.setBounds(20,600 / 2 - 150 / 2, 150, 150);
                         splashFrame.getContentPane().add(cBlock);
 
-                        JLabel yBlock = new JLabel(new ImageIcon("static/pictures/Y.png"));
+                        JLabel yBlock = new JLabel(generateYIcon());
                         yBlock.setBounds(600 - 150 - 20,600 / 2 - 150 / 2, 150, 150);
                         splashFrame.getContentPane().add(yBlock);
 
@@ -272,5 +274,36 @@ public class CyderSplash {
             loadingLabel.revalidate();
             loadingLabel.repaint();
         }
+    }
+
+    /**
+     * Generates and returns the C symbol for the splash animation.
+     *
+     * @return the C symbol for the splash
+     */
+    private static ImageIcon generateCIcon() {
+        BufferedImage drawMe = new BufferedImage(150,150, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = drawMe.getGraphics();
+        g.setColor(CyderColors.vanila);
+        g.fillRect(0,0, 95, 25);
+        g.fillRect(0,125, 95, 25);
+        g.fillRect(0,0, 30, 150);
+
+        return ImageUtil.toImageIcon(drawMe);
+    }
+
+    /**
+     * Generates and returns the Y symbol for the splash animation.
+     *
+     * @return the Y symbol for the splash animation
+     */
+    private static ImageIcon generateYIcon() {
+        BufferedImage drawMe = new BufferedImage(150,150, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = drawMe.getGraphics();
+        g.setColor(CyderColors.vanila);
+        g.fillRect(120,0, 30, 150);
+        g.fillRect(60,60, 95, 30);
+
+        return ImageUtil.toImageIcon(drawMe);
     }
 }

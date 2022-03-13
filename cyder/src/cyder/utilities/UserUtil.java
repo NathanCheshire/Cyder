@@ -833,8 +833,6 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo generate C.png and Y.png upon cyder loading
-
             // todo paint controls should be always on top, place them bottom center, and place paint frame above it
 
             // todo replace all clickaction and such with just Runnables passed as lambdas
