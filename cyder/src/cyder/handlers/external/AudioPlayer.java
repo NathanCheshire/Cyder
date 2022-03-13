@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.AnimationDirection;
+import cyder.enums.LoggerTag;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
@@ -1045,7 +1046,7 @@ public class AudioPlayer {
                 refreshFrameTitle();
 
                 //log the audio we're playing
-                Logger.log(Logger.Tag.AUDIO,
+                Logger.log(LoggerTag.AUDIO,
                         "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
 
                 //playing blocks until the audio finishes
@@ -1175,7 +1176,7 @@ public class AudioPlayer {
 
                     refreshFrameTitle();
 
-                    Logger.log(Logger.Tag.AUDIO,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
+                    Logger.log(LoggerTag.AUDIO,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
 
                     try {
                         player.play();

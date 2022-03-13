@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
@@ -31,11 +32,11 @@ public class CyderLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
+                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
             }
         });
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -61,11 +62,11 @@ public class CyderLabel extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
+                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
             }
         });
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     @Override

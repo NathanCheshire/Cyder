@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.enums.AnimationDirection;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -27,7 +28,7 @@ public class CyderProgressUI extends BasicProgressBarUI {
     public CyderProgressUI() {
         startAnimationTimer();
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public void stopAnimationTimer() {

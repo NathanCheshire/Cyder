@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreData;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -98,7 +99,7 @@ public class UserUtil {
 
        try {
            // log the write since we know the user is valid
-           Logger.log(Logger.Tag.SYSTEM_IO, "[JSON Saved] User was written to file: "
+           Logger.log(LoggerTag.SYSTEM_IO, "[JSON Saved] User was written to file: "
                    + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
            // write to user data file
@@ -397,7 +398,7 @@ public class UserUtil {
 
                 if (attempts == MAX_CREATION_ATTEMPTS) {
                     // log the failure
-                    Logger.log(Logger.Tag.SYSTEM_IO,
+                    Logger.log(LoggerTag.SYSTEM_IO,
                             "Unable to create all userfiles for user [" + uuid
                                     + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
                 }
@@ -663,7 +664,7 @@ public class UserUtil {
         }
 
         if (!in) {
-            Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);
+            Logger.log(LoggerTag.SYSTEM_IO, "Userdata requested: " + id);
         }
 
         try {
@@ -832,7 +833,7 @@ public class UserUtil {
             File userJson = new File(OSUtil.buildPath("dynamic","users",
                     uuid, UserFile.USERDATA.getName()));
 
-            // todo look into moving log tags out of logger.java
+            // todo generate C.png and Y.png upon cyder loading
 
             // todo paint controls should be always on top, place them bottom center, and place paint frame above it
 
@@ -875,7 +876,7 @@ public class UserUtil {
                    writer.close();
 
                    // log success
-                   Logger.log(Logger.Tag.CORRUPTION,
+                   Logger.log(LoggerTag.CORRUPTION,
                            "[BACKUP SUCCESS] Successfully restored "
                                    + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
 
@@ -885,7 +886,7 @@ public class UserUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 // exception above so proceed as normal
-                Logger.log(Logger.Tag.CORRUPTION,
+                Logger.log(LoggerTag.CORRUPTION,
                         "[BACKUP FAILURE] attempted restoration of " + uuid + " failed");
             }
 
@@ -947,7 +948,7 @@ public class UserUtil {
                 InformHandler.inform(builder);
 
                 //log the corruption
-                Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
+                Logger.log(LoggerTag.CORRUPTION, "[Resulting Popup]\n" + informString);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

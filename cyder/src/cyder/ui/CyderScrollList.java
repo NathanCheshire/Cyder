@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
@@ -54,7 +55,7 @@ public class CyderScrollList {
         this.selectionPolicy = selectionPolicy;
         elements = new LinkedList<>();
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     private Font scrollFont = CyderFonts.segoe20;

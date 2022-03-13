@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -389,7 +390,7 @@ public class CyderFrame extends JFrame {
         //frame type handling
         setFrameType(frameType);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -468,7 +469,7 @@ public class CyderFrame extends JFrame {
         //default boolean values
         threadsKilled = false;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -975,7 +976,7 @@ public class CyderFrame extends JFrame {
                         JLabel textLabel = new JLabel(text);
 
                         // log the bounds and text of the notification
-                        Logger.log(Logger.Tag.UI_ACTION, "[" +
+                        Logger.log(LoggerTag.UI_ACTION, "[" +
                                 getTitle() + "] [NOTIFICATION] w = " +
                                 w + ", h = " + h + ", text = " + text);
 
@@ -1268,7 +1269,7 @@ public class CyderFrame extends JFrame {
                 disposed = true;
 
                 // confirmation passed so log
-                Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose: "
+                Logger.log(LoggerTag.UI_ACTION, "CyderFrame disposed with fastclose: "
                         + fastClose + ", CyderFrame: " + this);
 
                 //run all preCloseActions if any exists, this is performed after the confirmation check

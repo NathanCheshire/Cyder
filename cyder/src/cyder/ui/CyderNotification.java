@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.enums.Direction;
+import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -70,11 +71,11 @@ public class CyderNotification extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
+                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
             }
         });
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public Color getBackgroundColor() {

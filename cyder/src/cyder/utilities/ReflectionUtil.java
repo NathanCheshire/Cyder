@@ -6,6 +6,7 @@ import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
@@ -219,7 +220,7 @@ public class ReflectionUtil {
                         if (values != null && StringUtil.in("WidgetInspection", false, values))
                             continue;
 
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named" +
+                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Widget is not named" +
                                 " showGUI(); name: " + m.getName());
                     }
 
@@ -269,7 +270,7 @@ public class ReflectionUtil {
                         if (values != null && StringUtil.in("TestInspection", false, values))
                             continue;
 
-                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end" +
+                        Logger.log(LoggerTag.DEBUG, "Method annotated with @ManualTest does not end" +
                                 " with test; name: " + m.getName());
                     }
 
@@ -346,7 +347,7 @@ public class ReflectionUtil {
                                             triggerBuilder.append(", ");
                                     }
                                     
-                                    Logger.log(Logger.Tag.WIDGET_OPENED,
+                                    Logger.log(LoggerTag.WIDGET_OPENED,
                                             shortWidgetName + ", trigger = "
                                                     + trigger + ", triggers = [" + triggerBuilder + "]");
                                     return true;

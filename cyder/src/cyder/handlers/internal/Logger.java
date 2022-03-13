@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.FileUtil;
@@ -56,100 +57,13 @@ public class Logger {
     public static final long start = System.currentTimeMillis();
 
     /**
-     * Supported tags for log entries
-     */
-    public enum Tag {
-        /**
-         * The cyder user typed something through the console input field.
-         */
-        CLIENT,
-        /**
-         * Whatever is printed/appended to the CyderTextPane from the console frame.
-         */
-        CONSOLE_OUT,
-        /**
-         * An exception was thrown and handled by the ExceptionHandler.
-         */
-        EXCEPTION,
-        /**
-         * Audio played/stoped/paused/etc.
-         */
-        AUDIO,
-        /**
-         * Frame control actions.
-         */
-        UI_ACTION,
-        /**
-         * A link was printed or opened.
-         */
-        LINK,
-        /**
-         * A user made a suggestion which will probably be ignored.
-         */
-        SUGGESTION,
-        /**
-         * IO by Cyder typically to/from a json file but moreso to files within dynamic/
-         */
-        SYSTEM_IO,
-        /**
-         * A user starts Cyder or enters the main program, that of the ConsoleFrame.
-         */
-        LOGIN,
-        /**
-         * A user logs out of Cyder, not necessarily a program exit.
-         */
-        LOGOUT,
-        /**
-         * When Cyder.java is first invoked by the JVM, we log certain properties about
-         * the JVM/JRE and send them to the Cyder backend as well.
-         */
-        JVM_ARGS,
-        /**
-         * JVM program entry.
-         */
-        ENTRY,
-        /**
-         * Program controlled exit, right before EOL tags.
-         */
-        EXIT,
-        /**
-         * A user became corrupted invoking the userJsonCorrupted method.
-         */
-        CORRUPTION,
-        /**
-         * A quick debug information statment.
-         */
-        DEBUG,
-        /**
-         * A type of input was handled via the InputHandler.
-         */
-        HANDLE_METHOD,
-        /**
-         * A widget was opened via the reflection method.
-         */
-        WIDGET_OPENED,
-        /**
-         * A userdata which exists as a Preference object was toggled between states and refreshed.
-         */
-        PREFERENCE_REFRESH,
-        /**
-         * A thread was spun up and started by CyderThreadRunner.
-         */
-        THREAD,
-        /**
-         * When an object's constructor is invoked.
-         */
-        OBJECT_CREATION,
-    }
-
-    /**
      * Calls string.valueOf on the provided generic and prints to the debug console
      * using the debug tag.
      *
      * @param representation the object to debug print
      */
     public static <T> void Debug(T representation) {
-        log(Tag.DEBUG, String.valueOf(representation));
+        log(LoggerTag.DEBUG, String.valueOf(representation));
     }
 
     /**
@@ -158,7 +72,7 @@ public class Logger {
      * @param representation the representation of the object
      * @param <T> the object instance of representation
      */
-    public static <T> void log(Tag tag, T representation) {
+    public static <T> void log(LoggerTag tag, T representation) {
         // ignore weird calls to here even after an EXIT tag was provided
         // don't throw since that would cause an exception and a log call
         if (logConcluded)

@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -30,7 +31,7 @@ public class ExceptionHandler {
             Optional<String> write = getPrintableException(e);
 
             if (write.isPresent() && !write.get().trim().isEmpty())
-                Logger.log(Logger.Tag.EXCEPTION, write.get());
+                Logger.log(LoggerTag.EXCEPTION, write.get());
 
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
@@ -56,7 +57,7 @@ public class ExceptionHandler {
             Optional<String> write = getPrintableException(e);
 
             if (write.isPresent() && !write.get().trim().isEmpty())
-                Logger.log(Logger.Tag.EXCEPTION, write.get());
+                Logger.log(LoggerTag.EXCEPTION, write.get());
         } catch (Exception ex) {
             silentHandleWithoutLogging(ex);
         }

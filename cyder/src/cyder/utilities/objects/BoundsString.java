@@ -1,6 +1,7 @@
 package cyder.utilities.objects;
 
 import cyder.constants.CyderStrings;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 
@@ -36,7 +37,7 @@ public class BoundsString {
         this.height = height;
         this.text = text;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

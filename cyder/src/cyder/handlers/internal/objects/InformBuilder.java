@@ -1,5 +1,6 @@
 package cyder.handlers.internal.objects;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 
@@ -38,7 +39,7 @@ public final class InformBuilder {
             throw new IllegalArgumentException("Html text is null or less than " + MINIMUM_TEXT_LENGTH + " chars");
 
         this.htmlText = htmlText;
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public String getHtmlText() {

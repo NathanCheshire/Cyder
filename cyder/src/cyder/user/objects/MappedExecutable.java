@@ -1,5 +1,6 @@
 package cyder.user.objects;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -14,7 +15,7 @@ public class MappedExecutable {
         this.name = name;
         this.filepath = filepath;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public String getName() {

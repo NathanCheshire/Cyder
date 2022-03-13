@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -39,7 +40,7 @@ public class CyderShare {
             UserUtil.blockFutureIO();
 
             //log exit
-            Logger.log(Logger.Tag.EXIT, exitCondition);
+            Logger.log(LoggerTag.EXIT, exitCondition);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

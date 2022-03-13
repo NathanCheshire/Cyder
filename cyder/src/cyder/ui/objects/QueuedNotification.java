@@ -1,6 +1,7 @@
 package cyder.ui.objects;
 
 import cyder.enums.Direction;
+import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
@@ -45,7 +46,7 @@ public final class QueuedNotification {
         this.notificationBackground = notificationBackground;
         this.time = time;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public void setHtmlText(String htmlText) {

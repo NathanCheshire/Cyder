@@ -78,7 +78,7 @@ public final class ConsoleFrame {
             throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
 
         singletonCreated = true;
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -617,7 +617,7 @@ public final class ConsoleFrame {
 
                     if (!StringUtil.isNull(suggestion)
                             && !suggestion.equalsIgnoreCase("Make Cyder Great Again")) {
-                        Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
+                        Logger.log(LoggerTag.SUGGESTION, suggestion.trim());
                         inputHandler.println("Suggestion logged");
                     }
                 }, "Suggestion Getter Waiter Thread"));
@@ -719,7 +719,7 @@ public final class ConsoleFrame {
                     }
                 } catch (Exception ex) {
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
-                    Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
+                    Logger.log(LoggerTag.EXCEPTION, "Background DNE");
                 }
             });
             consoleDragButtonList.add(alternateBackground);
@@ -833,7 +833,7 @@ public final class ConsoleFrame {
             //noinspection StringConcatenationMissingWhitespace
             String logString = "Console loaded in " +
                     (CyderShare.getConsoleStartTime() - CyderShare.getAbsoluteStartTime()) + "ms";
-            Logger.log(Logger.Tag.UI_ACTION, logString);
+            Logger.log(LoggerTag.UI_ACTION, logString);
 
             if (entryPoint == CyderEntry.AutoCypher) {
                 consoleCyderFrame.notify(logString);
@@ -1067,7 +1067,7 @@ public final class ConsoleFrame {
 
         //testing mode to auto execute Debug tests
         if (CyderShare.isTestingMode()) {
-            Logger.log(Logger.Tag.ENTRY, "TESTING MODE");
+            Logger.log(LoggerTag.ENTRY, "TESTING MODE");
             ManualTests.launchTests();
         }
 
@@ -2917,7 +2917,7 @@ public final class ConsoleFrame {
 
         //logs
         if (logoutUser) {
-            Logger.log(Logger.Tag.LOGOUT, "[" + UserUtil.getCyderUser().getName() + "]");
+            Logger.log(LoggerTag.LOGOUT, "[" + UserUtil.getCyderUser().getName() + "]");
             UserUtil.setUserData("loggedin","0");
         }
 

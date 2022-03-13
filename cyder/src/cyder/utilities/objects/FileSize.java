@@ -1,5 +1,6 @@
 package cyder.utilities.objects;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 
 /**
@@ -26,7 +27,7 @@ public final class FileSize {
         this.size = size;
         this.name = name;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

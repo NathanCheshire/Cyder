@@ -1,6 +1,7 @@
 package cyder.ui.objects;
 
 import com.google.common.base.Preconditions;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -31,7 +32,7 @@ public class SwitcherState {
         this.displayValue = displayValue;
         this.mappedValue = mappedValue;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

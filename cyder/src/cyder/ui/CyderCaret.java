@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -17,7 +18,7 @@ public class CyderCaret extends DefaultCaret {
         setBlinkRate(500);
         this.caretColor = caretColor;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     @Override

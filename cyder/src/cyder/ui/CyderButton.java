@@ -2,6 +2,7 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
@@ -29,7 +30,7 @@ public class CyderButton extends JButton {
         super.setContentAreaFilled(false);
 
         addMouseMotionListener(new CyderDraggableComponent());
-        addActionListener(e -> Logger.log(Logger.Tag.UI_ACTION, this));
+        addActionListener(e -> Logger.log(LoggerTag.UI_ACTION, this));
 
         setFont(CyderFonts.segoe20);
         setColors(CyderColors.buttonColor);
@@ -42,7 +43,7 @@ public class CyderButton extends JButton {
             }
         });
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

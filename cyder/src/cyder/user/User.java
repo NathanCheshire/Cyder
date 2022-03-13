@@ -1,5 +1,6 @@
 package cyder.user;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.user.objects.MappedExecutable;
 import cyder.user.objects.ScreenStat;
@@ -17,7 +18,7 @@ public class User {
      * Creates a new User object.
      */
     public User() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     // ------------------------------------

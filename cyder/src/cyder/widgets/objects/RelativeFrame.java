@@ -1,5 +1,6 @@
 package cyder.widgets.objects;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
 
@@ -34,7 +35,7 @@ public class RelativeFrame {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

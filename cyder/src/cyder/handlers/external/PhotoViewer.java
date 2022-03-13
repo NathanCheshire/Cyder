@@ -1,5 +1,6 @@
 package cyder.handlers.external;
 
+import cyder.enums.LoggerTag;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -55,7 +56,7 @@ public class PhotoViewer {
      * Opens the instance of photo viewer.
      */
     public void showGUI() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
 
         initFiles();
 

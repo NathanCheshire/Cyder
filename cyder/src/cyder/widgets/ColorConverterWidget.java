@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
+import cyder.enums.LoggerTag;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderGridLayout;
@@ -32,7 +33,7 @@ public class ColorConverterWidget {
      */
     private ColorConverterWidget() {
         // invoked via getInstance()
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

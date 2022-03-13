@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -26,7 +27,7 @@ public class NetworkUtil {
         Desktop Internet = Desktop.getDesktop();
         try {
             Internet.browse(new URI(URL));
-            Logger.log(Logger.Tag.LINK, URL);
+            Logger.log(LoggerTag.LINK, URL);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }

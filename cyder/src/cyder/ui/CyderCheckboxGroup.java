@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 
 import java.util.LinkedList;
@@ -22,7 +23,7 @@ public class CyderCheckboxGroup {
      * Constructs a new CyderCheckboxGroup object.
      */
     public CyderCheckboxGroup() {
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

@@ -5,6 +5,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -48,7 +49,7 @@ public class Cyder {
 
         // start session logger
         Logger.initialize();
-        Logger.log(Logger.Tag.ENTRY, OSUtil.getSystemUsername());
+        Logger.log(LoggerTag.ENTRY, OSUtil.getSystemUsername());
 
         // subroutines
         initSystemKeys();
@@ -56,7 +57,7 @@ public class Cyder {
 
         // prevent multiple instances, fatal subroutine if failure
         if (!ensureCyderSingleInstance()) {
-            Logger.log(Logger.Tag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
+            Logger.log(LoggerTag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
                     "Terminate other instances before launching a new one.", "Instance Exception",
                     ExitCondition.MultipleInstancesExit);
@@ -73,7 +74,7 @@ public class Cyder {
 
         // make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
-            Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
+            Logger.log(LoggerTag.EXCEPTION, "SYSTEM FAILURE");
             ExceptionHandler.exceptionExit("Font required by system could not be loaded","Font failure",
                     ExitCondition.CorruptedSystemFiles);
             return;
@@ -81,7 +82,7 @@ public class Cyder {
 
         // not permitted on Mac OS X
         if (OSUtil.isOSX()) {
-            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
+            Logger.log(LoggerTag.EXCEPTION, "IMPROPER OS");
             ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
                     " install a dual boot or a VM or something.","OS Exception",
                     ExitCondition.CorruptedSystemFiles);

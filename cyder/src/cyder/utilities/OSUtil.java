@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InputHandler;
@@ -251,7 +252,7 @@ public class OSUtil {
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {
-                Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
+                Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
                 return createFile;
             }
 
@@ -259,7 +260,7 @@ public class OSUtil {
                 if (!saveDir.exists())
                     saveDir.mkdir();
 
-                Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
+                Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
 
                 createFile.createNewFile();
                 return createFile;
@@ -289,13 +290,13 @@ public class OSUtil {
         File createFile = new File(TMP_DIR_PATH + FILE_SEP + name);
 
         if (createFile.exists()) {
-            Logger.log(Logger.Tag.SYSTEM_IO, "File already existed in userspace: " + name);
+            Logger.log(LoggerTag.SYSTEM_IO, "File already existed in userspace: " + name);
             return createFile;
         }
 
         try {
             createFile.createNewFile();
-            Logger.log(Logger.Tag.SYSTEM_IO, "Created temperatory file: " + name);
+            Logger.log(LoggerTag.SYSTEM_IO, "Created temperatory file: " + name);
             return createFile;
         } catch (Exception e) {
             //this shouldn't happen typically
@@ -422,7 +423,7 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     public static boolean delete(File folder) {
-        Logger.log(Logger.Tag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
+        Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
 
         if (folder.isDirectory()) {
             File[] files = folder.listFiles();
@@ -444,7 +445,7 @@ public class OSUtil {
         }
 
         // deletion failed
-        Logger.log(Logger.Tag.SYSTEM_IO, "[DELETION FAILED] " + folder.getAbsolutePath());
+        Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] " + folder.getAbsolutePath());
         return false;
     }
 

@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.StringUtil;
 
@@ -56,7 +57,7 @@ public class CyderOutputPane {
         //ensure only one permit is granted at a time
         semaphore = new Semaphore(1);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**
@@ -75,7 +76,7 @@ public class CyderOutputPane {
         //ensure only one permit is granted at a time
         semaphore = new Semaphore(1);
 
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     /**

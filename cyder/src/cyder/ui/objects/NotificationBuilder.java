@@ -2,6 +2,7 @@ package cyder.ui.objects;
 
 import com.google.common.base.Preconditions;
 import cyder.enums.Direction;
+import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderFrame;
@@ -39,7 +40,7 @@ public final class NotificationBuilder {
                 "HTML text length is less than " + MINIMUM_TEXT_LENGTH);
 
         this.htmlText = htmlText;
-        Logger.log(Logger.Tag.OBJECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public void setViewDuration(int viewDuration) {
