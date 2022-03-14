@@ -414,6 +414,8 @@ public class InputHandler {
         } else if (commandIs("age")) {
             BletchyThread.bletchy("I am somewhere between 69 and 420 years old.",
                     true, 50, false);
+        } else if (commandIs("easter")) {
+            println("Easter Sunday is on " + TimeUtil.getEasterSundayString());
         }
 
         else ret = false;

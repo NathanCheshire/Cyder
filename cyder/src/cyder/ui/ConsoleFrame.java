@@ -1056,6 +1056,14 @@ public final class ConsoleFrame {
             consoleCyderFrame.notify("Happy Valentines Day!");
         }
 
+        if (TimeUtil.isPiDay()) {
+            consoleCyderFrame.notify("Happy Pi day!");
+        }
+
+        if (TimeUtil.isEaster()) {
+            consoleCyderFrame.notify("Happy Easter!");
+        }
+
         //preferences that launch widgets/stats on start
         if (UserUtil.getUserData("DebugWindows").equals("1")) {
             StatUtil.systemProperties();

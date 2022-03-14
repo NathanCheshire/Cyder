@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -24,13 +25,9 @@ public class SpotlightUtil {
      * @return the name of the directory containing the Windows spotlight images
      */
     public static String getWindowsContentDeliveryManagerDir() {
-        if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
-            throw new IllegalArgumentException("Host OS is not windows");
-        }
+        Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not an instance of Windows");
 
         String ret = "";
-
-        //todo check if on windows
         
         File spotlightsParentDir = new File("C:/Users/" + OSUtil.getSystemUsername() + "/AppData/Local/Packages");
 

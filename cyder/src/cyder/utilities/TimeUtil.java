@@ -157,6 +157,8 @@ public class TimeUtil {
         return (Month == 12 && Date == 25);
     }
 
+    // todo make a calendar instance to use upon class loading
+
     /**
      * Returns whether the current day is halloween.
      *
@@ -217,6 +219,145 @@ public class TimeUtil {
         int Month = Checker.get(Calendar.MONTH) + 1;
         int Date = Checker.get(Calendar.DATE);
         return (Month == 4 && Date == 1);
+    }
+
+    /**
+     * Returns whether the current day is Pi day.
+     *
+     * @return whether the current day is Pi day
+     */
+    public static boolean isPiDay() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+        return (Month == 3 && Date == 14);
+    }
+
+    /**
+     * Returns whether the current day is Easter.
+     *
+     * @return whether the current day is Easter
+     */
+    public static boolean isEaster() {
+        Calendar Checker = Calendar.getInstance();
+        int Month = Checker.get(Calendar.MONTH) + 1;
+        int Date = Checker.get(Calendar.DATE);
+
+        int[] sundayDate = getEasterSundayDate(Checker.get(Calendar.YEAR));
+
+        return (Month == sundayDate[0] && Date == sundayDate[1]);
+    }
+
+    /**
+     * Returns an int array representing the date easter is on for the given year.
+     *
+     * @param year the year to find the date of easter sunday
+     * @return the easter sunday date; 4,13 would correspond to April 13th
+     */
+    public static int[] getEasterSundayDate(int year) {
+        int a = year % 19;
+        int b = year / 100;
+        int c = year % 100;
+        int d = b / 4;
+        int e = b % 4;
+        int g = (8 * b + 13) / 25;
+        int h = (19 * a + b - d - g + 15) % 30;
+        int j = c / 4;
+        int k = c % 4;
+        int m = (a + 11 * h) / 319;
+        int r = (2 * e + 2 * j - k - h + m + 32) % 7;
+        int n = (h - m + r + 90) / 25;
+        int p = (h - m + r + n + 19) % 32;
+
+        return new int[]{n, p};
+    }
+
+    /**
+     * Returns a string representing the date easter is on for the current year.
+     *
+     * @return a string representing the date easter is on for the current year
+     */
+    public static String getEasterSundayString() {
+        int[] sundayDate = getEasterSundayDate(Calendar.getInstance().get(Calendar.YEAR));
+        String month = monthFromNumber(sundayDate[0]);
+        String day = formatNumberSuffix(sundayDate[1]);
+
+        return month + " " + day;
+    }
+
+    /**
+     * Returns the number formatted with a suffix proper to its value.
+     * Example, 1 returns "1st".
+     *
+     * @param dateInMonth the date to format, this should typically be between
+     *                    1 and 31 but technically this method can handle any value.
+     * @return the number with a proper suffix appended
+     */
+    public static String formatNumberSuffix(int dateInMonth) {
+        int j = dateInMonth % 10;
+        int k = dateInMonth % 100;
+
+        if (j == 1 && k != 11) {
+            return dateInMonth + "st";
+        } else if (j == 2 && k != 12) {
+            return dateInMonth + "nd";
+        } else if (j == 3 && k != 13) {
+            return dateInMonth + "rd";
+        } else return dateInMonth + "th";
+    }
+
+    /**
+     * Converts the month number to the month string.
+     * Example, 12 returns "December".
+     *
+     * @param monthNumber the month's index starting at 1 for January
+     * @return the String representation of the month
+     */
+    public static String monthFromNumber(int monthNumber) {
+        String result = "";
+
+        switch(monthNumber) {
+            case 1:
+                result = "January";
+                break;
+            case 2:
+                result = "February";
+                break;
+            case 3:
+                result = "March";
+                break;
+            case 4:
+                result = "April";
+                break;
+            case 5:
+                result = "May";
+                break;
+            case 6:
+                result = "June";
+                break;
+            case 7:
+                result = "July";
+                break;
+            case 8:
+                result = "August";
+                break;
+            case 9:
+                result = "September";
+                break;
+            case 10:
+                result = "October";
+                break;
+            case 11:
+                result = "November";
+                break;
+            case 12:
+                result = "December";
+                break;
+            default:
+                throw new IllegalStateException("Invalid month code: " + monthNumber);
+        }
+
+        return result;
     }
 
     /**
