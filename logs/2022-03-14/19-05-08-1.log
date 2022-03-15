@@ -1,0 +1,119 @@
+[19-05-08] [JVM_ENTRY]: [Nathan]
+[19-05-08] [THREAD STARTED]: Object Creation Logger
+[19-05-08] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[19-05-09] [THREAD STARTED]: Splash Loader
+[19-05-09] [THREAD STARTED]: Splash Animation
+[19-05-10] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[19-05-10] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[19-05-10] [THREAD STARTED]: JVM Logger
+[19-05-10] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\tmp
+[19-05-10] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-10] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302074687.json
+[19-05-10] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[19-05-10] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-10] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302710445.json
+[19-05-10] [SYSTEM_IO]: Userdata requested: RandomBackground
+[19-05-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-05-10] [SYSTEM_IO]: Userdata requested: fullscreen
+[19-05-10] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-05-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-05-11] [THREAD STARTED]: Console Printing Animation
+[19-05-11] [SYSTEM_IO]: Userdata requested: OutputBorder
+[19-05-11] [SYSTEM_IO]: Userdata requested: FullScreen
+[19-05-11] [SYSTEM_IO]: Userdata requested: InputBorder
+[19-05-11] [THREAD STARTED]: Console Input Caret Position Updater
+[19-05-11] [SYSTEM_IO]: Userdata requested: OutputFill
+[19-05-11] [SYSTEM_IO]: Userdata requested: InputFill
+[19-05-11] [THREAD STARTED]: High Ping Checker
+[19-05-11] [THREAD STARTED]: Hourly Chime Checker
+[19-05-11] [THREAD STARTED]: Console Clock Updater
+[19-05-11] [THREAD STARTED]: Cyder Busy Checker
+[19-05-11] [THREAD STARTED]: ConsoleFrame Stat Saver
+[19-05-11] [UI ACTION]: Console loaded in 2612ms
+[19-05-11] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1558395480, bounds = 
+           (868, 426, 707, 744), parent frame = Component is top frame, getTitle() = Insomnia Cyder
+           [Nathan] notification queue checker
+[19-05-11] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[19-05-11] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame,
+           hash = 2063330204, bounds = (980, 396, 600, 600), parent frame = Component is top frame,
+           getTitle() = Cyder Splash
+[19-05-11] [SYSTEM_IO]: Userdata requested: DebugWindows
+[19-05-11] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[19-05-11] [SYSTEM_IO]: Userdata requested: laststart
+[19-05-11] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-11] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302710902.json
+[19-05-11] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 285, h = 29, text =
+           <html>Console loaded in 2612ms</html>
+[19-05-11] [THREAD STARTED]: notification appear animation
+[19-05-11] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-05-11] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-05-11] [OBJECT CREATION]: Objects created since last delta (5s): 99
+[19-05-14] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302711220.json
+[19-05-16] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 157, h = 29, text =
+           <html>Happy Pi day!</html>
+[19-05-16] [THREAD STARTED]: notification appear animation
+[19-05-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[19-05-16] [THREAD STARTED]: Notificaiton Vanish Animator
+[19-05-16] [OBJECT CREATION]: Objects created since last delta (5s): 4
+[19-05-17] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302714103.json
+[19-05-21] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-21] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302717805.json
+[19-05-21] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[19-05-22] [CLIENT]: showseconds
+[19-05-22] [SYSTEM_IO]: Userdata requested: filterchat
+[19-05-22] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-22] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302721562.json
+[19-05-22] [PREFERENCE REFRESH INVOKED]: key = showseconds
+[19-05-22] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[19-05-22] [HANDLE]: FINAL HANDLE
+[19-05-22] [CONSOLE_OUT]: [STRING] Show Seconds set to true
+[19-05-24] [CLIENT]: showseconds
+[19-05-24] [SYSTEM_IO]: Userdata requested: filterchat
+[19-05-24] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302722351.json
+[19-05-24] [PREFERENCE REFRESH INVOKED]: key = showseconds
+[19-05-24] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
+[19-05-24] [HANDLE]: FINAL HANDLE
+[19-05-24] [CONSOLE_OUT]: [STRING] Show Seconds set to false
+[19-05-25] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-25] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302724699.json
+[19-05-26] [OBJECT CREATION]: Objects created since last delta (5s): 3
+[19-05-28] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302725161.json
+[19-05-31] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[19-05-32] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f
+           463d0b7da\Userdata.json
+[19-05-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder
+           \dynamic\backup\7d7ebb00-81fe-329f-8a78-62f463d0b7da_1647302728901.json
+[19-05-33] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[19-05-33] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[19-05-33] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFram
+           e (inner), hash = 1558395480, bounds = (868, 426, 707, 744), parent frame = Component is
+           top frame, getTitle() = Insomnia Cyder [Nathan]
+[19-05-33] [SYSTEM_IO]: Userdata requested: closeanimation
+[19-05-33] [EXIT]: [RUNTIME] 24s
+[19-05-33] [EOL]: Log completed, exiting Cyder with exit
+           code: 0 [Genesis Controlled Exit], exceptions thrown: 0

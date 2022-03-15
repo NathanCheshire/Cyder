@@ -8,8 +8,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,8 +15,11 @@ import java.util.Date;
 /**
  * Static utility class for things related to time/date queries and conversions.
  */
-/* some methods unused still, date patterns */
 public class TimeUtil {
+    /**
+     * The calendar instance to use for calculations.
+     */
+    public static final Calendar calendarInstance = Calendar.getInstance();
 
     /**
      * Instantiation of TimeUtil class is not allowed.
@@ -28,25 +29,10 @@ public class TimeUtil {
     }
 
     /**
-     * Formats the provided date using the provided formatter
-     *
-     * @param now the LocalDateTime to format
-     * @param dtf the formatter
-     * @return the formatted date time
+     * The date formatter to use when the weather time is requested.
      */
-    public static String formatDate(LocalDateTime now, DateTimeFormatter dtf) {
-        return now.format(dtf);
-    }
-
-    /**
-     * Formats the current date with the provided formatter.
-     *
-     * @param dtf the formatter to format the current date using
-     * @return the formatted current date
-     */
-    public static String formatCurrentDate(DateTimeFormatter dtf) {
-        return dtf.format(LocalDate.now());
-    }
+    public static final SimpleDateFormat weatherFormat = new SimpleDateFormat(
+            "h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
 
     /**
      * Returns the time used for the weather widget.
@@ -54,8 +40,13 @@ public class TimeUtil {
      * @return the time used for the weather widget
      */
     public static String weatherTime() {
-        return getTime("h:mm:ss aa EEEEEEEEEEEEE MMMMMMMMMMMMMMMMMM dd, yyyy");
+        return getFormattedTime(weatherFormat);
     }
+
+    /**
+     * The date formatter to use when the log sub dir time is requested.
+     */
+    public static final SimpleDateFormat logSubDirFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Returns the time used for log subdirectories.
@@ -63,8 +54,13 @@ public class TimeUtil {
      * @return the time used for log subdirectories
      */
     public static String logSubDirTime() {
-        return getTime("yyyy-MM-dd");
+        return getFormattedTime(logSubDirFormat);
     }
+
+    /**
+     * The date formatter to use when the year is requested.
+     */
+    public static final SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
 
     /**
      * Returns the current year in the format "yyyy".
@@ -72,8 +68,13 @@ public class TimeUtil {
      * @return the current year in the format "yyyy"
      */
     public static int getYear() {
-        return Integer.parseInt(getTime("yyyy"));
+        return Integer.parseInt(getFormattedTime(yearFormat));
     }
+
+    /**
+     * The date formatter to use when the log line time is requested.
+     */
+    public static final SimpleDateFormat logTimeForamt = new SimpleDateFormat("HH-mm-ss");
 
     /**
      * Returns the time used for log files.
@@ -81,8 +82,13 @@ public class TimeUtil {
      * @return the time used for log files
      */
     public static String logTime() {
-        return getTime("HH-mm-ss");
+        return getFormattedTime(logTimeForamt);
     }
+
+    /**
+     * The date formatter to use when formatting a date object to the notified at time.
+     */
+    public static final SimpleDateFormat notificationFormat = new SimpleDateFormat("HH:mm:ss");
 
     /**
      * Returns the time used for determining what time notifications were originally added to the queue at.
@@ -90,8 +96,13 @@ public class TimeUtil {
      * @return the time used for determining what time notifications were originally added to the queue at
      */
     public static String notificationTime() {
-        return getTime("HH:mm:ss");
+        return getFormattedTime(notificationFormat);
     }
+
+    /**
+     * The date formatter to use when formatting a date object to the console clock time format.
+     */
+    public static final SimpleDateFormat userFormat = new SimpleDateFormat("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
 
     /**
      * Returns a nice, common, easy to read time.
@@ -99,7 +110,7 @@ public class TimeUtil {
      * @return a nice, common, easy to read time
      */
     public static String userTime() {
-        return getTime("EEEEEEEEE, MM/dd/yyyy hh:mmaa zzz");
+        return getFormattedTime(userFormat);
     }
 
     /**
@@ -109,7 +120,7 @@ public class TimeUtil {
      * @return the time formatted to the current console
      * clock format as set by the currently logged-in user
      */
-    public static String consoleTime() {
+    public static String userFormattedTime() {
         if (ConsoleFrame.getConsoleFrame().getUUID() == null)
             throw new IllegalStateException("The console frame uuid is not set");
 
@@ -117,13 +128,23 @@ public class TimeUtil {
     }
 
     /**
+     * The date formatter to use when formatting a date object to the console clock time format.
+     */
+    public static final SimpleDateFormat consoleSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mm:ssaa");
+
+    /**
      * Returns the default console clock format with seconds showing.
      *
      * @return the default console clock format with seconds showing
      */
     public static String consoleSecondTime() {
-        return getTime("EEEEEEEEE h:mm:ssaa");
+        return getFormattedTime(consoleSecondFormat);
     }
+
+    /**
+     * The date formatter to use when formatting a date object to the console clock time format without seconds.
+     */
+    public static final SimpleDateFormat consoleNoSecondFormat = new SimpleDateFormat("EEEEEEEEE h:mmaa");
 
     /**
      * Returns the default console clock format without seconds showing.
@@ -131,18 +152,28 @@ public class TimeUtil {
      * @return the default console clock format without seconds
      */
     public static String consoleNoSecondTime() {
-        return getTime("EEEEEEEEE h:mmaa");
+        return getFormattedTime(consoleNoSecondFormat);
     }
 
     /**
-     * Returns the time returned by running the provided string into a SimpleDatFormat object and formatting it.
+     * Returns the time returned by running the provided string
+     * into a SimpleDatFormat object and formatting it.
+     *
      * @param datePattern the provided date pattern
      * @return the string representation of the current time
      */
     public static String getTime(String datePattern) {
-        Date Time = new Date();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
-        return dateFormatter.format(Time);
+        return getFormattedTime(new SimpleDateFormat(datePattern));
+    }
+
+    /**
+     * Formats a new date object using the provided formatter.
+     *
+     * @param formatter the formatter to format a new date object
+     * @return the formatted date
+     */
+    public static String getFormattedTime(SimpleDateFormat formatter) {
+        return formatter.format(new Date());
     }
 
     /**
@@ -151,13 +182,10 @@ public class TimeUtil {
      * @return whether the current day is Christmas day
      */
     public static boolean isChristmas() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
         return (Month == 12 && Date == 25);
     }
-
-    // todo make a calendar instance to use upon class loading
 
     /**
      * Returns whether the current day is halloween.
@@ -165,9 +193,8 @@ public class TimeUtil {
      * @return whether the current day is halloween
      */
     public static boolean isHalloween() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
         return (Month == 10 && Date == 31);
     }
 
@@ -177,9 +204,8 @@ public class TimeUtil {
      * @return whether the current day is independence day
      */
     public static boolean isIndependenceDay() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
         return (Month == 7 && Date == 4);
     }
 
@@ -189,9 +215,8 @@ public class TimeUtil {
      * @return whether the current day is Valentine's Day
      */
     public static boolean isValentinesDay() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
         return (Month == 2 && Date == 14);
     }
 
@@ -201,11 +226,11 @@ public class TimeUtil {
      * @return whether the current day is thanksgiving day
      */
     public static boolean isThanksgiving() {
-        Calendar Checker = Calendar.getInstance();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-        LocalDate RealTG = LocalDate.of(year, 11, 1).with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
+        int year =calendarInstance.get(Calendar.YEAR);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
+        LocalDate RealTG = LocalDate.of(year, 11, 1)
+                .with(TemporalAdjusters.dayOfWeekInMonth(4, DayOfWeek.THURSDAY));
         return (Month == 11 && Date == RealTG.getDayOfMonth());
     }
 
@@ -215,9 +240,8 @@ public class TimeUtil {
      * @return whether the current day is April Fools' Day
      */
     public static boolean isAprilFoolsDay() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
         return (Month == 4 && Date == 1);
     }
 
@@ -227,9 +251,8 @@ public class TimeUtil {
      * @return whether the current day is Pi day
      */
     public static boolean isPiDay() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
         return (Month == 3 && Date == 14);
     }
 
@@ -239,11 +262,9 @@ public class TimeUtil {
      * @return whether the current day is Easter
      */
     public static boolean isEaster() {
-        Calendar Checker = Calendar.getInstance();
-        int Month = Checker.get(Calendar.MONTH) + 1;
-        int Date = Checker.get(Calendar.DATE);
-
-        int[] sundayDate = getEasterSundayDate(Checker.get(Calendar.YEAR));
+        int Month = calendarInstance.get(Calendar.MONTH) + 1;
+        int Date = calendarInstance.get(Calendar.DATE);
+        int[] sundayDate = getEasterSundayDate(calendarInstance.get(Calendar.YEAR));
 
         return (Month == sundayDate[0] && Date == sundayDate[1]);
     }

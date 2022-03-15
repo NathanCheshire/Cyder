@@ -747,7 +747,7 @@ public final class ConsoleFrame {
 
             //console clock
             Font consoleClockLabelFont = CyderFonts.segoe20.deriveFont(Font.BOLD, 21.0f);
-            consoleClockLabel = new JLabel(TimeUtil.consoleTime(), SwingConstants.CENTER);
+            consoleClockLabel = new JLabel(TimeUtil.userFormattedTime(), SwingConstants.CENTER);
             consoleClockLabel.setSize(0,StringUtil.getAbsoluteMinHeight("143 ;)",consoleClockLabelFont));
             consoleClockLabel.setFont(consoleClockLabelFont);
             consoleClockLabel.setForeground(CyderColors.vanila);
