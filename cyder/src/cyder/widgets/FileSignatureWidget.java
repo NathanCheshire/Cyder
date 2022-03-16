@@ -1,10 +1,7 @@
 package cyder.widgets;
 
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
@@ -56,7 +53,7 @@ public class FileSignatureWidget {
         referenceLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl("https://en.wikipedia.org/wiki/List_of_file_signatures");
+                NetworkUtil.openUrl(CyderUrls.wikipediaFileSignatures);
             }
 
             @Override

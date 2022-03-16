@@ -3,10 +3,7 @@ package cyder.handlers.internal;
 import com.fathzer.soft.javaluator.DoubleEvaluator;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.ManualTest;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderNumbers;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
@@ -529,8 +526,7 @@ public class InputHandler {
         if (commandIs("YoutubeWordSearch")) {
             if (checkArgsLength(1)) {
                 String input = getArg(0);
-                String browse = "https://www.google.com/search?q=allinurl:REPLACE site:youtube.com";
-                browse = browse.replace("REPLACE", input).replace(" ", "+");
+                String browse = CyderUrls.youtubeWordSearchBase.replace("REPLACE", input).replace(" ", "+");
                 NetworkUtil.openUrl(browse);
             } else {
                 println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");

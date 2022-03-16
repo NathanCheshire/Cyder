@@ -1,10 +1,7 @@
 package cyder.utilities;
 
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.AnimationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
@@ -37,15 +34,7 @@ public class YoutubeUtil {
      */
     public static final int MAX_THUMBNAIL_CHARS = 20;
 
-    /**
-     * The header for individual youtube videos without their uuid.
-     */
-    public static final String YOUTUBE_VIDEO_HEADER = "https://www.youtube.com/watch?v=";
 
-    /**
-     * The header for individual youtube video thumbnails without their uuid
-     */
-    public static final String YOUTUBE_THUMBNAIL_MAX_HEADER = "https://img.youtube.com/vi/";
 
     /**
      * Restrict instantiation of class.
@@ -192,7 +181,7 @@ public class YoutubeUtil {
                                 "command followed by a video URL or query");
             } else {
                 try {
-                    String link = "https://www.googleapis.com/youtube/v3/playlistItems?" +
+                    String link = CyderUrls.youtubeApiV3Base +
                             "part=snippet%2C+id&playlistId=" + playlistID + "&key="
                             + UserUtil.getCyderUser().getYouTubeAPI3Key();
 
@@ -332,7 +321,7 @@ public class YoutubeUtil {
     public static String getFirstUUID(String youtubeQuery) {
         String ret = null;
 
-        String query = "https://www.youtube.com/results?search_query=" + youtubeQuery.replace(" ", "+");
+        String query = CyderUrls.youtubeQueryBase + youtubeQuery.replace(" ", "+");
         String jsonString = NetworkUtil.readUrl(query);
 
         if (jsonString.contains("\"videoId\":\"")) {
@@ -355,17 +344,17 @@ public class YoutubeUtil {
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
         environmentVariableHelp.addActionListener(e ->
-                NetworkUtil.openUrl("https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/"));
+                NetworkUtil.openUrl(CyderUrls.environmentVariables));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
         downloadFFMPEG.addActionListener(e ->
-                NetworkUtil.openUrl("https://www.wikihow.com/Install-FFmpeg-on-Windows"));
+                NetworkUtil.openUrl(CyderUrls.ffmpegInstallation));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
-                NetworkUtil.openUrl("https://github.com/ytdl-org/youtube-dl#installation"));
+                NetworkUtil.openUrl(CyderUrls.youtubeDlInstallation));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 
@@ -400,7 +389,7 @@ public class YoutubeUtil {
         stealButton.addActionListener(e -> {
             try {
                 String thumbnailURL = buildThumbnailURL(inputField.getText().trim());
-                String videoTitle = NetworkUtil.getURLTitle(YOUTUBE_VIDEO_HEADER + inputField.getText().trim());
+                String videoTitle = NetworkUtil.getURLTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + inputField.getText().trim());
 
                 BufferedImage thumbnail = ImageIO.read(new URL(thumbnailURL));
                 thumbnail = ImageUtil.resizeImage(thumbnail, thumbnail.getType(),
@@ -502,11 +491,6 @@ public class YoutubeUtil {
     }
 
     /**
-     * The header that all youtube playlists start with.
-     */
-    public static final String PLAYLIST_HEADER = "https://www.youtube.com/playlist?list=";
-
-    /**
      * Returns whether the provided url is a playlist url.
      *
      * @param url the url
@@ -516,7 +500,7 @@ public class YoutubeUtil {
         if (StringUtil.isNull(url))
             throw new IllegalArgumentException("Provided url is null");
 
-        return url.startsWith(PLAYLIST_HEADER);
+        return url.startsWith(CyderUrls.playlistHeader);
     }
 
     /**
@@ -531,7 +515,7 @@ public class YoutubeUtil {
         else if (!isPlaylistUrl(url))
             throw new IllegalArgumentException("Provided url is not a youtube playlist");
 
-        return url.replace(PLAYLIST_HEADER, "").trim();
+        return url.replace(CyderUrls.playlistHeader, "").trim();
     }
 
     /**
@@ -545,7 +529,7 @@ public class YoutubeUtil {
         if (uuid.length() != 11)
             throw new IllegalArgumentException("Provided uuid is not 11 chars");
 
-        return YOUTUBE_VIDEO_HEADER + uuid;
+        return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
     }
 
 
@@ -556,7 +540,7 @@ public class YoutubeUtil {
      * @return a URL for the maximum resolution version of the youtube video's thumbnail
      */
     public static String buildThumbnailURL(String uuid) {
-        return YOUTUBE_THUMBNAIL_MAX_HEADER + uuid + "/maxresdefault.jpg";
+        return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid + "/maxresdefault.jpg";
     }
 
     /**

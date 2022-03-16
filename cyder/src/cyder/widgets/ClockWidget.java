@@ -5,6 +5,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
@@ -391,7 +392,7 @@ public class ClockWidget {
                             return;
                         }
 
-                        String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                        String OpenString = CyderUrls.openWeatherBase +
                                 possibleLocation + "&appid=" + key + "&units=imperial";
 
                         Gson gson = new Gson();
@@ -528,7 +529,7 @@ public class ClockWidget {
             return currentGMTOffset;
         }
 
-        String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+        String OpenString = CyderUrls.openWeatherBase +
                 currentLocation + "&appid=" + key + "&units=imperial";
 
         Gson gson = new Gson();

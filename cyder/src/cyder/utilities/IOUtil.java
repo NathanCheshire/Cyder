@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
@@ -106,17 +107,13 @@ public class IOUtil {
                     argBuilder.append(cyderArgs[i]);
                 }
 
-                // todo urls package for all urls in Cyder
-                String locationUrl = "https://www.google.com/search?q=where+am+i";
-                String ispUrl = "https://www.whoismyisp.org/";
-
-                Document locationDocument = Jsoup.connect(locationUrl).get();
+                Document locationDocument = Jsoup.connect(CyderUrls.locationUrl).get();
                 Elements primaryLocation = locationDocument.getElementsByClass("desktop-title-content");
                 Elements secondaryLocation = locationDocument.getElementsByClass("desktop-title-subcontent");
 
                 String isp = "NOT FOUND";
 
-                String[] lines = NetworkUtil.readUrl(ispUrl).split("\n");
+                String[] lines = NetworkUtil.readUrl(CyderUrls.ispUrl).split("\n");
 
                 Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
 

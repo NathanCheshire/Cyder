@@ -3,6 +3,7 @@ package cyder.widgets;
 
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.CyderFrame;
@@ -39,7 +40,7 @@ public class MinecraftWidget {
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl("https://my.minecraft.net/en-us/store/minecraft/");
+                NetworkUtil.openUrl(CyderUrls.minecraftBlock);
             }
 
             @Override
@@ -63,7 +64,8 @@ public class MinecraftWidget {
         realmsLabel = new JLabel(new ImageIcon("static/pictures/minecraft/Realms.png"));
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) { NetworkUtil.openUrl("https://minecraft.net/en-us/realms/?ref=m");
+            public void mouseReleased(MouseEvent e) {
+                NetworkUtil.openUrl(CyderUrls.minecraftRealms);
             }
 
             @Override
@@ -87,7 +89,7 @@ public class MinecraftWidget {
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl("https://minecraft.net/en-us/store/?ref=m");
+                NetworkUtil.openUrl(CyderUrls.minecraftChest);
             }
 
             @Override
@@ -111,7 +113,7 @@ public class MinecraftWidget {
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl("https://minecraft.net/en-us/?ref=m");
+                NetworkUtil.openUrl(CyderUrls.minecraftHamburger);
             }
 
             @Override

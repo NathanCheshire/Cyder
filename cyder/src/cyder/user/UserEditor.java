@@ -1,10 +1,7 @@
 package cyder.user;
 
 import cyder.annotations.Widget;
-import cyder.constants.CyderColors;
-import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import cyder.constants.*;
 import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
 import cyder.enums.NotificationDirection;
@@ -1460,7 +1457,7 @@ public class UserEditor {
             String text = weatherKeyField.getText().trim();
 
             if (!text.isEmpty()) {
-                String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                String OpenString = CyderUrls.openWeatherBase +
                         //default location
                         "Austin,Tx,USA" + "&appid=" + text + "&units=imperial";
 

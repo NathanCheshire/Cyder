@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
+import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
@@ -521,7 +522,7 @@ public class WeatherWidget {
                     return;
                 }
 
-                String OpenString = "https://api.openweathermap.org/data/2.5/weather?q=" +
+                String OpenString = CyderUrls.openWeatherBase +
                         locationString + "&appid=" + key + "&units=imperial";
 
                 Gson gson = new Gson();

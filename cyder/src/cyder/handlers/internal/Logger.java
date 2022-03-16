@@ -203,7 +203,6 @@ public class Logger {
                 break;
             case OBJECT_CREATION:
                 objectCreationCounter.incrementAndGet();
-
                 // don't write so return
                 return;
             case AUDIO:
@@ -222,7 +221,7 @@ public class Logger {
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
-                        "idiot and added an enum type but forgot to handle the case in Logger: " + tag);
+                        "idiot and added an enum to LoggerTag but forgot to handle it Logger.log. Tag = " + tag);
         }
 
         //write to log file
