@@ -1094,6 +1094,8 @@ public class CyderGrid extends JLabel {
         repaint();
     }
 
+    //todo utilize for relative zooming
+
     /**
      * Converts the provided point in mouse space to the equivalent
      * grid node based on the current node count and length.
@@ -1106,9 +1108,6 @@ public class CyderGrid extends JLabel {
 
         return (mousePoint - centeringDrawOffset) / (gridComponentLength / (float) nodes);
     }
-
-    //todo utilize surrounding methods for relative zooming after
-    // rest of painting widget is implemented
 
     /**
      * Converts the provided grid node to it's mouse space equivalent

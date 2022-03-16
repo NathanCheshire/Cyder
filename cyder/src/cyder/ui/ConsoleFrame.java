@@ -2028,30 +2028,34 @@ public final class ConsoleFrame {
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
 
+            // revalidate bounds for icon label and icon pane
+            consoleCyderFrame.refreshBackground();
+
             // set dimensions
             switch (lastSlideDirection) {
                 case LEFT:
+                    // will be sliding up
+                    contentPane.setBounds(2, 2,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+                    break;
                 case RIGHT:
-                    // sliding down
-                    // sliding up
-                    consoleCyderFrame.getContentPane().setBounds(0,0,
-                            consoleCyderFrame.getContentPane().getWidth(),
-                            consoleCyderFrame.getContentPane().getHeight() * 2);
+                    // will be sliding down
+                    contentPane.setBounds(2, - combinedIcon.getIconHeight() / 2,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
                     break;
                 case TOP:
+                    // will be sliding right
+                    contentPane.setBounds(- combinedIcon.getIconWidth() / 2, 2,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
+                    break;
                 case BOTTOM:
-                    // sliding left
-                    // sliding right
-                    consoleCyderFrame.getContentPane().setBounds(
-                            -consoleCyderFrame.getContentPane().getWidth(),0,
-                            consoleCyderFrame.getContentPane().getWidth() * 2,
-                            consoleCyderFrame.getContentPane().getHeight());
+                    // will be sliding left
+                    contentPane.setBounds(combinedIcon.getIconWidth() / 2, 2,
+                            combinedIcon.getIconWidth(), combinedIcon.getIconHeight());
                     break;
                 default:
                     throw new IllegalStateException("Invalid last slide direction: " + lastSlideDirection);
             }
-
-            //todo bounds for contentPane and trueContentPane still don't work
 
             // set to combined icon
             contentPane.setIcon(combinedIcon);
@@ -2075,7 +2079,8 @@ public final class ConsoleFrame {
                         for (int i = 0; i >= -consoleCyderFrame.getHeight(); i -= increment) {
                             try {
                                 Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                                consoleCyderFrame.getContentPane().setLocation(
+                                        consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2088,7 +2093,8 @@ public final class ConsoleFrame {
                         for (int i = -consoleCyderFrame.getHeight() ; i <= 0; i += increment) {
                             try {
                                 Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(consoleCyderFrame.getContentPane().getX(), i);
+                                consoleCyderFrame.getContentPane().setLocation(
+                                        consoleCyderFrame.getContentPane().getX(), i);
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2101,7 +2107,8 @@ public final class ConsoleFrame {
                         for (int i = -consoleCyderFrame.getWidth() ; i <= 0; i += increment) {
                             try {
                                 Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
+                                consoleCyderFrame.getContentPane().setLocation(i,
+                                        consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2114,7 +2121,8 @@ public final class ConsoleFrame {
                         for (int i = 0; i >= -consoleCyderFrame.getWidth() ; i -= increment) {
                             try {
                                 Thread.sleep(delay);
-                                consoleCyderFrame.getContentPane().setLocation(i, consoleCyderFrame.getContentPane().getY());
+                                consoleCyderFrame.getContentPane().setLocation(i,
+                                        consoleCyderFrame.getContentPane().getY());
                             } catch (InterruptedException e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -2134,12 +2142,9 @@ public final class ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
                 consoleCyderFrame.getContentPane().revalidate();
 
-                // set the content pane position to 0,0
-                consoleCyderFrame.getContentPane().setLocation(0,0);
-
                 // set new max resizing size
-                consoleCyderFrame.setMaximumSize(
-                        new Dimension(nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
+                consoleCyderFrame.setMaximumSize(new Dimension(
+                        nextBackFinal.getIconWidth(), nextBackFinal.getIconHeight()));
 
                 // enable dragging
                 consoleCyderFrame.enableDragging();

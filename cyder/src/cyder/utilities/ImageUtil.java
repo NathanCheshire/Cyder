@@ -360,13 +360,13 @@ public class ImageUtil {
      * @param frameTitle the title of the frame
      */
     public static void drawImageIcon(ImageIcon icon, String frameTitle) {
-        CyderFrame frame = new CyderFrame(icon.getIconWidth() + 10, icon.getIconHeight() + 35);
+        CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight());
 
         if (frameTitle != null && !frameTitle.isEmpty())
             frame.setTitle(frameTitle);
 
         JLabel label = new JLabel(icon);
-        label.setBounds(5, 30, icon.getIconWidth(), icon.getIconHeight());
+        label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
         frame.getContentPane().add(label);
 
         frame.setVisible(true);
