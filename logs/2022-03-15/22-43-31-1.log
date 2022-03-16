@@ -1,0 +1,13 @@
+[22-43-31] [JVM_ENTRY]: [Nathan]
+[22-43-31] [THREAD STARTED]: Object Creation Logger
+[22-43-32] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-43-33] [EXCEPTION]: 
+           Exception origin: cyder.handlers.internal.Logger.log(Logger.java:223)
+           From line: 223
+           Trace: java.lang.IllegalArgumentException: Handle case not found; you're probably an idiot and added an enum type but forgot to handle the case in Logger: FONT_LOADED
+           	at cyder.handlers.internal.Logger.log(Logger.java:223)
+           	at cyder.genesis.Cyder.registerFonts(Cyder.java:187)
+           	at cyder.genesis.Cyder.main(Cyder.java:75)
+[22-43-33] [EXCEPTION]: SYSTEM FAILURE
+[22-43-34] [OBJECT CREATION]: Objects created since last delta (5s): 21
+[22-43-45] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 2

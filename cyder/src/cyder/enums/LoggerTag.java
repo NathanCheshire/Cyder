@@ -89,4 +89,8 @@ public enum LoggerTag {
      * The console was loaded.
      */
     CONSOLE_LOAD,
+    /**
+     * A font was loaded by the sub-routine from the fonts/ directory.
+     */
+    FONT_LOADED;
 }

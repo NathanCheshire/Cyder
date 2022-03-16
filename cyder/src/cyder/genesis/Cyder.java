@@ -184,6 +184,7 @@ public class Cyder {
                     try {
                         // register the font so we can use it throughout Cyder
                         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
+                        Logger.log(LoggerTag.FONT_LOADED, FileUtil.getFilename(f));
                     } catch (Exception e) {
                         ExceptionHandler.silentHandle(e);
                         ret = false;
@@ -208,7 +209,6 @@ public class Cyder {
             try {
                 //blocking method which also throws
 
-                //noinspection resource,IOResourceOpenedButNotSafelyClosed,SocketOpenedButNotSafelyClosed
                 new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -217,6 +217,8 @@ public class Cyder {
         }, "Singular Cyder Instance Ensurer");
 
         try {
+            // started blocking method in above thread but need to wait
+            // for it to either bind or fail
             Thread.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
         } catch (InterruptedException e) {
             ExceptionHandler.handle(e);
