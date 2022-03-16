@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.ConsoleFrame;
@@ -47,7 +48,7 @@ public class IPUtil {
             return;
         }
 
-        String url = "https://api.ipdata.co/?api-key=" + key;
+        String url = CyderUrls.ipdataBase + key;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             ipdata = gson.fromJson(reader, IPData.class);

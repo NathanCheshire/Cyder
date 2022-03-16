@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.enums.IgnoreData;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
@@ -36,12 +37,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Utilities regarding a user, their json file, and IO to/from that json file.
  */
 public class UserUtil {
-    /**
-     * The url of the default background to give to newly created users provided a
-     * connection is available.
-     */
-    public static final String DEFAULT_BACKGROUND_URL = "https://i.imgur.com/kniH8y9.png";
-
     /**
      * Instantiation of util method not allowed.
      */
@@ -1056,7 +1051,7 @@ public class UserUtil {
 
         //try to get default image that isn't bundled with Cyder
         try {
-            bi = ImageIO.read(new URL(DEFAULT_BACKGROUND_URL));
+            bi = ImageIO.read(new URL(CyderUrls.DEFAULT_BACKGROUND_URL));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
 

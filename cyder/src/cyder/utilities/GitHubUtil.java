@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -27,7 +28,7 @@ public class GitHubUtil {
         Issue[] ret = null;
 
         try {
-            String urlString = "https://api.github.com/repos/nathancheshire/cyder/issues";
+            String urlString = CyderUrls.cyderIssues;
             URL url = new URL(urlString);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -126,6 +127,7 @@ public class GitHubUtil {
      * @return whether or not the url is a valid, public, and cloneable repository
      */
     public static boolean validateGitHubURL(String url) {
+        // todo make this more robust
         if (!url.contains("://"))
             return false;
 
@@ -134,7 +136,8 @@ public class GitHubUtil {
         if (parts.length != 2)
             return false;
 
-        if (!parts[1].startsWith("github.com") && !parts[1].startsWith("www.github.com"))
+        // must start with www.github.com or github.com
+        if (!parts[1].startsWith(CyderUrls.githubBase) && !parts[1].startsWith(CyderUrls.githubBase.substring(2)))
             return false;
 
         if (!parts[1].endsWith(".git"))
@@ -156,7 +159,7 @@ public class GitHubUtil {
      * @param directory the directory to save the repo to
      * @return whether or not the repo was successfully cloned and saved
      */
-    public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, final File directory) {
+    public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
         return cloningExecutor.submit(() -> {
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);
 
@@ -200,7 +203,7 @@ public class GitHubUtil {
 
             if (!git) {
                 ConsoleFrame.getConsoleFrame().getInputHandler()
-                        .println("Git not installed. Please install it at: https://git-scm.com/downloads");
+                        .println("Git not installed. Please install it at: " + CyderUrls.gitDownload);
                 return Optional.of(Boolean.FALSE);
             }
 

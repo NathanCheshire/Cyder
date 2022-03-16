@@ -1,6 +1,7 @@
 package cyder.threads;
 
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
@@ -31,16 +32,6 @@ public class YoutubeThread {
      * The uuid we are currently on
      */
     private String uuid;
-
-    /**
-     * Base URL for a YouTube video without the uuid.
-     */
-    String baseURL = "https://www.youtube.com/watch?v=";
-
-    /**
-     * Base URL for a YouTube video's HQ default thumbnail.
-     */
-    String thumbnailBaseURL = "https://img.youtube.com/vi/REPLACE/hqdefault.jpg";
 
     /**
      * YouTube's base 64 system used for UUID construction.
@@ -95,9 +86,9 @@ public class YoutubeThread {
                     stringUtil.println("Checked UUID: " + uuid);
                     MasterYoutubeThread.getSemaphore().release();
                     //noinspection StringConcatenationInLoop
-                    baseURL = baseURL + uuid;
+                    String baseURL = CyderUrls.youtubeWatchBase + uuid;
 
-                    BufferedImage Thumbnail = ImageIO.read(new URL(thumbnailBaseURL.replace("REPLACE", uuid)));
+                    BufferedImage Thumbnail = ImageIO.read(new URL(CyderUrls.thumbnailBaseURL.replace("REPLACE", uuid)));
 
                     //end all scripts since this one was found
                     MasterYoutubeThread.killAll();

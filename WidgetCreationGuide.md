@@ -98,7 +98,7 @@ myFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
 Now comes the fun part, building the rest of the UI. As stated previously make sure to use already built Cyder
 components before attempting to make your own. If the rare case of needing your own custom UI component does come about,
-I'd prefer it that you make it in the ui/ library and create a separate PR to add that UI component to Cyder itself.
+I'd prefer it that you make it in the `ui` package and create a separate PR to add that UI component to Cyder itself.
 
 Adding a component to the frame:
 

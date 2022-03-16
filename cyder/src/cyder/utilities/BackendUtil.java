@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
@@ -13,10 +14,7 @@ import java.net.URL;
  * Util methods for performing GET/POST request to the Cyder FastAPI backend.
  */
 public class BackendUtil {
-    /**
-     * The backend path.
-     */
-    public static final String BACKEND_PATH = "http://127.0.0.1:8000";
+
 
     /**
      * The relative path from the backend url to the jvm post path.
@@ -100,7 +98,7 @@ public class BackendUtil {
 
     private static void postHelper() {
         try {
-            URL url = new URL("http://127.0.0.1:8000");
+            URL url = new URL(CyderUrls.BACKEND);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 

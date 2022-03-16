@@ -544,40 +544,38 @@ public class InputHandler {
         } else if (commandIs("cmd")) {
             OSUtil.openShell();
         } else if (commandIs("desmos")) {
-            NetworkUtil.openUrl("https://www.desmos.com/calculator");
+            NetworkUtil.openUrl(CyderUrls.desmos);
         } else if (commandIs("404")) {
-            NetworkUtil.openUrl("http://google.com/=");
+            NetworkUtil.openUrl(CyderUrls.google404);
         } else if (commandIs("coffee")) {
-            NetworkUtil.openUrl("https://www.google.com/search?q=coffe+shops+near+me");
+            NetworkUtil.openUrl(CyderUrls.coffeeShops);
         } else if (commandIs("quake3")) {
-            NetworkUtil.openUrl("https://www.youtube.com/watch?v=p8u_k2LIZyo&ab_channel=Nemean");
+            NetworkUtil.openUrl(CyderUrls.quake3);
         } else if (commandIs("triangle")) {
-            NetworkUtil.openUrl("https://www.triangle-calculator.com/");
+            NetworkUtil.openUrl(CyderUrls.triangle);
         } else if (commandIs("board")) {
-            NetworkUtil.openUrl("http://gameninja.com//games//fly-squirrel-fly.html");
+            NetworkUtil.openUrl(CyderUrls.flySquirelFly);
         }else if (commandIs("arduino")) {
-            NetworkUtil.openUrl("https://www.arduino.cc/");
+            NetworkUtil.openUrl(CyderUrls.arduino);
         } else if (commandIs("rasberrypi")) {
-            NetworkUtil.openUrl("https://www.raspberrypi.org/");
+            NetworkUtil.openUrl(CyderUrls.raspberryPi);
         }else if (commandIs("vexento")) {
-            NetworkUtil.openUrl("https://www.youtube.com/user/Vexento/videos");
+            NetworkUtil.openUrl(CyderUrls.vexento);
         }else if (commandIs("papersplease")) {
-            NetworkUtil.openUrl("http://papersplea.se/");
+            NetworkUtil.openUrl(CyderUrls.papersPlease);
         }else if (commandIs("donut")) {
-            NetworkUtil.openUrl("https://www.dunkindonuts.com/en/food-drinks/donuts/donuts");
+            NetworkUtil.openUrl(CyderUrls.dunkinDonuts);
         }else if (commandIs("bai")) {
-            NetworkUtil.openUrl("http://www.drinkbai.com");
+            NetworkUtil.openUrl(CyderUrls.bai);
         } else if (commandIs("occamrazor")) {
-            NetworkUtil.openUrl("http://en.wikipedia.org/wiki/Occam%27s_razor");
-        } else if (commandIs("paint")) {
-            throw new IllegalCallerException("Unimplemented yet; custom paint program coming soon");
+            NetworkUtil.openUrl(CyderUrls.occamRazor);
         } else if (commandIs("rickandmorty")) {
             println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
-            NetworkUtil.openUrl("https://www.youtube.com/watch?v=s_1lP4CBKOg");
+            NetworkUtil.openUrl(CyderUrls.pickleRick);
         } else if (commandIs("about:blank")) {
             NetworkUtil.openUrl("about:blank");
         } else if (commandIs("github")) {
-            NetworkUtil.openUrl("https://github.com/nathancheshire/cyder");
+            NetworkUtil.openUrl(CyderUrls.cyderSource);
         }
 
         else ret = false;
@@ -1001,12 +999,12 @@ public class InputHandler {
                 if (YoutubeUtil.isPlaylistUrl(url)) {
                     YoutubeUtil.downloadPlaylist(url);
                 } else {
-                    String extractedUuid = argsToString().replace("https://www.youtube.com/watch?v=","");
+                    String extractedUuid = argsToString().replace(CyderUrls.youtubeWatchBase,"");
 
                     if (extractedUuid.replace(" ", "").length() != 11) {
                         println("Searching youtube for: " + url);
                         String uuid = YoutubeUtil.getFirstUUID(url);
-                        url = "https://www.youtube.com/watch?v=" + uuid;
+                        url = CyderUrls.youtubeWatchBase + uuid;
                     }
 
                     YoutubeUtil.downloadVideo(url);
@@ -1018,7 +1016,7 @@ public class InputHandler {
                 if (getArg(0).contains("pastebin.com")) {
                     urlString = getArg(0);
                 } else {
-                    urlString = "https://pastebin.com/raw/" + getArg(1);
+                    urlString = CyderUrls.pastebinRawBase + getArg(1);
                 }
 
                 try {
@@ -1337,7 +1335,7 @@ public class InputHandler {
         } else if (commandIs("whereami")) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    String url = "https://www.google.com/search?q=where+am+i";
+                    String url = CyderUrls.whereAmI;
 
                     Document locationDocument = Jsoup.connect(url).get();
                     Elements primary = locationDocument.getElementsByClass("desktop-title-content");
@@ -1347,7 +1345,7 @@ public class InputHandler {
 
                     String isp = "NOT FOUND";
 
-                    String[] lines = NetworkUtil.readUrl("https://www.whoismyisp.org/").split("\n");
+                    String[] lines = NetworkUtil.readUrl(CyderUrls.ispUrl).split("\n");
 
                     Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
 

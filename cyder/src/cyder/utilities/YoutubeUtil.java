@@ -181,7 +181,7 @@ public class YoutubeUtil {
                                 "command followed by a video URL or query");
             } else {
                 try {
-                    String link = CyderUrls.youtubeApiV3Base +
+                    String link = CyderUrls.youtubeApiV3PlaylistItems +
                             "part=snippet%2C+id&playlistId=" + playlistID + "&key="
                             + UserUtil.getCyderUser().getYouTubeAPI3Key();
 

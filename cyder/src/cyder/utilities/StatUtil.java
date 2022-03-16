@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
@@ -127,10 +128,10 @@ public class StatUtil {
                         "Latitude: " + IPUtil.getIpdata().getLatitude() + " Degrees N",
                         "Longitude: " + IPUtil.getIpdata().getLongitude() + " Degrees W",
                         "latency: " + NetworkUtil.latency(10000) + " ms",
-                        "Google Reachable: " + NetworkUtil.siteReachable("https://www.google.com"),
-                        "YouTube Reachable: " + NetworkUtil.siteReachable("https://www.youtube.com"),
-                        "Apple Reachable: " + NetworkUtil.siteReachable("https://www.apple.com"),
-                        "Microsoft Reachable: " + NetworkUtil.siteReachable("https://www.microsoft.com//en-us//"),
+                        "Google Reachable: " + NetworkUtil.siteReachable(CyderUrls.google),
+                        "YouTube Reachable: " + NetworkUtil.siteReachable(CyderUrls.youtube),
+                        "Apple Reachable: " + NetworkUtil.siteReachable(CyderUrls.apple),
+                        "Microsoft Reachable: " + NetworkUtil.siteReachable(CyderUrls.microsoft),
                         "User Name: " + OSUtil.getSystemUsername(),
                         "Computer Name: " + OSUtil.getComputerName(),
                         "Available Cores: " + Runtime.getRuntime().availableProcessors(),

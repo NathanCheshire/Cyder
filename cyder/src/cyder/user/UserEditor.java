@@ -1091,7 +1091,7 @@ public class UserEditor {
         consoleDatePatternLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl("https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html");
+                NetworkUtil.openUrl(CyderUrls.simpleDatePatternGuide);
             }
 
             @Override
@@ -1419,7 +1419,7 @@ public class UserEditor {
         weatherKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl("https://home.openweathermap.org/users/sign_up");
+                NetworkUtil.openUrl(CyderUrls.openWeatherSignUp);
             }
 
             @Override
@@ -1490,7 +1490,7 @@ public class UserEditor {
         ipKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl("https://ipdata.co/");
+                NetworkUtil.openUrl(CyderUrls.ipdataSignUp);
             }
 
             @Override
@@ -1528,7 +1528,7 @@ public class UserEditor {
             String text = ipKeyField.getText().trim();
 
             if (!text.isEmpty()) {
-                String url = "https://api.ipdata.co/?api-key=" + text;
+                String url = CyderUrls.ipdataBase + text;
 
                 boolean valid = false;
 
@@ -1609,7 +1609,7 @@ public class UserEditor {
         youtubeKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl("https://developers.google.com/youtube/v3/getting-started");
+                NetworkUtil.openUrl(CyderUrls.youtubeApi3SignUp);
             }
 
             @Override
@@ -1648,7 +1648,7 @@ public class UserEditor {
 
             if (!text.isEmpty()) {
                 try {
-                    NetworkUtil.readUrl("https://www.googleapis.com/youtube/v3/search" +
+                    NetworkUtil.readUrl(CyderUrls.youtubeApiV3Search +
                             "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
                     UserUtil.setUserData("youtubeapi3key", text);
                     editUserFrame.notify("YouTubeAPI3 key successfully set");

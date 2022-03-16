@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderUrls;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import cyder.utilities.objects.TaggedString;
@@ -732,7 +733,7 @@ public class StringUtil {
         String ret;
 
         try {
-            Document doc = Jsoup.connect("https://www.dictionary.com/browse/" + word).get();
+            Document doc = Jsoup.connect(CyderUrls.dictionaryBase + word).get();
             Elements els = doc.getElementsByClass("one-click-content css-nnyc96 e1q3nk1v1")
                     .not(".pad_10").not(".pad_20");
             org.jsoup.nodes.Element htmlDescription = els.get(0);
@@ -757,7 +758,7 @@ public class StringUtil {
         String ret;
 
         try  {
-            String urlString = "https://en.wikipedia.org/w/api.php?format=json&action=query" +
+            String urlString = CyderUrls.wikipediaSummaryBase +
                     "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
                     query.replace(" ","%20");
             String jsonString = NetworkUtil.readUrl(urlString);
