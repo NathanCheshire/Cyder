@@ -1,0 +1,188 @@
+[22-03-51] [JVM_ENTRY]: [Nathan]
+[22-03-51] [THREAD STARTED]: Object Creation Logger
+[22-03-52] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-03-53] [THREAD STARTED]: Splash Loader
+[22-03-53] [THREAD STARTED]: Splash Animation
+[22-03-53] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-03-53] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-03-53] [THREAD STARTED]: JVM Args Logger
+[22-03-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-03-53] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-03-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399631590.json
+[22-03-54] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-03-54] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-03-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399833590.json
+[22-03-54] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-03-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-54] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-03-54] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-03-54] [THREAD STARTED]: Console Printing Animation
+[22-03-54] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-03-54] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-03-54] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-03-54] [THREAD STARTED]: Console Input Caret Position Updater
+[22-03-54] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-03-54] [SYSTEM_IO]: Userdata requested: InputFill
+[22-03-54] [THREAD STARTED]: High Ping Checker
+[22-03-54] [THREAD STARTED]: Hourly Chime Checker
+[22-03-54] [THREAD STARTED]: Console Clock Updater
+[22-03-54] [THREAD STARTED]: Cyder Busy Checker
+[22-03-54] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-03-54] [UI ACTION]: Console loaded in 2788ms
+[22-03-54] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1478995734, bounds = (471, 241, 826,
+           762), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[22-03-54] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[22-03-54] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 109647262,
+           bounds = (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[22-03-54] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-03-54] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-03-54] [SYSTEM_IO]: Userdata requested: laststart
+[22-03-54] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-03-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399834389.json
+[22-03-54] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded
+           in 2788ms</html>
+[22-03-54] [THREAD STARTED]: notification appear animation
+[22-03-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-03-54] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-03-54] [OBJECT CREATION]: Objects created since last delta (5s): 98
+[22-03-57] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-03-57] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399834599.json
+[22-03-57] [CLIENT]: hi
+[22-03-57] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-57] [HANDLE]: GENERAL PRINT COMMAND HANDLED
+[22-03-57] [HANDLE]: PRIMARY HANDLE
+[22-03-57] [CONSOLE_OUT]: [STRING] I'm here....
+[22-03-58] [CLIENT]: clear
+[22-03-58] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-58] [HANDLE]: GENERAL COMMAND HANDLED
+[22-03-58] [HANDLE]: PRIMARY HANDLE
+[22-03-59] [CLIENT]: throw
+[22-03-59] [SYSTEM_IO]: Userdata requested: filterchat
+[22-03-59]
+           [EXCEPTION]:
+           Exception
+           origin:
+           cyder.handlers.internal.InputHandler.generalCommandCheck(InputHandler.java:890)
+           From
+           line:
+           890
+           Trace:
+           java.lang.Exception:
+           Error
+           thrown
+           on
+           Tuesday,
+           03/15/2022
+           10:03PM
+           CDT
+           at
+           cyder.handlers.internal.InputHandler.generalCommandCheck(InputHandler.java:890)
+           at
+           cyder.handlers.internal.InputHandler.handle(InputHandler.java:234)
+           at
+           cyder.ui.ConsoleFrame.lambda$launch$2(ConsoleFrame.java:557)
+           at
+           java.desktop/javax.swing.JTextField.fireActionPerformed(JTextField.java:508)
+           at
+           java.desktop/javax.swing.JTextField.postActionEvent(JTextField.java:723)
+           at
+           java.desktop/javax.swing.JTextField$NotifyAction.actionPerformed(JTextField.java:839)
+           at
+           java.desktop/javax.swing.SwingUtilities.notifyAction(SwingUtilities.java:1805)
+           at
+           java.desktop/javax.swing.JComponent.processKeyBinding(JComponent.java:2901)
+           at
+           java.desktop/javax.swing.JComponent.processKeyBindings(JComponent.java:2949)
+           at
+           java.desktop/javax.swing.JComponent.processKeyEvent(JComponent.java:2863)
+           at
+           java.desktop/java.awt.Component.processEvent(Component.java:6355)
+           at
+           java.desktop/java.awt.Container.processEvent(Container.java:2259)
+           at
+           java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4961)
+           at
+           java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+           at
+           java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+           at
+           java.desktop/java.awt.KeyboardFocusManager.redispatchEvent(KeyboardFocusManager.java:1955)
+           at
+           java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchKeyEvent(DefaultKeyboardFocusManager.java:827)
+           at
+           java.desktop/java.awt.DefaultKeyboardFocusManager.preDispatchKeyEvent(DefaultKeyboardFocusManager.java:1096)
+           at
+           java.desktop/java.awt.DefaultKeyboardFocusManager.typeAheadAssertions(DefaultKeyboardFocusManager.java:966)
+           at
+           java.desktop/java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:792)
+           at
+           java.desktop/java.awt.Component.dispatchEventImpl(Component.java:4842)
+           at
+           java.desktop/java.awt.Container.dispatchEventImpl(Container.java:2317)
+           at
+           java.desktop/java.awt.Window.dispatchEventImpl(Window.java:2758)
+           at
+           java.desktop/java.awt.Component.dispatchEvent(Component.java:4793)
+           at
+           java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:766)
+           at
+           java.desktop/java.awt.EventQueue.access$500(EventQueue.java:97)
+           at
+           java.desktop/java.awt.EventQueue$3.run(EventQueue.java:717)
+           at
+           java.desktop/java.awt.EventQueue$3.run(EventQueue.java:711)
+           at
+           java.base/java.security.AccessController.doPrivileged(Native
+           Method)
+           at
+           java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+           at
+           java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:99)
+           at
+           java.desktop/java.awt.EventQueue$4.run(EventQueue.java:739)
+           at
+           java.desktop/java.awt.EventQueue$4.run(EventQueue.java:737)
+           at
+           java.base/java.security.AccessController.doPrivileged(Native
+           Method)
+           at
+           java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:89)
+           at
+           java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:736)
+           at
+           java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:199)
+           at
+           java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+           at
+           java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+           at
+           java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+           at
+           java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+           at
+           java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+[22-03-59] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-03-59] [HANDLE]: GENERAL COMMAND HANDLED
+[22-03-59] [HANDLE]: PRIMARY HANDLE
+[22-03-59] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[22-04-01] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-04-01] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399837504.json
+[22-04-01] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-04-01] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[22-04-01] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash =
+           1478995734, bounds = (1591, 161, 826, 762), parent frame = Component is top frame, getTitle() = Insomnia Cyder
+           [Nathan]
+[22-04-01] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-04-01] [EXIT]: [RUNTIME] 9s
+[22-04-01] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis
+           Controlled Exit], exceptions thrown: 1

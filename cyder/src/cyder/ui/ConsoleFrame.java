@@ -1176,7 +1176,7 @@ public final class ConsoleFrame {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
                         } else if (CyderShare.isReleased()) {
-                            IOUtil.playSystemAudio("static/audio/startup.mp3");
+                            IOUtil.playSystemAudio("static/audio/CyderIntroTheme.mp3");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);

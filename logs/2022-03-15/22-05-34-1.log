@@ -1,0 +1,66 @@
+[22-05-34] [JVM_ENTRY]: [Nathan]
+[22-05-34] [THREAD STARTED]: Object Creation Logger
+[22-05-34] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-05-35] [THREAD STARTED]: Splash Loader
+[22-05-35] [THREAD STARTED]: Splash Animation
+[22-05-36] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-05-36] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-05-36] [THREAD STARTED]: JVM Args Logger
+[22-05-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-05-36] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-05-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399912795.json
+[22-05-36] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-05-36] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-05-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399936049.json
+[22-05-36] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-05-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-05-36] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-05-36] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-05-36] [THREAD STARTED]: Console Printing Animation
+[22-05-36] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-05-36] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-05-36] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-05-36] [THREAD STARTED]: Console Input Caret Position Updater
+[22-05-36] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-05-36] [SYSTEM_IO]: Userdata requested: InputFill
+[22-05-36] [THREAD STARTED]: High Ping Checker
+[22-05-36] [THREAD STARTED]: Hourly Chime Checker
+[22-05-36] [THREAD STARTED]: Console Clock Updater
+[22-05-36] [THREAD STARTED]: Cyder Busy Checker
+[22-05-36] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-05-36] [UI ACTION]: Console loaded in 2678ms
+[22-05-36] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1437988306, bounds = (1591, 161, 826,
+           762), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[22-05-36] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[22-05-36] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 471021533,
+           bounds = (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[22-05-37] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-05-37] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-05-37] [SYSTEM_IO]: Userdata requested: laststart
+[22-05-37] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.js
+           on
+[22-05-37] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
+           b00-81fe-329f-8a78-62f463d0b7da_1647399936783.json
+[22-05-37] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded
+           in 2678ms</html>
+[22-05-37] [THREAD STARTED]: notification appear animation
+[22-05-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-05-37] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-05-37] [OBJECT CREATION]: Objects created since last delta (5s): 98
+[22-05-39] [CLIENT]: quit
+[22-05-39] [SYSTEM_IO]: Userdata requested: filterchat
+[22-05-39] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-05-39] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[22-05-39] [HANDLE]: GENERAL COMMAND HANDLED
+[22-05-39] [HANDLE]: PRIMARY HANDLE
+[22-05-39] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash =
+           1437988306, bounds = (1591, 161, 826, 762), parent frame = Component is top frame, getTitle() = Insomnia Cyder
+           [Nathan]
+[22-05-39] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-05-39] [EXIT]: [RUNTIME] 5s
+[22-05-39] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis
+           Controlled Exit], exceptions thrown: 0

@@ -20,8 +20,7 @@
 [21-27-50] [SYSTEM_IO]: Userdata requested: RandomBackground
 [21-27-50] [SYSTEM_IO]: Userdata requested: FullScreen
 [21-27-50] [SYSTEM_IO]: Userdata requested: fullscreen
-[21-27-50] [SYSTEM_IO]: Userdata requested: FullScreen
-[21-27-50] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-27-50] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [21-27-50] [THREAD STARTED]: Console Printing Animation
 [21-27-50] [SYSTEM_IO]: Userdata requested: OutputBorder
 [21-27-50] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -180,5 +179,4 @@
            top frame, getTitle() = Insomnia Cyder [Nathan]
 [21-28-10] [SYSTEM_IO]: Userdata requested: closeanimation
 [21-28-10] [EXIT]: [RUNTIME] 23s
-[21-28-10] [EOL]: Log completed, exiting Cyder with exit
-           code: 0 [Genesis Controlled Exit], exceptions thrown: 0
+[21-28-10] [EOL]: Log completed, exiting Cyder with exitcode: 0 [Genesis Controlled Exit], exceptions thrown: 0

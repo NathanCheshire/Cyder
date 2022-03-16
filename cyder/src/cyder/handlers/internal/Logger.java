@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
@@ -43,9 +44,10 @@ public class Logger {
     public static final int deltaT = 5;
 
     /**
-     * The maximum number of chars per line of a log
+     * The maximum number of chars per line of a log.
+     * 111 is the line length of the concluding log line.
      */
-    public static final int MAX_LINE_LENGTH = 90;
+    public static final int MAX_LINE_LENGTH = 111;
 
     /**
      * Whether the current log should not be written to again.
@@ -117,7 +119,6 @@ public class Logger {
                 //any exceptions thrown are passed from ExceptionHandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
-
                 break;
             case LINK:
                 //files opened, links opened
@@ -166,18 +167,15 @@ public class Logger {
                 //end log
                 logBuilder.append("[").append(TimeUtil.logTime()).append("] [EOL]: Log completed, exiting Cyder with exit code: ");
 
-                ExitCondition cond = (ExitCondition) representation;
-
-                logBuilder.append(cond.getCode())
-                        .append(" [").append(cond.getDescription()).append("], exceptions thrown: ")
+                ExitCondition condition = (ExitCondition) representation;
+                logBuilder.append(condition.getCode())
+                        .append(" [").append(condition.getDescription()).append("], exceptions thrown: ")
                         .append(countExceptions());
 
-                //write
-                writeLine(logBuilder.toString());
-
+                writeLine(logBuilder.toString(), tag);
                 logConcluded = true;
-
                 //return to caller to exit immediately
+
                 return;
             case CORRUPTION:
                 //before user corruption method is called
@@ -227,11 +225,13 @@ public class Logger {
         //write to log file
         if (logBuilder.toString().equalsIgnoreCase(initialTimeTag))
             throw new IllegalArgumentException("Attempting to write nothing to the log file");
-        writeLine(logBuilder.toString());
+        writeLine(logBuilder.toString(), tag);
     }
 
     /**
-     * Constructor for the logger to create a file and write to for the current session.
+     * Initializes the logger for logging by generating the log file, starts
+     * the object creation logger, concludes unconcluded logs, consolidates past log lines,
+     * and zips the past logs.
      */
     public static void initialize() {
         generateAndSetLogFile();
@@ -241,19 +241,21 @@ public class Logger {
 
         startObjectCreationLogger();
         concludeLogs();
-        consolidateLines();
+        consolidateLogLines();
         zipPastLogs();
 
-        // todo something here trims the lines so that the formatted ones that extend aren't proper
-        // todo format lines for exceptions with tabs too
+        // todo lines which equal ignore case each other, consolidate but take caps sentence
 
         // todo need precaution for gui thread freezing to restart program
 
         // todo need ability to shutdown everything and restart without closing program
+
+        // todo new icons intellij based
     }
 
     /**
-     * Getter for current log file
+     * Returns the current log file.
+     *
      * @return the log file associated with the current session
      */
     public static File getCurrentLog() {
@@ -261,7 +263,7 @@ public class Logger {
     }
 
     /**
-     * Creates the log file if it is not set/DNE
+     * Creates the log file if it is not set/DNE.
      */
     private static void generateAndSetLogFile() {
         try {
@@ -302,8 +304,9 @@ public class Logger {
      * Writes the line to the current log file and releases resources once done.
      *
      * @param line the single line to write
+     * @param tag the tag which was used to handle the constructed string to write
      */
-    private static synchronized void writeLine(String line) {
+    private static synchronized void writeLine(String line, LoggerTag tag) {
         line = line.trim();
 
         //if we have to make a new line
@@ -316,21 +319,35 @@ public class Logger {
             recoveryLine = "[Log filewas deleted during runtime, recreating and restarting log at: "
                     + TimeUtil.userTime() + "]";
 
-            writeLine(line);
+            writeLine(line, tag);
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
             writingSemaphore.acquire();
 
-            LinkedList<String> lines = lengthCheck(line);
+            // if not an exception, break up line if too long
+            if (tag != LoggerTag.EXCEPTION) {
+                LinkedList<String> lines = lengthCheck(line);
 
-            for (int i = 0 ; i < lines.size() ; i++) {
-                if (i != 0) {
-                    bw.write("           "); // 11 spaces
+                for (int i = 0 ; i < lines.size() ; i++) {
+                    if (i != 0) {
+                        bw.write("           "); // 11 spaces
+                    }
+
+                    bw.write(lines.get(i));
+                    bw.newLine();
                 }
+            } else {
+                String[] lines = line.split("\\R");
 
-                bw.write(lines.get(i));
-                bw.newLine();
+                for (int i = 0 ; i < lines.length ; i++) {
+                    if (i != 0) {
+                        bw.write("           "); // 11 spaces
+                    }
+
+                    bw.write(lines[i]);
+                    bw.newLine();
+                }
             }
 
             writingSemaphore.release();
@@ -347,21 +364,6 @@ public class Logger {
      * of whether a space is at that char.
      */
     private static final int BREAK_INSERTION_TOL = 10;
-
-    public static void main(String[] args) {
-        String liner = "alpah beta gamma delta epsilon zeta eta theta iota lambda " +
-                "chi nu xu omicronalpah beta gamma delta epsilon zeta eta theta iota" +
-                " lambda chi nu xu omicronalpah beta gamma delta epsilon zeta eta theta iota lambda chi nu xu omicron";
-
-        LinkedList<String> lines = lengthCheck(liner);
-
-        for (int i = 0 ; i < lines.size() ; i++) {
-            if (i != 0)
-                System.out.println("\t\t" + lines.get(0));
-            else
-                System.out.println(lines.get(0));
-        }
-    }
 
     /**
      * Returns the provided string with line breaks inserted if needed to ensure
@@ -422,6 +424,11 @@ public class Logger {
         return ret;
     }
 
+    /**
+     * Calculates the run time of Cyder.
+     *
+     * @return the run time of Cyder
+     */
     private static String getRuntime() {
         long millis = System.currentTimeMillis() - start;
         int seconds = 0;
@@ -492,7 +499,7 @@ public class Logger {
     /**
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
-    public static void consolidateLines() {
+    public static void consolidateLogLines() {
         File logsDir = new File("logs");
 
         if (!logsDir.exists())
@@ -523,10 +530,9 @@ public class Logger {
      * @param file the file to consolidate duplicate lines of
      */
     private static void consolidateLines(File file) {
-        if (!file.exists())
-            throw new IllegalArgumentException("Provided file does not exist: " + file);
-        else if (!FileUtil.getExtension(file).equalsIgnoreCase(".log"))
-            throw new IllegalArgumentException("Provided file is not a log file: " + file);
+        Preconditions.checkArgument(file.exists(), "Provided file does not exist: " + file);
+        Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".log"),
+                "Provided file does not exist: " + file);
 
         ArrayList<String> lines = new ArrayList<>();
 
@@ -573,7 +579,7 @@ public class Logger {
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,false))) {
             for (String line : writeLines) {
-                bw.write(line.trim());
+                bw.write(line);
                 bw.newLine();
             }
         } catch (Exception e) {
@@ -589,13 +595,16 @@ public class Logger {
      * @return whether the two log lines are equivalent
      */
     public static boolean logLinesEquivalent(String logLine1, String logLine2) {
-        logLine1 = logLine1.trim();
-        logLine2 = logLine2.trim();
+        Preconditions.checkNotNull(logLine1);
+        Preconditions.checkNotNull(logLine2);
 
+        // if not full line tags, directly compare
         if (!logLine1.startsWith("[") || !logLine1.contains("]")
-            || !logLine2.startsWith("[") || !logLine2.contains("]"))
+            || !logLine2.startsWith("[") || !logLine2.contains("]")
+            || !logLine1.startsWith("[") || !logLine2.startsWith("["))
             return logLine1.equals(logLine2);
 
+        // guaranteed to have square braces now
         String timeTag1 = logLine1.substring(logLine1.indexOf("["), logLine2.indexOf("]") + 1).trim();
         String timeTag2 = logLine2.substring(logLine2.indexOf("["), logLine2.indexOf("]") + 1).trim();
 
@@ -685,7 +694,7 @@ public class Logger {
                         // a less elegant solution but necessary
                         writeLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
                                 + "Objects created since last delta (" + deltaT + "s): "
-                                + objectCreationCounter.getAndSet(0));
+                                + objectCreationCounter.getAndSet(0), LoggerTag.OBJECT_CREATION);
                     }
 
                     // no need to check in small increments here
