@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Preconditions;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import cyder.utilities.objects.TaggedString;
@@ -490,35 +491,22 @@ public class StringUtil {
     }
 
     /**
-     * Concatenates two arrays together.
-     *
-     * @param a the first array
-     * @param b the second array
-     * @return the resultant array
-     */
-    public static String[] combineArrays(String[] a, String[] b) {
-        int length = a.length + b.length;
-        String[] result = new String[length];
-        System.arraycopy(a, 0, result, 0, a.length);
-        System.arraycopy(b, 0, result, a.length, b.length);
-        return result;
-    }
-
-    /**
-     * Converts the first character in a string to the
+     * Converts the first character of all words in the string ot the
      * capital version if the character is a standard latin character.
      *
      * @param word the word to capitalize the first letter of
      * @return the resultant string
      */
-    public static String capsFirst(String word) {
-        if (word.isEmpty())
-            return word;
+    public static String capsFirstWords(String word) {
+        Preconditions.checkNotNull(word, "Provided word is null");
+        Preconditions.checkArgument(!word.isEmpty(), "Provided string is empty");
 
+        // split at spaces
         StringBuilder sb = new StringBuilder(word.length());
         String[] words = word.split("\\s+");
 
         for (String wordy : words) {
+            // capitalize first char and append rest
             sb.append(Character.toUpperCase(wordy.charAt(0)));
             sb.append(wordy.substring(1).toLowerCase()).append(" ");
         }
@@ -526,6 +514,17 @@ public class StringUtil {
         return sb.toString().trim();
     }
 
+    /**
+     * Converts the first character to upper case provided it is a standard latin character.
+     *
+     * @param word the word to captialize the first letter of
+     * @return the capitalized word
+     */
+    public static String capsFirst(String word) {
+        Preconditions.checkNotNull(word);
+
+        return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+    }
 
     /**
      * Filters out simple leet speech from the provided string.
@@ -538,7 +537,7 @@ public class StringUtil {
             return null;
 
         //split at spaces and run leet in each of those
-        String[] words = filter.split(" ");
+        String[] words = filter.split("\\s+");
 
         if (words.length == 0)
             return filter;
@@ -739,7 +738,7 @@ public class StringUtil {
             org.jsoup.nodes.Element htmlDescription = els.get(0);
 
             Document docParsed = Jsoup.parse(String.valueOf(htmlDescription));
-            ret = capsFirst(docParsed.text());
+            ret = capsFirstWords(docParsed.text());
         } catch (Exception e) {
             ret = "Definition not found";
             ExceptionHandler.silentHandle(e);
@@ -906,25 +905,6 @@ public class StringUtil {
      */
     public static String getTrimmedText(String text) {
         return text.trim().replaceAll("\\s+", " ");
-    }
-
-    /**
-     * Returns the provided string with each word converted to
-     * lowercase except for the first char of each word.
-     *
-     * @param text the text to convert to standard caps form
-     * @return the converted text
-     */
-    public static String capsCheck(String text) {
-        String[] words = text.trim().split("\\s+");
-
-        StringBuilder sb = new StringBuilder();
-
-        for (String word : words) {
-            sb.append(capsFirst(word)).append(" ");
-        }
-
-        return sb.toString().trim();
     }
 
     /**

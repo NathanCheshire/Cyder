@@ -106,6 +106,7 @@ public class IOUtil {
                     argBuilder.append(cyderArgs[i]);
                 }
 
+                // todo urls package for all urls in Cyder
                 String locationUrl = "https://www.google.com/search?q=where+am+i";
                 String ispUrl = "https://www.whoismyisp.org/";
 
@@ -131,8 +132,11 @@ public class IOUtil {
                 }
 
                 argBuilder.append("primary location = ").append(primaryLocation.text())
-                        .append(", secondary location = ").append(secondaryLocation.text())
-                        .append(", isp = ").append(StringUtil.capsFirst(isp));
+                        .append(", secondary location = ").append(secondaryLocation.text());
+
+                if (!isp.isEmpty()) {
+                    argBuilder.append(", isp = ").append(StringUtil.capsFirstWords(isp));
+                }
 
                 // only log if autoCypher, means either Nathan or an advanced developer
                 if (!CyderShare.isAutoCypher())
@@ -142,7 +146,7 @@ public class IOUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "JVM Logger");
+        }, "JVM Args Logger");
     }
 
     /**

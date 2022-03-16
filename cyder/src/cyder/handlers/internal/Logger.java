@@ -243,6 +243,13 @@ public class Logger {
         concludeLogs();
         consolidateLines();
         zipPastLogs();
+
+        // todo something here trims the lines so that the formatted ones that extend aren't proper
+        // todo format lines for exceptions with tabs too
+
+        // todo need precaution for gui thread freezing to restart program
+
+        // todo need ability to shutdown everything and restart without closing program
     }
 
     /**

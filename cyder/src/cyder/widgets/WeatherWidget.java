@@ -181,7 +181,7 @@ public class WeatherWidget {
         sunsetLabelIcon.setBounds(480 - 55 - 60, 145, 55, 48);
         weatherFrame.getContentPane().add(sunsetLabelIcon);
 
-        currentWeatherLabel = new JLabel(StringUtil.capsFirst(weatherCondition), SwingConstants.CENTER);
+        currentWeatherLabel = new JLabel(StringUtil.capsFirstWords(weatherCondition), SwingConstants.CENTER);
         currentWeatherLabel.setForeground(CyderColors.vanila);
         currentWeatherLabel.setFont(CyderFonts.segoe20);
         currentWeatherLabel.setBounds(0, 245, 480, 30);
@@ -222,7 +222,7 @@ public class WeatherWidget {
                     StringBuilder sb = new StringBuilder();
 
                     for (int i = 0 ; i < parts.length ; i++) {
-                        sb.append(StringUtil.capsFirst(parts[i].trim()).trim());
+                        sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
 
                         if (i != parts.length - 1)
                             sb.append(",");
@@ -430,7 +430,7 @@ public class WeatherWidget {
                 StringBuilder sb = new StringBuilder();
 
                 for (int i = 0 ; i < parts.length ; i++) {
-                    sb.append(StringUtil.capsFirst(parts[i].trim()).trim());
+                    sb.append(StringUtil.capsFirstWords(parts[i].trim()).trim());
 
                     if (i != parts.length - 1)
                         sb.append(", ");
@@ -442,7 +442,7 @@ public class WeatherWidget {
             }
 
             currentWeatherIconLabel.setIcon(new ImageIcon("static/pictures/weather/" + weatherIcon + ".png"));
-            currentWeatherLabel.setText(StringUtil.capsFirst(weatherCondition));
+            currentWeatherLabel.setText(StringUtil.capsFirstWords(weatherCondition));
             windSpeedLabel.setText("Wind: " + windSpeed + "mph, " + windBearing + "deg (" + getWindDirection(windBearing) + ")");
             humidityLabel.setText("Humidity: " + humidity + "%");
             pressureLabel.setText("Pressure: " + Double.parseDouble(pressure) / 1000 + "atm");
@@ -469,7 +469,7 @@ public class WeatherWidget {
 
             //frame title
             if (!parts[0].trim().isEmpty()) {
-                String city = StringUtil.capsFirst(parts[0].trim()).trim();
+                String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
                 weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
             } else {
                 weatherFrame.setTitle("Weather");
@@ -568,7 +568,7 @@ public class WeatherWidget {
 
                     //frame title
                     if (!parts[0].trim().isEmpty()) {
-                        String city = StringUtil.capsFirst(parts[0].trim()).trim();
+                        String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
                         weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
                     } else {
                         weatherFrame.setTitle("Weather");

@@ -1358,14 +1358,14 @@ public class InputHandler {
                         }
                     }
 
-                    println("Your ISP is " + StringUtil.capsCheck(isp));
+                    println("Your ISP is " + StringUtil.capsFirstWords(isp));
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
             }, "Location Finder");
         } else if (commandIs("whoami")) {
             println(OSUtil.getComputerName() + OSUtil.FILE_SEP
-                    + StringUtil.capsCheck(UserUtil.getCyderUser().getName()));
+                    + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
         }
 
         else ret = false;

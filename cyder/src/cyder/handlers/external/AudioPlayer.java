@@ -1016,7 +1016,7 @@ public class AudioPlayer {
 
                 //if not in mini player mode, initalize these views
                 if (windowState != PlayerWindowState.MINI) {
-                    audioTitleLabel.setText(FileUtil.getFilename(audioFiles.get(audioIndex)));
+                    audioTitleLabel.setText(StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex))));
                     audioScroll = new LabelScroller(audioTitleLabel);
                     audioLocation = new AudioLocation(audioProgress);
                 }
@@ -1300,7 +1300,7 @@ public class AudioPlayer {
             scroll = true;
 
             try {
-                String localTitle = FileUtil.getFilename(audioFiles.get(audioIndex).getName());
+                String localTitle = StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex).getName()));
                 effectLabel.setText(localTitle);
 
                 int parentX = effectLabel.getParent().getX();
@@ -1355,7 +1355,7 @@ public class AudioPlayer {
                     },DEFAULT_TITLE + " scrolling title thread ["
                             + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
                 } else {
-                    String text = FileUtil.getFilename(audioFiles.get(audioIndex));
+                    String text = StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex)));
                     effectLabel.setText(text);
                     effectLabel.setLocation(effectLabel.getParent().getWidth() / 2
                             - StringUtil.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
@@ -1635,7 +1635,7 @@ public class AudioPlayer {
         if (lastAction == LastAction.STOP) {
             audioFrame.setTitle(DEFAULT_TITLE);
         } else {
-            audioFrame.setTitle(FileUtil.getFilename(audioFiles.get(audioIndex).getName()));
+            audioFrame.setTitle(StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex).getName())));
         }
 
         ConsoleFrame.getConsoleFrame().revalidateMenu();
