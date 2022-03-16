@@ -995,6 +995,10 @@ public class InputHandler {
             }
 
         } else if (commandIs("play")) {
+            if (StringUtil.isNull(argsToString())) {
+                println("Play command usage: Play [video_url/playlist_url/search query]");
+            }
+
             CyderThreadRunner.submit(() -> {
                 String url = argsToString();
 

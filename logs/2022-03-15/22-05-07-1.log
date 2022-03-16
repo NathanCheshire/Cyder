@@ -17,9 +17,7 @@
 [22-05-09] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
            b00-81fe-329f-8a78-62f463d0b7da_1647399908877.json
 [22-05-09] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-05-09] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-05-09] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-05-09] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[22-05-09] [SYSTEM_IO]: Userdata requested: FullScreen [2x] [2x]
 [22-05-09] [THREAD STARTED]: Console Printing Animation
 [22-05-09] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-05-09] [SYSTEM_IO]: Userdata requested: FullScreen

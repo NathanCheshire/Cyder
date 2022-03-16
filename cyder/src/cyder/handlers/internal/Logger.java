@@ -243,14 +243,6 @@ public class Logger {
         concludeLogs();
         consolidateLogLines();
         zipPastLogs();
-
-        // todo lines which equal ignore case each other, consolidate but take caps sentence
-
-        // todo need precaution for gui thread freezing to restart program
-
-        // todo need ability to shutdown everything and restart without closing program
-
-        // todo new icons intellij based
     }
 
     /**
@@ -611,7 +603,7 @@ public class Logger {
         logLine1 = logLine1.replace(timeTag1, "");
         logLine2 = logLine2.replace(timeTag2, "");
 
-        return !StringUtil.isNull(logLine1) && !StringUtil.isNull(logLine2) && logLine1.equals(logLine2);
+        return !StringUtil.isNull(logLine1) && !StringUtil.isNull(logLine2) && logLine1.equalsIgnoreCase(logLine2);
     }
 
     /**

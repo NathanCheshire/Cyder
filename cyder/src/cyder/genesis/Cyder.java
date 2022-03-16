@@ -224,4 +224,10 @@ public class Cyder {
 
         return ret.get();
     }
+
+    // todo need precaution for gui thread freezing to restart program
+
+    // todo need ability to shutdown everything and restart without closing program
+    // startup another thread to poll gui thread and if no response lambda times
+    // then popup to inform GUI thread is frozen and add kill option
 }
