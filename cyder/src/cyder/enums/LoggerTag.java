@@ -92,5 +92,9 @@ public enum LoggerTag {
     /**
      * A font was loaded by the sub-routine from the fonts/ directory.
      */
-    FONT_LOADED;
+    FONT_LOADED,
+    /**
+     * The status of a thread, typically AWT-EventQueue-0.
+     */
+    THREAD_STATUS
 }

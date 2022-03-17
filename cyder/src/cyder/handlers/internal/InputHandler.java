@@ -1364,9 +1364,13 @@ public class InputHandler {
         } else if (commandIs("whoami")) {
             println(OSUtil.getComputerName() + OSUtil.FILE_SEP
                     + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
+        } else if (commandIs("freeze")) {
+            while (true) {}
         }
 
         else ret = false;
+
+        System.out.println("name: " + Thread.currentThread().getName());
 
          if (ret)
              Logger.log(LoggerTag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");

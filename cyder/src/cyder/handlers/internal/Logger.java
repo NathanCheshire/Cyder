@@ -217,6 +217,9 @@ public class Logger {
             case FONT_LOADED:
                 logBuilder.append("[FONT LOADED]: font name = ").append(representation);
                 break;
+            case THREAD_STATUS:
+                logBuilder.append("[THREAD STATUS POLLED]: ").append(representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented

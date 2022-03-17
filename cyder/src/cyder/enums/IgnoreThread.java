@@ -14,7 +14,9 @@ public enum IgnoreThread {
     SimilarCommandFinder("Similar Command Finder"),
     GitRepoCloner("Git Repo Cloner"),
     YoutubeAudioExtractor("Youtube Audio Extractor"),
-    ObjectCreationLogger("Object Creation Logger");
+    ObjectCreationLogger("Object Creation Logger"),
+    CyderWatchdog("Cyder Watchdog"),
+    WatchdogInitializer("Watchdog Initializer");
 
     /**
      * The name associated with the thread to ignore.
