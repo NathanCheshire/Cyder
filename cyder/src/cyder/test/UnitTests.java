@@ -1,8 +1,6 @@
 package cyder.test;
 
 import cyder.constants.CyderRegexPatterns;
-import cyder.constants.CyderStrings;
-import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
@@ -19,10 +17,11 @@ import static org.junit.Assert.*;
  */
 public class UnitTests {
     /**
-     * Restrict default instantiation.
+     * Default constructor permitted for JUnit.
      */
-    private UnitTests() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    @SuppressWarnings("RedundantNoArgConstructor")
+    public UnitTests() {
+        // junit invokes
     }
 
     @Test
@@ -167,5 +166,35 @@ public class UnitTests {
                FileUtil.PNG_SIGNATURE));
         assertFalse(FileUtil.matchesSignature(new File(""), FileUtil.PNG_SIGNATURE));
         assertFalse(FileUtil.matchesSignature(null, FileUtil.PNG_SIGNATURE));
+    }
+
+    @Test
+    public void testValidateGitHubRepoCloneUrl() {
+        // with protocols
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/cyder.git"));
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("https://github.com/nathancheshire/cyder.git"));
+
+        // without protocol
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("github.com/nathancheshire/cyder.git"));
+
+        // www prefix
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("www.github.com/nathancheshire/cyder.git"));
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://www.github.com/nathancheshire/cyder.git"));
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("https://www.github.com/nathancheshire/cyder.git"));
+
+        // user point
+        assertFalse(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire"));
+
+        // repo but not .git
+        assertFalse(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/cyder"));
+
+        // bogus url
+        assertFalse(GitHubUtil.validateGitHubRepoCloneUrl("http://www.youtube.com/nathancheshire/cyder.git"));
+
+        //bogus user yet url wont know that
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/loooppieloper/cyder.git"));
+
+        // bogus repo yet url wont know that
+        assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/adverbs.git"));
     }
 }

@@ -2,6 +2,8 @@ package cyder.constants;
 
 import cyder.exceptions.IllegalMethodException;
 
+import java.util.regex.Pattern;
+
 public final class CyderRegexPatterns {
     /**
      * Pattern used to validate an IPV4 address
@@ -106,6 +108,13 @@ public final class CyderRegexPatterns {
     public static String nToMTimes(int n, int m) {
         return "{" + n + "," + m + "}";
     }
+
+    /**
+     * The pattern used to validate whether a Url is constructed properly.
+     */
+    public static final Pattern urlFormationPattern = Pattern.compile("\\b(?:(https?|ftp|file)://" +
+            "|www\\.)?[-A-Z0-9+&#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]\\.[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final String beginLine = "^";
     public static final String endLine = "$";

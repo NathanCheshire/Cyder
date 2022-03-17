@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
@@ -11,6 +12,7 @@ import org.jsoup.nodes.Document;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.util.regex.Matcher;
 
 /**
  * Utility methods revolving around networking, urls, servers, etc.
@@ -179,25 +181,14 @@ public class NetworkUtil {
     }
 
     /**
-     * Returns whether the provided url is valid.
+     * Returns whether the provided url is constructed properly
      *
-     * @param URL the url to check for validity
-     * @return whether the provided url is valid
+     * @param URL the url to check for proper form
+     * @return whether the provided url is of a valid form
      */
     public static boolean isURL(String URL) {
-        boolean ret;
-
-        try {
-            URL url = new URL(URL);
-            URLConnection conn = url.openConnection();
-            conn.connect();
-            ret = true;
-        } catch (Exception e) {
-            ExceptionHandler.silentHandle(e);
-            ret = false;
-        }
-
-        return ret;
+        Matcher regexMatcher = CyderRegexPatterns.urlFormationPattern.matcher(URL);
+        return regexMatcher.matches();
     }
 
     /**

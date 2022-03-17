@@ -64,6 +64,22 @@ public class ExceptionHandler {
     }
 
     /**
+     * This method handles an exception the same way as {@link ExceptionHandler#handle(Exception)} (String)}
+     * except it does so without logging the exception.
+     * @param e the exception to be handled without logging
+     */
+    public static void handleWithoutLogging(Exception e) {
+        try {
+            Optional<String> exception = getPrintableException(e);
+
+            if (exception.isPresent() && !exception.get().trim().isEmpty())
+                System.out.println(exception.get());
+        } catch (Exception ex) {
+            silentHandleWithoutLogging(ex);
+        }
+    }
+
+    /**
      * Handles the exception by displaying a CyderFrame with the exception on it
      * (does not log the message. As such, this method should only be used in rare scenarios)
      * @param e the exception to be displayed

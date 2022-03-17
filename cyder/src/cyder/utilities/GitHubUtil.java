@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
@@ -126,24 +127,35 @@ public class GitHubUtil {
      * @param url the url to clone locally
      * @return whether or not the url is a valid, public, and cloneable repository
      */
-    public static boolean validateGitHubURL(String url) {
-        // todo make this more robust
-        if (!url.contains("://"))
+    public static boolean validateGitHubRepoCloneUrl(String url) {
+        Preconditions.checkNotNull(url, "Url is null");
+        Preconditions.checkArgument(!url.isEmpty(), "Url is empty");
+
+        // first test if it will even work as a url
+        if (!NetworkUtil.isURL(url))
             return false;
 
-        String[] parts = url.split("://");
-
-        if (parts.length != 2)
+        // make sure it ends with .git
+        if (!url.endsWith(".git"))
             return false;
 
-        // must start with www.github.com or github.com
-        if (!parts[1].startsWith(CyderUrls.githubBase) && !parts[1].startsWith(CyderUrls.githubBase.substring(2)))
-            return false;
+        // http://url or https://
+        if (url.contains("://")) {
+            String[] parts = url.split("://");
 
-        if (!parts[1].endsWith(".git"))
-            return false;
+            // malformed Url so this shouldn't even be possible
+            if (parts.length != 2)
+                return false;
 
-        return NetworkUtil.isURL(url);
+            // remove protocol from url
+            url = parts[1];
+        }
+
+        // at this point it should be one of the following
+        // github.com/user/repo.git or www.github.com/user/repo.git
+        if (url.startsWith(CyderUrls.githubBase) || url.startsWith(CyderUrls.githubBase.substring(4))) {
+            return true; // valid url and starts with one of the above
+        } else return false;
     }
 
     /**
@@ -163,7 +175,7 @@ public class GitHubUtil {
         return cloningExecutor.submit(() -> {
             ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);
 
-            if (!validateGitHubURL(githubRepo)) {
+            if (!validateGitHubRepoCloneUrl(githubRepo)) {
                 ConsoleFrame.getConsoleFrame().getInputHandler().println("Provided repo link is invalid");
                 return Optional.of(Boolean.FALSE);
             }
