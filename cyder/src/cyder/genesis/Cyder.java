@@ -51,7 +51,7 @@ public class Cyder {
         Logger.initialize();
 
         // initialize watchdog timer for fatal GUI thread blocks
-        CyderWatchDog.initializeWatchDog();
+        CyderWatchdog.initializeWatchDog();
 
         // ui platform subroutines
         initSystemKeys();

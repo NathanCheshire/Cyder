@@ -11,11 +11,11 @@ import cyder.threads.CyderThreadRunner;
 /**
  * A watchdog timer for Cyder to detect a freeze on the GUI and kill the application.
  */
-public class CyderWatchDog {
+public class CyderWatchdog {
     /**
      * Suppress default constructor.
      */
-    private CyderWatchDog() {
+    private CyderWatchdog() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
@@ -36,7 +36,7 @@ public class CyderWatchDog {
 
     /**
      * Waits for the AWT-EventQueue-0 thread to spawn and then polls the thread's state
-     * every {@link CyderWatchDog#POLL_TIMEOUT} checking to ensure the thread is not frozen.
+     * every {@link CyderWatchdog#POLL_TIMEOUT} checking to ensure the thread is not frozen.
      * Upon a possible freeze event, the user will be informed and prompted to exit or restart Cyder.
      */
     public static void initializeWatchDog() {
@@ -90,6 +90,8 @@ public class CyderWatchDog {
 
                 if (currentState == Thread.State.RUNNABLE) {
                     System.out.println("Thread might be frozen");
+
+                    // todo how to restart application now and prompt user with options to restart or exit Cyder
                 }
             }
         }, "Cyder Watchdog");

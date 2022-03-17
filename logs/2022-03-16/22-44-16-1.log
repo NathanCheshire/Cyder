@@ -25,10 +25,7 @@
 [22-44-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
            b00-81fe-329f-8a78-62f463d0b7da_1647488657793.json
 [22-44-18] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-44-18] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-44-18] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-44-18] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-44-18] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-44-18] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
 [22-44-18] [THREAD STARTED]: Console Printing Animation
 [22-44-18] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-44-18] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -180,3 +177,4 @@
 [22-45-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
            b00-81fe-329f-8a78-62f463d0b7da_1647488716901.json
 [22-45-22] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = RUNNABLE
+[22-52-35] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
