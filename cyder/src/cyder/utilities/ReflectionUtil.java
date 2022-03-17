@@ -402,7 +402,7 @@ public class ReflectionUtil {
             try {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
-                        OSUtil.buildPath("cyder","src","cyder","python","commandFinder.py"),
+                        OSUtil.buildPath("static","python","commandFinder.py"),
                         command, String.valueOf(CyderShare.JAR_MODE)};
                 //noinspection CallToRuntimeExec
                 Process proc = rt.exec(commands);

@@ -1593,7 +1593,7 @@ public class InputHandler {
                         Logger.log(LoggerTag.DEBUG, "Similar command to \""
                                 + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
-                        if (tol > CyderNumbers.SIMILAR_COMMAND_TOL) {
+                        if (tol >= CyderNumbers.SIMILAR_COMMAND_TOL) {
                             println("Unknown command; Most similar command: \"" + parts[0] + "\"");
                         } else {
                             wrapTerminalCheck();

@@ -107,20 +107,16 @@ public class CyderWatchdog {
                 // todo disabled until a proper algorithm can be derived
                 if (currentState == Thread.State.RUNNABLE) {
                     // HAULTED = true;
+                    // todo start a python process to bootstrap ourself
+                    //CyderShare.exit(ExitCondition.WatchdogCatch);
                     // break;
                 }
             }
-
-            // todo anywhere this detects a possible hault means you should probably fix the logic there since
-            // it holds the UI thread to long
-
-            //todo when logging json write, log levenstein distance between last and current
-            // just store last thing written so you dont have to read and then write
-
-            // todo start a python process to bootstrap ourself
-            //CyderShare.exit(ExitCondition.WatchdogCatch);
         }, "Cyder Watchdog");
     }
 
     // todo python package should essentailly go away, static should have a python directory
+
+    //todo when logging json write, log levenstein distance between last and current
+    // just store last thing written so you dont have to read and then write
 }

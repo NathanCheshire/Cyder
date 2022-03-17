@@ -2,7 +2,6 @@ import re
 import sys
 import os
 from difflib import SequenceMatcher as SM
-from tkinter import COMMAND
 
 def main():
     args = sys.argv
@@ -13,7 +12,8 @@ def main():
         similarCommand = ''
         correspondingRatio = 0.0
 
-        COMMANDS_PATH = 'cyder\\src\\cyder\\python\\commands.csv';
+        # where to output the resultilng csv
+        COMMANDS_PATH = 'static\\csv\\commands.csv';
 
         jarMode = False if str(args[2]) == 'false' else True
 
