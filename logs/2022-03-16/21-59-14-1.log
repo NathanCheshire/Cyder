@@ -1,4 +1,0 @@
-[21-59-14] [JVM_ENTRY]: [Nathan]
-[21-59-14] [THREAD STARTED]: Object Creation Logger
-[21-59-45] [THREAD STARTED]: GUI Thread Freeze Detector
-[22-06-15] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

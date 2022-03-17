@@ -45,9 +45,8 @@ public class Logger {
 
     /**
      * The maximum number of chars per line of a log.
-     * 111 is the line length of the concluding log line.
      */
-    public static final int MAX_LINE_LENGTH = 111;
+    public static final int MAX_LINE_LENGTH = 120;
 
     /**
      * Whether the current log should not be written to again.

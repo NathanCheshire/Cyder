@@ -10,6 +10,7 @@ import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.external.TextViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
 import javazoom.jl.player.Player;
@@ -25,6 +26,9 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.DosFileAttributes;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -420,5 +424,43 @@ public class IOUtil {
             //noinspection ResultOfMethodCallIgnored
             sandbox.mkdir();
         }
+    }
+
+    /**
+     * Executes the USBq.py script to find the devices connected to the PC via a USB protocol.
+     */
+    public static Future<ArrayList<String>> getUsbDevices() {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Python Script Executor")).submit(() -> {
+            ArrayList<String> ret = new ArrayList<>();
+
+            try {
+                String[] commands = {"python", OSUtil.buildPath("static","python","USBq.py")};
+                Process proc = Runtime.getRuntime().exec(commands);
+
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String line;
+
+                boolean start = false;
+                String PYTHON_START_INDICATOR = "START";
+
+                while ((line = stdInput.readLine()) != null) {
+                    if (line.equals(PYTHON_START_INDICATOR)) {
+                        start = true;
+
+                        // don't add start indicator to ret
+                        continue;
+                    }
+
+                    if (start) {
+                        ret.add(line);
+                    }
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handleWithoutLogging(e);
+            }
+
+            return ret;
+        });
     }
 }

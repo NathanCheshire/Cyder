@@ -53,9 +53,9 @@ public class Cyder {
         // initialize watchdog timer for fatal GUI thread blocks
         CyderWatchdog.initializeWatchDog();
 
-        // ui platform subroutines
-        initSystemKeys();
-        initUIKeys();
+        // platform key:value pair subroutines
+        initSystemProps();
+        initUiManagerProps();
 
         // prevent multiple instances, fatal subroutine if failure
         if (!ensureCyderSingleInstance()) {
@@ -125,7 +125,7 @@ public class Cyder {
     /**
      * Initializes UIManager.put key/value pairs.
      */
-    private static void initUIKeys() {
+    private static void initUiManagerProps() {
         UIManager.put("ToolTip.background", CyderColors.tooltipBackgroundColor);
         UIManager.put("ToolTip.border", new BorderUIResource(
                 BorderFactory.createLineBorder(CyderColors.tooltipBorderColor, 2, true)));
@@ -137,7 +137,7 @@ public class Cyder {
     /**
      * Initializes System.getProperty key/value pairs such as the ui scale.
      */
-    private static void initSystemKeys() {
+    private static void initSystemProps() {
         System.setProperty("sun.java2d.uiScale.enabled", "true");
         System.setProperty("sun.java2d.uiScale", String.valueOf(OSUtil.getUIScale()));
         System.setProperty("sun.java2d.uiScale.enabled", "true");

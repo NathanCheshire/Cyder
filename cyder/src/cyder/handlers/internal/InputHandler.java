@@ -7,7 +7,6 @@ import cyder.constants.*;
 import cyder.enums.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
-import cyder.python.PyExecutor;
 import cyder.test.ManualTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -1131,7 +1130,8 @@ public class InputHandler {
         } else if (commandIs("usb")) {
             CyderThreadRunner.submit(() -> {
                try {
-                   Future<ArrayList<String>> futureLines = PyExecutor.executeUSBq();
+                   println("Finding connected USB devices");
+                   Future<ArrayList<String>> futureLines = IOUtil.getUsbDevices();
 
                    while (!futureLines.isDone()) {
                        Thread.onSpinWait();
@@ -1139,6 +1139,7 @@ public class InputHandler {
 
                    ArrayList<String> lines = futureLines.get();
 
+                   println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
                    for (String line : lines)  {
                        println(line);
                    }
@@ -1369,8 +1370,6 @@ public class InputHandler {
         }
 
         else ret = false;
-
-        System.out.println("name: " + Thread.currentThread().getName());
 
          if (ret)
              Logger.log(LoggerTag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");

@@ -1,0 +1,142 @@
+[17-26-49] [JVM_ENTRY]: [Nathan]
+[17-26-49] [THREAD STARTED]: Object Creation Logger
+[17-26-49] [THREAD STARTED]: Watchdog Initializer
+[17-26-49] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-26-50] [FONT LOADED]: font name = agency-fb
+[17-26-50] [FONT LOADED]: font name = arial-black
+[17-26-50] [FONT LOADED]: font name = beyno
+[17-26-50] [FONT LOADED]: font name = darling-in-paris
+[17-26-50] [FONT LOADED]: font name = Prompt-Bold
+[17-26-50] [FONT LOADED]: font name = segoe-ui-black
+[17-26-50] [FONT LOADED]: font name = tahoma
+[17-26-50] [THREAD STARTED]: Splash Loader
+[17-26-50] [THREAD STARTED]: Splash Animation
+[17-26-50] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-26-50] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-26-50] [THREAD STARTED]: JVM Args Logger
+[17-26-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-26-50] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-26-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647555984805.json
+[17-26-51] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[17-26-51] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-26-51] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556010943.json
+[17-26-51] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-26-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-51] [SYSTEM_IO]: Userdata requested: fullscreen
+[17-26-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-51] [THREAD STARTED]: Console Printing Animation
+[17-26-51] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-26-51] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-26-51] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-26-51] [THREAD STARTED]: Console Input Caret Position Updater
+[17-26-51] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-26-51] [SYSTEM_IO]: Userdata requested: InputFill
+[17-26-52] [THREAD STARTED]: High Ping Checker
+[17-26-52] [THREAD STARTED]: Hourly Chime Checker
+[17-26-52] [THREAD STARTED]: Console Clock Updater
+[17-26-52] [THREAD STARTED]: Cyder Busy Checker
+[17-26-52] [THREAD STARTED]: ConsoleFrame Stat Saver
+[17-26-52] [UI ACTION]: Console loaded in 2995ms
+[17-26-52] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1100109058, bounds = (1559, 206, 755, 709), parent 
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[17-26-52] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[17-26-52] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 735541899, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[17-26-52] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-26-52] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[17-26-52] [SYSTEM_IO]: Userdata requested: laststart
+[17-26-52] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-26-52] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556011844.json
+[17-26-52] [OBJECT CREATION]: Objects created since last delta (5s): 98
+[17-26-52] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in
+           2995ms</html>
+[17-26-52] [THREAD STARTED]: notification appear animation
+[17-26-52] [THREAD STARTED]: Cyder Watchdog
+[17-26-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-26-52] [THREAD STARTED]: Notificaiton Vanish Animator
+[17-26-54] [CLIENT]: usb
+[17-26-54] [SYSTEM_IO]: Userdata requested: filterchat
+[17-26-54] [THREAD STARTED]: USB Device Finder
+[17-26-54] [HANDLE]: GENERAL COMMAND HANDLED
+[17-26-54] [HANDLE]: PRIMARY HANDLE
+[17-26-54] [CONSOLE_OUT]: [STRING] Finding connected USB devices
+[17-26-55] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-26-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556012198.json
+[17-26-55] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-26-57] [OBJECT CREATION]: Objects created since last delta (5s): 3
+[17-26-58] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-26-58] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-26-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556015038.json
+[17-26-59] [CONSOLE_OUT]: [STRING] Devices connected to CypherLenovo via USB protocol:
+[17-27-00] [CONSOLE_OUT]: [STRING] START
+[17-27-01] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[17-27-01] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-27-01] [CONSOLE_OUT]: [STRING] Generic USB Hub
+[17-27-02] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-27-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556018663.json
+[17-27-02] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[17-27-02] [CONSOLE_OUT]: [STRING] USB C Video Adaptor
+[17-27-02] [CONSOLE_OUT]: [STRING] Generic SuperSpeed USB Hub
+[17-27-03] [CONSOLE_OUT]: [STRING] USB Root Hub (USB 3.0)
+[17-27-04] [CONSOLE_OUT]: [STRING] Synaptics WBDI - SGX
+[17-27-04] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-27-04] [CONSOLE_OUT]: [STRING] Generic USB Hub
+[17-27-05] [CONSOLE_OUT]: [STRING] USB Composite Device
+[17-27-05] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-27-05] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556022075.json
+[17-27-05] [CONSOLE_OUT]: [STRING] USB Input Device
+[17-27-06] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[17-27-06] [CONSOLE_OUT]: [STRING] USB Input Device
+[17-27-07] [CONSOLE_OUT]: [STRING] HID Keyboard Device
+[17-27-07] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[17-27-07] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-27-07] [CONSOLE_OUT]: [STRING] HID-compliant consumer control device
+[17-27-08] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[17-27-08] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-27-08] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556025406.json
+[17-27-09] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[17-27-09] [CONSOLE_OUT]: [STRING] USB Composite Device
+[17-27-10] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-27-10] [CONSOLE_OUT]: [STRING] Integrated IR Camera
+[17-27-11] [CONSOLE_OUT]: [STRING] USB Composite Device
+[17-27-11] [CONSOLE_OUT]: [STRING] USB Input Device
+[17-27-12] [CONSOLE_OUT]: [STRING] HID-compliant mouse
+[17-27-12] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-27-12] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556028707.json
+[17-27-12] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[17-27-12] [CONSOLE_OUT]: [STRING] USB Input Device
+[17-27-12] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[17-27-13] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = RUNNABLE
+[17-27-13] [CONSOLE_OUT]: [STRING] USB Input Device
+[17-27-14] [CONSOLE_OUT]: [STRING] HID-compliant vendor-defined device
+[17-27-14] [CONSOLE_OUT]: [STRING] USB Composite Device
+[17-27-15] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-27-15] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556032010.json
+[17-27-15] [CONSOLE_OUT]: [STRING] Integrated Camera
+[17-27-15] [CONSOLE_OUT]: [STRING] Intel(R) Wireless Bluetooth(R)
+[17-27-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-27-16] [CONSOLE_OUT]: [STRING] Realtek USB 3.0 Card Reader
+[17-27-17] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[17-27-18] [SYSTEM_IO]: [JSON WRITE] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[17-27-18] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647556035296.json
+[17-27-19] [THREAD STATUS POLLED]: name = AWT-EventQueue-0, state = WAITING
+[17-27-20] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[17-27-20] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[17-27-20] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1100109058,
+           bounds = (1559, 206, 755, 709), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan]
+[17-27-20] [SYSTEM_IO]: Userdata requested: closeanimation
+[17-27-20] [EXIT]: [RUNTIME] 31s
+[17-27-20] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled
+           Exit], exceptions thrown: 0

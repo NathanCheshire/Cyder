@@ -2,7 +2,6 @@ package cyder.genesis;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
-import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -72,11 +71,15 @@ public class CyderWatchdog {
     /**
      * Returns whether a hault has been detected.
      *
-     * @param HAULTED whether a hault has been detected
+     * @return whether a hault has been detected
      */
-    public static void setHAULTED(boolean HAULTED) {
-        CyderWatchdog.HAULTED = HAULTED;
+    public static boolean getHAULTED() {
+        return HAULTED;
     }
+
+    // I'm not entirely sure this watchdog is fool-proof and won't be
+    // triggered by other actions and operations throughout Cyder.
+    // Only time will tell if my conjecture is correct, however.
 
     /**
      * Starts the watchdog checker after the AWT-EventQueue-0 thread has been started.
@@ -99,14 +102,25 @@ public class CyderWatchdog {
 
                 Logger.log(LoggerTag.THREAD_STATUS, "name = "
                         + AWT_EVENT_QUEUE_0_NAME + ", state = " + currentState);
+                System.out.println("HAULT POSSIBLE, state = " + currentState);
 
+                // todo disabled until a proper algorithm can be derived
                 if (currentState == Thread.State.RUNNABLE) {
-                    HAULTED = true;
-                    break;
+                    // HAULTED = true;
+                    // break;
                 }
             }
 
-            CyderShare.exit(ExitCondition.WatchdogCatch);
+            // todo anywhere this detects a possible hault means you should probably fix the logic there since
+            // it holds the UI thread to long
+
+            //todo when logging json write, log levenstein distance between last and current
+            // just store last thing written so you dont have to read and then write
+
+            // todo start a python process to bootstrap ourself
+            //CyderShare.exit(ExitCondition.WatchdogCatch);
         }, "Cyder Watchdog");
     }
+
+    // todo python package should essentailly go away, static should have a python directory
 }
