@@ -86,7 +86,7 @@ public class YoutubeThread {
                     stringUtil.println("Checked UUID: " + uuid);
                     MasterYoutubeThread.getSemaphore().release();
                     //noinspection StringConcatenationInLoop
-                    String baseURL = CyderUrls.youtubeWatchBase + uuid;
+                    String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
 
                     BufferedImage Thumbnail = ImageIO.read(new URL(CyderUrls.thumbnailBaseURL.replace("REPLACE", uuid)));
 

@@ -999,12 +999,12 @@ public class InputHandler {
                 if (YoutubeUtil.isPlaylistUrl(url)) {
                     YoutubeUtil.downloadPlaylist(url);
                 } else {
-                    String extractedUuid = argsToString().replace(CyderUrls.youtubeWatchBase,"");
+                    String extractedUuid = argsToString().replace(CyderUrls.YOUTUBE_VIDEO_HEADER,"");
 
                     if (extractedUuid.replace(" ", "").length() != 11) {
                         println("Searching youtube for: " + url);
                         String uuid = YoutubeUtil.getFirstUUID(url);
-                        url = CyderUrls.youtubeWatchBase + uuid;
+                        url = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
                     }
 
                     YoutubeUtil.downloadVideo(url);
@@ -1335,7 +1335,7 @@ public class InputHandler {
         } else if (commandIs("whereami")) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    String url = CyderUrls.whereAmI;
+                    String url = CyderUrls.locationUrl;
 
                     Document locationDocument = Jsoup.connect(url).get();
                     Elements primary = locationDocument.getElementsByClass("desktop-title-content");
