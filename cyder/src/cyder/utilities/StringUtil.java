@@ -733,7 +733,7 @@ public class StringUtil {
         String ret;
 
         try {
-            Document doc = Jsoup.connect(CyderUrls.dictionaryBase + word).get();
+            Document doc = Jsoup.connect(CyderUrls.DICTIONARY_BASE + word).get();
             Elements els = doc.getElementsByClass("one-click-content css-nnyc96 e1q3nk1v1")
                     .not(".pad_10").not(".pad_20");
             org.jsoup.nodes.Element htmlDescription = els.get(0);
@@ -758,7 +758,7 @@ public class StringUtil {
         String ret;
 
         try  {
-            String urlString = CyderUrls.wikipediaSummaryBase +
+            String urlString = CyderUrls.WIKIPEDIA_SUMMARY_BASE +
                     "&prop=extracts&exintro&explaintext&redirects=1&titles=" +
                     query.replace(" ","%20");
             String jsonString = NetworkUtil.readUrl(urlString);

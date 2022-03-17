@@ -526,7 +526,7 @@ public class InputHandler {
         if (commandIs("YoutubeWordSearch")) {
             if (checkArgsLength(1)) {
                 String input = getArg(0);
-                String browse = CyderUrls.youtubeWordSearchBase.replace("REPLACE", input).replace(" ", "+");
+                String browse = CyderUrls.YOUTUBE_WORD_SEARCH_BASE.replace("REPLACE", input).replace(" ", "+");
                 NetworkUtil.openUrl(browse);
             } else {
                 println("YoutubeWordSearch usage: YoutubeWordSearch WORD_TO_FIND");
@@ -544,38 +544,38 @@ public class InputHandler {
         } else if (commandIs("cmd")) {
             OSUtil.openShell();
         } else if (commandIs("desmos")) {
-            NetworkUtil.openUrl(CyderUrls.desmos);
+            NetworkUtil.openUrl(CyderUrls.DESMOS);
         } else if (commandIs("404")) {
-            NetworkUtil.openUrl(CyderUrls.google404);
+            NetworkUtil.openUrl(CyderUrls.GOOGLE_404);
         } else if (commandIs("coffee")) {
-            NetworkUtil.openUrl(CyderUrls.coffeeShops);
+            NetworkUtil.openUrl(CyderUrls.COFFEE_SHOPS);
         } else if (commandIs("quake3")) {
-            NetworkUtil.openUrl(CyderUrls.quake3);
+            NetworkUtil.openUrl(CyderUrls.QUAKE_3);
         } else if (commandIs("triangle")) {
-            NetworkUtil.openUrl(CyderUrls.triangle);
+            NetworkUtil.openUrl(CyderUrls.TRIANGLE);
         } else if (commandIs("board")) {
-            NetworkUtil.openUrl(CyderUrls.flySquirelFly);
+            NetworkUtil.openUrl(CyderUrls.FLY_SQUIREL_FLY);
         }else if (commandIs("arduino")) {
-            NetworkUtil.openUrl(CyderUrls.arduino);
+            NetworkUtil.openUrl(CyderUrls.ARDUINO);
         } else if (commandIs("rasberrypi")) {
-            NetworkUtil.openUrl(CyderUrls.raspberryPi);
+            NetworkUtil.openUrl(CyderUrls.RASPBERRY_PI);
         }else if (commandIs("vexento")) {
-            NetworkUtil.openUrl(CyderUrls.vexento);
+            NetworkUtil.openUrl(CyderUrls.VEXENTO);
         }else if (commandIs("papersplease")) {
-            NetworkUtil.openUrl(CyderUrls.papersPlease);
+            NetworkUtil.openUrl(CyderUrls.PAPERS_PLEASE);
         }else if (commandIs("donut")) {
-            NetworkUtil.openUrl(CyderUrls.dunkinDonuts);
+            NetworkUtil.openUrl(CyderUrls.DUNKIN_DONUTS);
         }else if (commandIs("bai")) {
-            NetworkUtil.openUrl(CyderUrls.bai);
+            NetworkUtil.openUrl(CyderUrls.BAI);
         } else if (commandIs("occamrazor")) {
-            NetworkUtil.openUrl(CyderUrls.occamRazor);
+            NetworkUtil.openUrl(CyderUrls.OCCAM_RAZOR);
         } else if (commandIs("rickandmorty")) {
             println("Turned myself into a pickle morty! Boom! Big reveal; I'm a pickle!");
-            NetworkUtil.openUrl(CyderUrls.pickleRick);
+            NetworkUtil.openUrl(CyderUrls.PICKLE_RICK);
         } else if (commandIs("about:blank")) {
             NetworkUtil.openUrl("about:blank");
         } else if (commandIs("github")) {
-            NetworkUtil.openUrl(CyderUrls.cyderSource);
+            NetworkUtil.openUrl(CyderUrls.CYDER_SOURCE);
         }
 
         else ret = false;
@@ -1016,7 +1016,7 @@ public class InputHandler {
                 if (getArg(0).contains("pastebin.com")) {
                     urlString = getArg(0);
                 } else {
-                    urlString = CyderUrls.pastebinRawBase + getArg(1);
+                    urlString = CyderUrls.PASTEBIN_RAW_BASE + getArg(1);
                 }
 
                 try {
@@ -1335,7 +1335,7 @@ public class InputHandler {
         } else if (commandIs("whereami")) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    String url = CyderUrls.locationUrl;
+                    String url = CyderUrls.LOCATION_URL;
 
                     Document locationDocument = Jsoup.connect(url).get();
                     Elements primary = locationDocument.getElementsByClass("desktop-title-content");
@@ -1345,7 +1345,7 @@ public class InputHandler {
 
                     String isp = "NOT FOUND";
 
-                    String[] lines = NetworkUtil.readUrl(CyderUrls.ispUrl).split("\n");
+                    String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
 
                     Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
 

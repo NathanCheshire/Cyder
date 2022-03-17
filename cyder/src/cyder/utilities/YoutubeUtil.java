@@ -181,7 +181,7 @@ public class YoutubeUtil {
                                 "command followed by a video URL or query");
             } else {
                 try {
-                    String link = CyderUrls.youtubeApiV3PlaylistItems +
+                    String link = CyderUrls.YOUTUBE_API_V3_PLAYLIST_ITEMS +
                             "part=snippet%2C+id&playlistId=" + playlistID + "&key="
                             + UserUtil.getCyderUser().getYouTubeAPI3Key();
 
@@ -321,7 +321,7 @@ public class YoutubeUtil {
     public static String getFirstUUID(String youtubeQuery) {
         String ret = null;
 
-        String query = CyderUrls.youtubeQueryBase + youtubeQuery.replace(" ", "+");
+        String query = CyderUrls.YOUTUBE_QUERY_BASE + youtubeQuery.replace(" ", "+");
         String jsonString = NetworkUtil.readUrl(query);
 
         if (jsonString.contains("\"videoId\":\"")) {
@@ -349,12 +349,12 @@ public class YoutubeUtil {
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
         downloadFFMPEG.addActionListener(e ->
-                NetworkUtil.openUrl(CyderUrls.ffmpegInstallation));
+                NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
-                NetworkUtil.openUrl(CyderUrls.youtubeDlInstallation));
+                NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION));
         ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 
@@ -500,7 +500,7 @@ public class YoutubeUtil {
         if (StringUtil.isNull(url))
             throw new IllegalArgumentException("Provided url is null");
 
-        return url.startsWith(CyderUrls.playlistHeader);
+        return url.startsWith(CyderUrls.YOUTUBE_PLAYLIST_HEADER);
     }
 
     /**
@@ -515,7 +515,7 @@ public class YoutubeUtil {
         else if (!isPlaylistUrl(url))
             throw new IllegalArgumentException("Provided url is not a youtube playlist");
 
-        return url.replace(CyderUrls.playlistHeader, "").trim();
+        return url.replace(CyderUrls.YOUTUBE_PLAYLIST_HEADER, "").trim();
     }
 
     /**

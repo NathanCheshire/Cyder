@@ -522,7 +522,7 @@ public class WeatherWidget {
                     return;
                 }
 
-                String OpenString = CyderUrls.openWeatherBase +
+                String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                         locationString + "&appid=" + key + "&units=imperial";
 
                 Gson gson = new Gson();

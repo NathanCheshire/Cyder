@@ -392,7 +392,7 @@ public class ClockWidget {
                             return;
                         }
 
-                        String OpenString = CyderUrls.openWeatherBase +
+                        String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                                 possibleLocation + "&appid=" + key + "&units=imperial";
 
                         Gson gson = new Gson();
@@ -529,7 +529,7 @@ public class ClockWidget {
             return currentGMTOffset;
         }
 
-        String OpenString = CyderUrls.openWeatherBase +
+        String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                 currentLocation + "&appid=" + key + "&units=imperial";
 
         Gson gson = new Gson();

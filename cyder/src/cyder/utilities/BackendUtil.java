@@ -98,7 +98,7 @@ public class BackendUtil {
 
     private static void postHelper() {
         try {
-            URL url = new URL(CyderUrls.BACKEND);
+            URL url = new URL(CyderUrls.CYDER_BACKEND_URL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 

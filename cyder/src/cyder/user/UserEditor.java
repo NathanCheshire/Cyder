@@ -1091,7 +1091,7 @@ public class UserEditor {
         consoleDatePatternLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.simpleDatePatternGuide);
+                NetworkUtil.openUrl(CyderUrls.SIMPLE_DATE_PATTERN_GUIDE);
             }
 
             @Override
@@ -1419,7 +1419,7 @@ public class UserEditor {
         weatherKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.openWeatherSignUp);
+                NetworkUtil.openUrl(CyderUrls.OPEN_WEATHER_SIGN_UP);
             }
 
             @Override
@@ -1457,7 +1457,7 @@ public class UserEditor {
             String text = weatherKeyField.getText().trim();
 
             if (!text.isEmpty()) {
-                String OpenString = CyderUrls.openWeatherBase +
+                String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                         //default location
                         "Austin,Tx,USA" + "&appid=" + text + "&units=imperial";
 
@@ -1490,7 +1490,7 @@ public class UserEditor {
         ipKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.ipdataSignUp);
+                NetworkUtil.openUrl(CyderUrls.IPDATA_SIGN_UP);
             }
 
             @Override
@@ -1528,7 +1528,7 @@ public class UserEditor {
             String text = ipKeyField.getText().trim();
 
             if (!text.isEmpty()) {
-                String url = CyderUrls.ipdataBase + text;
+                String url = CyderUrls.IPDATA_BASE + text;
 
                 boolean valid = false;
 
@@ -1609,7 +1609,7 @@ public class UserEditor {
         youtubeKeyLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.youtubeApi3SignUp);
+                NetworkUtil.openUrl(CyderUrls.YOUTUBE_API_V3_SIGN_UP);
             }
 
             @Override
@@ -1648,7 +1648,7 @@ public class UserEditor {
 
             if (!text.isEmpty()) {
                 try {
-                    NetworkUtil.readUrl(CyderUrls.youtubeApiV3Search +
+                    NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH +
                             "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
                     UserUtil.setUserData("youtubeapi3key", text);
                     editUserFrame.notify("YouTubeAPI3 key successfully set");

@@ -29,7 +29,7 @@ public class GitHubUtil {
         Issue[] ret = null;
 
         try {
-            String urlString = CyderUrls.cyderIssues;
+            String urlString = CyderUrls.CYDER_ISSUES;
             URL url = new URL(urlString);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -153,7 +153,7 @@ public class GitHubUtil {
 
         // at this point it should be one of the following
         // github.com/user/repo.git or www.github.com/user/repo.git
-        if (url.startsWith(CyderUrls.githubBase) || url.startsWith(CyderUrls.githubBase.substring(4))) {
+        if (url.startsWith(CyderUrls.GITHUB_BASE) || url.startsWith(CyderUrls.GITHUB_BASE.substring(4))) {
             return true; // valid url and starts with one of the above
         } else return false;
     }
@@ -215,7 +215,7 @@ public class GitHubUtil {
 
             if (!git) {
                 ConsoleFrame.getConsoleFrame().getInputHandler()
-                        .println("Git not installed. Please install it at: " + CyderUrls.gitDownload);
+                        .println("Git not installed. Please install it at: " + CyderUrls.GIT_DOWNLOAD);
                 return Optional.of(Boolean.FALSE);
             }
 

@@ -53,7 +53,7 @@ public class FileSignatureWidget {
         referenceLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.wikipediaFileSignatures);
+                NetworkUtil.openUrl(CyderUrls.WIKIPEDIA_FILE_SIGNATURES);
             }
 
             @Override

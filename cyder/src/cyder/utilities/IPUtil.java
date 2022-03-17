@@ -48,7 +48,7 @@ public class IPUtil {
             return;
         }
 
-        String url = CyderUrls.ipdataBase + key;
+        String url = CyderUrls.IPDATA_BASE + key;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()))) {
             ipdata = gson.fromJson(reader, IPData.class);

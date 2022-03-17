@@ -107,13 +107,13 @@ public class IOUtil {
                     argBuilder.append(cyderArgs[i]);
                 }
 
-                Document locationDocument = Jsoup.connect(CyderUrls.locationUrl).get();
+                Document locationDocument = Jsoup.connect(CyderUrls.LOCATION_URL).get();
                 Elements primaryLocation = locationDocument.getElementsByClass("desktop-title-content");
                 Elements secondaryLocation = locationDocument.getElementsByClass("desktop-title-subcontent");
 
                 String isp = "NOT FOUND";
 
-                String[] lines = NetworkUtil.readUrl(CyderUrls.ispUrl).split("\n");
+                String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
 
                 Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
 

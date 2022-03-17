@@ -88,7 +88,7 @@ public class YoutubeThread {
                     //noinspection StringConcatenationInLoop
                     String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
 
-                    BufferedImage Thumbnail = ImageIO.read(new URL(CyderUrls.thumbnailBaseURL.replace("REPLACE", uuid)));
+                    BufferedImage Thumbnail = ImageIO.read(new URL(CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", uuid)));
 
                     //end all scripts since this one was found
                     MasterYoutubeThread.killAll();

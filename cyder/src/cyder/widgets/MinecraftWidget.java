@@ -40,7 +40,7 @@ public class MinecraftWidget {
         blockLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.minecraftBlock);
+                NetworkUtil.openUrl(CyderUrls.MINECRAFT_BLOCK);
             }
 
             @Override
@@ -65,7 +65,7 @@ public class MinecraftWidget {
         realmsLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.minecraftRealms);
+                NetworkUtil.openUrl(CyderUrls.MINECRAFT_REALMS);
             }
 
             @Override
@@ -89,7 +89,7 @@ public class MinecraftWidget {
         chestLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.minecraftChest);
+                NetworkUtil.openUrl(CyderUrls.MINECRAFT_CHEST);
             }
 
             @Override
@@ -113,7 +113,7 @@ public class MinecraftWidget {
         hamLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                NetworkUtil.openUrl(CyderUrls.minecraftHamburger);
+                NetworkUtil.openUrl(CyderUrls.MINECRAFT_HAMBURGER);
             }
 
             @Override
