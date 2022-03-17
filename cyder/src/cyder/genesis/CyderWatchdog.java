@@ -2,6 +2,7 @@ package cyder.genesis;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -66,6 +67,17 @@ public class CyderWatchdog {
         }, "Watchdog Initializer");
     }
 
+    private static boolean HAULTED;
+
+    /**
+     * Returns whether a hault has been detected.
+     *
+     * @param HAULTED whether a hault has been detected
+     */
+    public static void setHAULTED(boolean HAULTED) {
+        CyderWatchdog.HAULTED = HAULTED;
+    }
+
     /**
      * Starts the watchdog checker after the AWT-EventQueue-0 thread has been started.
      *
@@ -89,11 +101,12 @@ public class CyderWatchdog {
                         + AWT_EVENT_QUEUE_0_NAME + ", state = " + currentState);
 
                 if (currentState == Thread.State.RUNNABLE) {
-                    System.out.println("Thread might be frozen");
-
-                    // todo how to restart application now and prompt user with options to restart or exit Cyder
+                    HAULTED = true;
+                    break;
                 }
             }
+
+            CyderShare.exit(ExitCondition.WatchdogCatch);
         }, "Cyder Watchdog");
     }
 }

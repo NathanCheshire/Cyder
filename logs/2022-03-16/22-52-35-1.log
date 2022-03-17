@@ -25,10 +25,7 @@
 [22-52-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
            b00-81fe-329f-8a78-62f463d0b7da_1647489157453.json
 [22-52-38] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-52-38] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-52-38] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-52-38] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-52-38] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-52-38] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
 [22-52-38] [THREAD STARTED]: Console Printing Animation
 [22-52-38] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-52-38] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -86,3 +83,4 @@
 [22-52-52] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7eb
            b00-81fe-329f-8a78-62f463d0b7da_1647489168702.json
 [22-52-53] [OBJECT CREATION]: Objects created since last delta (5s): 23
+[22-57-36] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

@@ -7,7 +7,8 @@ import cyder.genesis.CyderShare;
  */
 public enum ExitCondition {
     // exception exits
-    NotReleased(-2, "Cyder Not Released"),
+    WatchdogCatch(-13, "Watchdog catch"),
+    NotReleased(-12, "Cyder Not Released"),
     SubroutineException(-11, "Subroutine Exception"),
     MultipleInstancesExit(-10, "Multiple Instances Exit"),
     ExternalStop(-9, "External Stop"),
