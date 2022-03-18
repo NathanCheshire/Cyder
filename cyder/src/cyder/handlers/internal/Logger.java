@@ -303,9 +303,6 @@ public class Logger {
 
     // todo do downloading song while song already playing playedit in separate uncontrollable thread
 
-    //todo when logging a json write, log levenstein distance between last and current
-    // just store last thing written so you dont have to read and then write
-
     /**
      * Formats and writes the line to the current log file.
      *
@@ -333,7 +330,7 @@ public class Logger {
                 ExceptionHandler.handle(e);
             } finally {
                 // print to std output
-                System.out.println(line.trim());
+                System.out.println(line);
             }
         }
     }
@@ -376,10 +373,11 @@ public class Logger {
      * @param line the line to insert breaks in if needed
      * @return the formatted lines
      */
-    private static LinkedList<String> lengthCheck(String line) {
+    public static LinkedList<String> lengthCheck(String line) {
         LinkedList<String> ret = new LinkedList<>();
 
         // while the remaining length is greater than max
+        System.out.println(line);
         while (line.length() > MAX_LINE_LENGTH) {
             // if the ideal split works
             if (line.charAt(MAX_LINE_LENGTH) == ' ') {

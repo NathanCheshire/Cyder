@@ -1,6 +1,7 @@
 package cyder.test;
 
 import cyder.constants.CyderRegexPatterns;
+import cyder.handlers.internal.Logger;
 import cyder.utilities.*;
 import cyder.widgets.WeatherWidget;
 import org.junit.Test;
@@ -196,5 +197,11 @@ public class UnitTests {
 
         // bogus repo yet url wont know that
         assertTrue(GitHubUtil.validateGitHubRepoCloneUrl("http://github.com/nathancheshire/adverbs.git"));
+    }
+
+    @Test
+    public void testLineChecker() {
+        assertEquals(Logger.lengthCheck("[22-05-04] [EOL]: Log completed, exiting Cyder with exit " +
+                "code: -13 [Watchdog Timeout], exceptions thrown: 0").size(), 1);
     }
 }

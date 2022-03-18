@@ -851,32 +851,6 @@ public class StringUtil {
     }
 
     /**
-     * Determines how closely string alpha is to string beta (Levenshtein distance).
-     *
-     * @param alpha the base string
-     * @param beta the string to test for similarity against alpha
-     * @return how close beta is to alpha by a percentage score
-     */
-    public static int levenshteinDistance(String alpha, String beta) {
-        if (alpha.isEmpty()) {
-            return beta.length();
-        }
-
-        if (beta.isEmpty()) {
-            return alpha.length();
-        }
-
-        int substitution = levenshteinDistance(alpha.substring(1), beta.substring(1))
-                + alpha.charAt(0) == beta.charAt(0) ? 0 : 1;
-
-        int insertion = levenshteinDistance(alpha, beta.substring(1)) + 1;
-        int deletion = levenshteinDistance(alpha.substring(1), beta) + 1;
-
-        return Arrays.stream(
-                new int[] {substitution, insertion, deletion}).min().orElse(Integer.MAX_VALUE);
-    }
-
-    /**
      * Returns the length of the non-html text of the provided String.
      *
      * @param htmlText the text containing html tags and styling

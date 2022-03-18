@@ -82,24 +82,34 @@ public class UserUtil {
     }
 
     /**
+     * The last serialized string that was written to the current user file.
+     */
+    private static String previousSerializedUser = "";
+
+    /**
+     * The current levenshtein distance between the last and current write to the user json file.
+     */
+    private static int currentLevenshteinDistance;
+
+    /**
      * Writes the current User, {@link UserUtil#cyderUser},
      * to the user's json if the json exists AND the provided user
      * object contains all the data required by a user object.
      * Upon a successful serialization/de-serialization, the json
      * is backed up and placed in dynamic/backup.
      */
-    public static synchronized  void writeUser() {
+    public static synchronized void writeUser() {
         if (cyderUserFile == null || !cyderUserFile.exists() || cyderUser == null)
             return;
 
        try {
-           // log the write since we know the user is valid
-           Logger.log(LoggerTag.SYSTEM_IO, "[JSON WRITE] User was written to file: "
-                   + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
-
            // write to user data file
            setUserData(cyderUserFile, cyderUser);
-           // somehow overridden with something
+
+           // log the write since we know the user is valid
+           Logger.log(LoggerTag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
+                   + currentLevenshteinDistance + "] User was written to file: "
+                   + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
            // validate the user is still valid
            getterSetterValidator(cyderUserFile);
@@ -187,6 +197,18 @@ public class UserUtil {
             FileWriter writer = new FileWriter(f);
             userIOSemaphore.acquire();
             gson.toJson(u, writer);
+
+            String currentSerializedUser = gson.toJson(u);
+
+            if (previousSerializedUser.isEmpty()) {
+                currentLevenshteinDistance = currentSerializedUser.length();
+            } else {
+                currentLevenshteinDistance = LevenshteinUtil.levenshteinDistance(
+                        currentSerializedUser, previousSerializedUser);
+            }
+
+            previousSerializedUser = currentSerializedUser;
+
             writer.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

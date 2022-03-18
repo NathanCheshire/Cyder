@@ -107,17 +107,17 @@ public class CyderWatchdog {
 
                 Thread.State currentState = awtEventQueueThread.getState();
 
-                Logger.log(LoggerTag.THREAD_STATUS, "name = "
-                        + AWT_EVENT_QUEUE_0_NAME + ", state = " + currentState);
-
                 if (currentState == Thread.State.RUNNABLE) {
                     watchdogCounter.getAndIncrement();
+
+                    Logger.log(LoggerTag.THREAD_STATUS, "name = "
+                            + AWT_EVENT_QUEUE_0_NAME + " in RUNNABLE state; incrementing watchdog counter");
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
                         Logger.log(LoggerTag.DEBUG, "Hault detected by watchdog,");
 
                         boolean tmpJarMode = true;
-                        if (tmpJarMode) { // CyderShare.JAR_MODE) {
+                        if (CyderShare.JAR_MODE) {
                             Logger.log(LoggerTag.DEBUG, "JAR_MODE detected; attempting to " +
                                     "locate jar to boostrap from");
                             bootstrap();
