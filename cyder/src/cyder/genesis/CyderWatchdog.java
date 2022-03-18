@@ -31,7 +31,7 @@ public class CyderWatchdog {
     /**
      * The time in ms to wait between checking the AWT-EventQueue-0 thread for its status.
      */
-    public static final int POLL_TIMEOUT = 3000;
+    public static final int POLL_TIMEOUT = 1000;
 
     /**
      * The standard name of the AWT-EventQueue-0 thread.
@@ -100,11 +100,10 @@ public class CyderWatchdog {
                     ExceptionHandler.handle(e);
                 }
 
-                // reset watchdog timer
+                // reset watchdog timer using AWT EventQueue thread
                 SwingUtilities.invokeLater(() -> {
                     watchdogCounter.set(0);
                 });
-
 
                 Thread.State currentState = awtEventQueueThread.getState();
 
@@ -115,16 +114,30 @@ public class CyderWatchdog {
                     watchdogCounter.getAndIncrement();
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
-                        Logger.log(LoggerTag.DEBUG, "HAULT");
+                        Logger.log(LoggerTag.DEBUG, "Hault detected by watchdog,");
 
-                        // todo start a python process to bootstrap ourself
-
-                        CyderShare.exit(ExitCondition.WatchdogCatch);
+                        boolean tmpJarMode = true;
+                        if (tmpJarMode) { // CyderShare.JAR_MODE) {
+                            Logger.log(LoggerTag.DEBUG, "JAR_MODE detected; attempting to " +
+                                    "locate jar to boostrap from");
+                            bootstrap();
+                        } else {
+                            Logger.log(LoggerTag.DEBUG, "JAR_MODE is not active thus " +
+                                    "no jar can be located to boostrap from; exiting Cyder");
+                            CyderShare.exit(ExitCondition.WatchdogTimeout);
+                        }
                     }
                 } else {
                     watchdogCounter.set(0);
                 }
             }
         }, "Cyder Watchdog");
+    }
+
+    /**
+     * Attempts to boostrap Cyder by quitting and opening a new instance.
+     */
+    private static void bootstrap() {
+        // todo start a python process to bootstrap ourself
     }
 }

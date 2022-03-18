@@ -19,6 +19,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Simple general String utility methods along with some JTextPane utility methods
@@ -1062,5 +1064,25 @@ public class StringUtil {
         }
 
         return ret.toString();
+    }
+
+    /**
+     * Splits the provided string using the provided pattern and returns a
+     * linked list as opposed to an array containing the parts of the split.
+     *
+     * @param string the string to split on using the pattern
+     * @param pattern the pattern to split the string on
+     * @return a list of the split parts
+     */
+    public static LinkedList<String> split(String string, Pattern pattern) {
+        Matcher m = pattern.matcher(string);
+        LinkedList<String> ret = new LinkedList<>();
+
+        while(m.find()) {
+            // group 0 is the entire match
+            ret.add(m.group(0));
+        }
+
+        return ret;
     }
 }

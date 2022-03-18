@@ -19,6 +19,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
@@ -170,7 +171,7 @@ public class Logger {
                         .append(" [").append(condition.getDescription()).append("], exceptions thrown: ")
                         .append(countExceptions());
 
-                writeLine(logBuilder.toString(), tag);
+                formatAndWriteLine(logBuilder.toString(), tag);
                 logConcluded = true;
                 //return to caller to exit immediately
 
@@ -201,8 +202,7 @@ public class Logger {
                 break;
             case OBJECT_CREATION:
                 objectCreationCounter.incrementAndGet();
-                // don't write so return
-                return;
+                break;
             case AUDIO:
                 logBuilder.append("[AUDIO]: ").append(representation);
                 break;
@@ -225,11 +225,16 @@ public class Logger {
                         "idiot and added an enum to LoggerTag but forgot to handle it Logger.log. Tag = " + tag);
         }
 
-        // something's wrong if nothing was appended to the builder
-        if (logBuilder.toString().length() == getLogTime().length())
-            throw new IllegalArgumentException("Attempting to write nothing to the log file");
+        // if tag shouldn't be logged when it's called
+        if (tag == LoggerTag.OBJECT_CREATION) {
+            return;
+        }
 
-        writeLine(logBuilder.toString(), tag);
+        // check for nothing being written except the time tag
+        Preconditions.checkArgument(logBuilder.toString().length() > getLogTime().length(),
+                "Log call resulting in nothing built: tag = " + tag);
+
+        formatAndWriteLine(logBuilder.toString(), tag);
     }
 
     /**
@@ -263,30 +268,32 @@ public class Logger {
      */
     private static void generateAndSetLogFile() {
         try {
+            // ensure logs dir exists
             File logsDir = new File("logs");
             logsDir.mkdir();
 
+            // if dir for today's logs doesn't exists, create
             String logSubDirName = TimeUtil.logSubDirTime();
-
             File logSubDir = new File("logs/" + logSubDirName);
             logSubDir.mkdir();
 
+            // actual log file
             String logFileName = TimeUtil.logTime();
 
+            // ensure uniqueness
             int number = 1;
             File logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
-
             while (logFile.exists()) {
                 number++;
                 logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
             }
 
-            boolean success = logFile.createNewFile();
-
-            if (success)
+            // found unique file so create
+            if (logFile.createNewFile()) {
                 currentLog = logFile;
-            else
+            } else {
                 throw new RuntimeException("Log file not created");
+            }
 
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -294,56 +301,65 @@ public class Logger {
 
     }
 
-    //todo when logging json write, log levenstein distance between last and current
+    // todo do downloading song while song already playing playedit in separate uncontrollable thread
+
+    //todo when logging a json write, log levenstein distance between last and current
     // just store last thing written so you dont have to read and then write
 
     /**
-     * Writes the line to the current log file and releases resources once done.
+     * Formats and writes the line to the current log file.
      *
-     * @param line the single line to write
+     * @param line the line to write
      * @param tag the tag which was used to handle the constructed string to write
      */
-    private static synchronized void writeLine(String line, LoggerTag tag) {
+    private static synchronized void formatAndWriteLine(String line, LoggerTag tag) {
         line = line.trim();
 
         // if log file was deleted mid operation, regenerate and add message
         if (!getCurrentLog().exists()) {
             generateAndSetLogFile();
 
-            writeLine("[Log filewas deleted during runtime, recreating " +
-                    "and restarting log at: " + TimeUtil.userTime() + "]", LoggerTag.DEBUG);
-        }
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
-            // if not an exception, break up line if too long
-            if (tag != LoggerTag.EXCEPTION) {
-                LinkedList<String> lines = lengthCheck(line);
-
-                for (int i = 0 ; i < lines.size() ; i++) {
-                    if (i != 0) {
-                        bw.write(StringUtil.generateNSpaces(11));
-                    }
-
-                    bw.write(lines.get(i));
-                    bw.newLine();
+            writeLines(lengthCheck(getLogTime() + " [DEBUG]: [Log filewas deleted during runtime," +
+                    " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
+        } else {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
+                // if not an exception, break up line if too long
+                if (tag != LoggerTag.EXCEPTION) {
+                    writeLines(lengthCheck(line));
+                } else {
+                    writeLines(StringUtil.split(line, Pattern.compile("\\R")));
                 }
-            } else {
-                String[] lines = line.split("\\R");
-
-                for (int i = 0 ; i < lines.length ; i++) {
-                    if (i != 0) {
-                        bw.write(StringUtil.generateNSpaces(11));
-                    }
-
-                    bw.write(lines[i]);
-                    bw.newLine();
-                }
+            } catch(Exception e) {
+                ExceptionHandler.handle(e);
+            } finally {
+                // print to std output
+                System.out.println(line.trim());
             }
-        } catch(Exception e) {
-            ExceptionHandler.handle(e);
-        } finally {
-            // print to standard output, the only System.out in the entire program that should exist
-            System.out.println(line.trim());
+        }
+    }
+
+    /**
+     * Writes the lines to the current log file. The first one is not offset
+     * whilst all lines after the first are offset by 11 spaces.
+     *
+     * @param lines the lines to write to the current log file
+     */
+    private static void writeLines(LinkedList<String> lines) {
+        Preconditions.checkArgument(currentLog.exists());
+        Preconditions.checkArgument(lines != null);
+        Preconditions.checkArgument(!lines.isEmpty());
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true)))  {
+            for (int i = 0 ; i < lines.size() ; i++) {
+                if (i != 0) {
+                    bw.write(StringUtil.generateNSpaces(11));
+                }
+
+                bw.write(lines.get(i));
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handleWithoutLogging(e);
         }
     }
 
@@ -680,7 +696,7 @@ public class Logger {
                 while (true) {
                     if (objectCreationCounter.get() > 0) {
                         // a less elegant solution but necessary
-                        writeLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
+                        formatAndWriteLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
                                 + "Objects created since last delta (" + deltaT + "s): "
                                 + objectCreationCounter.getAndSet(0), LoggerTag.OBJECT_CREATION);
                     }
