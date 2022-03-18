@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -85,8 +84,8 @@ public class Logger {
         if (logConcluded)
             return;
 
-        String initialTimeTag = "[" + TimeUtil.logTime() + "] ";
-        StringBuilder logBuilder = new StringBuilder(initialTimeTag);
+
+        StringBuilder logBuilder = new StringBuilder(getLogTime());
 
         switch (tag) {
             case CLIENT:
@@ -226,9 +225,10 @@ public class Logger {
                         "idiot and added an enum to LoggerTag but forgot to handle it Logger.log. Tag = " + tag);
         }
 
-        //write to log file
-        if (logBuilder.toString().equalsIgnoreCase(initialTimeTag))
+        // something's wrong if nothing was appended to the builder
+        if (logBuilder.toString().length() == getLogTime().length())
             throw new IllegalArgumentException("Attempting to write nothing to the log file");
+
         writeLine(logBuilder.toString(), tag);
     }
 
@@ -294,7 +294,8 @@ public class Logger {
 
     }
 
-    private static final Semaphore writingSemaphore = new Semaphore(1);
+    //todo when logging json write, log levenstein distance between last and current
+    // just store last thing written so you dont have to read and then write
 
     /**
      * Writes the line to the current log file and releases resources once done.
@@ -305,29 +306,22 @@ public class Logger {
     private static synchronized void writeLine(String line, LoggerTag tag) {
         line = line.trim();
 
-        //if we have to make a new line
-        String recoveryLine = null;
-
-        //if the current log doesn't exist, find a unique file name and make it
+        // if log file was deleted mid operation, regenerate and add message
         if (!getCurrentLog().exists()) {
             generateAndSetLogFile();
 
-            recoveryLine = "[Log filewas deleted during runtime, recreating and restarting log at: "
-                    + TimeUtil.userTime() + "]";
-
-            writeLine(line, tag);
+            writeLine("[Log filewas deleted during runtime, recreating " +
+                    "and restarting log at: " + TimeUtil.userTime() + "]", LoggerTag.DEBUG);
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
-            writingSemaphore.acquire();
-
             // if not an exception, break up line if too long
             if (tag != LoggerTag.EXCEPTION) {
                 LinkedList<String> lines = lengthCheck(line);
 
                 for (int i = 0 ; i < lines.size() ; i++) {
                     if (i != 0) {
-                        bw.write("           "); // 11 spaces
+                        bw.write(StringUtil.generateNSpaces(11));
                     }
 
                     bw.write(lines.get(i));
@@ -338,15 +332,13 @@ public class Logger {
 
                 for (int i = 0 ; i < lines.length ; i++) {
                     if (i != 0) {
-                        bw.write("           "); // 11 spaces
+                        bw.write(StringUtil.generateNSpaces(11));
                     }
 
                     bw.write(lines[i]);
                     bw.newLine();
                 }
             }
-
-            writingSemaphore.release();
         } catch(Exception e) {
             ExceptionHandler.handle(e);
         } finally {
@@ -700,5 +692,14 @@ public class Logger {
                 ExceptionHandler.handle(e);
             }
         }, "Object Creation Logger");
+    }
+
+    /**
+     * Returns the time tag placed at the beginning of all log statements.
+     *
+     * @return the time tag placed at the beginning of all log statements
+     */
+    private static String getLogTime() {
+        return "[" + TimeUtil.logTime() + "] ";
     }
 }

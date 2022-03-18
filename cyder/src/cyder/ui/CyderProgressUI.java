@@ -110,6 +110,9 @@ public class CyderProgressUI extends BasicProgressBarUI {
 
     @Override
     protected void incrementAnimationIndex() {
+        if (progressBar == null)
+            return;
+
         int val = getAnimationIndex() + 1;
         setAnimationIndex(val < numFrames ? val : 0);
     }

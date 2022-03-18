@@ -83,6 +83,7 @@ public class YoutubeUtil {
                     + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
             };
 
+            CyderProgressUI ui = new CyderProgressUI();
             CyderThreadRunner.submit(() -> {
                 try {
                     Process proc = rt.exec(commands);
@@ -91,7 +92,7 @@ public class YoutubeUtil {
 
                     // progress label for this download to update
                     CyderProgressBar audioProgress = new CyderProgressBar(CyderProgressBar.HORIZONTAL, 0, 10000);
-                    CyderProgressUI ui = new CyderProgressUI();
+
                     ui.setColors(new Color[]{CyderColors.regularPink, CyderColors.regularBlue});
                     ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
                     ui.setShape(CyderProgressUI.Shape.SQUARE);
@@ -157,6 +158,7 @@ public class YoutubeUtil {
                     ExceptionHandler.handle(e);
                     ConsoleFrame.getConsoleFrame().getInputHandler()
                             .println("An exception occured while attempting to download: " + url);
+                    ui.stopAnimationTimer();
                 }
             }, "YouTube Download Progress Updater");
         } else {
@@ -528,10 +530,8 @@ public class YoutubeUtil {
     public static String buildYoutubeURL(String uuid) {
         if (uuid.length() != 11)
             throw new IllegalArgumentException("Provided uuid is not 11 chars");
-
-        return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
+        return CyderUrls.YOUTUBE_THUMBNAIL_HEADER + uuid + "/hqdefault.jpg";
     }
-
 
     /**
      * Returns a URL for the maximum resolution version of the youtube video's thumbnail.
@@ -540,7 +540,7 @@ public class YoutubeUtil {
      * @return a URL for the maximum resolution version of the youtube video's thumbnail
      */
     public static String buildThumbnailURL(String uuid) {
-        return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid + "/maxresdefault.jpg";
+        return CyderUrls.YOUTUBE_THUMBNAIL_HEADER + uuid + "/maxresdefault.jpg";
     }
 
     /**

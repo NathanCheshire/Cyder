@@ -2,11 +2,15 @@ package cyder.genesis;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+
+import javax.swing.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A watchdog timer for Cyder to detect a freeze on the GUI and kill the application.
@@ -33,6 +37,17 @@ public class CyderWatchdog {
      * The standard name of the AWT-EventQueue-0 thread.
      */
     public static final String AWT_EVENT_QUEUE_0_NAME = "AWT-EventQueue-0";
+
+    /**
+     * The actual watchdog timer to detect a hault if it is not reset by the time a certain
+     * value is reached.
+     */
+    private static final AtomicInteger watchdogCounter = new AtomicInteger();
+
+    /**
+     * The maximum number the watchdog counter can achieve before triggering a fatal reset.
+     */
+    public static final int MAX_WATCHDOG_COUNT = 5;
 
     /**
      * Waits for the AWT-EventQueue-0 thread to spawn and then polls the thread's state
@@ -66,29 +81,16 @@ public class CyderWatchdog {
         }, "Watchdog Initializer");
     }
 
-    private static boolean HAULTED;
-
-    /**
-     * Returns whether a hault has been detected.
-     *
-     * @return whether a hault has been detected
-     */
-    public static boolean getHAULTED() {
-        return HAULTED;
-    }
-
-    // I'm not entirely sure this watchdog is fool-proof and won't be
-    // triggered by other actions and operations throughout Cyder.
-    // Only time will tell if my conjecture is correct, however.
-
     /**
      * Starts the watchdog checker after the AWT-EventQueue-0 thread has been started.
      *
      * @param awtEventQueueThread the AWT-EventQueue-0 thread
+     * @throws IllegalArgumentException if the provided thread
+     * is not named {@link CyderWatchdog#AWT_EVENT_QUEUE_0_NAME}
      */
     private static void startWatchDog(Thread awtEventQueueThread) {
         Preconditions.checkArgument(awtEventQueueThread.getName().equals(AWT_EVENT_QUEUE_0_NAME),
-                "Improper thread for watchdog timer");
+                "Improper provided thread for watchdog timer");
 
         CyderThreadRunner.submit(() -> {
             while (true) {
@@ -98,25 +100,31 @@ public class CyderWatchdog {
                     ExceptionHandler.handle(e);
                 }
 
+                // reset watchdog timer
+                SwingUtilities.invokeLater(() -> {
+                    watchdogCounter.set(0);
+                });
+
+
                 Thread.State currentState = awtEventQueueThread.getState();
 
                 Logger.log(LoggerTag.THREAD_STATUS, "name = "
                         + AWT_EVENT_QUEUE_0_NAME + ", state = " + currentState);
-                System.out.println("HAULT POSSIBLE, state = " + currentState);
 
-                // todo disabled until a proper algorithm can be derived
                 if (currentState == Thread.State.RUNNABLE) {
-                    // HAULTED = true;
-                    // todo start a python process to bootstrap ourself
-                    //CyderShare.exit(ExitCondition.WatchdogCatch);
-                    // break;
+                    watchdogCounter.getAndIncrement();
+
+                    if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
+                        Logger.log(LoggerTag.DEBUG, "HAULT");
+
+                        // todo start a python process to bootstrap ourself
+
+                        CyderShare.exit(ExitCondition.WatchdogCatch);
+                    }
+                } else {
+                    watchdogCounter.set(0);
                 }
             }
         }, "Cyder Watchdog");
     }
-
-    // todo python package should essentailly go away, static should have a python directory
-
-    //todo when logging json write, log levenstein distance between last and current
-    // just store last thing written so you dont have to read and then write
 }

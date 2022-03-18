@@ -1045,4 +1045,22 @@ public class StringUtil {
     public static boolean containsNonAscii(String nonAsciiContaining) {
         return CharMatcher.ascii().matchesAllOf(nonAsciiContaining);
     }
+
+    /**
+     * Returns a whitespace string of n spaces.
+     *
+     * @param n the number of spaces for the returned string to contain
+     * @return the whitespace string with n spaces
+     */
+    public static String generateNSpaces(int n) {
+        Preconditions.checkArgument(n > 0, "Provided number of spaces is less than 1");
+
+        StringBuilder ret = new StringBuilder();
+
+        for (int i = 0 ; i < n ; i++) {
+            ret.append(" ");
+        }
+
+        return ret.toString();
+    }
 }

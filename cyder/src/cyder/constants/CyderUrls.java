@@ -263,4 +263,9 @@ public class CyderUrls {
      * The header for individual youtube videos without their uuid.
      */
     public static final String YOUTUBE_VIDEO_HEADER = "https://www.youtube.com/watch?v=";
+
+    /**
+     * The header used for obtaining a youtube video's highest resolution thumbanil.
+     */
+    public static final String YOUTUBE_THUMBNAIL_HEADER = "https://img.youtube.com/vi/";
 }
