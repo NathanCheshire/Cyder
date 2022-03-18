@@ -27,8 +27,7 @@
 [22-14-58] [SYSTEM_IO]: Userdata requested: RandomBackground
 [22-14-58] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-14-59] [OBJECT CREATION]: Objects created since last delta (5s): 60
-[22-14-59] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-14-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-14-59] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
 [22-14-59] [THREAD STARTED]: Cyder Watchdog
 [22-14-59] [SYSTEM_IO]: Userdata requested: FullScreen
 [22-14-59] [THREAD STARTED]: Console Printing Animation

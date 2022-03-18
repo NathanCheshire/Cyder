@@ -319,19 +319,15 @@ public class Logger {
             writeLines(lengthCheck(getLogTime() + " [DEBUG]: [Log filewas deleted during runtime," +
                     " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
         } else {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true))) {
-                // if not an exception, break up line if too long
-                if (tag != LoggerTag.EXCEPTION) {
-                    writeLines(lengthCheck(line));
-                } else {
-                    writeLines(StringUtil.split(line, Pattern.compile("\\R")));
-                }
-            } catch(Exception e) {
-                ExceptionHandler.handle(e);
-            } finally {
-                // print to std output
-                System.out.println(line);
+            // if not an exception, break up line if too long
+            if (tag != LoggerTag.EXCEPTION) {
+                writeLines(lengthCheck(line));
+            } else {
+                writeLines(StringUtil.split(line, Pattern.compile("\\R")));
             }
+
+            // print to std output
+            System.out.println(line);
         }
     }
 
@@ -376,8 +372,6 @@ public class Logger {
     public static LinkedList<String> lengthCheck(String line) {
         LinkedList<String> ret = new LinkedList<>();
 
-        // while the remaining length is greater than max
-        System.out.println(line);
         while (line.length() > MAX_LINE_LENGTH) {
             // if the ideal split works
             if (line.charAt(MAX_LINE_LENGTH) == ' ') {
