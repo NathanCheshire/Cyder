@@ -1369,7 +1369,7 @@ public final class ConsoleFrame {
         menuLabel.setBounds(-menuWidth, CyderDragLabel.DEFAULT_HEIGHT - 2,
                 menuWidth, menuHeight);
         menuLabel.setOpaque(true);
-        menuLabel.setBackground(CyderColors.guiThemeColor);
+        menuLabel.setBackground(CyderColors.getGuiThemeColor());
         menuLabel.setVisible(true);
         menuLabel.setBorder(new LineBorder(Color.black, 5));
         consoleCyderFrame.getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
@@ -1381,7 +1381,7 @@ public final class ConsoleFrame {
         menuPane.setAutoscrolls(false);
         menuPane.setFocusable(true);
         menuPane.setOpaque(false);
-        menuPane.setBackground(CyderColors.guiThemeColor);
+        menuPane.setBackground(CyderColors.getGuiThemeColor());
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
@@ -1389,7 +1389,7 @@ public final class ConsoleFrame {
         menuScroll.setFocusable(true);
         menuScroll.setOpaque(false);
         menuScroll.setThumbColor(CyderColors.regularPink);
-        menuScroll.setBackground(CyderColors.guiThemeColor);
+        menuScroll.setBackground(CyderColors.getGuiThemeColor());
         menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         menuScroll.setBounds(7, 10, (int) (menuSize.getWidth() - 10), menuHeight - 20);
@@ -2667,7 +2667,7 @@ public final class ConsoleFrame {
                 -40, //negative height
                 150,40);
         audioControlsLabel.setOpaque(true);
-        audioControlsLabel.setBackground(CyderColors.guiThemeColor);
+        audioControlsLabel.setBackground(CyderColors.getGuiThemeColor());
         audioControlsLabel.setBorder(new LineBorder(Color.black, 5));
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);

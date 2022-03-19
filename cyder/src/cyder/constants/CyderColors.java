@@ -130,8 +130,7 @@ public class CyderColors {
     /**
      * The color to use for frame borders and other ui components throughout Cyder
      */
-    public static Color guiThemeColor = navy;
-    // todo needs to be private and have a getter
+    private static Color guiThemeColor = navy;
 
     /**
      * The background color for frames when dark mode is active.
@@ -157,5 +156,9 @@ public class CyderColors {
      */
     public static void setGuiThemeColor(Color c) {
         guiThemeColor = c;
+    }
+
+    public static Color getGuiThemeColor() {
+        return guiThemeColor;
     }
 }

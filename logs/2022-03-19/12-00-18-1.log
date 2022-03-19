@@ -27,10 +27,7 @@
 [12-00-22] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647709221397.json
 [12-00-22] [SYSTEM_IO]: Userdata requested: RandomBackground
-[12-00-22] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-00-22] [SYSTEM_IO]: Userdata requested: fullscreen
-[12-00-22] [SYSTEM_IO]: Userdata requested: FullScreen
-[12-00-22] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-00-22] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
 [12-00-23] [THREAD STARTED]: Console Printing Animation
 [12-00-23] [SYSTEM_IO]: Userdata requested: OutputBorder
 [12-00-23] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -126,8 +123,7 @@
 [12-00-31] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [12-00-31] [SYSTEM_IO]: Userdata requested: filterchat
 [12-00-31] [SYSTEM_IO]: Userdata requested: minimizeonclose
-[12-00-31] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[12-00-31] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-00-31] [SYSTEM_IO]: Userdata requested: persistentnotifications [2x]
 [12-00-31] [SYSTEM_IO]: Userdata requested: minimizeanimation
 [12-00-31] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [12-00-31] [SYSTEM_IO]: Userdata requested: closeanimation
@@ -211,12 +207,9 @@
            erdata.json
 [12-00-33] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647709232985.json
-[12-00-33] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-34] [SYSTEM_IO]: Userdata requested: Foreground
-[12-00-34] [SYSTEM_IO]: Userdata requested: Foreground
-[12-00-34] [SYSTEM_IO]: Userdata requested: Background
-[12-00-34] [SYSTEM_IO]: Userdata requested: Background
+[12-00-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[12-00-34] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[12-00-34] [SYSTEM_IO]: Userdata requested: Background [2x]
 [12-00-34] [THREAD STARTED]: Component = CyderFrame, hash = 789157364, bounds = (1214, 261, 900, 580), parent frame =
            Component is top frame, getTitle() = Preferences notification queue checker
 [12-00-34] [THREAD STARTED]: Preference Font Loader
@@ -226,8 +219,7 @@
 [12-00-34] [THREAD STARTED]: notification appear animation
 [12-00-34] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [12-00-34] [THREAD STARTED]: Notificaiton Vanish Animator
-[12-00-35] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-36] [THREAD STARTED]: Component = CyderFrame, hash = 789157364, bounds = (336, 393, 900, 580), parent frame =
            Component is top frame, getTitle() = Preferences notification queue checker
 [12-00-36] [UI ACTION]: [Preferences] [NOTIFICATION] w = 144, h = 29, text = <html>Fonts loaded</html>
@@ -239,8 +231,7 @@
 [12-00-36] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [12-00-36] [THREAD STARTED]: Notificaiton Vanish Animator
 [12-00-36] [OBJECT CREATION]: Objects created since last delta (5s): 249
-[12-00-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-38] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-38] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-38] [CLIENT]: inform test
 [12-00-38] [SYSTEM_IO]: Userdata requested: filterchat
 [12-00-38] [HANDLE]: MANUAL TEST FIRED
@@ -251,11 +242,9 @@
            erdata.json
 [12-00-39] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647709236574.json
-[12-00-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-41] [OBJECT CREATION]: Objects created since last delta (5s): 40
-[12-00-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-43] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-43] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-43] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [12-00-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
@@ -263,10 +252,8 @@
 [12-00-43] [UI ACTION]: Component = CyderButton, hash = 367253202, bounds = (20, 175, 50, 250), parent frame = Preferenc
            es, getText() = <
 [12-00-44] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-44] [SYSTEM_IO]: Userdata requested: Foreground
-[12-00-44] [SYSTEM_IO]: Userdata requested: Foreground
-[12-00-44] [SYSTEM_IO]: Userdata requested: Background
-[12-00-44] [SYSTEM_IO]: Userdata requested: Background
+[12-00-44] [SYSTEM_IO]: Userdata requested: Foreground [2x]
+[12-00-44] [SYSTEM_IO]: Userdata requested: Background [2x]
 [12-00-44] [THREAD STARTED]: Component = CyderFrame, hash = 789157364, bounds = (336, 393, 900, 580), parent frame =
            Component is top frame, getTitle() = Preferences notification queue checker
 [12-00-44] [THREAD STARTED]: Preference Font Loader
@@ -303,17 +290,14 @@
 [12-00-47] [HANDLE]: CONSOLE PREFERENCE TOGGLE HANDLED
 [12-00-47] [HANDLE]: FINAL HANDLE
 [12-00-47] [CONSOLE_OUT]: [STRING] Dark Mode set to false
-[12-00-48] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-49] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-49] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-50] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [12-00-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647709247306.json
-[12-00-50] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-51] [OBJECT CREATION]: Objects created since last delta (5s): 117
-[12-00-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[12-00-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[12-00-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [12-00-53] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [12-00-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-

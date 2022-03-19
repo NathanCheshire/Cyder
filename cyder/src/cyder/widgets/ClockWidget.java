@@ -65,7 +65,7 @@ public class ClockWidget {
             if (clockFrame != null)
                 clockFrame.dispose();
 
-            clockColor = CyderColors.guiThemeColor;
+            clockColor = CyderColors.getGuiThemeColor();
 
             update = true;
             showSecondHand = true;

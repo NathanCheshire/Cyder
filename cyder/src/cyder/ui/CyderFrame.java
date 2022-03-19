@@ -324,7 +324,7 @@ public class CyderFrame extends JFrame {
         iconPane.setFocusable(false);
         contentLabel.add(iconPane,JLayeredPane.DEFAULT_LAYER);
 
-        contentLabel.setBorder(new LineBorder(CyderColors.guiThemeColor, 3, false));
+        contentLabel.setBorder(new LineBorder(CyderColors.getGuiThemeColor(), 3, false));
         setContentPane(contentLabel);
 
         //top frame drag and cover
@@ -337,7 +337,7 @@ public class CyderFrame extends JFrame {
 
         topDragCover = new JLabel();
         topDragCover.setBounds(0, 0 , width, 2);
-        topDragCover.setBackground(CyderColors.guiThemeColor);
+        topDragCover.setBackground(CyderColors.getGuiThemeColor());
         topDragCover.setOpaque(true);
         contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
@@ -352,7 +352,7 @@ public class CyderFrame extends JFrame {
 
         leftDragCover = new JLabel();
         leftDragCover.setBounds(0, 0 , 2, height);
-        leftDragCover.setBackground(CyderColors.guiThemeColor);
+        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
         leftDragCover.setOpaque(true);
         contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
@@ -367,7 +367,7 @@ public class CyderFrame extends JFrame {
 
         rightDragCover = new JLabel();
         rightDragCover.setBounds(width - 2, 0 , 2, height);
-        rightDragCover.setBackground(CyderColors.guiThemeColor);
+        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
         rightDragCover.setOpaque(true);
         contentLabel.add(rightDragCover, JLayeredPane.DRAG_LAYER);
 
@@ -382,7 +382,7 @@ public class CyderFrame extends JFrame {
 
         bottomDragCover = new JLabel();
         bottomDragCover.setBounds(0, height - 2 , width, 2);
-        bottomDragCover.setBackground(CyderColors.guiThemeColor);
+        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
         bottomDragCover.setOpaque(true);
         contentLabel.add(bottomDragCover, JLayeredPane.DRAG_LAYER);
 
@@ -1578,25 +1578,25 @@ public class CyderFrame extends JFrame {
             topDrag.setHeight(CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
             topDragCover.setBounds(0, 0 , width, 2);
-            topDragCover.setBackground(CyderColors.guiThemeColor);
+            topDragCover.setBackground(CyderColors.getGuiThemeColor());
 
             leftDrag.setWidth(5 - frameResizingLen);
             leftDrag.setHeight(this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
             leftDragCover.setBounds(0, 0 , 2, height);
-            leftDragCover.setBackground(CyderColors.guiThemeColor);
+            leftDragCover.setBackground(CyderColors.getGuiThemeColor());
 
             rightDrag.setWidth(5 - frameResizingLen);
             rightDrag.setHeight(this.height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
 
             rightDragCover.setBounds(width - 2, 0 , 2, height);
-            rightDragCover.setBackground(CyderColors.guiThemeColor);
+            rightDragCover.setBackground(CyderColors.getGuiThemeColor());
 
             bottomDrag.setWidth(this.width - frameResizingLen * 2);
             bottomDrag.setHeight(5 - frameResizingLen);
 
             bottomDragCover.setBounds(0, height - 2 , width, 2);
-            bottomDragCover.setBackground(CyderColors.guiThemeColor);
+            bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
 
             refreshTitleAndButtonPosition();
 
@@ -2020,17 +2020,17 @@ public class CyderFrame extends JFrame {
 
         //update the border covering the resize area
         contentLabel.setBorder(new LineBorder(
-                CyderColors.guiThemeColor, 5 - frameResizingLen, false));
+                CyderColors.getGuiThemeColor(), 5 - frameResizingLen, false));
 
         //update drag labels
-        topDrag.setBackground(CyderColors.guiThemeColor);
-        bottomDrag.setBackground(CyderColors.guiThemeColor);
-        leftDrag.setBackground(CyderColors.guiThemeColor);
-        rightDrag.setBackground(CyderColors.guiThemeColor);
-        topDragCover.setBackground(CyderColors.guiThemeColor);
-        bottomDragCover.setBackground(CyderColors.guiThemeColor);
-        leftDragCover.setBackground(CyderColors.guiThemeColor);
-        rightDragCover.setBackground(CyderColors.guiThemeColor);
+        topDrag.setBackground(CyderColors.getGuiThemeColor());
+        bottomDrag.setBackground(CyderColors.getGuiThemeColor());
+        leftDrag.setBackground(CyderColors.getGuiThemeColor());
+        rightDrag.setBackground(CyderColors.getGuiThemeColor());
+        topDragCover.setBackground(CyderColors.getGuiThemeColor());
+        bottomDragCover.setBackground(CyderColors.getGuiThemeColor());
+        leftDragCover.setBackground(CyderColors.getGuiThemeColor());
+        rightDragCover.setBackground(CyderColors.getGuiThemeColor());
 
         //repaint drag labels
         topDrag.repaint();

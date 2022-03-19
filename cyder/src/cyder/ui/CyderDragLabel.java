@@ -45,7 +45,7 @@ public class CyderDragLabel extends JLabel {
     /**
      * The background color of this drag label.
      */
-    private Color backgroundColor = CyderColors.guiThemeColor;
+    private Color backgroundColor = CyderColors.getGuiThemeColor();
 
     /**
      * Whether dragging is currently enabled.
