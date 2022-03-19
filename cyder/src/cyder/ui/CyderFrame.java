@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -31,6 +30,7 @@ import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -241,15 +241,27 @@ public class CyderFrame extends JFrame {
      * @param background the specified background image
      */
     public CyderFrame(int width, int height, ImageIcon background) {
+        // ensure non null backgrond
+        checkNotNull(background);
+
+        // correct possibly too small width and heights
+        width = Math.max(MINIMUM_WIDTH, width);
+        height = Math.max(MINIMUM_HEIGHT, height);
+
         this.width = width;
         this.height = height;
+
+        // check to ensure background is same size as frame
+        if (width > background.getIconWidth() || height > background.getIconHeight()) {
+            background = ImageUtil.resizeImage(background, this.width, this.height);
+        }
+
         this.background = background;
         currentOrigIcon = background;
 
         //border color for ConsoleFrame menu pane set in instantiation of object
         taskbarIconBorderColor = getTaskbarBorderColor();
 
-        //this . methods
         setSize(new Dimension(width, height));
         setResizable(false);
         setUndecorated(true);
@@ -492,8 +504,9 @@ public class CyderFrame extends JFrame {
      * @param height the height of the CyderFrame
      * @param c the color of the content pane background
      */
-    public CyderFrame(int width, int height, Color c) { //todo var for these in image util or cyder images
-        this(width, height, ImageUtil.imageIconFromColor(c, 2000, 2000));
+    public CyderFrame(int width, int height, Color c) {
+        this(width, height, ImageUtil.imageIconFromColor(c,
+                Math.max(MINIMUM_WIDTH, width), Math.max(MINIMUM_HEIGHT, height)));
     }
 
     // ----------------
@@ -1379,6 +1392,7 @@ public class CyderFrame extends JFrame {
      *
      * @param dancingDirection the direction the frame is currently dancing in
      */
+    @SuppressWarnings("SameParameterValue")
     protected void setDancingDirection(DancingDirection dancingDirection) {
         this.dancingDirection = dancingDirection;
     }
@@ -1397,6 +1411,7 @@ public class CyderFrame extends JFrame {
      *
      * @param dancingFinished whether dancing has concluded
      */
+    @SuppressWarnings("SameParameterValue")
     protected void setDancingFinished(boolean dancingFinished) {
         this.dancingFinished = dancingFinished;
     }
@@ -2850,7 +2865,7 @@ public class CyderFrame extends JFrame {
      * @param onClick the function to run upon clicking
      */
     public void addMenuItem(String text, Runnable onClick) {
-        Preconditions.checkArgument(text != null, "Text is null");
+        checkArgument(text != null, "Text is null");
         checkNotNull(!text.isEmpty(), "Provided text is empty");
         checkNotNull(onClick != null, "onClick runnable action is null");
 

@@ -10,8 +10,6 @@ import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
 import cyder.utilities.objects.BoundsString;
 
-import java.awt.*;
-
 /**
  * Information frames throughout Cyder.
  */
@@ -36,19 +34,18 @@ public class InformHandler {
 
     public static void inform(InformBuilder builder) {
         try {
-            boolean darkMode = true;
+            boolean darkMode = false;
 
             CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
             textLabel.setOpaque(false);
-            if (darkMode)
-                textLabel.setForeground(CyderColors.vanila);
+            textLabel.setForeground((darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor));
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
             int xOffset = 10;
             int yOffset = CyderDragLabel.DEFAULT_HEIGHT;
             int yBottomPadding = 10;
-            int widthOffsetFromBoundsCalc = 5;
+            int widthOffsetFromBoundsCalc = 8;
 
             // if the width we would set is too small, center it
             if (boundsString.getWidth() + xOffset * 2 < CyderFrame.MINIMUM_WIDTH) {
@@ -63,9 +60,12 @@ public class InformHandler {
             int frameW = boundsString.getWidth() + xOffset * 2;
             int frameH = boundsString.getHeight() + yOffset + yBottomPadding;
 
+            System.out.println(frameW + "," + frameH);
+
             textLabel.setBounds(xOffset, yOffset, boundsString.getWidth(), boundsString.getHeight());
 
-            CyderFrame informFrame = new CyderFrame(frameW, frameH, (darkMode ? new Color(30,30,30) : CyderColors.vanila));
+            CyderFrame informFrame = new CyderFrame(frameW, frameH,
+                    (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
             informFrame.add(textLabel);

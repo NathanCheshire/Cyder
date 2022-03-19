@@ -41,7 +41,7 @@ public class ManualTests {
      * Runs the tests within the method.
      * This method is used purely for testing purposes.
      */
-    @ManualTest(trigger = "launch")
+    @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
 

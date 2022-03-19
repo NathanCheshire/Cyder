@@ -7,7 +7,6 @@ import cyder.constants.*;
 import cyder.enums.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
-import cyder.test.ManualTests;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
 import cyder.threads.MasterYoutubeThread;
@@ -1098,8 +1097,6 @@ public class InputHandler {
                     println("No, DST is not underway in " + location + ".");
                 }
             }, "DST Checker");
-        } else if (commandIs("test")) {
-            ManualTests.launchTests();
         } else if (commandIs("tests")) {
             println("Valid tests to call:\n");
             printManualTests();

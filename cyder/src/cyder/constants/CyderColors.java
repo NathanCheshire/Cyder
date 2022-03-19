@@ -115,9 +115,6 @@ public class CyderColors {
      */
     public static Color buttonColor = new Color(223,85,83);
 
-    public static final Color darkModeButtonColor = CyderColors.vanila;
-    public static final Color darkModeButtonTextColor = CyderColors.navy;
-
     //begin taskbar colors
 
     /**
@@ -134,6 +131,10 @@ public class CyderColors {
      * The color to use for frame borders and other ui components throughout Cyder
      */
     public static Color guiThemeColor = navy;
+
+    public static final Color darkModeBackgroundColor = new Color(30,30,30);
+
+    public static final Color regularBackgroundColor = vanila;
 
     /**
      * Instantiation of the CyderColors class is not allowed
