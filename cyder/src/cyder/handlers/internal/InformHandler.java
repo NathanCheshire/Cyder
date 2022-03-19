@@ -40,29 +40,25 @@ public class InformHandler {
             textLabel.setOpaque(false);
             textLabel.setForeground((darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor));
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
-            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
-            int xOffset = 10;
+            String setText = BoundsUtil.addCenteringToHTML(boundsString.getText());
+            System.out.println(setText);
+            textLabel.setText(setText);
+
+            // todo move out of scope
+            int xPadding = 10;
             int yOffset = CyderDragLabel.DEFAULT_HEIGHT;
-            int yBottomPadding = 10;
-            int widthOffsetFromBoundsCalc = 8;
+            int yPadding = 10;
+            int borderOffset = 2;
 
-            // if the width we would set is too small, center it
-            if (boundsString.getWidth() + xOffset * 2 < CyderFrame.MINIMUM_WIDTH) {
-                xOffset += (CyderFrame.MINIMUM_WIDTH - (boundsString.getWidth() + xOffset * 2)) / 2 - widthOffsetFromBoundsCalc;
-            }
+            // 10 - label - 10
+            int frameW = boundsString.getWidth() + xPadding * 2;
 
-            // if the height we would set is too small for the CF's min height, center it vertically
-            if (boundsString.getHeight() + yOffset + yBottomPadding < CyderFrame.MINIMUM_HEIGHT) {
-                yOffset += (CyderFrame.MINIMUM_HEIGHT - (boundsString.getHeight() + yOffset + yBottomPadding)) / 2;
-            }
+            // dl - 10 - label - 10
+            int frameH = boundsString.getHeight() + yOffset + 2 * yPadding;
 
-            int frameW = boundsString.getWidth() + xOffset * 2;
-            int frameH = boundsString.getHeight() + yOffset + yBottomPadding;
-
-            System.out.println(frameW + "," + frameH);
-
-            textLabel.setBounds(xOffset, yOffset, boundsString.getWidth(), boundsString.getHeight());
+            textLabel.setBounds(xPadding - borderOffset, yPadding + yOffset,
+                    boundsString.getWidth() - borderOffset, boundsString.getHeight());
 
             CyderFrame informFrame = new CyderFrame(frameW, frameH,
                     (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));

@@ -355,14 +355,15 @@ public class BoundsUtil {
     public static String addCenteringToHTML(String html) {
         StringBuilder ret = new StringBuilder();
 
-        if (!html.startsWith("<html>"))
-            ret.append("<html>");
+        if (html.startsWith("<html>"))
+            html = html.substring(6);
 
-        ret.append("<div style='text-align: center;'>");
+        if (html.endsWith("</html>"))
+            html = html.substring(0, html.length() - 7);
+
+        ret.append("<html><div style='text-align: center;'>");
         ret.append(html);
-
-        if (!html.endsWith("</html>"))
-            ret.append("</html>");
+        ret.append("</div></html>");
 
         return ret.toString();
     }

@@ -1,0 +1,108 @@
+[11-45-54] [JVM_ENTRY]: [Nathan]
+[11-45-54] [THREAD STARTED]: Object Creation Logger
+[11-45-54] [THREAD STARTED]: Watchdog Initializer
+[11-45-54] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[11-45-55] [FONT LOADED]: font name = agency-fb
+[11-45-55] [FONT LOADED]: font name = arial-black
+[11-45-55] [FONT LOADED]: font name = beyno
+[11-45-55] [FONT LOADED]: font name = darling-in-paris
+[11-45-55] [FONT LOADED]: font name = Prompt-Bold
+[11-45-55] [FONT LOADED]: font name = segoe-ui-black
+[11-45-55] [FONT LOADED]: font name = tahoma
+[11-45-56] [THREAD STARTED]: Splash Loader
+[11-45-56] [THREAD STARTED]: Splash Animation
+[11-45-56] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[11-45-56] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-45-56] [THREAD STARTED]: JVM Args Logger
+[11-45-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-45-56] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-45-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708348736.json
+[11-45-57] [OBJECT CREATION]: Objects created since last delta (5s): 55
+[11-45-57] [THREAD STARTED]: Cyder Watchdog
+[11-45-57] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[11-45-58] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-45-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708356907.json
+[11-45-58] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-45-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-45-58] [SYSTEM_IO]: Userdata requested: fullscreen
+[11-45-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-45-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-45-58] [THREAD STARTED]: Console Printing Animation
+[11-45-58] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-45-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-45-59] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-45-59] [THREAD STARTED]: Console Input Caret Position Updater
+[11-45-59] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-45-59] [SYSTEM_IO]: Userdata requested: InputFill
+[11-45-59] [THREAD STARTED]: High Ping Checker
+[11-45-59] [THREAD STARTED]: Hourly Chime Checker
+[11-45-59] [THREAD STARTED]: Console Clock Updater
+[11-45-59] [THREAD STARTED]: Cyder Busy Checker
+[11-45-59] [THREAD STARTED]: ConsoleFrame Stat Saver
+[11-45-59] [UI ACTION]: Console loaded in 5552ms
+[11-45-59] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1197498159, bounds = (1214, 251, 900, 600), parent 
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[11-45-59] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-45-59] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[11-45-59] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[11-45-59] [SYSTEM_IO]: Userdata requested: laststart
+[11-45-59] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 121963984, bounds =
+           (980, 378, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[11-45-59] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in
+           5552ms</html>
+[11-45-59] [THREAD STARTED]: notification appear animation
+[11-45-59] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 4] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-45-59] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708358375.json
+[11-45-59] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-45-59] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-46-01] [CLIENT]: inform test
+[11-46-01] [SYSTEM_IO]: Userdata requested: filterchat
+[11-46-01] [CONSOLE_OUT]: [STRING] Invoking manual test popupTest
+[11-46-01] [HANDLE]: MANUAL TEST FIRED
+[11-46-01] [HANDLE]: FINAL HANDLE
+[11-46-02] [OBJECT CREATION]: Objects created since last delta (5s): 61
+[11-46-02] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-46-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708359539.json
+[11-46-02] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-46-03] [UI ACTION]: Component = CyderTextField, hash = 850052889, bounds = (40, 40, 320, 40), parent frame = Inform
+           Test
+[11-46-05] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-46-05] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708362237.json
+[11-46-06] [UI ACTION]: Component = CyderTextField, hash = 850052889, bounds = (40, 40, 320, 40), parent frame = Inform
+           Test, getText() = sdfasdfasdfasdf
+[11-46-07] [OBJECT CREATION]: Objects created since last delta (5s): 22
+[11-46-07] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-46-09] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-46-09] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708365656.json
+[11-46-09] [UI ACTION]: Component = CyderTextField, hash = 850052889, bounds = (40, 40, 320, 40), parent frame = Inform
+           Test, getText() = sdfasdfasdfasdfasdfasdfasdfsa
+[11-46-12] [OBJECT CREATION]: Objects created since last delta (5s): 21
+[11-46-12] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-46-12] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708369206.json
+[11-46-16] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[11-46-16] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647708372737.json
+[11-46-17] [OBJECT CREATION]: Objects created since last delta (5s): 22
+[11-46-17] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[11-46-17] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[11-46-17] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1197498159,
+           bounds = (1214, 251, 900, 600), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan]
+[11-46-17] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-46-17] [EXIT]: [RUNTIME] 23s
+[11-46-17] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled
+           Exit], exceptions thrown: 0
