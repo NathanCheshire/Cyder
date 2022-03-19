@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.ManualTest;
@@ -68,6 +69,31 @@ public class ReflectionUtil {
 
         String retString = ret.toString().trim();
         return retString.substring(0, retString.length() - 3).trim();
+    }
+
+    /**
+     * Finds all getters associated with the provided class and returns a list
+     * containing the toString representation of all values returned by all getters.
+     *
+     * @param clazz the class to find all getters of
+     * @return a list of strings resulting from the get calls on the provided class
+     */
+    public static LinkedList<String> getGetters(Class<?> clazz) {
+        Preconditions.checkNotNull(clazz);
+
+        LinkedList<String> ret = new LinkedList<>();
+
+        for (Method m : clazz.getMethods()) {
+            if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
+                try {
+                    ret.add(m.invoke(clazz).toString());
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }
+        }
+
+        return ret;
     }
 
     /**

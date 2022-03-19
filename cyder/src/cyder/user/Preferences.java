@@ -150,7 +150,7 @@ public class Preferences {
             return null;
         }));
         ret.add(new Preference("fullscreen", "Fullscreen",
-                "Fullscreen cyder (Extremely experimental)","0",(optionalParam) -> {
+                "Fullscreen Cyder (this will also cover the Windows taskbar)","0",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = fullscreen");
 
             ConsoleFrame.getConsoleFrame().setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));

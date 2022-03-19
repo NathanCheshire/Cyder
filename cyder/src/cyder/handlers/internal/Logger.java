@@ -302,6 +302,7 @@ public class Logger {
     }
 
     // todo do downloading song while song already playing playedit in separate uncontrollable thread
+    // todo I think getCyderUser should have a failsafe to return a default property if it's null
 
     /**
      * Formats and writes the line to the current log file.

@@ -118,10 +118,10 @@ public class CyderIcons {
     public static ImageIcon generateDefaultBackground(int width, int height) {
         if (UserUtil.getCyderUser() == null) {
             return ImageUtil.imageIconFromColor(CyderColors.regularBackgroundColor, width, height);
+        } else {
+            return ImageUtil.imageIconFromColor(UserUtil.getCyderUser().getDarkmode().equals("1")
+                    ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor, width, height);
         }
-
-        return ImageUtil.imageIconFromColor(UserUtil.getCyderUser().getDarkmode().equals("1")
-                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor, width, height);
     }
 
     public static ImageIcon getCurrentCyderIcon() {

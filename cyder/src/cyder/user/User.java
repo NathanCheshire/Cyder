@@ -462,51 +462,12 @@ public class User {
 
     @Override
     public int hashCode() {
-        // todo is there some easy way to do this?
-        int ret = name.hashCode();
+        int ret = 0;
 
-        ret = 31 * ret + name.hashCode();
-        ret = 31 * ret + pass.hashCode();
-        ret = 31 * ret + font.hashCode();
-        ret = 31 * ret + fontmetric.hashCode();
-        ret = 31 * ret + foreground.hashCode();
-        ret = 31 * ret + background.hashCode();
-        ret = 31 * ret + intromusic.hashCode();
-        ret = 31 * ret + debugwindows.hashCode();
-        ret = 31 * ret + inputborder.hashCode();
-        ret = 31 * ret + outputborder.hashCode();
-        ret = 31 * ret + hourlychimes.hashCode();
-        ret = 31 * ret + silenceerrors.hashCode();
-        ret = 31 * ret + fullscreen.hashCode();
-        ret = 31 * ret + outputfill.hashCode();
-        ret = 31 * ret + inputfill.hashCode();
-        ret = 31 * ret + clockonconsole.hashCode();
-        ret = 31 * ret + showseconds.hashCode();
-        ret = 31 * ret + filterchat.hashCode();
-        ret = 31 * ret + laststart.hashCode();
-        ret = 31 * ret + minimizeAnimation.hashCode();
-        ret = 31 * ret + typinganimation.hashCode();
-        ret = 31 * ret + showbusyicon.hashCode();
-        ret = 31 * ret + ffmpegpath.hashCode();
-        ret = 31 * ret + youtubedlpath.hashCode();
-        ret = 31 * ret + roundedwindows.hashCode();
-        ret = 31 * ret + windowcolor.hashCode();
-        ret = 31 * ret + consoleclockformat.hashCode();
-        ret = 31 * ret + typingsound.hashCode();
-        ret = 31 * ret + youtubeuuid.hashCode();
-        ret = 31 * ret + ipkey.hashCode();
-        ret = 31 * ret + weatherkey.hashCode();
-        ret = 31 * ret + capsmode.hashCode();
-        ret = 31 * ret + loggedin.hashCode();
-        ret = 31 * ret + audiolength.hashCode();
-        ret = 31 * ret + persistentnotifications.hashCode();
-        ret = 31 * ret + closeAnimation.hashCode();
-        ret = 31 * ret + compactTextMode.hashCode();
-        ret = 31 * ret + youTubeAPI3Key.hashCode();
-        ret = 31 * ret + wrapterminal.hashCode();
-        ret = 31 * ret + screenStat.hashCode();
-        ret = 31 * ret + executables.hashCode();
-        ret = 31 * ret + darkmode.hashCode();
+        for (String field : ReflectionUtil.getGetters(User.class)) {
+            ret = 31 * ret + field.hashCode();
+        }
+
         return ret;
     }
 
