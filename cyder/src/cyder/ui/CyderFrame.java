@@ -300,9 +300,9 @@ public class CyderFrame extends JFrame {
                 }
             }
         };
-        iconLabel.setIcon(background);
         iconLabel.setBounds(frameResizingLen,frameResizingLen,
                 width - 2 * frameResizingLen,height - 2 * frameResizingLen);
+        iconLabel.setIcon(background);
         iconLabel.setFocusable(false);
 
         iconPane = new JLayeredPane();
@@ -492,8 +492,8 @@ public class CyderFrame extends JFrame {
      * @param height the height of the CyderFrame
      * @param c the color of the content pane background
      */
-    public CyderFrame(int width, int height, Color c) {
-        this(width, height, ImageUtil.imageIconFromColor(c, width, height));
+    public CyderFrame(int width, int height, Color c) { //todo var for these in image util or cyder images
+        this(width, height, ImageUtil.imageIconFromColor(c, 2000, 2000));
     }
 
     // ----------------

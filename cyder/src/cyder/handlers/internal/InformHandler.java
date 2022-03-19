@@ -1,6 +1,6 @@
 package cyder.handlers.internal;
 
-import cyder.constants.CyderIcons;
+import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -9,6 +9,8 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
 import cyder.utilities.objects.BoundsString;
+
+import java.awt.*;
 
 /**
  * Information frames throughout Cyder.
@@ -34,7 +36,12 @@ public class InformHandler {
 
     public static void inform(InformBuilder builder) {
         try {
+            boolean darkMode = true;
+
             CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
+            textLabel.setOpaque(false);
+            if (darkMode)
+                textLabel.setForeground(CyderColors.vanila);
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
             textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
@@ -48,7 +55,7 @@ public class InformHandler {
                 xOffset += (CyderFrame.MINIMUM_WIDTH - (boundsString.getWidth() + xOffset * 2)) / 2 - widthOffsetFromBoundsCalc;
             }
 
-            // if the height we would set is too small, center it
+            // if the height we would set is too small for the CF's min height, center it vertically
             if (boundsString.getHeight() + yOffset + yBottomPadding < CyderFrame.MINIMUM_HEIGHT) {
                 yOffset += (CyderFrame.MINIMUM_HEIGHT - (boundsString.getHeight() + yOffset + yBottomPadding)) / 2;
             }
@@ -58,7 +65,7 @@ public class InformHandler {
 
             textLabel.setBounds(xOffset, yOffset, boundsString.getWidth(), boundsString.getHeight());
 
-            CyderFrame informFrame = new CyderFrame(frameW, frameH, CyderIcons.defaultBackgroundLarge);
+            CyderFrame informFrame = new CyderFrame(frameW, frameH, (darkMode ? new Color(30,30,30) : CyderColors.vanila));
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
             informFrame.add(textLabel);

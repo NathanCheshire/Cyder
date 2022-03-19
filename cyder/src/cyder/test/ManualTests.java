@@ -679,10 +679,10 @@ public class ManualTests {
     /**
      * Tests for popups switcher.
      */
-    @ManualTest(trigger = "popup test")
+    @ManualTest(trigger = "inform test")
     public static void popupTest() {
         CyderFrame testFrame = new CyderFrame(400,120);
-        testFrame.setTitle("Popup Test");
+        testFrame.setTitle("Inform Test");
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setBounds( 40,40, 320, 40);
