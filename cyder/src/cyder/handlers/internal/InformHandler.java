@@ -8,6 +8,7 @@ import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
+import cyder.utilities.UserUtil;
 import cyder.utilities.objects.BoundsString;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -63,9 +64,9 @@ public class InformHandler {
     public static void inform(InformBuilder builder) {
         checkNotNull(builder);
 
-        try {
-            boolean darkMode = false;
+        boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
+        try {
             CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
             textLabel.setOpaque(false);
             textLabel.setForeground((darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor));

@@ -370,6 +370,15 @@ public class Preferences {
 
             return null;
         }));
+        ret.add(new Preference("darkmode", "Dark Mode",
+                "Activate a pleasant dark mode for Cyder",
+                "0", (optionalParam) -> {
+            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = darkmode");
+
+            // no action required
+
+            return null;
+        }));
 
         // IGNORE for display name means ignore for UserEditor checkboxes,
         // IGNORE for tooltip means don't write when creating user since it was already set

@@ -4,6 +4,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.utilities.ImageUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.ScreenUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 
@@ -106,16 +107,21 @@ public class CyderIcons {
     }
 
     /**
-     * Generates a default image of the requested dimensions.
-     * The image consists of a gradient between shades of white.
+     * Generates a default icon of the requested dimensions.
+     * The icon will change depending on whether dark mode
+     * has been activated by the current user.
      *
      * @param width the width of the image
      * @param height the height of the image
      * @return the ImageIcon of the requested dimensions
      */
     public static ImageIcon generateDefaultBackground(int width, int height) {
-        // todo invert me when in dark mode, invert of this should be default text color too I guess
-        return ImageUtil.imageIconFromColor(CyderColors.vanila, width, height);
+        if (UserUtil.getCyderUser() == null) {
+            return ImageUtil.imageIconFromColor(CyderColors.regularBackgroundColor, width, height);
+        }
+
+        return ImageUtil.imageIconFromColor(UserUtil.getCyderUser().getDarkmode().equals("1")
+                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor, width, height);
     }
 
     public static ImageIcon getCurrentCyderIcon() {

@@ -67,6 +67,7 @@ public class User {
     private String compactTextMode;
     private String youTubeAPI3Key;
     private String wrapterminal;
+    private String darkmode;
 
     // -------------------
     // non primitive types
@@ -267,6 +268,10 @@ public class User {
         return executables;
     }
 
+    public String getDarkmode() {
+        return darkmode;
+    }
+
     // -------
     // setters
     // -------
@@ -447,12 +452,17 @@ public class User {
         this.executables = executables;
     }
 
+    public void setDarkmode(String darkmode) {
+        this.darkmode = darkmode;
+    }
+
     // ------------------------------------------
     // methods that are good practice to override
     // ------------------------------------------
 
     @Override
     public int hashCode() {
+        // todo is there some easy way to do this?
         int ret = name.hashCode();
 
         ret = 31 * ret + name.hashCode();
@@ -496,6 +506,7 @@ public class User {
         ret = 31 * ret + wrapterminal.hashCode();
         ret = 31 * ret + screenStat.hashCode();
         ret = 31 * ret + executables.hashCode();
+        ret = 31 * ret + darkmode.hashCode();
         return ret;
     }
 
@@ -508,7 +519,7 @@ public class User {
 
         User other = (User) o;
 
-        // name and password serve as a primary key so we only need to compare them
+        // name and password serve as a primary key so we only need to compare them thankfully
         return other.getPass().equals(getPass()) && other.getName().equals(getName());
     }
 

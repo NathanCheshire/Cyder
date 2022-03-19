@@ -306,10 +306,11 @@ public class Logger {
     /**
      * Formats and writes the line to the current log file.
      *
-     * @param line the line to write
+     * @param line the line to write to the current log file
      * @param tag the tag which was used to handle the constructed string to write
      */
     private static synchronized void formatAndWriteLine(String line, LoggerTag tag) {
+        // just to be safe, we'll add in the 11 spaces in this method
         line = line.trim();
 
         // if log file was deleted mid operation, regenerate and add message
