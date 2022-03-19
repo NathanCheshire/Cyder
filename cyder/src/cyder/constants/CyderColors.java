@@ -132,8 +132,14 @@ public class CyderColors {
      */
     public static Color guiThemeColor = navy;
 
+    /**
+     * The background color for frames when dark mode is active.
+     */
     public static final Color darkModeBackgroundColor = new Color(30,30,30);
 
+    /**
+     * The background color for frames when dark mode is not active.
+     */
     public static final Color regularBackgroundColor = vanila;
 
     /**

@@ -10,6 +10,8 @@ import cyder.ui.CyderLabel;
 import cyder.utilities.BoundsUtil;
 import cyder.utilities.objects.BoundsString;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Information frames throughout Cyder.
  */
@@ -32,7 +34,35 @@ public class InformHandler {
         inform(builder);
     }
 
+    /**
+     * The width padding on each side of the information pane.
+     */
+    private static final int xPadding = 10;
+
+    /**
+     * The offset to translate the text label on the information pane down by.
+     */
+    private static final int yOffset = CyderDragLabel.DEFAULT_HEIGHT;
+
+    /**
+     * THe height padding on each side of the information pane.
+     */
+    private static final int yPadding = 10;
+
+    /**
+     * The offset to account for a discrepancy in the bounds calculation.
+     */
+    private static final int borderOffset = 2;
+
+    /**
+     * Opens an information using the information provided by builder.
+     *
+     * @param builder the InformBuilder to use for the construction of the information pane
+     * @throws IllegalArgumentException if the provided builder is null
+     */
     public static void inform(InformBuilder builder) {
+        checkNotNull(builder);
+
         try {
             boolean darkMode = false;
 
@@ -41,15 +71,7 @@ public class InformHandler {
             textLabel.setForeground((darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor));
             BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
 
-            String setText = BoundsUtil.addCenteringToHTML(boundsString.getText());
-            System.out.println(setText);
-            textLabel.setText(setText);
-
-            // todo move out of scope
-            int xPadding = 10;
-            int yOffset = CyderDragLabel.DEFAULT_HEIGHT;
-            int yPadding = 10;
-            int borderOffset = 2;
+            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
 
             // 10 - label - 10
             int frameW = boundsString.getWidth() + xPadding * 2;
