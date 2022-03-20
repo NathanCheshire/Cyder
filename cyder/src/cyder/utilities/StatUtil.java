@@ -59,7 +59,7 @@ public class StatUtil {
         arrayLines.add("OS Name: " + System.getProperty("os.name"));
         arrayLines.add("OS Version: " + System.getProperty("os.version"));
         arrayLines.add("OS Path Separator: " + System.getProperty("path.separator"));
-        arrayLines.add("User Directory: " + System.getProperty("user.dir"));
+        arrayLines.add("User Directory: " + OSUtil.USER_DIR);
         arrayLines.add("User Home: " + System.getProperty("user.home"));
         arrayLines.add("Computer Username: " + System.getProperty("user.name"));
 

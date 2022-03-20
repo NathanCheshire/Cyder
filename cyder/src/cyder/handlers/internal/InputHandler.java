@@ -1268,7 +1268,7 @@ public class InputHandler {
 
             printlnComponent(opacitySlider);
         } else if (commandIs("pwd")) {
-            println(System.getProperty("user.dir"));
+            println(OSUtil.USER_DIR);
         } else if (commandIs("download")) {
             if (checkArgsLength(1)) {
                 if (NetworkUtil.isURL(getArg(0))) {

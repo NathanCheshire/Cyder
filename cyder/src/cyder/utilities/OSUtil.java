@@ -647,4 +647,9 @@ public class OSUtil {
             }
         }, "Successive Process Runner, pipeTo = " + pipeTo + ", builders.length() = " + builders.length);
     }
+
+    /**
+     * The default user directory.
+     */
+    public static final String USER_DIR = System.getProperty("user.dir");
 }

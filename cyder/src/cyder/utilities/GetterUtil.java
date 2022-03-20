@@ -163,7 +163,7 @@ public class GetterUtil {
     /**
      * The current location for the file getter.
      */
-    private File currentDirectory = new File(System.getProperty("user.dir"));
+    private File currentDirectory;
 
     /**
      * Custom getFile method, see usage below for how to setup so that the program doesn't
@@ -202,14 +202,12 @@ public class GetterUtil {
                 directoryFileList.clear();
                 directoryNameList.clear();
 
-                // todo init me in OSUtil upon class loading
-                String initial = System.getProperty("user.dir");
-
                 if (!StringUtil.isNull(builder.getInitialString())
-                        && new File(builder.getInitialString()).exists())
-                    initial = builder.getInitialString();
-
-                currentDirectory = new File(initial);
+                        && new File(builder.getInitialString()).exists()) {
+                    currentDirectory = new File(builder.getInitialString());
+                } else {
+                    currentDirectory = new File(OSUtil.USER_DIR);
+                }
 
                 CyderFrame dirFrame = dirFrameAtomicRef.get();
 
@@ -225,7 +223,7 @@ public class GetterUtil {
                 dirField.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : Color.white);
                 dirField.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
                 dirField.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
-                        : CyderColors.navy, 3, false));
+                        : CyderColors.navy, 5, false));
                 dirField.setText(currentDirectory.getAbsolutePath());
                 dirField.addActionListener(e -> {
                     File ChosenDir = new File(dirField.getText());
@@ -296,7 +294,7 @@ public class GetterUtil {
                 }
 
                 //files scroll list setup
-                cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, true);
+                cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, darkMode);
                 cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
                 //adding things to the list and setting up actions for what to do when an element is clicked

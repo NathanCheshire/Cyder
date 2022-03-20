@@ -86,7 +86,6 @@ public class Logger {
         if (logConcluded)
             return;
 
-
         StringBuilder logBuilder = new StringBuilder(getLogTime());
 
         switch (tag) {
@@ -304,6 +303,7 @@ public class Logger {
     // todo do downloading song while song already playing playedit in separate uncontrollable thread
     // todo I think getCyderUser should have a failsafe to return a default property if it's null
     // todo combine logic of file getter directory searcher
+    // todo file getter freezing up whole program isn't caught by watchdog
 
     /**
      * Formats and writes the line to the current log file.

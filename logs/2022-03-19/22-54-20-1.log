@@ -1,0 +1,4 @@
+[22-54-20] [JVM_ENTRY]: [Nathan]
+[22-54-20] [THREAD STARTED]: Object Creation Logger
+[22-54-20] [THREAD STARTED]: Watchdog Initializer
+[22-54-22] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0
