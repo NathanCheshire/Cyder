@@ -156,9 +156,9 @@ public class GetterUtil {
      */
     private final LinkedList<File> directoryFileList = new LinkedList<>();
 
-    //stacks for traversal
-    private Stack<File> backward = new Stack<>();
-    private Stack<File> forward = new Stack<>();
+    // stacks for traversal
+    private final Stack<File> backward = new Stack<>();
+    private final Stack<File> forward = new Stack<>();
 
     /**
      * The current location for the file getter.
@@ -189,16 +189,20 @@ public class GetterUtil {
     public File getFile(GetterBuilder builder) {
         AtomicReference<File> setOnFileChosen = new AtomicReference<>();
         AtomicReference<CyderFrame> dirFrameAtomicRef = new AtomicReference<>();
-        dirFrameAtomicRef.set(new CyderFrame(630,510, CyderIcons.defaultBackground));
+
+        boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
+        dirFrameAtomicRef.set(new CyderFrame(630,510, darkMode
+                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
 
         CyderThreadRunner.submit(() -> {
             try {
                 //reset needed vars in case an instance was already ran
-                backward = new Stack<>();
-                forward = new Stack<>();
+                backward.clear();
+                forward.clear();
                 directoryFileList.clear();
                 directoryNameList.clear();
 
+                // todo init me in OSUtil upon class loading
                 String initial = System.getProperty("user.dir");
 
                 if (!StringUtil.isNull(builder.getInitialString())
@@ -218,7 +222,10 @@ public class GetterUtil {
                 if (!StringUtil.isNull(builder.getFieldTooltip()))
                     dirField.setToolTipText(builder.getFieldTooltip());
 
-                dirField.setBackground(Color.white);
+                dirField.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : Color.white);
+                dirField.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
+                dirField.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+                        : CyderColors.navy, 3, false));
                 dirField.setText(currentDirectory.getAbsolutePath());
                 dirField.addActionListener(e -> {
                     File ChosenDir = new File(dirField.getText());
@@ -289,7 +296,7 @@ public class GetterUtil {
                 }
 
                 //files scroll list setup
-                cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
+                cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, true);
                 cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
                 //adding things to the list and setting up actions for what to do when an element is clicked

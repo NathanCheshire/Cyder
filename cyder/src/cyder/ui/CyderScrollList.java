@@ -24,6 +24,9 @@ public class CyderScrollList {
     private int width;
     private int height;
 
+    public static final Color selectedColor = CyderColors.regularRed;
+    private Color nonSelectedColor = CyderColors.navy;
+
     private JTextPane listPane;
 
     private int itemAlignment = StyleConstants.ALIGN_LEFT;
@@ -49,10 +52,23 @@ public class CyderScrollList {
     }
 
     public CyderScrollList(int width, int height, SelectionPolicy selectionPolicy) {
+        this(width, height, selectionPolicy, false);
+    }
+
+    private final boolean darkMode;
+
+    public CyderScrollList(int width, int height, SelectionPolicy selectionPolicy, boolean darkMode) {
         this.width = width;
         this.height = height;
         this.selectionPolicy = selectionPolicy;
+        this.darkMode = darkMode;
         elements = new LinkedList<>();
+
+        if (darkMode)
+            nonSelectedColor = CyderColors.defaultDarkModeTextColor;
+
+        border = new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+                : CyderColors.navy,5,false);
 
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
@@ -67,7 +83,7 @@ public class CyderScrollList {
         scrollFont = f;
     }
 
-    private Border border = new LineBorder(CyderColors.navy,5,false);
+    private Border border;
 
     public final void setBorder(Border border) {
         this.border = border;
@@ -108,7 +124,7 @@ public class CyderScrollList {
             cop.getStringUtil().printlnComponent(elements.get(i));
 
             if (i != elements.size() - 1 && !compactMode)
-                cop.getStringUtil().printlnComponent(getSepLabel());
+                cop.getStringUtil().printlnComponent(generateSepLabel());
         }
 
     }
@@ -124,7 +140,7 @@ public class CyderScrollList {
 
         JLabel retLabel = new JLabel("");
         retLabel.setSize(width, height);
-        retLabel.setBackground(CyderColors.vanila);
+        retLabel.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
         retLabel.setOpaque(true);
         retLabel.setVisible(true);
 
@@ -134,7 +150,7 @@ public class CyderScrollList {
         listPane.setBounds(0, 0, width , height);
         listPane.setFocusable(true);
         listPane.setOpaque(false);
-        listPane.setBackground(CyderColors.vanila);
+        listPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
 
         SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
         StyleConstants.setAlignment(simpleAttributeSet, itemAlignment);
@@ -149,7 +165,7 @@ public class CyderScrollList {
         scrollPane.setFocusable(true);
         scrollPane.setOpaque(false);
         scrollPane.setThumbColor(CyderColors.regularPink);
-        scrollPane.setBackground(CyderColors.vanila);
+        scrollPane.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.vanila);
         scrollPane.setBorder(border);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -170,7 +186,7 @@ public class CyderScrollList {
 
     public final void addElement(String labelText, Runnable sa) {
         JLabel add = new JLabel(labelText);
-        add.setForeground(CyderColors.navy);
+        add.setForeground(nonSelectedColor);
         add.setFont(CyderFonts.segoe20);
         add.setVerticalAlignment(SwingConstants.CENTER);
         add.addMouseListener(new MouseAdapter() {
@@ -178,7 +194,7 @@ public class CyderScrollList {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() >= 2 && sa != null) {
                     sa.run();
-                    add.setForeground(CyderColors.navy);
+                    add.setForeground(nonSelectedColor);
                 } else {
                     handleElementClick(add.getText());
                 }
@@ -190,7 +206,7 @@ public class CyderScrollList {
 
     public final void addElementWithSingleCLickAction(String labelText, @NotNull Runnable sa) {
         JLabel add = new JLabel(labelText);
-        add.setForeground(CyderColors.navy);
+        add.setForeground(nonSelectedColor);
         add.setFont(CyderFonts.segoe20);
         add.setVerticalAlignment(SwingConstants.CENTER);
         add.addMouseListener(new MouseAdapter() {
@@ -202,10 +218,6 @@ public class CyderScrollList {
         });
 
         elements.add(add);
-    }
-
-    public interface ScrollAction {
-        void fire();
     }
 
     public final void removeAllElements() {
@@ -225,22 +237,22 @@ public class CyderScrollList {
         if (selectionPolicy == SelectionPolicy.SINGLE) {
             for (JLabel element : elements) {
                 if (element.getText().equals(clickedText)) {
-                    if (element.getForeground() == CyderColors.regularRed) {
-                        element.setForeground(CyderColors.navy);
+                    if (element.getForeground() == selectedColor) {
+                        element.setForeground(nonSelectedColor);
                     } else {
-                        element.setForeground(CyderColors.regularRed);
+                        element.setForeground(selectedColor);
                     }
                 } else {
-                    element.setForeground(CyderColors.navy);
+                    element.setForeground(nonSelectedColor);
                 }
             }
         } else {
             for (JLabel element : elements) {
                 if (element.getText().equals(clickedText)) {
-                    if (element.getForeground() == CyderColors.regularRed) {
-                        element.setForeground(CyderColors.navy);
+                    if (element.getForeground() == selectedColor) {
+                        element.setForeground(nonSelectedColor);
                     } else {
-                        element.setForeground(CyderColors.regularRed);
+                        element.setForeground(selectedColor);
                     }
                 }
             }
@@ -251,7 +263,7 @@ public class CyderScrollList {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
-            if (element.getForeground() == CyderColors.regularRed) {
+            if (element.getForeground() == selectedColor) {
                 ret.add(element.getText());
             }
         }
@@ -263,7 +275,7 @@ public class CyderScrollList {
         LinkedList<String> ret = new LinkedList<>();
 
         for (JLabel element : elements) {
-            if (element.getForeground() == CyderColors.regularRed) {
+            if (element.getForeground() == selectedColor) {
                 ret.add(element.getText());
             }
         }
@@ -281,6 +293,10 @@ public class CyderScrollList {
 
     public final int getHeight() {
         return height;
+    }
+
+    public boolean isDarkMode() {
+        return darkMode;
     }
 
     public final SelectionPolicy getSelectionPolicy() {
@@ -303,22 +319,22 @@ public class CyderScrollList {
         this.selectionPolicy = selectionPolicy;
     }
 
-    private JLabel getSepLabel() {
+    private final JLabel generateSepLabel() {
         CyderLabel sepLabel = new CyderLabel(";)") {
             @Override
             public void paintComponent(Graphics g) {
-                g.setColor(CyderColors.navy);
+                g.setColor(darkMode ? CyderColors.defaultDarkModeTextColor : nonSelectedColor);
                 g.fillRect(0, 10, getWidth(), 5);
                 g.dispose();
             }
         };
-        sepLabel.setForeground(CyderColors.navy);
+        sepLabel.setForeground(nonSelectedColor);
         return sepLabel;
     }
 
     public final void clearSelectedElements() {
         for (JLabel element : elements) {
-            element.setForeground(CyderColors.navy);
+            element.setForeground(nonSelectedColor);
         }
     }
 

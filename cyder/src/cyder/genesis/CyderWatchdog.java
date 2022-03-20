@@ -139,5 +139,7 @@ public class CyderWatchdog {
      */
     private static void bootstrap() {
         // todo start a python process to bootstrap ourself
+
+        // might have to unbind the socket to ensure a singular instance ever exists
     }
 }

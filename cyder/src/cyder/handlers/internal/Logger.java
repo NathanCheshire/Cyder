@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.FileUtil;
@@ -292,17 +293,17 @@ public class Logger {
             if (logFile.createNewFile()) {
                 currentLog = logFile;
             } else {
-                throw new RuntimeException("Log file not created");
+                throw new FatalException("Log file not created");
             }
 
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-
     }
 
     // todo do downloading song while song already playing playedit in separate uncontrollable thread
     // todo I think getCyderUser should have a failsafe to return a default property if it's null
+    // todo combine logic of file getter directory searcher
 
     /**
      * Formats and writes the line to the current log file.
