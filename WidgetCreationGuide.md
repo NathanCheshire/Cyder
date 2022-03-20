@@ -4,10 +4,10 @@ By <b>Nathan Cheshire</b>
 
 Last updated: 3-13-21
 
-## Gettering started
+## Getting started
 
 Making your own widget in Cyder is intended to be as easy and modern as possible. With the UI library as your skeleton,
-the styling up to you, and the `utilities` packge full of rich and useful methods for logic implementation, the freedom
+the styling up to you, and the `utilities` package full of rich and useful methods for logic implementation, the freedom
 to manipulate Cyder is essentially limitless.
 
 ## The Cyder UI library
@@ -31,7 +31,7 @@ create a `public static MyClass` method named `getInstance()` to return a new in
 
 Now to allow your widget to be found and triggered via the `ReflectionUtil` widget finder and validator, you need to
 create a `public static void` method named `showGUI()`. Additionally, this method must be annotated with the `@Widget`
-annotation to allow it to be discovered. The annotation requries a single string or list of strings to allow a user to
+annotation to allow it to be discovered. The annotation requires a single string or list of strings to allow a user to
 trigger it as well as a description. Additionally, since multiple instances are allowed, this method should ONLY invoke
 the following: `getInstance().showGUI()`. Thus, after following these steps, your class should look like the following:
 
@@ -65,7 +65,7 @@ constructor: `throw new IllegalMethodException(CyderStrings.attemptedInstantiati
 
 Now to allow your widget to be found and triggered via the `ReflectionUtil` widget finder and validator, you need to
 create a `public static void` method named `showGUI()`. Additionally, this method must be annotated with the `@Widget`
-annotation to allow it to be discovered. The annotation requries a single string or list of strings to allow a user to
+annotation to allow it to be discovered. The annotation requires a single string or list of strings to allow a user to
 trigger it as well as a description. Thus, after following these steps, your class should look like the following:
 
 ```java
@@ -98,7 +98,7 @@ myFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
 Now comes the fun part, building the rest of the UI. As stated previously make sure to use already built Cyder
 components before attempting to make your own. If the rare case of needing your own custom UI component does come about,
-I'd prefer it that you make it in the `ui` package and create a separate PR to add that UI component to Cyder itself.
+I'd prefer that you make it in the `ui` package and create a separate PR to add that UI component to Cyder itself.
 
 Adding a component to the frame:
 
@@ -121,7 +121,7 @@ can simply invoke a method within or outside of the class. Alternatively, you co
 to run the needed logic to drive your widget. The logic implementation is essentially all up to you, just make sure to
 follow proper Java standards and remember to write javadoc.
 
-Make sure to check the `utilities` package as it includes copious utililty classes for performing operations needed throughout
+Make sure to check the `utilities` package as it includes copious utility classes for performing operations needed throughout
 Cyder.
 
 ## Finishing calls

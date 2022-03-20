@@ -273,7 +273,8 @@ public class GetterUtil {
 
                 // label to show where files will be
                 JLabel tempLabel = new JLabel();
-                tempLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
+                tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+                        : CyderColors.navy, 5, false));
                 tempLabel.setOpaque(false);
                 tempLabel.setBounds(10,90,600, 400);
                 dirFrame.getContentPane().add(tempLabel);
