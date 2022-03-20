@@ -150,12 +150,12 @@ public class UserUtil {
 
     /**
      * Returns the currently set Cyder user.
+     * If not set, a default user is generated and returned.
      *
      * @return the currently set Cyder user
      */
     public static User getCyderUser() {
         if (cyderUser == null) {
-            // todo not sure if this is a good solution or not but seems okay
             return buildDefaultUser();
         }
 

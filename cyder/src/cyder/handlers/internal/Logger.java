@@ -301,7 +301,6 @@ public class Logger {
     }
 
     // todo do downloading song while song already playing playedit in separate uncontrollable thread
-    // todo I think getCyderUser should have a failsafe to return a default property if it's null
     // todo combine logic of file getter directory searcher
     // todo file getter freezing up whole program isn't caught by watchdog
 
