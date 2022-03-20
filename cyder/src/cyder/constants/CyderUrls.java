@@ -267,5 +267,5 @@ public class CyderUrls {
     /**
      * The header used for obtaining a youtube video's highest resolution thumbanil.
      */
-    public static final String YOUTUBE_THUMBNAIL_HEADER = "https://img.youtube.com/vi/";
+    public static final String YOUTUBE_THUMBNAIL_BASE = "https://img.youtube.com/vi/";
 }

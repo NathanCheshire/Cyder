@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.AnimationDirection;
@@ -200,7 +201,7 @@ public class YoutubeUtil {
                     }
 
                     for (String uuid : uuids) {
-                       downloadVideo(buildYoutubeURL(uuid));
+                       downloadVideo(buildYoutubeVideoUrl(uuid));
                     }
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
@@ -236,11 +237,16 @@ public class YoutubeUtil {
      * @param dimension the dimensions to crop the image to
      */
     public static void downloadThumbnail(String url, Dimension dimension) {
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
-            throw new IllegalStateException("No user is associated with Cyder");
+        Preconditions.checkNotNull(ConsoleFrame.getConsoleFrame().getUUID());
 
         // get thumbnail url and file name to save it as
         BufferedImage save = getSquareThumbnail(url, dimension);
+
+        // could not download thumbnail for some reason
+        if (save == null) {
+            return;
+        }
+
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                         .replace("- YouTube","")
@@ -390,10 +396,31 @@ public class YoutubeUtil {
         stealButton.setToolTipText("Save image");
         stealButton.addActionListener(e -> {
             try {
-                String thumbnailURL = buildThumbnailURL(inputField.getText().trim());
-                String videoTitle = NetworkUtil.getURLTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + inputField.getText().trim());
+                String uuid = inputField.getText().trim();
 
-                BufferedImage thumbnail = ImageIO.read(new URL(thumbnailURL));
+                String thumbnailURL = buildMaxResThumbnailUrl(uuid);
+                String videoTitle = NetworkUtil.getURLTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + uuid);
+
+                BufferedImage thumbnail = null;
+
+                try {
+                    thumbnail = ImageIO.read(new URL(thumbnailURL));
+                } catch (Exception ex) {
+                    ExceptionHandler.handle(ex);
+
+                    try {
+                        thumbnailURL = buildSdDefThumbnailUrl(uuid);
+                        thumbnail = ImageIO.read(new URL(thumbnailURL));
+                    } catch (Exception exc) {
+                        ExceptionHandler.handle(exc);
+                    }
+                }
+
+                if (thumbnail == null) {
+                    uuidFrame.inform("No thumbnail found for provided youtube uuid","Error");
+                    return;
+                }
+
                 thumbnail = ImageUtil.resizeImage(thumbnail, thumbnail.getType(),
                         thumbnail.getWidth(), thumbnail.getHeight());
 
@@ -406,10 +433,11 @@ public class YoutubeUtil {
                 CyderButton addToBackgrounds = new CyderButton("Set as background");
                 addToBackgrounds.setBounds(10, thumbnail.getHeight() + 10,
                         (thumbnail.getWidth() - 30) / 2 , 40);
+                String finalThumbnailURL = thumbnailURL;
                 addToBackgrounds.addActionListener(e1 -> {
 
                     try {
-                        BufferedImage save = ImageIO.read(new URL(thumbnailURL));
+                        BufferedImage save = ImageIO.read(new URL(finalThumbnailURL));
 
                         String title = videoTitle.substring(Math.min(MAX_THUMBNAIL_CHARS, videoTitle.length()));
 
@@ -431,8 +459,7 @@ public class YoutubeUtil {
                 CyderButton openVideo = new CyderButton("Open Video");
                 openVideo.setBounds(20 + addToBackgrounds.getWidth(),
                         thumbnail.getHeight() + 10, (thumbnail.getWidth() - 30) / 2, 40);
-                openVideo.addActionListener(e1 -> NetworkUtil.openUrl(
-                        buildYoutubeURL(inputField.getText().trim())));
+                openVideo.addActionListener(e1 -> NetworkUtil.openUrl("youtube.com/watch?v=" + uuid));
                 thumbnailFrame.add(openVideo);
 
                 thumbnailFrame.setVisible(true);
@@ -460,34 +487,44 @@ public class YoutubeUtil {
     public static BufferedImage getSquareThumbnail(String videoURL, Dimension dimension) {
         String uuid = getYoutubeUUID(videoURL);
 
-        String thumbnailURL = buildThumbnailURL(uuid);
         BufferedImage ret = null;
+        BufferedImage save = null;
 
         try {
-            BufferedImage save = ImageIO.read(new URL(thumbnailURL));
-            int w = save.getWidth();
-            int h = save.getHeight();
+            save = ImageIO.read(new URL(buildMaxResThumbnailUrl(uuid)));
+        } catch (Exception e) {
+            ExceptionHandler.silentHandle(e);
 
-            if (w > dimension.getWidth()) {
-                //crop to middle of w
-                int cropWStart = (int) ((w - dimension.getWidth()) / 2.0);
-                save = save.getSubimage(cropWStart, 0, (int) dimension.getWidth(), h);
+            try {
+                save = ImageIO.read(new URL(buildSdDefThumbnailUrl(uuid)));
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
             }
-
-            w = save.getWidth();
-            h = save.getHeight();
-
-            if (h > dimension.getHeight()) {
-                //crop to middle of h
-                int cropHStart = (int) ((h - dimension.getHeight()) / 2);
-                save = save.getSubimage(0, cropHStart, w, (int) dimension.getHeight());
-            }
-
-            ret = save;
-
-        } catch (IOException ex) {
-            ExceptionHandler.handle(ex);
         }
+
+        if (save == null) {
+            return null;
+        }
+
+        int w = save.getWidth();
+        int h = save.getHeight();
+
+        if (w > dimension.getWidth()) {
+            //crop to middle of w
+            int cropWStart = (int) ((w - dimension.getWidth()) / 2.0);
+            save = save.getSubimage(cropWStart, 0, (int) dimension.getWidth(), h);
+        }
+
+        w = save.getWidth();
+        h = save.getHeight();
+
+        if (h > dimension.getHeight()) {
+            //crop to middle of h
+            int cropHStart = (int) ((h - dimension.getHeight()) / 2);
+            save = save.getSubimage(0, cropHStart, w, (int) dimension.getHeight());
+        }
+
+        ret = save;
 
         return ret;
     }
@@ -527,10 +564,10 @@ public class YoutubeUtil {
      * @return a url for the youtube video with the provided uuid
      * @throws IllegalArgumentException if the provided uuid is not 11 chars long
      */
-    public static String buildYoutubeURL(String uuid) {
+    public static String buildYoutubeVideoUrl(String uuid) {
         if (uuid.length() != 11)
             throw new IllegalArgumentException("Provided uuid is not 11 chars");
-        return CyderUrls.YOUTUBE_THUMBNAIL_HEADER + uuid + "/hqdefault.jpg";
+        return CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
     }
 
     /**
@@ -539,8 +576,18 @@ public class YoutubeUtil {
      * @param uuid the uuid of the video
      * @return a URL for the maximum resolution version of the youtube video's thumbnail
      */
-    public static String buildThumbnailURL(String uuid) {
-        return CyderUrls.YOUTUBE_THUMBNAIL_HEADER + uuid + "/maxresdefault.jpg";
+    public static String buildMaxResThumbnailUrl(String uuid) {
+        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/maxresdefault.jpg";
+    }
+
+    /**
+     * Returns a url for the default thumbnail of a youtube video.
+     *
+     * @param uuid the uuid of the video
+     * @return a url for the default youtube video's thumbanil
+     */
+    public static String buildSdDefThumbnailUrl(String uuid) {
+        return CyderUrls.YOUTUBE_THUMBNAIL_BASE + uuid + "/sddefault.jpg";
     }
 
     /**

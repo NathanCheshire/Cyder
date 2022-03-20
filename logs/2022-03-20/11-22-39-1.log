@@ -27,10 +27,7 @@
 [11-22-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647793361649.json
 [11-22-43] [SYSTEM_IO]: Userdata requested: RandomBackground
-[11-22-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-22-43] [SYSTEM_IO]: Userdata requested: fullscreen
-[11-22-43] [SYSTEM_IO]: Userdata requested: FullScreen
-[11-22-43] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-22-43] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
 [11-22-43] [THREAD STARTED]: Console Printing Animation
 [11-22-43] [SYSTEM_IO]: Userdata requested: OutputBorder
 [11-22-43] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -86,12 +83,10 @@
            erdata.json
 [11-22-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647793367154.json
-[11-22-50] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[11-22-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-22-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [11-22-52] [THREAD STARTED]: Notificaiton Vanish Animator
 [11-22-52] [OBJECT CREATION]: Objects created since last delta (5s): 26
-[11-22-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[11-22-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-22-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [11-22-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [11-22-54] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
 [11-22-54] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1978504976,
