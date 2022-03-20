@@ -1,0 +1,21 @@
+[11-02-34] [JVM_ENTRY]: [Nathan]
+[11-02-34] [THREAD STARTED]: Object Creation Logger
+[11-02-35] [THREAD STARTED]: Watchdog Initializer
+[11-02-35] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[11-02-36] [FONT LOADED]: font name = agency-fb
+[11-02-36] [FONT LOADED]: font name = arial-black
+[11-02-36] [FONT LOADED]: font name = beyno
+[11-02-36] [FONT LOADED]: font name = darling-in-paris
+[11-02-36] [FONT LOADED]: font name = Prompt-Bold
+[11-02-36] [FONT LOADED]: font name = segoe-ui-black
+[11-02-36] [FONT LOADED]: font name = tahoma
+[11-02-36] [THREAD STARTED]: Splash Loader
+[11-02-37] [THREAD STARTED]: Splash Animation
+[11-02-37] [OBJECT CREATION]: Objects created since last delta (5s): 52
+[11-02-38] [THREAD STARTED]: Cyder Watchdog
+[11-02-42] [OBJECT CREATION]: Objects created since last delta (5s): 3
+[11-02-47] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-02-54] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[11-02-54] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1091777423, bounds =
+           (980, 378, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[11-04-22] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

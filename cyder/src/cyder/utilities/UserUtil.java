@@ -154,6 +154,11 @@ public class UserUtil {
      * @return the currently set Cyder user
      */
     public static User getCyderUser() {
+        if (cyderUser == null) {
+            // todo not sure if this is a good solution or not but seems okay
+            return buildDefaultUser();
+        }
+
         return cyderUser;
     }
 

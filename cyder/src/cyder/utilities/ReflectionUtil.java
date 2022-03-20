@@ -265,13 +265,13 @@ public class ReflectionUtil {
                     String[] triggers = m.getAnnotation(Widget.class).triggers();
                     String description = m.getAnnotation(Widget.class).description();
 
-                    String[] values = null;
+                    String[] suppressionValues = null;
 
                     if (m.isAnnotationPresent(SuppressCyderInspections.class))
-                        values = m.getAnnotation(SuppressCyderInspections.class).values();
+                        suppressionValues = m.getAnnotation(SuppressCyderInspections.class).values();
 
                     if (!m.getName().equals("showGUI")) {
-                        if (values != null && StringUtil.in("WidgetInspection", false, values))
+                        if (suppressionValues != null && StringUtil.in("WidgetInspection", false, suppressionValues))
                             continue;
 
                         Logger.log(LoggerTag.DEBUG, "Method annotated with @Widget is not named" +
@@ -279,6 +279,9 @@ public class ReflectionUtil {
                     }
 
                     if (StringUtil.isNull(description)) {
+                        if (suppressionValues != null && StringUtil.in("WidgetInspection", false, suppressionValues))
+                            continue;
+
                         throw new IllegalMethodException("Method annotated with @Widget has empty description");
                     }
 
@@ -290,6 +293,9 @@ public class ReflectionUtil {
                         if (StringUtil.isNull(trigger)) {
                             throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
                         } else if (trigger.contains(" ")) {
+                            if (suppressionValues != null && StringUtil.in("WidgetInspection", false, suppressionValues))
+                                continue;
+
                             throw new IllegalMethodException("Method annotated with " +
                                     "@Widget has triggers which contain spaces: \"" + trigger + "\"");
                         }

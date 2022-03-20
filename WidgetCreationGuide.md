@@ -26,7 +26,7 @@ if you want to allow multiple instances of your widget or not.
 ### Option 1: Multiple Instances
 
 Multiple instances are allowed for your widget, splendid! Start off your class by making the default constructor private
-and make sure to include the following call to the `Logger` class: `Logger.log(LoggerTag.OJBECT_CREATION, this);`. Now
+and make sure to include the following call to the `Logger` class: `Logger.log(LoggerTag.OBJECT_CREATION, this);`. Now
 create a `public static MyClass` method named `getInstance()` to return a new instance of your class.
 
 Now to allow your widget to be found and triggered via the `ReflectionUtil` widget finder and validator, you need to
@@ -38,7 +38,7 @@ the following: `getInstance().showGUI()`. Thus, after following these steps, you
 ```java
 class MyWidget {
     private MyWidget() {
-        Logger.log(LoggerTag.OJBECT_CREATION, this);
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     public static MyWidget getInstance() {
@@ -91,9 +91,9 @@ title position if a center title is desired.
 Calls:
 
 ```java
-CyderFrame myFrame = new CyderFrame(600,600);
-myFrame.setTitle("My Title");
-myFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
+CyderFrame cyderFrame = new CyderFrame(600,600);
+cyderFrame.setTitle("My Title");
+cyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 ```
 
 Now comes the fun part, building the rest of the UI. As stated previously make sure to use already built Cyder
@@ -103,12 +103,13 @@ I'd prefer that you make it in the `ui` package and create a separate PR to add 
 Adding a component to the frame:
 
 ```java
-CyderButton myButton = new CyderButton("Button");
-myButton.setBounds(40,40,200,40);
-myButton.addActionListener(e -> {
-    // your logic here or a lambda to a class level private method    
+CyderButton cyderButton = new CyderButton("Button");
+cyderButton.setBounds((600 - 200) / 2, (600 - 40) / 2 + CyderDragLabel.DEFAULT_HEIGHT,200,40);
+cyderButton.addActionListener(e -> {
+    // your logic here or a lambda to a class level private method
+    cyderFrame.notify("Hello World!");
 });
-myFrame.getContentPane().add(myButton);
+cyderFrame.getContentPane().add(cyderButton);
 ```
 
 If you want to have a bit of fun with the UI and not use the default absolute layout, take a look at the `layouts`
@@ -131,6 +132,8 @@ are set relatively to the current dominant frame. You don't have to worry about 
 of this for you.
 
 ```java
-myFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-myFrame.setVisible(true);
+cyderFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+cyderFrame.setVisible(true);
 ```
+
+To view the complete version of this widget, see `widgets/ExampleWidget.java`.
