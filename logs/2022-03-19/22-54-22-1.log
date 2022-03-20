@@ -27,10 +27,7 @@
 [22-54-26] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647748464800.json
 [22-54-26] [SYSTEM_IO]: Userdata requested: RandomBackground
-[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-54-26] [SYSTEM_IO]: Userdata requested: fullscreen
-[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen
-[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-54-26] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
 [22-54-27] [THREAD STARTED]: Console Printing Animation
 [22-54-27] [SYSTEM_IO]: Userdata requested: OutputBorder
 [22-54-27] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -81,8 +78,7 @@
            erdata.json
 [22-54-33] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647748470371.json
-[22-54-33] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[22-54-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-54-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [22-54-35] [OBJECT CREATION]: Objects created since last delta (5s): 151
 [22-54-35] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [22-54-36] [UI ACTION]: Component = CyderDragLabel, hash = -14462583, bounds = (2, 2, 626, 28), parent frame = Cyder
@@ -128,8 +124,7 @@
            erdata.json
 [22-54-40] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1647748478784.json
-[22-54-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[22-54-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-54-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [22-54-42] [UI ACTION]: Component = CyderDragLabel, hash = -14462583, bounds = (2, 2, 626, 28), parent frame = Cyder
 [22-54-42] [THREAD STARTED]: [Cyder]  dispose() animation thread
 [22-54-42] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 689914816, bounds =

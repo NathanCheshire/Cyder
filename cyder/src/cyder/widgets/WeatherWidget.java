@@ -182,7 +182,7 @@ public class WeatherWidget {
         sunsetLabelIcon.setBounds(480 - 55 - 60, 145, 55, 48);
         weatherFrame.getContentPane().add(sunsetLabelIcon);
 
-        currentWeatherLabel = new JLabel(StringUtil.capsFirstWords(weatherCondition), SwingConstants.CENTER);
+        currentWeatherLabel = new JLabel("", SwingConstants.CENTER);
         currentWeatherLabel.setForeground(CyderColors.vanila);
         currentWeatherLabel.setFont(CyderFonts.segoe20);
         currentWeatherLabel.setBounds(0, 245, 480, 30);
