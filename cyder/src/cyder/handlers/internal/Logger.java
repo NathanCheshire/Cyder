@@ -300,7 +300,7 @@ public class Logger {
         }
     }
 
-    // todo combine logic of file getter directory searcher
+    // todo get rid of all c:/ in program
 
     /**
      * Formats and writes the line to the current log file.

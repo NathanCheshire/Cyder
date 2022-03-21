@@ -3,16 +3,17 @@ package cyder.handlers.external;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
-import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
 import cyder.ui.CyderTextField;
 import cyder.utilities.IOUtil;
 import cyder.utilities.OSUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -84,11 +85,17 @@ public class DirectoryViewer {
         if (dirFrame != null)
             dirFrame.dispose();
 
-        dirFrame = new CyderFrame(630,510, CyderIcons.defaultBackground);
+        boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
+
+        dirFrame = new CyderFrame(630,510, darkMode
+                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
         dirFrame.setTitle(currentDirectory.getName());
 
         dirField = new CyderTextField(0);
-        dirField.setBackground(Color.white);
+        dirField.setBackground(darkMode ? CyderColors.darkModeBackgroundColor : Color.white);
+        dirField.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.navy);
+        dirField.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+                : CyderColors.navy, 5, false));
         dirField.setText(currentDirectory.getAbsolutePath());
         dirField.addActionListener(e -> {
             File ChosenDir = new File(dirField.getText());
@@ -146,40 +153,54 @@ public class DirectoryViewer {
         next.setBounds(620 - 50,40,40, 40);
         dirFrame.getContentPane().add(next);
 
-        currentDirectory = new File(OSUtil.USER_DIR);
-        File chosenDir = currentDirectory;
-
-        currentFileNames.clear();
-        currentFiles.clear();
-
-        Collections.addAll(currentFiles, chosenDir.listFiles());
-
-        for (File file : currentFiles) {
-            currentFileNames.add(file.getName());
-        }
-
-        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
-        cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
-        cyderScrollList.removeAllElements();
-
-        for (int i = 0; i < currentFileNames.size() ; i++) {
-            int finalI = i;
-            cyderScrollList.addElement(currentFileNames.get(i), () -> {
-                if (currentFiles.get(finalI).isDirectory()) {
-                    refreshBasedOnDir(currentFiles.get(finalI), true);
-                } else {
-                    IOUtil.openFile(currentFiles.get(finalI).getAbsolutePath());
-                }
-            });
-        }
-
-        dirScrollLabel = cyderScrollList.generateScrollList();
-        dirScrollLabel.setBounds(10,90,600, 400);
-        dirFrame.getContentPane().add(dirScrollLabel);
+        // label to show where files will be
+        JLabel tempLabel = new JLabel();
+        tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+                : CyderColors.navy, 5, false));
+        tempLabel.setOpaque(false);
+        tempLabel.setBounds(10,90,600, 400);
+        dirFrame.getContentPane().add(tempLabel);
 
         dirFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         dirFrame.setVisible(true);
         dirField.requestFocus();
+
+        dirFrame.notify("Loading files...");
+
+        CyderThreadRunner.submit(() -> {
+            currentDirectory = new File(OSUtil.USER_DIR);
+            File chosenDir = currentDirectory;
+
+            currentFileNames.clear();
+            currentFiles.clear();
+
+            Collections.addAll(currentFiles, chosenDir.listFiles());
+
+            for (File file : currentFiles) {
+                currentFileNames.add(file.getName());
+            }
+
+            cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, darkMode);
+            cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
+            cyderScrollList.removeAllElements();
+
+            for (int i = 0; i < currentFileNames.size() ; i++) {
+                int finalI = i;
+                cyderScrollList.addElement(currentFileNames.get(i), () -> {
+                    if (currentFiles.get(finalI).isDirectory()) {
+                        refreshBasedOnDir(currentFiles.get(finalI), true);
+                    } else {
+                        IOUtil.openFile(currentFiles.get(finalI).getAbsolutePath());
+                    }
+                });
+            }
+
+            dirScrollLabel = cyderScrollList.generateScrollList();
+            dirScrollLabel.setBounds(10,90,600, 400);
+            dirFrame.getContentPane().add(dirScrollLabel);
+
+            dirFrame.revokeAllNotifications();
+        }, "Directory file loader");
     }
 
     /**
@@ -224,7 +245,7 @@ public class DirectoryViewer {
         }
 
         // remake scroll list object
-        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
+        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, cyderScrollList.isDarkMode());
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         // generate clickable components to add to the list

@@ -379,7 +379,7 @@ public class GetterUtil {
         }
 
         //setup scroll
-        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
+        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, cyderScrollList.isDarkMode());
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         //add new items to scroll and actions
@@ -447,7 +447,7 @@ public class GetterUtil {
         }
 
         //regenerate scroll
-        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
+        cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE, cyderScrollList.isDarkMode());
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         //add items with coresponding actions to scroll
