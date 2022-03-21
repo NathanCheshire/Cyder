@@ -1499,6 +1499,7 @@ public final class ConsoleFrame {
                 }
             }
 
+            // todo only reset bounds if it's the same direction as it's already in
             //direction switching
             if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {

@@ -2444,8 +2444,8 @@ public class CyderFrame extends JFrame {
      * @return a taskbar component with the currently set border color
      */
     public JLabel getTaskbarButton() {
-        if (getTitle() == null || getTitle().isEmpty())
-            throw new IllegalArgumentException("Title not set or long enough");
+        checkNotNull(getTitle(), "CyderFrame title not yet set");
+        checkArgument(!getTitle().isEmpty(), "CyderFrame title is empty");
 
         return getTaskbarButton(taskbarIconBorderColor);
     }

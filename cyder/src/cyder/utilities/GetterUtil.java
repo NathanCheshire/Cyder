@@ -202,8 +202,11 @@ public class GetterUtil {
                 directoryFileList.clear();
                 directoryNameList.clear();
 
-                CyderFrame dirFrame = dirFrameAtomicRef.get();
-                dirFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+                CyderFrame refFrame = dirFrameAtomicRef.get();
+                refFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
+
+                // tmp title for case of adding to taskbar before pwd is known
+                refFrame.setTitle("File getter");
 
                 CyderTextField dirField = new CyderTextField(0);
                 if (!StringUtil.isNull(builder.getFieldTooltip()))
@@ -216,13 +219,13 @@ public class GetterUtil {
                     File ChosenDir = new File(dirField.getText());
 
                     if (ChosenDir.isDirectory()) {
-                        refreshBasedOnDir(ChosenDir,setOnFileChosen, dirFrame, dirField);
+                        refreshBasedOnDir(ChosenDir,setOnFileChosen, refFrame, dirField);
                     } else if (ChosenDir.isFile()) {
                         setOnFileChosen.set(ChosenDir);
                     }
                 });
                 dirField.setBounds(60,40,500,40);
-                dirFrame.getContentPane().add(dirField);
+                refFrame.getContentPane().add(dirField);
                 dirField.setEnabled(false);
 
                 last = new CyderButton(" < ");
@@ -241,11 +244,11 @@ public class GetterUtil {
                         currentDirectory = backward.pop();
 
                         //now simply refresh based on currentDir
-                        refreshFromTraversalButton(setOnFileChosen, dirFrame, dirField);
+                        refreshFromTraversalButton(setOnFileChosen, refFrame, dirField);
                     }
                 });
                 last.setBounds(10,40,40,40);
-                dirFrame.getContentPane().add(last);
+                refFrame.getContentPane().add(last);
                 last.setEnabled(false);
 
                 next = new CyderButton(" > ");
@@ -264,11 +267,11 @@ public class GetterUtil {
                         currentDirectory = forward.pop();
 
                         //refresh based on where we should go
-                        refreshFromTraversalButton(setOnFileChosen, dirFrame, dirField);
+                        refreshFromTraversalButton(setOnFileChosen, refFrame, dirField);
                     }
                 });
                 next.setBounds(620 - 50,40,40, 40);
-                dirFrame.getContentPane().add(next);
+                refFrame.getContentPane().add(next);
                 next.setEnabled(false);
 
                 // label to show where files will be
@@ -277,12 +280,12 @@ public class GetterUtil {
                         : CyderColors.navy, 5, false));
                 tempLabel.setOpaque(false);
                 tempLabel.setBounds(10,90,600, 400);
-                dirFrame.getContentPane().add(tempLabel);
+                refFrame.getContentPane().add(tempLabel);
 
-                dirFrame.setLocationRelativeTo(builder.getRelativeTo());
-                dirFrame.setVisible(true);
+                refFrame.setLocationRelativeTo(builder.getRelativeTo());
+                refFrame.setVisible(true);
 
-                dirFrame.notify("Loading files...");
+                refFrame.notify("Loading files...");
 
                 // load possibly intense stuff on separate thread
                 CyderThreadRunner.submit(() -> {
@@ -294,7 +297,7 @@ public class GetterUtil {
                         currentDirectory = new File(OSUtil.USER_DIR);
                     }
 
-                    dirFrame.setTitle(currentDirectory.getName());
+                    refFrame.setTitle(currentDirectory.getName());
 
                     Collections.addAll(directoryFileList, currentDirectory.listFiles());
 
@@ -310,7 +313,7 @@ public class GetterUtil {
                         int finalI = i;
                         cyderScrollList.addElement(directoryNameList.get(i), () -> {
                             if (directoryFileList.get(finalI).isDirectory()) {
-                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, dirFrame, dirField);
+                                refreshBasedOnDir(directoryFileList.get(finalI), setOnFileChosen, refFrame, dirField);
                             } else {
                                 setOnFileChosen.set(directoryFileList.get(finalI));
                             }
@@ -319,7 +322,7 @@ public class GetterUtil {
 
                     dirScrollLabel = cyderScrollList.generateScrollList();
                     dirScrollLabel.setBounds(10,90,600, 400);
-                    dirFrame.getContentPane().add(dirScrollLabel);
+                    refFrame.getContentPane().add(dirScrollLabel);
 
                     next.setEnabled(true);
                     last.setEnabled(true);
@@ -328,7 +331,7 @@ public class GetterUtil {
                     dirField.setEnabled(true);
                     dirField.requestFocus();
 
-                    dirFrame.revokeAllNotifications();
+                    refFrame.revokeAllNotifications();
                 }, "File Getter Loader");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+// todo pretty much needs to be entirely redone, it's so jank
+
 /**
  * An audio playing widget that only supports mp3 files at the moment.
  */
