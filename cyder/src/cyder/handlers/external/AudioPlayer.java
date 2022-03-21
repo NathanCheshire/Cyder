@@ -39,18 +39,40 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 // todo pretty much needs to be entirely redone, it's so jank
+// todo need a failsafe so the audio controls on console are revalidated
+//      and never displayed if the audio player frame isn't visible
 
 /**
- * An audio playing widget that only supports mp3 files at the moment.
+ * An audio player widget that only supports mp3 files at the moment.
  */
 public class AudioPlayer {
     /**
      * An enum dictating the last button the user pressed.
      */
     private enum LastAction {
-        SKIP,PAUSE,STOP,RESUME,PLAY
+        /**
+         * Skip forward or backward/
+         */
+        SKIP,
+        /**
+         * The play/pause button was toggled to invoke a pause.
+         */
+        PAUSE,
+        /**
+         * The stop button was invoked.
+         */
+        STOP,
+        /**
+         * The audio was resumed following a pause.
+         */
+        RESUME,
+        /**
+         * The audio was started after a stop.
+         */
+        PLAY
     }
 
     /**
@@ -61,20 +83,20 @@ public class AudioPlayer {
     /**
      * The audio title scrolling label.
      */
-    private static LabelScroller audioScroll;
+    private static ScrollingTitleLabel scrollingTitleLabel;
 
     /**
      * The audio location progress bar.
      */
-    private static AudioLocation audioLocation;
+    private static AudioLocationBar audioLocationBar;
 
     /**
-     * The audio title text label.
+     * The audio title text label which is scrolled via the srollingTitleLabel object.
      */
     private static JLabel audioTitleLabel;
 
     /**
-     * The container that holds the scrolling audio title.
+     * The container that holds the scrolling audio title so restrict its bounds.
      */
     private static JLabel audioTitleLabelContainer;
 
@@ -169,7 +191,7 @@ public class AudioPlayer {
     /**
      * The currently available audio files.
      */
-    private static ArrayList<File> audioFiles;
+    private static final LinkedList<File> currentAudioFiles = new LinkedList<>();
 
     /**
      * The average reaction time of a user between when they
@@ -233,6 +255,16 @@ public class AudioPlayer {
     private static final int albumArtLen = 200;
 
     /**
+     * The queue of songs to play next before incrementing the audio index.
+     */
+    private static final ArrayList<File> queue = new ArrayList<>();
+
+    /**
+     * The background color of the audio frame.
+     */
+    public static final Color backgroundColor = new Color(8,23,52);
+
+    /**
      * Instantiation of AudioPlayer not allowed.
      */
     private AudioPlayer() {
@@ -242,9 +274,9 @@ public class AudioPlayer {
     /**
      * Method for widget finder to invoke by using reflection to find the Widget annotation
      */
-    @Widget(triggers = {"mp3", "music"}, description = "An audio playing widget")
+    @Widget(triggers = {"mp3", "music", "audio"}, description = "An audio playing widget")
     public static void showGUI() {
-        //show the gui and attempmt to find audio files
+        // show the gui and attempmt to find audio files by passing null
         showGUI(null);
     }
 
@@ -255,17 +287,26 @@ public class AudioPlayer {
      * Pass {@code null} to attempt to find valid audio files from the user's Music/ directory.
      */
     public static void showGUI(File startPlaying) {
-        queue = new ArrayList<>();
-
+        // frame is already open so act as if another song was requested to be played immediately
         if (audioFrame != null) {
+            // stop any audio playing
             stopAudio();
+
+            // refresh based on the file
             refreshAudioFiles(startPlaying);
 
-            if (!audioFiles.isEmpty())
+            // if audio files were found then play
+            // (might be startPlaying if it was not null and is avalid mp3 file)
+            if (!currentAudioFiles.isEmpty()) {
                 startAudio();
+            }
 
+            // no construction of ui required so return
             return;
         }
+
+        // wipe the queue
+        queue.clear();
 
         if (startPlaying == null) {
             refreshAudioFiles(startPlaying);
@@ -274,7 +315,6 @@ public class AudioPlayer {
         if (IOUtil.generalAudioPlaying())
             IOUtil.stopAudio();
 
-        Color backgroundColor = new Color(8,23,52);
         audioFrame = new CyderFrame(500,480,
                 new ImageIcon(ImageUtil.bufferedImageFromColor(500,225, backgroundColor)));
         audioFrame.setBackground(backgroundColor);
@@ -286,7 +326,7 @@ public class AudioPlayer {
                  @Override
                  public void windowClosed(WindowEvent e) {
                      killWidget();
-                     audioFiles = null;
+                     currentAudioFiles.clear();
                      audioIndex = -1;
                  }
              }
@@ -718,14 +758,10 @@ public class AudioPlayer {
      * If null is passed without any valid audio files, an IllegalArgumentException will be thrown.
      */
     public static void refreshAudioFiles(File refreshOnFile) {
-        //if audio files have not been created, create it
-        if (audioFiles == null)
-            audioFiles = new ArrayList<>();
-
         //if provided file is null
         if (refreshOnFile == null) {
             //if no audio files to refresh on
-            if (audioFiles.isEmpty()) {
+            if (currentAudioFiles.isEmpty()) {
                 //get the music directory of the user
                 File[] userMusicFiles = UserUtil.getUserFile(UserFile.MUSIC.getName()).listFiles();
 
@@ -733,29 +769,26 @@ public class AudioPlayer {
                     refreshOnFile = userMusicFiles[0];
                 } else return;
             } else {
-                if (audioIndex > audioFiles.size() - 1) {
+                if (audioIndex > currentAudioFiles.size() - 1) {
                     refreshOnFile = null;
                 } else {
                     //audio files exists
-                    refreshOnFile = audioFiles.get(audioIndex);
+                    refreshOnFile = currentAudioFiles.get(audioIndex);
                 }
             }
         }
 
         //wipe the audio files since we're refreshing based on refreshOnFile now
-        audioFiles.clear();
+        currentAudioFiles.clear();
 
         for (File file : refreshOnFile.getParentFile().listFiles())
             if (FileUtil.getExtension(file).equals(".mp3"))
-                audioFiles.add(file);
+                currentAudioFiles.add(file);
 
-        for (int i = 0; i < audioFiles.size() ; i++) {
-            if (audioFiles.get(i).equals(refreshOnFile))
+        for (int i = 0; i < currentAudioFiles.size() ; i++) {
+            if (currentAudioFiles.get(i).equals(refreshOnFile))
                 audioIndex = i;
         }
-
-        if (audioFiles.isEmpty())
-            audioFiles = null;
     }
 
     /**
@@ -763,7 +796,7 @@ public class AudioPlayer {
      * in preparation to resume at the current location.
      */
     public static void pauseAudio() {
-        if (audioFiles.isEmpty())
+        if (currentAudioFiles.isEmpty())
             return;
 
         //set last action
@@ -793,7 +826,7 @@ public class AudioPlayer {
      * Stops the audio and all visual indication threads.
      */
     public static void stopAudio() {
-        if (audioFiles.isEmpty())
+        if (currentAudioFiles.isEmpty())
             return;
 
         //set last action
@@ -801,17 +834,17 @@ public class AudioPlayer {
 
         try {
             //end audio scroll label
-            if (audioScroll != null)
-                audioScroll.kill();
-            audioScroll = null;
+            if (scrollingTitleLabel != null)
+                scrollingTitleLabel.kill();
+            scrollingTitleLabel = null;
 
             if (windowState == PlayerWindowState.ALBUM_ART)
                 enterAlbumArtPlayer();
 
             //end audio location progress bar
-            if (audioLocation != null)
-                audioLocation.kill();
-            audioLocation = null;
+            if (audioLocationBar != null)
+                audioLocationBar.kill();
+            audioLocationBar = null;
 
             //reset the progress bar text
             if (audioProgress != null)
@@ -856,7 +889,7 @@ public class AudioPlayer {
      * Skips to the current audio file's predecesor if it exists in the directory.
      */
     public static void previousAudio() {
-        if (audioFiles.isEmpty() || !shouldAllowAction())
+        if (currentAudioFiles.isEmpty() || !shouldAllowAction())
             return;
 
         //refresh files just to be safe
@@ -871,17 +904,17 @@ public class AudioPlayer {
 
             //take into account shuffling to find an audio index
             if (shuffleAudio) {
-                int nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                int nextAudioIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
 
                 while (nextAudioIndex == audioIndex)
-                    nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                    nextAudioIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
 
                 audioIndex = nextAudioIndex;
             } else {
                 if (audioIndex - 1 > -1) {
                     audioIndex--;
                 } else {
-                    audioIndex = audioFiles.size() - 1;
+                    audioIndex = currentAudioFiles.size() - 1;
                 }
             }
 
@@ -896,7 +929,7 @@ public class AudioPlayer {
      * Skips to the current audio file's successor if it exists in the directory.
      */
     public static void nextAudio() {
-        if (audioFiles.isEmpty() || !shouldAllowAction())
+        if (currentAudioFiles.isEmpty() || !shouldAllowAction())
             return;
 
         //just to be safe
@@ -911,14 +944,14 @@ public class AudioPlayer {
 
             //find an audio index
             if (shuffleAudio) {
-                int nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                int nextAudioIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
                 while (nextAudioIndex == audioIndex)
-                    nextAudioIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                    nextAudioIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
 
                 audioIndex = nextAudioIndex;
 
             } else {
-                if (audioIndex + 1 < audioFiles.size()) {
+                if (audioIndex + 1 < currentAudioFiles.size()) {
                     audioIndex++;
                 } else {
                     audioIndex = 0;
@@ -944,18 +977,18 @@ public class AudioPlayer {
             player.close();
 
         //scrolllabel ending calls
-        if (audioScroll != null)
-            audioScroll.kill();
+        if (scrollingTitleLabel != null)
+            scrollingTitleLabel.kill();
 
         //location progress bar ending calls
-        if (audioLocation != null)
-            audioLocation.kill();
+        if (audioLocationBar != null)
+            audioLocationBar.kill();
 
         //null sets
         player = null;
-        audioScroll = null;
-        audioLocation = null;
-        audioFiles = null;
+        scrollingTitleLabel = null;
+        audioLocationBar = null;
+        currentAudioFiles.clear();
 
         //default stes
         audioProgress.setValue(0);
@@ -984,7 +1017,7 @@ public class AudioPlayer {
                 refreshAudio();
 
                 //initialize file input stream and buffered input stream
-                fis = new FileInputStream(audioFiles.get(audioIndex));
+                fis = new FileInputStream(currentAudioFiles.get(audioIndex));
                 bis = new BufferedInputStream(fis);
 
                 //close player if it isn't null and it is playing
@@ -992,12 +1025,12 @@ public class AudioPlayer {
                     player.close();
 
                 //kill the audio scroll label if running
-                if (audioScroll != null)
-                    audioScroll.kill();
+                if (scrollingTitleLabel != null)
+                    scrollingTitleLabel.kill();
 
                 //kill audio location progress bar if running
-                if (audioLocation != null)
-                    audioLocation.kill();
+                if (audioLocationBar != null)
+                    audioLocationBar.kill();
 
                 //these occasionally throw NullPtrExep if the user spams buttons so we'll ignore that
                 //noinspection CatchMayIgnoreException
@@ -1018,9 +1051,9 @@ public class AudioPlayer {
 
                 //if not in mini player mode, initalize these views
                 if (windowState != PlayerWindowState.MINI) {
-                    audioTitleLabel.setText(StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex))));
-                    audioScroll = new LabelScroller(audioTitleLabel);
-                    audioLocation = new AudioLocation(audioProgress);
+                    audioTitleLabel.setText(StringUtil.capsFirst(FileUtil.getFilename(currentAudioFiles.get(audioIndex))));
+                    scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel);
+                    audioLocationBar = new AudioLocationBar(audioProgress);
                 }
 
                 //set the play/pause icons
@@ -1049,7 +1082,7 @@ public class AudioPlayer {
 
                 //log the audio we're playing
                 Logger.log(LoggerTag.AUDIO,
-                        "[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
+                        "[AUDIO PLAYER] " + currentAudioFiles.get(audioIndex).getName());
 
                 //playing blocks until the audio finishes
                 try {
@@ -1061,8 +1094,8 @@ public class AudioPlayer {
 
                 //player has concluded at this point
 
-                if (audioLocation != null)
-                    audioLocation.kill();
+                if (audioLocationBar != null)
+                    audioLocationBar.kill();
 
                 //based on the last action, determine if to play next audio
                 if (lastAction != LastAction.PAUSE && lastAction != LastAction.STOP) {
@@ -1083,8 +1116,8 @@ public class AudioPlayer {
                     else if (!queue.isEmpty()) {
                         String playPath = queue.remove(0).getAbsolutePath();
 
-                        for (int i = 0 ; i < audioFiles.size() ; i++) {
-                            if (audioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
+                        for (int i = 0; i < currentAudioFiles.size() ; i++) {
+                            if (currentAudioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
                                 audioIndex = i;
                                 break;
                             }
@@ -1094,20 +1127,20 @@ public class AudioPlayer {
                     }
                     //shuffle audio if needed
                     else if (shuffleAudio) {
-                        int newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                        int newIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
                         while (newIndex == audioIndex)
-                            newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                            newIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
 
                         audioIndex = newIndex;
                         startAudio();
                     }
                     //increment audio if available
-                    else if (audioIndex + 1 < audioFiles.size()) {
+                    else if (audioIndex + 1 < currentAudioFiles.size()) {
                         audioIndex++;
                         startAudio();
                     }
                     //if out of range, loop back around to beginning
-                    else if (audioFiles.size() > 1) {
+                    else if (currentAudioFiles.size() > 1) {
                         //loop back around to the beginning as long as more than one song
                         audioIndex = 0;
                         startAudio();
@@ -1116,7 +1149,7 @@ public class AudioPlayer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },DEFAULT_TITLE + " Audio Thread [" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+        },DEFAULT_TITLE + " Audio Thread [" + FileUtil.getFilename(currentAudioFiles.get(audioIndex)) + "]");
     }
 
     /**
@@ -1124,7 +1157,7 @@ public class AudioPlayer {
      * at the previously paused position.
      */
     public static void resumeAudio() {
-        if (audioFiles == null || audioFiles.isEmpty())
+        if (currentAudioFiles.isEmpty())
             return;
 
         resumeAudio(pauseLocation);
@@ -1136,7 +1169,7 @@ public class AudioPlayer {
      * @param startPosition the byte value to skip to when starting the audio
      */
     public static void resumeAudio(long startPosition) {
-        if (audioFiles.isEmpty())
+        if (currentAudioFiles.isEmpty())
             return;
 
         if (lastAction == LastAction.STOP) {
@@ -1147,7 +1180,7 @@ public class AudioPlayer {
                 try {
                     refreshAudioFiles(null);
                     refreshAudio();
-                    fis = new FileInputStream(audioFiles.get(audioIndex));
+                    fis = new FileInputStream(currentAudioFiles.get(audioIndex));
                     totalLength = fis.available();
                     //in case for some weird reason startPosition is before the file then we set startPosition to 0
                     fis.skip(startPosition < 0 ? 0 : startPosition);
@@ -1157,9 +1190,9 @@ public class AudioPlayer {
                         player.close();
                     player = null;
 
-                    if (audioLocation != null)
-                        audioLocation.kill();
-                    audioLocation = null;
+                    if (audioLocationBar != null)
+                        audioLocationBar.kill();
+                    audioLocationBar = null;
 
                     //these occasionally throws NullPtrExep if the user spams buttons so we'll ignore that
                     try {
@@ -1167,7 +1200,7 @@ public class AudioPlayer {
                     } catch (Exception ignored) {}
 
                     if (windowState != PlayerWindowState.MINI) {
-                        audioLocation = new AudioLocation(audioProgress);
+                        audioLocationBar = new AudioLocationBar(audioProgress);
                     }
 
                     playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
@@ -1178,7 +1211,7 @@ public class AudioPlayer {
 
                     refreshFrameTitle();
 
-                    Logger.log(LoggerTag.AUDIO,"[AUDIO PLAYER] " + audioFiles.get(audioIndex).getName());
+                    Logger.log(LoggerTag.AUDIO,"[AUDIO PLAYER] " + currentAudioFiles.get(audioIndex).getName());
 
                     try {
                         player.play();
@@ -1186,9 +1219,9 @@ public class AudioPlayer {
                         resumeAudio(pauseLocation);
                     }
 
-                    if (audioLocation != null)
-                        audioLocation.kill();
-                    audioLocation = null;
+                    if (audioLocationBar != null)
+                        audioLocationBar.kill();
+                    audioLocationBar = null;
 
                     if (lastAction != LastAction.PAUSE && lastAction != LastAction.STOP) {
                         stopAudio();
@@ -1198,8 +1231,8 @@ public class AudioPlayer {
                         if (!queue.isEmpty()) {
                             String playPath = queue.remove(0).getAbsolutePath();
 
-                            for (int i = 0 ; i < audioFiles.size() ; i++) {
-                                if (audioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
+                            for (int i = 0; i < currentAudioFiles.size() ; i++) {
+                                if (currentAudioFiles.get(i).getAbsolutePath().equalsIgnoreCase(playPath)) {
                                     audioIndex = i;
                                     break;
                                 }
@@ -1209,13 +1242,13 @@ public class AudioPlayer {
                         } else if (repeatAudio) {
                             startAudio();
                         } else if (shuffleAudio) {
-                            int newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                            int newIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
                             while (newIndex == audioIndex)
-                                newIndex = NumberUtil.randInt(0, audioFiles.size() - 1);
+                                newIndex = NumberUtil.randInt(0, currentAudioFiles.size() - 1);
 
                             audioIndex = newIndex;
                             startAudio();
-                        } else if (audioIndex + 1 < audioFiles.size()) {
+                        } else if (audioIndex + 1 < currentAudioFiles.size()) {
                             audioIndex++;
                             startAudio();
                         } else {
@@ -1228,18 +1261,18 @@ public class AudioPlayer {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },DEFAULT_TITLE + " Audio Thread [" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+            },DEFAULT_TITLE + " Audio Thread [" + FileUtil.getFilename(currentAudioFiles.get(audioIndex)) + "]");
         }
     }
 
     /**
      * Private inner class for the audio location progress bar and label.
      */
-    private static class AudioLocation {
+    private static class AudioLocationBar {
         boolean update;
         DecimalFormat format = new DecimalFormat("##.#");
 
-        AudioLocation(CyderProgressBar effectBar) {
+        AudioLocationBar(CyderProgressBar effectBar) {
             update = true;
             audioProgress.setStringPainted(true);
             try {
@@ -1257,7 +1290,7 @@ public class AudioPlayer {
                                     (double) audioProgress.getMaximum()));
                             double percentLeft = 1.0 - percentIn;
 
-                            float totalMilis = audioFileDuration(audioFiles.get(audioIndex));
+                            float totalMilis = audioFileDuration(currentAudioFiles.get(audioIndex));
 
                             int totalSeconds = (int) (totalMilis / 1000.0);
                             int secondsIn = (int) (percentIn * totalSeconds);
@@ -1281,7 +1314,7 @@ public class AudioPlayer {
                             ExceptionHandler.handle(e);
                         }
                     }
-                },DEFAULT_TITLE + " Progress Thread [" + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+                },DEFAULT_TITLE + " Progress Thread [" + FileUtil.getFilename(currentAudioFiles.get(audioIndex)) + "]");
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1295,14 +1328,14 @@ public class AudioPlayer {
     /**
      * Private inner class for the scrolling audio label.
      */
-    private static class LabelScroller {
+    private static class ScrollingTitleLabel {
         boolean scroll;
 
-        LabelScroller(JLabel effectLabel) {
+        ScrollingTitleLabel(JLabel effectLabel) {
             scroll = true;
 
             try {
-                String localTitle = StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex).getName()));
+                String localTitle = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFiles.get(audioIndex).getName()));
                 effectLabel.setText(localTitle);
 
                 int parentX = effectLabel.getParent().getX();
@@ -1355,9 +1388,9 @@ public class AudioPlayer {
                             ExceptionHandler.handle(e);
                         }
                     },DEFAULT_TITLE + " scrolling title thread ["
-                            + FileUtil.getFilename(audioFiles.get(audioIndex)) + "]");
+                            + FileUtil.getFilename(currentAudioFiles.get(audioIndex)) + "]");
                 } else {
-                    String text = StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex)));
+                    String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFiles.get(audioIndex)));
                     effectLabel.setText(text);
                     effectLabel.setLocation(effectLabel.getParent().getWidth() / 2
                             - StringUtil.getAbsoluteMinWidth(text, effectLabel.getFont()) / 2, effectLabel.getY());
@@ -1419,13 +1452,13 @@ public class AudioPlayer {
      * Sets the AudioPlayer to mini mode.
      */
     public static void enterMiniPlayer() {
-        if (audioScroll != null)
-            audioScroll.kill();
-        audioScroll = null;
+        if (scrollingTitleLabel != null)
+            scrollingTitleLabel.kill();
+        scrollingTitleLabel = null;
 
-        if (audioLocation != null)
-            audioLocation.kill();
-        audioLocation = null;
+        if (audioLocationBar != null)
+            audioLocationBar.kill();
+        audioLocationBar = null;
 
         audioProgress.setVisible(false);
         audioVolumeSlider.setVisible(false);
@@ -1489,7 +1522,7 @@ public class AudioPlayer {
             audioTitleLabel.setVisible(true);
 
             // new audio location progress bar
-            audioLocation = new AudioLocation(audioProgress);
+            audioLocationBar = new AudioLocationBar(audioProgress);
 
             int yIncrement = 230;
 
@@ -1508,9 +1541,9 @@ public class AudioPlayer {
             selectAudioDirButton.setBounds(55, 105 + yIncrement, 30, 30);
 
             //end audio scroll label
-            if (audioScroll != null)
-                audioScroll.kill();
-            audioScroll = new LabelScroller(audioTitleLabel);
+            if (scrollingTitleLabel != null)
+                scrollingTitleLabel.kill();
+            scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel);
         }
     }
 
@@ -1520,9 +1553,10 @@ public class AudioPlayer {
      * @return the current audio file at the current audio index if found, null else
      */
     public static File getCurrentAudio() {
-        if (audioFiles == null || lastAction == LastAction.STOP)
+        if (currentAudioFiles.isEmpty() || lastAction == LastAction.STOP)
             return null;
-        else return audioFiles.get(audioIndex);
+        else
+            return currentAudioFiles.get(audioIndex);
     }
 
     /**
@@ -1592,8 +1626,6 @@ public class AudioPlayer {
         return sb.toString();
     }
 
-    private static ArrayList<File> queue;
-
     /**
      * Refreshes the currentAlbumArt ImageIcon based on the current audio at audioIndex if
      * an album art file exists with the same name as the audio file.
@@ -1602,10 +1634,10 @@ public class AudioPlayer {
      */
     public static boolean refreshAlbumArt() {
         try {
-            if (audioFiles == null || audioFiles.isEmpty())
+            if (currentAudioFiles.isEmpty())
                 return false;
 
-            String currentName = FileUtil.getFilename(audioFiles.get(audioIndex));
+            String currentName = FileUtil.getFilename(currentAudioFiles.get(audioIndex));
 
             File albumArtDir = new File("dynamic/users/"
                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt");
@@ -1637,7 +1669,7 @@ public class AudioPlayer {
         if (lastAction == LastAction.STOP) {
             audioFrame.setTitle(DEFAULT_TITLE);
         } else {
-            audioFrame.setTitle(StringUtil.capsFirst(FileUtil.getFilename(audioFiles.get(audioIndex).getName())));
+            audioFrame.setTitle(StringUtil.capsFirst(FileUtil.getFilename(currentAudioFiles.get(audioIndex).getName())));
         }
 
         ConsoleFrame.getConsoleFrame().revalidateMenu();

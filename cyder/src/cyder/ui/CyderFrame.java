@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -1349,6 +1350,18 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Fast disposes the frame if active and returned if the frame was indeed active before disposing.
+     *
+     * @return whether the frame was active before disposing
+     */
+    @CanIgnoreReturnValue
+    public boolean disposeIfActive() {
+        boolean ret = !disposed;
+        dispose(true);
+        return ret;
+    }
+
+    /**
      * Whether to allow the frame to be relocated via dragging.
      *
      * @param relocatable whether to allow the frame to be relocated via dragging.
@@ -1984,7 +1997,7 @@ public class CyderFrame extends JFrame {
 
     /**
      * Repaints the frame, associated shape, and objects using
-     * the {@link CyderColors#guiThemeColor} attribute.
+     * the {@link CyderColors#getGuiThemeColor()} attribute.
      */
     @Override
     public void repaint() {

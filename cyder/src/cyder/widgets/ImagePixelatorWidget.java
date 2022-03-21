@@ -132,6 +132,7 @@ public class ImagePixelatorWidget {
 
                 if (pixel > 1) {
                     try {
+                        // todo save to files
                         BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
                         String saveName = FileUtil.getFilename(currentFile) +
                                  "_Pixelated_Pixel_Size_" + pixel + ".png";
