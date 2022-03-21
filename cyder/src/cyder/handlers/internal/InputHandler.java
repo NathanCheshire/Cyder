@@ -158,7 +158,7 @@ public class InputHandler {
 
         //log input as user triggered or simulated client input
         if (userTriggered) {
-            Logger.log(LoggerTag.CLIENT, argsAndCommandToString());
+            Logger.log(LoggerTag.CLIENT, commandAndArgsToString());
         } else {
             Logger.log(LoggerTag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
@@ -224,16 +224,16 @@ public class InputHandler {
         }
         //primary checks
         else if (generalPrintsCheck() || printImageCheck() ||
-                ReflectionUtil.openWidget((argsAndCommandToString()).trim()) ||
+                ReflectionUtil.openWidget((commandAndArgsToString()).trim()) ||
                 cyderFrameMovementCheck() || externalOpenerCheck() ||
                 audioCommandCheck() || generalCommandCheck()) {
             Logger.log(LoggerTag.HANDLE_METHOD, "PRIMARY HANDLE");
         }
         //final checks
-        else if (isURLCheck(command) || handleMath(argsAndCommandToString()) ||
-                evaluateExpression(argsAndCommandToString()) ||
-                preferenceCheck(argsAndCommandToString()) ||
-                manualTestCheck(argsAndCommandToString())) {
+        else if (isURLCheck(command) || handleMath(commandAndArgsToString()) ||
+                evaluateExpression(commandAndArgsToString()) ||
+                preferenceCheck(commandAndArgsToString()) ||
+                manualTestCheck(commandAndArgsToString())) {
             Logger.log(LoggerTag.HANDLE_METHOD, "FINAL HANDLE");
         }
 
@@ -1364,6 +1364,8 @@ public class InputHandler {
                     + StringUtil.capsFirstWords(UserUtil.getCyderUser().getName()));
         } else if (commandIs("freeze")) {
             while (true) {}
+        } else if (commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
+            SpotlightUtil.wipeSpotlights();
         }
 
         else ret = false;
@@ -1696,7 +1698,7 @@ public class InputHandler {
      *
      * @return the original user input, that of command followed by the arguments
      */
-    private String argsAndCommandToString() {
+    private String commandAndArgsToString() {
         StringBuilder sb = new StringBuilder();
         sb.append(command.trim()).append(" ");
 

@@ -300,7 +300,7 @@ public class Logger {
         }
     }
 
-    // todo get rid of all c:/ in program
+    // todo consolidate directory viewer refresh methods
 
     /**
      * Formats and writes the line to the current log file.

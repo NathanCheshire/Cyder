@@ -12,96 +12,112 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * Utility methods revolving around stealing the spotlight images for on the Windows file system.
+ */
 public class SpotlightUtil {
+    /**
+     * Suppress default constructor.
+     */
     private SpotlightUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
+     * The prefix for the content deliver manager folder which contains the spotlight image files.
+     */
+    public static final String contentDeliveryManager = "Microsoft.Windows.ContentDeliveryManager_";
+
+    /**
      * Returns the windows spotlight directory. I'm not sure if it could chane since according to Google
-     * source it's staticly set at Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy. To be safe, however
-     * this method exists.
+     * source it's staticly set at "Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy". To be safe,
+     * however this method exists.
      *
      * @return the name of the directory containing the Windows spotlight images
      */
     public static String getWindowsContentDeliveryManagerDir() {
         Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not an instance of Windows");
 
-        String ret = "";
-        
-        File spotlightsParentDir = new File("C:/Users/" + OSUtil.getSystemUsername() + "/AppData/Local/Packages");
+        File spotlightParent = new File(OSUtil.buildPath(
+                OSUtil.C_COLON_SLASH, "users", OSUtil.getSystemUsername(),
+                "AppData", "Local", "Packages"));
 
-        for (File possibleSpotlightDir : spotlightsParentDir.listFiles()) {
-            if (possibleSpotlightDir.getName().contains("Microsoft.Windows.ContentDeliveryManager_")) {
-                ret = possibleSpotlightDir.getName();
-                break;
+        for (File possibleSpotlightDir : spotlightParent.listFiles()) {
+            if (possibleSpotlightDir.getName().contains(contentDeliveryManager)) {
+                return possibleSpotlightDir.getName();
             }
         }
 
-        return ret;
+        return null;
     }
 
     /**
-     * Wipes the windows spotlight directory, windows will download new ones eventually
+     * Wipes the windows spotlight directory. Windows will download new ones eventually.
      */
-    public static void wipe() {
-        if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
-            throw new IllegalArgumentException("Host OS is not windows");
-        }
+    public static void wipeSpotlights() {
+        Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not Windows");
 
-        File spotlightsDir = new File("C:/Users/" +
-                OSUtil.getSystemUsername() + "/AppData/Local/Packages/" +
-                getWindowsContentDeliveryManagerDir() + "/LocalState/Assets");
+        if (getWindowsContentDeliveryManagerDir() != null) {
+            try {
+                File spotlightDirectory = getSpotlightsDirectory();
 
-        try {
-            int filesFound = 0;
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("Windows spotlight images wiped from directory: "
+                        + getWindowsContentDeliveryManagerDir());
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("Spotights found: "
+                        + spotlightDirectory.listFiles().length);
 
-            for (File spotlight : spotlightsDir.listFiles()) {
-                spotlight.delete();
-                filesFound++;
+                for (File spotlight : spotlightDirectory.listFiles()) {
+                    OSUtil.delete(spotlight);
+                }
+
+                ConsoleFrame.getConsoleFrame().getInputHandler().println("Spotights left: "
+                        + spotlightDirectory.listFiles().length);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
-
-            int filesLeft = 0;
-
-            for (File spotlight : spotlightsDir.listFiles()) {
-                filesLeft++;
-            }
-
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("Found " + filesFound + " " +
-                    StringUtil.getPlural(filesFound, "spotlight") + "\nDeleted " + filesLeft +
-                    " " + StringUtil.getPlural(filesLeft, "spotlight"));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
     }
 
+    public static File getSpotlightsDirectory() {
+        String local = getWindowsContentDeliveryManagerDir();
+        Preconditions.checkNotNull(local);
+
+        return new File(OSUtil.buildPath(
+                OSUtil.C_COLON_SLASH, "users", OSUtil.getSystemUsername(),
+                "AppData", "Local", "Packages",  local, "LocalState", "Assets"));
+    }
+
+    /**
+     * Saves the Windows spotlights to the provided directory.
+     *
+     * @param saveDir the directoryt o save the fiels to
+     */
     public static void saveSpotlights(File saveDir) {
-        if (!saveDir.isDirectory()) {
-            throw new IllegalArgumentException("Destination directory is not a folder");
-        } else if (!saveDir.exists()) {
-            throw new IllegalArgumentException("Destination directory does not exists");
-        } else if (!System.getProperty("os.name").toLowerCase().contains("windows")) {
-            throw new IllegalArgumentException("Host OS is not windows");
-        }
+        Preconditions.checkNotNull(saveDir);
+        Preconditions.checkArgument(saveDir.isDirectory(), "Destination directory is not a folder");
+        Preconditions.checkArgument(saveDir.exists(), "Destination directory does not exists");
+        Preconditions.checkArgument(OSUtil.isWindows(), "Host OS is not Windows");
 
         try {
-            File spotlightsDir = new File("C:/Users/" +
-                    OSUtil.getSystemUsername() + "/AppData/Local/Packages/" +
-                    getWindowsContentDeliveryManagerDir() + "/LocalState/Assets");
 
-            File[] spotlights = spotlightsDir.listFiles();
+            if (getWindowsContentDeliveryManagerDir() != null) {
+                int acc = 0;
 
-            for (int i = 0 ; i < spotlights.length ; i++) {
-                ImageIcon icon = new ImageIcon(spotlights[i].getAbsolutePath());
+                for (File spotlight : getSpotlightsDirectory().listFiles()) {
+                    ImageIcon icon = new ImageIcon(spotlight.getAbsolutePath());
 
-                if (icon.getIconHeight() > icon.getIconWidth() || icon.getIconWidth() < 600 || icon.getIconHeight() < 600)
-                    continue;
+                    // skip small previews and the weird vertical ones
+                    if (icon.getIconHeight() > icon.getIconWidth()
+                            || icon.getIconWidth() < 600 || icon.getIconHeight() < 600) {
+                        continue;
+                    }
 
-                Files.copy(spotlights[i].toPath(), Paths.get(saveDir + "/" + i + ".png"), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(spotlight.toPath(), Paths.get(saveDir + OSUtil.FILE_SEP + acc + ".png"),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    acc++;
+                }
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }

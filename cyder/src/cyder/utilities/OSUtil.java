@@ -143,6 +143,26 @@ public class OSUtil {
     public static final OperatingSystem OPERATING_SYSTEM = initializeOperatingSystem();
 
     /**
+     * The file separator character used for this operating system.
+     */
+    public static final String FILE_SEP = System.getProperty("file.separator");
+
+    /**
+     * The maximum number of times something should be attepted to be deleted.
+     */
+    public static final int MAX_DELETION_ATTEMPTS = 100;
+
+    /**
+     * The default user directory.
+     */
+    public static final String USER_DIR = System.getProperty("user.dir");
+
+    /**
+     * The root of the Windows file system.
+     */
+    public static final String C_COLON_SLASH = "c:/";
+
+    /**
      * Initializes the operating system enum type.
      *
      * @return the operating system Cyder was started, compiled, and ran on.
@@ -226,11 +246,6 @@ public class OSUtil {
             ExceptionHandler.handle(e);
         }
     }
-
-    /**
-     * The file separator character used for this operating system.
-     */
-    public static final String FILE_SEP = System.getProperty("file.separator");
 
     /**
      * Saves the provided file in the current user's files/ dir.
@@ -404,11 +419,6 @@ public class OSUtil {
             ExceptionHandler.handle(ex);
         }
     }
-
-    /**
-     * The maximum number of times something should be attepted to be deleted.
-     */
-    public static final int MAX_DELETION_ATTEMPTS = 100;
 
     /**
      * Deletes the provided file/folder recursively.
@@ -647,9 +657,4 @@ public class OSUtil {
             }
         }, "Successive Process Runner, pipeTo = " + pipeTo + ", builders.length() = " + builders.length);
     }
-
-    /**
-     * The default user directory.
-     */
-    public static final String USER_DIR = System.getProperty("user.dir");
 }

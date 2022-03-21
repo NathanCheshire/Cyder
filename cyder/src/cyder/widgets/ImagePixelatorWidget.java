@@ -9,10 +9,8 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderButton;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderLabel;
-import cyder.ui.CyderTextField;
+import cyder.ui.*;
+import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 
@@ -132,23 +130,23 @@ public class ImagePixelatorWidget {
 
                 if (pixel > 1) {
                     try {
-                        // todo save to files
                         BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
-                        String saveName = FileUtil.getFilename(currentFile) +
-                                 "_Pixelated_Pixel_Size_" + pixel + ".png";
-                        File saveFile = new File("c:/users/"
-                                +
-                                OSUtil.getSystemUsername() + "/downloads/" + saveName);
+                        File saveFile = new File(OSUtil.buildPath(
+                    "dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(),
+                                UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
+                                        + "_Pixelated_Pixel_Size_" + pixel + ".png"));
 
                         ImageIO.write(saveImage, "png", saveFile);
 
                         displayIcon = null;
                         originalIcon = null;
                         currentFile = null;
+
                         previewLabel.setIcon(null);
+
                         integerField.setText("");
 
-                        pixelFrame.notify("Successfully saved pixelated image to your downloads folder");
+                        pixelFrame.notify("Successfully saved pixelated image to your files/ directory");
                     } catch (Exception ex) {
                         ExceptionHandler.handle(ex);
                     }

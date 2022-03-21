@@ -1,0 +1,322 @@
+[21-16-24] [JVM_ENTRY]: [Nathan]
+[21-16-24] [THREAD STARTED]: Object Creation Logger
+[21-16-25] [THREAD STARTED]: Watchdog Initializer
+[21-16-25] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[21-16-26] [FONT LOADED]: font name = agency-fb
+[21-16-26] [FONT LOADED]: font name = arial-black
+[21-16-26] [FONT LOADED]: font name = beyno
+[21-16-26] [FONT LOADED]: font name = darling-in-paris
+[21-16-26] [FONT LOADED]: font name = Prompt-Bold
+[21-16-26] [FONT LOADED]: font name = segoe-ui-black
+[21-16-26] [FONT LOADED]: font name = tahoma
+[21-16-26] [THREAD STARTED]: Splash Loader
+[21-16-26] [THREAD STARTED]: Splash Animation
+[21-16-27] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[21-16-27] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[21-16-27] [THREAD STARTED]: JVM Args Logger
+[21-16-27] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[21-16-27] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-27] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828641307.json
+[21-16-27] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[21-16-27] [OBJECT CREATION]: Objects created since last delta (5s): 60
+[21-16-28] [THREAD STARTED]: Cyder Watchdog
+[21-16-28] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828987475.json
+[21-16-28] [SYSTEM_IO]: Userdata requested: RandomBackground
+[21-16-29] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
+[21-16-29] [THREAD STARTED]: Console Printing Animation
+[21-16-29] [SYSTEM_IO]: Userdata requested: OutputBorder
+[21-16-29] [SYSTEM_IO]: Userdata requested: FullScreen
+[21-16-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-16-29] [SYSTEM_IO]: Userdata requested: InputBorder
+[21-16-29] [THREAD STARTED]: Console Input Caret Position Updater
+[21-16-29] [SYSTEM_IO]: Userdata requested: OutputFill
+[21-16-29] [SYSTEM_IO]: Userdata requested: InputFill
+[21-16-29] [THREAD STARTED]: High Ping Checker
+[21-16-29] [THREAD STARTED]: Hourly Chime Checker
+[21-16-29] [THREAD STARTED]: Console Clock Updater
+[21-16-29] [THREAD STARTED]: Cyder Busy Checker
+[21-16-29] [THREAD STARTED]: ConsoleFrame Stat Saver
+[21-16-29] [UI ACTION]: Console loaded in 4808ms
+[21-16-29] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 731243659, bounds = (1097, 288, 900, 600), parent
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[21-16-29] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[21-16-29] [SYSTEM_IO]: Userdata requested: DebugWindows
+[21-16-29] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 35465893, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[21-16-29] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[21-16-29] [SYSTEM_IO]: Userdata requested: laststart
+[21-16-29] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-29] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 288, h = 29, text = <html>Console loaded in
+           4808ms</html>
+[21-16-29] [THREAD STARTED]: notification appear animation
+[21-16-29] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828988531.json
+[21-16-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-16-29] [THREAD STARTED]: Notificaiton Vanish Animator
+[21-16-32] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828989679.json
+[21-16-32] [CLIENT]: pixelate
+[21-16-32] [SYSTEM_IO]: Userdata requested: filterchat
+[21-16-32] [THREAD STARTED]: Image Pixelator
+[21-16-32] [HANDLE]: GENERAL COMMAND HANDLED
+[21-16-32] [HANDLE]: PRIMARY HANDLE
+[21-16-32] [THREAD STARTED]: getString() thread, title = [Pixel size]
+[21-16-32] [OBJECT CREATION]: Objects created since last delta (5s): 66
+[21-16-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-16-34] [UI ACTION]: Component = CyderDragLabel, hash = -14683613, bounds = (2, 2, 396, 28), parent frame = Pixel
+           size
+[21-16-34] [THREAD STARTED]: [Pixel size]  dispose() animation thread
+[21-16-34] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1665848553, bounds =
+           (1347, 503, 400, 170), parent frame = Component is top frame, getTitle() = Pixel size
+[21-16-35] [THREAD STARTED]: [Pixel size]  dispose() animation thread
+[21-16-35] [UI ACTION]: Component = CyderButton, hash = 333056152, bounds = (40, 100, 320, 40), parent frame = Pixel
+           size, getText() = Pixelate
+[21-16-35] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-16-36] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828992419.json
+[21-16-37] [CLIENT]: pixelate image
+[21-16-37] [SYSTEM_IO]: Userdata requested: filterchat
+[21-16-37] [THREAD STARTED]: Unknown Input Handler
+[21-16-37] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[21-16-37] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-16-38] [DEBUG]: Similar command to "pixelate" found with tol of 0.9411765, command = "pixelate"
+[21-16-38] [CONSOLE_OUT]: [STRING] Unknown command; Most similar command: "pixelate"
+[21-16-39] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-39] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828996132.json
+[21-16-40] [CLIENT]: pixelate pictures
+[21-16-40] [SYSTEM_IO]: Userdata requested: filterchat
+[21-16-40] [THREAD STARTED]: Unknown Input Handler
+[21-16-41] [CONSOLE_OUT]: [STRING] Unknown command, looking for similar ones...
+[21-16-41] [DEBUG]: Similar command to "pixelate" found with tol of 0.9411765, command = "pixelate"
+[21-16-41] [CONSOLE_OUT]: [STRING] Unknown command; Most similar command: "pixelate"
+[21-16-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-16-42] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-16-43] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647828999584.json
+[21-16-46] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-46] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829003045.json
+[21-16-47] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[21-16-50] [CLIENT]: pixelateimage
+[21-16-50] [SYSTEM_IO]: Userdata requested: filterchat
+[21-16-50] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-50] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829006926.json
+[21-16-50] [WIDGET OPENED]: ImagePixelatorWidget, trigger = pixelateimage
+[21-16-50] [HANDLE]: PRIMARY HANDLE
+[21-16-50] [CONSOLE_OUT]: [STRING] Opening widget: ImagePixelatorWidget
+[21-16-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-16-52] [THREAD STARTED]: wait thread for GetterUtil().getFile()
+[21-16-52] [UI ACTION]: Component = CyderButton, hash = 1643675044, bounds = (50, 100, 200, 40), parent frame = Image
+           Pixelator, getText() = Choose Image
+[21-16-52] [THREAD STARTED]:  getFile() thread, title = [Choose file to resize]
+[21-16-52] [THREAD STARTED]: Component = CyderFrame, hash = 540449092, bounds = (1232, 333, 630, 510), parent frame =
+           Component is top frame, getTitle() = File getter notification queue checker
+[21-16-52] [THREAD STARTED]: File Getter Loader
+[21-16-52] [UI ACTION]: [Cyder] [NOTIFICATION] w = 168, h = 29, text = <html>Loading files...</html>
+[21-16-52] [THREAD STARTED]: notification appear animation
+[21-16-52] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-16-52] [THREAD STARTED]: Notificaiton Vanish Animator
+[21-16-53] [OBJECT CREATION]: Objects created since last delta (5s): 69
+[21-16-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-16-54] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829010697.json
+[21-16-57] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[21-16-58] [OBJECT CREATION]: Objects created since last delta (5s): 15
+[21-16-58] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-16-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829014374.json
+[21-16-58] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-16-58] [UI ACTION]: Component = CyderButton, hash = 1419486492, bounds = (10, 40, 40, 40), parent frame = Cyder,
+           getText() =  <
+[21-17-01] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-01] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-01] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829018166.json
+[21-17-02] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-03] [OBJECT CREATION]: Objects created since last delta (5s): 43
+[21-17-05] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-05] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-05] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829021949.json
+[21-17-06] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-06] [UI ACTION]: Component = CyderButton, hash = 1419486492, bounds = (10, 40, 40, 40), parent frame = static,
+           getText() =  <
+[21-17-06] [UI ACTION]: Component = CyderButton, hash = 1419486492, bounds = (10, 40, 40, 40), parent frame = Cyder,
+           getText() =  <
+[21-17-07] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-08] [OBJECT CREATION]: Objects created since last delta (5s): 29
+[21-17-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-09] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-09] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-09] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829025758.json
+[21-17-12] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-13] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-17-13] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-13] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829029588.json
+[21-17-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[21-17-17] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829033433.json
+[21-17-17] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-18] [OBJECT CREATION]: Objects created since last delta (5s): 16
+[21-17-18] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-18] [THREAD STARTED]: [Backgrounds]  dispose() animation thread
+[21-17-18] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 540449092, bounds =
+           (1232, 333, 630, 510), parent frame = Component is top frame, getTitle() = Backgrounds
+[21-17-18] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-17-19] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-19] [UI ACTION]: Component = CyderTextField, hash = 616425480, bounds = (300, 100, 200, 40), parent frame = Image 
+           Pixelator
+[21-17-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-20] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-21] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829037228.json
+[21-17-22] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-17-23] [OBJECT CREATION]: Objects created since last delta (5s): 4
+[21-17-23] [UI ACTION]: Component = CyderTextField, hash = 616425480, bounds = (300, 100, 200, 40), parent frame = Image 
+           Pixelator, getText() = 20
+[21-17-23] [UI ACTION]: Component = CyderTextField, hash = 616425480, bounds = (300, 100, 200, 40), parent frame = Image 
+           Pixelator, getText() = 20
+[21-17-24] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-17-24] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829041026.json
+[21-17-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-28] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-17-28] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-28] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829044838.json
+[21-17-31] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[21-17-32] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-32] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829048625.json
+[21-17-32] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-33] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[21-17-35] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-36] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829052421.json
+[21-17-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-17-38] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-17-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-17-39] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-40] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829056207.json
+[21-17-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-43] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-17-43] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-43] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829060002.json
+[21-17-46] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[21-17-47] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-47] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829063788.json
+[21-17-47] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-47] [THREAD STARTED]: Component = CyderFrame, hash = 1458460929, bounds = (1147, 188, 800, 800), parent frame =
+           Component is top frame, getTitle() = Image Pixelator notification queue checker
+[21-17-47] [UI ACTION]: Component = CyderButton, hash = 417259709, bounds = (550, 100, 200, 40), parent frame = Image
+           Pixelator, getText() = Approve Image
+[21-17-48] [UI ACTION]: [Image Pixelator] [NOTIFICATION] w = 387, h = 58, text = <html>Successfully saved pixelated
+           image<br/>to your downloads folder</html>
+[21-17-48] [THREAD STARTED]: notification appear animation
+[21-17-48] [OBJECT CREATION]: Objects created since last delta (5s): 7
+[21-17-48] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-17-48] [THREAD STARTED]: Notificaiton Vanish Animator
+[21-17-50] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-51] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-51] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829067551.json
+[21-17-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-52] [THREAD STARTED]: Notificaiton Vanish Animator
+[21-17-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-53] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-17-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-54] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 731243659, bounds = (1097, 288, 900, 600), parent
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[21-17-54] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 463, h = 58, text = <html>You only have one
+           background image. Try<br/>adding more via the user editor</html>
+[21-17-54] [THREAD STARTED]: notification appear animation
+[21-17-54] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[21-17-54] [THREAD STARTED]: Notificaiton Vanish Animator
+[21-17-54] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-17-54] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829071312.json
+[21-17-57] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-17-58] [OBJECT CREATION]: Objects created since last delta (5s): 46
+[21-17-58] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-17-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829075007.json
+[21-17-59] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-18-00] [UI ACTION]: Component = CyderDragLabel, hash = -14299213, bounds = (2, 2, 796, 28), parent frame = Roses_Pix
+           elated_Pixel_Size_10
+[21-18-00] [THREAD STARTED]: [Roses_Pixelated_Pixel_Size_10]  dispose() animation thread
+[21-18-00] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1532183510, bounds =
+           (1147, 321, 800, 533), parent frame = Component is top frame, getTitle() = Roses_Pixelated_Pixel_Size_10
+[21-18-00] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-18-01] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-18-02] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-18-02] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829078784.json
+[21-18-02] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[21-18-03] [OBJECT CREATION]: Objects created since last delta (5s): 21
+[21-18-05] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[21-18-06] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-18-06] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829082645.json
+[21-18-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-18-08] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[21-18-10] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-18-10] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
+           erdata.json
+[21-18-10] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1647829086524.json
+[21-18-12] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[21-18-12] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[21-18-12] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[21-18-12] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 731243659,
+           bounds = (1034, 304, 900, 600), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan]
+[21-18-12] [SYSTEM_IO]: Userdata requested: closeanimation
+[21-18-12] [EXIT]: [RUNTIME] 1m 47s
+[21-18-12] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled 
+           Exit], exceptions thrown: 0
