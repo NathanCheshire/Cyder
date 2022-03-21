@@ -146,7 +146,12 @@ public class DirectoryViewer {
         next.setBounds(620 - 50,40,40, 40);
         dirFrame.getContentPane().add(next);
 
+        currentDirectory = new File(OSUtil.USER_DIR);
         File chosenDir = currentDirectory;
+
+        currentFileNames.clear();
+        currentFiles.clear();
+
         Collections.addAll(currentFiles, chosenDir.listFiles());
 
         for (File file : currentFiles) {
@@ -155,6 +160,7 @@ public class DirectoryViewer {
 
         cyderScrollList = new CyderScrollList(600, 400, CyderScrollList.SelectionPolicy.SINGLE);
         cyderScrollList.setScrollFont(CyderFonts.segoe20.deriveFont(16f));
+        cyderScrollList.removeAllElements();
 
         for (int i = 0; i < currentFileNames.size() ; i++) {
             int finalI = i;
