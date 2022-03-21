@@ -187,6 +187,8 @@ public final class ConsoleFrame {
      */
     private Direction consoleDir = Direction.TOP;
 
+    private Direction lastConsoleDir = consoleDir;
+
     /**
      * The list of recognized backgrounds that the ConsoleFrame may switch to.
      */
@@ -1499,7 +1501,6 @@ public final class ConsoleFrame {
                 }
             }
 
-            // todo only reset bounds if it's the same direction as it's already in
             // direction switching
             if ((e.getKeyCode() == KeyEvent.VK_DOWN) && ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
                     && ((e.getModifiersEx() & InputEvent.ALT_DOWN_MASK) != 0)) {
@@ -2207,9 +2208,13 @@ public final class ConsoleFrame {
      * @param consoleDirection the direction the background is to face
      */
     private void setConsoleDirection(Direction consoleDirection) {
+        // only reset console size if setting in the current direction
+        boolean revalidateConsoleSize = (consoleDirection != consoleDir);
+
+        lastConsoleDir = consoleDir;
         consoleDir = consoleDirection;
         UserUtil.setUserData("fullscreen","0");
-        revalidate(true, false);
+        revalidate(true, false, revalidateConsoleSize);
     }
 
     /**
@@ -2443,13 +2448,24 @@ public final class ConsoleFrame {
      * @param maintainFullscreen whether to maintain fullscreen mode
      */
     public void revalidate(boolean maintainDirection, boolean maintainFullscreen) {
+        revalidate(maintainDirection, maintainFullscreen, false);
+    }
+
+    /**
+     * Revalidates the ConsoleFrame size, bounds, background, menu, clock, audio menu, draggable property, etc.
+     * based on the current background. Note that maintainDirection trumps maintainFullscreen.
+     *
+     * @param maintainDirection whether to maintain the console direction
+     * @param maintainFullscreen whether to maintain fullscreen mode
+     * @param maintainConsoleSize whether to maintain the currently set size of the console
+     */
+    public void revalidate(boolean maintainDirection, boolean maintainFullscreen, boolean maintainConsoleSize) {
         Point originalCenter = consoleCyderFrame.getCenterPoint();
 
         ImageIcon background = null;
 
         if (maintainDirection) {
-            // have full size of image and maintain direction we are in currently
-
+            // have full size of image and maintain currently set direction
             switch (consoleDir) {
                 case TOP:
                     background = getCurrentBackground().generateImageIcon();
@@ -2478,6 +2494,27 @@ public final class ConsoleFrame {
             background = getCurrentBackground().generateImageIcon();
         }
 
+        if (maintainConsoleSize) {
+            switch (consoleDir) {
+                case TOP:
+                case BOTTOM:
+                    if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
+                        background = ImageUtil.resizeImage(background, getHeight(), getWidth());
+                    } else {
+                        background = ImageUtil.resizeImage(background, getWidth(), getHeight());
+                    }
+                    break;
+                case LEFT:
+                case RIGHT:
+                    if (lastConsoleDir == Direction.LEFT || lastConsoleDir == Direction.RIGHT) {
+                        background = ImageUtil.resizeImage(background, getWidth(), getHeight());
+                    } else {
+                        background = ImageUtil.resizeImage(background, getHeight(), getWidth());
+                    }
+                    break;
+            }
+        }
+
         // no background somehow so create the default one in user space
         if (background == null) {
             File newlyCreatedBackground = UserUtil.createDefaultBackground(uuid);
@@ -2493,9 +2530,10 @@ public final class ConsoleFrame {
         int h = background.getIconHeight();
 
         // this shouldn't ever happen
-        if (w == -1 || h == -1)
+        if (w == -1 || h == -1) {
             throw new IllegalStateException("Resulting width or height was found to " +
                     "not have been set in ConsoleFrame refresh method. " + CyderStrings.europeanToymaker);
+        }
 
         consoleCyderFrame.setSize(w, h);
         consoleCyderFrame.setBackground(background);

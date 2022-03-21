@@ -300,8 +300,6 @@ public class Logger {
         }
     }
 
-    // todo consolidate directory viewer refresh methods
-
     /**
      * Formats and writes the line to the current log file.
      *

@@ -41,7 +41,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-// todo pretty much needs to be entirely redone, it's so jank
 // todo need a failsafe so the audio controls on console are revalidated
 //      and never displayed if the audio player frame isn't visible
 
