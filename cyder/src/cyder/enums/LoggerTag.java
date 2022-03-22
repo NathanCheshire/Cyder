@@ -13,6 +13,10 @@ public enum LoggerTag {
      */
     CONSOLE_OUT,
     /**
+     * Something that would have been appended to the Cyder text pane was piped to a file.
+     */
+    CONSOLE_REDIRECTION,
+    /**
      * An exception was thrown and handled by the ExceptionHandler.
      */
     EXCEPTION,

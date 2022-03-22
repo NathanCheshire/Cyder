@@ -218,6 +218,9 @@ public class Logger {
             case THREAD_STATUS:
                 logBuilder.append("[THREAD STATUS POLLED]: ").append(representation);
                 break;
+            case CONSOLE_REDIRECTION:
+                logBuilder.append("[CONSOLE OUTPUT REDIRECTION]: console output was redirected to files/" + representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
@@ -361,6 +364,11 @@ public class Logger {
     private static final int BREAK_INSERTION_TOL = 10;
 
     /**
+     * The number of characters allowable past MAX_LINE_LENGTH if the end of the line will be reached.
+     */
+    private static final int CHAR_EXTENSION_TOL = 10;
+
+    /**
      * Returns the provided string with line breaks inserted if needed to ensure
      * the line length does not surpass {@link Logger#MAX_LINE_LENGTH}.
      *
@@ -371,8 +379,14 @@ public class Logger {
         LinkedList<String> ret = new LinkedList<>();
 
         while (line.length() > MAX_LINE_LENGTH) {
+            // if length is within extension tol
+            if (line.length() <= MAX_LINE_LENGTH + CHAR_EXTENSION_TOL) {
+                // add rest of line and break
+                ret.add(line);
+                break;
+            }
             // if the ideal split works
-            if (line.charAt(MAX_LINE_LENGTH) == ' ') {
+            else if (line.charAt(MAX_LINE_LENGTH) == ' ') {
                 ret.add(line.substring(0, MAX_LINE_LENGTH + 1));
                 line = line.substring(MAX_LINE_LENGTH + 1);
             } else {

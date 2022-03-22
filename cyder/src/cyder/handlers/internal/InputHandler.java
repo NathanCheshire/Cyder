@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import com.google.common.base.Preconditions;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.ManualTest;
 import cyder.constants.*;
@@ -163,10 +164,10 @@ public class InputHandler {
             Logger.log(LoggerTag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
 
-        //check for requested redirection
-        //noinspection ConstantConditions, safe due to checking arg size
-        if (args.size() > 1 && getArg(0).equals(">")) {
-            String filename = getArg(1);
+        // check for requested redirection
+        if (args.size() > 1 && getArg(args.size() - 2).equals(">")) {
+            // filename in new command arg system is last arg
+            String filename = getArg(args.size() - 1);
 
             //noinspection ConstantConditions, safe due to checking arg size
             if (!filename.trim().isEmpty()) {
@@ -423,17 +424,18 @@ public class InputHandler {
     private boolean cyderFrameMovementCheck() {
         boolean ret = true;
 
-        if (commandIs("top left")) {
+        if (commandAndArgsToString().equalsIgnoreCase("top left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
-        } else if (commandIs("top right")) {
+        } else if (commandAndArgsToString().equalsIgnoreCase("top right")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_RIGHT);
-        } else if (commandIs("bottom left")) {
+        } else if (commandAndArgsToString().equalsIgnoreCase("bottom left")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
-        } else if (commandIs("bottom right")) {
+        } else if (commandAndArgsToString().equalsIgnoreCase("bottom right")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
-        } else if (commandIs("middle") || commandIs("center")) {
+        } else if (commandAndArgsToString().equalsIgnoreCase("middle")
+                || commandAndArgsToString().equals("center")) {
             ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.CENTER);
-        } else if (commandIs("frametitles")) {
+        } else if (commandAndArgsToString().equalsIgnoreCase("frame titles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)
                 if (f instanceof CyderFrame) {
@@ -441,71 +443,64 @@ public class InputHandler {
                 } else {
                     println(f.getTitle());
                 }
-        } else if (commandIs("consolidatewindows")) {
-            if (checkArgsLength(1)) {
-                if (getArg(0).equalsIgnoreCase("topright")) {
-                    for (Frame f : Frame.getFrames()) {
+        } else if (command.equalsIgnoreCase("consolidate")
+                && getArg(0).equalsIgnoreCase("windows")) {
+            if (checkArgsLength(3)) {
+                if (getArg(2).equalsIgnoreCase("top")
+                        && getArg(3).equalsIgnoreCase("right")) {
+                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-
-                            if (f instanceof CyderFrame) {
-                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
-                                        + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
-                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
-                            }
+                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX()
+                                    + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
+                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY());
                         }
 
                         f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
                                 - f.getWidth(), ConsoleFrame.getConsoleFrame().getY());
                     }
-                } else if (getArg(0).equalsIgnoreCase("bottomright")) {
-                    for (Frame f : Frame.getFrames()) {
+                } else if (getArg(2).equalsIgnoreCase("bottom")
+                        && getArg(3).equalsIgnoreCase("right")) {
+                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
+                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX()
+                                    + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
+                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY()
+                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
 
-                            if (f instanceof CyderFrame) {
-                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX()
-                                        + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
-                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
-                                        + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
-                            }
                         }
 
                         f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
                                 - f.getWidth(), ConsoleFrame.getConsoleFrame().getY() +
                                 ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
                     }
-                } else if (getArg(0).equalsIgnoreCase("bottomleft")) {
-                    for (Frame f : Frame.getFrames()) {
+                } else if (getArg(2).equalsIgnoreCase("bottom")
+                        && getArg(3).equalsIgnoreCase("left")) {
+                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-
-                            if (f instanceof CyderFrame) {
-                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY()
-                                        + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
-                            }
+                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY()
+                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
                         }
 
                         f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY() +
                                 ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
                     }
                 } else {
-                    for (Frame f : Frame.getFrames()) {
+                    for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-
-                            if (f instanceof CyderFrame) {
-                                ((CyderFrame) f).setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                                ((CyderFrame) f).setRestoreY(ConsoleFrame.getConsoleFrame().getY());
-                            }
+                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX());
+                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY());
                         }
 
                         f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
                     }
                 }
             } else {
-                println("Command usage: consolidatewindows topleft");
+                println("Command usage: consolidate windows top left");
             }
         } else if (commandIs("dance")) {
             ConsoleFrame.getConsoleFrame().dance();
@@ -2589,12 +2584,13 @@ public class InputHandler {
      * @param object the object to invoke toString() on and write to the current redirectionFile
      */
     private void redirectionWrite(Object object) {
-        if (!redirectionFile.exists())
-            throw new IllegalStateException("Redirection file does not exist");
+        Preconditions.checkNotNull(object);
+        Preconditions.checkNotNull(redirectionFile.exists(), "Redirection file does not exist");
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
             redirectionSem.acquire();
             writer.write(String.valueOf(object));
+            Logger.log(LoggerTag.CONSOLE_REDIRECTION, redirectionFile);
             redirectionSem.release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

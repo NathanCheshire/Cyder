@@ -134,8 +134,6 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
-    // todo when splitting lines for logs, if it's going to be 10 or less chars on a new line, just put on one before
-
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */
