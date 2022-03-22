@@ -38,6 +38,11 @@ public class CyderGrid extends JLabel {
     private int minNodes = DEFAULT_MIN_NODES;
 
     /**
+     * The maximum number of nodes associated with the current grid.
+     */
+    private int maxNodes = Integer.MAX_VALUE;
+
+    /**
      * The dimension of nodes associated with the current grid.
      */
     public static final int DEFAULT_NODES = 20;
@@ -274,7 +279,7 @@ public class CyderGrid extends JLabel {
 
         if (this != null) {
             //failsafe
-            if (nodes < minNodes)
+            if (nodes < minNodes || nodes > maxNodes)
                 return;
 
             Graphics2D g2d = (Graphics2D) g;
@@ -557,6 +562,9 @@ public class CyderGrid extends JLabel {
                     if (smoothScrolling) {
                         for (Integer increment : increments) {
                             if (increment > nodes) {
+                                if (increment > maxNodes)
+                                    return;
+
                                 nodes = increment;
                                 break;
                             }
@@ -631,12 +639,25 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Returns the maximum number of nodes for a dimension of this instance.
+     *
+     * @return the maximum number of nodes for a dimension of this instance
+     */
+    public int getMaxNodes() {
+        return maxNodes;
+    }
+
+    /**
      * Sets the minimum number of nodes for a dimension of this instance.
      *
      * @param minNodes the minimum number of nodes for a dimension of this instance
      */
     public void setMinNodes(int minNodes) {
         this.minNodes = minNodes;
+    }
+
+    public void setMaxNodes(int maxNodes) {
+        this.maxNodes = maxNodes;
     }
 
     /**

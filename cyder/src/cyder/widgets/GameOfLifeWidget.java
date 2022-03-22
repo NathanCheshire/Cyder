@@ -3,8 +3,10 @@ package cyder.widgets;
 import com.google.common.base.Preconditions;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.CyderShare;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.widgets.objects.ConwayState;
@@ -22,6 +24,11 @@ public class GameOfLifeWidget {
      * The game of life frame.
      */
     private static CyderFrame conwayFrame;
+
+    /**
+     * The top-level grid used to display the current generation.
+     */
+    private static CyderGrid conwayGrid;
 
     /**
      * The button to reset the grid to the state it was in before the simulation was started.
@@ -81,9 +88,14 @@ public class GameOfLifeWidget {
     private static final int MIN_ITERATIONS_PER_SECOND = 1;
 
     /**
+     * The initial and default iterations per second.
+     */
+    private static final int DEFAULT_ITERATIONS_PER_SECOND = 10;
+
+    /**
      * The number of iterations to compute per second.
      */
-    private static int iterationsPerSecond = 10;
+    private static int iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
     /**
      * The maximum number of iterations per second.
@@ -96,9 +108,14 @@ public class GameOfLifeWidget {
     private static final int MIN_GRID_LENGTH = 50;
 
     /**
+     * The initial and default grid length.
+     */
+    private static final int DEFAULT_GRID_LENGTH = MIN_GRID_LENGTH;
+
+    /**
      * The current grid length.
      */
-    private static int currentGridLength = MIN_GRID_LENGTH;
+    private static int currentGridLength = DEFAULT_GRID_LENGTH;
 
     /**
      * The maximum grid length
@@ -170,7 +187,26 @@ public class GameOfLifeWidget {
     @SuppressCyderInspections(values = "WidgetInspection")
     @Widget(triggers = {"conway","conways","game of life"}, description = "Conway's game of life visualizer")
     public static void showGUI() {
-        // todo construct UI
+        if (conwayFrame != null)
+            conwayFrame.disposeIfActive();
+
+        conwayFrame = new CyderFrame(600,750);
+        conwayFrame.setTitle("Conway's Game of Life");
+
+        conwayGrid = new CyderGrid(DEFAULT_GRID_LENGTH, 550);
+        conwayGrid.setBounds(25, 25 + CyderDragLabel.DEFAULT_HEIGHT, 550, 550);
+        conwayGrid.setMinNodes(MIN_GRID_LENGTH);
+        conwayGrid.setMaxNodes(MAX_GRID_LENGTH);
+        conwayGrid.setDrawGridLines(false);
+        conwayGrid.setDrawExtendedBorder(true);
+        conwayGrid.setBackground(CyderColors.vanila);
+        conwayGrid.setResizable(true);
+        conwayGrid.setSmoothScrolling(true);
+        conwayGrid.installClickAndDragPlacer();
+        conwayFrame.getContentPane().add(conwayGrid);
+
+        conwayFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        conwayFrame.setVisible(true);
     }
 
     /**
@@ -189,6 +225,8 @@ public class GameOfLifeWidget {
      */
     private static void resetSimulation() {
        simulationRunning = false;
+       iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
+       currentGridLength = DEFAULT_GRID_LENGTH;
 
        // todo reset all states as if widget was just opened
     }
@@ -201,7 +239,7 @@ public class GameOfLifeWidget {
             while (simulationRunning) {
                 // todo
             }
-        },"Conway Generator");
+        },"Conway Simulation Generator");
     }
 
     /**
