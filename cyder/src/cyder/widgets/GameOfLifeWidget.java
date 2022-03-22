@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -19,40 +20,106 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.Arrays;
 
+/**
+ * Conway's game of life visualizer.
+ */
 public class GameOfLifeWidget {
+    /**
+     * The grid used to store the nodes.
+     */
     private static int[][] grid;
+
+    /**
+     * Whether the simulation is running
+     */
     private static boolean simulationRunning;
 
+    /**
+     * The number of iterations to compute per second.
+     */
     private static int iterationsPerSecond = 10;
-    private static final int maxIterationsPerSecond = 50;
 
-    private static final int defaultGridLen = 45;
-    private static final int currentGridLen = defaultGridLen;
+    /**
+     * The maximum number of iterations per second.
+     */
+    private static final int MAX_ITERATIONS_PER_SECOND = 50;
 
+    /**
+     * The default grid length.
+     */
+    private static final int DEFAULT_GRID_LEN = 45;
+
+    /**
+     * The current grid length.
+     */
+    private static final int currentGridLen = DEFAULT_GRID_LEN;
+
+    /**
+     * The grid label to paint the squares on.
+     */
     private static JLabel gridLabel;
+
+    /**
+     * The button to begin the simulation.
+     */
     private static CyderButton simulateButton;
+
+    /**
+     * The game of life frame.
+     */
     private static CyderFrame conwayFrame;
 
+    /**
+     * The label to display which generation the simulation is on.
+     */
     private static CyderLabel iterationLabel;
+
+    /**
+     * The label to display the population for the current generation.
+     */
     private static CyderLabel populationLabel;
+
+    /**
+     * The label to display the maximum population.
+     */
     private static CyderLabel maxPopulationLabel;
 
+    /**
+     * Whether to detect oscillations.
+     */
     private static boolean detectOscillations;
 
+    /**
+     * The current generation the simulation is on.
+     */
     private static int generationCount;
+
+    /**
+     * The current population of the current state.
+     */
     private static int populationCount;
+
+    /**
+     * The maximum population encountered for this simulation.
+     */
     private static int maxPopulation;
+
+    /**
+     * The generation corresponding to the maximum population.
+     */
     private static int maxPopulationGeneration;
 
+    /**
+     * Suppress default constructor.
+     */
     private GameOfLifeWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Widget(triggers = "conway", description = "Conway's game of life visualizer")
+    @SuppressCyderInspections(values = "WidgetInspection")
+    @Widget(triggers = {"conway","conways","game of life"}, description = "Conway's game of life visualizer")
     public static void showGUI() {
-        
-
-        grid = new int[defaultGridLen][defaultGridLen];
+        grid = new int[DEFAULT_GRID_LEN][DEFAULT_GRID_LEN];
         conwayFrame = new CyderFrame(940,1120, CyderIcons.defaultBackgroundLarge);
         conwayFrame.setTitle("Conway's Game of Life");
 
@@ -237,7 +304,7 @@ public class GameOfLifeWidget {
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
 
-        speedSlider.addChangeListener(e -> iterationsPerSecond = Math.max((int) (maxIterationsPerSecond *
+        speedSlider.addChangeListener(e -> iterationsPerSecond = Math.max((int) (MAX_ITERATIONS_PER_SECOND *
                 ((double) speedSlider.getValue() /  (double) speedSlider.getMaximum())),1));
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Generations per second");
@@ -250,6 +317,11 @@ public class GameOfLifeWidget {
         conwayFrame.addPreCloseAction(() -> simulationRunning = false);
     }
 
+    /**
+     * Sets the preset to one of the default presets.
+     *
+     * @param preset the predefined preset
+     */
     private static void setPreset(String preset) {
         if (grid.length < 45 || grid[0].length < 45) {
             conwayFrame.notify("In order to use presets, please make the grid at least 45x45");
@@ -302,45 +374,34 @@ public class GameOfLifeWidget {
             reset();
             grid = new int[currentGridLen][currentGridLen];
 
-            //bottom square
             grid[22][42] = 1;
             grid[23][42] = 1;
             grid[22][41] = 1;
             grid[23][41] = 1;
-
-            //next row up...
             grid[21][40] = 1;
             grid[24][40] = 1;
-
             grid[20][39] = 1;
             grid[21][39] = 1;
             grid[22][39] = 1;
             grid[23][39] = 1;
             grid[24][39] = 1;
             grid[25][39] = 1;
-
             grid[20][38] = 1;
             grid[21][38] = 1;
             grid[24][38] = 1;
             grid[25][38] = 1;
-
             grid[20][37] = 1;
             grid[25][37] = 1;
-
             grid[20][35] = 1;
             grid[25][35] = 1;
-
             grid[20][34] = 1;
             grid[25][34] = 1;
-
             grid[20][34] = 1;
             grid[22][34] = 1;
             grid[23][34] = 1;
             grid[25][34] = 1;
-
             grid[21][33] = 1;
             grid[24][33] = 1;
-
             grid[21][31] = 1;
             grid[22][31] = 1;
             grid[23][31] = 1;
@@ -350,6 +411,9 @@ public class GameOfLifeWidget {
         }
     }
 
+    /**
+     * Resets the simulation and all values back to their default.
+     */
     private static void reset() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -372,9 +436,19 @@ public class GameOfLifeWidget {
         gridLabel.repaint();
     }
 
+    /**
+     * The last generation computed.
+     */
     private static int[][] lastGen;
+
+    /**
+     * The generation before the last generation.
+     */
     private static int[][] secondToLastGen;
 
+    /**
+     * Starts the simulation thread.
+     */
     private static void start() {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
@@ -425,9 +499,15 @@ public class GameOfLifeWidget {
                     ExceptionHandler.handle(e);
                 }
             }
-        },"Conway's Game of Life game thread");
+        },"Conway Widget");
     }
 
+    /**
+     * Computes the next generation based on the current generation.
+     *
+     * @param currentGeneration the current generation
+     * @return the next generation
+     */
     private static int[][] nextGeneration(int[][] currentGeneration) {
         if (currentGeneration == null || currentGeneration.length < 3 || currentGeneration[0].length < 3)
             throw new IllegalArgumentException("Null or invalid board");

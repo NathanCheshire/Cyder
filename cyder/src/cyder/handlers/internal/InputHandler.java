@@ -2575,6 +2575,7 @@ public class InputHandler {
      * Semaphore used to ensure all things that need to
      * be written to the redirectionFile are written to it.
      * This also ensures that multiple redirections
+     * aren't performed at the same time.
      */
     private final Semaphore redirectionSem = new Semaphore(1);
 
