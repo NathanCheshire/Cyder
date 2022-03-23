@@ -205,6 +205,25 @@ public class GameOfLifeWidget {
         conwayGrid.installClickAndDragPlacer();
         conwayFrame.getContentPane().add(conwayGrid);
 
+        resetButton = new CyderButton("Reset");
+        resetButton.setBounds(25 + 15, conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
+        conwayFrame.getContentPane().add(resetButton);
+        resetButton.addActionListener(e -> resetToPreviousState());
+
+        simulateStopButton = new CyderButton("Simulate");
+        simulateStopButton.setBounds(25 + 15 + 160 + 20,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
+        conwayFrame.getContentPane().add(simulateStopButton);
+        simulateStopButton.addActionListener(e -> {
+            // todo
+        });
+
+        clearButton = new CyderButton("Clear");
+        clearButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
+        conwayFrame.getContentPane().add(clearButton);
+        clearButton.addActionListener(e -> resetSimulation());
+
         conwayFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         conwayFrame.setVisible(true);
     }
@@ -229,6 +248,10 @@ public class GameOfLifeWidget {
        currentGridLength = DEFAULT_GRID_LENGTH;
 
        // todo reset all states as if widget was just opened
+    }
+
+    private static void resetToPreviousState() {
+
     }
 
     /**

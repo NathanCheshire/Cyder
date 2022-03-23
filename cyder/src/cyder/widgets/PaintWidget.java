@@ -96,7 +96,6 @@ public class PaintWidget {
         cyderGrid = new CyderGrid(200, frameLength);
         cyderGrid.setBounds(padding, CyderDragLabel.DEFAULT_HEIGHT + padding - 5, frameLength, frameLength);
         paintFrame.getContentPane().add(cyderGrid);
-        cyderGrid.setDrawExtendedBorder(true);
         cyderGrid.setResizable(true);
         cyderGrid.setDrawGridLines(false);
         cyderGrid.installClickPlacer();

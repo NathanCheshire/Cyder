@@ -9,7 +9,6 @@ import cyder.utilities.ReflectionUtil;
 import cyder.widgets.PaintWidget;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -363,7 +362,10 @@ public class CyderGrid extends JLabel {
 
             // draw extended, true border if enabled
             if (drawExtendedBorder) {
-                setBorder(new LineBorder(CyderColors.navy, 3));
+                g2d.fillRect(1, 1, 2, drawTo);
+                g2d.fillRect(1, 1, drawTo, 2);
+                g2d.fillRect(drawTo - 2, 1, drawTo, drawTo);
+                g2d.fillRect(1, drawTo - 2, drawTo, drawTo);
             }
         }
     }
