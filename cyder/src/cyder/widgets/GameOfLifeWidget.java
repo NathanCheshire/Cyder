@@ -17,6 +17,7 @@ import cyder.ui.objects.SwitcherState;
 import cyder.utilities.FileUtil;
 import cyder.utilities.GetterUtil;
 import cyder.utilities.OSUtil;
+import cyder.utilities.StringUtil;
 import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.objects.ConwayState;
 
@@ -183,6 +184,16 @@ public class GameOfLifeWidget {
     private static LinkedList<GridNode> secondTolastState = new LinkedList<>();
 
     /**
+     * The conway states laoded from static/json/conway.
+     */
+    private static ArrayList<ConwayState> correspondingConwayStates;
+
+    /**
+     * The switcher states to cycle between the states loaded from static/json/conway.
+     */
+    private static ArrayList<SwitcherState> switcherStates;
+
+    /**
      * Suppress default constructor.
      */
     private GameOfLifeWidget() {
@@ -259,21 +270,28 @@ public class GameOfLifeWidget {
         conwayFrame.getContentPane().add(clearButton);
         clearButton.addActionListener(e -> resetSimulation());
 
-        ArrayList<SwitcherState> states = new ArrayList<>();
-        states.add(new SwitcherState("Gliders"));
-        states.add(new SwitcherState("Copper"));
+        loadConwayStates();
 
-        presetSwitcher = new CyderSwitcher(160, 40, states, states.get(0));
+        presetSwitcher = new CyderSwitcher(160, 40, switcherStates, switcherStates.get(0));
         presetSwitcher.getIterationButton().addActionListener(e -> {
             SwitcherState nextState = presetSwitcher.getNextState();
 
-            if (nextState.equals(states.get(0))) {
-                // todo load Gliders.json (create and save)
-                //fromJson(GLIDERS);
-            } else {
-                //fromJson(COPPERHEAD);
-                // todo load Copperhead.json (create and save)
+            for (int i = 0 ; i < switcherStates.size() ; i++) {
+                if (switcherStates.get(i).equals(nextState)) {
+                    beforeStartingState = new LinkedList<>();
+
+                    for (Point point : correspondingConwayStates.get(i).getNodes()) {
+                        beforeStartingState.add(new GridNode((int) point.getX(), (int) point.getY()));
+                    }
+
+                    conwayFrame.notify("Loaded state: " + correspondingConwayStates.get(i).getName());
+                    conwayGrid.setNodeDimensionLength(correspondingConwayStates.get(i).getGridSize());
+
+                    break;
+                }
             }
+
+            resetToPreviousState();
         });
         presetSwitcher.setBounds(25 + 15,
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
@@ -358,6 +376,8 @@ public class GameOfLifeWidget {
         iterationsPerSecondSlider.setFocusable(false);
         iterationsPerSecondSlider.repaint();
         conwayFrame.getContentPane().add(iterationsPerSecondSlider);
+
+        resetSimulation();
 
         conwayFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         conwayFrame.setVisible(true);
@@ -451,6 +471,7 @@ public class GameOfLifeWidget {
                         }
                     }
 
+                    // todo disable zooming when game is underway
                     // todo detect oscillations broken still for some reason
                     if (detectOscillations && nextState.equals(secondTolastState)) {
                         conwayFrame.notify("Detected Oscillation");
@@ -549,6 +570,9 @@ public class GameOfLifeWidget {
             builder.setSubmitButtonText("Save Conway State");
             String saveName = GetterUtil.getInstance().getString(builder);
 
+            if (StringUtil.isNull(saveName))
+                return;
+
             String filename = saveName + ".json";
 
             if (OSUtil.isValidFilename(filename)) {
@@ -633,5 +657,30 @@ public class GameOfLifeWidget {
         }
 
         return ret;
+    }
+
+    /**
+     * Loads the preset conway states from static/json/conway.
+     */
+    private static void loadConwayStates() {
+        switcherStates = new ArrayList<>();
+        correspondingConwayStates = new ArrayList<>();
+
+        File statesDir = new File(OSUtil.buildPath("static","json","conway"));
+
+        if (statesDir.exists()) {
+            for (File json : statesDir.listFiles()) {
+                if (FileUtil.validateExtension(json, ".json")) {
+                    try {
+                        Reader reader = new FileReader(json);
+                        ConwayState loadState = gson.fromJson(reader, ConwayState.class);
+                        reader.close();
+
+                        correspondingConwayStates.add(loadState);
+                        switcherStates.add(new SwitcherState(loadState.getName()));
+                    } catch (Exception ignored) {}
+                }
+            }
+        }
     }
 }
