@@ -463,8 +463,6 @@ public class CyderGrid extends JLabel {
             }
         }
 
-        //todo if not a drag event and node already there, remove
-
         if (!dragEvent && grid.contains(node)) {
             removeNode(node);
         }

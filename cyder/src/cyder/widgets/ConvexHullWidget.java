@@ -5,7 +5,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
@@ -58,7 +57,7 @@ public class ConvexHullWidget {
         //todo black nodes need to be on top of pink
 
         hullFrame = new CyderFrame(800,850);
-        hullFrame.setTitle("Convex hull");
+        hullFrame.setTitle("Convex Hull Visualizer");
 
         gridComponent = new CyderGrid(100,700);
         gridComponent.setDrawGridLines(false);
@@ -70,6 +69,7 @@ public class ConvexHullWidget {
         gridComponent.setBackground(CyderColors.vanila);
         gridComponent.installClickListener();
         gridComponent.installDragListener();
+        gridComponent.setSaveStates(false);
 
         CyderButton solveButton = new CyderButton("Solve");
         solveButton.setBounds(50, 700 + 80,325, 40);
@@ -81,10 +81,8 @@ public class ConvexHullWidget {
         resetButton.setBounds(50 + 375, 700 + 80,325, 40);
         hullFrame.getContentPane().add(resetButton);
 
-        hullFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        hullFrame.setVisible(true);
+        hullFrame.finalizeAndShow();
     }
-
 
     /**
      * Solves the convex hull and draws the lines on the grid.
@@ -271,7 +269,6 @@ public class ConvexHullWidget {
         points.sort((b, c) -> {
             if (b == ref) return -1;
             if (c == ref) return 1;
-
 
             int ccw = ccw(ref, b, c);
 

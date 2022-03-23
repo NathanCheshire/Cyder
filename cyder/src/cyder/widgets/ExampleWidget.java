@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.enums.LoggerTag;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderDragLabel;
@@ -37,7 +36,6 @@ public class ExampleWidget {
         });
         cyderFrame.getContentPane().add(cyderButton);
 
-        cyderFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        cyderFrame.setVisible(true);
+        cyderFrame.finalizeAndShow();
     }
 }

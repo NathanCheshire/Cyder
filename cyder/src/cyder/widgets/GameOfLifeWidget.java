@@ -470,8 +470,6 @@ public class GameOfLifeWidget {
                         }
                     }
 
-                    // todo be able to delete nodes by clicking
-
                     if (nextState.equals(conwayGrid.getGridNodes())) {
                         conwayFrame.revokeAllNotifications();
                         conwayFrame.notify("Simulation stabilized at generation: " + generation);

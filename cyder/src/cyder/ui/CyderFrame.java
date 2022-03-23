@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.enums.LoggerTag;
+import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -3005,8 +3006,19 @@ public class CyderFrame extends JFrame {
         }, getTitle() + " menu label animator");
     }
 
+    /**
+     * The frame menu width.
+     */
     private static final int menuWidth = 120;
+
+    /**
+     * The height to add in addition to each menu component.
+     */
     private static final int paddingHeight = 5;
+
+    /**
+     * The menu x and y padding.
+     */
     private static final int menuPadding = 5;
 
     /**
@@ -3045,5 +3057,27 @@ public class CyderFrame extends JFrame {
         menuLabel.setVisible(false);
         menuLabel.setLocation(-menuWidth, animateToPoint.y);
         contentLabel.add(menuLabel, JLayeredPane.POPUP_LAYER);
+    }
+
+    /**
+     * Sets the frame's location relative to the dominant frame,
+     * the visibility to true, and sets always on top mode to true
+     * temporarily to ensure the frame is on top.
+     */
+    public void finalizeAndShow() {
+        setLocationRelativeTo(CyderShare.getDominantFrame());
+        setVisible(true);
+
+        boolean wasOnTop = isAlwaysOnTop();
+        setAlwaysOnTop(true);
+
+        CyderThreadRunner.submit(() -> {
+            try {
+                Thread.sleep(500);
+                setAlwaysOnTop(wasOnTop);
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "[" + getTitle() + "]  finalizeAndShow");
     }
 }
