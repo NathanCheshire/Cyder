@@ -23,16 +23,6 @@ public class ConvexHullWidget {
     private static CyderFrame hullFrame;
 
     /**
-     * The color used for user placed nodes.
-     */
-    private static final Color placeColor = CyderColors.regularPink;
-
-    /**
-     * The color used when drawing lines as a part of the convex hull.
-     */
-    private static final Color lineColor = CyderColors.navy;
-
-    /**
      * The grid to use to represent points in space.
      */
     private static CyderGrid gridComponent;
@@ -54,8 +44,6 @@ public class ConvexHullWidget {
             hullFrame.dispose();
         }
 
-        //todo black nodes need to be on top of pink
-
         hullFrame = new CyderFrame(800,850);
         hullFrame.setTitle("Convex Hull Visualizer");
 
@@ -65,7 +53,7 @@ public class ConvexHullWidget {
         hullFrame.getContentPane().add(gridComponent);
         gridComponent.setDrawExtendedBorder(true);
         gridComponent.setResizable(false);
-        gridComponent.setNodeColor(placeColor);
+        gridComponent.setNodeColor(CyderColors.navy);
         gridComponent.setBackground(CyderColors.vanila);
         gridComponent.installClickListener();
         gridComponent.installDragListener();
@@ -88,56 +76,51 @@ public class ConvexHullWidget {
      * Solves the convex hull and draws the lines on the grid.
      */
     private static void solveAndUpdate() {
-        // remove past lines from grid
-        LinkedList<GridNode> userPlacedNodes = new LinkedList<>();
-
-        for (GridNode gridNode : gridComponent.getGridNodes()) {
-            if (gridNode.getColor() == CyderColors.regularPink)
-                userPlacedNodes.add(gridNode);
-        }
-
-        gridComponent.setGridNodes(userPlacedNodes);
+        gridComponent.setGridNodes(new LinkedList<>(gridComponent.getGridNodes()));
 
         // initialize list of grid points
         LinkedList<Point> points = new LinkedList<>();
 
         // get all grid nodes that the user placed
         for (GridNode gn : gridComponent.getGridNodes()) {
-            // user places pink colors
-            if (gn.getColor() == placeColor)
-                points.add(new Point(gn.getX(), gn.getY()));
+            points.add(new Point(gn.getX(), gn.getY()));
         }
 
         // can't make a polygon with less than 3 points
-        if (points.size() < 3)
+        if (points.size() < 3) {
             return;
+        }
 
         // solve using O(nlogn) method
         LinkedList<Point> hull = solveGrahamScan(points);
 
         // for all the hull points, connect a line between the nodes
         for (int i = 0 ; i < hull.size() ; i++) {
-            // two pink nodes that are a part of the surrounding polygon
             Point p0 = hull.get(i);
             Point p1;
 
             // if p0 is the last point
-            if (i == hull.size() - 1)
+            if (i == hull.size() - 1) {
                 p1 = hull.get(0);
-            else
+            } else {
                 p1 = hull.get(i + 1);
+            }
 
             // add a point between the two points with our line color
             addMidPoints(p0, p1);
         }
 
-        GridNode upperLeft = new GridNode(CyderColors.regularPink, 0, 0);
-        GridNode upperRight = new GridNode(CyderColors.regularPink, 0, gridComponent.getNodeDimensionLength() - 1 );
-        GridNode bottomLeft = new GridNode(CyderColors.regularPink, gridComponent.getNodeDimensionLength() - 1, 0);
-        GridNode bottomRight = new GridNode(CyderColors.regularPink,
-                gridComponent.getNodeDimensionLength() - 1, gridComponent.getNodeDimensionLength() - 1);
+        GridNode upperLeft = new GridNode(CyderColors.navy, 0, 0);
+        GridNode upperRight = new GridNode(CyderColors.navy, 0,
+                gridComponent.getNodeDimensionLength() - 1 );
+        GridNode bottomLeft = new GridNode(CyderColors.navy,
+                gridComponent.getNodeDimensionLength() - 1, 0);
+        GridNode bottomRight = new GridNode(CyderColors.navy,
+                gridComponent.getNodeDimensionLength() - 1,
+                gridComponent.getNodeDimensionLength() - 1);
 
         LinkedList<GridNode> cornerNodes = new LinkedList<>();
+
         cornerNodes.add(upperLeft);
         cornerNodes.add(upperRight);
         cornerNodes.add(bottomLeft);
@@ -159,18 +142,25 @@ public class ConvexHullWidget {
      */
     private static void addMidPoints(Point p0, Point p1) {
         // base case one
-        if (p0 == p1)
+        if (p0 == p1) {
             return;
+        }
 
         int midPointX = (p1.x + p0.x) / 2;
         int midPointY = (p1.y + p0.y) / 2;
         Point newPoint = new Point(midPointX, midPointY);
 
         // base case two
-        if (newPoint.equals(p0) || newPoint.equals(p1))
+        if (newPoint.equals(p0) || newPoint.equals(p1)) {
             return;
+        }
 
-        gridComponent.addNode(new GridNode(lineColor, midPointX, midPointY));
+        GridNode add = new GridNode(CyderColors.navy, midPointX, midPointY);
+        if (gridComponent.contains(add)) {
+            gridComponent.removeNode(add);
+        }
+        gridComponent.addNode(add);
+
         addMidPoints(p0, newPoint);
         addMidPoints(newPoint, p1);
     }
@@ -201,7 +191,6 @@ public class ConvexHullWidget {
             stack.push(p);
             stack.push(points.get(i));
         }
-
 
         Point p = stack.pop();
 
@@ -248,12 +237,14 @@ public class ConvexHullWidget {
         float area = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
 
         // clockwise
-        if (area < 0)
+        if (area < 0) {
             return -1;
+        }
 
         // counter-clockwise
-        if (area > 0)
+        if (area > 0) {
             return 1;
+        }
 
         // collinear
         return 0;
@@ -267,8 +258,13 @@ public class ConvexHullWidget {
      */
     private static void sortByAngle(LinkedList<? extends Point> points, Point ref) {
         points.sort((b, c) -> {
-            if (b == ref) return -1;
-            if (c == ref) return 1;
+            if (b == ref) {
+                return -1;
+            }
+
+            if (c == ref) {
+                return 1;
+            }
 
             int ccw = ccw(ref, b, c);
 
@@ -288,8 +284,10 @@ public class ConvexHullWidget {
      * Clears the grid.
      */
     private static void reset() {
-        if (gridComponent.getNodeCount() == 0)
+        if (gridComponent.getNodeCount() == 0) {
             return;
+        }
+
         gridComponent.clearGrid();
     }
 }

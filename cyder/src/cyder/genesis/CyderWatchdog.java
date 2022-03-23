@@ -135,6 +135,7 @@ public class CyderWatchdog {
     }
 
     // todo pathfinding widget use cyergrid
+    // todo utilize finalizeAndShow()
 
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
