@@ -234,6 +234,7 @@ public class GameOfLifeWidget {
         conwayGrid.setSmoothScrolling(true);
         conwayGrid.installClickAndDragPlacer();
         conwayFrame.getContentPane().add(conwayGrid);
+        conwayGrid.setSaveStates(false);
 
         resetButton = new CyderButton("Reset");
         resetButton.setBounds(25 + 15, conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);

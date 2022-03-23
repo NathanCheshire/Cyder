@@ -496,7 +496,7 @@ public class CyderGrid extends JLabel {
      */
     public void setGridState(LinkedList<GridNode> nextState) {
         if (backwardStates.isEmpty() || !backwardStates.peek().equals(nextState))
-            backwardStates.push(new LinkedList<>(grid));
+            saveState(new LinkedList<>(grid));
 
         grid = nextState;
 
@@ -516,7 +516,7 @@ public class CyderGrid extends JLabel {
         public void mousePressed(MouseEvent e) {
             // push grid as a past state if it is not equal to the last one
             if (backwardStates.isEmpty() || !backwardStates.peek().equals(grid))
-                backwardStates.push(new LinkedList<>(grid));
+                saveState(new LinkedList<>(grid));
 
             // new history so clear forward traversal
             forwardStates.clear();
@@ -777,6 +777,41 @@ public class CyderGrid extends JLabel {
     // -------------
 
     /**
+     * Whether states should be saved for possible traversal.
+     */
+    private boolean saveStates = true;
+
+    /**
+     * Returns whether save states is toggled on.
+     *
+     * @return whether save states is toggled on
+     */
+    public boolean isSaveStates() {
+        return saveStates;
+    }
+
+    /**
+     * Sets whether states should be saved.
+     *
+     * @param saveStates whether states should be saved
+     */
+    public void setSaveStates(boolean saveStates) {
+        this.saveStates = saveStates;
+    }
+
+    /**
+     * Puhses the provided state to the backward states list.
+     * This method exists so that state saving can be easily turned on or off.
+     *
+     * @param pushState the state to push to the backward states
+     */
+    private void saveState(LinkedList<GridNode> pushState) {
+        if (saveStates) {
+            backwardStates.push(pushState);
+        }
+    }
+
+    /**
      * The forward states of the grid.
      */
     private final Stack<LinkedList<GridNode>> forwardStates = new Stack<>();
@@ -792,7 +827,7 @@ public class CyderGrid extends JLabel {
     public void forwardState() {
         if (!forwardStates.isEmpty()) {
             // push current state backwards
-            backwardStates.push(new LinkedList<>(grid));
+            saveState(new LinkedList<>(grid));
 
             // set to next state
             grid = forwardStates.pop();
@@ -883,7 +918,7 @@ public class CyderGrid extends JLabel {
             }
 
             // push current state and set new grid
-            backwardStates.push(new LinkedList<>(grid));
+            saveState(new LinkedList<>(grid));
             grid = croppedOffsetNodes;
 
             // reset selection
@@ -930,7 +965,7 @@ public class CyderGrid extends JLabel {
             deletedState.removeAll(croppedNodes);
 
             // push current state and set new grid
-            backwardStates.push(new LinkedList<>(grid));
+            saveState(new LinkedList<>(grid));
             grid = deletedState;
 
             // reset selection
@@ -942,7 +977,7 @@ public class CyderGrid extends JLabel {
         }
         // no region so delete everything
         else {
-            backwardStates.push(new LinkedList<>(grid));
+            saveState(new LinkedList<>(grid));
             grid = new LinkedList<>();
         }
     }
@@ -1017,7 +1052,7 @@ public class CyderGrid extends JLabel {
         }
 
         // push current state and set new grid
-        backwardStates.push(new LinkedList<>(grid));
+        saveState(new LinkedList<>(grid));
         grid = newState;
 
         if (point1Selection != null && point2Selection != null
@@ -1120,14 +1155,14 @@ public class CyderGrid extends JLabel {
         }
 
         // push current state and set new grid
-        backwardStates.push(new LinkedList<>(grid));
+        saveState(new LinkedList<>(grid));
         grid = newState;
 
         // repaint
         repaint();
     }
 
-    //todo utilize for relative zooming
+    //todo utilize for relative zooming, shouldn't break any grids like conway or paint etc.
 
     /**
      * Converts the provided point in mouse space to the equivalent

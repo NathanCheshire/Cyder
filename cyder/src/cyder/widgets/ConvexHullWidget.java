@@ -1,17 +1,15 @@
 package cyder.widgets;
 
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
-import cyder.enums.Direction;
-import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderGrid;
 import cyder.ui.objects.GridNode;
-import cyder.ui.objects.NotificationBuilder;
 
 import java.awt.*;
 import java.util.*;
@@ -50,13 +48,14 @@ public class ConvexHullWidget {
     /**
      * Shows the convex hull widget.
      */
-    @Widget(triggers = "convexhull", description = "A convex hull algorithm visualizer")
+    @SuppressCyderInspections(values = "WidgetInspection")
+    @Widget(triggers = {"convex", "convex hull"}, description = "A convex hull algorithm visualizer")
     public static void showGUI() {
-        
-
         if (hullFrame != null) {
             hullFrame.dispose();
         }
+
+        //todo black nodes need to be on top of pink
 
         hullFrame = new CyderFrame(800,850);
         hullFrame.setTitle("Convex hull");
@@ -65,9 +64,10 @@ public class ConvexHullWidget {
         gridComponent.setDrawGridLines(false);
         gridComponent.setBounds(50, 50,700, 700);
         hullFrame.getContentPane().add(gridComponent);
-        gridComponent.setDrawExtendedBorder(false);
+        gridComponent.setDrawExtendedBorder(true);
         gridComponent.setResizable(false);
         gridComponent.setNodeColor(placeColor);
+        gridComponent.setBackground(CyderColors.vanila);
         gridComponent.installClickPlacer();
         gridComponent.installDragPlacer();
 
@@ -293,14 +293,6 @@ public class ConvexHullWidget {
     private static void reset() {
         if (gridComponent.getNodeCount() == 0)
             return;
-
-        NotificationBuilder builder = new NotificationBuilder("Cleared "
-                + gridComponent.getNodeCount() + " nodes");
-        builder.setViewDuration(2000);
-        builder.setArrowDir(Direction.RIGHT);
-        builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
-
-        hullFrame.notify(builder);
         gridComponent.clearGrid();
     }
 }

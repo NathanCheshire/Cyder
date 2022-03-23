@@ -27,10 +27,7 @@
 [16-38-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071503413.json
 [16-38-24] [SYSTEM_IO]: Userdata requested: RandomBackground
-[16-38-24] [SYSTEM_IO]: Userdata requested: FullScreen
-[16-38-25] [SYSTEM_IO]: Userdata requested: fullscreen
-[16-38-25] [SYSTEM_IO]: Userdata requested: FullScreen
-[16-38-25] [SYSTEM_IO]: Userdata requested: FullScreen
+[16-38-25] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
 [16-38-25] [THREAD STARTED]: Console Printing Animation
 [16-38-25] [SYSTEM_IO]: Userdata requested: OutputBorder
 [16-38-25] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -62,8 +59,7 @@
            erdata.json
 [16-38-26] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071504533.json
-[16-38-26] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-38-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-38-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-38-28] [OBJECT CREATION]: Objects created since last delta (5s): 107
 [16-38-28] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
@@ -80,8 +76,7 @@
 [16-38-29] [THREAD STARTED]: notification appear animation
 [16-38-29] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [16-38-29] [THREAD STARTED]: Notificaiton Vanish Animator
-[16-38-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-38-30] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-38-30] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-38-31] [THREAD STARTED]: Notificaiton Vanish Animator
 [16-38-31] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [16-38-32] [UI ACTION]: Component = CyderCheckbox, hash = 330134999, bounds = (40, 745, 50, 50), parent frame = Conway's 
@@ -114,8 +109,7 @@
 [16-38-36] [THREAD STARTED]: Conway Simulator
 [16-38-36] [UI ACTION]: Component = CyderButton, hash = 1803915749, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Stop
-[16-38-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-38-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-38-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-38-37] [THREAD STARTED]: Notificaiton Vanish Animator
 [16-38-38] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 428, h = 29, text = <html>Simulation stabilized at
            generation: 99</html>
@@ -139,8 +133,7 @@
 [16-38-39] [THREAD STARTED]: notification appear animation
 [16-38-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [16-38-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
-[16-38-40] [THREAD STARTED]: Notificaiton Vanish Animator
-[16-38-40] [THREAD STARTED]: Notificaiton Vanish Animator
+[16-38-40] [THREAD STARTED]: Notificaiton Vanish Animator [2x]
 [16-38-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [16-38-41] [UI ACTION]: Component = CyderCheckbox, hash = 330134999, bounds = (40, 745, 50, 50), parent frame = Conway's 
            Game of Life
@@ -164,8 +157,7 @@
 [16-38-43] [UI ACTION]: Component = CyderButton, hash = 1523737922, bounds = (400, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Clear
 [16-38-43] [OBJECT CREATION]: Objects created since last delta (5s): 36
-[16-38-43] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-38-44] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-38-44] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-38-45] [THREAD STARTED]: Conway Simulator
 [16-38-45] [UI ACTION]: Component = CyderButton, hash = 1803915749, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Stop
@@ -253,8 +245,7 @@
 [16-39-06] [THREAD STARTED]: Conway Simulator
 [16-39-06] [UI ACTION]: Component = CyderButton, hash = 1096284502, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Stop
-[16-39-07] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-08] [OBJECT CREATION]: Objects created since last delta (5s): 3883
 [16-39-09] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [16-39-09] [UI ACTION]: Component = CyderButton, hash = 1096284502, bounds = (220, 615, 160, 40), parent frame =
@@ -284,8 +275,7 @@
 [16-39-13] [THREAD STARTED]: Conway Simulator
 [16-39-13] [UI ACTION]: Component = CyderButton, hash = 1096284502, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Stop
-[16-39-14] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-15] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-15] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-15] [UI ACTION]: Component = CyderButton, hash = 1096284502, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Simulate
 [16-39-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
@@ -303,8 +293,7 @@
 [16-39-18] [OBJECT CREATION]: Objects created since last delta (5s): 8669
 [16-39-18] [UI ACTION]: Component = CyderButton, hash = 1899838657, bounds = (400, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Clear
-[16-39-19] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-20] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [16-39-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
@@ -342,8 +331,7 @@
 [16-39-25] [THREAD STARTED]: Conway Simulator
 [16-39-25] [UI ACTION]: Component = CyderButton, hash = 1096284502, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Stop
-[16-39-26] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-27] [THREAD STARTED]: Notificaiton Vanish Animator
 [16-39-27] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 310, h = 58, text = <html>Simulation ended with
            total<br/>elimination at generation: 0</html>
@@ -404,30 +392,26 @@
 [16-39-36] [THREAD STARTED]: Conway Simulator
 [16-39-36] [UI ACTION]: Component = CyderButton, hash = 1096284502, bounds = (220, 615, 160, 40), parent frame =
            Conway's Game of Life, getText() = Stop
-[16-39-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-38] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-38] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-38] [OBJECT CREATION]: Objects created since last delta (5s): 5095
 [16-39-38] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [16-39-38] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071574841.json
-[16-39-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-40] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 428, h = 29, text = <html>Simulation stabilized at
            generation: 66</html>
 [16-39-40] [THREAD STARTED]: notification appear animation
 [16-39-40] [SYSTEM_IO]: Userdata requested: persistentnotifications
 [16-39-40] [THREAD STARTED]: Notificaiton Vanish Animator
-[16-39-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-42] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [16-39-42] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071578574.json
 [16-39-43] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [16-39-43] [OBJECT CREATION]: Objects created since last delta (5s): 6616
-[16-39-44] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-45] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-45] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-46] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 428, h = 29, text = <html>Simulation stabilized at
            generation: 66</html>
 [16-39-46] [THREAD STARTED]: notification appear animation
@@ -437,8 +421,7 @@
 [16-39-46] [THREAD STARTED]: Notificaiton Vanish Animator
 [16-39-46] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071582336.json
-[16-39-46] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-47] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-47] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-48] [THREAD STARTED]: Notificaiton Vanish Animator
 [16-39-48] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 429, h = 29, text = <html>Detected oscillation at
            generation: 224</html>
@@ -452,18 +435,15 @@
            erdata.json
 [16-39-49] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071586117.json
-[16-39-50] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-51] [THREAD STARTED]: Notificaiton Vanish Animator
-[16-39-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-53] [OBJECT CREATION]: Objects created since last delta (5s): 1
 [16-39-53] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Us
            erdata.json
 [16-39-53] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648071589860.json
-[16-39-54] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[16-39-55] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[16-39-55] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [16-39-56] [SYSTEM_IO]: Userdata requested: minimizeonclose
 [16-39-56] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
 [16-39-56] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
