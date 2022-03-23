@@ -1,18 +1,52 @@
 package cyder.ui.objects;
 
+import cyder.constants.CyderColors;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 
 import java.awt.*;
 
 /**
- * A node component used for the {@link cyder.ui.CyderGrid}.
+ * A node component for a {@link cyder.ui.CyderGrid} object.
  */
 public final class GridNode {
+    /**
+     * The default color of a GridNode.
+     */
+    private static final Color DEFAULT_COLOR = CyderColors.navy;
+
+    /**
+     * The color of this node.
+     */
     private Color color;
+
+    /**
+     * The x value of this node.
+     */
     private int x;
+
+    /**
+     * The y value of this node.
+     */
     private int y;
 
+    /**
+     * Constructs a new grid node.
+     *
+     * @param x the x value of this node
+     * @param y the y value of this node
+     */
+    public GridNode(int x, int y) {
+        this(DEFAULT_COLOR, x, y);
+    }
+
+    /**
+     * Constructs a new GridNode.
+     *
+     * @param color the color of this node.
+     * @param x the x value of this node
+     * @param y the y value of this node
+     */
     public GridNode(Color color, int x, int y) {
         this.color = color;
         this.x = x;
@@ -21,30 +55,65 @@ public final class GridNode {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
+    /**
+     * Returns the color of this node.
+     *
+     * @return the color of this node
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Sets the color of this node.
+     *
+     * @param color the color of this node
+     */
     public void setColor(Color color) {
         this.color = color;
     }
 
+    /**
+     * Returns the x of this node.
+     *
+     * @return the x of this node
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Sets the x of this node.
+     *
+     * @param x the x of this node
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Returns the y of this node.
+     *
+     * @return the y of this node
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Sets the y of this node.
+     *
+     * @param y the y of this node
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Returns the point of this node.
+     *
+     * @return the point of this node
+     */
     public Point getPoint() {
         return new Point(x, y);
     }

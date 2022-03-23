@@ -45,7 +45,9 @@ public class CyderSwitcher extends JLabel {
     private final int height;
 
     /**
-     * Constructs a new CyderSwitcher.
+     * Constructs a new CyderSwitcher. Note, you will need to add an action listener
+     * to the internal button if you wish to invoke actions whenever the
+     * switch button is clicked. Use the getNextState() and getCurrentState() as needed.
      *
      * @param width the width of the whole switch
      * @param height the height of the whole switch
@@ -53,24 +55,19 @@ public class CyderSwitcher extends JLabel {
      * @param startingState the starting state
      */
     public CyderSwitcher(int width, int height, ArrayList<SwitcherState> states, SwitcherState startingState) {
-        if (width < 0)
-            throw new IllegalArgumentException("Width is less than 0");
-        if (height < 0)
-            throw new IllegalArgumentException("Height is less than 0");
-
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(states, "Provided states are null");
         Preconditions.checkNotNull(startingState, "Provided starting state is null");
+        Preconditions.checkArgument(!states.isEmpty(), "No states provided");
+        Preconditions.checkArgument(states.contains(startingState),
+                "Provided states do not contain the starting state");
 
-        if (states.size() < 1)
-            throw new IllegalArgumentException("Provided states is empty");
-
-        if (!states.contains(startingState))
-            throw new IllegalArgumentException("Provided states do not contain the starting state");
+        this.width = width;
+        this.height = height;
 
         this.states = states;
         currentState = startingState;
-        this.width = width;
-        this.height = height;
 
         setSize(width, height);
 
@@ -161,11 +158,13 @@ public class CyderSwitcher extends JLabel {
         }
 
         // if current state is end, next state is start
-        if (currentIndex == states.size() - 1)
+        if (currentIndex == states.size() - 1) {
             return states.get(0);
+        }
         // otherwise the next state is just incremented
-        else
+        else {
             return states.get(currentIndex + 1);
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.ConsoleFrame;
+import cyder.user.UserFile;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -248,17 +249,17 @@ public class OSUtil {
     }
 
     /**
-     * Saves the provided file in the current user's files/ dir.
+     * Saves the provided file in the current user's files/ directory.
      *
-     * @param name the filename to create
+     * @param name the filename + extension to create in the files/ directory
      * @return a File object representing the file that was created
      * @throws IllegalStateException if the file could not be created at this time
      */
+    // todo userutil method
     public static File createFileInUserSpace(String name) {
         if (!StringUtil.isNull(ConsoleFrame.getConsoleFrame().getUUID())) {
-            File saveDir = new File("dynamic" + FILE_SEP
-                    + "users" + FILE_SEP + ConsoleFrame.getConsoleFrame().getUUID()
-                    + FILE_SEP + "Files");
+            File saveDir = new File(buildPath("dynamic", "users",
+                    ConsoleFrame.getConsoleFrame().getUUID(), UserFile.FILES.getName()));
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {

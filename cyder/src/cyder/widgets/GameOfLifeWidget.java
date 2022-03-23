@@ -1,25 +1,38 @@
 package cyder.widgets;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.ui.objects.GridNode;
+import cyder.ui.objects.SwitcherState;
+import cyder.utilities.FileUtil;
+import cyder.utilities.GetterUtil;
+import cyder.utilities.OSUtil;
+import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.objects.ConwayState;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Conway's game of life visualizer.
  */
 public class GameOfLifeWidget {
-    // ui components
-
     /**
      * The game of life frame.
      */
@@ -73,7 +86,7 @@ public class GameOfLifeWidget {
     /**
      * The slider to speed up/slow down the simulation.
      */
-    private static JSlider speedSlider;
+    private static JSlider iterationsPerSecondSlider;
 
     // end ui components
 
@@ -101,26 +114,6 @@ public class GameOfLifeWidget {
      * The maximum number of iterations per second.
      */
     private static final int MAX_ITERATIONS_PER_SECOND = 50;
-
-    /**
-     * The minimum allowable grid length
-     */
-    private static final int MIN_GRID_LENGTH = 50;
-
-    /**
-     * The initial and default grid length.
-     */
-    private static final int DEFAULT_GRID_LENGTH = MIN_GRID_LENGTH;
-
-    /**
-     * The current grid length.
-     */
-    private static int currentGridLength = DEFAULT_GRID_LENGTH;
-
-    /**
-     * The maximum grid length
-     */
-    private static final int MAX_GRID_LENGTH = 150;
 
     /**
      * The current generation the simulation is on.
@@ -190,13 +183,13 @@ public class GameOfLifeWidget {
         if (conwayFrame != null)
             conwayFrame.disposeIfActive();
 
-        conwayFrame = new CyderFrame(600,750);
+        conwayFrame = new CyderFrame(600,800);
         conwayFrame.setTitle("Conway's Game of Life");
 
-        conwayGrid = new CyderGrid(DEFAULT_GRID_LENGTH, 550);
+        conwayGrid = new CyderGrid(50, 550);
         conwayGrid.setBounds(25, 25 + CyderDragLabel.DEFAULT_HEIGHT, 550, 550);
-        conwayGrid.setMinNodes(MIN_GRID_LENGTH);
-        conwayGrid.setMaxNodes(MAX_GRID_LENGTH);
+        conwayGrid.setMinNodes(50);
+        conwayGrid.setMaxNodes(150);
         conwayGrid.setDrawGridLines(false);
         conwayGrid.setDrawExtendedBorder(true);
         conwayGrid.setBackground(CyderColors.vanila);
@@ -215,7 +208,20 @@ public class GameOfLifeWidget {
                 conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
         conwayFrame.getContentPane().add(simulateStopButton);
         simulateStopButton.addActionListener(e -> {
-            // todo
+            // todo disable placing or removing during simulation
+            if (simulationRunning) {
+                simulationRunning = false;
+                simulateStopButton.setText("Simulate");
+
+                // todo maybe other actions?
+            } else {
+                if (conwayGrid.getNodeCount() > 0) {
+                    simulateStopButton.setText("Stop");
+                    start();
+                } else {
+                    conwayFrame.notify("Place at least one node");
+                }
+            }
         });
 
         clearButton = new CyderButton("Clear");
@@ -224,19 +230,80 @@ public class GameOfLifeWidget {
         conwayFrame.getContentPane().add(clearButton);
         clearButton.addActionListener(e -> resetSimulation());
 
+        ArrayList<SwitcherState> states = new ArrayList<>();
+        states.add(new SwitcherState("Gliders"));
+        states.add(new SwitcherState("Copper"));
+
+        presetSwitcher = new CyderSwitcher(160, 40, states, states.get(0));
+        presetSwitcher.getIterationButton().addActionListener(e -> {
+            // todo set grid state to next state
+            SwitcherState nextState = presetSwitcher.getNextState();
+
+            if (nextState.equals(states.get(0))) {
+                // todo load Gliders.json (create and save)
+                //fromJson(GLIDERS);
+            } else {
+                //fromJson(COPPERHEAD);
+                // todo load Copperhead.json (create and save)
+            }
+        });
+        presetSwitcher.setBounds(25 + 15,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
+        conwayFrame.getContentPane().add(presetSwitcher);
+
+        saveButton = new CyderButton("Save");
+        saveButton.setBounds(25 + 15 + 160 + 20,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
+        conwayFrame.getContentPane().add(saveButton);
+        saveButton.addActionListener(e -> toFile());
+
+        loadButton = new CyderButton("Load");
+        loadButton.setBounds(25 + 15 + 160 + 20 + 160 + 20,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50, 160, 40);
+        conwayFrame.getContentPane().add(loadButton);
+        loadButton.addActionListener(e -> {
+           CyderThreadRunner.submit(() -> {
+               GetterBuilder builder = new GetterBuilder("Load state");
+               builder.setRelativeTo(conwayFrame);
+               File loadFile = GetterUtil.getInstance().getFile(builder);
+
+               if (loadFile != null && loadFile.exists()
+                       && FileUtil.validateExtension(loadFile, ".json")) {
+                   fromJson(loadFile);
+               }
+           }, "Conway State Loader");
+        });
+
+        detectOscillationsCheckbox = new CyderCheckbox(true);
+        detectOscillationsCheckbox.setBounds(25 + 15,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10, 50, 50);
+        conwayFrame.getContentPane().add(detectOscillationsCheckbox);
+
+        iterationsPerSecondSlider = new JSlider(JSlider.HORIZONTAL, MIN_ITERATIONS_PER_SECOND,
+                MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
+        CyderSliderUI UI = new CyderSliderUI(iterationsPerSecondSlider);
+        UI.setThumbStroke(new BasicStroke(2.0f));
+        UI.setSliderShape(SliderShape.RECT);
+        UI.setFillColor(Color.black);
+        UI.setOutlineColor(CyderColors.navy);
+        UI.setNewValColor(CyderColors.regularBlue);
+        UI.setOldValColor(CyderColors.regularPink);
+        UI.setTrackStroke(new BasicStroke(3.0f));
+        iterationsPerSecondSlider.setUI(UI);
+        iterationsPerSecondSlider.setBounds(25 + 15 + 50 + 10,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 20, 450, 40);
+        iterationsPerSecondSlider.setPaintTicks(false);
+        iterationsPerSecondSlider.setPaintLabels(false);
+        iterationsPerSecondSlider.setVisible(true);
+        iterationsPerSecondSlider.addChangeListener(e -> iterationsPerSecond = iterationsPerSecondSlider.getValue());
+        iterationsPerSecondSlider.setOpaque(false);
+        iterationsPerSecondSlider.setToolTipText("Iterations per second");
+        iterationsPerSecondSlider.setFocusable(false);
+        iterationsPerSecondSlider.repaint();
+        conwayFrame.getContentPane().add(iterationsPerSecondSlider);
+
         conwayFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
         conwayFrame.setVisible(true);
-    }
-
-    /**
-     * Sets the preset to one of the default presets.
-     *
-     * @param conwayState the conway state object to load a saved state from
-     */
-    private static void setPreset(ConwayState conwayState) {
-        Preconditions.checkNotNull(conwayState);
-
-        // todo copy gliders and copperhead presets after drawing after implementing state saving
     }
 
     /**
@@ -245,13 +312,21 @@ public class GameOfLifeWidget {
     private static void resetSimulation() {
        simulationRunning = false;
        iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
-       currentGridLength = DEFAULT_GRID_LENGTH;
 
-       // todo reset all states as if widget was just opened
+       conwayGrid.setNodeDimensionLength(50);
+       conwayGrid.clearGrid();
+       conwayGrid.repaint();
+
+       detectOscillationsCheckbox.setSelected();
+       iterationsPerSecondSlider.setValue(DEFAULT_ITERATIONS_PER_SECOND);
+       iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
     }
 
+    /**
+     * Sets the grid to the state it was in before beginning the simulation.
+     */
     private static void resetToPreviousState() {
-
+        // todo
     }
 
     /**
@@ -260,10 +335,22 @@ public class GameOfLifeWidget {
     private static void start() {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
-                // todo
+                try {
+                    // todo if this is slow then you can eliminate conversions from the grid rep
+                    // to the array by only doing it once when the simulation starts
+                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(conwayGrid.getGridNodes()));
+                    // todo display grid
+
+                    // timeout based on current iterations per second
+                    Thread.sleep(1000 / iterationsPerSecond);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
             }
-        },"Conway Simulation Generator");
+        },"Conway Simulator");
     }
+
+    private static final Gson gson = new Gson();
 
     /**
      * Loads the conway state from the provided json file and sets the current grid state to it.
@@ -272,18 +359,88 @@ public class GameOfLifeWidget {
      */
     private static void fromJson(File jsonFile) {
         Preconditions.checkNotNull(jsonFile);
-        // todo
+        Preconditions.checkArgument(jsonFile.exists());
+
+        try {
+            Reader reader = new FileReader(jsonFile);
+            ConwayState loadState = gson.fromJson(reader, ConwayState.class);
+            reader.close();
+
+            resetSimulation();
+
+            conwayGrid.setNodeDimensionLength(loadState.getGridSize());
+
+            for (Point p : loadState.getNodes()) {
+                conwayGrid.addNode(new GridNode((int) p.getX(), (int) p.getY()));
+            }
+
+            conwayFrame.notify("Loaded state: " + loadState.getName());
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+            conwayFrame.notify("Could not parse json as a valid ConwayState object");
+        }
     }
 
     /**
      * Saves the current grid state to a json which can be loaded.
-     *
-     * @param jsonFile the json file to save the current grid state to
      */
-    private static void toFile(File jsonFile) {
-        Preconditions.checkNotNull(jsonFile);
-        // todo
+    private static void toFile() {
+        CyderThreadRunner.submit(() -> {
+            GetterBuilder builder = new GetterBuilder("Save name");
+            builder.setRelativeTo(conwayFrame);
+            builder.setFieldTooltip("A valid filename");
+            builder.setSubmitButtonText("Save Conway State");
+            String saveName = GetterUtil.getInstance().getString(builder);
+
+            String filename = saveName + ".json";
+
+            if (OSUtil.isValidFilename(filename)) {
+                File saveFile = OSUtil.createFileInUserSpace(filename);
+
+                LinkedList<Point> points = new LinkedList<>();
+
+                for (GridNode node : conwayGrid.getGridNodes()) {
+                    points.add(new Point(node.getX(), node.getY()));
+                }
+
+                ConwayState state = new ConwayState(saveName,
+                        conwayGrid.getNodeDimensionLength(), points);
+
+                try {
+                    FileWriter writer = new FileWriter(saveFile);
+                    gson.toJson(state, writer);
+                    writer.close();
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                    conwayFrame.notify("Save state failed");
+                }
+            } else {
+                conwayFrame.notify("Invalid save name");
+            }
+        }, "Conway State Saver");
     }
+
+    /**
+     * Converts the CyderGrid nodes to the 2D integer array
+     * needed to compute the next Conway iteration.
+     *
+     * @param nodes the list of cydergrid nodes
+     * @return the 2D array consisting of 1s and 0s
+     */
+    private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes) {
+        int dim = conwayGrid.getNodeDimensionLength();
+        int[][] ret = new int[dim][dim];
+
+        for (GridNode node : conwayGrid.getGridNodes()) {
+            ret[node.getX()][node.getY()] = 1;
+        }
+
+        // todo need to set 0s?
+
+        return ret;
+    }
+
+    //private static ArrayListz
 
     /**
      * Computes the next generation based on the current generation.

@@ -3,7 +3,6 @@ package cyder.ui.objects;
 import com.google.common.base.Preconditions;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
 
 /**
  * An enum used to map a preview value to the actual value to switch on.
@@ -18,6 +17,15 @@ public class SwitcherState {
      * The underlying value of this state.
      */
     String mappedValue;
+
+    /**
+     * Constructs a new switch state
+     *
+     * @param value the display value and underlying map value of the state
+     */
+    public SwitcherState(String value) {
+       this(value, value);
+    }
 
     /**
      * Constructs a new switch state
@@ -102,6 +110,6 @@ public class SwitcherState {
      */
     @Override
     public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        return "SwitchState: " + displayValue + " => " + mappedValue;
     }
 }
