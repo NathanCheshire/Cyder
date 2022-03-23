@@ -57,7 +57,7 @@ public class GameOfLifeWidget {
     private static CyderButton simulateStopButton;
 
     /**
-     * The button to clear the board and reset values
+     * The button to clear the board and reset values.
      */
     private static CyderButton clearButton;
 
@@ -95,8 +95,6 @@ public class GameOfLifeWidget {
      * The slider to speed up/slow down the simulation.
      */
     private static JSlider iterationsPerSecondSlider;
-
-    // end ui components
 
     /**
      * Whether the simulation is running
@@ -164,11 +162,6 @@ public class GameOfLifeWidget {
     private static CyderLabel correspondingGenerationLabel;
 
     /**
-     * Whether to detect oscillations.
-     */
-    private static boolean detectOscillations;
-
-    /**
      * The state the grid was in before the user last pressed start.
      */
     private static LinkedList<GridNode> beforeStartingState;
@@ -179,11 +172,6 @@ public class GameOfLifeWidget {
     private static LinkedList<GridNode> lastState = new LinkedList<>();
 
     /**
-     * The second to last state of the grid.
-     */
-    private static LinkedList<GridNode> secondTolastState = new LinkedList<>();
-
-    /**
      * The conway states laoded from static/json/conway.
      */
     private static ArrayList<ConwayState> correspondingConwayStates;
@@ -192,6 +180,16 @@ public class GameOfLifeWidget {
      * The switcher states to cycle between the states loaded from static/json/conway.
      */
     private static ArrayList<SwitcherState> switcherStates;
+
+    /**
+     * Gson object used for converting to/from json files to save conway states.
+     */
+    private static final Gson conwayGson = new Gson();
+
+    /**
+     * The minimum dimensional node length for the inner cyder grid.
+     */
+    private static final int MIN_NODES = 50;
 
     /**
      * Suppress default constructor.
@@ -225,12 +223,9 @@ public class GameOfLifeWidget {
         correspondingGenerationLabel.setBounds(20 + 140 * 3, 20, 140, 40);
         conwayFrame.getContentPane().add(correspondingGenerationLabel);
 
-        // init label text
-        updateLabels();
-
         conwayGrid = new CyderGrid(50, 550);
         conwayGrid.setBounds(25, 25 + CyderDragLabel.DEFAULT_HEIGHT, 550, 550);
-        conwayGrid.setMinNodes(50);
+        conwayGrid.setMinNodes(MIN_NODES);
         conwayGrid.setMaxNodes(150);
         conwayGrid.setDrawGridLines(false);
         conwayGrid.setDrawExtendedBorder(true);
@@ -257,6 +252,7 @@ public class GameOfLifeWidget {
                     simulationRunning = true;
                     simulateStopButton.setText("Stop");
                     conwayGrid.uninstallClickAndDragPLacer();
+                    conwayGrid.setResizable(false);
                     start();
                 } else {
                     conwayFrame.notify("Place at least one node");
@@ -449,6 +445,7 @@ public class GameOfLifeWidget {
         simulationRunning = false;
         simulateStopButton.setText("Simulate");
         conwayGrid.installClickAndDragPlacer();
+        conwayGrid.setResizable(true);
     }
 
     /**
@@ -462,7 +459,8 @@ public class GameOfLifeWidget {
                 try {
                     LinkedList<GridNode> nextState = new LinkedList<>();
 
-                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(lastState));
+                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(
+                            conwayGrid.getGridNodes(), conwayGrid.getNodeDimensionLength()));
                     for (int i = 0 ; i < nextGen.length ; i++) {
                         for (int j = 0 ; j < nextGen[0].length ; j++) {
                             if (nextGen[i][j] == 1) {
@@ -471,29 +469,28 @@ public class GameOfLifeWidget {
                         }
                     }
 
-                    // todo disable zooming when game is underway
-                    // todo detect oscillations broken still for some reason
-                    if (detectOscillations && nextState.equals(secondTolastState)) {
-                        conwayFrame.notify("Detected Oscillation");
+                    // todo be able to delete nodes by clicking
+
+                    if (nextState.equals(conwayGrid.getGridNodes())) {
+                        conwayFrame.revokeAllNotifications();
+                        conwayFrame.notify("Simulation stabilized at generation: " + generation);
                         stop();
                         return;
-                    } else if (nextState.equals(lastState)) {
-                        if (nextState.isEmpty()) {
-                            conwayFrame.notify("Simulation ended with total " +
-                                    "elimination at generation: " + generation);
-                        } else {
-                            conwayFrame.notify("Simulation ended at generation: " + generation);
-                        }
-
+                    } else if (detectOscillationsCheckbox.isSelected() && nextState.equals(lastState)) {
+                        conwayFrame.revokeAllNotifications();
+                        conwayFrame.notify("Detected oscillation at generation: " + generation);
+                        stop();
+                        return;
+                    } else if (nextState.isEmpty()) {
+                        conwayFrame.revokeAllNotifications();
+                        conwayFrame.notify("Simulation ended with total " +
+                                "elimination at generation: " + generation);
                         stop();
                         return;
                     }
 
-                    // advance second to last state
-                    secondTolastState = new LinkedList<>(lastState);
-
                     // advance last state
-                    lastState = conwayGrid.getGridNodes();
+                    lastState = new LinkedList<>(conwayGrid.getGridNodes());
 
                     // set new state
                     conwayGrid.setGridNodes(nextState);
@@ -518,8 +515,6 @@ public class GameOfLifeWidget {
         },"Conway Simulator");
     }
 
-    private static final Gson gson = new Gson();
-
     /**
      * Loads the conway state from the provided json file and sets the current grid state to it.
      *
@@ -531,7 +526,7 @@ public class GameOfLifeWidget {
 
         try {
             Reader reader = new FileReader(jsonFile);
-            ConwayState loadState = gson.fromJson(reader, ConwayState.class);
+            ConwayState loadState = conwayGson.fromJson(reader, ConwayState.class);
             reader.close();
 
             resetSimulation();
@@ -589,7 +584,7 @@ public class GameOfLifeWidget {
 
                 try {
                     FileWriter writer = new FileWriter(saveFile);
-                    gson.toJson(state, writer);
+                    conwayGson.toJson(state, writer);
                     writer.close();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
@@ -606,20 +601,18 @@ public class GameOfLifeWidget {
      * needed to compute the next Conway iteration.
      *
      * @param nodes the list of cydergrid nodes
+     * @param len the dimensional length of the grid
      * @return the 2D array consisting of 1s and 0s
      */
-    private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes) {
-        int dim = conwayGrid.getNodeDimensionLength();
-        int[][] ret = new int[dim][dim];
+    private static int[][] cyderGridToConwayGrid(LinkedList<GridNode> nodes, int len) {
+        int[][] ret = new int[len][len];
 
-        for (GridNode node : conwayGrid.getGridNodes()) {
+        for (GridNode node : nodes) {
             ret[node.getX()][node.getY()] = 1;
         }
 
         return ret;
     }
-
-    //private static ArrayListz
 
     /**
      * Computes the next generation based on the current generation.
@@ -628,8 +621,9 @@ public class GameOfLifeWidget {
      * @return the next generation
      */
     private static int[][] nextGeneration(int[][] currentGeneration) {
-        if (currentGeneration == null || currentGeneration.length < 3 || currentGeneration[0].length < 3)
-            throw new IllegalArgumentException("Null or invalid board");
+        Preconditions.checkNotNull(currentGeneration);
+        Preconditions.checkArgument(currentGeneration.length >= MIN_NODES);
+        Preconditions.checkArgument(currentGeneration[0].length >= MIN_NODES);
 
         int[][] ret = new int[currentGeneration.length][currentGeneration[0].length];
 
@@ -673,7 +667,7 @@ public class GameOfLifeWidget {
                 if (FileUtil.validateExtension(json, ".json")) {
                     try {
                         Reader reader = new FileReader(json);
-                        ConwayState loadState = gson.fromJson(reader, ConwayState.class);
+                        ConwayState loadState = conwayGson.fromJson(reader, ConwayState.class);
                         reader.close();
 
                         correspondingConwayStates.add(loadState);

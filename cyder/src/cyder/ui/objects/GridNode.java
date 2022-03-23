@@ -130,8 +130,7 @@ public final class GridNode {
 
         GridNode other = (GridNode) node;
 
-        return (x == other.x && y == other.y
-                );
+        return (x == other.x && y == other.y);
     }
 
     /**

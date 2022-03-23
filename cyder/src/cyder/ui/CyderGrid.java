@@ -407,6 +407,8 @@ public class CyderGrid extends JLabel {
      * Installs the click and drag placer to this grid.
      */
     public void installClickAndDragPlacer() {
+        removeMouseListener(clickPlacer);
+        removeMouseMotionListener(dragPlacer);
         installDragPlacer();
         installClickPlacer();
     }
