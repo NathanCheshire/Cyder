@@ -208,15 +208,15 @@ public class GameOfLifeWidget {
                 conwayGrid.getY() + conwayGrid.getHeight() + 10, 160, 40);
         conwayFrame.getContentPane().add(simulateStopButton);
         simulateStopButton.addActionListener(e -> {
-            // todo disable placing or removing during simulation
             if (simulationRunning) {
                 simulationRunning = false;
                 simulateStopButton.setText("Simulate");
-
-                // todo maybe other actions?
+                conwayGrid.installClickAndDragPlacer();
             } else {
                 if (conwayGrid.getNodeCount() > 0) {
+                    simulationRunning = true;
                     simulateStopButton.setText("Stop");
+                    conwayGrid.uninstallClickAndDragPLacer();
                     start();
                 } else {
                     conwayFrame.notify("Place at least one node");
@@ -336,10 +336,20 @@ public class GameOfLifeWidget {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
-                    // todo if this is slow then you can eliminate conversions from the grid rep
-                    // to the array by only doing it once when the simulation starts
                     int[][] nextGen = nextGeneration(cyderGridToConwayGrid(conwayGrid.getGridNodes()));
-                    // todo display grid
+
+                    LinkedList<GridNode> nextState = new LinkedList<>();
+
+                    for (int i = 0 ; i < nextGen.length ; i++) {
+                        for (int j = 0 ; j < nextGen[0].length ; j++) {
+                            if (nextGen[i][j] == 1) {
+                                nextState.add(new GridNode(i, j));
+                            }
+                        }
+                    }
+
+                    conwayGrid.setGridNodes(nextState);
+                    conwayGrid.repaint();
 
                     // timeout based on current iterations per second
                     Thread.sleep(1000 / iterationsPerSecond);
@@ -434,8 +444,6 @@ public class GameOfLifeWidget {
         for (GridNode node : conwayGrid.getGridNodes()) {
             ret[node.getX()][node.getY()] = 1;
         }
-
-        // todo need to set 0s?
 
         return ret;
     }

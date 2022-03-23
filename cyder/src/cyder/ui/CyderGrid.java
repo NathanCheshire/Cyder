@@ -412,6 +412,14 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Removes the click and drag placers from this grid.
+     */
+    public void uninstallClickAndDragPLacer() {
+        removeMouseListener(clickPlacer);
+        removeMouseMotionListener(dragPlacer);
+    }
+
+    /**
      * Used for ALL grid operations and accounts for
      * the possible relative node.
      *
