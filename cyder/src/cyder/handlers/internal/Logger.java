@@ -317,7 +317,7 @@ public class Logger {
         if (!getCurrentLog().exists()) {
             generateAndSetLogFile();
 
-            writeLines(lengthCheck(getLogTime() + " [DEBUG]: [Log filewas deleted during runtime," +
+            writeLines(lengthCheck(getLogTime() + "[DEBUG]: [Log was deleted during runtime," +
                     " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
         } else {
             // if not an exception, break up line if too long
@@ -376,13 +376,16 @@ public class Logger {
      * @return the formatted lines
      */
     public static LinkedList<String> lengthCheck(String line) {
+        line = line.trim();
+
         LinkedList<String> ret = new LinkedList<>();
 
         while (line.length() > MAX_LINE_LENGTH) {
+            line = line.trim();
+
             // if length is within extension tol
             if (line.length() <= MAX_LINE_LENGTH + CHAR_EXTENSION_TOL) {
-                // add rest of line and break
-                ret.add(line);
+                // rest of line added to ret outside of while
                 break;
             }
             // if the ideal split works
@@ -392,7 +395,12 @@ public class Logger {
             } else {
                 // otherwise need to check left
                 for (int i = MAX_LINE_LENGTH ; i > MAX_LINE_LENGTH - BREAK_INSERTION_TOL ; i--) {
+                    // found space to split at
                     if (line.charAt(i) == ' ') {
+                        ret.add(line.substring(0, i).trim());
+                        line = line.substring(i).trim();
+                        break;
+                    } else if (line.charAt(i) == '\\') {
                         ret.add(line.substring(0, i).trim());
                         line = line.substring(i).trim();
                         break;

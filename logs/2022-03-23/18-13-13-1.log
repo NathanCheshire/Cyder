@@ -1,0 +1,39 @@
+[18-13-13] [DEBUG]: [Log was deleted during runtime, recreating and restarting log at: Wednesday, 03/23/2022 06:13PM CDT]
+[18-13-15] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-13-15] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648077191320.json
+[18-13-18] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-13-19] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 4] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-13-19] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648077195227.json
+[18-13-21] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[18-13-22] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-13-22] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648077199063.json
+[18-13-23] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[18-13-26] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-13-26] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648077202903.json
+[18-13-28] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-13-30] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 6] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-13-30] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648077206664.json
+[18-13-33] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[18-13-34] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[18-13-34] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648077210489.json
+[18-13-37] [CLIENT]: gitme wipe logs, fix logging bugs
+[18-13-37] [SYSTEM_IO]: Userdata requested: filterchat
+[18-13-37] [THREAD STARTED]: Successive Process Runner, pipeTo = InputHandler, hash = 2003421250, reflection data =
+           class = InputHandler, getLastTextLine = , getOutputArea = JTextPane outputArea used for ConsoleFrame instance: Component 
+           = ConsoleFrame (inner), hash = 1086849943, bounds = (1255, 384, 900, 600), parent frame = Component is top frame,
+           getTitle() = Insomnia Cyder [Nathan], getUserInputMode = false, getCommand = gitme, getClass = class cyder.handlers.inte
+           rnal.InputHandl, builders.length() = 3
+[18-13-37] [HANDLE]: GENERAL COMMAND HANDLED
+[18-13-37] [HANDLE]: PRIMARY HANDLE
