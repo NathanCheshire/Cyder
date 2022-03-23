@@ -98,8 +98,8 @@ public class PaintWidget {
         paintFrame.getContentPane().add(cyderGrid);
         cyderGrid.setResizable(true);
         cyderGrid.setDrawGridLines(false);
-        cyderGrid.installClickPlacer();
-        cyderGrid.installDragPlacer();
+        cyderGrid.installClickListener();
+        cyderGrid.installDragListener();
         cyderGrid.setSmoothScrolling(true);
         cyderGrid.setDrawWidth(DEFAULT_BRUSH_WIDTH);
         cyderGrid.setNodeColor(currentPaintColor);

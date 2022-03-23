@@ -68,8 +68,8 @@ public class ConvexHullWidget {
         gridComponent.setResizable(false);
         gridComponent.setNodeColor(placeColor);
         gridComponent.setBackground(CyderColors.vanila);
-        gridComponent.installClickPlacer();
-        gridComponent.installDragPlacer();
+        gridComponent.installClickListener();
+        gridComponent.installDragListener();
 
         CyderButton solveButton = new CyderButton("Solve");
         solveButton.setBounds(50, 700 + 80,325, 40);

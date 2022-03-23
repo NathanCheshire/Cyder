@@ -134,6 +134,8 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo pathfinding widget use cyergrid
+
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */

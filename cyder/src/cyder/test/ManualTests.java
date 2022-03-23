@@ -91,8 +91,8 @@ public class ManualTests {
         cg.setDrawExtendedBorder(true);
         cg.setResizable(true);
         cg.setDrawGridLines(false);
-        cg.installClickPlacer();
-        cg.installDragPlacer();
+        cg.installClickListener();
+        cg.installDragListener();
 
         cf.setVisible(true);
         cf.setLocationRelativeTo(CyderShare.getDominantFrame());

@@ -399,26 +399,26 @@ public class CyderGrid extends JLabel {
     /**
      * Adds the listener which allows nodes to be placed via click on the grid.
      */
-    public void installClickPlacer() {
-        addMouseListener(clickPlacer);
+    public void installClickListener() {
+        addMouseListener(clickListener);
     }
 
     /**
      * Installs the click and drag placer to this grid.
      */
     public void installClickAndDragPlacer() {
-        removeMouseListener(clickPlacer);
-        removeMouseMotionListener(dragPlacer);
-        installDragPlacer();
-        installClickPlacer();
+        removeMouseListener(clickListener);
+        removeMouseMotionListener(dragListener);
+        installDragListener();
+        installClickListener();
     }
 
     /**
      * Removes the click and drag placers from this grid.
      */
     public void uninstallClickAndDragPLacer() {
-        removeMouseListener(clickPlacer);
-        removeMouseMotionListener(dragPlacer);
+        removeMouseListener(clickListener);
+        removeMouseMotionListener(dragListener);
     }
 
     /**
@@ -463,26 +463,34 @@ public class CyderGrid extends JLabel {
             }
         }
 
-        // add nodes based off of the center point and width
-        if (mode == Mode.ADD) {
-            for (GridNode addNode : nodesInBoundsOfClick) {
-                addNode(addNode);
-            }
+        //todo if not a drag event and node already there, remove
+
+        if (!dragEvent && grid.contains(node)) {
+            removeNode(node);
         }
-        // remove nodes based off of the center point and width
-        else if (mode == Mode.DELETE) {
-            for (GridNode removeNode : nodesInBoundsOfClick) {
-                removeNode(removeNode);
-            }
-        } else if (mode == Mode.SELECTION) {
-            handleCropMovement(new Point(event.getX(), event.getY()));
-        } else if (mode == Mode.COLOR_SELECTION) {
-            for (GridNode gridNode : grid) {
-                if (gridNode.getX() == x && gridNode.getY() == y) {
-                    PaintWidget.setNewPaintColor(gridNode.getColor());
+        // otherwise add/remove as normal
+        else {
+            // add nodes based off of the center point and width
+            if (mode == Mode.ADD) {
+                for (GridNode addNode : nodesInBoundsOfClick) {
+                    addNode(addNode);
                 }
             }
-        } else throw new IllegalStateException("Unaccounted for mode: " + mode);
+            // remove nodes based off of the center point and width
+            else if (mode == Mode.DELETE) {
+                for (GridNode removeNode : nodesInBoundsOfClick) {
+                    removeNode(removeNode);
+                }
+            } else if (mode == Mode.SELECTION) {
+                handleCropMovement(new Point(event.getX(), event.getY()));
+            } else if (mode == Mode.COLOR_SELECTION) {
+                for (GridNode gridNode : grid) {
+                    if (gridNode.getX() == x && gridNode.getY() == y) {
+                        PaintWidget.setNewPaintColor(gridNode.getColor());
+                    }
+                }
+            } else throw new IllegalStateException("Unaccounted for mode: " + mode);
+        }
 
         // redraw grid
         revalidate();
@@ -511,7 +519,8 @@ public class CyderGrid extends JLabel {
     /**
      * The listener which allows nodes to be placed on the grid via click.
      */
-    private final MouseAdapter clickPlacer = new MouseAdapter() {
+    private final MouseAdapter clickListener = new MouseAdapter() {
+        // only on click for region selection and state saving
         @Override
         public void mousePressed(MouseEvent e) {
             // push grid as a past state if it is not equal to the last one
@@ -526,6 +535,7 @@ public class CyderGrid extends JLabel {
             point2Selection = null;
         }
 
+        // handle the placement or removal of the node
         @Override
         public void mouseClicked(MouseEvent e) {
             handleEventAccountingForOffset(e, false);
@@ -535,14 +545,14 @@ public class CyderGrid extends JLabel {
     /**
      * Adds the listener which allows nodes to be placed via drag events on the grid.
      */
-    public void installDragPlacer() {
-        addMouseMotionListener(dragPlacer);
+    public void installDragListener() {
+        addMouseMotionListener(dragListener);
     }
 
     /**
      * The listener which allows nodes to be placed during drag events.
      */
-    private final MouseMotionListener dragPlacer = new MouseMotionAdapter() {
+    private final MouseMotionListener dragListener = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
             handleEventAccountingForOffset(e, true);
