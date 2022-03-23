@@ -134,6 +134,7 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo conway add first and last to reach same max score
     // todo pathfinding widget use cyergrid
     // todo utilize finalizeAndShow()
 

@@ -10,46 +10,50 @@ import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
-import cyder.utilities.ColorUtil;
+import cyder.ui.objects.GridNode;
+import cyder.widgets.objects.PathNode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class PathFinderWidget {
-    private static int squareLen = 30;
-    private static int numSquares;
-    private static JLabel gridLabel;
+    private static CyderGrid pathGrid;
 
     private static CyderCheckbox showStepsBox;
     private static CyderCheckbox diagonalBox;
+
+    // todo utilze
+    private static CyderCheckbox placeStartBox;
+    private static CyderCheckbox placeEndBox;
+
     private static CyderCheckbox deleteWallsCheckBox;
     private static CyderFrame pathFindingFrame;
     private static CyderButton startButton;
     private static JSlider speedSlider;
 
-    private static Node start;
-    private static Node end;
-    private static LinkedList<Node> walls;
-    private static LinkedList<Node> pathableNodes;
+    private static PathNode start;
+    private static PathNode end;
+    private static LinkedList<PathNode> walls;
+    private static LinkedList<PathNode> pathableNodes;
 
-    private static LinkedList<Node> path;
+    private static LinkedList<PathNode> path;
     private static int pathIndex;
 
     private static Timer timer;
     private static int timeoutMS = 50;
     private static final int maxTimeoutMs = 100;
 
-    private static boolean eToggled;
-    private static boolean sToggled;
-    private static boolean deleteWallsMode;
     private static boolean paused;
 
-    private static String pathText = "";
-    private static Color pathColor = Color.darkGray;
+    private static final String PATH_FOUND = "PATH FOUND";
+    private static final String PATH_NOT_FOUND = "PATH NOT FOUND";
+    private static String pathText = PATH_NOT_FOUND;
 
     private static CyderSwitch heuristicSwitch;
     private static CyderSwitch dijkstraSwitch;
@@ -58,6 +62,9 @@ public class PathFinderWidget {
     private static int heuristicIndex;
     private static final String[] heuristics = {"Manhattan","Euclidean"};
 
+    /**
+     * Suppress default constructor.
+     */
     private PathFinderWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
@@ -71,312 +78,44 @@ public class PathFinderWidget {
         timer.setDelay(timeoutMS);
         walls = new LinkedList<>();
         pathableNodes = new LinkedList<>();
-        path = new LinkedList<>();
-        start = new Node(0,0);
-        end = new Node(25, 25);
+        path.clear();
+        start = new PathNode(0,0);
+        end = new PathNode(25, 25);
         pathText = "";
         paused = false;
 
         pathFindingFrame = new CyderFrame(1000,1070, CyderIcons.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Pathfinding visualizer");
 
-        gridLabel = new JLabel() {
-            @Override
-            public void paint(Graphics g) {
-                super.paint(g);
+        //pathable node in open
+        Color pathableOpenColor = new Color(254, 104, 88);
+        Color pathableClosedColor = new Color(121, 236, 135);
+        Color wallsColor = CyderColors.navy;
+        Color endNodeColor = CyderColors.regularOrange;
+        Color startNodeColor = CyderColors.regularPink;
+        Color pathColor = CyderColors.regularBlue;
+        Color pathAnimationColor = new Color(34,216,248);
 
-                if (gridLabel != null) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    g2d.setColor(Color.darkGray);
-                    g2d.setStroke(new BasicStroke(2));
+        int DEFAULT_NODES = 50; // todo extract out
 
-                    int labelWidth = gridLabel.getWidth();
-                    int labelHeight = gridLabel.getHeight();
+        pathGrid = new CyderGrid(DEFAULT_NODES, 800);
+        pathGrid.setBounds(100, 80, 800, 800);
+        pathGrid.setMinNodes(DEFAULT_NODES);
+        pathGrid.setMaxNodes(150);
+        pathGrid.setDrawGridLines(false);
+        pathGrid.setDrawExtendedBorder(true);
+        pathGrid.setBackground(CyderColors.vanila);
+        pathGrid.setResizable(true);
+        pathGrid.setSmoothScrolling(true);
+        pathGrid.installClickAndDragPlacer();
+        pathFindingFrame.getContentPane().add(pathGrid);
+        pathGrid.setSaveStates(false);
 
-                    numSquares = (int) (Math.floor(labelWidth / (float) squareLen));
-                    int drawTo = (int) ((Math.floor(labelWidth / (float) squareLen)) * squareLen);
+        // todo path found / not found label "pathText" in navy
 
-                    int xOffset = (labelWidth - drawTo) / 2;
-                    int yOffset = (labelHeight - drawTo) / 2;
-                    g2d.translate(xOffset, yOffset);
+        // todo start / stop checkbox
 
-                    for (int x = 1 ; x <= drawTo - 2 ; x += squareLen) {
-                        g2d.drawLine(x, 1, x, drawTo - 2);
-                    }
-
-                    for (int y = 1 ; y <= drawTo - 2 ; y += squareLen) {
-                        g2d.drawLine(1, y, drawTo - 2, y);
-                    }
-
-                    g2d.drawLine(drawTo, 1, drawTo, drawTo);
-                    g2d.drawLine(1, drawTo, drawTo, drawTo);
-
-                    for (Node n : pathableNodes) {
-                       if (n.getParent() != null && !n.equals(end) && n.getH() != Integer.MAX_VALUE) {
-                           if (outOfBounds(n))
-                               continue;
-
-                           if (open.contains(n))
-                               g2d.setColor(new Color(254, 104, 88));
-                           else
-                               g2d.setColor(new Color(121, 236, 135));
-
-                           g2d.fillRect(2 + n.getX() * squareLen, 2 + n.getY() * squareLen,
-                                   squareLen - 2, squareLen - 2);
-                           gridLabel.repaint();
-                       }
-                    }
-
-                    //draw path in blue
-                    if (end != null && end.getParent() != null
-                            && !path.isEmpty() && !timer.isRunning()) {
-                        Node currentRef = end.getParent();
-
-                        while (currentRef != null && currentRef != start) {
-                            if (outOfBounds(currentRef))
-                                break;
-                           g2d.setColor(CyderColors.regularBlue);
-                           g2d.fillRect(2 + currentRef.getX() * squareLen, 2 + currentRef.getY() * squareLen,
-                                   squareLen - 2, squareLen - 2);
-                           currentRef = currentRef.getParent();
-                       }
-                    }
-
-                    //path drawing
-                    if (end != null && end.getParent() != null
-                            && !path.isEmpty() && !timer.isRunning()) {
-                        Node refNode = end.getParent();
-
-                        while (refNode != start) {
-                            if (refNode == null)
-                                break;
-                            if (outOfBounds(refNode))
-                                break;
-
-                            g2d.setColor(new Color(34,216,248));
-                            g2d.fillRect(2 + refNode.getX() * squareLen, 2 + refNode.getY() * squareLen,
-                                    squareLen - 2, squareLen - 2);
-                            refNode = refNode.getParent();
-                        }
-
-                        gridLabel.repaint();
-                    }
-
-                    //path animation square draw
-                    if (!path.isEmpty()) {
-                        if (!outOfBounds(path.get(pathIndex))) {
-                            g2d.setColor(CyderColors.regularBlue);
-                            g2d.fillRect(2 + path.get(pathIndex).getX() * squareLen, 2 +
-                                            path.get(pathIndex).getY() * squareLen,
-                                    squareLen - 2, squareLen - 2);
-                        }
-                    }
-
-                    //draw start in pink
-                    if (start != null && !outOfBounds(start)) {
-                        g2d.setColor(CyderColors.regularPink);
-                        g2d.fillRect(2 + start.getX() * squareLen, 2 + start.getY() * squareLen,
-                                squareLen - 2, squareLen - 2);
-                        gridLabel.repaint();
-                    }
-
-                    //draw end in orange
-                    if (end != null && !outOfBounds(end)) {
-                        g2d.setColor(CyderColors.regularOrange);
-                        g2d.fillRect(2 + end.getX() * squareLen, 2 + end.getY() * squareLen,
-                                squareLen - 2, squareLen - 2);
-                        gridLabel.repaint();
-                    }
-
-                    //draw walls in black
-                    for (Node wall : walls) {
-                       if (outOfBounds(wall))
-                           continue;
-
-                        g2d.setColor(CyderColors.navy);
-                        g2d.fillRect(2 + wall.getX() * squareLen, 2 + wall.getY() * squareLen,
-                                squareLen - 2, squareLen - 2);
-                        gridLabel.repaint();
-                    }
-
-                    //draw edges again so that nothing is over them
-                    g2d.setColor(CyderColors.navy);
-
-                    g2d.drawLine(1, 1, 1, drawTo);
-                    g2d.drawLine(1, 1, drawTo, 1);
-                    g2d.drawLine(drawTo, 1, drawTo, drawTo);
-                    g2d.drawLine(1, drawTo, drawTo, drawTo);
-
-                    //path label smaller black text
-                    int centerX = gridLabel.getX() + gridLabel.getWidth() / 2;
-                    int centerY = gridLabel.getY() + gridLabel.getHeight() / 2;
-
-                    Font labelFont = new Font("Arial Black",Font.BOLD, 50);
-
-                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2d.setFont(labelFont);
-                    g2d.setColor(pathColor);
-
-                    FontMetrics fm = g.getFontMetrics();
-                    int x = (gridLabel.getWidth() - fm.stringWidth(pathText)) / 2;
-                    int y = (fm.getAscent() + (gridLabel.getHeight() - (fm.getAscent() + fm.getDescent())) / 2);
-                    g.drawString(pathText, x, y);
-                }
-            }
-        };
-        gridLabel.addMouseWheelListener(e -> {
-            if (timer.isRunning())
-                return;
-
-            if (e.isControlDown()) {
-                if (e.getWheelRotation() == -1 && squareLen + 1 < 50) {
-                    squareLen += 1;
-                } else if (squareLen - 1 > 9){
-                    squareLen -= 1;
-                }
-
-                gridLabel.repaint();
-            }
-        });
-
-        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = gridLabel.getInputMap(condition);
-        ActionMap actionMap = gridLabel.getActionMap();
-
-        KeyStroke sStroke = KeyStroke.getKeyStroke(KeyEvent.VK_S, 0);
-        String skey = "skey";
-
-        KeyStroke eStroke = KeyStroke.getKeyStroke(KeyEvent.VK_E, 0);
-        String ekey = "ekey";
-
-        inputMap.put(sStroke, skey);
-        actionMap.put(skey, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sToggled = !sToggled;
-            }
-        });
-
-        inputMap.put(eStroke, ekey);
-        actionMap.put(ekey, new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eToggled = !eToggled;
-            }
-        });
-
-        gridLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (timer.isRunning())
-                    return;
-
-                int x = (int) Math.floor((1 + e.getX()) / (float) squareLen);
-                int y = (int) Math.floor((1 + e.getY()) / (float) squareLen);
-
-                if (x >= numSquares || y >= numSquares)
-                    return;
-
-                Node addNode = new Node(x, y);
-
-                if (addNode.equals(start)) {
-                    start = null;
-                } else if (addNode.equals(end)) {
-                    end = null;
-                }
-
-                if (sToggled || eToggled) {
-                    for (Node n : walls) {
-                        if (n.equals(addNode)) {
-                            walls.remove(n);
-                            break;
-                        }
-                    }
-
-                    if (sToggled)
-                        start = addNode;
-                    else
-                        end = addNode;
-
-                    path = new LinkedList<>();
-                    pathIndex = 0;
-                    pathableNodes = new LinkedList<>();
-                    pathText = "";
-
-                    if (start != null)
-                        start.setParent(null);
-                    if (end != null)
-                        end.setParent(null);
-
-                    eToggled = false;
-                    sToggled = false;
-                } else {
-                    boolean contains = false;
-                    for (Node wall : walls) {
-                        if (wall.equals(addNode)) {
-                            contains = true;
-                            break;
-                        }
-                    }
-
-                    if (!contains) {
-                        walls.add(addNode);
-                    } else {
-                        for (Node n : walls) {
-                            if (n.equals(addNode)) {
-                                walls.remove(n);
-                                break;
-                            }
-                        }
-                    }
-
-                }
-                gridLabel.repaint();
-            }
-        });
-        gridLabel.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (timer.isRunning())
-                    return;
-
-                int x = (int) Math.floor((1 + e.getX()) / (float) squareLen);
-                int y = (int) Math.floor((1 + e.getY()) / (float) squareLen);
-
-                if (x >= numSquares || y >= numSquares)
-                    return;
-
-                Node addNode = new Node(x, y);
-
-                if (deleteWallsMode) {
-                    walls.remove(addNode);
-                } else {
-                    if (addNode.equals(start)) {
-                        start = null;
-                    } else if (addNode.equals(end)) {
-                        end = null;
-                    }
-
-                    boolean contains = false;
-                    for (Node wall : walls) {
-                        if (wall.equals(addNode)) {
-                            contains = true;
-                            break;
-                        }
-                    }
-
-                    if (!contains) {
-                        walls.add(addNode);
-                    }
-                }
-
-                gridLabel.repaint();
-            }
-        });
-        gridLabel.setSize(800,800);
-        gridLabel.setLocation(100,80);
-        gridLabel.setFocusable(true);
-        pathFindingFrame.getContentPane().add(gridLabel);
+        // todo link delete to grid's delete
 
         CyderLabel deleteWallsLabel = new CyderLabel("Delete Walls");
         deleteWallsLabel.setBounds(120,885,100,30);
@@ -390,7 +129,7 @@ public class PathFinderWidget {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                deleteWallsMode = !deleteWallsMode;
+                // todo link to grid
             }
         });
 
@@ -428,10 +167,9 @@ public class PathFinderWidget {
             end = null;
             walls = new LinkedList<>();
             pathableNodes = new LinkedList<>();
-            path = new LinkedList<>();
+            path.clear();
             pathText = "";
-            squareLen = 30;
-            gridLabel.repaint();
+            //todo default nodes reset
             paused = false;
 
             diagonalBox.setEnabled(true);
@@ -440,9 +178,9 @@ public class PathFinderWidget {
             heuristicSwitch.setState(CyderSwitch.State.OFF);
             dijkstraSwitch.setState(CyderSwitch.State.ON);
             performDijkstras = false;
-            start = new Node(0,0);
-            end = new Node(25, 25);
-            squareLen = 30;
+            start = new PathNode(0,0);
+            end = new PathNode(25, 25);
+            //todo default nodes reset
         });
         pathFindingFrame.getContentPane().add(reset);
 
@@ -551,54 +289,43 @@ public class PathFinderWidget {
             else
                 pathIndex = 0;
 
-            gridLabel.repaint();
+            // todo fix me
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     };
 
     private static final ActionListener pathLabelAnimation = evt -> {
-        try {
-           if (pathColor == Color.darkGray)
-               pathColor = ColorUtil.inverse(Color.darkGray);
-           else
-               pathColor = Color.darkGray;
-
-            gridLabel.repaint();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        //todo use a ripple label with font like prompt
     };
 
     //open list outside methods to allow access to a* inner
-    private static PriorityQueue<Node> open;
+    private static PriorityQueue<PathNode> open;
 
     //performs the setup for the A* algorithm so that the timer can call update to interate over the next nodes
     private static void searchSetup() {
         //get rid of lingering path if exists
-        path = new LinkedList<>();
+        path.clear();
+        pathIndex = 0;
         pathText = "";
         end.setParent(null);
         start.setParent(null);
-        gridLabel.repaint();
 
         pathableNodes = new LinkedList<>();
-        for (int x = 0 ; x < numSquares ; x++) {
-            for (int y = 0 ; y < numSquares ; y++) {
-                Node addNode = new Node(x, y);
+        for (GridNode node : pathGrid.getGridNodes()) {
+            PathNode addNode = new PathNode(node.getX(), node.getY());
 
-                boolean isWall = false;
+            boolean isWall = false;
 
-                for (Node n : walls) {
-                    if (n.equals(addNode)) {
-                        isWall = true;
-                        break;
-                    }
+            for (PathNode n : walls) {
+                if (n.equals(addNode)) {
+                    isWall = true;
+                    break;
                 }
+            }
 
-                if (!isWall) {
-                    pathableNodes.add(addNode);
-                }
+            if (!isWall) {
+                pathableNodes.add(addNode);
             }
         }
 
@@ -608,10 +335,6 @@ public class PathFinderWidget {
         start.setG(0);
         start.setH(heuristic(end));
         open.add(start);
-
-        //reset path stuff
-        path = new LinkedList<>();
-        pathIndex = 0;
 
         //animation chosen
         if (showStepsBox.isSelected()) {
@@ -637,7 +360,7 @@ public class PathFinderWidget {
     //a singular iteration of the while loop of the A* algorithm
     private static void pathStep() {
         if (!open.isEmpty()) {
-            Node min = open.poll();
+            PathNode min = open.poll();
             open.remove(min);
 
              if (min.equals(end)) {
@@ -648,16 +371,16 @@ public class PathFinderWidget {
             }
 
             //generate neihbors of this current node
-            LinkedList<Node> neighbors = new LinkedList<>();
+            LinkedList<PathNode> neighbors = new LinkedList<>();
 
-            for (Node possibleNeighbor : pathableNodes) {
+            for (PathNode possibleNeighbor : pathableNodes) {
                 if (areOrthogonalNeighbors(possibleNeighbor, min) ||
                         (areDiagonalNeighbors(possibleNeighbor, min) && diagonalBox.isSelected())) {
                     neighbors.add(possibleNeighbor);
                 }
             }
 
-            for (Node neighbor: neighbors) {
+            for (PathNode neighbor: neighbors) {
                 //calculate new H
                 double newH = heuristic(neighbor);
 
@@ -680,7 +403,6 @@ public class PathFinderWidget {
         }
     }
 
-    //indicates a path was found and finished animating so takes the proper actions given this criteria
     private static void pathFound() {
         timer.stop();
         startButton.setText("Start");
@@ -693,14 +415,14 @@ public class PathFinderWidget {
 
         pathText = "PATH FOUND";
 
-        Node refNode = end.getParent();
+        PathNode refNode = end.getParent();
 
         while (refNode != start) {
             path.add(refNode);
             refNode = refNode.getParent();
         }
 
-        LinkedList<Node> pathReversed = new LinkedList<>();
+        LinkedList<PathNode> pathReversed = new LinkedList<>();
 
         for (int i = path.size() - 1 ; i > -1 ; i--) {
             pathReversed.add(path.get(i));
@@ -708,7 +430,7 @@ public class PathFinderWidget {
 
         path = pathReversed;
 
-        gridLabel.repaint();
+        pathGrid.repaint();
     }
 
     //indicates a path was not found so takes the proper actions given this criteria
@@ -722,22 +444,22 @@ public class PathFinderWidget {
         deleteWallsCheckBox.setEnabled(true);
         paused = false;
 
-        pathText = "PATH NOT FOUND";
+        pathText = PATH_NOT_FOUND;
 
-        path = new LinkedList<>();
+        path.clear();
         pathIndex = 0;
 
-        gridLabel.repaint();
+        pathGrid.repaint();
     }
 
-    private static boolean areDiagonalNeighbors(Node n1, Node n2) {
+    private static boolean areDiagonalNeighbors(PathNode n1, PathNode n2) {
         return (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() + 1) ||
                 (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY() - 1) ||
                 (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY() - 1) ||
                 (n1.getX() == n2.getX() - 1 && n1.getY() == n2.getY() + 1);
     }
 
-    private static boolean areOrthogonalNeighbors(Node n1, Node n2) {
+    private static boolean areOrthogonalNeighbors(PathNode n1, PathNode n2) {
         return (n1.getX() == n2.getX() && n1.getY() == n2.getY() + 1) ||
                 (n1.getX() == n2.getX() && n1.getY() == n2.getY() - 1) ||
                 (n1.getX() == n2.getX() + 1 && n1.getY() == n2.getY()) ||
@@ -745,7 +467,7 @@ public class PathFinderWidget {
     }
 
     //distance from node to end
-    private static double heuristic(Node n) {
+    private static double heuristic(PathNode n) {
         if (performDijkstras)
             return 1;
 
@@ -756,21 +478,21 @@ public class PathFinderWidget {
     }
 
     //distance from node to start
-    private static double calcGCost(Node n) {
+    private static double calcGCost(PathNode n) {
         return euclideanDistance(n, start);
     }
 
-    private static double euclideanDistance(Node n1, Node n2) {
+    private static double euclideanDistance(PathNode n1, PathNode n2) {
         return Math.sqrt(Math.pow((n1.getX() - n2.getX()), 2) + Math.pow((n1.getY() - n2.getY()), 2));
     }
 
-    private static double manhattanDistance(Node n1, Node n2) {
+    private static double manhattanDistance(PathNode n1, PathNode n2) {
         return Math.abs(n1.getX() - n2.getX()) + Math.abs(n1.getY() - n2.getY());
     }
 
-    private static class NodeComparator implements Comparator<Node> {
+    private static class NodeComparator implements Comparator<PathNode> {
         @Override
-        public int compare(Node node1, Node node2) {
+        public int compare(PathNode node1, PathNode node2) {
             if (node1.getF() > node2.getF())
                 return 1;
             else if (node1.getF() < node2.getF())
@@ -780,89 +502,4 @@ public class PathFinderWidget {
             }
         }
     }
-
-    private static boolean outOfBounds(Node n1) {
-        return (n1.getX() >= numSquares || n1.getY() >= numSquares);
-    }
-
-    //node class
-
-    private static class Node {
-        private int x;
-        private int y;
-        private double g = Integer.MAX_VALUE;
-        private double h = Integer.MAX_VALUE;
-        private Node parent;
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public double getG() {
-            return g;
-        }
-
-        public void setG(double g) {
-            this.g = g;
-        }
-
-        public double getH() {
-            return h;
-        }
-
-        public void setH(double h) {
-            this.h = h;
-        }
-
-        public double getF() {
-            return h + g;
-        }
-
-        public Node getParent() {
-            return parent;
-        }
-
-        public void setParent(Node parent) {
-            this.parent = parent;
-        }
-
-        public Node(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public Node() {
-            x = 0;
-            y = 0;
-        }
-
-        @Override
-        public boolean equals(Object n) {
-            if (n == null)
-                return false;
-            if (!(n instanceof Node))
-                return false;
-            else {
-                return ((Node) n).getX() == x && ((Node) n).getY() == y;
-            }
-        }
-
-        @Override
-        public String toString() {
-            return x + "," + y;
-        }
-    }
-
 }
