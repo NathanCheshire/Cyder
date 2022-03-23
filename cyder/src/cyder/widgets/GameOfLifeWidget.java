@@ -22,6 +22,8 @@ import cyder.widgets.objects.ConwayState;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -72,6 +74,11 @@ public class GameOfLifeWidget {
      * The checkbox to detect oscillations when the simulation devolves to two state swaps.
      */
     private static CyderCheckbox detectOscillationsCheckbox;
+
+    /**
+     * The checkbox to determine wheter to draw grid lines.
+     */
+    private static CyderCheckbox drawGridLinesCheckbox;
 
     /**
      * The label to let the user know what the speed slider controls.
@@ -158,7 +165,7 @@ public class GameOfLifeWidget {
     /**
      * Whether to detect oscillations.
      */
-    private static boolean detectOscillations;
+    private static boolean detectOscillations; // todo utilize
 
     /**
      * The last generation computed.
@@ -171,11 +178,18 @@ public class GameOfLifeWidget {
     private static int[][] secondToLastGen;
 
     /**
+     * The state the grid was in before the user last pressed start.
+     */
+    private static LinkedList<GridNode> beforeStartingState;
+
+    /**
      * Suppress default constructor.
      */
     private GameOfLifeWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
+
+    // todo add checkbox to show / hide grid lines
 
     @SuppressCyderInspections(values = "WidgetInspection")
     @Widget(triggers = {"conway","conways","game of life"}, description = "Conway's game of life visualizer")
@@ -209,9 +223,7 @@ public class GameOfLifeWidget {
         conwayFrame.getContentPane().add(simulateStopButton);
         simulateStopButton.addActionListener(e -> {
             if (simulationRunning) {
-                simulationRunning = false;
-                simulateStopButton.setText("Simulate");
-                conwayGrid.installClickAndDragPlacer();
+                stop();
             } else {
                 if (conwayGrid.getNodeCount() > 0) {
                     simulationRunning = true;
@@ -236,7 +248,6 @@ public class GameOfLifeWidget {
 
         presetSwitcher = new CyderSwitcher(160, 40, states, states.get(0));
         presetSwitcher.getIterationButton().addActionListener(e -> {
-            // todo set grid state to next state
             SwitcherState nextState = presetSwitcher.getNextState();
 
             if (nextState.equals(states.get(0))) {
@@ -279,6 +290,23 @@ public class GameOfLifeWidget {
                 conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10, 50, 50);
         conwayFrame.getContentPane().add(detectOscillationsCheckbox);
 
+        drawGridLinesCheckbox = new CyderCheckbox(false);
+        drawGridLinesCheckbox.setBounds(25 + 15 + 50 + 10,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10, 50, 50);
+        conwayFrame.getContentPane().add(drawGridLinesCheckbox);
+        drawGridLinesCheckbox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) { //todo
+                if (drawGridLinesCheckbox.isSelected()) {
+                    conwayGrid.setDrawGridLines(true);
+                    conwayGrid.repaint();
+                } else {
+                    conwayGrid.setDrawGridLines(false);
+                    conwayGrid.repaint();
+                }
+            }
+        });
+
         iterationsPerSecondSlider = new JSlider(JSlider.HORIZONTAL, MIN_ITERATIONS_PER_SECOND,
                 MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
         CyderSliderUI UI = new CyderSliderUI(iterationsPerSecondSlider);
@@ -290,8 +318,8 @@ public class GameOfLifeWidget {
         UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         iterationsPerSecondSlider.setUI(UI);
-        iterationsPerSecondSlider.setBounds(25 + 15 + 50 + 10,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 20, 450, 40);
+        iterationsPerSecondSlider.setBounds(25 + 15 + 50 + 10 + 60,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 20, 380, 40);
         iterationsPerSecondSlider.setPaintTicks(false);
         iterationsPerSecondSlider.setPaintLabels(false);
         iterationsPerSecondSlider.setVisible(true);
@@ -310,29 +338,48 @@ public class GameOfLifeWidget {
      * Resets the simulation and all values back to their default.
      */
     private static void resetSimulation() {
-       simulationRunning = false;
-       iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
+        stop();
 
-       conwayGrid.setNodeDimensionLength(50);
-       conwayGrid.clearGrid();
-       conwayGrid.repaint();
+        iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
-       detectOscillationsCheckbox.setSelected();
-       iterationsPerSecondSlider.setValue(DEFAULT_ITERATIONS_PER_SECOND);
-       iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
+        conwayGrid.setNodeDimensionLength(50);
+        conwayGrid.clearGrid();
+        conwayGrid.repaint();
+
+        detectOscillationsCheckbox.setSelected();
+        iterationsPerSecondSlider.setValue(DEFAULT_ITERATIONS_PER_SECOND);
+        iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
+
+        beforeStartingState = null;
     }
 
     /**
      * Sets the grid to the state it was in before beginning the simulation.
      */
     private static void resetToPreviousState() {
-        // todo
+        if (beforeStartingState == null)
+            return;
+
+        stop();
+        conwayGrid.setGridState(beforeStartingState);
+        conwayGrid.repaint();
     }
 
     /**
-     * Starts the simulation thread.
+     * Performs any stopping actions needed to properly stop the simualtion.
+     */
+    private static void stop() {
+        simulationRunning = false;
+        simulateStopButton.setText("Simulate");
+        conwayGrid.installClickAndDragPlacer();
+    }
+
+    /**
+     * Starts the simulation.
      */
     private static void start() {
+        beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
+
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
@@ -396,6 +443,11 @@ public class GameOfLifeWidget {
      */
     private static void toFile() {
         CyderThreadRunner.submit(() -> {
+            if (conwayGrid.getNodeCount() == 0) {
+                conwayFrame.notify("Place at least one node");
+                return;
+            }
+
             GetterBuilder builder = new GetterBuilder("Save name");
             builder.setRelativeTo(conwayFrame);
             builder.setFieldTooltip("A valid filename");
