@@ -110,7 +110,7 @@ public class GameOfLifeWidget {
     /**
      * The initial and default iterations per second.
      */
-    private static final int DEFAULT_ITERATIONS_PER_SECOND = 10;
+    private static final int DEFAULT_ITERATIONS_PER_SECOND = 45;
 
     /**
      * The number of iterations to compute per second.
@@ -165,22 +165,22 @@ public class GameOfLifeWidget {
     /**
      * Whether to detect oscillations.
      */
-    private static boolean detectOscillations; // todo utilize
-
-    /**
-     * The last generation computed.
-     */
-    private static int[][] lastGen;
-
-    /**
-     * The generation before the last generation.
-     */
-    private static int[][] secondToLastGen;
+    private static boolean detectOscillations;
 
     /**
      * The state the grid was in before the user last pressed start.
      */
     private static LinkedList<GridNode> beforeStartingState;
+
+    /**
+     * The last state of the grid.
+     */
+    private static LinkedList<GridNode> lastState = new LinkedList<>();
+
+    /**
+     * The second to last state of the grid.
+     */
+    private static LinkedList<GridNode> secondTolastState = new LinkedList<>();
 
     /**
      * Suppress default constructor.
@@ -189,16 +189,33 @@ public class GameOfLifeWidget {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    // todo add checkbox to show / hide grid lines
-
     @SuppressCyderInspections(values = "WidgetInspection")
     @Widget(triggers = {"conway","conways","game of life"}, description = "Conway's game of life visualizer")
     public static void showGUI() {
         if (conwayFrame != null)
             conwayFrame.disposeIfActive();
 
-        conwayFrame = new CyderFrame(600,800);
+        conwayFrame = new CyderFrame(600,820);
         conwayFrame.setTitle("Conway's Game of Life");
+
+        currentPopulationLabel = new CyderLabel();
+        currentPopulationLabel.setBounds(20, 20, 140, 40);
+        conwayFrame.getContentPane().add(currentPopulationLabel);
+
+        currentGenerationlabel = new CyderLabel();
+        currentGenerationlabel.setBounds(20 + 140, 20, 140, 40);
+        conwayFrame.getContentPane().add(currentGenerationlabel);
+
+        maxPopulationLabel = new CyderLabel();
+        maxPopulationLabel.setBounds(20 + 140 * 2, 20, 140, 40);
+        conwayFrame.getContentPane().add(maxPopulationLabel);
+
+        correspondingGenerationLabel = new CyderLabel();
+        correspondingGenerationLabel.setBounds(20 + 140 * 3, 20, 140, 40);
+        conwayFrame.getContentPane().add(correspondingGenerationLabel);
+
+        // init label text
+        updateLabels();
 
         conwayGrid = new CyderGrid(50, 550);
         conwayGrid.setBounds(25, 25 + CyderDragLabel.DEFAULT_HEIGHT, 550, 550);
@@ -285,18 +302,29 @@ public class GameOfLifeWidget {
            }, "Conway State Loader");
         });
 
+        CyderLabel detectOscillationsLabel = new CyderLabel("Oscillations");
+        detectOscillationsLabel.setBounds(15,
+                conwayGrid.getY() + conwayGrid.getHeight() + 100, 100, 40);
+        conwayFrame.getContentPane().add(detectOscillationsLabel);
+
         detectOscillationsCheckbox = new CyderCheckbox(true);
         detectOscillationsCheckbox.setBounds(25 + 15,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10, 50, 50);
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10 + 20, 50, 50);
         conwayFrame.getContentPane().add(detectOscillationsCheckbox);
+        detectOscillationsCheckbox.setToolTipText("Detect Oscillations");
+
+        CyderLabel gridLinesLabel = new CyderLabel("Grid Lines");
+        gridLinesLabel.setBounds(15 + 85,
+                conwayGrid.getY() + conwayGrid.getHeight() + 100, 100, 40);
+        conwayFrame.getContentPane().add(gridLinesLabel);
 
         drawGridLinesCheckbox = new CyderCheckbox(false);
-        drawGridLinesCheckbox.setBounds(25 + 15 + 50 + 10,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10, 50, 50);
+        drawGridLinesCheckbox.setBounds(25 + 15 + 50 + 10 + 20,
+                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 10 + 20, 50, 50);
         conwayFrame.getContentPane().add(drawGridLinesCheckbox);
         drawGridLinesCheckbox.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) { //todo
+            public void mouseClicked(MouseEvent e) {
                 if (drawGridLinesCheckbox.isSelected()) {
                     conwayGrid.setDrawGridLines(true);
                     conwayGrid.repaint();
@@ -306,6 +334,7 @@ public class GameOfLifeWidget {
                 }
             }
         });
+        drawGridLinesCheckbox.setToolTipText("Draw Grid Lines");
 
         iterationsPerSecondSlider = new JSlider(JSlider.HORIZONTAL, MIN_ITERATIONS_PER_SECOND,
                 MAX_ITERATIONS_PER_SECOND, DEFAULT_ITERATIONS_PER_SECOND);
@@ -318,8 +347,8 @@ public class GameOfLifeWidget {
         UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         iterationsPerSecondSlider.setUI(UI);
-        iterationsPerSecondSlider.setBounds(25 + 15 + 50 + 10 + 60,
-                conwayGrid.getY() + conwayGrid.getHeight() + 10 + 50 + 50 + 20, 380, 40);
+        iterationsPerSecondSlider.setBounds(25 + 15 + 50 + 10 + 100,
+                conwayGrid.getY() + conwayGrid.getHeight() + 5 + 50 + 50 + 20 + 20, 350, 40);
         iterationsPerSecondSlider.setPaintTicks(false);
         iterationsPerSecondSlider.setPaintLabels(false);
         iterationsPerSecondSlider.setVisible(true);
@@ -351,6 +380,30 @@ public class GameOfLifeWidget {
         iterationsPerSecond = DEFAULT_ITERATIONS_PER_SECOND;
 
         beforeStartingState = null;
+
+        resetStats();
+    }
+
+    /**
+     * Resets the population/generation statistics and labels.
+     */
+    private static void resetStats() {
+        generation = 0;
+        population = 0;
+        maxPopulation = 0;
+        correspondingGeneration = 0;
+
+        updateLabels();
+    }
+
+    /**
+     * Updates the statistic labels based on the currently set values.
+     */
+    public static void updateLabels() {
+        currentGenerationlabel.setText("Generation: " + generation);
+        currentPopulationLabel.setText("Population: " + population);
+        maxPopulationLabel.setText("Max Pop: " + maxPopulation);
+        correspondingGenerationLabel.setText("Gen: " + correspondingGeneration);
     }
 
     /**
@@ -363,6 +416,10 @@ public class GameOfLifeWidget {
         stop();
         conwayGrid.setGridState(beforeStartingState);
         conwayGrid.repaint();
+
+        resetStats();
+        population = beforeStartingState.size();
+        updateLabels();
     }
 
     /**
@@ -383,10 +440,9 @@ public class GameOfLifeWidget {
         CyderThreadRunner.submit(() -> {
             while (simulationRunning) {
                 try {
-                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(conwayGrid.getGridNodes()));
-
                     LinkedList<GridNode> nextState = new LinkedList<>();
 
+                    int[][] nextGen = nextGeneration(cyderGridToConwayGrid(lastState));
                     for (int i = 0 ; i < nextGen.length ; i++) {
                         for (int j = 0 ; j < nextGen[0].length ; j++) {
                             if (nextGen[i][j] == 1) {
@@ -395,8 +451,42 @@ public class GameOfLifeWidget {
                         }
                     }
 
+                    // todo detect oscillations broken still for some reason
+                    if (detectOscillations && nextState.equals(secondTolastState)) {
+                        conwayFrame.notify("Detected Oscillation");
+                        stop();
+                        return;
+                    } else if (nextState.equals(lastState)) {
+                        if (nextState.isEmpty()) {
+                            conwayFrame.notify("Simulation ended with total " +
+                                    "elimination at generation: " + generation);
+                        } else {
+                            conwayFrame.notify("Simulation ended at generation: " + generation);
+                        }
+
+                        stop();
+                        return;
+                    }
+
+                    // advance second to last state
+                    secondTolastState = new LinkedList<>(lastState);
+
+                    // advance last state
+                    lastState = conwayGrid.getGridNodes();
+
+                    // set new state
                     conwayGrid.setGridNodes(nextState);
                     conwayGrid.repaint();
+
+                    generation++;
+                    population = nextState.size();
+
+                    if (population > maxPopulation) {
+                        maxPopulation = population;
+                        correspondingGeneration = generation;
+                    }
+
+                    updateLabels();
 
                     // timeout based on current iterations per second
                     Thread.sleep(1000 / iterationsPerSecond);
@@ -432,6 +522,11 @@ public class GameOfLifeWidget {
             }
 
             conwayFrame.notify("Loaded state: " + loadState.getName());
+            beforeStartingState = new LinkedList<>(conwayGrid.getGridNodes());
+
+            resetStats();
+            population = loadState.getNodes().size();
+            updateLabels();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
             conwayFrame.notify("Could not parse json as a valid ConwayState object");

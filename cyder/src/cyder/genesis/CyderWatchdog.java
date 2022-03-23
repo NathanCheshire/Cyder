@@ -134,10 +134,6 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
-    // todo need an actual ContextParser class to take the input, determine if it's going to be piped
-    //  somewhere, contains a size argument, and determine the command and args in a better way.
-    //  things within a tol of 95 should be auto corrected to it and handled as if it was correct.
-
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */

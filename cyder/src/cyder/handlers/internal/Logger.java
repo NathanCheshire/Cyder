@@ -722,4 +722,11 @@ public class Logger {
     private static String getLogTime() {
         return "[" + TimeUtil.logTime() + "] ";
     }
+
+    /**
+     * Logs a here string using the DEBUG tag.
+     */
+    public static void HERE() {
+        log(LoggerTag.DEBUG, "Here");
+    }
 }
