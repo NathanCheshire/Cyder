@@ -21,6 +21,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+// todo layout ui elements better, draw
+
 /**
  * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
  * with Euclidean distance and Manhattan distance as valid A* heuristics.
@@ -45,6 +47,11 @@ public class PathFinderWidget {
      * The default number of nodes for the path grid.
      */
     private static final int DEFAULT_NODES = 50;
+
+    /**
+     * The maximum number of nodes for the path grid.
+     */
+    private static final int MAX_NODES = 160;
 
     /**
      * The checkbox dictating whether to perform an animation of the
@@ -206,18 +213,19 @@ public class PathFinderWidget {
         wallNodes.clear();
         pathableNodes.clear();
         computedPathNodes.clear();
+        // todo no need for a lot of this since just calling reset
         startNode = new PathNode(0,0);
         goalNode = new PathNode(25, 25);
         currentPathingState = PathingState.NOT_STARTED;
         animationRunning = false;
 
         pathFindingFrame = new CyderFrame(1000,1070, CyderIcons.defaultBackgroundLarge);
-        pathFindingFrame.setTitle("Pathfinding visualizer");
+        pathFindingFrame.setTitle("Pathfinding Visualizer");
 
         pathfindingGrid = new CyderGrid(DEFAULT_NODES, 800);
         pathfindingGrid.setBounds(100, 80, 800, 800);
         pathfindingGrid.setMinNodes(DEFAULT_NODES);
-        pathfindingGrid.setMaxNodes(200);
+        pathfindingGrid.setMaxNodes(MAX_NODES);
         pathfindingGrid.setDrawGridLines(false);
         pathfindingGrid.setDrawExtendedBorder(true);
         pathfindingGrid.setBackground(CyderColors.vanila);
@@ -227,7 +235,7 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(pathfindingGrid);
         pathfindingGrid.setSaveStates(false);
 
-        // todo path found / not found label "pathText" in navy
+        // todo status label to update based on state
 
         // todo start / stop checkbox
 
@@ -400,6 +408,8 @@ public class PathFinderWidget {
         pathFindingFrame.getContentPane().add(algorithmSwitch);
 
         algorithmSwitch.getSwitchButton().addActionListener(e -> performDijkstras = !performDijkstras);
+
+        // todo reset function here
 
         pathFindingFrame.finalizeAndShow();
     }
@@ -574,7 +584,9 @@ public class PathFinderWidget {
             pathReversed.add(computedPathNodes.get(i));
         }
         computedPathNodes = pathReversed;
+        // todo start thread to animate the path that will die when the state changes
 
+        //todo this is probably unnecessary
         pathfindingGrid.repaint();
     }
 
@@ -583,7 +595,7 @@ public class PathFinderWidget {
         currentPathingState = PathingState.PATH_NOT_FOUND;
 
         // todo method for these
-        startButton.setText("Start");
+        startButton.setText("Start"); //todo valid static final text for button
         diagonalBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
@@ -622,6 +634,71 @@ public class PathFinderWidget {
 
         heuristicSwitch.setEnabled(false);
         algorithmSwitch.setEnabled(false);
+    }
+
+    /**
+     * Deselects all the checkboxes.
+     */
+    private static void uncheckBoxes() {
+        deleteWallsCheckBox.setSelected(false);
+        showStepsBox.setSelected(false);
+        diagonalBox.setSelected(false);
+        placeStartBox.setSelected(false);
+        placeEndBox.setSelected(false);
+    }
+
+    /**
+     * Resets the algorithm and heuristic switchers to their default states.
+     */
+    private static void resetSwitcherStates() {
+        // corresponds to Manhattan
+        heuristicSwitch.setState(CyderSwitch.State.OFF);
+
+        // corresponds to A* todo make switchers same size and on same x offset
+        algorithmSwitch.setState(CyderSwitch.State.ON);
+    }
+
+    /**
+     * Wipes all node lists.
+     */
+    private static void clearLists() {
+        wallNodes.clear();
+        pathableNodes.clear();
+
+        // both this and changing the state will end
+        // the path drawing animation if ongoing
+        computedPathNodes.clear();
+    }
+
+    /**
+     * Updates the state label
+     */
+    private static void updateStateLabel() {
+
+    }
+
+    /**
+     * Resets the visualizer as if the widget was just opened.
+     */
+    public static void reset() {
+        // reset state
+        currentPathingState = PathingState.NOT_STARTED;
+
+        // ensure ui elements are enabled
+        enableUiElements();
+
+        // ensure start button has proper text
+        startButton.setText("Start");
+
+        uncheckBoxes();
+        resetSwitcherStates();
+        clearLists();
+
+        // todo update state label, make a method for this
+
+        // todo reset start and end node positions
+
+        pathfindingGrid.repaint();
     }
 
     /**
