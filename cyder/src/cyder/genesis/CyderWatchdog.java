@@ -137,6 +137,7 @@ public class CyderWatchdog {
     // todo conway add first and last to reach same max score
     // todo pathfinding widget use cyergrid
     // todo utilize finalizeAndShow()
+    // todo if smooth scrolling is off for grid, extended border fills remaining space
 
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
