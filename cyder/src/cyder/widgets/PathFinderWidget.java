@@ -6,7 +6,6 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -22,7 +21,16 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+/**
+ * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
+ * with Euclidean distance and Manhattan distance as valid A* heuristics.
+ */
 public class PathFinderWidget {
+    /**
+     * Whether the animation is currently running.
+     */
+    private static boolean animationRunning;
+
     /**
      * The pathfinding frame.
      */
@@ -58,41 +66,106 @@ public class PathFinderWidget {
     private static CyderCheckbox placeStartBox;
     private static CyderCheckbox placeEndBox;
 
+    private static CyderSwitch heuristicSwitch;
+    private static CyderSwitch algorithmSwitch;
+
     private static CyderButton startButton;
+    private static CyderButton reset;
+
     private static JSlider speedSlider;
 
+    /**
+     * The list containing the wall nodes drawn by the user.
+     */
     private static final LinkedList<PathNode> wallNodes = new LinkedList<>();
+
+    /**
+     * The list containing the pathable nodes
+     * (nodes which are not walls, the start node. or the goal node).
+     */
     private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
 
-    // not final due to reversed
+    /**
+     * The nodes in the current path provided one was found.
+     */
     private static LinkedList<PathNode> computedPathNodes = new LinkedList<>();
 
+    /**
+     * The current index of the node in computedPathNodes to set to pathAnimationColor.
+     */
     private static int pathAnimationIndex;
 
-    // todo get rid of timers and just use booleans
-    private static Timer pathfinderAnimationTimer;
-    private static int timeoutMS;
-    private static final int MAX_TIMEOUT_MS = 1000;
+    /**
+     * The current state of the A* algorithm.
+     */
+    private static PathingState currentPathingState = PathingState.NOT_STARTED; // todo utilize
 
-    private static boolean algorithmPaused;
-
-    private static final String PATH_FOUND = "PATH FOUND";
-    private static final String PATH_NOT_FOUND = "PATH NOT FOUND";
-    private static String pathText = PATH_NOT_FOUND;
-
-    private static CyderSwitch heuristicSwitch;
-    private static CyderSwitch dijkstraSwitch;
+    /**
+     * The valid states of the A* algorithm.
+     */
+    private enum PathingState {
+        /**
+         * The algorithm is finished and found a path.
+         */
+        PATH_FOUND,
+        /**
+         * The algorithm is finished but no path was found. :(
+         */
+        PATH_NOT_FOUND,
+        /**
+         * The algorithm is imcomplete and may be resumed.
+         */
+        PAUSED,
+        /**
+         * The algorithm has not yet begun (Widget just opened or reset invoked).
+         */
+        NOT_STARTED,
+        /**
+         * The algorithm is currently underway, whether this be the first time it
+         * has begun, or the 1000th time it has been paused and resumed.
+         */
+        RUNNING,
+    }
+    
+    // todo do away with? just access switch directly, next state? is that a function? if not make it
     private static boolean performDijkstras;
 
     private static int heuristicIndex;
     private static final String[] heuristics = {"Manhattan","Euclidean"};
 
+    /**
+     * The color used for pathable nodes in the open list
+     */
     private static final Color pathableOpenColor = new Color(254, 104, 88);
+
+    /**
+     * The color usdd for pathable nodes that have been removed from the open list.
+     */
     private static final Color pathableClosedColor = new Color(121, 236, 135);
+
+    /**
+     * The color used for walls.
+     */
     private static final Color wallsColor = CyderColors.navy;
-    private static final Color endNodeColor = CyderColors.regularOrange;
+
+    /**
+     * The color used for the goal node.
+     */
+    private static final Color goalNodeColor = CyderColors.regularOrange;
+
+    /**
+     * The color used for the start node.
+     */
     private static final Color startNodeColor = CyderColors.regularPink;
+
+    /**
+     * The dcolor used for the found path.
+     */
     private static final Color pathColor = CyderColors.regularBlue;
+
+    /**
+     * The color used for the path found animation trickle.
+     */
     private static final Color pathAnimationColor = new Color(34,216,248);
 
     /**
@@ -129,16 +202,14 @@ public class PathFinderWidget {
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();
 
-        // todo setup function should be equiv to reset function
-        pathfinderAnimationTimer = new Timer(timeoutMS, evt -> pathStep());
-        pathfinderAnimationTimer.setDelay(timeoutMS);
+        // todo setup function should be equiv to reset function, just call reset function here
         wallNodes.clear();
         pathableNodes.clear();
         computedPathNodes.clear();
         startNode = new PathNode(0,0);
         goalNode = new PathNode(25, 25);
-        pathText = PATH_NOT_FOUND;
-        algorithmPaused = false;
+        currentPathingState = PathingState.NOT_STARTED;
+        animationRunning = false;
 
         pathFindingFrame = new CyderFrame(1000,1070, CyderIcons.defaultBackgroundLarge);
         pathFindingFrame.setTitle("Pathfinding visualizer");
@@ -199,10 +270,10 @@ public class PathFinderWidget {
         diagonalBox.setBounds(310, 920,50,50);
         pathFindingFrame.getContentPane().add(diagonalBox);
 
-        CyderButton reset = new CyderButton("Reset");
+        reset = new CyderButton("Reset");
         reset.setBounds(400,890, 170, 40);
         reset.addActionListener(e -> {
-            pathfinderAnimationTimer.stop();
+            // todo method for this to call upon startup as well
             startButton.setText("Start");
             diagonalBox.setNotSelected();
             showStepsBox.setNotSelected();
@@ -216,16 +287,16 @@ public class PathFinderWidget {
             wallNodes.clear();
             pathableNodes.clear();
             computedPathNodes.clear();
-            pathText = PATH_NOT_FOUND;
+            // todo reset pathing status
             pathfindingGrid.setNodeDimensionLength(DEFAULT_NODES);
-            algorithmPaused = false;
+            currentPathingState = PathingState.NOT_STARTED;
 
             diagonalBox.setEnabled(true);
             heuristicSwitch.setEnabled(true);
-            dijkstraSwitch.setEnabled(true);
+            algorithmSwitch.setEnabled(true);
 
             heuristicSwitch.setState(CyderSwitch.State.OFF);
-            dijkstraSwitch.setState(CyderSwitch.State.ON);
+            algorithmSwitch.setState(CyderSwitch.State.ON);
             performDijkstras = false;
 
             // todo function for resetting the start/end nodes
@@ -237,29 +308,41 @@ public class PathFinderWidget {
         startButton = new CyderButton("Start");
         startButton.setBounds(400,940, 170, 40);
         startButton.addActionListener(e -> {
-            if (startNode == null || goalNode == null) {
-                pathFindingFrame.notify("Start/end nodes not set");
-            } else if (!pathfinderAnimationTimer.isRunning()) {
+            // ensure pathing is possible
+            if (startNode == null) {
+                pathFindingFrame.notify("Start node not set");
+                return;
+            } else if (goalNode == null) {
+                pathFindingFrame.notify("End node not set");
+                return;
+            }
+
+            // if not running
+            if (currentPathingState != PathingState.RUNNING) {
                 diagonalBox.setEnabled(false);
                 heuristicSwitch.setEnabled(false);
-                dijkstraSwitch.setEnabled(false);
+                algorithmSwitch.setEnabled(false);
                 diagonalBox.setEnabled(false);
                 deleteWallsCheckBox.setEnabled(false);
                 showStepsBox.setEnabled(false);
-
                 startButton.setText("Stop");
-                pathText = "";
+                // todo methods for the above
 
-                if (algorithmPaused)
-                    pathfinderAnimationTimer.start();
-                else
+                // transition state
+                currentPathingState = PathingState.RUNNING;
+
+                // resume if paused
+                if (currentPathingState == PathingState.PAUSED) {
+                    // todo resume animation
+                }
+                // otherwise first start so setup then run
+                else {
                     searchSetup();
+                }
             } else {
-                pathfinderAnimationTimer.stop();
-                startButton.setText("Start");
-                pathText = "";
+                currentPathingState = PathingState.PAUSED;
 
-                algorithmPaused = showStepsBox.isSelected();
+                // todo update UI elements
             }
         });
         pathFindingFrame.getContentPane().add(startButton);
@@ -300,47 +383,31 @@ public class PathFinderWidget {
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
-
-        // todo bounds should be between 0 and 1000 ms
-
-        // todo make higher value speed up animation, max should be no delay
-
-        speedSlider.addChangeListener(e -> {
-            // timeout is equal to the max value minus the slider value
-            // meaning the max value of 1000 corresponds to the max speed,
-            // or a delay of 0ms
-            timeoutMS = MAX_SLIDER_VALUE - speedSlider.getValue();
-
-            // todo no need for this when timer goes away
-            pathfinderAnimationTimer.setDelay(timeoutMS);
-        });
         speedSlider.setOpaque(false);
-        speedSlider.setToolTipText("Pathfinding Animation Timeout");
+        speedSlider.setToolTipText("Pathfinding Speed");
         speedSlider.setFocusable(false);
         speedSlider.repaint();
         pathFindingFrame.getContentPane().add(speedSlider);
+        // no change listener since the sleep value is used as soon as possible
 
-        dijkstraSwitch = new CyderSwitch(400,50);
-        dijkstraSwitch.setOffText("Dijkstras");
-        dijkstraSwitch.setOnText("A*");
-        dijkstraSwitch.setToolTipText("Algorithm Switcher");
-        dijkstraSwitch.setBounds(pathFindingFrame.getWidth() / 2 - 400 / 2, 1000, 400, 50);
-        dijkstraSwitch.setButtonPercent(50);
-        dijkstraSwitch.setState(CyderSwitch.State.ON);
-        pathFindingFrame.getContentPane().add(dijkstraSwitch);
+        algorithmSwitch = new CyderSwitch(400,50);
+        algorithmSwitch.setOffText("Dijkstras");
+        algorithmSwitch.setOnText("A*");
+        algorithmSwitch.setToolTipText("Algorithm Switcher");
+        algorithmSwitch.setBounds(pathFindingFrame.getWidth() / 2 - 400 / 2, 1000, 400, 50);
+        algorithmSwitch.setButtonPercent(50);
+        algorithmSwitch.setState(CyderSwitch.State.ON);
+        pathFindingFrame.getContentPane().add(algorithmSwitch);
 
-        dijkstraSwitch.getSwitchButton().addActionListener(e -> performDijkstras = !performDijkstras);
+        algorithmSwitch.getSwitchButton().addActionListener(e -> performDijkstras = !performDijkstras);
 
-        pathFindingFrame.setVisible(true);
-        pathFindingFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-
-        Timer pathDrawingTimer = new Timer(50, pathDrawingAnimation);
-        pathDrawingTimer.start();
-
-        Timer pathLabelTimer = new Timer(1000, pathLabelAnimation);
-        pathLabelTimer.start();
+        pathFindingFrame.finalizeAndShow();
     }
 
+    /**
+     * todo will go away and be replaced by method to draw path as long as the path text is path found
+     * after a path is found
+     */
     private static final ActionListener pathDrawingAnimation = evt -> {
         try {
             if (pathAnimationIndex + 1 < computedPathNodes.size())
@@ -373,8 +440,7 @@ public class PathFinderWidget {
         computedPathNodes.clear();
         pathAnimationIndex = 0;
 
-        // reset progress label
-        pathText = PATH_NOT_FOUND;
+        // todo reset pathing status
 
         // reset start and goal parents
         goalNode.setParent(null);
@@ -411,7 +477,8 @@ public class PathFinderWidget {
 
         //animation chosen
         if (showStepsBox.isSelected()) {
-            pathfinderAnimationTimer.start();
+            // todo
+            //pathfinderAnimationTimer.start();
             //spins off below action listener to update grid until path found or no path found or user intervention
         } else {
             //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
@@ -484,30 +551,28 @@ public class PathFinderWidget {
     }
 
     private static void pathFound() {
-        pathfinderAnimationTimer.stop();
+        currentPathingState = PathingState.PATH_FOUND;
+
+        // todo ui stuff
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
-        dijkstraSwitch.setEnabled(true);
-        algorithmPaused = false;
+        algorithmSwitch.setEnabled(true);
 
-        pathText = "PATH FOUND";
-
+        // traverse from goal back to start to construct the path
         PathNode refNode = goalNode.getParent();
-
         while (refNode != startNode) {
             computedPathNodes.add(refNode);
             refNode = refNode.getParent();
         }
 
+        // reverse the path so that it goes from start to goal
         LinkedList<PathNode> pathReversed = new LinkedList<>();
-
         for (int i = computedPathNodes.size() - 1; i > -1 ; i--) {
             pathReversed.add(computedPathNodes.get(i));
         }
-
         computedPathNodes = pathReversed;
 
         pathfindingGrid.repaint();
@@ -515,21 +580,48 @@ public class PathFinderWidget {
 
     //indicates a path was not found so takes the proper actions given this criteria
     private static void pathNotFound() {
-        pathfinderAnimationTimer.stop();
+        currentPathingState = PathingState.PATH_NOT_FOUND;
+
+        // todo method for these
         startButton.setText("Start");
         diagonalBox.setEnabled(true);
         showStepsBox.setEnabled(true);
         heuristicSwitch.setEnabled(true);
-        dijkstraSwitch.setEnabled(true);
+        algorithmSwitch.setEnabled(true);
         deleteWallsCheckBox.setEnabled(true);
-        algorithmPaused = false;
-
-        pathText = PATH_NOT_FOUND;
 
         computedPathNodes.clear();
         pathAnimationIndex = 0;
 
         pathfindingGrid.repaint();
+    }
+
+    /**
+     * Enables the UI elements during the pathfinding animation.
+     */
+    private static void enableUiElements() {
+        deleteWallsCheckBox.setEnabled(true);
+        showStepsBox.setEnabled(true);
+        diagonalBox.setEnabled(true);
+        placeStartBox.setEnabled(true);
+        placeEndBox.setEnabled(true);
+
+        heuristicSwitch.setEnabled(true);
+        algorithmSwitch.setEnabled(true);
+    }
+
+    /**
+     * Disables the UI elements during the pathfinding animation.
+     */
+    private static void disableUiElements() {
+        deleteWallsCheckBox.setEnabled(false);
+        showStepsBox.setEnabled(false);
+        diagonalBox.setEnabled(false);
+        placeStartBox.setEnabled(false);
+        placeEndBox.setEnabled(false);
+
+        heuristicSwitch.setEnabled(false);
+        algorithmSwitch.setEnabled(false);
     }
 
     /**

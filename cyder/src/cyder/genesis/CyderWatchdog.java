@@ -134,17 +134,17 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo new console and analyze code on readme
+    // todo conway, pathfinding, and convex hull on readme
     // todo conway add first and last to reach same max score
-    // todo pathfinding widget use cyergrid
     // todo utilize finalizeAndShow()
-    // todo if smooth scrolling is off for grid, extended border fills remaining space
+    // todo if smooth scrolling is off for grid, extended border fills remaining space, fix
 
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */
     private static void bootstrap() {
-        // todo start a python process to bootstrap ourself
-
-        // might have to unbind the socket to ensure a singular instance ever exists
+        // todo start a python process to bootstrap ourself.
+        //  Might have to unbind the socket to ensure a singular instance ever exists.
     }
 }
