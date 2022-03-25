@@ -1,0 +1,150 @@
+[17-56-10] [JVM_ENTRY]: [Nathan]
+[17-56-10] [THREAD STARTED]: Object Creation Logger
+[17-56-10] [THREAD STARTED]: Watchdog Initializer
+[17-56-10] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[17-56-11] [FONT LOADED]: font name = agency-fb
+[17-56-11] [FONT LOADED]: font name = arial-black
+[17-56-11] [FONT LOADED]: font name = beyno
+[17-56-11] [FONT LOADED]: font name = darling-in-paris
+[17-56-11] [FONT LOADED]: font name = Prompt-Bold
+[17-56-11] [FONT LOADED]: font name = segoe-ui-black
+[17-56-11] [FONT LOADED]: font name = tahoma
+[17-56-11] [THREAD STARTED]: Splash Loader
+[17-56-11] [THREAD STARTED]: Splash Animation
+[17-56-12] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[17-56-12] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[17-56-12] [THREAD STARTED]: JVM Args Logger
+[17-56-12] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[17-56-12] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-12] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162546486.json
+[17-56-12] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[17-56-13] [OBJECT CREATION]: Objects created since last delta (5s): 63
+[17-56-13] [THREAD STARTED]: Cyder Watchdog
+[17-56-13] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-13] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162572440.json
+[17-56-13] [SYSTEM_IO]: Userdata requested: RandomBackground
+[17-56-13] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
+[17-56-13] [THREAD STARTED]: Console Printing Animation
+[17-56-13] [SYSTEM_IO]: Userdata requested: OutputBorder
+[17-56-13] [SYSTEM_IO]: Userdata requested: FullScreen
+[17-56-13] [SYSTEM_IO]: Userdata requested: InputBorder
+[17-56-13] [THREAD STARTED]: Console Input Caret Position Updater
+[17-56-13] [SYSTEM_IO]: Userdata requested: OutputFill
+[17-56-13] [SYSTEM_IO]: Userdata requested: InputFill
+[17-56-13] [THREAD STARTED]: High Ping Checker
+[17-56-13] [THREAD STARTED]: Hourly Chime Checker
+[17-56-13] [THREAD STARTED]: Console Clock Updater
+[17-56-13] [THREAD STARTED]: Cyder Busy Checker
+[17-56-13] [THREAD STARTED]: ConsoleFrame Stat Saver
+[17-56-14] [UI ACTION]: Console loaded in 4140ms
+[17-56-14] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 821405322, bounds = (202, 410, 896, 600), parent
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[17-56-14] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[17-56-14] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 963772207, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[17-56-14] [SYSTEM_IO]: Userdata requested: DebugWindows
+[17-56-14] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[17-56-14] [SYSTEM_IO]: Userdata requested: laststart
+[17-56-14] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-14] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-14] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 286, h = 29, text = <html>Console loaded in 4140ms</html>
+[17-56-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162573431.json
+[17-56-14] [THREAD STARTED]: notification appear animation
+[17-56-14] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[17-56-14] [THREAD STARTED]: Notificaiton Vanish Animator
+[17-56-15] [CLIENT]: path
+[17-56-15] [SYSTEM_IO]: Userdata requested: filterchat
+[17-56-16] [THREAD STARTED]: [Pathfinding Visualizer]  finalizeAndShow
+[17-56-16] [WIDGET OPENED]: PathFinderWidget, trigger = path
+[17-56-16] [HANDLE]: PRIMARY HANDLE
+[17-56-16] [CONSOLE_OUT]: [STRING] Opening widget: PathFinderWidget
+[17-56-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-17] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-17] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162574378.json
+[17-56-17] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-18] [OBJECT CREATION]: Objects created since last delta (5s): 88
+[17-56-18] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-18] [UI ACTION]: Component = CyderLabel, hash = 1642042864, bounds = (40, 30, 920, 60), parent frame = Pathfindin
+           g Visualizer, getText() = <html><div style='text-align: center;'>State: Not Star<font color = rgb(223,85,83)>t</font>ed</html>
+[17-56-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[17-56-20] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-20] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162577067.json
+[17-56-22] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[17-56-23] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[17-56-23] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-24] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-24] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162580698.json
+[17-56-26] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[17-56-27] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-27] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162584071.json
+[17-56-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-28] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[17-56-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[17-56-30] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-30] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162587210.json
+[17-56-32] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[17-56-33] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[17-56-33] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-33] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162590314.json
+[17-56-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[17-56-36] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-36] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162593415.json
+[17-56-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-38] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[17-56-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[17-56-39] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-39] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162596633.json
+[17-56-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[17-56-42] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-42] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162599800.json
+[17-56-43] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[17-56-45] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[17-56-46] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-46] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162602905.json
+[17-56-47] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[17-56-48] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[17-56-48] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-49] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-49] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162606034.json
+[17-56-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[17-56-52] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-52] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162609180.json
+[17-56-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[17-56-53] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[17-56-54] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[17-56-55] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 0] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[17-56-55] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648162612305.json
+[17-56-57] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[17-57-20] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

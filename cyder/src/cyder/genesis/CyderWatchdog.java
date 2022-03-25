@@ -134,6 +134,7 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo fix grid scrolling up sets back one if already at max, same in opposite dir
     // todo new console and analyze code on readme
     // todo conway, pathfinding, and convex hull on readme
     // todo conway add first and last to reach same max score

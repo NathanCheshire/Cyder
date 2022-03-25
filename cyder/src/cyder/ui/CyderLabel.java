@@ -230,4 +230,13 @@ public class CyderLabel extends JLabel {
     private String getColoredText(String text, Color c) {
         return "<font color = rgb(" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + ")>" + text + "</font>";
     }
+
+    /**
+     * Updates the label font to use the provided size.
+     *
+     * @param size the size for the label font
+     */
+    public void setFontSize(int size) {
+        setFont(getFont().deriveFont(size));
+    }
 }

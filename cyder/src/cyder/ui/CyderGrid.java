@@ -77,6 +77,16 @@ public class CyderGrid extends JLabel {
     private Color nodeColor = CyderColors.navy;
 
     /**
+     * The color to use for the next node placed in some rare cases
+     */
+    private Color nextNodeColor;
+
+    /**
+     * The node color before next node color was set.
+     */
+    private Color resetAfterNodesPlacedColor;
+
+    /**
      * An enum for adding/removing nodes from the grid.
      */
     public enum Mode {
@@ -104,6 +114,11 @@ public class CyderGrid extends JLabel {
     private float centeringDrawOffset;
 
     /**
+     * The linked list of callables to invoke when the next node is placed.
+     */
+    private final LinkedList<Runnable> runnablesForWhenNextNodePlaced = new LinkedList<>();
+
+    /**
      * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
      */
     public CyderGrid() {
@@ -128,8 +143,18 @@ public class CyderGrid extends JLabel {
         grid = new LinkedList<>() {
             @Override
             public boolean add(GridNode gridNode) {
+                // most recently added node with x,y pair is what will show up
                 if (grid.contains(gridNode))
                     super.remove(gridNode);
+
+                // if node should be unique
+                if (uniqueColors.contains(gridNode.getColor())) {
+                    for (GridNode node : getGridNodes()) {
+                        if (node.getColor().equals(gridNode.getColor())) {
+                            removeNode(node);
+                        }
+                    }
+                }
 
                 return super.add(gridNode);
             }
@@ -171,6 +196,7 @@ public class CyderGrid extends JLabel {
      */
     public void addNode(GridNode node) {
         grid.add(node);
+        invokeRunnables();
     }
 
     /**
@@ -433,7 +459,15 @@ public class CyderGrid extends JLabel {
         int x = (int) ((event.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
         int y = (int) ((event.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
 
-        GridNode node = new GridNode(nodeColor, x, y);
+        // color to use for node
+        Color color = nodeColor;
+
+        if (nextNodeColor != null) {
+            color = nextNodeColor;
+            nextNodeColor = null;
+        }
+
+        GridNode node = new GridNode(color, x, y);
 
         // make sure node isn't out of bounds
         if (x < 0 || y < 0 || x >= nodes || y >= nodes)
@@ -696,6 +730,16 @@ public class CyderGrid extends JLabel {
      */
     public void setNodeColor(Color nodeColor) {
         this.nodeColor = nodeColor;
+        resetAfterNodesPlacedColor = null;
+    }
+
+    /**
+     * Sets the color for the next node placed to the provided color.
+     *
+     * @param nextNodeColor the color for the next placed node
+     */
+    public void setNextNodeColor(Color nextNodeColor) {
+        this.nextNodeColor = nextNodeColor;
     }
 
     /**
@@ -1201,5 +1245,60 @@ public class CyderGrid extends JLabel {
 
         // account for node length and shift to node's center
         return (((gridComponentLength * gridPoint) / (float) nodes) + centeringDrawOffset) + halfNodeLen;
+    }
+
+    /**
+     * Adds the provided runnable to invoke when the next node is placed.
+     *
+     * @param runnable the runnable to invoke when the next node is placed.
+     */
+    public void invokeWhenNodePlaced(Runnable runnable) {
+        runnablesForWhenNextNodePlaced.add(runnable);
+    }
+
+    /**
+     * Invokes all the runnables currently added to the list.
+     */
+    private void invokeRunnables() {
+        for (Runnable runnable : runnablesForWhenNextNodePlaced) {
+            runnable.run();
+        }
+
+        runnablesForWhenNextNodePlaced.clear();
+    }
+
+    /**
+     * Returns a linked list of all nodes with the provided color.
+     *
+     * @param color the color of the nodes to find on the grid.
+     * @return a linked list of all nodes with the provided color
+     */
+    public LinkedList<GridNode> getNodesOfColor(Color color) {
+        LinkedList<GridNode> ret = new LinkedList<>();
+
+        for (GridNode node : grid) {
+            if (node.getColor().equals(color)) {
+                ret.add(node);
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * The list of unique colors.
+     */
+    private final LinkedList<Color> uniqueColors = new LinkedList<>();
+
+    /**
+     * Adds the provided color the unique node list meaning
+     * no other node may have the color except the most
+     * recenlty added node with the color.
+     *
+     * @param color the unique color
+     */
+    public void addUniqueNodeColor(Color color) {
+        if (!uniqueColors.contains(color))
+            uniqueColors.add(color);
     }
 }
