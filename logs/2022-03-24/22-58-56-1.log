@@ -1,0 +1,139 @@
+[22-58-56] [JVM_ENTRY]: [Nathan]
+[22-58-56] [THREAD STARTED]: Object Creation Logger
+[22-58-56] [THREAD STARTED]: Watchdog Initializer
+[22-58-56] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[22-58-57] [FONT LOADED]: font name = agency-fb
+[22-58-57] [FONT LOADED]: font name = arial-black
+[22-58-57] [FONT LOADED]: font name = beyno
+[22-58-57] [FONT LOADED]: font name = darling-in-paris
+[22-58-57] [FONT LOADED]: font name = Prompt-Bold
+[22-58-57] [FONT LOADED]: font name = segoe-ui-black
+[22-58-57] [FONT LOADED]: font name = tahoma
+[22-58-57] [THREAD STARTED]: Splash Loader
+[22-58-57] [THREAD STARTED]: Splash Animation
+[22-58-58] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[22-58-58] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[22-58-58] [THREAD STARTED]: JVM Args Logger
+[22-58-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[22-58-58] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-58-58] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648180467968.json
+[22-58-58] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[22-58-58] [SYSTEM_IO]: Userdata requested: RandomBackground
+[22-58-58] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-58-59] [SYSTEM_IO]: Userdata requested: fullscreen
+[22-58-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-58-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-58-59] [THREAD STARTED]: Console Printing Animation
+[22-58-59] [SYSTEM_IO]: Userdata requested: OutputBorder
+[22-58-59] [SYSTEM_IO]: Userdata requested: FullScreen
+[22-58-59] [SYSTEM_IO]: Userdata requested: InputBorder
+[22-58-59] [THREAD STARTED]: Console Input Caret Position Updater
+[22-58-59] [SYSTEM_IO]: Userdata requested: OutputFill
+[22-58-59] [SYSTEM_IO]: Userdata requested: InputFill
+[22-58-59] [THREAD STARTED]: High Ping Checker
+[22-58-59] [THREAD STARTED]: Hourly Chime Checker
+[22-58-59] [THREAD STARTED]: Console Clock Updater
+[22-58-59] [THREAD STARTED]: Cyder Busy Checker
+[22-58-59] [THREAD STARTED]: ConsoleFrame Stat Saver
+[22-58-59] [UI ACTION]: Console loaded in 3144ms
+[22-58-59] [OBJECT CREATION]: Objects created since last delta (5s): 94
+[22-58-59] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 785271142, bounds = (879, 792, 896, 600), parent
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[22-58-59] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[22-58-59] [THREAD STARTED]: Cyder Watchdog
+[22-58-59] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 737870209, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[22-58-59] [SYSTEM_IO]: Userdata requested: DebugWindows
+[22-58-59] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[22-58-59] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 286, h = 29, text = <html>Console loaded in 3144ms</html>
+[22-58-59] [THREAD STARTED]: notification appear animation
+[22-58-59] [THREAD STARTED]: [Pathfinding Visualizer]  finalizeAndShow
+[22-58-59] [SYSTEM_IO]: Userdata requested: laststart
+[22-58-59] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[22-58-59] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[22-58-59] [THREAD STARTED]: Notificaiton Vanish Animator
+[22-58-59] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648180738262.json
+[22-59-00] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-01] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-02] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-03] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-04] [THREAD STARTED]: Path Solver
+[22-59-04] [UI ACTION]: Component = CyderButton, hash = 1721394784, bounds = (400, 940, 170, 40), parent frame =
+           Pathfinding Visualizer, getText() = Stop
+[22-59-04] [THREAD STARTED]: Pathfinding path animation
+[22-59-04] [OBJECT CREATION]: Objects created since last delta (5s): 1978
+[22-59-04] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-05] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-06] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-07] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-09] [OBJECT CREATION]: Objects created since last delta (5s): 2
+[22-59-09] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-10] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-11] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+
+
+           
+
+           
+
+           
+
+           
+
+[22-59-11] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[22-59-12] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-13] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-14] [OBJECT CREATION]: Objects created since last delta (5s): 1
+[22-59-14] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-15] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-17] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-18] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-19] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-21] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-22] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-23] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-24] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-25] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-26] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-28] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-30] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-31] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-32] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-33] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-37] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-38] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-42] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-43] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-44] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-45] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-46] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-47] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-48] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-49] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-50] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-54] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[22-59-54] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[22-59-54] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[22-59-54] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 785271142,
+           bounds = (879, 792, 896, 600), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan]
+[22-59-54] [SYSTEM_IO]: Userdata requested: closeanimation
+[22-59-54] [EXIT]: [RUNTIME] 58s
+[22-59-54] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled
+           Exit], exceptions thrown: 0

@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
@@ -125,19 +126,19 @@ public class PathFinderWidget {
     private static JSlider speedSlider;
 
     /**
-     * The default slider value.
-     */
-    private static final int DEFAULT_SLIDER_VALUE = 500;
-
-    /**
      * The maximum slider value.
      */
-    private static final int MAX_SLIDER_VALUE = 1000;
+    private static final int MAX_SLIDER_VALUE = 500;
 
     /**
      * The minimum slider value.
      */
     private static final int MIN_SLIDER_VALUE = 0;
+
+    /**
+     * The default slider value in between the min and max values.
+     */
+    private static final int DEFAULT_SLIDER_VALUE = (MIN_SLIDER_VALUE + MAX_SLIDER_VALUE ) / 2;
 
     /**
      * The nodes in the current path provided one was found.
@@ -147,7 +148,7 @@ public class PathFinderWidget {
     /**
      * The timeout in ms between the path animation refresh.
      */
-    private static final int PATH_TRICLE_TIMEOUT = 50;
+    private static final int PATH_TRICLE_TIMEOUT = 35;
 
     /**
      * The current state of the A* algorithm.
@@ -267,7 +268,7 @@ public class PathFinderWidget {
         pathfindingGrid.setBounds(100, 80, 800, 800);
         pathfindingGrid.setMinNodes(DEFAULT_NODES);
         pathfindingGrid.setMaxNodes(MAX_NODES);
-        pathfindingGrid.setDrawGridLines(false);
+        pathfindingGrid.setDrawGridLines(true); // todo toggle this via checkbox
         pathfindingGrid.setDrawExtendedBorder(true);
         pathfindingGrid.setBackground(CyderColors.vanila);
         pathfindingGrid.setResizable(true);
@@ -279,11 +280,15 @@ public class PathFinderWidget {
 
         currentStateLabel = new CyderLabel();
         currentStateLabel.setFont(STATE_LABEL_FONT);
-        currentStateLabel.setRippleChars(5);
-        currentStateLabel.setRippleMsTimeout(50);
         currentStateLabel.setBounds(40, CyderDragLabel.DEFAULT_HEIGHT,
-                pathFindingFrame.getWidth() - 80, 60);
+                pathFindingFrame.getWidth() - 80, 50);
         pathFindingFrame.getContentPane().add(currentStateLabel);
+
+        // todo use resume for text when resumed state
+
+        // todo look for optimizations after
+
+        // only do animation if the node is already the blue color
 
         // todo if you want a 6th checkbox for design purposes use one to draw grid lines
 
@@ -388,14 +393,16 @@ public class PathFinderWidget {
 
             // if not running
             if (currentPathingState != PathingState.RUNNING) {
+                // STOPSHIP: 3/24/2022
+
                 disableUiElements();
                 startPauseButton.setText("Stop");
 
-                // transition state
-                currentPathingState = PathingState.RUNNING;
-
                 // resume if paused
                 if (currentPathingState == PathingState.PAUSED) {
+                    // transition state
+                    currentPathingState = PathingState.RUNNING;
+
                     // all setup was already performed so just start stepping again
                     startMainWhile();
                 }
@@ -405,6 +412,7 @@ public class PathFinderWidget {
                 }
             } else {
                 currentPathingState = PathingState.PAUSED;
+                startPauseButton.setText("Start");
                 updateStateLabel();
                 enableUiElements();
             }
@@ -473,7 +481,7 @@ public class PathFinderWidget {
 
         // reset possible previous path
         for (PathNode pathNode : computedPathNodes) {
-            pathfindingGrid.removeNode(new GridNode(pathNode.getX(), pathNode.getY()));
+          //  pathfindingGrid.removeNode(new GridNode(pathNode.getX(), pathNode.getY()));
         }
 
         computedPathNodes.clear();
@@ -494,21 +502,25 @@ public class PathFinderWidget {
 
         // find new pathable nodes which aren't start, goal, or walls
         pathableNodes.clear();
-        for (GridNode node : pathfindingGrid.getGridNodes()) {
-            // skip walls
-            if (wallNodes.contains(node))
-                continue;
+        for (int x = 0 ; x < pathfindingGrid.getNodeDimensionLength() ; x++) {
+            for (int y = 0 ; y < pathfindingGrid.getNodeDimensionLength() ; y++) {
+                GridNode node = new GridNode(x, y);
 
-            // skip start
-            if (node.equals(gridStart))
-                continue;
+                // skip walls
+                if (wallNodes.contains(node))
+                    continue;
 
-            // skip goal
-            if (node.equals(gridGoal))
-                continue;
+                // skip start
+                if (startNode.equals(node))
+                    continue;
 
-            // otherwise it's a pathable node so convert and add
-            pathableNodes.add(new PathNode(node.getX(), node.getY()));
+                // skip goal node
+                if (goalNode.equals(node))
+                    continue;
+
+                // otherwise it's a pathable node so convert and add
+                pathableNodes.add(new PathNode(node.getX(), node.getY()));
+            }
         }
 
         // reset open nodes
@@ -534,6 +546,8 @@ public class PathFinderWidget {
      * All setup of lists must be performed before invoking this method.
      */
     private static void startMainWhile() {
+        updateStateLabel();
+
         CyderThreadRunner.submit(() -> {
             try {
                 while (currentPathingState == PathingState.RUNNING) {
@@ -597,12 +611,16 @@ public class PathFinderWidget {
             // path hasn't been found yet but one may still
             // exist since there are nodes in the open list
             // therefore refresh the grid
-            for (PathNode pathNode : pathableNodes) {
-                pathfindingGrid.addNode(new GridNode(pathNode.getParent() == null
+            for (PathNode pathNode : openNodes) {
+                if (pathNode.equals(startNode) || pathNode.equals(goalNode))
+                    continue;
+
+                // todo color doesn't work still
+                pathfindingGrid.addNode(new GridNode(pathNode.getParent().getParent() == null
                         ? pathableOpenColor : pathableClosedColor, pathNode.getX(), pathNode.getY()));
             }
             pathfindingGrid.repaint();
-        } else pathFound();
+        } else pathNotFound();
     }
 
     /**
@@ -618,6 +636,8 @@ public class PathFinderWidget {
 
         // enable ui elements
         enableUiElements();
+
+        updateStateLabel();
 
         // traverse from goal back to start to construct the path
         PathNode refNode = goalNode.getParent();
@@ -638,49 +658,77 @@ public class PathFinderWidget {
         // start path tricle animation thread
         // this simply changes the color of the actual grid nodes based on the
         // nodes within the found path
+        // todo how to properly stop this when reset is pressed, don't allow nodes to be
         CyderThreadRunner.submit(() -> {
             try {
-                OUTER:
-                    while (currentPathingState == PathingState.PATH_FOUND) {
-                        for (int i = 0 ; i < pathReversed.size() ; i++) {
-                            if (currentPathingState != PathingState.PATH_FOUND)
-                                break OUTER;
+                for (int i = 0 ; i < pathReversed.size() ; i++) {
+                    if (currentPathingState != PathingState.PATH_FOUND)
+                        return;
 
-                            GridNode updateNode = null;
+                    GridNode updateNode = null;
 
-                            for (GridNode node : pathfindingGrid.getGridNodes()) {
-                                if (node.getX() == pathReversed.get(i).getX()
-                                        && node.getY() == pathReversed.get(i).getY()) {
-                                    updateNode = node;
-                                    break;
-                                }
-                            }
-
-                            updateNode.setColor(pathAnimationColor);
-                            Thread.sleep(PATH_TRICLE_TIMEOUT);
-                            updateNode.setColor(pathColor);
-                        }
-
-                        for (int i = pathReversed.size() - 1 ; i >= 0 ; i--) {
-                            if (currentPathingState != PathingState.PATH_FOUND)
-                                break OUTER;
-
-                            GridNode updateNode = null;
-
-                            for (GridNode node : pathfindingGrid.getGridNodes()) {
-                                if (node.getX() == pathReversed.get(i).getX()
-                                        && node.getY() == pathReversed.get(i).getY()) {
-                                    updateNode = node;
-                                    break;
-                                }
-                            }
-
-                            updateNode.setColor(pathAnimationColor);
-                            Thread.sleep(PATH_TRICLE_TIMEOUT);
-                            updateNode.setColor(pathColor);
+                    for (GridNode node : pathfindingGrid.getGridNodes()) {
+                        if (node.getX() == pathReversed.get(i).getX()
+                                && node.getY() == pathReversed.get(i).getY()) {
+                            updateNode = node;
+                            break;
                         }
                     }
+
+                    updateNode.setColor(pathAnimationColor);
+                    pathfindingGrid.repaint();
+                    Thread.sleep(PATH_TRICLE_TIMEOUT);
+                }
+
+
+                while (currentPathingState == PathingState.PATH_FOUND) {
+                    for (int i = 0 ; i < pathReversed.size() ; i++) {
+                        if (currentPathingState != PathingState.PATH_FOUND)
+                            return;
+
+                        GridNode updateNode = null;
+
+                        for (GridNode node : pathfindingGrid.getGridNodes()) {
+                            if (node.getX() == pathReversed.get(i).getX()
+                                    && node.getY() == pathReversed.get(i).getY()) {
+                                updateNode = node;
+                                break;
+                            }
+                        }
+
+                        updateNode.setColor(pathColor);
+                        pathfindingGrid.repaint();
+                        Thread.sleep(PATH_TRICLE_TIMEOUT);
+                        updateNode.setColor(pathAnimationColor);
+                        pathfindingGrid.repaint();
+                    }
+
+                    for (int i = pathReversed.size() - 1 ; i >= 0 ; i--) {
+                        if (currentPathingState != PathingState.PATH_FOUND)
+                            return;
+
+                        GridNode updateNode = null;
+
+                        for (GridNode node : pathfindingGrid.getGridNodes()) {
+                            if (node.getX() == pathReversed.get(i).getX()
+                                    && node.getY() == pathReversed.get(i).getY()) {
+                                updateNode = node;
+                                break;
+                            }
+                        }
+
+                        updateNode.setColor(pathColor);
+                        pathfindingGrid.repaint();
+                        Thread.sleep(PATH_TRICLE_TIMEOUT);
+                        updateNode.setColor(pathAnimationColor);
+                        pathfindingGrid.repaint();
+                    }
+                }
             } catch (Exception e) {
+                // don't care about these for now
+                if (e instanceof ConcurrentModificationException)
+                    return;
+
                 ExceptionHandler.handle(e);
             }
             pathfindingGrid.repaint();
@@ -780,23 +828,18 @@ public class PathFinderWidget {
         switch (currentPathingState) {
             case PAUSED:
                 currentStateLabel.setText("State: Paused");
-                currentStateLabel.setRippling(false);
                 break;
             case RUNNING:
                 currentStateLabel.setText("State: Running...");
-                currentStateLabel.setRippling(false);
                 break;
             case PATH_FOUND:
                 currentStateLabel.setText("State: Path found");
-                currentStateLabel.setRippling(true);
                 break;
             case PATH_NOT_FOUND:
                 currentStateLabel.setText("State: No path found");
-                currentStateLabel.setRippling(false);
                 break;
             case NOT_STARTED:
                 currentStateLabel.setText("State: Not Started");
-                currentStateLabel.setRippling(false);
                 break;
             default:
                 throw new IllegalStateException("Invalid currentPathingState: " + currentPathingState);
@@ -819,9 +862,6 @@ public class PathFinderWidget {
      * Resets the visualizer as if the widget was just opened.
      */
     public static void reset() {
-        // reset state
-        currentPathingState = PathingState.NOT_STARTED;
-
         // ensure ui elements are enabled
         enableUiElements();
 
@@ -831,8 +871,11 @@ public class PathFinderWidget {
         uncheckBoxes();
         resetSwitcherStates();
         clearLists();
-        updateStateLabel();
         resetStartAndGoalNodes();
+
+        // reset state
+        currentPathingState = PathingState.NOT_STARTED;
+        updateStateLabel();
 
         // reset initial grid length
         pathfindingGrid.setNodeDimensionLength(DEFAULT_NODES);

@@ -106,16 +106,19 @@ public class UserUtil {
            // write to user data file
            setUserData(cyderUserFile, cyderUser);
 
-           // log the write since we know the user is valid
-           Logger.log(LoggerTag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
-                   + currentLevenshteinDistance + "] User was written to file: "
-                   + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
+           // don't bother with other actions if the written value was no different than the previous
+           if (currentLevenshteinDistance > 0) {
+               // log the write since we know the user is valid
+               Logger.log(LoggerTag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
+                       + currentLevenshteinDistance + "] User was written to file: "
+                       + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
-           // validate the user is still valid
-           getterSetterValidator(cyderUserFile);
+               // validate the user is still valid
+               getterSetterValidator(cyderUserFile);
 
-           // backup the file
-           userJsonBackupSubroutine(cyderUserFile);
+               // backup the file
+               userJsonBackupSubroutine(cyderUserFile);
+           }
        } catch (Exception e) {
            ExceptionHandler.handle(e);
        }
