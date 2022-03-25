@@ -712,6 +712,7 @@ public class CyderGrid extends JLabel {
 
     public void setMaxNodes(int maxNodes) {
         this.maxNodes = maxNodes;
+        // todo need to update sizes
     }
 
     /**
