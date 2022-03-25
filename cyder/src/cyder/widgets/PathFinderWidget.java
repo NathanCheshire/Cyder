@@ -454,84 +454,100 @@ public class PathFinderWidget {
         pathFindingFrame.finalizeAndShow();
     }
 
+    // pathable closed or open depending on if the parent is null
+    private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
+
     // nodes in the open list are pathable opened
     private static final PriorityQueue<PathNode> openNodes = new PriorityQueue<>(new NodeComparator());
 
     // navy nodes
-    private static final LinkedList<PathNode> wallNodes = new LinkedList<>();
-
-    // pathable closed or open depending on if the parent is null
-    private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
+    private static final LinkedList<GridNode> wallNodes = new LinkedList<>();
 
     // todo redo method
     //performs the setup for the A* algorithm so that the timer can call update to interate over the next nodes
 
     /**
      * Performs the setup necessary to start path finding such as
-     * initializing the lists, finding the start and goal nodes
+     * initializing the lists, finding the start and goal nodes,
+     * and converting GridNodes to PathNodes.
      */
     private static void searchSetup() {
-        // reset path
-        computedPathNodes.clear();
+        // todo check for start and goal nodes not set
 
-        // todo reset pathing state
-
-        // reset start and goal parents
-        goalNode.setParent(null);
-        startNode.setParent(null);
-
-        // clear nodes to path through
-        pathableNodes.clear();
-
-        // todo can determine what nodes are based off of color too
-
-        // todo need conversion functions?
-        for (GridNode node : pathfindingGrid.getGridNodes()) {
-            PathNode addNode = new PathNode(node.getX(), node.getY());
-
-            boolean isWall = false;
-
-            for (PathNode n : wallNodes) {
-                if (n.equals(addNode)) {
-                    isWall = true;
-                    break;
-                }
-            }
-
-            if (!isWall) {
-                pathableNodes.add(addNode);
-            }
+        // reset possible previous path
+        for (PathNode pathNode : computedPathNodes) {
+            // todo reset all grid nodes with same x,y to default so that we can path on them
         }
 
-        // ensure open list is empty
+        computedPathNodes.clear();
+
+        // clear and get new walls, doesn't need to be GridNode
+        wallNodes.clear();
+        wallNodes.addAll(pathfindingGrid.getNodesOfColor(wallsColor));
+
+        // get goal node and convert to path node
+        GridNode gridGoal = pathfindingGrid.getNodesOfColor(goalNodeColor).get(0);
+        goalNode = new PathNode(gridGoal.getX(), gridGoal.getY());
+        goalNode.setParent(null);
+
+        // get start node and convert to path node
+        GridNode gridStart = pathfindingGrid.getNodesOfColor(startNodeColor).get(0);
+        startNode = new PathNode(gridStart.getX(), gridStart.getY());
+        startNode.setParent(null);
+
+        // find new pathable nodes which aren't start, goal, or walls
+        pathableNodes.clear();
+        for (GridNode node : pathfindingGrid.getGridNodes()) {
+            // skip walls
+            if (wallNodes.contains(node))
+                continue;
+
+            // skip start
+            if (node.equals(gridStart))
+                continue;
+
+            // skip goal
+            if (node.equals(gridGoal))
+                continue;
+
+            // otherwise it's a pathable node so convert and add
+            pathableNodes.add(new PathNode(node.getX(), node.getY()));
+        }
+
+        // reset open nodes
         openNodes.clear();
 
-        //put start in the open
+        // put start in the open after setting costs
         startNode.setG(0);
         startNode.setH(heuristic(goalNode));
         openNodes.add(startNode);
 
-        //animation chosen
-        if (showStepsBox.isSelected()) {
-            // todo
-            //pathfinderAnimationTimer.start();
-            //spins off below action listener to update grid until path found or no path found or user intervention
-        } else {
-            //instantly solve and paint grid and animate path if found and show words PATH or NO PATH
-            // use a separate thread though to avoid lag
-            CyderThreadRunner.submit(() -> {
-                while (goalNode.getParent() == null) {
-                    pathStep();
-                }
+        // update state
+        currentPathingState = PathingState.RUNNING;
 
-                // todo shouldn't we only get here if the goal node has a parent
-                if (goalNode.getParent() != null) {
-                    pathFound();
-                } else {
-                    pathNotFound();
-                }
-            },"Path Solver");
-        }
+        // disable ui elements
+        disableUiElements();
+
+        CyderThreadRunner.submit(() -> {
+           try {
+               while (goalNode.getParent() == null) {
+                   pathStep();
+
+                   if (showStepsBox.isSelected()) {
+                       Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
+                   }
+               }
+
+               // todo shouldn't we only get here if the goal node has a parent
+               if (goalNode.getParent() != null) {
+                   pathFound();
+               } else {
+                   pathNotFound();
+               }
+           } catch (Exception e) {
+               ExceptionHandler.handle(e);
+           }
+        },"Path Solver");
     }
 
     /**
@@ -619,6 +635,8 @@ public class PathFinderWidget {
         computedPathNodes = pathReversed;
 
         // start path tricle animation thread
+        // this simply changes the color of the actual grid nodes based on the
+        // nodes within the found path
         CyderThreadRunner.submit(() -> {
             try {
                 OUTER:
