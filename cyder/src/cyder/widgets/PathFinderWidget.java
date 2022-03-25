@@ -374,30 +374,30 @@ public class PathFinderWidget {
         startPauseButton = new CyderButton("Start");
         startPauseButton.setBounds(400,940, 170, 40);
         startPauseButton.addActionListener(e -> {
-            // ensure pathing is possible
-            if (startNode == null) {
+            // start must be placed
+            if (pathfindingGrid.getNodesOfColor(startNodeColor).isEmpty()) {
                 pathFindingFrame.notify("Start node not set");
                 return;
-            } else if (goalNode == null) {
+            }
+
+            // goal must be placed
+            if (pathfindingGrid.getNodesOfColor(goalNodeColor).isEmpty()) {
                 pathFindingFrame.notify("End node not set");
                 return;
             }
-            // todo how to determine start and end node now? need methods to get based on color
-
-            // todo redo below logic
 
             // if not running
             if (currentPathingState != PathingState.RUNNING) {
                 disableUiElements();
                 startPauseButton.setText("Stop");
-                // todo methods for the above
 
                 // transition state
                 currentPathingState = PathingState.RUNNING;
 
                 // resume if paused
                 if (currentPathingState == PathingState.PAUSED) {
-                    // todo resume animation
+                    // all setup was already performed so just start stepping again
+                    startMainWhile();
                 }
                 // otherwise first start so setup then run
                 else {
@@ -405,8 +405,8 @@ public class PathFinderWidget {
                 }
             } else {
                 currentPathingState = PathingState.PAUSED;
-
-                // todo update UI elements
+                updateStateLabel();
+                enableUiElements();
             }
         });
         pathFindingFrame.getContentPane().add(startPauseButton);
@@ -463,20 +463,17 @@ public class PathFinderWidget {
     // navy nodes
     private static final LinkedList<GridNode> wallNodes = new LinkedList<>();
 
-    // todo redo method
-    //performs the setup for the A* algorithm so that the timer can call update to interate over the next nodes
-
     /**
      * Performs the setup necessary to start path finding such as
      * initializing the lists, finding the start and goal nodes,
      * and converting GridNodes to PathNodes.
      */
     private static void searchSetup() {
-        // todo check for start and goal nodes not set
+        // this is only invoked if start and goal are set so safe not to check here
 
         // reset possible previous path
         for (PathNode pathNode : computedPathNodes) {
-            // todo reset all grid nodes with same x,y to default so that we can path on them
+            pathfindingGrid.removeNode(new GridNode(pathNode.getX(), pathNode.getY()));
         }
 
         computedPathNodes.clear();
@@ -528,25 +525,27 @@ public class PathFinderWidget {
         // disable ui elements
         disableUiElements();
 
+        // start main program loop
+        startMainWhile();
+    }
+
+    /**
+     * Starts the main A* while loop.
+     * All setup of lists must be performed before invoking this method.
+     */
+    private static void startMainWhile() {
         CyderThreadRunner.submit(() -> {
-           try {
-               while (goalNode.getParent() == null) {
-                   pathStep();
+            try {
+                while (currentPathingState == PathingState.RUNNING) {
+                    pathStep();
 
-                   if (showStepsBox.isSelected()) {
-                       Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
-                   }
-               }
-
-               // todo shouldn't we only get here if the goal node has a parent
-               if (goalNode.getParent() != null) {
-                   pathFound();
-               } else {
-                   pathNotFound();
-               }
-           } catch (Exception e) {
-               ExceptionHandler.handle(e);
-           }
+                    if (showStepsBox.isSelected()) {
+                        Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
+                    }
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         },"Path Solver");
     }
 
@@ -594,14 +593,16 @@ public class PathFinderWidget {
                     }
                 }
             }
-        } else {
-            // todo shouldn't this always be path not found
-            if (goalNode.getParent() != null) {
-                pathFound();
-            } else {
-                pathNotFound();
+
+            // path hasn't been found yet but one may still
+            // exist since there are nodes in the open list
+            // therefore refresh the grid
+            for (PathNode pathNode : pathableNodes) {
+                pathfindingGrid.addNode(new GridNode(pathNode.getParent() == null
+                        ? pathableOpenColor : pathableClosedColor, pathNode.getX(), pathNode.getY()));
             }
-        }
+            pathfindingGrid.repaint();
+        } else pathFound();
     }
 
     /**
@@ -801,9 +802,6 @@ public class PathFinderWidget {
                 throw new IllegalStateException("Invalid currentPathingState: " + currentPathingState);
         }
     }
-
-    // todo just change the color when start node is checked and as soon as start is set
-    // reset the color back
 
     /**
      * Resets the start and goal nodes to their default.
