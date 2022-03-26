@@ -27,23 +27,24 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 
 ## Screenshots
 
-### The Console
-![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/156904195-6b635813-c2ee-4ce6-b20a-0e8a0b5f7d89.png)
+### Console
+
+![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/160225532-d9c7e368-97f2-4196-8ef9-41e5bbe824a9.png)
 
 ### Game of Life Widget
 
 ![Conway](https://user-images.githubusercontent.com/60986919/160225458-c639b3ed-c621-4d9b-bc9e-3ae1d6e0c581.png)
 
-### The Paint Widget
+### Paint Widget
 ![Kirby](https://user-images.githubusercontent.com/60986919/158036314-055f87d4-b21c-4eec-a92c-d65561c75483.png)
 
-### The Paint Widget Controls
+### Paint Widget Controls
 ![PaintControls](https://user-images.githubusercontent.com/60986919/158036316-0abe20d4-3414-40e9-8da5-5ec83430d54d.png)
 
-### The Weather Widget
+### Weather Widget
 ![Weather](https://user-images.githubusercontent.com/60986919/156911464-73221df7-68fa-4ce3-8211-555ddc9c0ac2.png)
 
-### The Audio Player
+### Audio Player
 ![Audio Player](https://user-images.githubusercontent.com/60986919/156904205-39fb8218-412e-4a20-9a27-7d2d7bc39902.png)
 
 ### Pathfinder
