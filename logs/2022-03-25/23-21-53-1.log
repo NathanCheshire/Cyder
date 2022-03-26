@@ -1,0 +1,422 @@
+[23-21-53] [JVM_ENTRY]: [Nathan]
+[23-21-53] [THREAD STARTED]: Object Creation Logger
+[23-21-53] [THREAD STARTED]: Watchdog Initializer
+[23-21-53] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-21-54] [FONT LOADED]: font name = agency-fb
+[23-21-54] [FONT LOADED]: font name = arial-black
+[23-21-54] [FONT LOADED]: font name = beyno
+[23-21-54] [FONT LOADED]: font name = darling-in-paris
+[23-21-54] [FONT LOADED]: font name = Prompt-Bold
+[23-21-54] [FONT LOADED]: font name = segoe-ui-black
+[23-21-54] [FONT LOADED]: font name = tahoma
+[23-21-54] [THREAD STARTED]: Splash Loader
+[23-21-54] [THREAD STARTED]: Splash Animation
+[23-21-54] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-21-54] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-21-54] [THREAD STARTED]: JVM Args Logger
+[23-21-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-21-54] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[23-21-54] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648268205591.json
+[23-21-55] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[23-21-55] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-21-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-21-55] [SYSTEM_IO]: Userdata requested: fullscreen
+[23-21-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-21-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-21-55] [THREAD STARTED]: Console Printing Animation
+[23-21-55] [SYSTEM_IO]: Userdata requested: OutputBorder
+[23-21-55] [SYSTEM_IO]: Userdata requested: FullScreen
+[23-21-56] [SYSTEM_IO]: Userdata requested: InputBorder
+[23-21-56] [THREAD STARTED]: Console Input Caret Position Updater
+[23-21-56] [SYSTEM_IO]: Userdata requested: OutputFill
+[23-21-56] [SYSTEM_IO]: Userdata requested: InputFill
+[23-21-56] [THREAD STARTED]: High Ping Checker
+[23-21-56] [THREAD STARTED]: Hourly Chime Checker
+[23-21-56] [THREAD STARTED]: Console Clock Updater
+[23-21-56] [THREAD STARTED]: Cyder Busy Checker
+[23-21-56] [THREAD STARTED]: ConsoleFrame Stat Saver
+[23-21-56] [UI ACTION]: Console loaded in 3109ms
+[23-21-56] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 1398260359, bounds = (1414, 359, 896, 600), parent 
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[23-21-56] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[23-21-56] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1580669786, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[23-21-56] [SYSTEM_IO]: Userdata requested: DebugWindows
+[23-21-56] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[23-21-56] [OBJECT CREATION]: Objects created since last delta (5s): 98
+[23-21-56] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 285, h = 29, text = <html>Console loaded in 3109ms</html>
+[23-21-56] [THREAD STARTED]: notification appear animation
+[23-21-56] [THREAD STARTED]: Cyder Watchdog
+[23-21-56] [THREAD STARTED]: [Pathfinding Visualizer]  finalizeAndShow
+[23-21-56] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[23-21-56] [SYSTEM_IO]: Userdata requested: laststart
+[23-21-56] [THREAD STARTED]: Notificaiton Vanish Animator
+[23-21-56] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[23-21-56] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648268514958.json
+[23-21-57] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-21-58] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-21-59] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-00] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-01] [THREAD STARTED]: Path Solver
+[23-22-01] [UI ACTION]: Component = CyderButton, hash = 1323308017, bounds = (350, 1000, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Stop
+
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+[23-22-01] [SYSTEM_IO]: Userdata requested: SilenceErrors
+
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+[23-22-01] [SYSTEM_IO]: Userdata requested: SilenceErrors
+
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+           
+
+[23-22-01] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-22-01] [THREAD STARTED]: Pathfinding Path Animator
+[23-22-01] [OBJECT CREATION]: Objects created since last delta (5s): 2988
+[23-22-01] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-02] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-02] [UI ACTION]: Component = CyderButton, hash = 1473569198, bounds = (350, 900, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Reset
+[23-22-03] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-04] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-05] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-05] [UI ACTION]: Component = CyderCheckbox, hash = 344931359, bounds = (180, 920, 50, 50), parent frame =
+           Pathfinding Visualizer
+[23-22-06] [OBJECT CREATION]: Objects created since last delta (5s): 55
+[23-22-06] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-07] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-07] [THREAD STARTED]: Path Solver
+[23-22-07] [UI ACTION]: Component = CyderButton, hash = 1323308017, bounds = (350, 1000, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Stop
+[23-22-07] [THREAD STARTED]: Pathfinding Path Animator
+[23-22-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-09] [UI ACTION]: Component = CyderButton, hash = 1473569198, bounds = (350, 900, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Reset
+[23-22-09] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-10] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-11] [OBJECT CREATION]: Objects created since last delta (5s): 922
+[23-22-11] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-12] [UI ACTION]: Component = CyderCheckbox, hash = 1222293290, bounds = (100, 920, 50, 50), parent frame =
+           Pathfinding Visualizer
+[23-22-12] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-13] [UI ACTION]: Component = CyderCheckbox, hash = 344931359, bounds = (180, 920, 50, 50), parent frame =
+           Pathfinding Visualizer
+[23-22-13] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-14] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-15] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-15] [THREAD STARTED]: Path Solver
+[23-22-15] [UI ACTION]: Component = CyderButton, hash = 1323308017, bounds = (350, 1000, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Stop
+[23-22-15] [THREAD STARTED]: Pathfinding Path Animator
+[23-22-16] [OBJECT CREATION]: Objects created since last delta (5s): 822
+[23-22-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-17] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-17] [UI ACTION]: Component = CyderButton, hash = 1473569198, bounds = (350, 900, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Reset
+[23-22-18] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-19] [UI ACTION]: Component = CyderDragLabel, hash = -14107013, bounds = (2, 2, 996, 28), parent frame = Pathfindi
+           ng Visualizer
+[23-22-19] [THREAD STARTED]: [Pathfinding Visualizer]  dispose() animation thread
+[23-22-19] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = CyderFrame, hash = 1167949383, bounds =
+           (1362, 124, 1000, 1070), parent frame = Component is top frame, getTitle() = Pathfinding Visualizer
+[23-22-19] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-22-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[23-22-21] [OBJECT CREATION]: Objects created since last delta (5s): 84
+[23-22-22] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[23-22-22] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[23-22-22] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 1398260359,
+           bounds = (1414, 359, 896, 600), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan]
+[23-22-22] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-22-22] [EXIT]: [RUNTIME] 29s
+[23-22-22] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled
+           Exit], exceptions thrown: 0

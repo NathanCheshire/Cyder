@@ -259,7 +259,7 @@ public class PathFinderWidget {
         pathfindingGrid.setBounds(100, 80, 800, 800);
         pathfindingGrid.setMinNodes(DEFAULT_NODES);
         pathfindingGrid.setMaxNodes(MAX_NODES);
-        pathfindingGrid.setDrawGridLines(true); // todo toggle this via checkbox
+        pathfindingGrid.setDrawGridLines(true);
         pathfindingGrid.setDrawExtendedBorder(true);
         pathfindingGrid.setBackground(CyderColors.vanila);
         pathfindingGrid.setResizable(true);
@@ -278,7 +278,9 @@ public class PathFinderWidget {
         int startY = pathfindingGrid.getY() + pathfindingGrid.getHeight();
         int startX = pathfindingGrid.getX();
 
-        // todo labels for all checkboxes
+        CyderLabel placeStartLabel = new CyderLabel("Start");
+        placeStartLabel.setBounds(startX - 50, startY + 5,150,40);
+        pathFindingFrame.getContentPane().add(placeStartLabel);
 
         placeStartBox = new CyderCheckbox();
         placeStartBox.setToolTipText("Place start node");
@@ -298,6 +300,10 @@ public class PathFinderWidget {
                 }
             }
         });
+
+        CyderLabel placeGoalLabel = new CyderLabel("Goal");
+        placeGoalLabel.setBounds(startX - 50 + 80, startY + 5,150,40);
+        pathFindingFrame.getContentPane().add(placeGoalLabel);
 
         placeGoalBox = new CyderCheckbox();
         placeGoalBox.setToolTipText("Place goal node");
@@ -322,6 +328,10 @@ public class PathFinderWidget {
         nodeGroup.addCheckbox(placeStartBox);
         nodeGroup.addCheckbox(placeGoalBox);
 
+        CyderLabel deleteWallsLabel = new CyderLabel("Delete walls");
+        deleteWallsLabel.setBounds(startX - 50 + 80 * 2, startY + 5,150,40);
+        pathFindingFrame.getContentPane().add(deleteWallsLabel);
+
         deleteWallsCheckBox = new CyderCheckbox();
         deleteWallsCheckBox.setToolTipText("Delete Walls");
         deleteWallsCheckBox.setBounds(startX + 80 * 2, startY + 40,50,50);
@@ -339,15 +349,27 @@ public class PathFinderWidget {
             }
         });
 
+        CyderLabel showStepsLabel = new CyderLabel("Steps");
+        showStepsLabel.setBounds(startX - 50, startY + 5 + 80,150,40);
+        pathFindingFrame.getContentPane().add(showStepsLabel);
+
         showStepsBox = new CyderCheckbox();
         showStepsBox.setToolTipText("Show steps");
         showStepsBox.setBounds(startX, startY + 40 + 80,50,50);
         pathFindingFrame.getContentPane().add(showStepsBox);
 
+        CyderLabel allowDiagonalsLabel = new CyderLabel("Diagonals");
+        allowDiagonalsLabel.setBounds(startX - 50 + 80, startY + 5 + 80,150,40);
+        pathFindingFrame.getContentPane().add(allowDiagonalsLabel);
+
         diagonalBox = new CyderCheckbox();
         diagonalBox.setToolTipText("Allow diagonals");
         diagonalBox.setBounds(startX + 80, startY + 40 + 80,50,50);
         pathFindingFrame.getContentPane().add(diagonalBox);
+
+        CyderLabel drawGridLinesLabel = new CyderLabel("Grid Lines");
+        drawGridLinesLabel.setBounds(startX - 50 + 80 * 2, startY + 5 + 80,150,40);
+        pathFindingFrame.getContentPane().add(drawGridLinesLabel);
 
         drawGridLinesBox = new CyderCheckbox();
         drawGridLinesBox.setToolTipText("Draw grid lines");
@@ -721,6 +743,9 @@ public class PathFinderWidget {
                             pathfindingGrid.addNode(new GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
                             pathfindingGrid.repaint();
 
+                            if (killed)
+                                return;
+
                             Thread.sleep(PATH_TRICLE_TIMEOUT);
 
                             if (killed)
@@ -743,6 +768,9 @@ public class PathFinderWidget {
                                     (int) pathPoints.get(i).getY()));
                             pathfindingGrid.repaint();
 
+                            if (killed)
+                                return;
+
                             Thread.sleep(PATH_TRICLE_TIMEOUT);
 
                             if (killed)
@@ -752,6 +780,9 @@ public class PathFinderWidget {
                                     (int) pathPoints.get(i).getX(),
                                     (int) pathPoints.get(i).getY()));
                             pathfindingGrid.repaint();
+
+                            if (killed)
+                                return;
                         }
                     }
                 } catch (Exception e) {
@@ -916,6 +947,8 @@ public class PathFinderWidget {
      * Resets the visualizer as if the widget was just opened.
      */
     public static void reset() {
+        endPathAnimator();
+
         // ensure ui elements are enabled
         enableUiElements();
 
@@ -927,8 +960,6 @@ public class PathFinderWidget {
         removePathingNodes();
         resetStartAndGoalNodes();
         removeWalls();
-
-        endPathAnimator();
 
         // reset state
         currentPathingState = PathingState.NOT_STARTED;
