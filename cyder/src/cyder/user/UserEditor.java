@@ -690,6 +690,7 @@ public class UserEditor {
 
         CyderThreadRunner.submit(() -> {
             String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+            fontList.clear();
             Collections.addAll(fontList, Fonts);
 
             for (int i = 0 ; i < fontList.size() ; i++) {

@@ -340,7 +340,8 @@ public class CyderScrollList {
         Preconditions.checkNotNull(labelText);
         Preconditions.checkArgument(!labelText.isEmpty(), "Label text is empty");
         Preconditions.checkNotNull(action);
-        Preconditions.checkArgument(!elementInList(labelText), "Element already exists in scroll list");
+        Preconditions.checkArgument(!elementInList(labelText),
+                "Element already exists in scroll list: " + labelText);
 
         JLabel add = new JLabel(labelText);
         add.setForeground(nonSelectedColor);
