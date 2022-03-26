@@ -80,16 +80,6 @@ public class CyderGrid extends JLabel {
     private Color nodeColor = CyderColors.navy;
 
     /**
-     * The color to use for the next node placed in some rare cases
-     */
-    private Color nextNodeColor;
-
-    /**
-     * The node color before next node color was set.
-     */
-    private Color resetAfterNodesPlacedColor;
-
-    /**
      * An enum for adding/removing nodes from the grid.
      */
     public enum Mode {
@@ -167,15 +157,6 @@ public class CyderGrid extends JLabel {
                 if (grid.contains(gridNode))
                     super.remove(gridNode);
 
-                // if node should be unique
-                if (uniqueColors.contains(gridNode.getColor())) {
-                    for (GridNode node : grid) {
-                        if (node.getColor().equals(gridNode.getColor())) {
-                            removeNode(node);
-                        }
-                    }
-                }
-
                 return super.add(gridNode);
             }
 
@@ -218,7 +199,6 @@ public class CyderGrid extends JLabel {
         lock();
         grid.add(node);
         unlock();
-        invokeRunnables();
     }
 
     /**
@@ -482,7 +462,7 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Used for ALL grid operations and accounts for
+     * Used for grid operations triggered by a user mouse event to account for
      * the possible relative node.
      *
      * @param event the mouse event of where the user clicked/dragged on
@@ -493,15 +473,12 @@ public class CyderGrid extends JLabel {
         int x = (int) ((event.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
         int y = (int) ((event.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
 
-        // color to use for node
-        Color color = nodeColor;
+        GridNode node = new GridNode(nodeColor, x, y);
+        invokeRunnables();
 
-        if (nextNodeColor != null) {
-            color = nextNodeColor;
-            nextNodeColor = null;
+        if (dragEvent) {
+            lastNodePlacedViaDrag = node;
         }
-
-        GridNode node = new GridNode(color, x, y);
 
         // make sure node isn't out of bounds
         if (x < 0 || y < 0 || x >= nodes || y >= nodes)
@@ -615,12 +592,23 @@ public class CyderGrid extends JLabel {
         addMouseMotionListener(dragListener);
     }
 
+    private GridNode lastNodePlacedViaDrag;
+
     /**
      * The listener which allows nodes to be placed during drag events.
      */
     private final MouseMotionListener dragListener = new MouseMotionAdapter() {
         @Override
         public void mouseDragged(MouseEvent e) {
+            // if in the same square as the last node placed by a drag, skip
+            int x = (int) ((e.getX() - centeringDrawOffset) / (gridComponentLength / nodes));
+            int y = (int) ((e.getY() - centeringDrawOffset) / (gridComponentLength / nodes));
+
+            if (lastNodePlacedViaDrag != null &&
+                    x == lastNodePlacedViaDrag.getX() &&
+                    y == lastNodePlacedViaDrag.getY())
+                return;
+
             handleEventAccountingForOffset(e, true);
         }
     };
@@ -752,34 +740,21 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Sets the node color the provided color.
+     *
+     * @param nodeColor the color of the next nodes to place on the grid.
+     */
+    public void setNodeColor(Color nodeColor) {
+        this.nodeColor = nodeColor;
+    }
+
+    /**
      * Returns the default color to use for new nodes.
      *
      * @return the default color to use for new nodes
      */
     public Color getNodeColor() {
         return nodeColor;
-    }
-
-    /**
-     * Sets the default color to use for new nodes.
-     *
-     * @param nodeColor the default color to use for new nodes
-     */
-    public void setNodeColor(Color nodeColor) {
-        this.nodeColor = nodeColor;
-        resetAfterNodesPlacedColor = null;
-    }
-
-    /**
-     * Sets the color for the next node placed to the provided color.
-     *
-     * @param nextNodeColor the color for the next placed node
-     */
-    public void setNextNodeColor(Color nextNodeColor) {
-        if (nextNodeColor == null)
-            this.nextNodeColor = nodeColor;
-
-        this.nextNodeColor = nextNodeColor;
     }
 
     /**
@@ -1358,29 +1333,5 @@ public class CyderGrid extends JLabel {
         lock();
         grid.removeAll(remove);
         unlock();
-    }
-
-    /**
-     * The list of unique colors.
-     */
-    private final LinkedList<Color> uniqueColors = new LinkedList<>();
-
-    /**
-     * Adds the provided color the unique node list meaning
-     * no other node may have the color except the most
-     * recenlty added node with the color.
-     *
-     * @param color the unique color
-     */
-    public void addUniqueNodeColor(Color color) {
-        if (!uniqueColors.contains(color))
-            uniqueColors.add(color);
-    }
-
-    public void removeUniqueNodeColor(Color color) {
-        if (!uniqueColors.contains(color))
-            return;
-
-        uniqueColors.remove(color);
     }
 }

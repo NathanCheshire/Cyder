@@ -19,11 +19,6 @@ import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-// todo reset still doesn't properly work
-// todo disable zooming while animation is underway
-// todo checkboxes glitch out when path animation underway/path found for some reason
-// todo synchronize repainting and adding nodes here
-
 /**
  * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
  * with Euclidean distance and Manhattan distance as valid A* heuristics.
@@ -283,8 +278,6 @@ public class PathFinderWidget {
         pathfindingGrid.setSmoothScrolling(true);
         pathFindingFrame.getContentPane().add(pathfindingGrid);
         pathfindingGrid.setSaveStates(false);
-        pathfindingGrid.addUniqueNodeColor(startNodeColor);
-        pathfindingGrid.addUniqueNodeColor(goalNodeColor);
 
         currentStateLabel = new CyderLabel();
         currentStateLabel.setFont(STATE_LABEL_FONT);
@@ -308,14 +301,20 @@ public class PathFinderWidget {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (placeStartBox.isSelected()) {
-                    pathfindingGrid.setNextNodeColor(startNodeColor);
-                    pathfindingGrid.invokeWhenNodePlaced(() -> placeStartBox.setNotSelected());
+                    pathfindingGrid.setNodeColor(startNodeColor);
+
+                    pathfindingGrid.invokeWhenNodePlaced(() -> {
+                        pathfindingGrid.removeNodesOfColor(startNodeColor);
+
+                        placeStartBox.setNotSelected();
+                        pathfindingGrid.setNodeColor(wallsColor);
+                    });
 
                     // other actions
                     deleteWallsCheckBox.setNotSelected();
                     pathfindingGrid.setMode(CyderGrid.Mode.ADD);
                 } else {
-                    pathfindingGrid.setNextNodeColor(null);
+                    pathfindingGrid.setNodeColor(wallsColor);
                 }
             }
         });
@@ -333,14 +332,20 @@ public class PathFinderWidget {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (placeGoalBox.isSelected()) {
-                    pathfindingGrid.setNextNodeColor(goalNodeColor);
-                    pathfindingGrid.invokeWhenNodePlaced(() -> placeGoalBox.setNotSelected());
+                    pathfindingGrid.setNodeColor(goalNodeColor);
+
+                    pathfindingGrid.invokeWhenNodePlaced(() -> {
+                        pathfindingGrid.removeNodesOfColor(goalNodeColor);
+
+                        placeGoalBox.setNotSelected();
+                        pathfindingGrid.setNodeColor(wallsColor);
+                    });
 
                     // other actions
                     deleteWallsCheckBox.setNotSelected();
                     pathfindingGrid.setMode(CyderGrid.Mode.ADD);
                 } else {
-                    pathfindingGrid.setNextNodeColor(null);
+                    pathfindingGrid.setNodeColor(wallsColor);
                 }
             }
         });
@@ -556,6 +561,9 @@ public class PathFinderWidget {
         // disable ui elements
         disableUiElements();
 
+        // disable zooming
+        pathfindingGrid.setResizable(false);
+
         // start main program loop
         startMainWhile();
     }
@@ -571,9 +579,9 @@ public class PathFinderWidget {
             try {
                 while (currentPathingState == PathingState.RUNNING) {
                     pathStep();
-                    lockingRepaintGrid();
 
                     if (showStepsBox.isSelected()) {
+                        lockingRepaintGrid();
                         Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
                     }
                 }
@@ -656,6 +664,8 @@ public class PathFinderWidget {
 
         enableUiElements();
         updateStateLabel();
+
+        pathfindingGrid.setResizable(true);
 
         // traverse from goal back to start to construct the path
         PathNode refNode = goalNode.getParent();
@@ -829,12 +839,15 @@ public class PathFinderWidget {
     private static void pathNotFound() {
         // set state
         currentPathingState = PathingState.PATH_NOT_FOUND;
+        updateStateLabel();
 
         // reset button text
         startPauseButton.setText("Start");
 
         // enable ui elements
         enableUiElements();
+
+        pathfindingGrid.setResizable(true);
 
         lockingRepaintGrid();
     }
@@ -937,6 +950,9 @@ public class PathFinderWidget {
      * Note this method does not repaint the grid.
      */
     private static void resetStartAndGoalNodes() {
+        pathfindingGrid.removeNodesOfColor(startNodeColor);
+        pathfindingGrid.removeNodesOfColor(goalNodeColor);
+
         startNode = new PathNode(DEFAULT_START_POINT);
         goalNode = new PathNode(DEFAULT_GOAL_POINT);
 
@@ -995,6 +1011,8 @@ public class PathFinderWidget {
 
         // ensure nodes can be drawn on the grid
         pathfindingGrid.installClickAndDragPlacer();
+
+        pathfindingGrid.setResizable(true);
 
         // finally repaint grid
         lockingRepaintGrid();

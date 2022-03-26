@@ -1,0 +1,62 @@
+[12-13-46] [JVM_ENTRY]: [Nathan]
+[12-13-46] [THREAD STARTED]: Object Creation Logger
+[12-13-47] [THREAD STARTED]: Watchdog Initializer
+[12-13-47] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[12-13-47] [FONT LOADED]: font name = agency-fb
+[12-13-47] [FONT LOADED]: font name = arial-black
+[12-13-47] [FONT LOADED]: font name = beyno
+[12-13-47] [FONT LOADED]: font name = Darling in Paris
+[12-13-47] [FONT LOADED]: font name = darling-in-paris
+[12-13-47] [FONT LOADED]: font name = Prompt-Bold
+[12-13-47] [FONT LOADED]: font name = segoe-ui-black
+[12-13-47] [FONT LOADED]: font name = tahoma
+[12-13-47] [THREAD STARTED]: Splash Loader
+[12-13-48] [THREAD STARTED]: Splash Animation
+[12-13-48] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[12-13-48] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[12-13-48] [THREAD STARTED]: JVM Args Logger
+[12-13-48] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[12-13-48] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-13-48] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648314808709.json
+[12-13-48] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[12-13-49] [SYSTEM_IO]: Userdata requested: RandomBackground
+[12-13-49] [SYSTEM_IO]: Userdata requested: FullScreen [4x]
+[12-13-49] [THREAD STARTED]: Console Printing Animation
+[12-13-49] [SYSTEM_IO]: Userdata requested: OutputBorder
+[12-13-49] [SYSTEM_IO]: Userdata requested: FullScreen
+[12-13-49] [SYSTEM_IO]: Userdata requested: InputBorder
+[12-13-49] [THREAD STARTED]: Console Input Caret Position Updater
+[12-13-49] [SYSTEM_IO]: Userdata requested: OutputFill
+[12-13-49] [SYSTEM_IO]: Userdata requested: InputFill
+[12-13-49] [THREAD STARTED]: High Ping Checker
+[12-13-49] [THREAD STARTED]: Hourly Chime Checker
+[12-13-49] [THREAD STARTED]: Console Clock Updater
+[12-13-49] [THREAD STARTED]: Cyder Busy Checker
+[12-13-49] [THREAD STARTED]: ConsoleFrame Stat Saver
+[12-13-49] [UI ACTION]: Console loaded in 3045ms
+[12-13-49] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 2052223881, bounds = (982, 300, 896, 600), parent
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[12-13-49] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[12-13-49] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1832399024, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[12-13-49] [SYSTEM_IO]: Userdata requested: DebugWindows
+[12-13-49] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[12-13-49] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 288, h = 29, text = <html>Console loaded in 3045ms</html>
+[12-13-49] [THREAD STARTED]: notification appear animation
+[12-13-49] [OBJECT CREATION]: Objects created since last delta (5s): 131
+[12-13-49] [THREAD STARTED]: [Pathfinding Visualizer]  finalizeAndShow
+[12-13-49] [SYSTEM_IO]: Userdata requested: laststart
+[12-13-49] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[12-13-49] [THREAD STARTED]: Notificaiton Vanish Animator
+[12-13-49] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[12-13-49] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648314828504.json
+[12-13-50] [THREAD STARTED]: Cyder Watchdog
+[12-13-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[12-13-52] [UI ACTION]: Component = CyderCheckbox, hash = 1048250956, bounds = (100, 920, 50, 50), parent frame =
+           Pathfinding Visualizer
+[12-13-54] [OBJECT CREATION]: Objects created since last delta (5s): 41
+[12-14-55] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

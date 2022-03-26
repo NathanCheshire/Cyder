@@ -1,0 +1,132 @@
+[11-03-12] [JVM_ENTRY]: [Nathan]
+[11-03-12] [THREAD STARTED]: Object Creation Logger
+[11-03-12] [THREAD STARTED]: Watchdog Initializer
+[11-03-12] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[11-03-13] [FONT LOADED]: font name = agency-fb
+[11-03-13] [FONT LOADED]: font name = arial-black
+[11-03-13] [FONT LOADED]: font name = beyno
+[11-03-13] [FONT LOADED]: font name = Darling in Paris
+[11-03-13] [FONT LOADED]: font name = darling-in-paris
+[11-03-13] [FONT LOADED]: font name = Prompt-Bold
+[11-03-13] [FONT LOADED]: font name = segoe-ui-black
+[11-03-13] [FONT LOADED]: font name = tahoma
+[11-03-13] [THREAD STARTED]: Splash Loader
+[11-03-13] [THREAD STARTED]: Splash Animation
+[11-03-14] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[11-03-14] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[11-03-14] [THREAD STARTED]: JVM Args Logger
+[11-03-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[11-03-14] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 1] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[11-03-14] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648310405940.json
+[11-03-15] [LOGIN]: [AUTOCYPHER PASS, 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[11-03-15] [SYSTEM_IO]: Userdata requested: RandomBackground
+[11-03-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-03-15] [OBJECT CREATION]: Objects created since last delta (5s): 64
+[11-03-15] [SYSTEM_IO]: Userdata requested: FullScreen [2x]
+[11-03-15] [THREAD STARTED]: Cyder Watchdog
+[11-03-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-03-15] [THREAD STARTED]: Console Printing Animation
+[11-03-15] [SYSTEM_IO]: Userdata requested: OutputBorder
+[11-03-15] [SYSTEM_IO]: Userdata requested: FullScreen
+[11-03-15] [SYSTEM_IO]: Userdata requested: InputBorder
+[11-03-15] [THREAD STARTED]: Console Input Caret Position Updater
+[11-03-15] [SYSTEM_IO]: Userdata requested: OutputFill
+[11-03-15] [SYSTEM_IO]: Userdata requested: InputFill
+[11-03-15] [THREAD STARTED]: High Ping Checker
+[11-03-15] [THREAD STARTED]: Hourly Chime Checker
+[11-03-15] [THREAD STARTED]: Console Clock Updater
+[11-03-15] [THREAD STARTED]: Cyder Busy Checker
+[11-03-15] [THREAD STARTED]: ConsoleFrame Stat Saver
+[11-03-16] [UI ACTION]: Console loaded in 3623ms
+[11-03-16] [THREAD STARTED]: Component = ConsoleFrame (inner), hash = 2052223881, bounds = (1590, 235, 896, 600), parent 
+           frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan] notification queue checker
+[11-03-16] [THREAD STARTED]: [Cyder Splash]  dispose() animation thread
+[11-03-16] [UI ACTION]: CyderFrame disposed with fastclose: true, Component = CyderFrame, hash = 1003039970, bounds =
+           (980, 396, 600, 600), parent frame = Component is top frame, getTitle() = Cyder Splash
+[11-03-16] [SYSTEM_IO]: Userdata requested: DebugWindows
+[11-03-16] [CONSOLE LOADED]: [Nathan] [TESTING MODE]
+[11-03-16] [UI ACTION]: [Insomnia Cyder [Nathan]] [NOTIFICATION] w = 287, h = 29, text = <html>Console loaded in 3623ms</html>
+[11-03-16] [THREAD STARTED]: notification appear animation
+[11-03-16] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-03-16] [THREAD STARTED]: [Pathfinding Visualizer]  finalizeAndShow
+[11-03-16] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-03-16] [SYSTEM_IO]: Userdata requested: laststart
+[11-03-16] [SYSTEM_IO]: [JSON WRITE] [Levenshtein = 5] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da
+           \Userdata.json
+[11-03-16] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
+           329f-8a78-62f463d0b7da_1648310594591.json
+[11-03-19] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[11-03-20] [OBJECT CREATION]: Objects created since last delta (5s): 88
+[11-03-21] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[11-03-22] [THREAD STARTED]: Path Solver
+[11-03-22] [UI ACTION]: Component = CyderButton, hash = 640532515, bounds = (350, 1000, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Stop
+[11-03-22] [THREAD STARTED]: Pathfinding Path Animator
+[11-03-23] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[11-03-24] [UI ACTION]: Component = CyderCheckbox, hash = 376901755, bounds = (100, 1000, 50, 50), parent frame =
+           Pathfinding Visualizer
+[11-03-24] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-03-24] [THREAD STARTED]: Path Solver
+[11-03-24] [UI ACTION]: Component = CyderButton, hash = 640532515, bounds = (350, 1000, 180, 50), parent frame =
+           Pathfinding Visualizer, getText() = Stop
+[11-03-25] [OBJECT CREATION]: Objects created since last delta (5s): 4215
+[11-03-27] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[11-03-27] [THREAD STARTED]: Pathfinding Path Animator
+[11-03-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[11-03-30] [OBJECT CREATION]: Objects created since last delta (5s): 2588
+[11-03-32] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[11-03-33] [CLIENT]: conway
+[11-03-33] [SYSTEM_IO]: Userdata requested: filterchat
+[11-03-33] [WIDGET OPENED]: GameOfLifeWidget, trigger = conway
+[11-03-33] [HANDLE]: PRIMARY HANDLE
+[11-03-33] [CONSOLE_OUT]: [STRING] Opening widget: GameOfLifeWidget
+[11-03-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+[11-03-35] [OBJECT CREATION]: Objects created since last delta (5s): 420
+[11-03-35] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-03-36] [THREAD STARTED]: Conway Simulator
+[11-03-36] [UI ACTION]: Component = CyderButton, hash = 406150268, bounds = (220, 615, 160, 40), parent frame = Conway's 
+           Game of Life, getText() = Stop
+[11-03-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-03-37] [THREAD STARTED]: Component = CyderFrame, hash = 213029266, bounds = (1738, 125, 600, 820), parent frame =
+           Component is top frame, getTitle() = Conway's Game of Life notification queue checker
+[11-03-37] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 428, h = 29, text = <html>Simulation stabilized at
+           generation: 25</html>
+[11-03-37] [THREAD STARTED]: notification appear animation
+[11-03-37] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-03-37] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-03-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[11-03-40] [OBJECT CREATION]: Objects created since last delta (5s): 1190
+[11-03-40] [THREAD STARTED]: Conway Simulator
+[11-03-40] [UI ACTION]: Component = CyderButton, hash = 406150268, bounds = (220, 615, 160, 40), parent frame = Conway's 
+           Game of Life, getText() = Stop
+[11-03-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-03-41] [THREAD STARTED]: Component = CyderFrame, hash = 213029266, bounds = (1738, 125, 600, 820), parent frame =
+           Component is top frame, getTitle() = Conway's Game of Life notification queue checker
+[11-03-41] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 416, h = 29, text = <html>Detected oscillation at
+           generation: 52</html>
+[11-03-41] [THREAD STARTED]: notification appear animation
+[11-03-41] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-03-41] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-03-44] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
+[11-03-45] [UI ACTION]: Component = CyderButton, hash = 1191044725, bounds = (120, 0, 40, 40), parent frame = Conway's
+           Game of Life, getText() = ?
+[11-03-45] [OBJECT CREATION]: Objects created since last delta (5s): 1830
+[11-03-45] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[11-03-46] [THREAD STARTED]: Conway Simulator
+[11-03-46] [UI ACTION]: Component = CyderButton, hash = 406150268, bounds = (220, 615, 160, 40), parent frame = Conway's 
+           Game of Life, getText() = Stop
+[11-03-46] [UI ACTION]: [Conway's Game of Life] [NOTIFICATION] w = 232, h = 29, text = <html>Loaded state: Simkin</html>
+[11-03-46] [THREAD STARTED]: notification appear animation
+[11-03-46] [SYSTEM_IO]: Userdata requested: persistentnotifications
+[11-03-46] [THREAD STARTED]: Notificaiton Vanish Animator
+[11-03-48] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
+[11-03-49] [SYSTEM_IO]: Userdata requested: minimizeonclose
+[11-03-49] [THREAD STARTED]: [Insomnia Cyder [Nathan]]  dispose() animation thread
+[11-03-49] [UI ACTION]: CyderFrame disposed with fastclose: false, Component = ConsoleFrame (inner), hash = 2052223881,
+           bounds = (1590, 235, 896, 600), parent frame = Component is top frame, getTitle() = Insomnia Cyder [Nathan]
+[11-03-49] [SYSTEM_IO]: Userdata requested: closeanimation
+[11-03-49] [EXIT]: [RUNTIME] 36s
+[11-03-49] [EOL]: Log completed, exiting Cyder with exit code: 0 [Genesis Controlled
+           Exit], exceptions thrown: 0

@@ -135,7 +135,6 @@ public class CyderWatchdog {
     }
 
     // todo logger broken somehow, I think the consolidaor is what's at fault
-    // todo new console and analyze code on readme
     // todo pathfinding, and convex hull on readme
     // todo conway add first and last to reach same max score
     // todo utilize finalizeAndShow()
