@@ -18,8 +18,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
-// todo lots of functions just not working or are buggy due to the concurrent exceptions
-//  need to make this thread safe and synchronize repainting vs adding/removing on the grid
+// todo reset still doesn't properly work
+// todo checkboxes glitch out when path animation underway/path found for some reason
+// todo synchronize repainting and adding nodes here
 
 /**
  * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
