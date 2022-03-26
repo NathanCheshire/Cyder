@@ -65,7 +65,7 @@ its own issues on GitHub. Cyder even features a custom
 `@Widget` annotation which is used to mark Cyder widgets which
 can then be validated and found upon runtime.
 
-![Self Analyzing](https://user-images.githubusercontent.com/60986919/156904244-4c740758-f68b-4e20-86f8-74b36179efec.png)
+![Self Analyzation](https://user-images.githubusercontent.com/60986919/160225589-a0cd207b-b326-4641-b07f-ac9122e29567.png)
 
 ## Usage
 
