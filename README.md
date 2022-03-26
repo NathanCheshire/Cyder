@@ -47,6 +47,11 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 ### Audio Player
 ![Audio Player](https://user-images.githubusercontent.com/60986919/156904205-39fb8218-412e-4a20-9a27-7d2d7bc39902.png)
 
+### Convex Hull
+
+![Convex](https://user-images.githubusercontent.com/60986919/160252233-cd3441bb-a007-4a6a-a569-9cd9355b0fd3.png)
+
+
 ### Pathfinder
 
 Cyder comes with a path finding visualizer for Dijkstra's algorithm
