@@ -93,8 +93,9 @@ public class CyderCheckbox extends JLabel {
         selected = b;
         repaint();
 
-        if (b)
+        if (b && cyderCheckboxGroup != null) {
             cyderCheckboxGroup.setSelectedCheckbox(this);
+        }
     }
 
     public boolean getRoundedCorners() {

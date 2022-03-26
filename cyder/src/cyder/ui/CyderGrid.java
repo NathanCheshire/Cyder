@@ -606,7 +606,10 @@ public class CyderGrid extends JLabel {
         public void mouseWheelMoved(MouseWheelEvent e) {
             if (e.isControlDown()) {
                 // zooming in
-                if (e.getWheelRotation() == -1 && nodes > minNodes) {
+                if (e.getWheelRotation() == -1) {
+                    if (nodes - 1 < minNodes)
+                        return;
+
                     if (smoothScrolling) {
                         for (int i = increments.size() - 1 ; i >= 0 ; i--) {
                             if (increments.get(i) < nodes) {
@@ -719,7 +722,6 @@ public class CyderGrid extends JLabel {
 
     public void setMaxNodes(int maxNodes) {
         this.maxNodes = maxNodes;
-        // todo need to update sizes
     }
 
     /**

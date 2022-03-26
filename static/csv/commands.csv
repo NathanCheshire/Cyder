@@ -184,5 +184,6 @@ paint
 draw
 path
 pathfinder
+A*
 temperature
 temp
