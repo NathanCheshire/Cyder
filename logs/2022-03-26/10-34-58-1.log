@@ -63,9 +63,7 @@
 [10-35-02] [SYSTEM_IO]: Userdata requested: RandomBackground
 [10-35-02] [SYSTEM_IO]: Userdata requested: FullScreen
 [10-35-02] [THREAD STARTED]: Cyder Watchdog
-[10-35-02] [SYSTEM_IO]: Userdata requested: fullscreen
-[10-35-02] [SYSTEM_IO]: Userdata requested: FullScreen
-[10-35-02] [SYSTEM_IO]: Userdata requested: FullScreen
+[10-35-02] [SYSTEM_IO]: Userdata requested: FullScreen [3x]
 [10-35-02] [THREAD STARTED]: Console Printing Animation
 [10-35-02] [SYSTEM_IO]: Userdata requested: OutputBorder
 [10-35-02] [SYSTEM_IO]: Userdata requested: FullScreen
@@ -96,13 +94,11 @@
            \Userdata.json
 [10-35-03] [SYSTEM_IO]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\backup\7d7ebb00-81fe-
            329f-8a78-62f463d0b7da_1648308901283.json
-[10-35-03] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-04] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-04] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-04] [THREAD STARTED]: Path Solver
 [10-35-04] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -200,8 +196,7 @@
            
 
 [10-35-04] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -299,8 +294,7 @@
            
 
 [10-35-04] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -399,8 +393,7 @@
 
 [10-35-04] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-04] [THREAD STARTED]: Pathfinding Path Animator
-[10-35-05] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-06] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-06] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-06] [THREAD STARTED]: component right thread
 [10-35-06] [UI ACTION]: Component = CyderButton, hash = 1035583422, bounds = (175, 10, 165, 30), parent frame =
            Pathfinding Visualizer, getText() = Dijkstras
@@ -409,8 +402,7 @@
 [10-35-08] [THREAD STARTED]: Path Solver
 [10-35-08] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -508,8 +500,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -607,8 +598,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -706,8 +696,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -805,8 +794,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -904,8 +892,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1003,8 +990,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1102,8 +1088,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1201,8 +1186,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1300,8 +1284,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1399,8 +1382,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1498,8 +1480,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1597,8 +1578,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1696,8 +1676,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1795,8 +1774,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1894,8 +1872,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -1993,8 +1970,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2092,8 +2068,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2191,8 +2166,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2290,8 +2264,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2389,8 +2362,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2488,8 +2460,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2588,8 +2559,7 @@
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-08] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-
-
+ [2x]
            
 
            
@@ -2687,8 +2657,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2786,8 +2755,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2885,8 +2853,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -2984,8 +2951,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3083,8 +3049,7 @@
            
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3183,8 +3148,7 @@
 
 [10-35-08] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-08] [THREAD STARTED]: Pathfinding Path Animator
-[10-35-09] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-10] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-10] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-11] [UI ACTION]: Component = CyderCheckbox, hash = 1926206024, bounds = (100, 920, 50, 50), parent frame =
            Pathfinding Visualizer
 [10-35-11] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
@@ -3195,10 +3159,8 @@
 [10-35-12] [THREAD STARTED]: Path Solver
 [10-35-12] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-[10-35-13] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-14] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-
-
+[10-35-14] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
+ [2x]
            
 
            
@@ -3296,8 +3258,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3395,8 +3356,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3494,8 +3454,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3593,8 +3552,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3692,8 +3650,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3791,8 +3748,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3890,8 +3846,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -3989,8 +3944,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4088,8 +4042,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4187,8 +4140,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4286,8 +4238,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4385,8 +4336,7 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4485,8 +4435,7 @@
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-14] [THREAD STARTED]: Pathfinding Path Animator
-
-
+ [2x]
            
 
            
@@ -4584,14 +4533,9 @@
            
 
 [10-35-14] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[10-35-15] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-16] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-16] [OBJECT CREATION]: Objects created since last delta (5s): 150096
-[10-35-17] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-18] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-19] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-20] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-21] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-21] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [5x]
 [10-35-21] [THREAD STARTED]: component right thread
 [10-35-21] [UI ACTION]: Component = CyderButton, hash = 313475637, bounds = (175, 10, 165, 30), parent frame = Pathfindi
            ng Visualizer, getText() = Euclidean
@@ -4603,8 +4547,7 @@
 [10-35-23] [THREAD STARTED]: Path Solver
 [10-35-23] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -4702,8 +4645,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4801,8 +4743,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4900,8 +4841,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -4999,8 +4939,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5098,8 +5037,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5197,8 +5135,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5296,8 +5233,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5395,8 +5331,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5494,8 +5429,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5593,8 +5527,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5692,8 +5625,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5791,8 +5723,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5890,8 +5821,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -5989,8 +5919,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6088,8 +6017,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6187,8 +6115,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6286,8 +6213,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6385,8 +6311,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6484,8 +6409,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6583,8 +6507,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6682,8 +6605,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6781,8 +6703,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6880,8 +6801,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -6979,8 +6899,7 @@
            
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7079,10 +6998,7 @@
 
 [10-35-23] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-23] [THREAD STARTED]: Pathfinding Path Animator
-[10-35-23] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-24] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-25] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-26] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-26] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
 [10-35-26] [UI ACTION]: Component = CyderCheckbox, hash = 50043366, bounds = (180, 1000, 50, 50), parent frame =
            Pathfinding Visualizer
 [10-35-26] [OBJECT CREATION]: Objects created since last delta (5s): 96830
@@ -7090,8 +7006,7 @@
 [10-35-27] [THREAD STARTED]: Path Solver
 [10-35-27] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -7189,8 +7104,7 @@
            
 
 [10-35-27] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7288,8 +7202,7 @@
            
 
 [10-35-27] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7388,8 +7301,7 @@
 
 [10-35-27] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-27] [THREAD STARTED]: Pathfinding Path Animator
-
-
+ [2x]
            
 
            
@@ -7487,14 +7399,11 @@
            
 
 [10-35-27] [SYSTEM_IO]: Userdata requested: SilenceErrors
-[10-35-28] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-30] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-30] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
 [10-35-30] [THREAD STARTED]: Path Solver
 [10-35-30] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -7592,8 +7501,7 @@
            
 
 [10-35-30] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7691,8 +7599,7 @@
            
 
 [10-35-30] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7790,8 +7697,7 @@
            
 
 [10-35-30] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7889,8 +7795,7 @@
            
 
 [10-35-30] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -7999,18 +7904,15 @@
 [10-35-33] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
 [10-35-33] [THREAD STARTED]: Pathfinding Path Animator
-[10-35-33] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-34] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-35] [THREAD STARTED]: component right thread
 [10-35-35] [UI ACTION]: Component = CyderButton, hash = 313475637, bounds = (175, 10, 165, 30), parent frame = Pathfindi
            ng Visualizer, getText() = Euclidean
-[10-35-35] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-36] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-36] [THREAD STARTED]: Path Solver
 [10-35-36] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -8108,8 +8010,7 @@
            
 
 [10-35-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -8207,8 +8108,7 @@
            
 
 [10-35-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -8306,8 +8206,7 @@
            
 
 [10-35-36] [SYSTEM_IO]: Userdata requested: SilenceErrors
-
-
+ [2x]
            
 
            
@@ -8416,9 +8315,7 @@
 [10-35-38] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
 [10-35-38] [THREAD STARTED]: Pathfinding Path Animator
-[10-35-39] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-40] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-41] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
 [10-35-42] [OBJECT CREATION]: Objects created since last delta (5s): 3107
 [10-35-42] [UI ACTION]: Component = CyderCheckbox, hash = 1421343304, bounds = (180, 920, 50, 50), parent frame =
            Pathfinding Visualizer
@@ -8454,16 +8351,13 @@
 [10-35-48] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [10-35-49] [UI ACTION]: Component = CyderCheckbox, hash = 1926206024, bounds = (100, 920, 50, 50), parent frame =
            Pathfinding Visualizer
-[10-35-49] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-50] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-51] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [3x]
 [10-35-52] [OBJECT CREATION]: Objects created since last delta (5s): 178
 [10-35-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
 [10-35-52] [THREAD STARTED]: Path Solver
 [10-35-52] [UI ACTION]: Component = CyderButton, hash = 798783536, bounds = (350, 1000, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Stop
-
-
+ [2x]
            
 
            
@@ -8562,13 +8456,9 @@
 
 [10-35-52] [SYSTEM_IO]: Userdata requested: SilenceErrors
 [10-35-52] [THREAD STARTED]: Pathfinding Path Animator
-[10-35-53] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-54] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-55] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-56] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-56] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [4x]
 [10-35-57] [OBJECT CREATION]: Objects created since last delta (5s): 5518
-[10-35-57] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-35-58] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-35-58] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [2x]
 [10-35-59] [UI ACTION]: Component = CyderButton, hash = 1791775231, bounds = (350, 900, 180, 50), parent frame =
            Pathfinding Visualizer, getText() = Reset
 [10-35-59] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
@@ -8582,8 +8472,5 @@
            (1538, 0, 1000, 1070), parent frame = Component is top frame, getTitle() = Pathfinding Visualizer
 [10-36-00] [SYSTEM_IO]: Userdata requested: closeanimation
 [10-36-02] [OBJECT CREATION]: Objects created since last delta (5s): 6
-[10-36-06] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-36-18] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-36-29] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-36-30] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
-[10-36-46] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter
+[10-40-52] [THREAD STATUS POLLED]: name = AWT-EventQueue-0 in RUNNABLE state; incrementing watchdog counter [37x]
+[10-41-34] [EOL]: Log completed, Cyder crashed unexpectedly: exit code: -9 External Stop, exceptions thrown: 0

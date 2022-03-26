@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 // todo reset still doesn't properly work
 // todo checkboxes glitch out when path animation underway/path found for some reason
@@ -478,7 +479,6 @@ public class PathFinderWidget {
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Pathfinding Speed");
         speedSlider.setFocusable(false);
-        speedSlider.repaint();
         pathFindingFrame.getContentPane().add(speedSlider);
         // no change listener since the sleep value is used as soon as possible
 
@@ -570,7 +570,7 @@ public class PathFinderWidget {
             try {
                 while (currentPathingState == PathingState.RUNNING) {
                     pathStep();
-                    pathfindingGrid.repaint();
+                    lockingRepaintGrid();
 
                     if (showStepsBox.isSelected()) {
                         Thread.sleep(MAX_SLIDER_VALUE - speedSlider.getValue());
@@ -634,9 +634,9 @@ public class PathFinderWidget {
                     continue;
 
                 if (openNodes.contains(pathNode)) {
-                    pathfindingGrid.addNode(new GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
+                    lockingAddNode(new GridNode(pathableOpenColor, pathNode.getX(), pathNode.getY()));
                 } else if (pathNode.getParent() != null) {
-                    pathfindingGrid.addNode(new GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
+                    lockingAddNode(new GridNode(pathableClosedColor, pathNode.getX(), pathNode.getY()));
                 }
             }
         } else pathNotFound();
@@ -729,8 +729,8 @@ public class PathFinderWidget {
 
                         if (updateNode.getColor().equals(PATH_ANIMATION_COLOR)
                                 || updateNode.getColor().equals(pathableClosedColor)) {
-                            pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR, updateNode.getX(), updateNode.getY()));
-                            pathfindingGrid.repaint();
+                            lockingAddNode(new GridNode(PATH_ANIMATION_COLOR, updateNode.getX(), updateNode.getY()));
+                            lockingRepaintGrid();
                             Thread.sleep(PATH_TRICLE_TIMEOUT);
                         }
                     }
@@ -745,8 +745,8 @@ public class PathFinderWidget {
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                pathfindingGrid.addNode(new GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
-                                pathfindingGrid.repaint();
+                                lockingAddNode(new GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
+                                lockingRepaintGrid();
                             }
 
                             if (killed)
@@ -761,8 +761,8 @@ public class PathFinderWidget {
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
-                                pathfindingGrid.repaint();
+                                lockingAddNode(new GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
+                                lockingRepaintGrid();
                             }
                         }
 
@@ -778,10 +778,10 @@ public class PathFinderWidget {
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                pathfindingGrid.addNode(new GridNode(PATH_COLOR,
+                                lockingAddNode(new GridNode(PATH_COLOR,
                                         (int) pathPoints.get(i).getX(),
                                         (int) pathPoints.get(i).getY()));
-                                pathfindingGrid.repaint();
+                                lockingRepaintGrid();
                             }
 
                             if (killed)
@@ -796,10 +796,10 @@ public class PathFinderWidget {
                             if (overridePoint.isPresent()
                                     && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
                                     || overridePoint.get().getColor().equals(PATH_COLOR))) {
-                                pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR,
+                                lockingAddNode(new GridNode(PATH_ANIMATION_COLOR,
                                         (int) pathPoints.get(i).getX(),
                                         (int) pathPoints.get(i).getY()));
-                                pathfindingGrid.repaint();
+                                lockingRepaintGrid();
                             }
 
                             if (killed)
@@ -809,7 +809,7 @@ public class PathFinderWidget {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-                pathfindingGrid.repaint();
+                lockingRepaintGrid();
             }, "Pathfinding Path Animator");
         }
 
@@ -835,7 +835,7 @@ public class PathFinderWidget {
         // enable ui elements
         enableUiElements();
 
-        pathfindingGrid.repaint();
+        lockingRepaintGrid();
     }
 
     /**
@@ -939,8 +939,8 @@ public class PathFinderWidget {
         startNode = new PathNode(DEFAULT_START_POINT);
         goalNode = new PathNode(DEFAULT_GOAL_POINT);
 
-        pathfindingGrid.addNode(new GridNode(startNodeColor, startNode.getX(), startNode.getY()));
-        pathfindingGrid.addNode(new GridNode(goalNodeColor, goalNode.getX(), goalNode.getY()));
+        lockingAddNode(new GridNode(startNodeColor, startNode.getX(), startNode.getY()));
+        lockingAddNode(new GridNode(goalNodeColor, goalNode.getX(), goalNode.getY()));
     }
 
     /**
@@ -996,7 +996,43 @@ public class PathFinderWidget {
         pathfindingGrid.installClickAndDragPlacer();
 
         // finally repaint grid
+        lockingRepaintGrid();
+    }
+
+    /**
+     * The semaphore used to achieve thread safety when
+     * adding/removing to/from the grid and repainting.
+     */
+    private static final Semaphore semaphore = new Semaphore(1);
+
+    /**
+     * Repaints the pathfinding grid in a thread-safe way.
+     */
+    private static void lockingRepaintGrid() {
+        try {
+            semaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
         pathfindingGrid.repaint();
+        semaphore.release();
+    }
+
+    /**
+     * Adds the node to the pathfinding grid in thread-safe way.
+     *
+     * @param node the node to add to the grid
+     */
+    private static void lockingAddNode(GridNode node) {
+        try {
+            semaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        pathfindingGrid.addNode(node);
+        semaphore.release();
     }
 
     /**
@@ -1043,7 +1079,7 @@ public class PathFinderWidget {
 
     /**
      * Calcualtes the g cost from the provided node to the start node.
-     * This uses Euclidean distance by definition.
+     * This uses Euclidean distance by definition of g cost.
      *
      * @param n the node to calculate the g cost of
      * @return the g cost of the provided node
