@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Stack;
+import java.util.concurrent.Semaphore;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
 
@@ -121,6 +122,23 @@ public class CyderGrid extends JLabel {
     private final LinkedList<Runnable> runnablesForWhenNextNodePlaced = new LinkedList<>();
 
     /**
+     * The semaphore used to ensure thread-safety.
+     */
+    private final Semaphore semaphore = new Semaphore(1);
+
+    private void lock() {
+        try {
+            semaphore.acquire();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    private void unlock() {
+        semaphore.release();
+    }
+
+    /**
      * Constructs a CyderGrid object using {@link CyderGrid#DEFAULT_NODES} and {@link CyderGrid#DEFAULT_LENGTH}.
      */
     public CyderGrid() {
@@ -151,7 +169,7 @@ public class CyderGrid extends JLabel {
 
                 // if node should be unique
                 if (uniqueColors.contains(gridNode.getColor())) {
-                    for (GridNode node : getGridNodes()) {
+                    for (GridNode node : grid) {
                         if (node.getColor().equals(gridNode.getColor())) {
                             removeNode(node);
                         }
@@ -197,7 +215,9 @@ public class CyderGrid extends JLabel {
      * @param node the node to add to the grid if it not already on the grid
      */
     public void addNode(GridNode node) {
+        lock();
         grid.add(node);
+        unlock();
         invokeRunnables();
     }
 
@@ -229,7 +249,9 @@ public class CyderGrid extends JLabel {
      * @param node the node to remove
      */
     public void removeNode(GridNode node) {
+        lock();
         grid.remove(node);
+        unlock();
     }
 
     /**
@@ -257,7 +279,9 @@ public class CyderGrid extends JLabel {
      */
     public void setGridNodes(LinkedList<GridNode> newGrid) {
         grid.clear();
+        lock();
         grid.addAll(newGrid);
+        unlock();
     }
 
     /**
@@ -351,6 +375,7 @@ public class CyderGrid extends JLabel {
             // try since concurrent modificaiton exceptions are sometimes thrown
             // this will help debugging
             try {
+                lock();
                 // draw all nodes on grid
                 for (GridNode node : grid) {
                     // set color for this node
@@ -366,6 +391,7 @@ public class CyderGrid extends JLabel {
                             squareLen - (drawGridLines ? 2 : 0),
                             squareLen - (drawGridLines ? 2 : 0));
                 }
+                unlock();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1329,7 +1355,9 @@ public class CyderGrid extends JLabel {
             }
         }
 
+        lock();
         grid.removeAll(remove);
+        unlock();
     }
 
     /**

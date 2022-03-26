@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 // todo reset still doesn't properly work
+// todo disable zooming while animation is underway
 // todo checkboxes glitch out when path animation underway/path found for some reason
 // todo synchronize repainting and adding nodes here
 
