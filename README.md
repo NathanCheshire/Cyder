@@ -45,7 +45,7 @@ Cyder comes with a path finding visualizer for Dijkstra's algorithm
 and the famous A* algorithm with Euclidean and Manhattan distances
 as available heuristics.
 
-https://user-images.githubusercontent.com/60986919/154868578-133588ec-5af9-4f40-9f75-550ff85febec.mp4
+https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
 
 ### Self Analyzing and Reflection
 
