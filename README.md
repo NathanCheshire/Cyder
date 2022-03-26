@@ -30,6 +30,10 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 ### The Console
 ![Insomnia Cyder](https://user-images.githubusercontent.com/60986919/156904195-6b635813-c2ee-4ce6-b20a-0e8a0b5f7d89.png)
 
+### Game of Life Widget
+
+![Conway](https://user-images.githubusercontent.com/60986919/160225458-c639b3ed-c621-4d9b-bc9e-3ae1d6e0c581.png)
+
 ### The Paint Widget
 ![Kirby](https://user-images.githubusercontent.com/60986919/158036314-055f87d4-b21c-4eec-a92c-d65561c75483.png)
 
