@@ -3,6 +3,7 @@ package cyder.ui;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.enums.LoggerTag;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.objects.GridNode;
 import cyder.utilities.ReflectionUtil;
@@ -346,20 +347,26 @@ public class CyderGrid extends JLabel {
                 }
             }
 
-            // draw all nodes on grid
-            for (GridNode node : grid) {
-                // set color for this node
-                g2d.setColor(node.getColor());
+            // try since concurrent modificaiton exceptions are sometimes thrown
+            // this will help debugging
+            try {
+                // draw all nodes on grid
+                for (GridNode node : grid) {
+                    // set color for this node
+                    g2d.setColor(node.getColor());
 
-                // get the x and y of this node
-                int trueX = node.getX();
-                int trueY = node.getY();
+                    // get the x and y of this node
+                    int trueX = node.getX();
+                    int trueY = node.getY();
 
-                // fill it
-                g2d.fillRect((drawGridLines ? 2 : 0) + trueX * squareLen,
-                        (drawGridLines ? 2 : 0) + trueY * squareLen,
-                        squareLen - (drawGridLines ? 2 : 0),
-                        squareLen - (drawGridLines ? 2 : 0));
+                    // fill it
+                    g2d.fillRect((drawGridLines ? 2 : 0) + trueX * squareLen,
+                            (drawGridLines ? 2 : 0) + trueY * squareLen,
+                            squareLen - (drawGridLines ? 2 : 0),
+                            squareLen - (drawGridLines ? 2 : 0));
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
 
             // set color back to draw borders
@@ -1287,6 +1294,23 @@ public class CyderGrid extends JLabel {
     }
 
     /**
+     * Removes all nodes of the provided color.
+     *
+     * @param color the color of the nodes to remove from the grid
+     */
+    public void removeNodesOfColor(Color color) {
+        LinkedList<GridNode> remove = new LinkedList<>();
+
+        for (GridNode node : grid) {
+            if (node.getColor().equals(color)) {
+                remove.add(node);
+            }
+        }
+
+        grid.removeAll(remove);
+    }
+
+    /**
      * The list of unique colors.
      */
     private final LinkedList<Color> uniqueColors = new LinkedList<>();
@@ -1301,5 +1325,12 @@ public class CyderGrid extends JLabel {
     public void addUniqueNodeColor(Color color) {
         if (!uniqueColors.contains(color))
             uniqueColors.add(color);
+    }
+
+    public void removeUniqueNodeColor(Color color) {
+        if (!uniqueColors.contains(color))
+            return;
+
+        uniqueColors.remove(color);
     }
 }
