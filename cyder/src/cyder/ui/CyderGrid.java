@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Stack;
 
 import static com.google.gson.internal.$Gson$Preconditions.checkNotNull;
@@ -749,6 +750,9 @@ public class CyderGrid extends JLabel {
      * @param nextNodeColor the color for the next placed node
      */
     public void setNextNodeColor(Color nextNodeColor) {
+        if (nextNodeColor == null)
+            this.nextNodeColor = nodeColor;
+
         this.nextNodeColor = nextNodeColor;
     }
 
@@ -1293,6 +1297,22 @@ public class CyderGrid extends JLabel {
         }
 
         return ret;
+    }
+
+    /**
+     * Returns the grid node at the provided point if it exists, empty optional else.
+     *
+     * @param point the point to find a grid node at
+     * @return the grid node at the point if found
+     */
+    public Optional<GridNode> getNodeAtPoint(Point point) {
+        for (GridNode gridNode : grid){
+            if (gridNode.getX() == point.getX() && gridNode.getY() == point.getY()) {
+                return Optional.of(gridNode);
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**

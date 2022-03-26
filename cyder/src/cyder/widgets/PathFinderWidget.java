@@ -16,13 +16,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.util.*;
 
-// todo move all vars to here
-// todo fix concurrency issues
+// todo lots of functions just not working or are buggy due to the concurrent exceptions
+//  need to make this thread safe and synchronize repainting vs adding/removing on the grid
 
 /**
  * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
@@ -241,6 +238,23 @@ public class PathFinderWidget {
     private static final Font STATE_LABEL_FONT = new Font("Agency FB", Font.BOLD, 40);
 
     /**
+     * The nodes which may be pathed through on the current grid state.
+     */
+    private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
+
+    /**
+     * The nodes which are in the queue to be pathed through.
+     */
+    private static final PriorityQueue<PathNode> openNodes = new PriorityQueue<>(new NodeComparator());
+
+    /**
+     * The currnet path animation object.
+     * This is always killed before being set to a new object,
+     * similar to how things are handled in AudioPlayer.
+     */
+    private static PathAnimator currentPathAnimator;
+
+    /**
      * Suppress default constructor.
      */
     private PathFinderWidget() {
@@ -297,6 +311,8 @@ public class PathFinderWidget {
                     // other actions
                     deleteWallsCheckBox.setNotSelected();
                     pathfindingGrid.setMode(CyderGrid.Mode.ADD);
+                } else {
+                    pathfindingGrid.setNextNodeColor(null);
                 }
             }
         });
@@ -320,6 +336,8 @@ public class PathFinderWidget {
                     // other actions
                     deleteWallsCheckBox.setNotSelected();
                     pathfindingGrid.setMode(CyderGrid.Mode.ADD);
+                } else {
+                    pathfindingGrid.setNextNodeColor(null);
                 }
             }
         });
@@ -476,12 +494,6 @@ public class PathFinderWidget {
         pathFindingFrame.finalizeAndShow();
     }
 
-    // nodes which aren't the walls, start, or goal
-    private static final LinkedList<PathNode> pathableNodes = new LinkedList<>();
-
-    // pathable nodes which have yet to be checked
-    private static final PriorityQueue<PathNode> openNodes = new PriorityQueue<>(new NodeComparator());
-
     /**
      * Performs the setup necessary to start path finding such as
      * initializing the lists, finding the start and goal nodes,
@@ -489,7 +501,6 @@ public class PathFinderWidget {
      */
     private static void searchSetup() {
         // this is only invoked if start and goal are set so safe not to check here
-
         endPathAnimator();
         removePathingNodes();
 
@@ -546,8 +557,6 @@ public class PathFinderWidget {
         // start main program loop
         startMainWhile();
     }
-
-    // todo did old version of euclidean for a* search whole grid? that feels wrong
 
     /**
      * Starts the main A* while loop.
@@ -667,13 +676,6 @@ public class PathFinderWidget {
     }
 
     /**
-     * The currnet path animation object.
-     * This is always killed before being set to a new object,
-     * similar to how things are handled in AudioPlayer.
-     */
-    private static PathAnimator currentPathAnimator;
-
-    /**
      * A animator class to animate the path found animation.
      */
     private static class PathAnimator {
@@ -738,10 +740,13 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            // todo don't set path color, either blue, if not green
-                            // todo maybe a method for this
-                            pathfindingGrid.addNode(new GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
-                            pathfindingGrid.repaint();
+                            Optional<GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(p);
+                            if (overridePoint.isPresent()
+                                    && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
+                                    || overridePoint.get().getColor().equals(PATH_COLOR))) {
+                                pathfindingGrid.addNode(new GridNode(PATH_COLOR, (int) p.getX(), (int) p.getY()));
+                                pathfindingGrid.repaint();
+                            }
 
                             if (killed)
                                 return;
@@ -751,8 +756,13 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
-                            pathfindingGrid.repaint();
+                            overridePoint = pathfindingGrid.getNodeAtPoint(p);
+                            if (overridePoint.isPresent()
+                                    && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
+                                    || overridePoint.get().getColor().equals(PATH_COLOR))) {
+                                pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR, (int) p.getX(), (int) p.getY()));
+                                pathfindingGrid.repaint();
+                            }
                         }
 
                         if (killed)
@@ -763,10 +773,15 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            pathfindingGrid.addNode(new GridNode(PATH_COLOR,
-                                    (int) pathPoints.get(i).getX(),
-                                    (int) pathPoints.get(i).getY()));
-                            pathfindingGrid.repaint();
+                            Optional<GridNode> overridePoint = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
+                            if (overridePoint.isPresent()
+                                    && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
+                                    || overridePoint.get().getColor().equals(PATH_COLOR))) {
+                                pathfindingGrid.addNode(new GridNode(PATH_COLOR,
+                                        (int) pathPoints.get(i).getX(),
+                                        (int) pathPoints.get(i).getY()));
+                                pathfindingGrid.repaint();
+                            }
 
                             if (killed)
                                 return;
@@ -776,10 +791,15 @@ public class PathFinderWidget {
                             if (killed)
                                 return;
 
-                            pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR,
-                                    (int) pathPoints.get(i).getX(),
-                                    (int) pathPoints.get(i).getY()));
-                            pathfindingGrid.repaint();
+                            overridePoint = pathfindingGrid.getNodeAtPoint(pathPoints.get(i));
+                            if (overridePoint.isPresent()
+                                    && (overridePoint.get().getColor().equals(PATH_ANIMATION_COLOR)
+                                    || overridePoint.get().getColor().equals(PATH_COLOR))) {
+                                pathfindingGrid.addNode(new GridNode(PATH_ANIMATION_COLOR,
+                                        (int) pathPoints.get(i).getX(),
+                                        (int) pathPoints.get(i).getY()));
+                                pathfindingGrid.repaint();
+                            }
 
                             if (killed)
                                 return;

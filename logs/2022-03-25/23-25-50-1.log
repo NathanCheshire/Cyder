@@ -1,0 +1,39 @@
+[23-25-51] [ENTRY]: [Nathan]
+[23-25-51] [THREAD STARTED]: Singular Cyder Instance Ensurer
+[23-25-52] [THREAD STARTED]: Splash Loader
+[23-25-53] [ACTION]: User 7d7ebb00-81fe-329f-8a78-62f463d0b7da was found to have an outdated userdata file; preference injection was attempted on the following: [windowcolor = 1A2033]
+[23-25-53] [THREAD STARTED]: Splash Animation
+[23-25-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Birthday2021
+[23-25-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2021
+[23-25-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: FathersDay2021
+[23-25-53] [DEBUG]: Method annotated with @Widget is not named showGUI(); name: Christmas2020
+[23-25-53] [DEBUG]: Method annotated with @ManualTest does not end with test; name: launchTests
+[23-25-53] [THREAD STARTED]: Cyder Start Secondary Subroutines
+[23-25-53] [LOGIN]: [AUTOCYPHER ATTEMPT]
+[23-25-53] [JAVA ARGS]: [LOCATION] [La casa de Nathan]
+[23-25-53] [ACTION]: Requested deletion of: C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-25-53] [ACTION]: [DELETION FAILED] C:\Users\Nathan\Documents\IntelliJava\Cyder\dynamic\tmp
+[23-25-53] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json [6x]
+[23-25-54] [LOGIN]: [[AUTOCYPHER PASS]: 7d7ebb00-81fe-329f-8a78-62f463d0b7da]
+[23-25-54] [SYSTEM_IO]: [User Write] User was written to file: 7d7ebb00-81fe-329f-8a78-62f463d0b7da\Userdata.json
+[23-25-54] [SYSTEM_IO]: Userdata requested: RandomBackground
+[23-25-54] [SYSTEM_IO]: Created temperatory file: 23-25-54.stacktrace
+[23-25-54] [EXCEPTION]: 
+Exception origin: cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:30)
+From line: 30
+Trace: java.lang.NullPointerException
+	at cyder.utilities.ColorUtil.hexToRgb(ColorUtil.java:30)
+	at cyder.ui.ConsoleFrame.launch(ConsoleFrame.java:274)
+	at cyder.handlers.internal.LoginHandler.recognize(LoginHandler.java:513)
+	at cyder.handlers.internal.LoginHandler.autoCypher(LoginHandler.java:553)
+	at cyder.handlers.internal.LoginHandler.determineCyderEntry(LoginHandler.java:447)
+	at cyder.genesis.Cyder.main(Cyder.java:119)
+[23-25-54] [SYSTEM_IO]: Userdata requested: SilenceErrors
+[23-26-44] [ACTION]: CyderFrame disposed with fastclose: true, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(980, 396, 600, 600)], hash = [810196128], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Cyder Splash]
+[23-26-44] [THREAD STARTED]: Cyder Splash CyderFrame dispose thread
+[23-26-50] [ACTION]: Component name = [cyder.ui.DragLabel], bounds = [(2, 2, 391, 28)], hash = [-14688418], parentFrame = [Startup Exception], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [No getTitle() method found]
+[23-26-50] [ACTION]: CyderFrame disposed with fastclose: false, CyderFrame: Component name = [cyder.ui.CyderFrame], bounds = [(1083, 646, 395, 100)], hash = [935380719], parentFrame = [Object itself is the top level frame], associated text = [No getText() method found], tooltip text = [No getTooltipText() method found], title = [Startup Exception]
+[23-26-50] [THREAD STARTED]: Startup Exception CyderFrame dispose thread
+[23-26-50] [SYSTEM_IO]: Userdata requested: closeanimation
+[23-26-50] [EXIT]: [RUNTIME] 59s
+[23-26-50] [EOL]: Log completed, exiting Cyder with exit code: -7 [Fatal Timeout], exceptions thrown: 1
