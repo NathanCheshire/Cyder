@@ -2543,19 +2543,8 @@ public class CyderFrame extends JFrame {
                 taskbarIconLength - taskbarBorderLength * 2,
                 taskbarIconLength - taskbarBorderLength * 2);
 
-        g.setColor(CyderColors.vanila);
-
-        Font labelFont = new Font("Agency FB",Font.BOLD, 28);
-        g.setFont(labelFont);
-        g.setColor(CyderColors.vanila);
-
-        String iconTitle = title.substring(0, Math.min(4, title.length())).trim();
-        FontMetrics fm = g.getFontMetrics();
-        int x = (taskbarIconLength - fm.stringWidth(iconTitle)) / 2;
-        int y = (fm.getAscent() + (taskbarIconLength - (fm.getAscent() + fm.getDescent())) / 2);
-        g.drawString(iconTitle, x, y);
-
         //draw darker image
+        Font labelFont = new Font("Agency FB",Font.BOLD, 28);
 
         BufferedImage darkerBufferedImage = new BufferedImage(taskbarIconLength, taskbarIconLength, BufferedImage.TYPE_INT_RGB);
         Graphics g2 = darkerBufferedImage.getGraphics();
@@ -2574,14 +2563,15 @@ public class CyderFrame extends JFrame {
         g2.setFont(labelFont);
         g2.setColor(CyderColors.vanila);
 
-        FontMetrics fm2 = g2.getFontMetrics();
-        int x2 = (taskbarIconLength - fm2.stringWidth(iconTitle)) / 2;
-        int y2 = (fm.getAscent() + (taskbarIconLength - (fm2.getAscent() + fm2.getDescent())) / 2);
-        g2.drawString(iconTitle, x2, y2);
-
-        ret.setToolTipText(title);
-        ret.setIcon(new ImageIcon(bufferedImage));
-        ret.addMouseListener(new MouseAdapter() {
+        String iconTitle = title.substring(0, Math.min(4, title.length())).trim();
+        CyderLabel titleLabel = new CyderLabel(iconTitle);
+        titleLabel.setFont(labelFont);
+        titleLabel.setForeground(CyderColors.vanila);
+        titleLabel.setBounds(0,0, taskbarIconLength, taskbarIconLength);
+        titleLabel.setFocusable(false);
+        ret.add(titleLabel);
+        titleLabel.setToolTipText(title);
+        titleLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 clickAction.run();
@@ -2597,6 +2587,8 @@ public class CyderFrame extends JFrame {
                 ret.setIcon(new ImageIcon(bufferedImage));
             }
         });
+
+        ret.setIcon(new ImageIcon(bufferedImage));
 
         return ret;
     }

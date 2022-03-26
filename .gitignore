@@ -1,6 +1,7 @@
 .idea/
 bin/
 out/
+logs/*
 *.iml
 *.git
 .gradle/*

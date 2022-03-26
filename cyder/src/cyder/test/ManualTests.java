@@ -21,7 +21,6 @@ import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
-import cyder.widgets.PathFinderWidget;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +44,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        PathFinderWidget.showGUI();
+
     }
 
     /**

@@ -177,7 +177,7 @@ public class CyderShare {
     /**
      * The name of the current Cyder version.
      */
-    public static final String VERSION = "Insomnia";
+    public static final String VERSION = "Liminal";
 
     /**
      * The release date of the current Cyder version.

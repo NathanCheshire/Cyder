@@ -119,7 +119,7 @@ public class GameOfLifeWidget {
     /**
      * The maximum number of iterations per second.
      */
-    private static final int MAX_ITERATIONS_PER_SECOND = 50;
+    private static final int MAX_ITERATIONS_PER_SECOND = 100;
 
     /**
      * The current generation the simulation is on.
@@ -140,6 +140,11 @@ public class GameOfLifeWidget {
      * The generation corresponding to the maximum population.
      */
     private static int correspondingGeneration;
+
+    /**
+     * The first corresponding generation to achieve the current maximum population.
+     */
+    private static int firstCorrespondingGeneration;
 
     /**
      * The label to display which generation the simulation is on.
@@ -208,19 +213,19 @@ public class GameOfLifeWidget {
         conwayFrame.setTitle("Conway's Game of Life");
 
         currentPopulationLabel = new CyderLabel();
-        currentPopulationLabel.setBounds(20, 20, 140, 40);
+        currentPopulationLabel.setBounds(10, 30, 140, 30);
         conwayFrame.getContentPane().add(currentPopulationLabel);
 
         currentGenerationlabel = new CyderLabel();
-        currentGenerationlabel.setBounds(20 + 140, 20, 140, 40);
+        currentGenerationlabel.setBounds(20 + 115, 30, 140, 30);
         conwayFrame.getContentPane().add(currentGenerationlabel);
 
         maxPopulationLabel = new CyderLabel();
-        maxPopulationLabel.setBounds(20 + 140 * 2, 20, 140, 40);
+        maxPopulationLabel.setBounds(20 + 140 * 2 - 50, 30, 140, 30);
         conwayFrame.getContentPane().add(maxPopulationLabel);
 
         correspondingGenerationLabel = new CyderLabel();
-        correspondingGenerationLabel.setBounds(20 + 140 * 3, 20, 140, 40);
+        correspondingGenerationLabel.setBounds(20 + 140 * 2 + 70, 30, 200, 30);
         conwayFrame.getContentPane().add(correspondingGenerationLabel);
 
         conwayGrid = new CyderGrid(50, 550);
@@ -409,6 +414,7 @@ public class GameOfLifeWidget {
         population = 0;
         maxPopulation = 0;
         correspondingGeneration = 0;
+        firstCorrespondingGeneration = 0;
 
         updateLabels();
     }
@@ -420,7 +426,13 @@ public class GameOfLifeWidget {
         currentGenerationlabel.setText("Generation: " + generation);
         currentPopulationLabel.setText("Population: " + population);
         maxPopulationLabel.setText("Max Pop: " + maxPopulation);
-        correspondingGenerationLabel.setText("Gen: " + correspondingGeneration);
+
+        if (firstCorrespondingGeneration == 0 || firstCorrespondingGeneration == generation) {
+            correspondingGenerationLabel.setText("Corr Gen: " + correspondingGeneration);
+        } else {
+            correspondingGenerationLabel.setText("Corr Gen: " + correspondingGeneration
+                    + ", first: " + firstCorrespondingGeneration);
+        }
     }
 
     /**
@@ -499,7 +511,11 @@ public class GameOfLifeWidget {
                     population = nextState.size();
 
                     if (population > maxPopulation) {
+                        firstCorrespondingGeneration = generation;
+
                         maxPopulation = population;
+                        correspondingGeneration = generation;
+                    } else if (population == maxPopulation) {
                         correspondingGeneration = generation;
                     }
 

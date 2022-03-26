@@ -134,9 +134,17 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo font list scroll is broken
+
+    // todo console menu jtextpane isn't extended on resize events
+
+    // todo new console on readme
+
     // todo logger broken somehow, I think the consolidaor is what's at fault
-    // todo pathfinding, and convex hull on readme
-    // todo conway add first and last to reach same max score
+
+    // todo pathfinding on readme
+
+    // todo fix conway labels, put in new place
     // todo utilize finalizeAndShow()
     // todo if smooth scrolling is off for grid, extended border fills remaining space, fix
 
