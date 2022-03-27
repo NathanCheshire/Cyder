@@ -235,6 +235,13 @@ public class CyderFrame extends JFrame {
      */
     public static final float MAX_TITLE_LENGTH_RATIO = 0.75f;
 
+    public static final ArrayList<Integer> allowableContentLabelIndicies = new ArrayList<>(){{
+        // Drag labels
+        add(JLayeredPane.DRAG_LAYER);
+        // notifications
+        add(JLayeredPane.POPUP_LAYER);
+    }};
+
     /**
      * Constructs an instance of CyderFrame with the specified width, height, and
      * ImageIcon which is used for the background.
@@ -300,16 +307,11 @@ public class CyderFrame extends JFrame {
             }
         });
 
-        //master ContentLabel
+        // master ContentLabel
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
-                // drag labels
-                if (index == JLayeredPane.DRAG_LAYER) {
-                    return super.add(comp, index);
-                }
-                // notifications
-                else if (index == JLayeredPane.POPUP_LAYER) {
+                if (allowableContentLabelIndicies.contains(index)) {
                     return super.add(comp, index);
                 }
 
@@ -344,8 +346,10 @@ public class CyderFrame extends JFrame {
         setContentPane(contentLabel);
 
         //top frame drag and cover
-        topDrag = new CyderDragLabel(width - 2 * frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT - 2, this);
-        topDrag.setBounds(frameResizingLen, frameResizingLen, width - 2 * frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT - 2);
+        topDrag = new CyderDragLabel(width - 2 * frameResizingLen,
+                CyderDragLabel.DEFAULT_HEIGHT - 2, this);
+        topDrag.setBounds(frameResizingLen, frameResizingLen,
+                width - 2 * frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT - 2);
         topDrag.setxOffset(frameResizingLen);
         topDrag.setyOffset(frameResizingLen);
         contentLabel.add(topDrag, JLayeredPane.DRAG_LAYER);
@@ -358,8 +362,10 @@ public class CyderFrame extends JFrame {
         contentLabel.add(topDragCover, JLayeredPane.DRAG_LAYER);
 
         //left frame drag  and cover
-        leftDrag = new CyderDragLabel(5 - frameResizingLen, height - frameResizingLen - CyderDragLabel.DEFAULT_HEIGHT, this);
-        leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        leftDrag = new CyderDragLabel(5 - frameResizingLen,
+                height - frameResizingLen - CyderDragLabel.DEFAULT_HEIGHT, this);
+        leftDrag.setBounds(frameResizingLen, CyderDragLabel.DEFAULT_HEIGHT,
+                5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
         leftDrag.setxOffset(frameResizingLen);
         leftDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(leftDrag, JLayeredPane.DRAG_LAYER);
@@ -373,8 +379,10 @@ public class CyderFrame extends JFrame {
         contentLabel.add(leftDragCover, JLayeredPane.DRAG_LAYER);
 
         //right frame drag and cover
-        rightDrag = new CyderDragLabel(5 - frameResizingLen, height - frameResizingLen - CyderDragLabel.DEFAULT_HEIGHT, this);
-        rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT, 5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
+        rightDrag = new CyderDragLabel(5 - frameResizingLen,
+                height - frameResizingLen - CyderDragLabel.DEFAULT_HEIGHT, this);
+        rightDrag.setBounds(width - 5, CyderDragLabel.DEFAULT_HEIGHT,
+                5 - frameResizingLen, height - CyderDragLabel.DEFAULT_HEIGHT - frameResizingLen);
         rightDrag.setxOffset(width - 5);
         rightDrag.setyOffset(CyderDragLabel.DEFAULT_HEIGHT);
         contentLabel.add(rightDrag, JLayeredPane.DRAG_LAYER);
@@ -3036,7 +3044,7 @@ public class CyderFrame extends JFrame {
     /**
      * The point at which the menu is placed when visible.
      */
-    private final Point animateMenuToPoint = new Point(5, CyderDragLabel.DEFAULT_HEIGHT);
+    private final Point animateMenuToPoint = new Point(5 - 2, CyderDragLabel.DEFAULT_HEIGHT - 2);
 
     /**
      * Returns whether the menu is accessible
@@ -3086,16 +3094,17 @@ public class CyderFrame extends JFrame {
                 if (currentMenuType == MenuType.PANEL) {
                     menuLabel.setLocation(- menuLabel.getWidth(), animateMenuToPoint.getLocation().y);
                     menuLabel.setVisible(true);
-                    for (int x = menuLabel.getX(); x < animateMenuToPoint.x ; x += 4) {
+                    for (int x = menuLabel.getX(); x < animateMenuToPoint.x ; x += 1) {
                         menuLabel.setLocation(x, menuLabel.getY());
-                        Thread.sleep(8);
+                        Thread.sleep(2);
                     }
                 } else {
-                    menuLabel.setLocation(5, CyderDragLabel.DEFAULT_HEIGHT - menuLabel.getHeight());
+                    menuLabel.setLocation(animateMenuToPoint.x,
+                            animateMenuToPoint.y - menuLabel.getHeight());
                     menuLabel.setVisible(true);
-                    for (int y = menuLabel.getY() ; y <= CyderDragLabel.DEFAULT_HEIGHT ; y += 4) {
+                    for (int y = menuLabel.getY() ; y <= animateMenuToPoint.y; y += 1) {
                         menuLabel.setLocation(animateMenuToPoint.x, y);
-                        Thread.sleep(8);
+                        Thread.sleep(2);
                     }
                 }
 
@@ -3118,15 +3127,15 @@ public class CyderFrame extends JFrame {
         CyderThreadRunner.submit(() -> {
             try {
                 if (currentMenuType == MenuType.PANEL) {
-                    for (int x = menuLabel.getX() ; x > - menuLabel.getWidth() ; x -= 4) {
+                    for (int x = menuLabel.getX() ; x > - menuLabel.getWidth() ; x -= 1) {
                         menuLabel.setLocation(x, menuLabel.getY());
-                        Thread.sleep(8);
+                        Thread.sleep(2);
                     }
                 } else {
-                    menuLabel.setLocation(5, CyderDragLabel.DEFAULT_HEIGHT);
-                    for (int y = menuLabel.getY() ; y >= CyderDragLabel.DEFAULT_HEIGHT - menuLabel.getHeight(); y -= 4) {
-                        menuLabel.setLocation(menuLabel.getX(), y);
-                        Thread.sleep(8);
+                    menuLabel.setLocation(animateMenuToPoint.x, animateMenuToPoint.y);
+                    for (int y = menuLabel.getY() ; y >= animateMenuToPoint.y - menuLabel.getHeight(); y -= 1) {
+                        menuLabel.setLocation(animateMenuToPoint.x, y);
+                        Thread.sleep(2);
                     }
                 }
 
@@ -3262,10 +3271,8 @@ public class CyderFrame extends JFrame {
         menuPane.setCaretPosition(0);
         menuLabel.setVisible(false);
         menuLabel.setLocation(- menuWidth, animateMenuToPoint.y);
-        contentLabel.add(menuLabel, JLayeredPane.POPUP_LAYER);
+        getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
     }
-
-    // todo make notifications appear over the menu label but still under drag
 
     /**
      * Sets the frame's location relative to the dominant frame,

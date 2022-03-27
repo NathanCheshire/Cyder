@@ -713,8 +713,9 @@ public final class ConsoleFrame {
                     if (canSwitchBackground()) {
                         switchBackground();
                     }  else if (getBackgrounds().size() == 1) {
-                        NotificationBuilder builder = new NotificationBuilder("You only have one background image. " +
-                                "Try adding more via the user editor");
+                        NotificationBuilder builder = new NotificationBuilder(
+                                "You only have one background image. "
+                                        + "Try adding more via the user editor");
                         builder.setViewDuration(5000);
                         builder.setOnKillAction(() -> UserEditor.showGUI(0));
                         consoleCyderFrame.notify(builder);
