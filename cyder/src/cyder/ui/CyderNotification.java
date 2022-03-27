@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -65,22 +66,6 @@ public class CyderNotification extends JLabel {
      * The background color of the notification.
      */
     private Color backgroundColor = CyderColors.notificationBackgroundColor;
-
-    /**
-     * Constructs a new notification.
-     */
-    public CyderNotification() {
-        killed = false;
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
-            }
-        });
-
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
-    }
 
     /**
      * Returns the background color.
@@ -560,49 +545,55 @@ public class CyderNotification extends JLabel {
     // QueuedNotification components of notification class
     // ---------------------------------------------------
 
+    /*
+    Note: I am aware this could be a tagged class but per
+          Effective Java item 23, tagged classes are generally
+          a bad idea and class hierarchies should be used instead.
+     */
+
     /**
      * The html styled text of the notificaiton.
      */
-    private String htmlText;
+    private final String htmlText;
 
     /**
      * The duration the notification lasts after fully visible.
      */
-    private int duration;
+    private final int duration;
 
     /**
      * The direction the arrow is painted.
      */
-    private Direction arrowDir;
+    private final Direction arrowDir;
 
     /**
      * The direction the notification appears/vanishes from/to.
      */
-    private NotificationDirection notificationDirection;
+    private final NotificationDirection notificationDirection;
 
     /**
      * The action to invoke if the notification is killed via a user.
      */
-    private Runnable onKillAction;
+    private final Runnable onKillAction;
 
     /**
      * The time the notificaiton was queued at.
      */
-    private String time;
+    private final String time;
 
     /**
      * A custom container for the notification. Needed for rare cases.
      */
-    private Container contianer;
+    private final Container contianer;
 
     /**
      * The background of the notification. Only applicable if a
      * custom container is being used.
      */
-    private Color notificationBackground;
+    private final Color notificationBackground;
 
     /**
-     * Initialies the variables needed to draw the component to the frame.
+     * Constructs a new CyderNotification.
      *
      * @param text the html text for the eventual notification to display
      * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
@@ -610,7 +601,7 @@ public class CyderNotification extends JLabel {
      * @param notificationDirection the notification direction
      * @param onKillAction the action to perform if the notification is dismissed by the user
      */
-    public void initializeQueueVars(String text, int dur, Direction arrowDir,
+    public CyderNotification(String text, int dur, Direction arrowDir,
                               NotificationDirection notificationDirection,
                               Runnable onKillAction, Container container,
                               Color notificationBackground, String time) {
@@ -622,6 +613,24 @@ public class CyderNotification extends JLabel {
         this.onKillAction = onKillAction;
         this.notificationBackground = notificationBackground;
         this.time = time;
+
+        killed = false;
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
+            }
+        });
+
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Suppress default constructor.
+     */
+    private CyderNotification() {
+        throw new IllegalMethodException("Instantiation not allowed without valid parameters");
     }
 
     /**
