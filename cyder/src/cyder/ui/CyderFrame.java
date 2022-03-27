@@ -1686,6 +1686,8 @@ public class CyderFrame extends JFrame {
             bottomDrag.setxOffset(frameResizingLen);
             bottomDrag.setyOffset(this.height - 5);
 
+            refreshLayout();
+
             if (menuLabel != null && menuLabel.isVisible()) {
                 generateMenu();
                 menuLabel.setLocation(animateMenuToPoint);
