@@ -149,7 +149,6 @@ public class Cyder {
      */
     private static void addExitHook() {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
-            //noinspection Convert2MethodRef
             OSUtil.deleteTempDir();
         }, "common-exit-hook"));
     }

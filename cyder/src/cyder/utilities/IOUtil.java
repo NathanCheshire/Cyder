@@ -422,7 +422,6 @@ public class IOUtil {
         File sandbox = new File("static/sandbox");
 
         if (!sandbox.exists()) {
-            //noinspection ResultOfMethodCallIgnored
             sandbox.mkdir();
         }
     }

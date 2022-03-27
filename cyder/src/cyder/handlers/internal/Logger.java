@@ -495,7 +495,6 @@ public class Logger {
         File topLevelLogsDir = new File("logs");
 
         if (!topLevelLogsDir.exists()) {
-            //noinspection ResultOfMethodCallIgnored
             topLevelLogsDir.mkdir();
             return;
         }

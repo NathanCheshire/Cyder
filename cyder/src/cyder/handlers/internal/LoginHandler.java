@@ -142,7 +142,6 @@ public class LoginHandler {
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
-                            //noinspection BusyWait
                             Thread.sleep(charTimeout);
                         }
 
@@ -158,14 +157,12 @@ public class LoginHandler {
 
                         for (char c : line.toCharArray()) {
                             referencePane.getStringUtil().print(String.valueOf(c));
-                            //noinspection BusyWait
                             Thread.sleep(charTimeout);
                         }
 
                         referencePane.getSemaphore().release();
                     }
 
-                    //noinspection BusyWait
                     Thread.sleep(lineTimeout);
                 }
             }
@@ -191,7 +188,6 @@ public class LoginHandler {
                         loginField.setCaretPosition(loginField.getPassword().length);
                     }
 
-                    //noinspection BusyWait
                     Thread.sleep(50);
                 }
             }
@@ -536,7 +532,6 @@ public class LoginHandler {
             }
 
             // reset vars
-            //noinspection UnusedAssignment
             autoCypherAttempt = false;
         } catch (Exception e) {
             ExceptionHandler.silentHandle(e);

@@ -424,7 +424,6 @@ public class UserEditor {
                             for (File f : new File("dynamic/users/"
                                     + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt").listFiles()) {
                                 if (FileUtil.getFilename(f).equals(name)) {
-                                    //noinspection ResultOfMethodCallIgnored
                                     f.delete();
                                     break;
                                 }
@@ -738,7 +737,6 @@ public class UserEditor {
 
             if (selectedFont != null) {
                 UserUtil.setUserData("Font", selectedFont);
-                //noinspection MagicConstant
                 Font ApplyFont = new Font(selectedFont,
                         Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
@@ -1158,7 +1156,6 @@ public class UserEditor {
 
             try {
                 // if success, valid date pattern
-                //noinspection UseOfObsoleteDateTimeApi
                 new SimpleDateFormat(fieldText).format(new Date());
 
                 //valid so write and refresh ConsoleClock
@@ -1493,7 +1490,6 @@ public class UserEditor {
 
                 try {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()));
-                    //noinspection ResultOfMethodCallIgnored
                     reader.read();
                     valid = true;
                     reader.close();
@@ -1594,7 +1590,6 @@ public class UserEditor {
         fontMetricField.setToolTipText("Font metrics: 0 = plain, 1 = bold, 2 = italic, 3 = bold + italic");
         fontMetricField.setBackground(CyderColors.vanila);
         fontMetricField.setSelectionColor(CyderColors.selectionColor);
-        //noinspection MagicConstant
         fontMetricField.setFont(new Font(
                 UserUtil.getCyderUser().getFont(),
                 Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
@@ -1620,7 +1615,6 @@ public class UserEditor {
 
                 UserUtil.setUserData("fontmetric", numbers);
 
-                //noinspection MagicConstant
                 fontMetricField.setFont(new Font(
                         UserUtil.getCyderUser().getFont(), number,
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize())));

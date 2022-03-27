@@ -268,7 +268,6 @@ public class PhotoViewer {
 
                    File newName = new File(oldName.getAbsolutePath()
                            .replace(replaceOldName, name));
-                   //noinspection ResultOfMethodCallIgnored
                    oldName.renameTo(newName);
                    pictureFrame.notify("Successfully renamed to " + name);
 

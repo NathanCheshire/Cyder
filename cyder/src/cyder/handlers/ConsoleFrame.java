@@ -131,6 +131,11 @@ public final class ConsoleFrame {
     private JLabel menuLabel;
 
     /**
+     * The scroll pane for the active frames.
+     */
+    private CyderScrollPane menuScroll;
+
+    /**
      * The top drag label menu toggle button.
      */
     private JButton menuButton;
@@ -520,7 +525,6 @@ public final class ConsoleFrame {
                             inputField.setCaretPosition(inputField.getPassword().length);
                         }
 
-                        //noinspection BusyWait
                         Thread.sleep(50);
                     }
                 }
@@ -833,7 +837,6 @@ public final class ConsoleFrame {
             // log how long it took to start
             CyderShare.setConsoleStartTime(System.currentTimeMillis());
 
-            //noinspection StringConcatenationMissingWhitespace
             String logString = "Console loaded in " +
                     (CyderShare.getConsoleStartTime() - CyderShare.getAbsoluteStartTime()) + "ms";
             Logger.log(LoggerTag.UI_ACTION, logString);
@@ -866,7 +869,6 @@ public final class ConsoleFrame {
                     //sleep 2 minutes
                     int i = 0;
                     while (i < 2 * 60 * 1000) {
-                        //noinspection BusyWait
                         Thread.sleep(50);
                         if (consoleFrameClosed) {
                             break OUTER;
@@ -902,7 +904,6 @@ public final class ConsoleFrame {
                     //sleep 60 minutes
                     int i = 0;
                     while (i < 60 * 60 * 1000) {
-                        //noinspection BusyWait
                         Thread.sleep(50);
                         if (consoleFrameClosed) {
                             break OUTER;
@@ -925,7 +926,6 @@ public final class ConsoleFrame {
                             // sleep 200 ms
                             int i = 0;
                             while (i < 200) {
-                                //noinspection BusyWait
                                 Thread.sleep(50);
                                 if (consoleFrameClosed) {
                                     break OUTER;
@@ -981,7 +981,6 @@ public final class ConsoleFrame {
                     //sleep 3 seconds
                     int i = 0;
                     while (i < 3000) {
-                        //noinspection BusyWait
                         Thread.sleep(50);
                         if (consoleFrameClosed) {
                             break OUTER;
@@ -1010,7 +1009,6 @@ public final class ConsoleFrame {
 
                     int i = 0;
                     while (i < setDelay) {
-                        //noinspection BusyWait
                         Thread.sleep(50);
                         if (consoleFrameClosed) {
                             break OUTER;
@@ -1102,7 +1100,6 @@ public final class ConsoleFrame {
             return;
 
         try {
-            //noinspection InstantiationOfUtilityClass
             CardWidget cardWidget = new CardWidget();
 
             for (Method m : cardWidget.getClass().getMethods()) {
@@ -1384,7 +1381,7 @@ public final class ConsoleFrame {
         menuPane.setOpaque(false);
         menuPane.setBackground(CyderColors.getGuiThemeColor());
 
-        CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
+        menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
         menuScroll.getViewport().setOpaque(false);
         menuScroll.setFocusable(true);
@@ -1573,7 +1570,6 @@ public final class ConsoleFrame {
                             if (i - 61427 == 17) {
                                 IOUtil.playAudio("static/audio/f17.mp3");
                             } else {
-                                //noinspection StringConcatenationMissingWhitespace
                                 inputHandler.println("Interesting F" + (i - CyderNumbers.FUNCTION_KEY_START) + " key");
                             }
                         }
@@ -2592,6 +2588,8 @@ public final class ConsoleFrame {
             menuLabel.setBounds(3, CyderDragLabel.DEFAULT_HEIGHT - 2,
                     menuLabel.getWidth(), consoleCyderFrame.getHeight()
                             - CyderDragLabel.DEFAULT_HEIGHT - 5);
+            menuScroll.setBounds(7, 10, (int)
+                    (menuLabel.getWidth() - 10), menuLabel.getHeight() - 20);
         } else {
             menuButton.setIcon(CyderIcons.menuIcon);
             //no other actions needed
@@ -2655,7 +2653,6 @@ public final class ConsoleFrame {
             for (int i = -40; i < CyderDragLabel.DEFAULT_HEIGHT - 2 ; i += 8) {
                 audioControlsLabel.setLocation(consoleCyderFrame.getWidth() - 156, i);
                 try {
-                    //noinspection BusyWait
                     Thread.sleep(10);
                 } catch (Exception ignored) {}
             }

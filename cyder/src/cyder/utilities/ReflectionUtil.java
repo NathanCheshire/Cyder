@@ -436,7 +436,6 @@ public class ReflectionUtil {
                 String[] commands = {"python",
                         OSUtil.buildPath("static","python","commandFinder.py"),
                         command, String.valueOf(CyderShare.JAR_MODE)};
-                //noinspection CallToRuntimeExec
                 Process proc = rt.exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

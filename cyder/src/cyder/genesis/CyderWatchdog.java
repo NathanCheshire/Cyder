@@ -133,12 +133,17 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo photoviewer menu to rename shows a scrollbar and the scroll is to obig
+
+    // todo calc needs an update
+
+    // todo fonts appears even if not on needed panel
+
     // todo we can also use notifications to create a toast API pretty quickly
+    // a toast's opacity should fade in and then fade out, no animation movement
 
     //todo for this you might need an actual class heirarchy,
     // or at least toast extends notification to override the arrow len
-
-    // todo console menu jtextpane isn't extended on resize events
 
     // todo update readme console, conway, and stats
 

@@ -390,7 +390,6 @@ public class WeatherWidget {
 
         CyderThreadRunner.submit(() -> {
             try {
-                //noinspection ConditionalBreakInInfiniteLoop
                 for (;;) {
                     if (!update)
                         break;

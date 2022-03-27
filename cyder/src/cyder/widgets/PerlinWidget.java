@@ -252,8 +252,6 @@ public class PerlinWidget {
 
                 int labelWidth = noiseLabel.getWidth();
                 int labelHeight = noiseLabel.getHeight();
-                //noinspection UnnecessaryLocalVariable
-                int drawTo = labelWidth;
 
                 //draw noise
                 if (switcher.getCurrentState().equals(twoDimensionState)) {
@@ -302,10 +300,10 @@ public class PerlinWidget {
                 //draw border lines last
                 g2d.setColor(CyderColors.navy);
 
-                g2d.drawLine(1, 1, 1, drawTo - 1);
-                g2d.drawLine(1, 1, drawTo - 1, 1);
-                g2d.drawLine(drawTo - 1, 1, drawTo - 1, drawTo - 1);
-                g2d.drawLine(1, drawTo - 1, drawTo - 1, drawTo - 1);
+                g2d.drawLine(1, 1, 1, labelWidth - 1);
+                g2d.drawLine(1, 1, labelWidth - 1, 1);
+                g2d.drawLine(labelWidth - 1, 1, labelWidth - 1, labelWidth - 1);
+                g2d.drawLine(1, labelWidth - 1, labelWidth - 1, labelWidth - 1);
             }
         };
         noiseLabel.setBounds(100,100, resolution, resolution);

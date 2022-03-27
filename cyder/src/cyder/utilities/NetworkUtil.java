@@ -206,7 +206,6 @@ public class NetworkUtil {
 
         if (!referenceFile.exists()) {
             try {
-                //noinspection ResultOfMethodCallIgnored
                 referenceFile.createNewFile();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

@@ -173,7 +173,6 @@ public class InputHandler {
             // filename in new command arg system is last arg
             String filename = getArg(args.size() - 1);
 
-            //noinspection ConstantConditions, safe due to checking arg size
             if (!filename.trim().isEmpty()) {
                 //check for validity of requested filename
                 if (OSUtil.isValidFilename(filename)) {
@@ -949,7 +948,6 @@ public class InputHandler {
                 for (File log : logDir.listFiles()) {
                     if (FileUtil.getExtension(log).equals(".log")
                             && !log.equals(Logger.getCurrentLog())) {
-                        //noinspection ResultOfMethodCallIgnored
                         log.delete();
                         count++;
                     }
@@ -1965,7 +1963,6 @@ public class InputHandler {
                                             innerConsolePrint(c);
 
                                             if (!finishPrinting)
-                                                //noinspection BusyWait
                                                 Thread.sleep(charTimeout);
                                         }
                                         outputArea.getSemaphore().release();
@@ -1995,7 +1992,6 @@ public class InputHandler {
                     }
 
                     if (!finishPrinting && typingAnimationLocal)
-                        //noinspection BusyWait
                         Thread.sleep(lineTimeout);
                 }
             } catch (Exception e) {

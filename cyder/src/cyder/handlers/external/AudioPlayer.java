@@ -647,7 +647,6 @@ public class AudioPlayer {
                 File userAudioDir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Music/" );
 
                 if (!userAudioDir.exists()) {
-                    //noinspection ResultOfMethodCallIgnored
                     userAudioDir.mkdir();
                     return;
                 }
@@ -1031,7 +1030,6 @@ public class AudioPlayer {
                     audioLocationBar.kill();
 
                 //these occasionally throw NullPtrExep if the user spams buttons so we'll ignore that
-                //noinspection CatchMayIgnoreException
                 try {
                     //initialize player
                     player = new Player(bis);

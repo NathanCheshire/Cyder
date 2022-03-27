@@ -836,7 +836,6 @@ public class PaintWidget {
         resetToAdding();
 
         if (newMode == CyderGrid.Mode.COLOR_SELECTION) {
-            //noinspection ConstantValueVariableUse
             cyderGrid.setMode(newMode);
             paintFrame.setCursor(eyedropperCursor);
         } else {
