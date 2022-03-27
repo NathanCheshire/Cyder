@@ -110,8 +110,7 @@ public class CyderWatchdog {
                 if (currentState == Thread.State.RUNNABLE) {
                     watchdogCounter.getAndIncrement();
 
-                    Logger.log(LoggerTag.THREAD_STATUS, "name = "
-                            + AWT_EVENT_QUEUE_0_NAME + " in RUNNABLE state; incrementing watchdog counter");
+                    Logger.log(LoggerTag.THREAD_STATUS, awtEventQueueThread);
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
                         Logger.log(LoggerTag.DEBUG, "Hault detected by watchdog,");
@@ -134,16 +133,14 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
-    // todo audio player is fucked somehow now even though I did literally nothing
-    // actually fuck this shit
-
     // todo resizing frame doesn't fix notification and actually content pane isn't extended
     // on drag events it's moved but starting off it seems to not work... strange
 
     // todo console menu jtextpane isn't extended on resize events
 
-    // todo fix conway labels, put in new place
-    // todo utilize finalizeAndShow()
+    // todo utilize finalizeAndShow(), check for setting location
+    //  relative to genesis share is how to target these
+
     // todo if smooth scrolling is off for grid, extended border fills remaining space, fix
 
     /**

@@ -209,27 +209,28 @@ public class GameOfLifeWidget {
         if (conwayFrame != null)
             conwayFrame.disposeIfActive();
 
-        conwayFrame = new CyderFrame(600,820);
+        conwayFrame = new CyderFrame(600, 860);
         conwayFrame.setTitle("Conway's Game of Life");
 
         currentPopulationLabel = new CyderLabel();
-        currentPopulationLabel.setBounds(10, 30, 140, 30);
+        currentPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
         conwayFrame.getContentPane().add(currentPopulationLabel);
 
         currentGenerationlabel = new CyderLabel();
-        currentGenerationlabel.setBounds(20 + 115, 30, 140, 30);
+        currentGenerationlabel.setBounds(25 + 240 + 20, CyderDragLabel.DEFAULT_HEIGHT, 240, 30);
         conwayFrame.getContentPane().add(currentGenerationlabel);
 
         maxPopulationLabel = new CyderLabel();
-        maxPopulationLabel.setBounds(20 + 140 * 2 - 50, 30, 140, 30);
+        maxPopulationLabel.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 30, 240, 30);
         conwayFrame.getContentPane().add(maxPopulationLabel);
 
         correspondingGenerationLabel = new CyderLabel();
-        correspondingGenerationLabel.setBounds(20 + 140 * 2 + 70, 30, 200, 30);
+        correspondingGenerationLabel.setBounds(25 + 240 + 20,
+                CyderDragLabel.DEFAULT_HEIGHT + 30, 240, 30);
         conwayFrame.getContentPane().add(correspondingGenerationLabel);
 
         conwayGrid = new CyderGrid(50, 550);
-        conwayGrid.setBounds(25, 25 + CyderDragLabel.DEFAULT_HEIGHT, 550, 550);
+        conwayGrid.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 30 * 2 + 10, 550, 550);
         conwayGrid.setMinNodes(MIN_NODES);
         conwayGrid.setMaxNodes(150);
         conwayGrid.setDrawGridLines(false);
@@ -425,7 +426,7 @@ public class GameOfLifeWidget {
     public static void updateLabels() {
         currentGenerationlabel.setText("Generation: " + generation);
         currentPopulationLabel.setText("Population: " + population);
-        maxPopulationLabel.setText("Max Pop: " + maxPopulation);
+        maxPopulationLabel.setText("Max Population: " + maxPopulation);
 
         if (firstCorrespondingGeneration == 0 || firstCorrespondingGeneration == generation) {
             correspondingGenerationLabel.setText("Corr Gen: " + correspondingGeneration);

@@ -216,7 +216,14 @@ public class Logger {
                 logBuilder.append("[FONT LOADED]: font name = ").append(representation);
                 break;
             case THREAD_STATUS:
-                logBuilder.append("[THREAD STATUS POLLED]: ").append(representation);
+                if (representation instanceof String) {
+                    logBuilder.append("[THREAD STATUS POLLED]: ").append(representation);
+                } else if (representation instanceof Thread) {
+                    logBuilder.append("[THREAD STATUS]: name = "
+                            + ((Thread) representation).getName() + ", state = "
+                            + ((Thread) representation).getState());
+                }
+
                 break;
             case CONSOLE_REDIRECTION:
                 logBuilder.append("[CONSOLE OUTPUT REDIRECTION]: console output was redirected to files/" + representation);

@@ -1136,7 +1136,7 @@ public class CyderFrame extends JFrame {
      * @param expectedText the text of the notification to revoke.
      */
     public void revokeNotification(String expectedText) {
-        // todo, notifications/the way we store them need to be consolidated into like a single object
+        // TODO: blocked by #90
     }
 
     /**
