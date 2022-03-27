@@ -135,7 +135,11 @@ public class CyderWatchdog {
 
     // todo we can also use notifications to create a toast API pretty quickly
 
+    //todo for this you might need an actual class heirarchy,
+    // or at least toast extends notification to override the arrow len
+
     // todo console menu jtextpane isn't extended on resize events
+
     // todo update readme console, conway, and stats
 
     /**

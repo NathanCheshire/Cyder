@@ -964,7 +964,7 @@ public class CyderFrame extends JFrame {
                 TimeUtil.notificationTime()));
 
         if (!notificationCheckerStarted) {
-            CyderThreadRunner.submit(notificationQueue, this + " notification queue checker");
+            CyderThreadRunner.submit(NotificationQueueRunnable, this + " notification queue checker");
             notificationCheckerStarted = true;
         }
     }
@@ -972,18 +972,12 @@ public class CyderFrame extends JFrame {
     /**
      * The notification queue for internal frame notifications.
      */
-    private final Runnable notificationQueue = () -> {
+    private final Runnable NotificationQueueRunnable = () -> {
         try {
             while (this != null && !threadsKilled) {
                 if (!notificationList.isEmpty()) {
                     //init notification object
                     currentNotification = notificationList.remove(0);
-
-                    if (currentNotification.getNotificationBackground() != null)
-                        currentNotification.setBackgroundColor(currentNotification.getNotificationBackground());
-
-                    //set the arrow direction
-                    currentNotification.setArrow(currentNotification.getArrowDir());
 
                     //get dimensions and formatted text for the notification
                     BoundsString bs = BoundsUtil.widthHeightCalculation(
@@ -1042,9 +1036,6 @@ public class CyderFrame extends JFrame {
                         });
                         currentNotification.add(disposeLabel);
                     } else {
-                        currentNotification.setWidth(currentNotification.getContianer().getWidth());
-                        currentNotification.setHeight(currentNotification.getContianer().getHeight());
-
                         //container should have things on it already so no need to place text here
                         currentNotification.add(currentNotification.getContianer());
                     }
@@ -1141,7 +1132,23 @@ public class CyderFrame extends JFrame {
      * @param expectedText the text of the notification to revoke.
      */
     public void revokeNotification(String expectedText) {
-        // TODO: blocked by #90
+        // if it's the current one, revoke it
+        if (currentNotification.getHtmlText().equals(expectedText)) {
+            revokeCurrentNotification();
+        } else {
+            CyderNotification remove = null;
+
+            // should be fast enough to avoid concurrency issues
+            for (CyderNotification notification : notificationList) {
+                if (notification.getHtmlText().equals(expectedText)) {
+                    remove = notification;
+                    break;
+                }
+            }
+
+            // remove from list
+            notificationList.remove(remove);
+        }
 
         // for all notifications shown or in queue:
         // if text is equal to expected, revoke or remove
@@ -1696,7 +1703,7 @@ public class CyderFrame extends JFrame {
         }
 
         if (getCurrentNotification() != null)
-            switch (getCurrentNotification().getArrow()) {
+            switch (getCurrentNotification().getArrowDir()) {
                 case TOP:
                 case BOTTOM:
                     currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,

@@ -41,11 +41,6 @@ public class CyderNotification extends JLabel {
     private int height = 300;
 
     /**
-     * The arrow direction of the notification.
-     */
-    private Direction ArrowType = Direction.TOP;
-
-    /**
      * Whether this notification has been killed.
      */
     private boolean killed;
@@ -61,29 +56,6 @@ public class CyderNotification extends JLabel {
      * notification during the animation through the parent container.
      */
     private static final int increment = 8;
-
-    /**
-     * The background color of the notification.
-     */
-    private Color backgroundColor = CyderColors.notificationBackgroundColor;
-
-    /**
-     * Returns the background color.
-     *
-     * @return the background color
-     */
-    public Color getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    /**
-     * Sets the background color of this notificaiton.
-     *
-     * @param backgroundColor the background color of this notificaiton
-     */
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
 
     /**
      * Returns the animation increment of this notification.
@@ -158,32 +130,14 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * Sets the arrow direction.
-     *
-     * @param type the arrow direction
-     */
-    public void setArrow(Direction type) {
-        ArrowType = type;
-    }
-
-    /**
-     * Returns the arrow direction.
-     *
-     * @return the arrow direction
-     */
-    public Direction getArrow() {
-        return ArrowType;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public int getWidth() {
         // overridden to account for custom paint component with arrow
         // width is actually x-offset of 14 * 2  and arrow size added in if applicable
-        return width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT
-                || ArrowType == Direction.RIGHT) ? arrowSize : 0);
+        return width + getTextXOffset() * 2 + ((arrowDir == Direction.LEFT
+                || arrowDir == Direction.RIGHT) ? arrowSize : 0);
     }
 
     /**
@@ -193,8 +147,8 @@ public class CyderNotification extends JLabel {
     public int getHeight() {
         // overridden to account for custom paint component with arrow
         // height is actually y-offset of 16 * 2 and arrow size added in if applicable
-        return height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM
-                || ArrowType == Direction.TOP) ? arrowSize : 0);
+        return height + getTextYOffset() * 2 + ((arrowDir == Direction.BOTTOM
+                || arrowDir == Direction.TOP) ? arrowSize : 0);
     }
 
     /**
@@ -233,7 +187,7 @@ public class CyderNotification extends JLabel {
                 8, height + 10 + 2 + 2);
         outlinePath.lineTo( 8, 8 + 2);
 
-        switch (ArrowType) {
+        switch (arrowDir) {
             case TOP:
                 outlinePath.moveTo(6 + width / 2, 6 + 2);
                 outlinePath.lineTo(14 + width / 2, -2 + 2);
@@ -268,7 +222,7 @@ public class CyderNotification extends JLabel {
                 break;
         }
 
-        graphics2D.setPaint(backgroundColor);
+        graphics2D.setPaint(notificationBackground);
 
         GeneralPath fillPath = new GeneralPath();
 
@@ -292,7 +246,7 @@ public class CyderNotification extends JLabel {
         fillPath.closePath();
         graphics2D.fill(fillPath);
 
-        switch (ArrowType) {
+        switch (arrowDir) {
             case TOP:
                 fillPath.moveTo(8 + width / 2, 6 + 2);
                 fillPath.lineTo(14 + width / 2, 2);
@@ -721,7 +675,7 @@ public class CyderNotification extends JLabel {
         } else {
             CyderNotification other = (CyderNotification) o;
 
-            return getArrow() == other.getArrow()
+            return arrowDir == other.getArrowDir()
                     && getWidth() == other.getWidth()
                     && getHeight() == other.getHeight()
                     && getHtmlText().equals(other.getHtmlText())
@@ -734,7 +688,7 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int hashCode() {
-        int ret = getArrow().hashCode();
+        int ret = arrowDir.hashCode();
         ret = 31 * ret + Integer.hashCode(getWidth());
         ret = 31 * ret + Integer.hashCode(getHeight());
         ret = 31 * ret + htmlText.hashCode();
