@@ -368,8 +368,7 @@ public class WeatherWidget {
         timezoneLabel.setBounds(0, 580, 480, 30);
         weatherFrame.getContentPane().add(timezoneLabel);
 
-        weatherFrame.setVisible(true);
-        weatherFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        weatherFrame.finalizeAndShow();
 
         update = true;
 

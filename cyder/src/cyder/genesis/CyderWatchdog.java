@@ -133,12 +133,10 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo fix the cyder frame notifications
+
     // todo console menu jtextpane isn't extended on resize events
-
-    // todo utilize finalizeAndShow(), check for setting location
-    //  relative to genesis share is how to target these
-
-    // todo if smooth scrolling is off for grid, extended border fills remaining space, fix
+    // todo update readme console, conway, and stats
 
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.

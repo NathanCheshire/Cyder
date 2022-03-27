@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
@@ -162,8 +161,7 @@ public class NotesWidget {
         deleteNote.setBounds(400,560,160,40);
         noteFrame.getContentPane().add(deleteNote);
 
-        noteFrame.setVisible(true);
-        noteFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        noteFrame.finalizeAndShow();
     }
 
     private static void addNote() {
@@ -246,8 +244,7 @@ public class NotesWidget {
         submitNewNote.setBounds(50,570,600 - 50 - 50,40);
         newNoteFrame.getContentPane().add(submitNewNote);
 
-        newNoteFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        newNoteFrame.setVisible(true);
+        newNoteFrame.finalizeAndShow();
         newNoteField.requestFocus();
     }
 
@@ -409,9 +406,8 @@ public class NotesWidget {
         saveNote.setBounds(50,550,600 - 50 - 50, 40);
         noteEditorFrame.getContentPane().add(saveNote);
 
-        noteEditorFrame.setVisible(true);
         noteEditArea.requestFocus();
-        noteEditorFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        noteEditorFrame.finalizeAndShow();
 
         noteFrames.add(noteEditorFrame);
         noteEditorFrame.addWindowListener(new WindowAdapter() {

@@ -4,7 +4,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderCheckbox;
 import cyder.ui.CyderFrame;
@@ -317,7 +316,6 @@ public class TemperatureWidget {
 
         temperatureFrame.getContentPane().add(calculate);
         temperatureFrame.getContentPane().add(resetValues);
-        temperatureFrame.setVisible(true);
-        temperatureFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        temperatureFrame.finalizeAndShow();
     }
 }

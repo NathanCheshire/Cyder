@@ -4,7 +4,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderButton;
@@ -108,7 +107,6 @@ public class HashingWidget {
         switcher.setBounds(240,140,210,40);
         hashFrame.getContentPane().add(switcher);
 
-        hashFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        hashFrame.setVisible(true);
+        hashFrame.finalizeAndShow();
     }
 }

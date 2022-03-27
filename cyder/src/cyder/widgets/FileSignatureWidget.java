@@ -3,7 +3,6 @@ package cyder.widgets;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
@@ -103,8 +102,7 @@ public class FileSignatureWidget {
         resultLabel.setBounds(50,300, 300, 120);
         signatureFrame.getContentPane().add(resultLabel);
 
-        signatureFrame.setVisible(true);
-        signatureFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        signatureFrame.finalizeAndShow();
     }
 
     private static void validate() {

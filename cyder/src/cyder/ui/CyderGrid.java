@@ -399,14 +399,6 @@ public class CyderGrid extends JLabel {
             g2d.drawLine(1, 1, drawTo, 1);
             g2d.drawLine(drawTo, 1, drawTo, drawTo);
             g2d.drawLine(1, drawTo, drawTo, drawTo);
-
-            // draw extended, true border if enabled
-            if (drawExtendedBorder) {
-                g2d.fillRect(1, 1, 2, drawTo);
-                g2d.fillRect(1, 1, drawTo, 2);
-                g2d.fillRect(drawTo - 2, 1, drawTo, drawTo);
-                g2d.fillRect(1, drawTo - 2, drawTo, drawTo);
-            }
         }
     }
 
@@ -658,30 +650,6 @@ public class CyderGrid extends JLabel {
             }
         }
     };
-
-    /**
-     * Whether to draw the actual bounds border of the component.
-     */
-    private boolean drawExtendedBorder;
-
-    /**
-     * Returns whether to draw the extended border.
-     *
-     * @return whether to draw the extended border
-     */
-    public boolean isDrawExtendedBorder() {
-        return drawExtendedBorder;
-    }
-
-    /**
-     * Sets whether to draw the extended border.
-     *
-     * @param drawExtendedBorder whether to draw the extended border
-     */
-    public void setDrawExtendedBorder(boolean drawExtendedBorder) {
-        this.drawExtendedBorder = drawExtendedBorder;
-        repaint();
-    }
 
     /**
      * Whether grid lines should be drawn.

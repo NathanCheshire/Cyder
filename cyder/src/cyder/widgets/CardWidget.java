@@ -6,7 +6,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
@@ -73,8 +72,7 @@ public class CardWidget {
         cardLabel.setBounds(498 + 40,40, christmas2020Frame.getWidth() - 40, christmas2020Frame.getHeight() - 40);
         christmas2020Frame.getContentPane().add(cardLabel);
 
-        christmas2020Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        christmas2020Frame.setVisible(true);
+        christmas2020Frame.finalizeAndShow();
     }
 
     @Widget(triggers = "FathersDaycard2021", description = "Fathers day card for the year of 2021")
@@ -100,8 +98,7 @@ public class CardWidget {
         cardLabel.setBounds(5,40, fathersDay2021Frame.getWidth() - 40, 240);
         fathersDay2021Frame.getContentPane().add(cardLabel);
 
-        fathersDay2021Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        fathersDay2021Frame.setVisible(true);
+        fathersDay2021Frame.finalizeAndShow();
     }
 
     @Widget(triggers = "Birthdaycard2021", description = "Birthday card for my dad for the year 2021")
@@ -127,8 +124,7 @@ public class CardWidget {
         cardLabel.setBounds(5,40, birthday2021Frame.getWidth() - 40, 240);
         birthday2021Frame.getContentPane().add(cardLabel);
 
-        birthday2021Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        birthday2021Frame.setVisible(true);
+        birthday2021Frame.finalizeAndShow();
 
         try {
             CyderThreadRunner.submit(() -> {
@@ -173,7 +169,6 @@ public class CardWidget {
 
         christmas2021Frame.addPreCloseAction(() -> cardLabel.setRippling(false));
 
-        christmas2021Frame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        christmas2021Frame.setVisible(true);
+        christmas2021Frame.finalizeAndShow();
     }
 }

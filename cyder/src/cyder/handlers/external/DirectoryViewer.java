@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -161,8 +160,7 @@ public class DirectoryViewer {
         tempLabel.setBounds(10,90,600, 400);
         dirFrame.getContentPane().add(tempLabel);
 
-        dirFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        dirFrame.setVisible(true);
+        dirFrame.finalizeAndShow();
         dirField.requestFocus();
 
         dirFrame.notify("Loading files...");

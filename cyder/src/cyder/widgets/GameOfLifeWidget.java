@@ -8,7 +8,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -234,7 +233,6 @@ public class GameOfLifeWidget {
         conwayGrid.setMinNodes(MIN_NODES);
         conwayGrid.setMaxNodes(150);
         conwayGrid.setDrawGridLines(false);
-        conwayGrid.setDrawExtendedBorder(true);
         conwayGrid.setBackground(CyderColors.vanila);
         conwayGrid.setResizable(true);
         conwayGrid.setSmoothScrolling(true);
@@ -381,9 +379,7 @@ public class GameOfLifeWidget {
         conwayFrame.getContentPane().add(iterationsPerSecondSlider);
 
         resetSimulation();
-
-        conwayFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        conwayFrame.setVisible(true);
+        conwayFrame.finalizeAndShow();
     }
 
     /**

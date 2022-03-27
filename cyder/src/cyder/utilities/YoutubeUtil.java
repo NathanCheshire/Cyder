@@ -5,7 +5,6 @@ import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.AnimationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
@@ -474,8 +473,7 @@ public class YoutubeUtil {
             }
         });
 
-        uuidFrame.setVisible(true);
-        uuidFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        uuidFrame.finalizeAndShow();
     }
 
     /**

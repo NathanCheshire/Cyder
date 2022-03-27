@@ -5,7 +5,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
 import cyder.enums.LoggerTag;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderGridLayout;
 import cyder.ui.CyderFrame;
@@ -127,7 +126,6 @@ public class ColorConverterWidget {
         CyderPanel panel = new CyderPanel(layout);
         colorFrame.setContentPanel(panel);
 
-        colorFrame.setVisible(true);
-        colorFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        colorFrame.finalizeAndShow();
     }
 }

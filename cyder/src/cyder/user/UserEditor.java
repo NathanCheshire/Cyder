@@ -136,8 +136,7 @@ public class UserEditor {
         revalidateOnMenuItemClicked();
         switchToUserFiles();
 
-        editUserFrame.setVisible(true);
-        editUserFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        editUserFrame.finalizeAndShow();
     }
 
     /**

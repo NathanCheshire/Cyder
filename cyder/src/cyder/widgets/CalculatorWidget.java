@@ -9,7 +9,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -288,7 +287,6 @@ public class CalculatorWidget {
         calculatorCloseP.setFont(CyderFonts.segoe30);
         calculatorCloseP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + ")"));
 
-        calculatorFrame.setVisible(true);
-        calculatorFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        calculatorFrame.finalizeAndShow();
     }
 }

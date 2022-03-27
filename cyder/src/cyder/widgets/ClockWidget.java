@@ -7,7 +7,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -432,8 +431,7 @@ public class ClockWidget {
             locationField.setBounds(60 + 40 + 320, 830, 320, 50);
             clockFrame.getContentPane().add(locationField);
 
-            clockFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-            clockFrame.setVisible(true);
+            clockFrame.finalizeAndShow();
         }, "Clock Widget Initializer");
     }
 

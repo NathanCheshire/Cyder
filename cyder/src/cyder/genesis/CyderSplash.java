@@ -228,8 +228,7 @@ public class CyderSplash {
                     }
                 },"Splash Animation");
 
-                splashFrame.setVisible(true);
-                splashFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+                splashFrame.finalizeAndShow();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -132,8 +131,7 @@ public class HangmanGame {
         HangmanReset.setBounds(80,750,712 - 80 - 80, 40);
         HangmanFrame.getContentPane().add(HangmanReset);
 
-        HangmanFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        HangmanFrame.setVisible(true);
+        HangmanFrame.finalizeAndShow();
         HangmanFrame.requestFocus();
 
         setup();

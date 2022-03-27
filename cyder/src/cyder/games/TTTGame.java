@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
@@ -347,8 +346,7 @@ public class TTTGame {
         tttReset.setBounds(20, 440, 360, 40);
         tttFrame.getContentPane().add(tttReset);
 
-        tttFrame.setVisible(true);
-        tttFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        tttFrame.finalizeAndShow();
 
         currentPlayer = Player.EXES;
 

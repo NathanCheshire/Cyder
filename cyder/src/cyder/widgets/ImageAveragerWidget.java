@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -147,8 +146,7 @@ public class ImageAveragerWidget {
         averagerFrame.getContentPane().add(average);
         average.addActionListener(e -> averageButtonAction());
 
-        averagerFrame.setVisible(true);
-        averagerFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        averagerFrame.finalizeAndShow();
     }
 
     /**

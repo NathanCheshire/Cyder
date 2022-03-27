@@ -267,9 +267,7 @@ public class UserCreator {
         createNewUser.setBounds(60, 390, 240, 40);
         createUserFrame.getContentPane().add(createNewUser);
 
-        createUserFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-
-        createUserFrame.setVisible(true);
+        createUserFrame.finalizeAndShow();
         newUserName.requestFocus();
     }
 

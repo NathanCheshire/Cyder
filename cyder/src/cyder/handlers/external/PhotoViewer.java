@@ -1,7 +1,6 @@
 package cyder.handlers.external;
 
 import cyder.enums.LoggerTag;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -85,7 +84,7 @@ public class PhotoViewer {
         pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));
         pictureFrame.setVisible(true);
 
-        pictureFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        pictureFrame.finalizeAndShow();
 
         pictureFrame.setMenuEnabled(true);
         pictureFrame.addMenuItem("Rename", () -> {

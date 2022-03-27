@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.ui.*;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
@@ -412,8 +411,7 @@ public class PerlinWidget {
         featureSlider.repaint();
         perlinFrame.getContentPane().add(featureSlider);
 
-        perlinFrame.setVisible(true);
-        perlinFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        perlinFrame.finalizeAndShow();
     }
 
     /**

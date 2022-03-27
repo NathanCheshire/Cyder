@@ -3,7 +3,6 @@ package cyder.threads;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
@@ -114,8 +113,7 @@ public class YoutubeThread {
                     pictureLabel.setBounds(0, 0, thumbnailFrame.getWidth(), thumbnailFrame.getHeight());
                     thumbnailFrame.getContentPane().add(pictureLabel);
 
-                    thumbnailFrame.setVisible(true);
-                    thumbnailFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+                    thumbnailFrame.finalizeAndShow();
                 } catch (Exception ignored) {
                     //invalid UUID, so we ignore the exception and increment the UUID here to ensure we checked it
                     try {

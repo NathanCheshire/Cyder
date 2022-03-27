@@ -5,7 +5,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.ui.CyderFrame;
 import cyder.user.objects.MappedExecutable;
 import cyder.utilities.IOUtil;
@@ -133,8 +132,7 @@ public class MinecraftWidget {
         hamLabel.setBounds(1135, 52, 42, 40);
         minecraftFrame.getContentPane().add(hamLabel);
 
-        minecraftFrame.setVisible(true);
-        minecraftFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        minecraftFrame.finalizeAndShow();
         minecraftFrame.setIconImage(new ImageIcon("static/pictures/minecraft/Block.png").getImage());
 
         //open minecraft if map exists

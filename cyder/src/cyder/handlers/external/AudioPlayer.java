@@ -9,7 +9,6 @@ import cyder.enums.AnimationDirection;
 import cyder.enums.LoggerTag;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -637,8 +636,7 @@ public class AudioPlayer {
         audioProgress.repaint();
         audioFrame.getContentPane().add(audioProgress);
 
-        audioFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        audioFrame.setVisible(true);
+        audioFrame.finalizeAndShow();
         audioFrame.requestFocus();
 
         if (startPlaying != null && FileUtil.getExtension(startPlaying).equals(".mp3")) {

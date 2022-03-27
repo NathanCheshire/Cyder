@@ -11,7 +11,6 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
@@ -72,8 +71,7 @@ public class ManualTests {
             return param;
         });
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -87,14 +85,12 @@ public class ManualTests {
         CyderGrid cg = new CyderGrid(200,800);
         cg.setBounds(100,100,800,800);
         cf.getContentPane().add(cg);
-        cg.setDrawExtendedBorder(true);
         cg.setResizable(true);
         cg.setDrawGridLines(false);
         cg.installClickListener();
         cg.installDragListener();
 
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(CyderShare.getDominantFrame());
+        cf.finalizeAndShow();
     }
 
     /**
@@ -129,8 +125,7 @@ public class ManualTests {
         addPinFirst.addActionListener(e -> testFrame.getTopDragLabel().addButton(pinButton, 0));
         testFrame.getContentPane().add(addPinFirst);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -169,8 +164,7 @@ public class ManualTests {
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -277,8 +271,7 @@ public class ManualTests {
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     @ManualTest(trigger = "askew test")
@@ -295,8 +288,7 @@ public class ManualTests {
         testFrame.getContentPane().add(cb);
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -387,8 +379,7 @@ public class ManualTests {
         },""));
         testFrame.getContentPane().add(slideRight);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -409,8 +400,7 @@ public class ManualTests {
         cb1.setRoundedCorners(false);
         testFrame.getContentPane().add(cb1);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -431,8 +421,7 @@ public class ManualTests {
         jpb.setUI(ui);
         jpb.setValue(50);
         cf.getContentPane().add(jpb);
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(CyderShare.getDominantFrame());
+        cf.finalizeAndShow();
 
         CyderThreadRunner.submit(() -> {
             for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
@@ -486,8 +475,7 @@ public class ManualTests {
         audioVolumeSlider.repaint();
         testFrame.getContentPane().add(audioVolumeSlider);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -509,8 +497,7 @@ public class ManualTests {
         cf.getContentPane().add(cb);
         cb.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
-        cf.setVisible(true);
-        cf.setLocationRelativeTo(CyderShare.getDominantFrame());
+        cf.finalizeAndShow();
     }
 
     /**
@@ -526,8 +513,7 @@ public class ManualTests {
         cs.setState(CyderSwitch.State.OFF);
         testFrame.getContentPane().add(cs);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -556,8 +542,7 @@ public class ManualTests {
         //enable rippling
         ripplingLabel.setRippling(true);
 
-        rippleTestFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        rippleTestFrame.setVisible(true);
+        rippleTestFrame.finalizeAndShow();
     }
 
     /**
@@ -581,8 +566,7 @@ public class ManualTests {
                 cbg.addCheckbox(cb);
         }
 
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        testFrame.setVisible(true);
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -637,8 +621,7 @@ public class ManualTests {
         gridTestFrame.setBackgroundResizing(true);
 
         //regular final frame calls
-        gridTestFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
-        gridTestFrame.setVisible(true);
+        gridTestFrame.finalizeAndShow();
     }
 
     /**
@@ -672,8 +655,7 @@ public class ManualTests {
         testFrame.setMinimumSize(new Dimension(300,300));
         testFrame.setBackgroundResizing(true);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**
@@ -695,8 +677,7 @@ public class ManualTests {
         });
         testFrame.getContentPane().add(ctf);
 
-        testFrame.setVisible(true);
-        testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        testFrame.finalizeAndShow();
     }
 
     /**

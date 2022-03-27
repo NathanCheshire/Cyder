@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -163,8 +162,7 @@ public class ImagePixelatorWidget {
         previewLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         pixelFrame.getContentPane().add(previewLabel);
 
-        pixelFrame.setVisible(true);
-        pixelFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        pixelFrame.finalizeAndShow();
 
         if (startPNG != null && FileUtil.isSupportedImageExtension(startPNG)) {
             try {

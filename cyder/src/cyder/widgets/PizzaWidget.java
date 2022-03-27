@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.ui.*;
 
 import javax.swing.*;
@@ -339,7 +338,6 @@ public class PizzaWidget {
         resetPizza.setBounds(180 + 100 + 40,740,200,40);
         pizzaFrame.getContentPane().add(resetPizza);
 
-        pizzaFrame.setVisible(true);
-        pizzaFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        pizzaFrame.finalizeAndShow();
     }
 }

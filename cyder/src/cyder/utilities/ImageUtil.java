@@ -3,7 +3,6 @@ package cyder.utilities;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 
@@ -369,8 +368,7 @@ public class ImageUtil {
         label.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
         frame.getContentPane().add(label);
 
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(CyderShare.getDominantFrame());
+        frame.finalizeAndShow();
     }
 
     /**
