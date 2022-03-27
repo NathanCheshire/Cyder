@@ -2,9 +2,7 @@ package cyder.user;
 
 import cyder.annotations.Widget;
 import cyder.constants.*;
-import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
-import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
@@ -13,7 +11,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
-import cyder.ui.objects.NotificationBuilder;
 import cyder.user.objects.MappedExecutable;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
@@ -42,10 +39,10 @@ import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * An editor for user preferences, files, colors, fonts, and more.
+ */
 public class UserEditor {
-    // todo comment
-    // todo use locked menu intead of indicies for this
-
     private static CyderFrame editUserFrame;
 
     private static List<String> filesNameList;
@@ -62,7 +59,7 @@ public class UserEditor {
     private static int prefsPanelIndex;
 
     /**
-     * No instances of user editor are allowed
+     * Suppress default constructor.
      */
     private UserEditor() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -77,40 +74,69 @@ public class UserEditor {
         if (editUserFrame != null)
             editUserFrame.dispose();
 
-        editUserFrame = new CyderFrame(900, 580, CyderIcons.defaultBackground);
+        editUserFrame = new CyderFrame(720 + 2 * 5,
+                500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderIcons.defaultBackground);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
         editUserFrame.setTitle("Preferences");
 
         switchingLabel = new JLabel();
         switchingLabel.setForeground(new Color(255, 255, 255));
-        switchingLabel.setBounds(90, 50, 720, 500);
+        switchingLabel.setBounds(5, CyderDragLabel.DEFAULT_HEIGHT + 30, 720, 500);
         switchingLabel.setOpaque(true);
-        switchingLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         switchingLabel.setBackground(new Color(255, 255, 255));
         editUserFrame.getContentPane().add(switchingLabel);
 
         prefsPanelIndex = startingIndex;
 
-        revalidateBasedOnIndex();
+        // todo too spaced out, too much height when not needed, make entire content pane the
+        // todo never space out components for the label
+        // inner panel and offset for locked out menu
 
-        CyderButton backwardButton = new CyderButton("<");
-        backwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        backwardButton.setFont(CyderFonts.segoe30);
-        backwardButton.addActionListener(e -> lastEditUser());
-        backwardButton.setBounds(20, 50 + 125, 50, 250);
-        editUserFrame.getContentPane().add(backwardButton);
+        editUserFrame.addMenuItem("Files", () -> {
+            revalidateOnMenuItemClicked();
+            switchToUserFiles();
+            prefsPanelIndex = 0;
+        });
+        editUserFrame.addMenuItem("Fonts", () -> {
+            if (prefsPanelIndex == 1)
+                return;
 
-        CyderButton forwardButton = new CyderButton(">");
-        forwardButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        forwardButton.setFont(CyderFonts.segoe30);
-        forwardButton.addActionListener(e -> nextEditUser());
-        forwardButton.setBounds(830, 50 + 125, 50, 250);
-        editUserFrame.getContentPane().add(forwardButton);
+            revalidateOnMenuItemClicked();
+            switchToFontAndColor();
+            prefsPanelIndex = 1;
+        });
+        editUserFrame.addMenuItem("Colors", () -> {
+            if (prefsPanelIndex == 1)
+                return;
+
+            revalidateOnMenuItemClicked();
+            switchToFontAndColor();
+            prefsPanelIndex = 1;
+        });
+        editUserFrame.addMenuItem("Preferences", () -> {
+            revalidateOnMenuItemClicked();
+            switchToPreferences();
+            prefsPanelIndex = 2;
+        });
+        editUserFrame.addMenuItem("Fields", () -> {
+            revalidateOnMenuItemClicked();
+            switchToFieldInputs();
+            prefsPanelIndex = 3;
+        });
+
+        editUserFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
+        editUserFrame.lockMenuOut();
+
+        revalidateOnMenuItemClicked();
+        switchToUserFiles();
 
         editUserFrame.setVisible(true);
         editUserFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
     }
 
+    /**
+     * Initializes the user files list and corresponding name list.
+     */
     private static void initFilesList() {
         File backgroundDir = UserUtil.getUserFile(UserFile.BACKGROUNDS.getName());
         File musicDir = UserUtil.getUserFile(UserFile.MUSIC.getName());
@@ -122,72 +148,40 @@ public class UserEditor {
         for (File file : backgroundDir.listFiles()) {
             if (FileUtil.isSupportedImageExtension(file)) {
                 filesList.add(file.getAbsoluteFile());
-                filesNameList.add("Backgrounds/" + FileUtil.getFilename(file));
+                filesNameList.add(OSUtil.buildPath(
+                        UserFile.BACKGROUNDS.getName(), FileUtil.getFilename(file)));
             }
         }
 
         for (File file : musicDir.listFiles()) {
             if (file.getName().endsWith((".mp3"))) {
                 filesList.add(file.getAbsoluteFile());
-                filesNameList.add("Music/" + FileUtil.getFilename(file));
+                filesNameList.add(OSUtil.buildPath(
+                        UserFile.MUSIC.getName(), FileUtil.getFilename(file)));
             }
         }
 
         for (File file : filesDir.listFiles()) {
             filesList.add(file.getAbsoluteFile());
-            filesNameList.add("Files/" + FileUtil.getFilename(file));
+            filesNameList.add(OSUtil.buildPath(
+                    UserFile.FILES.getName(), FileUtil.getFilename(file)));
         }
     }
 
-    private static void nextEditUser() {
+    /**
+     * Revalidates the necessary items before switching to a new preferences page.
+     */
+    private static void revalidateOnMenuItemClicked() {
         switchingLabel.removeAll();
         switchingLabel.revalidate();
         switchingLabel.repaint();
         editUserFrame.revalidate();
         editUserFrame.repaint();
-
-        prefsPanelIndex++;
-
-        if (prefsPanelIndex == 4)
-            prefsPanelIndex = 0;
-
-        revalidateBasedOnIndex();
     }
 
-    private static void lastEditUser() {
-        switchingLabel.removeAll();
-        switchingLabel.revalidate();
-        switchingLabel.repaint();
-        editUserFrame.revalidate();
-        editUserFrame.repaint();
-
-        prefsPanelIndex--;
-
-        if (prefsPanelIndex == -1)
-            prefsPanelIndex = 3;
-
-        revalidateBasedOnIndex();
-    }
-
-    private static void revalidateBasedOnIndex() {
-        editUserFrame.revokeAllNotifications();
-
-        switch (prefsPanelIndex) {
-            case 0:
-                switchToUserFiles();
-                break;
-            case 1:
-                switchToFontAndColor();
-                break;
-            case 2:
-                switchToPreferences();
-                break;
-            case 3:
-                switchToFieldInputs();
-                break;
-        }
-    }
-
+    /**
+     * Switches to the user files preference page.
+     */
     private static void switchToUserFiles() {
         JLabel titleLabel = new JLabel("Files", SwingConstants.CENTER);
         titleLabel.setFont(CyderFonts.segoe30);
@@ -350,8 +344,9 @@ public class UserEditor {
 
                                     //found corresponding album art so rename it as well
                                     if (refFile != null) {
-                                        File artRename = new File("dynamic/users/" +
-                                                ConsoleFrame.getConsoleFrame().getUUID() + "/Music/AlbumArt/" + newName + ".png");
+                                        File artRename = new File("dynamic/users/"
+                                                + ConsoleFrame.getConsoleFrame().getUUID()
+                                                + "/Music/AlbumArt/" + newName + ".png");
 
                                         if (artRename.exists())
                                             throw new IOException("album art file exists");
@@ -443,6 +438,9 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
+    /**
+     * Revalidates the user files scroll.
+     */
     private static void revalidateFilesScroll() {
         initFilesList();
 
@@ -463,6 +461,9 @@ public class UserEditor {
         ConsoleFrame.getConsoleFrame().loadBackgrounds();
     }
 
+    /**
+     * Switches to the fonts and colors preference page.
+     */
     private static void switchToFontAndColor() {
         JLabel TitleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
         TitleLabel.setFont(CyderFonts.segoe30);
@@ -681,36 +682,37 @@ public class UserEditor {
         FontLabel.setBounds(50, 60, 300, 30);
         switchingLabel.add(FontLabel);
 
-        CyderScrollList fontScrollList = new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE);
-        fontScrollList.setItemAlignment(StyleConstants.ALIGN_LEFT);
+        AtomicReference<CyderScrollList> fontScrollRef = new AtomicReference<>(
+                new CyderScrollList(300, 300, CyderScrollList.SelectionPolicy.SINGLE));
+        fontScrollRef.get().setItemAlignment(StyleConstants.ALIGN_LEFT);
 
-        AtomicReference<JLabel> fontScrollLabel = new AtomicReference<>(fontScrollList.generateScrollList());
-
-        NotificationBuilder builder = new NotificationBuilder("Loading fonts...");
-        builder.setViewDuration(2000);
-        builder.setArrowDir(Direction.LEFT);
-        builder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
-        editUserFrame.notify(builder);
+        // label to show where fonts will be
+        CyderLabel tempLabel = new CyderLabel("Loading...");
+        tempLabel.setFont(CyderFonts.defaultFont);
+        tempLabel.setBackground(CyderColors.vanila);
+        tempLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+        tempLabel.setOpaque(true);
+        tempLabel.setBounds(50,100,300, 300);
+        switchingLabel.add(tempLabel);
 
         CyderThreadRunner.submit(() -> {
-            String[] Fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
             fontList.clear();
-            Collections.addAll(fontList, Fonts);
+            Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .getAvailableFontFamilyNames());
 
             for (int i = 0 ; i < fontList.size() ; i++) {
                 int finalI = i;
-                fontScrollList.addElementWithSingleCLickAction(fontList.get(i),
+                fontScrollRef.get().addElementWithSingleCLickAction(fontList.get(i),
                         () -> FontLabel.setFont(new Font(fontList.get(finalI),
                         Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()))));
             }
 
-            fontScrollLabel.set(fontScrollList.generateScrollList());
-
             if (prefsPanelIndex == 1) {
-                fontScrollLabel.get().setBounds(50, 100, 300, 300);
-                switchingLabel.add(fontScrollLabel.get());
-                editUserFrame.revokeCurrentNotification();
+                JLabel fontLabel = fontScrollRef.get().generateScrollList();
+                fontLabel.setBounds(50, 100, 300, 300);
+                switchingLabel.remove(tempLabel);
+                switchingLabel.add(fontLabel);
             }
         },"Preference Font Loader");
 
@@ -721,10 +723,10 @@ public class UserEditor {
         applyFont.setFocusPainted(false);
         applyFont.setBackground(CyderColors.regularRed);
         applyFont.addActionListener(e -> {
-            if (fontScrollList == null || fontScrollList.getSelectedElements().isEmpty())
+            if (fontScrollRef.get() == null || fontScrollRef.get().getSelectedElements().isEmpty())
                 return;
 
-            String selectedFont = fontScrollList.getSelectedElements().get(0);
+            String selectedFont = fontScrollRef.get().getSelectedElements().get(0);
 
             if (selectedFont != null) {
                 UserUtil.setUserData("Font", selectedFont);
@@ -747,28 +749,40 @@ public class UserEditor {
         resetValues.setFocusPainted(false);
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
-            //foreground
+            // reset foreground
             UserUtil.setUserData("foreground",UserUtil.buildDefaultUser().getForeground());
             foregroundColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
             foregroundField.setText(UserUtil.buildDefaultUser().getForeground());
-            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setForeground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
-            ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground())));
 
-            //font
+            // apply to input field, output area, and carets
+            ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(
+                    ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setForeground(
+                    ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(
+                    ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+            ConsoleFrame.getConsoleFrame().getInputField().setCaret(
+                    new CyderCaret(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground())));
+
+            // reset font
             UserUtil.setUserData("font",UserUtil.buildDefaultUser().getFont());
             Font ApplyFont = new Font(UserUtil.buildDefaultUser().getFont(), Font.BOLD, 30);
             ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ApplyFont);
             ConsoleFrame.getConsoleFrame().getInputField().setFont(ApplyFont);
-            if (fontScrollList != null)
-                fontScrollList.clearSelectedElements();
+
+            // reset the font on preference editor
+            if (fontScrollRef.get() != null) {
+                fontScrollRef.get().clearSelectedElements();
+            }
+
             FontLabel.setFont(ApplyFont);
 
-            //background
+            // reset background color
             UserUtil.setUserData("background",UserUtil.buildDefaultUser().getBackground());
             fillColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getBackground()));
             fillField.setText(UserUtil.buildDefaultUser().getBackground());
+
+            // reset output fill if active
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getOutputArea()
@@ -777,7 +791,7 @@ public class UserEditor {
                 ConsoleFrame.getConsoleFrame().getOutputArea().revalidate();
             }
 
-            //input color fill
+            // reset input fill if active
             if (UserUtil.getUserData("InputFill").equals("1")) {
                 ConsoleFrame.getConsoleFrame().getInputField().setOpaque(true);
                 ConsoleFrame.getConsoleFrame().getInputField()
@@ -786,26 +800,23 @@ public class UserEditor {
                 ConsoleFrame.getConsoleFrame().getInputField().revalidate();
             }
 
-            //windowcolor
+            // window color
             UserUtil.setUserData("windowcolor",UserUtil.buildDefaultUser().getWindowcolor());
             windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor()));
             windowField.setText(UserUtil.buildDefaultUser().getWindowcolor());
             windowColorBlock.setBackground((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
             CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
 
-            for (Frame f : Frame.getFrames()) {
-                if (f instanceof CyderFrame)
-                    f.repaint();
+            for (CyderFrame f : FrameUtil.getCyderFrames()) {
+                f.repaint();
             }
 
-            //reset font scroll position
-            fontScrollList.getScrollPane().getVerticalScrollBar().setValue(
-                    fontScrollList.getScrollPane().getVerticalScrollBar().getMinimum());
+            // set scroll list position to top
+            fontScrollRef.get().getScrollPane().getVerticalScrollBar().setValue(
+                    fontScrollRef.get().getScrollPane().getVerticalScrollBar().getMinimum());
 
-            //other defaults colors below
-
+            // other defaults colors below
             switchingLabel.revalidate();
-
             editUserFrame.notify("Default fonts and colors set");
         });
         resetValues.setBounds(50 + 160, 410, 140, 40);
@@ -814,6 +825,10 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
+    /**
+     * Switches to the preferences preference page.
+     * TODO: use CyderSwitch for this instead of checkboxes
+     */
     private static void switchToPreferences() {
         JTextPane preferencePane = new JTextPane();
         preferencePane.setEditable(false);
@@ -959,6 +974,9 @@ public class UserEditor {
         switchingLabel.revalidate();
     }
 
+    /**
+     * Switches to the field input preference page.
+     */
     private static void switchToFieldInputs() {
         JTextPane fieldInputsPane = new JTextPane();
         fieldInputsPane.setEditable(false);
@@ -1381,8 +1399,9 @@ public class UserEditor {
         deleteUserButton.addActionListener(e -> {
             String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
 
-            if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray())).equals(UserUtil.getCyderUser().getPass())) {
-                editUserFrame.notify("Sorry, but the password you entered was incorrect; user not deleted");
+            if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray()))
+                    .equals(UserUtil.getCyderUser().getPass())) {
+                editUserFrame.notify("Invalid password; user not deleted");
                 deletePasswordField.setText("");
             } else {
                 CyderThreadRunner.submit(() -> {

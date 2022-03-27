@@ -708,7 +708,7 @@ public class ManualTests {
         testFrame.setTitle("Menu Test");
 
         testFrame.setMenuEnabled(true);
-        testFrame.setCurrentMenuType(CyderFrame.MenuType.WINDOWS_LIKE);
+        testFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -727,7 +727,7 @@ public class ManualTests {
         testFrame.getContentPane().add(switchMenuType);
         switchMenuType.addActionListener(e -> {
             if (testFrame.getCurrentMenuType() == CyderFrame.MenuType.PANEL) {
-                testFrame.setCurrentMenuType(CyderFrame.MenuType.WINDOWS_LIKE);
+                testFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
             } else {
                 testFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
             }

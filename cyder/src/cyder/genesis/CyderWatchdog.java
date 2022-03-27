@@ -134,6 +134,9 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo audio player is fucked somehow now even though I did literally nothing
+    // actually fuck this shit
+
     // todo log if a frame is attempted to be made a smaller size than allowed
 
     // todo console menu jtextpane isn't extended on resize events

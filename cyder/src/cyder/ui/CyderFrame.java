@@ -1124,6 +1124,8 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    // todo revoke with expected text method
+
     /**
      * Removes all currently displayed notifications and wipes the notification queue.
      */
@@ -2804,12 +2806,10 @@ public class CyderFrame extends JFrame {
          */
         PANEL,
         /**
-         * Lays out the menu items in a horizontal scroll right below the drag label
+         * Lays out the menu items in a horizontal scroll right below the drag label.
          */
-        WINDOWS_LIKE,
+        RIBBON,
     }
-
-    // todo need to be able to lock menu out and disable changing, lock for user editor
 
     /**
      * The menu type for the frame's menu.
@@ -3209,10 +3209,11 @@ public class CyderFrame extends JFrame {
             }
         }
 
+        // todo doesn't work rn
         if (menuScroll.getHorizontalScrollBar() != null) {
-            menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
-            menuScroll.setBounds(menuPadding, menuPadding,
-                    getWidth() - menuPadding * 2 - 10, menuLabel.getHeight() - menuPadding * 2);
+//            menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
+//            menuScroll.setBounds(menuPadding, menuPadding,
+//                    getWidth() - menuPadding * 2 - 10, menuLabel.getHeight() - menuPadding * 2);
         }
 
         menuPane.setCaretPosition(0);
