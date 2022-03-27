@@ -1133,11 +1133,13 @@ public class InputHandler {
                        Thread.onSpinWait();
                    }
 
-                   ArrayList<String> lines = futureLines.get();
+                   if (futureLines.get() != null) {
+                       ArrayList<String> lines = futureLines.get();
 
-                   println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
-                   for (String line : lines)  {
-                       println(line);
+                       println("Devices connected to " + OSUtil.getComputerName() + " via USB protocol:");
+                       for (String line : lines)  {
+                           println(line);
+                       }
                    }
                } catch (Exception ex) {
                    ExceptionHandler.handle(ex);

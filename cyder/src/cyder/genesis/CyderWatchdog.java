@@ -144,10 +144,6 @@ public class CyderWatchdog {
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */
     private static void bootstrap() {
-        // todo yk what? we need to make sure python is installed
-        //  before attempting to execute a python script, maybe we should just
-        //  use a batch file for these things
-
         // todo start a python process to bootstrap ourself.
         //  Might have to unbind the socket to ensure a singular instance ever exists.
     }

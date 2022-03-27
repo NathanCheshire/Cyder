@@ -13,6 +13,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.CyderButton;
 import javazoom.jl.player.Player;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -430,6 +431,18 @@ public class IOUtil {
      * Executes the USBq.py script to find the devices connected to the PC via a USB protocol.
      */
     public static Future<ArrayList<String>> getUsbDevices() {
+        if (!pythonInstalled()) {
+            ConsoleFrame.getConsoleFrame().getInputHandler()
+                    .println("Python was not found; please install Python and add it" +
+                            " to the windows PATH environment variable");
+
+            CyderButton installPython = new CyderButton("Downlaod Python");
+            installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
+            ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(installPython);
+
+            return null;
+        }
+
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
             ArrayList<String> ret = new ArrayList<>();
@@ -462,5 +475,25 @@ public class IOUtil {
 
             return ret;
         });
+    }
+
+    /**
+     * Returns whether python is installed.
+     *
+     * @return whether python is installed
+     */
+    public static boolean pythonInstalled() {
+        boolean ret = true;
+
+        try {
+            Runtime rt = Runtime.getRuntime();
+            String command = "python";
+            Process proc = rt.exec(command);
+        } catch (Exception e) {
+            ret = false;
+            ExceptionHandler.silentHandle(e);
+        }
+
+        return ret;
     }
 }
