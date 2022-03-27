@@ -20,24 +20,27 @@ import java.awt.geom.GeneralPath;
  * A custom notification component used for CyderFrames.
  */
 public class CyderNotification extends JLabel {
+    // ---------------------------------------
+    // UI components of notification class
+    // ---------------------------------------
 
     /**
-     * The width/height of the arrow.
+     * The main axis length of the arrow.
      */
     private int arrowSize = 6;
 
     /**
-     * The default width of the notificaiton.
+     * The width of the notificaiton.
      */
     private int width = 300;
 
     /**
-     * The default height of the notification.
+     * The height of the notification.
      */
     private int height = 300;
 
     /**
-     * The default arrow direction of the notification.
+     * The arrow direction of the notification.
      */
     private Direction ArrowType = Direction.TOP;
 
@@ -47,13 +50,14 @@ public class CyderNotification extends JLabel {
     private boolean killed;
 
     /**
-     * The animation delay between the notification moving through its parent container.
+     * The animation delay for the notification
+     * moving through its parent container.
      */
     private static final int delay = 8;
 
     /**
      * The increment between setLocation calls for the
-     * notification moving through its parent container.
+     * notification during the animation through the parent container.
      */
     private static final int increment = 8;
 
@@ -63,7 +67,7 @@ public class CyderNotification extends JLabel {
     private Color backgroundColor = CyderColors.notificationBackgroundColor;
 
     /**
-     * Initializes a notification.
+     * Constructs a new notification.
      */
     public CyderNotification() {
         killed = false;
@@ -78,83 +82,139 @@ public class CyderNotification extends JLabel {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
+    /**
+     * Returns the background color.
+     *
+     * @return the background color
+     */
     public Color getBackgroundColor() {
         return backgroundColor;
     }
 
+    /**
+     * Sets the background color of this notificaiton.
+     *
+     * @param backgroundColor the background color of this notificaiton
+     */
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
+    /**
+     * Returns the animation increment of this notification.
+     *
+     * @return the animation increment of this notification
+     */
     public static int getIncrement() {
         return increment;
     }
 
+    /**
+     * Returns the delay of this notification.
+     *
+     * @return the delay of this notification
+     */
     public static int getDelay() {
         return delay;
     }
 
+    /**
+     * Returns the text x-offset from 0,0. 14 for notifications.
+     *
+     * @return the text x-offset from 0,0. 14 for notifications
+     */
     public static int getTextXOffset() {
-        return 14; //offset from 0,0
+        return 14;
     }
 
+    /**
+     * Returns the text y-offset from 0,0. 16 for notifications.
+     *
+     * @return the text y-offset from 0,0. 16 for notifications
+     */
     public static int getTextYOffset() {
-        return 16; //offset from 0,0
+        return 16;
     }
 
+    /**
+     * Sets the arrow size.
+     *
+     * @param arrowSize the arrow size
+     */
     public void setArrowSize(int arrowSize) {
         this.arrowSize = arrowSize;
     }
 
+    /**
+     * Returns the arrow size.
+     *
+     * @return the arrow size
+     */
     public int getArrowSize() {
         return arrowSize;
     }
 
+    /**
+     * Sets the width.
+     *
+     * @param w the width
+     */
     public void setWidth(int w) {
         width = w;
     }
 
+    /**
+     * Sets the height.
+     *
+     * @param h the height
+     */
     public void setHeight(int h) {
         height = h;
     }
 
+    /**
+     * Sets the arrow direction.
+     *
+     * @param type the arrow direction
+     */
     public void setArrow(Direction type) {
         ArrowType = type;
     }
 
+    /**
+     * Returns the arrow direction.
+     *
+     * @return the arrow direction
+     */
     public Direction getArrow() {
         return ArrowType;
     }
 
     /**
-     * Custom width getter since this is a custom paint component.
-     *
-     * @return the width plus the x-offset of 14 twice for both sides with the arrow size
-     * added in if the arrow is on the left or right.
+     * {@inheritDoc}
      */
     @Override
     public int getWidth() {
+        // overridden to account for custom paint component with arrow
+        // width is actually x-offset of 14 * 2  and arrow size added in if applicable
         return width + getTextXOffset() * 2 + ((ArrowType == Direction.LEFT
                 || ArrowType == Direction.RIGHT) ? arrowSize : 0);
     }
 
     /**
-     * Custom height getter since this is a custom paint component.
-     *
-     * @return the height plus the y-offset of 16 twice for both sides with the arrow size
-     * added in if the arrow is on the top or bottom.
+     * {@inheritDoc}
      */
     @Override
     public int getHeight() {
+        // overridden to account for custom paint component with arrow
+        // height is actually y-offset of 16 * 2 and arrow size added in if applicable
         return height + getTextYOffset() * 2 + ((ArrowType == Direction.BOTTOM
                 || ArrowType == Direction.TOP) ? arrowSize : 0);
     }
 
-    @Override
-    public void setToolTipText(String text) {
-        super.setToolTipText(text);
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
@@ -283,8 +343,9 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * This method to be used with an already initialized component. Expected that the component's starting
-     * location is already set.
+     * Animates in the notification on the parent container.
+     * The components position is expected to have already
+     * been set out of bounds on the parent.
      *
      * @param notificationDirection the direction for the notification to enter and exit from.
      */
@@ -387,12 +448,14 @@ public class CyderNotification extends JLabel {
             catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        },"notification appear animation");
+        },"Notification Appear Animatior");
     }
 
     /**
-     * Kill any notification by stopping all animation threads and setting this visibility to false.
-     * Must re-initialize notification object using constructor; you shouldn't make a killed notification
+     * Kill the notification by stopping all animation threads
+     * and setting this visibility to false.
+     *
+     * Note: you should not make a killed notification
      * visible again via {@link Component#setVisible(boolean)}.
      */
     public void kill() {
@@ -401,7 +464,8 @@ public class CyderNotification extends JLabel {
     }
 
     /**
-     * The direction this notification should vanish if no vanish direction can be provided.
+     * The direction this notification should vanish
+     * if no vanish direction can be provided.
      */
     private NotificationDirection vanishDirection;
 
@@ -418,15 +482,15 @@ public class CyderNotification extends JLabel {
      * Vanishes the current notification using the currently set notification direction.
      *
      * @param parent the component the notification is on
-     * @param delay the delay before vanishing
      */
-    protected void vanish(Component parent, int delay) {
-        vanish(vanishDirection, parent, delay);
+    protected void vanish(Component parent) {
+        vanish(vanishDirection, parent, 0);
     }
 
     /**
-     * This method to be used in combination with an already visible notification to immediately move it off of the
-     * parent until it is not visible. Upon completing the animation, the notification is removed from the parent.
+     * This method to be used in combination with an already visible
+     * notification to immediately move it off of the parent until it is not visible.
+     * Upon completing the animation, the notification is removed from the parent.
      *
      * @param notificationDirection the direction to exit to
      * @param parent the component the notification is on. Used for bounds calculations
@@ -492,6 +556,150 @@ public class CyderNotification extends JLabel {
         },"Notificaiton Vanish Animator");
     }
 
+    // ---------------------------------------------------
+    // QueuedNotification components of notification class
+    // ---------------------------------------------------
+
+    /**
+     * The html styled text of the notificaiton.
+     */
+    private String htmlText;
+
+    /**
+     * The duration the notification lasts after fully visible.
+     */
+    private int duration;
+
+    /**
+     * The direction the arrow is painted.
+     */
+    private Direction arrowDir;
+
+    /**
+     * The direction the notification appears/vanishes from/to.
+     */
+    private NotificationDirection notificationDirection;
+
+    /**
+     * The action to invoke if the notification is killed via a user.
+     */
+    private Runnable onKillAction;
+
+    /**
+     * The time the notificaiton was queued at.
+     */
+    private String time;
+
+    /**
+     * A custom container for the notification. Needed for rare cases.
+     */
+    private Container contianer;
+
+    /**
+     * The background of the notification. Only applicable if a
+     * custom container is being used.
+     */
+    private Color notificationBackground;
+
+    /**
+     * Initialies the variables needed to draw the component to the frame.
+     *
+     * @param text the html text for the eventual notification to display
+     * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
+     * @param arrowDir the arrow direction
+     * @param notificationDirection the notification direction
+     * @param onKillAction the action to perform if the notification is dismissed by the user
+     */
+    public void initializeQueueVars(String text, int dur, Direction arrowDir,
+                              NotificationDirection notificationDirection,
+                              Runnable onKillAction, Container container,
+                              Color notificationBackground, String time) {
+        htmlText = text;
+        duration = dur;
+        contianer = container;
+        this.arrowDir = arrowDir;
+        this.notificationDirection = notificationDirection;
+        this.onKillAction = onKillAction;
+        this.notificationBackground = notificationBackground;
+        this.time = time;
+    }
+
+    /**
+     * Returns the html text.
+     *
+     * @return the html text
+     */
+    public String getHtmlText() {
+        return htmlText;
+    }
+
+    /**
+     * Returns the duration.
+     *
+     * @return the duration
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * Returns the arrow direction.
+     * @return the arrow direction
+     */
+    public Direction getArrowDir() {
+        return arrowDir;
+    }
+
+    /**
+     * Returns the notification direction.
+     *
+     * @return the notification direction
+     */
+    public NotificationDirection getNotificationDirection() {
+        return notificationDirection;
+    }
+
+    /**
+     * Returns the on kill action of this notification.
+     *
+     * @return the on kill action of this notification
+     */
+    public Runnable getOnKillAction() {
+        return onKillAction;
+    }
+
+    /**
+     * Returns the time this notifcation was addedd to the queue at.
+     *
+     * @return the time this notifcation was addedd to the queue at
+     */
+    public String getTime() {
+        return time;
+    }
+
+    /**
+     * The custom container for this notification.
+     *
+     * @return custom container for this notification
+     */
+    public Container getContianer() {
+        return contianer;
+    }
+
+    /**
+     * Returns the notification background for a
+     * notification with a custom component.
+     *
+     * @return the notification background
+     */
+    public Color getNotificationBackground() {
+        return notificationBackground;
+    }
+
+    // -------------------------------------------------------
+    // Primary methods to override according to Effective Java
+    // -------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -503,9 +711,12 @@ public class CyderNotification extends JLabel {
             return false;
         } else {
             CyderNotification other = (CyderNotification) o;
+
             return getArrow() == other.getArrow()
                     && getWidth() == other.getWidth()
-                    && getHeight() == other.getHeight();
+                    && getHeight() == other.getHeight()
+                    && getHtmlText().equals(other.getHtmlText())
+                    && getTime().equals(other.getTime());
         }
     }
 
@@ -517,6 +728,8 @@ public class CyderNotification extends JLabel {
         int ret = getArrow().hashCode();
         ret = 31 * ret + Integer.hashCode(getWidth());
         ret = 31 * ret + Integer.hashCode(getHeight());
+        ret = 31 * ret + htmlText.hashCode();
+        ret = 31 * ret + time.hashCode();
         return ret;
     }
 

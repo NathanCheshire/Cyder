@@ -1,25 +1,26 @@
 package cyder.ui.objects;
 
+import com.google.errorprone.annotations.Immutable;
 import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
 
 import java.awt.*;
 
 /**
  * Class for storing a notification's information.
  */
+@Immutable
 public final class QueuedNotification {
-    private String htmlText;
-    private int duration;
-    private Direction arrowDir;
-    private NotificationDirection notificationDirection;
-    private Runnable onKillAction;
-    private String time;
-    private Container contianer;
-    private Color notificationBackground;
+    private final String htmlText;
+    private final int duration;
+    private final Direction arrowDir;
+    private final NotificationDirection notificationDirection;
+    private final Runnable onKillAction;
+    private final String time;
+    private final Container contianer;
+    private final Color notificationBackground;
 
     /**
      * A notification that hasn't been notified to the user yet
@@ -48,22 +49,6 @@ public final class QueuedNotification {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
-    public void setHtmlText(String htmlText) {
-        this.htmlText = htmlText;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public void setArrowDir(Direction arrowDir) {
-        this.arrowDir = arrowDir;
-    }
-
-    public void setNotificationDirection(NotificationDirection notificationDirection) {
-        this.notificationDirection = notificationDirection;
-    }
-
     public String getHtmlText() {
         return htmlText;
     }
@@ -84,40 +69,16 @@ public final class QueuedNotification {
         return onKillAction;
     }
 
-    public void setOnKillAction(Runnable onKillAction) {
-        this.onKillAction = onKillAction;
-    }
-
     public String getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public Container getContianer() {
         return contianer;
     }
 
-    public void setContianer(Container contianer) {
-        this.contianer = contianer;
-    }
-
     public Color getNotificationBackground() {
         return notificationBackground;
-    }
-
-    public void setNotificationBackground(Color notificaitonBackground) {
-        notificationBackground = notificaitonBackground;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 
     /**

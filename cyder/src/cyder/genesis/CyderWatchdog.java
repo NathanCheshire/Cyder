@@ -133,6 +133,8 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo we can also use notifications to create a toast API pretty quickly
+
     // todo fix the cyder frame notifications
 
     // todo console menu jtextpane isn't extended on resize events

@@ -1131,7 +1131,7 @@ public class CyderFrame extends JFrame {
      */
     public void revokeCurrentNotification(boolean animate) {
         if (animate) {
-            currentNotification.vanish(this, 0);
+            currentNotification.vanish(this);
         } else {
             currentNotification.kill();
         }
@@ -1145,6 +1145,9 @@ public class CyderFrame extends JFrame {
      */
     public void revokeNotification(String expectedText) {
         // TODO: blocked by #90
+
+        // for all notifications shown or in queue:
+        // if text is equal to expected, revoke or remove
     }
 
     /**
