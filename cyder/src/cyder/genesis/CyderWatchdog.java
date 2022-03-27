@@ -137,9 +137,10 @@ public class CyderWatchdog {
     // todo audio player is fucked somehow now even though I did literally nothing
     // actually fuck this shit
 
-    // todo console menu jtextpane isn't extended on resize events
+    // todo resizing frame doesn't fix notification and actually content pane isn't extended
+    // on drag events it's moved but starting off it seems to not work... strange
 
-    // todo logger broken somehow, I think the consolidaor is what's at fault
+    // todo console menu jtextpane isn't extended on resize events
 
     // todo fix conway labels, put in new place
     // todo utilize finalizeAndShow()

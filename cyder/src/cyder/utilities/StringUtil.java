@@ -1059,4 +1059,15 @@ public class StringUtil {
 
         return ret;
     }
+
+    /**
+     * Strips all new lines and replaces them with a space.
+     * Returns the reuslting String trimmed.
+     *
+     * @param line the line to strip of new line characters and trim
+     * @return the line stripped of new line characters and trimmed
+     */
+    public static String stripNewLinesAndTrim(String line) {
+        return line.replace("\n", " ").replace("\r", " ").trim();
+    }
 }

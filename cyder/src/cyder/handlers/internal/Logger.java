@@ -349,7 +349,8 @@ public class Logger {
                     bw.write(StringUtil.generateNSpaces(11));
                 }
 
-                bw.write(lines.get(i));
+                // to be safe, remove new lines and trim even though there should be none
+                bw.write(StringUtil.stripNewLinesAndTrim(lines.get(i)));
                 bw.newLine();
             }
         } catch (Exception e) {
@@ -555,14 +556,18 @@ public class Logger {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
 
-            while ((line = br.readLine()) != null)
-                lines.add(line);
+            while ((line = br.readLine()) != null) {
+                if (!StringUtil.stripNewLinesAndTrim(line).isEmpty()) {
+                    lines.add(line);
+                }
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
-        if (lines.size() < 2)
+        if (lines.size() < 2) {
             return;
+        }
 
         ArrayList<String> writeLines = new ArrayList<>();
 
