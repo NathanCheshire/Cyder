@@ -7,6 +7,11 @@ import cyder.exceptions.IllegalMethodException;
  */
 public class CyderNumbers {
     /**
+     * 'nuff said.
+     */
+    public static final int Jenny = 8675309;
+
+    /**
      * Java integer limit.
      */
     public static final int INFINITY = Integer.MAX_VALUE;

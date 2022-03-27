@@ -1,19 +1,8 @@
-<p align="center">
-<a>
-<img  src="https://img.shields.io/github/license/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
-</a>
-<a>
-<img  src="https://img.shields.io/github/issues/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
-</a>
-<a>
-<img  src="https://img.shields.io/github/issues-closed/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
-</a>
-<a>
-<img  src="https://img.shields.io/github/repo-size/NathanCheshire/Cyder?color=26A8FF&style=for-the-badge"/>
-</a>
-</p>
+![Name](./static/svgs/Primary.svg)
 
-# Cyder - A Programmer's Swiss Army Knife
+![Author](./static/svgs/Secondary.svg)
+
+![Tagline](./static/svgs/Tagline.svg)
 
 ## Description
 
