@@ -10,6 +10,7 @@ import cyder.enums.LoggerTag;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;

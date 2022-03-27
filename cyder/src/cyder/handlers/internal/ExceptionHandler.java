@@ -5,8 +5,8 @@ import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.objects.InformBuilder;
-import cyder.ui.ConsoleFrame;
 import cyder.utilities.UserUtil;
 
 import java.io.PrintWriter;

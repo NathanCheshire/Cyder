@@ -2,8 +2,8 @@ package cyder.threads;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderOutputPane;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.ReflectionUtil;

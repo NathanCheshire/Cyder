@@ -2,7 +2,7 @@ package cyder.threads;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.ConsoleFrame;
+import cyder.handlers.ConsoleFrame;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;

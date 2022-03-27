@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.enums.LoggerTag;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
@@ -1407,7 +1408,7 @@ public class CyderFrame extends JFrame {
      * @param dancingDirection the direction the frame is currently dancing in
      */
     @SuppressWarnings("SameParameterValue")
-    protected void setDancingDirection(DancingDirection dancingDirection) {
+    public void setDancingDirection(DancingDirection dancingDirection) {
         this.dancingDirection = dancingDirection;
     }
 
@@ -1416,7 +1417,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether dancing has concluded for this frame
      */
-    protected boolean isDancingFinished() {
+    public boolean isDancingFinished() {
         return dancingFinished;
     }
 
@@ -1426,14 +1427,14 @@ public class CyderFrame extends JFrame {
      * @param dancingFinished whether dancing has concluded
      */
     @SuppressWarnings("SameParameterValue")
-    protected void setDancingFinished(boolean dancingFinished) {
+    public void setDancingFinished(boolean dancingFinished) {
         this.dancingFinished = dancingFinished;
     }
 
     /**
      * Takes a step in the current dancing direction for a dance routine.
      */
-    protected void danceStep() {
+    public void danceStep() {
         switch (dancingDirection) {
             case INITIAL_UP:
                 setLocation(getX(), getY() - dancingIncrement);
@@ -2780,6 +2781,57 @@ public class CyderFrame extends JFrame {
     // frame menu logic
     // ----------------
 
+    /**
+     * The types of menus that a frame can use for its menu.
+     */
+    public enum MenuType {
+        /**
+         * The default which mimics the console frame.
+         */
+        PANEL,
+        /**
+         * Lays out the menu items in a horizontal scroll right below the drag label
+         */
+        WINDOWS_LIKE,
+    }
+
+    // todo need to be able to lock menu out and disable changing, lock for user editor
+
+    /**
+     * The menu type for the frame's menu.
+     */
+    private MenuType currentMenuType = MenuType.PANEL;
+
+    /**
+     * Sets the menu type to the provided and revalidates the menu depending on the old state.
+     *
+     * @param currentMenuType the new menu type
+     */
+    public void setCurrentMenuType(MenuType currentMenuType) {
+        if (currentMenuType == this.currentMenuType)
+            return;
+
+        this.currentMenuType = currentMenuType;
+
+        if (menuEnabled) {
+            boolean wasVisible = menuLabel != null && menuLabel.isVisible();
+            generateMenu();
+
+            if (wasVisible) {
+                showMenu();
+            }
+        }
+    }
+
+    /**
+     * Returns the frame's current menu type.
+     *
+     * @return the frame's current menu type
+     */
+    public MenuType getCurrentMenuType() {
+        return currentMenuType;
+    }
+
     private final MouseListener titleLabelListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -2827,7 +2879,8 @@ public class CyderFrame extends JFrame {
     private JLabel menuLabel;
 
     /**
-     * The list of menu items.
+     * The list of menu items. The listener to show/hide the menu
+     * is added/removed depending on the length of this list.
      */
     private final LinkedList<JLabel> menuItems = new LinkedList<>() {
         @Override
@@ -2862,6 +2915,9 @@ public class CyderFrame extends JFrame {
         }
     };
 
+    /**
+     * The maximum text length allowable for menu items.
+     */
     private static final int maxTextLength = 11;
 
     /**
@@ -2907,14 +2963,14 @@ public class CyderFrame extends JFrame {
         if (menuLabel != null && menuLabel.isVisible()) {
             generateMenu();
             menuLabel.setVisible(true);
-            menuLabel.setLocation(animateToPoint);
+            menuLabel.setLocation(animateMenuToPoint);
         }
     }
 
     /**
      * The point at which the menu is placed when visible.
      */
-    private final Point animateToPoint = new Point(5, CyderDragLabel.DEFAULT_HEIGHT);
+    private final Point animateMenuToPoint = new Point(5, CyderDragLabel.DEFAULT_HEIGHT);
 
     /**
      * Returns whether the menu is accessible
@@ -2940,7 +2996,7 @@ public class CyderFrame extends JFrame {
     private void showMenu() {
         if (menuLabel == null)
             generateMenu();
-        menuLabel.setLocation(animateToPoint);
+        menuLabel.setLocation(animateMenuToPoint);
         menuLabel.setVisible(true);
     }
 
@@ -2958,17 +3014,17 @@ public class CyderFrame extends JFrame {
     private void animateMenuIn() {
         if (menuLabel == null)
             generateMenu();
-        menuLabel.setLocation(- menuLabel.getWidth(), animateToPoint.getLocation().y);
+        menuLabel.setLocation(- menuLabel.getWidth(), animateMenuToPoint.getLocation().y);
         menuLabel.setVisible(true);
 
         CyderThreadRunner.submit(() -> {
             try {
-                for (int x = menuLabel.getX() ; x < animateToPoint.x ; x += 4) {
+                for (int x = menuLabel.getX(); x < animateMenuToPoint.x ; x += 4) {
                     menuLabel.setLocation(x, menuLabel.getY());
                     Thread.sleep(8);
                 }
 
-                menuLabel.setLocation(animateToPoint);
+                menuLabel.setLocation(animateMenuToPoint);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -3018,36 +3074,70 @@ public class CyderFrame extends JFrame {
      * and sets the location to the starting point for inward animation.
      */
     private void generateMenu() {
+        if (menuLabel != null)
+            menuLabel.setVisible(false);
+
         menuLabel = new JLabel();
         menuLabel.setOpaque(true);
         menuLabel.setBackground(CyderColors.navy);
-        menuLabel.setBorder(new LineBorder(Color.black, 4));
-        menuLabel.setSize(menuWidth, 2 * paddingHeight +
-                (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 8)));
+
+        if (currentMenuType == MenuType.PANEL) {
+            menuLabel.setSize(menuWidth, 2 * paddingHeight +
+                    (menuItems.size() * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 8)));
+            menuLabel.setBorder(new LineBorder(Color.black, 4));
+        } else {
+            menuLabel.setSize(getWidth() - 10, (
+                    StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall)));
+        }
 
         JTextPane menuPane = new JTextPane();
         menuPane.setEditable(false);
         menuPane.setFocusable(false);
         menuPane.setBackground(CyderColors.navy);
-        menuPane.setBounds(menuPadding, menuPadding,
-                menuWidth - 2 * menuPadding,
-                menuLabel.getHeight() - 2 * menuPadding);
+
+        if (currentMenuType == MenuType.PANEL) {
+            menuPane.setBounds(menuPadding, menuPadding,
+                    getWidth() - 10, (menuItems.size()
+                            * (StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 8)));
+        } else {
+            menuPane.setBounds(menuPadding, menuPadding, menuWidth,
+                    StringUtil.getMinHeight("86675309", CyderFonts.defaultFontSmall) - 2 * menuPadding);
+        }
+
         menuLabel.add(menuPane);
 
         StyledDocument doc = menuPane.getStyledDocument();
         SimpleAttributeSet alignment = new SimpleAttributeSet();
-        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
+
+        if (currentMenuType == MenuType.PANEL) {
+            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_CENTER);
+        } else {
+            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
+        }
+
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
         menuPane.setText("");
 
-        for (JLabel label : menuItems) {
-            printingUtil.printlnComponent(label);
+        if (currentMenuType == MenuType.PANEL) {
+            for (JLabel label : menuItems) {
+                printingUtil.printlnComponent(label);
+            }
+        } else {
+            for (int i = 0 ; i < menuItems.size() ; i++) {
+                printingUtil.printComponent(menuItems.get(i));
+
+                if (i != menuItems.size() - 1) {
+                    printingUtil.print(StringUtil.generateNSpaces(3));
+                }
+
+                System.out.println("Menu text: " + menuItems.get(i));
+            }
         }
 
         menuLabel.setVisible(false);
-        menuLabel.setLocation(-menuWidth, animateToPoint.y);
+        menuLabel.setLocation(- menuWidth, animateMenuToPoint.y);
         contentLabel.add(menuLabel, JLayeredPane.POPUP_LAYER);
     }
 

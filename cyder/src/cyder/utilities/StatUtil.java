@@ -5,9 +5,9 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.ConsoleFrame;
 import cyder.utilities.objects.FileSize;
 
 import javax.imageio.ImageIO;

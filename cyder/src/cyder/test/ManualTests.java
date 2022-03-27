@@ -44,7 +44,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-
+        menuLabelTest();
     }
 
     /**
@@ -697,5 +697,37 @@ public class ManualTests {
 
         testFrame.setVisible(true);
         testFrame.setLocationRelativeTo(CyderShare.getDominantFrame());
+    }
+
+    /**
+     * Tests for CyderFrame menu.
+     */
+    @ManualTest(trigger = "menu test")
+    public static void menuLabelTest() {
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setTitle("Menu Test");
+
+        testFrame.setMenuEnabled(true);
+        testFrame.setCurrentMenuType(CyderFrame.MenuType.WINDOWS_LIKE);
+
+        testFrame.addMenuItem("hello", () -> testFrame.notify("hello"));
+        testFrame.addMenuItem("darkness", () -> testFrame.notify("darkness"));
+        testFrame.addMenuItem("my old", () -> testFrame.notify("my old"));
+        testFrame.addMenuItem("friend", () -> testFrame.notify("friend"));
+        testFrame.addMenuItem("I've come to talk", () -> testFrame.notify("I've come to talk"));
+        testFrame.addMenuItem("with you again", () -> testFrame.notify("with you again"));
+
+        CyderButton switchMenuType = new CyderButton("Switch Menu");
+        switchMenuType.setBounds(400 / 2 - 200 / 2, 400 / 2 - 40 / 2, 200, 40);
+        testFrame.getContentPane().add(switchMenuType);
+        switchMenuType.addActionListener(e -> {
+            if (testFrame.getCurrentMenuType() == CyderFrame.MenuType.PANEL) {
+                testFrame.setCurrentMenuType(CyderFrame.MenuType.WINDOWS_LIKE);
+            } else {
+                testFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
+            }
+        });
+
+        testFrame.finalizeAndShow();
     }
 }

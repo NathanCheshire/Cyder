@@ -7,6 +7,7 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;

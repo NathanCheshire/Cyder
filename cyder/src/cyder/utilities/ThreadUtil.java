@@ -2,7 +2,7 @@ package cyder.utilities;
 
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.ui.ConsoleFrame;
+import cyder.handlers.ConsoleFrame;
 
 public class ThreadUtil {
     private ThreadUtil() {

@@ -1,4 +1,4 @@
-package cyder.ui;
+package cyder.handlers;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
@@ -11,6 +11,7 @@ import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.user.Preferences;
@@ -44,12 +45,9 @@ import java.util.Objects;
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
 /**
- * Class of components that represent the main way a user
+ * Class of components that represent the GUI way a user
  * interacts with Cyder and its copious functions.
  */
-
-/* Some methods aren't used yet,
-toString() uses the inner CyderFrame's toString method */
 public final class ConsoleFrame {
     /**
      * The ConsoleFrame singleton.
@@ -1405,7 +1403,7 @@ public final class ConsoleFrame {
      *
      * @param associatedFrame the frame reference to remove from the taskbar frame list
      */
-    void removeTaskbarIcon(CyderFrame associatedFrame) {
+    public void removeTaskbarIcon(CyderFrame associatedFrame) {
         if (menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.remove(associatedFrame);
             revalidateMenu();
@@ -1417,7 +1415,7 @@ public final class ConsoleFrame {
      *
      * @param associatedFrame the frame reference to add to the taskbar list
      */
-    void addTaskbarIcon(CyderFrame associatedFrame) {
+    public void addTaskbarIcon(CyderFrame associatedFrame) {
         if (!menuTaskbarFrames.contains(associatedFrame)) {
             menuTaskbarFrames.add(associatedFrame);
             revalidateMenu();

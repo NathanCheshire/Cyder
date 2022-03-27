@@ -4,11 +4,11 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.ConsoleFrame;
 import cyder.user.UserFile;
 
 import java.awt.*;

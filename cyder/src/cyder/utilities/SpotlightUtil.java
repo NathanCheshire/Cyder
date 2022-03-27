@@ -3,8 +3,8 @@ package cyder.utilities;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.ConsoleFrame;
 
 import javax.swing.*;
 import java.io.File;

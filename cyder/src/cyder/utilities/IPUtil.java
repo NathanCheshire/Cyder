@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.ui.ConsoleFrame;
 
 import java.io.BufferedReader;
 import java.io.IOException;

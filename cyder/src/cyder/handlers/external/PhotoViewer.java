@@ -2,10 +2,10 @@ package cyder.handlers.external;
 
 import cyder.enums.LoggerTag;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.ConsoleFrame;
 import cyder.ui.CyderFrame;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;

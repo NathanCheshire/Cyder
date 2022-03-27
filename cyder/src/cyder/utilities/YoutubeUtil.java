@@ -6,6 +6,7 @@ import cyder.constants.*;
 import cyder.enums.AnimationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -52,7 +53,7 @@ public class YoutubeUtil {
     public static void downloadVideo(String url) {
         if (ffmpegInstalled() && youtubedlInstalled()) {
             String saveDir = OSUtil.buildPath("dynamic",
-                    "users",ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+                    "users", ConsoleFrame.getConsoleFrame().getUUID(), "Music");
             String extension = ".mp3";
 
             Runtime rt = Runtime.getRuntime();

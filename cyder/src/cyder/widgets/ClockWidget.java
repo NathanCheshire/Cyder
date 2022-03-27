@@ -8,9 +8,13 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.*;
+import cyder.ui.CyderFrame;
+import cyder.ui.CyderLabel;
+import cyder.ui.CyderSwitch;
+import cyder.ui.CyderTextField;
 import cyder.utilities.*;
 
 import javax.swing.*;
