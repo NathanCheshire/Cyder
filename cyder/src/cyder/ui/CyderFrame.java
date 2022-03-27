@@ -295,9 +295,16 @@ public class CyderFrame extends JFrame {
         contentLabel = new JLayeredPane() {
             @Override
             public Component add(Component comp, int index) {
+                // drag labels
                 if (index == JLayeredPane.DRAG_LAYER) {
                     return super.add(comp, index);
-                } else if (index == JLayeredPane.POPUP_LAYER) {
+                }
+                // notifications
+                else if (index == JLayeredPane.POPUP_LAYER) {
+                    return super.add(comp, index);
+                }
+                // menu pane
+                else if (index == JLayeredPane.POPUP_LAYER - 1) {
                     return super.add(comp, index);
                 }
 
@@ -2833,6 +2840,25 @@ public class CyderFrame extends JFrame {
         return currentMenuType;
     }
 
+    /**
+     * Shows the menu and locks it in the place it was set to.
+     */
+    public void lockMenuOut() {
+        generateMenu();
+        showMenu();
+        menuEnabled = false;
+        titleLabel.removeMouseListener(titleLabelListener);
+    }
+
+    /**
+     * Ensures the menu isn't visible and cannot be triggered.
+     */
+    public void lockMenuIn() {
+        hideMenu();
+        menuEnabled = false;
+        titleLabel.removeMouseListener(titleLabelListener);
+    }
+
     private final MouseListener titleLabelListener = new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -2910,7 +2936,7 @@ public class CyderFrame extends JFrame {
             }
 
             if (menuItems.isEmpty())
-                titleLabel.addMouseListener(titleLabelListener);
+                titleLabel.removeMouseListener(titleLabelListener);
 
             return ret;
         }

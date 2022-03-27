@@ -729,6 +729,7 @@ public class ManualTests {
             }
         });
 
+        testFrame.lockMenuOut();
         testFrame.finalizeAndShow();
     }
 }
