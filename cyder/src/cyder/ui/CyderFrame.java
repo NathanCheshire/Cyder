@@ -3213,16 +3213,21 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        // todo doesn't work rn
         if (menuScroll.getHorizontalScrollBar() != null) {
             int menuScrollWidth = getWidth() - menuPadding * 2 - 10;
 
             int acc = 0;
 
+            for (int i = 0 ; i < menuItems.size() ; i++) {
+                acc += StringUtil.getMinWidth(menuItems.get(i).getText(), menuItems.get(i).getFont());
+            }
 
-//            menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
-//            menuScroll.setBounds(menuPadding, menuPadding,
-//                    getWidth() - menuPadding * 2 - 10, menuLabel.getHeight() - menuPadding * 2);
+            if (acc > menuScrollWidth) {
+                menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
+                menuScroll.setBounds(menuPadding, menuPadding,
+                        getWidth() - menuPadding * 2 - 10,
+                        menuLabel.getHeight() - menuPadding * 2);
+            }
         }
 
         menuPane.setCaretPosition(0);
