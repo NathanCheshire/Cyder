@@ -716,6 +716,7 @@ public class ManualTests {
         testFrame.addMenuItem("friend", () -> testFrame.notify("friend"));
         testFrame.addMenuItem("I've come to talk", () -> testFrame.notify("I've come to talk"));
         testFrame.addMenuItem("with you again", () -> testFrame.notify("with you again"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
 
         CyderButton switchMenuType = new CyderButton("Switch Menu");
         switchMenuType.setBounds(400 / 2 - 200 / 2, 400 / 2 - 40 / 2, 200, 40);

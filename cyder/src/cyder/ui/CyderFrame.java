@@ -2919,7 +2919,7 @@ public class CyderFrame extends JFrame {
     /**
      * The maximum text length allowable for menu items.
      */
-    private static final int maxTextLength = 11;
+    private static final int maxTextLength = 13;
 
     /**
      * Adds a new menu item to the menu and revalidates the menu.
@@ -2937,9 +2937,9 @@ public class CyderFrame extends JFrame {
 
         // account for possible overflow in clean way
         if (text.length() > maxTextLength)
-            text = (text.substring(0, 9).trim() + "...");
+            text = (text.substring(0, maxTextLength - 3).trim() + "...");
 
-        JLabel newLabel = new JLabel(text);
+        JLabel newLabel = new JLabel("<html>" + text + "</html>");
         newLabel.setFont(CyderFonts.defaultFontSmall);
         newLabel.setForeground(CyderColors.vanila);
         newLabel.addMouseListener(new MouseAdapter() {
@@ -3013,7 +3013,7 @@ public class CyderFrame extends JFrame {
      * Animatesthe menu label in.
      */
     private void animateMenuIn() {
-        if (menuLabel == null)
+        if (!menuLabel.isVisible())
             generateMenu();
 
         CyderThreadRunner.submit(() -> {
@@ -3105,19 +3105,24 @@ public class CyderFrame extends JFrame {
                             CyderFonts.defaultFontSmall) - 8)));
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         } else {
-            menuLabel.setSize(getWidth() - 10, (
-                    StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny), CyderFonts.defaultFontSmall)));
+            menuLabel.setSize(getWidth() - 10,
+                    (StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny), CyderFonts.defaultFontSmall)));
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         }
 
         Dimension menuSize = new Dimension(menuLabel.getWidth(), menuLabel.getHeight());
 
-        JTextPane menuPane = new JTextPane();
+        JTextPane menuPane = new JTextPane() {
+            // overridden to disable vertical scrollbar since setting
+            // the policy doesn't work apparently, thanks JDK devs
+            public boolean getScrollableTracksViewportWidth() {
+                return getUI().getPreferredSize(this).width <= getParent().getSize().width;
+            }
+        };
         menuPane.setEditable(false);
         menuPane.setFocusable(false);
         menuPane.setOpaque(false);
         menuPane.setAutoscrolls(false);
-        menuPane.setBackground(CyderColors.navy);
 
         CyderScrollPane menuScroll = new CyderScrollPane(menuPane);
         menuScroll.setThumbSize(5);
@@ -3129,17 +3134,16 @@ public class CyderFrame extends JFrame {
         menuScroll.setBackground(CyderColors.getGuiThemeColor());
 
         if (currentMenuType == MenuType.PANEL) {
-            menuScroll.setBounds(menuPadding, menuPadding,
-                    getWidth() - menuPadding * 2 - 10, (menuItems.size()
+            menuScroll.setBounds(menuPadding, menuPadding, menuWidth,
+                    (menuItems.size()
                             * (StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny),
                             CyderFonts.defaultFontSmall) - 8)));
 
             menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         } else {
-            menuScroll.setBounds(menuPadding, menuPadding, menuWidth,
-                    StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny),
-                            CyderFonts.defaultFontSmall) - 2 * menuPadding);
+            menuScroll.setBounds(menuPadding, menuPadding,
+                    getWidth() - menuPadding * 2 - 10, menuLabel.getHeight() - menuPadding * 2);
 
             menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -3149,13 +3153,7 @@ public class CyderFrame extends JFrame {
 
         StyledDocument doc = menuPane.getStyledDocument();
         SimpleAttributeSet alignment = new SimpleAttributeSet();
-
-        if (currentMenuType == MenuType.PANEL) {
-            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
-        } else {
-            StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
-        }
-
+        StyleConstants.setAlignment(alignment, StyleConstants.ALIGN_LEFT);
         doc.setParagraphAttributes(0, doc.getLength(), alignment, false);
 
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(menuPane));
@@ -3171,19 +3169,26 @@ public class CyderFrame extends JFrame {
             }
         } else {
             for (int i = 0 ; i < menuItems.size() ; i++) {
-                System.out.println("here");
                 printingUtil.printComponent(menuItems.get(i));
 
                 if (i != menuItems.size() - 1) {
-                    printingUtil.print(StringUtil.generateNSpaces(3));
+                    printingUtil.print(StringUtil.generateNSpaces(4));
                 }
             }
         }
 
+        if (menuScroll.getHorizontalScrollBar() != null) {
+            menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
+            menuScroll.setBounds(menuPadding, menuPadding,
+                    getWidth() - menuPadding * 2 - 10, menuLabel.getHeight() - menuPadding * 2);
+        }
+
+        menuPane.setCaretPosition(0);
         menuLabel.setVisible(false);
         menuLabel.setLocation(- menuWidth, animateMenuToPoint.y);
-        contentLabel.add(menuLabel, JLayeredPane.POPUP_LAYER - 1);
+        contentLabel.add(menuLabel, JLayeredPane.POPUP_LAYER);
     }
+
     // todo try to make notification over menu label
 
     /**

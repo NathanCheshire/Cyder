@@ -18,13 +18,14 @@ import java.awt.event.MouseEvent;
  * Credit: Philipp Danner from Stack Overflow
  * https://stackoverflow.com/questions/16373459/java-jscrollbar-design/16375805
  */
-
 public class CyderScrollPane extends JScrollPane {
+
     private static int SCROLL_BAR_ALPHA_ROLLOVER = 100;
     private static int SCROLL_BAR_ALPHA = 60;
     private static int THUMB_SIZE = 8;
     private static int SB_SIZE = 10;
-    private static Color THUMB_COLOR = new Color(120,120,120);
+
+    private static Color THUMB_COLOR = CyderColors.regularPink;
 
     public CyderScrollPane(Component view) {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -45,6 +46,8 @@ public class CyderScrollPane extends JScrollPane {
 
     public CyderScrollPane(int vsbPolicy, int hsbPolicy) {
         this(null, vsbPolicy, hsbPolicy);
+        verticalScrollBarPolicy = vsbPolicy;
+        horizontalScrollBarPolicy = hsbPolicy;
         setThumbColor(CyderColors.regularPink);
         setFont(CyderFonts.segoe20);
         setBackground(new Color(0,0,0,0));
@@ -110,27 +113,29 @@ public class CyderScrollPane extends JScrollPane {
                 viewport.setBounds(availR);
             }
 
-            boolean vsbNeeded = isVerticalScrollBarfNecessary();
+            boolean vsbNeeded = isVerticalScrollBarNecessary();
             boolean hsbNeeded = isHorizontalScrollBarNecessary();
 
-            // vertical scroll bar
-            Rectangle vsbR = new Rectangle();
-            vsbR.width = SB_SIZE;
-            vsbR.height = availR.height - (hsbNeeded ? vsbR.width : 0);
-            vsbR.x = availR.x + availR.width - vsbR.width;
-            vsbR.y = availR.y;
-            if (vsb != null) {
-                vsb.setBounds(vsbR);
+            if (vsbNeeded) {
+                Rectangle vsbR = new Rectangle();
+                vsbR.width = SB_SIZE;
+                vsbR.height = availR.height - (hsbNeeded ? vsbR.width : 0);
+                vsbR.x = availR.x + availR.width - vsbR.width;
+                vsbR.y = availR.y;
+                if (vsb != null) {
+                    vsb.setBounds(vsbR);
+                }
             }
 
-            // horizontal scroll bar
-            Rectangle hsbR = new Rectangle();
-            hsbR.height = SB_SIZE;
-            hsbR.width = availR.width - (vsbNeeded ? hsbR.height : 0);
-            hsbR.x = availR.x;
-            hsbR.y = availR.y + availR.height - hsbR.height;
-            if (hsb != null) {
-                hsb.setBounds(hsbR);
+            if (hsbNeeded) {
+                Rectangle hsbR = new Rectangle();
+                hsbR.height = SB_SIZE;
+                hsbR.width = availR.width - (vsbNeeded ? hsbR.height : 0);
+                hsbR.x = availR.x;
+                hsbR.y = availR.y + availR.height - hsbR.height;
+                if (hsb != null) {
+                    hsb.setBounds(hsbR);
+                }
             }
             }
         });
@@ -143,29 +148,41 @@ public class CyderScrollPane extends JScrollPane {
         viewport.setView(view);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    private boolean isVerticalScrollBarfNecessary() {
+    public boolean isVerticalScrollBarNecessary() {
         Rectangle viewRect = viewport.getViewRect();
         Dimension viewSize = viewport.getViewSize();
-        return viewSize.getHeight() > viewRect.getHeight();
+        return viewSize.getHeight() > viewRect.getHeight()
+                && verticalScrollBarPolicy != VERTICAL_SCROLLBAR_NEVER;
+    }
+
+    public boolean isHorizontalScrollBarNecessary() {
+        Rectangle viewRect = viewport.getViewRect();
+        Dimension viewSize = viewport.getViewSize();
+
+        return viewSize.getWidth() > viewRect.getWidth()
+                && horizontalScrollBarPolicy != HORIZONTAL_SCROLLBAR_NEVER;
     }
 
     /**
      * {@inheritDoc}
      */
-    private boolean isHorizontalScrollBarNecessary() {
-        Rectangle viewRect = viewport.getViewRect();
-        Dimension viewSize = viewport.getViewSize();
-        return viewSize.getWidth() > viewRect.getWidth();
+    @Override
+    public void setHorizontalScrollBarPolicy(int policy) {
+        horizontalScrollBarPolicy = policy;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setVerticalScrollBarPolicy(int policy) {
+        verticalScrollBarPolicy = policy;
     }
 
     /**
      * Inner class extending the BasicScrollBarUI that overrides all necessary methods.
      */
     private static class ModernScrollBarUI extends BasicScrollBarUI {
-
         private final JScrollPane jScrollPane;
 
         public ModernScrollBarUI(CyderScrollPane sp) {
@@ -182,8 +199,11 @@ public class CyderScrollPane extends JScrollPane {
             return new InvisibleScrollBarButton();
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) { }
+        protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {}
 
         @Override
         protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
@@ -210,7 +230,9 @@ public class CyderScrollPane extends JScrollPane {
             jScrollPane.repaint();
         }
 
-        //invisible buttons to hide scroll bar buttons - inner class
+        /**
+         * An invisible button to use for the scroll bar so that they are invisible.
+         */
         private static class InvisibleScrollBarButton extends JButton {
             private InvisibleScrollBarButton() {
                 setOpaque(false);
@@ -222,6 +244,9 @@ public class CyderScrollPane extends JScrollPane {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
