@@ -249,8 +249,17 @@ public class CyderFrame extends JFrame {
         checkNotNull(background);
 
         // correct possibly too small width and heights
-        width = Math.max(MINIMUM_WIDTH, width);
-        height = Math.max(MINIMUM_HEIGHT, height);
+        if (width < MINIMUM_WIDTH) {
+            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid width: " + width);
+            width = MINIMUM_WIDTH;
+        }
+
+        if (height < MINIMUM_HEIGHT) {
+            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid height: " + height);
+            height = MINIMUM_HEIGHT;
+        }
 
         this.width = width;
         this.height = height;
@@ -1577,8 +1586,18 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setSize(int width, int height) {
-        width = Math.max(MINIMUM_WIDTH, width);
-        height = Math.max(MINIMUM_HEIGHT, height);
+        if (width < MINIMUM_WIDTH) {
+            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+                            + "\" was attempted to be set to invalid width: " + width);
+            width = MINIMUM_WIDTH;
+        }
+
+        if (height < MINIMUM_HEIGHT) {
+            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid height: " + height);
+            height = MINIMUM_HEIGHT;
+        }
+
         super.setSize(width, height);
 
         if (isVisible() && UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
@@ -1594,8 +1613,18 @@ public class CyderFrame extends JFrame {
      */
     @Override
     public void setBounds(int x, int y, int width, int height) {
-        width = Math.max(MINIMUM_WIDTH, width);
-        height = Math.max(MINIMUM_HEIGHT, height);
+        if (width < MINIMUM_WIDTH) {
+            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid width: " + width);
+            width = MINIMUM_WIDTH;
+        }
+
+        if (height < MINIMUM_HEIGHT) {
+            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+                    + "\" was attempted to be set to invalid height: " + height);
+            height = MINIMUM_HEIGHT;
+        }
+
         super.setBounds(x, y, width, height);
 
         this.width = width;
@@ -3250,13 +3279,16 @@ public class CyderFrame extends JFrame {
         boolean wasOnTop = isAlwaysOnTop();
         setAlwaysOnTop(true);
 
-        CyderThreadRunner.submit(() -> {
-            try {
-                Thread.sleep(500);
-                setAlwaysOnTop(wasOnTop);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "[" + getTitle() + "]  finalizeAndShow()");
+        // if it wasn't always on top, set to false after half a second
+        if (!wasOnTop) {
+            CyderThreadRunner.submit(() -> {
+                try {
+                    Thread.sleep(500);
+                    setAlwaysOnTop(wasOnTop);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "[" + getTitle() + "]  finalizeAndShow()");
+        }
     }
 }
