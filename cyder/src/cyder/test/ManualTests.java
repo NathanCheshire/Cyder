@@ -44,7 +44,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-
+        frameMenuTest();
     }
 
     /**
@@ -703,7 +703,7 @@ public class ManualTests {
      * Tests for CyderFrame menu.
      */
     @ManualTest(trigger = "menu test")
-    public static void menuLabelTest() {
+    public static void frameMenuTest() {
         CyderFrame testFrame = new CyderFrame(400,400);
         testFrame.setTitle("Menu Test");
 
@@ -733,7 +733,7 @@ public class ManualTests {
             }
         });
 
-        testFrame.lockMenuOut();
+
         testFrame.finalizeAndShow();
     }
 }

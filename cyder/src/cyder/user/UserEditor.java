@@ -43,19 +43,29 @@ import java.util.concurrent.atomic.AtomicReference;
  * An editor for user preferences, files, colors, fonts, and more.
  */
 public class UserEditor {
+    /**
+     * The user editor frame.
+     */
     private static CyderFrame editUserFrame;
 
+    /**
+     * The names of the files for the files list.
+     */
     private static List<String> filesNameList;
+
+    /**
+     * The user files list.
+     */
     private static List<File> filesList;
 
-    private static JLabel filesLabel;
-    private static CyderScrollList filesScroll;
-
-    private static final LinkedList<String> fontList = new LinkedList<>();
-
-    private static CyderButton changePassword;
-
+    /**
+     * The label on which components are added for a specific preference page.
+     */
     private static JLabel switchingLabel;
+
+    /**
+     * The index the user editor is at.
+     */
     private static int prefsPanelIndex;
 
     /**
@@ -87,10 +97,6 @@ public class UserEditor {
         editUserFrame.getContentPane().add(switchingLabel);
 
         prefsPanelIndex = startingIndex;
-
-        // todo too spaced out, too much height when not needed, make entire content pane the
-        // todo never space out components for the label
-        // inner panel and offset for locked out menu
 
         editUserFrame.addMenuItem("Files", () -> {
             revalidateOnMenuItemClicked();
@@ -190,7 +196,7 @@ public class UserEditor {
 
         initFilesList();
 
-        filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
+        CyderScrollList filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
         filesScroll.setBorder(null);
 
         for (int i = 0; i < filesNameList.size() ; i++) {
@@ -199,7 +205,7 @@ public class UserEditor {
                     () -> IOUtil.openFile(filesList.get(finalI).getAbsolutePath()));
         }
 
-        filesLabel = filesScroll.generateScrollList();
+        JLabel filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(20, 60, 680, 360);
         editUserFrame.getContentPane().add(filesLabel);
         switchingLabel.add(filesLabel);
@@ -241,7 +247,7 @@ public class UserEditor {
                                 folderName).getAbsolutePath() + OSUtil.FILE_SEP + addFile.getName());
                         Files.copy(copyPath, destination.toPath());
 
-                        revalidateFilesScroll();
+                        revalidateFilesScroll(filesScroll, filesLabel);
 
                         if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName()))
                             ConsoleFrame.getConsoleFrame().resizeBackgrounds();
@@ -361,7 +367,7 @@ public class UserEditor {
                             }
                         }
 
-                        revalidateFilesScroll();
+                        revalidateFilesScroll(filesScroll, filesLabel);
                     }
                 }
             } catch (Exception ex) {
@@ -398,7 +404,7 @@ public class UserEditor {
                     boolean deleted = selectedFile.delete();
 
                     if (deleted) {
-                        revalidateFilesScroll();
+                        revalidateFilesScroll(filesScroll, filesLabel);
 
                         if (FileUtil.getExtension(selectedFile).equals(".mp3"))
                             ConsoleFrame.getConsoleFrame().getInputHandler()
@@ -440,8 +446,11 @@ public class UserEditor {
 
     /**
      * Revalidates the user files scroll.
+     *
+     * @param filesScroll the scroll to revalidate
+     * @param filesLabel the label which the scroll generates
      */
-    private static void revalidateFilesScroll() {
+    private static void revalidateFilesScroll(CyderScrollList filesScroll, JLabel filesLabel) {
         initFilesList();
 
         filesScroll.removeAllElements();
@@ -696,7 +705,7 @@ public class UserEditor {
         switchingLabel.add(tempLabel);
 
         CyderThreadRunner.submit(() -> {
-            fontList.clear();
+            LinkedList<String> fontList = new LinkedList<>();
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
@@ -1053,6 +1062,9 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
+        // init button here to add listener to field
+        CyderButton changePassword = new CyderButton("    Change Password    ");
+
         changePasswordConfField.addActionListener(e -> changePassword.doClick());
         changePasswordConfField.setFont(changePasswordField.getFont());
         changePasswordConfField.setToolTipText("New Password Confirmation");
@@ -1060,7 +1072,6 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        changePassword = new CyderButton("    Change Password    ");
         changePassword.addActionListener(e -> {
             char[] newPassword = changePasswordField.getPassword();
             char[] newPasswordConf = changePasswordConfField.getPassword();

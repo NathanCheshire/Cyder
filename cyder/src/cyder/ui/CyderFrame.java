@@ -303,10 +303,6 @@ public class CyderFrame extends JFrame {
                 else if (index == JLayeredPane.POPUP_LAYER) {
                     return super.add(comp, index);
                 }
-                // menu pane
-                else if (index == JLayeredPane.POPUP_LAYER - 1) {
-                    return super.add(comp, index);
-                }
 
                 return super.add(comp, 0);
             }
@@ -1124,7 +1120,15 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // todo revoke with expected text method
+    /**
+     * Revokes the notification currently active or in
+     * the queue that matches the provided text.
+     *
+     * @param expectedText the text of the notification to revoke.
+     */
+    public void revokeNotification(String expectedText) {
+        // todo, notifications/the way we store them need to be consolidated into like a single object
+    }
 
     /**
      * Removes all currently displayed notifications and wipes the notification queue.
@@ -2971,7 +2975,7 @@ public class CyderFrame extends JFrame {
         if (text.length() > maxTextLength)
             text = (text.substring(0, maxTextLength - 3).trim() + "...");
 
-        JLabel newLabel = new JLabel("<html>" + text + "</html>");
+        JLabel newLabel = new JLabel(text);
         newLabel.setFont(CyderFonts.defaultFontSmall);
         newLabel.setForeground(CyderColors.vanila);
         newLabel.addMouseListener(new MouseAdapter() {
@@ -3211,6 +3215,11 @@ public class CyderFrame extends JFrame {
 
         // todo doesn't work rn
         if (menuScroll.getHorizontalScrollBar() != null) {
+            int menuScrollWidth = getWidth() - menuPadding * 2 - 10;
+
+            int acc = 0;
+
+
 //            menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
 //            menuScroll.setBounds(menuPadding, menuPadding,
 //                    getWidth() - menuPadding * 2 - 10, menuLabel.getHeight() - menuPadding * 2);
@@ -3222,7 +3231,7 @@ public class CyderFrame extends JFrame {
         contentLabel.add(menuLabel, JLayeredPane.POPUP_LAYER);
     }
 
-    // todo try to make notification over menu label
+    // todo make notifications appear over the menu label but still under drag
 
     /**
      * Sets the frame's location relative to the dominant frame,
@@ -3243,6 +3252,6 @@ public class CyderFrame extends JFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "[" + getTitle() + "]  finalizeAndShow");
+        }, "[" + getTitle() + "]  finalizeAndShow()");
     }
 }
