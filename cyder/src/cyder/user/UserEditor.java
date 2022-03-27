@@ -43,6 +43,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UserEditor {
+    // todo comment
+    // todo use locked menu intead of indicies for this
+
     private static CyderFrame editUserFrame;
 
     private static List<String> filesNameList;

@@ -134,6 +134,8 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo log if a frame is attempted to be made a smaller size than allowed
+
     // todo console menu jtextpane isn't extended on resize events
 
     // todo logger broken somehow, I think the consolidaor is what's at fault

@@ -1642,6 +1642,12 @@ public class CyderFrame extends JFrame {
 
             bottomDrag.setxOffset(frameResizingLen);
             bottomDrag.setyOffset(this.height - 5);
+
+            if (menuLabel != null && menuLabel.isVisible()) {
+                generateMenu();
+                menuLabel.setLocation(animateMenuToPoint);
+                menuLabel.setVisible(true);
+            }
         }
 
         if (getCurrentNotification() != null)
@@ -1664,7 +1670,7 @@ public class CyderFrame extends JFrame {
     /**
      * The minimum allowable width for a CyderFrame.
      */
-    public static final int MINIMUM_WIDTH = 100;
+    public static final int MINIMUM_WIDTH = 200;
 
     /**
      * The maximum allowable height for a CyderFrame.

@@ -44,7 +44,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        menuLabelTest();
+
     }
 
     /**
@@ -709,6 +709,10 @@ public class ManualTests {
 
         testFrame.setMenuEnabled(true);
         testFrame.setCurrentMenuType(CyderFrame.MenuType.WINDOWS_LIKE);
+
+        testFrame.initializeResizing();
+        testFrame.setResizable(true);
+        testFrame.setMaximumSize(new Dimension(1000,1000));
 
         testFrame.addMenuItem("hello", () -> testFrame.notify("hello"));
         testFrame.addMenuItem("darkness", () -> testFrame.notify("darkness"));
