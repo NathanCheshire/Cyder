@@ -140,9 +140,10 @@ public class WaveFile {
      */
     public int getSampleInt(int samplePoint) {
         Preconditions.checkArgument(samplePoint < 0,
-                "Invalid sample point: " + samplePoint);
+                "Invalid 0th sample point: " + samplePoint);
         Preconditions.checkArgument(samplePoint >= data.length / sampleSize,
-                "Invalid sample point: " + samplePoint);
+                "Invalid sample point: " + samplePoint + ", data length = "
+                        + data.length + ", sample size = " + sampleSize);
 
         byte[] sampleBytes = new byte[INT_SIZE];
 

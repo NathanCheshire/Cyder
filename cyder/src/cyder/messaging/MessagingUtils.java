@@ -106,14 +106,13 @@ public class MessagingUtils {
         }
 
         if (tmpWav.exists()) {
-            File file = tmpWav;
-            WaveFile wav = new WaveFile(file);
+            WaveFile wav = new WaveFile(tmpWav);
 
-            int amplitudeExample = wav.getSampleInt(140); // 140th amplitude value.
+            int amplitudeExample = wav.getSampleInt(140);
 
             for (int i = 0; i < wav.getNumFrames(); i++) {
                 int amplitude = wav.getSampleInt(i);
-                // Plot.
+                System.out.println(amplitude);
             }
         }
 

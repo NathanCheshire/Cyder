@@ -1037,7 +1037,7 @@ public class AudioPlayer {
                     //get the length
                     totalLength = fis.available();
                 } catch (Exception e) {
-                    if (!(e instanceof  NullPointerException)) {
+                    if (!(e instanceof NullPointerException)) {
                         ExceptionHandler.handle(e);
                     }
                 }

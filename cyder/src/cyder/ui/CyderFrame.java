@@ -1387,6 +1387,7 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(true);
 
                 if (this != null && isVisible() && !fastClose
+                        // todo source of a bug, remove as many of these primitive calls as yo ucan
                         && UserUtil.getUserData("closeanimation").equals("1")) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
@@ -1412,6 +1413,9 @@ public class CyderFrame extends JFrame {
                     action.invokeAction();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
+
+                // failsafe
+                super.dispose();
             }
         }, "[" + getTitle() + "]  dispose() animation thread");
     }
