@@ -1,6 +1,7 @@
 package cyder.ui.objects;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
@@ -26,7 +27,7 @@ public final class NotificationBuilder {
     private Runnable onKillAction;
     private NotificationDirection notificationDirection = NotificationDirection.TOP;
     private Container container;
-    private Color notificationBackground;
+    private Color notificationBackground = CyderColors.notificationBackgroundColor;
 
     /**
      * Default constructor for a Notification with the required parameters for the Notification.

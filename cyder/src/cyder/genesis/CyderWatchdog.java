@@ -133,11 +133,7 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
-    // todo notificaiton border is broken
-
     // todo don't call revalidate menu if it's not needed, find cases
-
-    // todo calc needs an update
 
     // todo we can also use notifications to create a toast API pretty quickly
     // a toast's opacity should fade in and then fade out, no animation movement

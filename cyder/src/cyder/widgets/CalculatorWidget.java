@@ -6,14 +6,12 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.Direction;
-import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderButton;
+import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
-import cyder.ui.objects.NotificationBuilder;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -23,6 +21,10 @@ import java.awt.*;
  * A calculator widget to parse mathematical expressions.
  */
 public class CalculatorWidget {
+    /**
+     * The text to display to user if an expression could not be parsed.
+     */
+    private static final String ERROR = "Could not parse expression";
 
     /**
      * Prevent illegal class instantiation.
@@ -40,14 +42,33 @@ public class CalculatorWidget {
         CyderFrame calculatorFrame = new CyderFrame(400,595, CyderIcons.defaultBackground);
         calculatorFrame.setTitle("Calculator");
 
+        Font fieldFont = new Font("Agency FB", Font.BOLD, 25);
+
+        CyderTextField resultField = new CyderTextField(0);
+        resultField.setBorder(null);
+        resultField.setEditable(false);
+        resultField.setFocusable(true);
+        resultField.setSelectionColor(CyderColors.selectionColor);
+        resultField.setHorizontalAlignment(JTextField.RIGHT);
+        resultField.setFont(fieldFont);
+        resultField.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 10,350,30);
+        calculatorFrame.getContentPane().add(resultField);
+
         CyderTextField calculatorField = new CyderTextField(0);
-        calculatorField.setHorizontalAlignment(JTextField.CENTER);
-        calculatorField.setBackground(Color.WHITE);
+        calculatorField.setBorder(null);
+        calculatorField.setHorizontalAlignment(JTextField.LEFT);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
         calculatorField.setToolTipText("Use radians and not degrees for any trig functions");
-        calculatorField.setFont(CyderFonts.agencyFB30);
-        calculatorField.setBounds(50,50,300,50);
+        calculatorField.setFont(fieldFont);
+        calculatorField.setBounds(25,
+                CyderDragLabel.DEFAULT_HEIGHT + 5 + 30 + 5,350,25);
         calculatorFrame.getContentPane().add(calculatorField);
+
+        JLabel borderLabel = new JLabel();
+        borderLabel.setBounds(20, CyderDragLabel.DEFAULT_HEIGHT + 5, 360, 65);
+        borderLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+        borderLabel.setOpaque(false);
+        calculatorFrame.getContentPane().add(borderLabel);
 
         CyderButton calculatorAdd = new CyderButton("+");
         calculatorAdd.setColors(CyderColors.regularOrange);
@@ -130,31 +151,18 @@ public class CalculatorWidget {
         calculatorEquals.addActionListener(e -> {
             try {
                 double result = new DoubleEvaluator().evaluate(calculatorField.getText().trim());
-
-                NotificationBuilder builder;
+                String resultString = String.valueOf(result);
 
                 if (result == Double.POSITIVE_INFINITY) {
-                    builder = new NotificationBuilder(  "+∞");
+                    resultString = "+∞";
                 } else if (result == Double.NEGATIVE_INFINITY) {
-                    builder = new NotificationBuilder( "-∞");
-                } else {
-                    builder = new NotificationBuilder(String.valueOf(result));
+                    resultString = "-∞";
                 }
 
-                builder.setViewDuration(-1);
-                builder.setArrowDir(Direction.RIGHT);
-                builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
-
-                calculatorFrame.notify(builder);
+                resultField.setText(resultString);
             } catch (Exception exc) {
                 if (exc instanceof IllegalArgumentException) {
-                    NotificationBuilder builder = new NotificationBuilder("Could not parse expression");
-
-                    builder.setViewDuration(-1);
-                    builder.setArrowDir(Direction.RIGHT);
-                    builder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
-
-                    calculatorFrame.notify(builder);
+                    resultField.setText(ERROR);
                 } else {
                     ExceptionHandler.silentHandle(exc);
                 }
@@ -200,7 +208,10 @@ public class CalculatorWidget {
         calculatorClear.setFocusPainted(false);
         calculatorClear.setBackground(CyderColors.regularOrange);
         calculatorClear.setFont(CyderFonts.segoe30);
-        calculatorClear.addActionListener(e -> calculatorField.setText(""));
+        calculatorClear.addActionListener(e -> {
+            calculatorField.setText("");
+            resultField.setText("");
+        });
 
         CyderButton calculatorOne = new CyderButton("1");
         calculatorOne.setColors(CyderColors.regularOrange);

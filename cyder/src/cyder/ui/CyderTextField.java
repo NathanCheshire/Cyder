@@ -16,7 +16,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A Cyder implementation of a text field.
@@ -207,8 +206,6 @@ public class CyderTextField extends JTextField {
      */
     @Override
     public void setBorder(Border border) {
-        checkNotNull(border);
-
         if (border instanceof LineBorder) {
             lineBorder = (LineBorder) border;
         }

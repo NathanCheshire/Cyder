@@ -1,5 +1,6 @@
 package cyder.ui;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
@@ -161,7 +162,6 @@ public class CyderNotification extends JLabel {
         RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
-
 
         graphics2D.setPaint(CyderColors.notificationBorderColor);
 
@@ -544,7 +544,7 @@ public class CyderNotification extends JLabel {
      * The background of the notification. Only applicable if a
      * custom container is being used.
      */
-    private final Color notificationBackground;
+    private Color notificationBackground = CyderColors.navy;
 
     /**
      * Constructs a new CyderNotification.
@@ -559,7 +559,10 @@ public class CyderNotification extends JLabel {
                               NotificationDirection notificationDirection,
                               Runnable onKillAction, Container container,
                               Color notificationBackground, String time) {
+        Preconditions.checkNotNull(text);
+        Preconditions.checkArgument(text.length() > 3);
         htmlText = text;
+
         duration = dur;
         contianer = container;
         this.arrowDir = arrowDir;
