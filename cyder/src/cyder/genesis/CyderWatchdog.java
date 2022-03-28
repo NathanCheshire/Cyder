@@ -133,12 +133,11 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
+    // todo convert ConsoleFrame to singleton using enum instance pattern
+    // ConsoleFrame.getConsoleFrame()
+    // ConsoleFrame.INSTANCE
+
     // todo don't call revalidate menu if it's not needed, find cases
-
-    // todo we can also use notifications to create a toast API pretty quickly
-    // a toast's opacity should fade in and then fade out, no animation movement
-
-    // todo update readme console, conway, and stats
 
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.

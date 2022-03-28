@@ -165,7 +165,7 @@ public class CyderNotification extends JLabel {
     /**
      * The opacity for the notificaiton/toast.
      */
-    private int opacity;
+    private int opacity = 255;
 
     /**
      * The label the notification's text is on to change the opacity of
@@ -497,7 +497,6 @@ public class CyderNotification extends JLabel {
                 Thread.sleep(delay);
 
                 if (!drawArrow) {
-                    // todo
                     for (int i = 255 ; i >= 0 ; i--) {
                         opacity = i;
                         repaint();

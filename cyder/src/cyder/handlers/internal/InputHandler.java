@@ -1365,12 +1365,15 @@ public class InputHandler {
             while (true) {}
         } else if (commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
             SpotlightUtil.wipeSpotlights();
+        } else if (commandIs("toast")) {
+            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toast("A toast to you, sir/madam");
         }
 
         else ret = false;
 
-         if (ret)
+         if (ret) {
              Logger.log(LoggerTag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
+         }
 
          return ret;
     }
