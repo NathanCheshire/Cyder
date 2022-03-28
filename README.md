@@ -22,9 +22,9 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 
 ## Screenshots
 
-![Liminal](https://user-images.githubusercontent.com/60986919/160252940-67826272-d98c-4ee7-a6d6-dbec8e9ef1f6.png)
+![Liminal Cyder](https://user-images.githubusercontent.com/60986919/160317185-836111d3-172b-4399-8196-4449a9d355e6.png)
 
-![Conway](https://user-images.githubusercontent.com/60986919/160225458-c639b3ed-c621-4d9b-bc9e-3ae1d6e0c581.png)
+![Conway](https://user-images.githubusercontent.com/60986919/160317204-c29f04ae-2e7b-4d32-8524-99ccf30a86fe.png)
 
 ![Weather](https://user-images.githubusercontent.com/60986919/156911464-73221df7-68fa-4ce3-8211-555ddc9c0ac2.png)
 
@@ -52,15 +52,15 @@ its own issues on GitHub. Cyder even features a custom
 `@Widget` annotation which is used to mark Cyder widgets which
 can then be validated and found upon runtime.
 
-![Self Analyzing](https://user-images.githubusercontent.com/60986919/160252296-2a5fb061-1d13-4b84-8693-009a3e0866e5.png)
+![Self Analyze](https://user-images.githubusercontent.com/60986919/160317468-6df0680f-8d49-413b-a09e-43d38839d441.png)
 
 ## Usage
 
 Since this is a Gradle project, you can simply clone this project 
 via http or ssh, run the gradle setup task using your favorite IDE
 (Eclipse, IntelliJ, NetBeans, etc.), and then execute the main function
-inside of `src/cyder/genesis/Cyder.java`. Keep in mind that the intended
-SDK is Java 9.0.4 and the current language level is the corresonding SDK
+inside of `src/cyder/genesis/Cyder.java`. Keep in mind that the minimum
+SDK is Java 9.0.4 and the coresponding language level the SDK
 default of `9 - Modules, private methods in interfaces etc.`
 
 ## History
