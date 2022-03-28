@@ -1565,19 +1565,10 @@ public class AudioPlayer {
         float milisRet = 0;
 
         try {
-            Header h;
             FileInputStream fis = new FileInputStream(audioFile);
             Bitstream bitstream = new Bitstream(fis);
-            h = bitstream.readFrame();
-
-            int size = h.calculate_framesize();
-            float ms_per_frame = h.ms_per_frame();
-            int maxSize = h.max_number_of_frames(10000);
-            float t = h.total_ms(size);
-            long tn;
-            tn = fis.getChannel().size();
-
-            int min = h.min_number_of_frames(500);
+            Header h = bitstream.readFrame();
+            long tn = fis.getChannel().size();
             milisRet = h.total_ms((int) tn);
         } catch (Exception e) {
             ExceptionHandler.handle(e);

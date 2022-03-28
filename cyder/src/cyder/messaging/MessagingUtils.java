@@ -1,6 +1,7 @@
 package cyder.messaging;
 
 import com.google.common.base.Preconditions;
+import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -105,7 +106,15 @@ public class MessagingUtils {
         }
 
         if (tmpWav.exists()) {
+            File file = tmpWav;
+            WaveFile wav = new WaveFile(file);
 
+            int amplitudeExample = wav.getSampleInt(140); // 140th amplitude value.
+
+            for (int i = 0; i < wav.getNumFrames(); i++) {
+                int amplitude = wav.getSampleInt(i);
+                // Plot.
+            }
         }
 
         OSUtil.delete(tmpWav);
