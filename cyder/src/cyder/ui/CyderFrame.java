@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.enums.LoggerTag;
+import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -970,6 +971,37 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Displays a simple toast with the provided text.
+     *
+     * @param htmlText the styled text to use for the toast
+     */
+    public void toast(String htmlText) {
+        checkArgument(StringUtil.getRawTextLength(htmlText)
+                > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
+
+        NotificationBuilder builder = new NotificationBuilder(htmlText);
+        builder.setNotificationDirection(NotificationDirection.BOTTOM);
+
+        CyderNotification toast = new CyderNotification(
+                builder.getHtmlText(),
+                builder.getViewDuration(),
+                builder.getArrowDir(),
+                builder.getNotificationDirection(),
+                builder.getOnKillAction(),
+                builder.getContainer(),
+                builder.getNotificationBackground(),
+                TimeUtil.notificationTime());
+
+        toast.setDrawArrow(false);
+        notificationList.add(toast);
+
+        if (!notificationCheckerStarted) {
+            CyderThreadRunner.submit(NotificationQueueRunnable, this + " notification queue checker");
+            notificationCheckerStarted = true;
+        }
+    }
+
+    /**
      * The notification queue for internal frame notifications.
      */
     private final Runnable NotificationQueueRunnable = () -> {
@@ -998,6 +1030,9 @@ public class CyderFrame extends JFrame {
                     if (currentNotification.getContianer() == null) {
                         //create text label to go on top of notification label
                         JLabel textLabel = new JLabel(text);
+
+                        // for opacity changing if needed for a toast
+                        currentNotification.setTextLabel(textLabel);
 
                         // log the bounds and text of the notification
                         Logger.log(LoggerTag.UI_ACTION, "[" +
@@ -1069,7 +1104,7 @@ public class CyderFrame extends JFrame {
                             currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
                                     getHeight() - currentNotification.getHeight() + 5);
                             break;
-                        default:  //top
+                        default:  // top
                             currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - CyderNotification.getTextXOffset(),
                                     CyderDragLabel.DEFAULT_HEIGHT - currentNotification.getHeight());
                     }
@@ -1314,7 +1349,7 @@ public class CyderFrame extends JFrame {
         // thread since possible confirmation
         CyderThreadRunner.submit(() -> {
             try {
-                if (this == null || disposed)
+                if (disposed)
                     return;
 
                 //if closing confirmation exists and the user decides they do not want to exit the frame

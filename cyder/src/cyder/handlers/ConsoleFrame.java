@@ -840,7 +840,7 @@ public final class ConsoleFrame {
             String logString = "Console loaded in " +
                     (CyderShare.getConsoleStartTime() - CyderShare.getAbsoluteStartTime()) + "ms";
             Logger.log(LoggerTag.UI_ACTION, logString);
-            consoleCyderFrame.notify(logString);
+            consoleCyderFrame.toast(logString);
 
             CyderSplash.fastDispose();
         } catch (Exception e) {
