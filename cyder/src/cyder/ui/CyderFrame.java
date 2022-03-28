@@ -3183,9 +3183,10 @@ public class CyderFrame extends JFrame {
         menuLabel.setBackground(CyderColors.navy);
 
         if (currentMenuType == MenuType.PANEL) {
+            int add = menuItems.size() == 1 ? 5 : 0;
             menuLabel.setSize(menuWidth, 2 * paddingHeight +
-                    (menuItems.size() * (StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny),
-                            CyderFonts.defaultFontSmall) - 8)));
+                    (menuItems.size() * (StringUtil.getAbsoluteMinHeight(String.valueOf(CyderNumbers.Jenny),
+                            CyderFonts.defaultFontSmall))) + add);
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         } else {
             menuLabel.setSize(getWidth() - 10,
@@ -3217,10 +3218,10 @@ public class CyderFrame extends JFrame {
         menuScroll.setBackground(CyderColors.getGuiThemeColor());
 
         if (currentMenuType == MenuType.PANEL) {
-            menuScroll.setBounds(menuPadding, menuPadding, menuWidth,
+            menuScroll.setBounds(menuPadding, menuPadding, menuWidth - 2 * menuPadding,
                     (menuItems.size()
                             * (StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny),
-                            CyderFonts.defaultFontSmall) - 8)));
+                            CyderFonts.defaultFontSmall))));
 
             menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

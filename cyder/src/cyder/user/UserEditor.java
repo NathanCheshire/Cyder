@@ -719,7 +719,10 @@ public class UserEditor {
                 JLabel fontLabel = fontScrollRef.get().generateScrollList();
                 fontLabel.setBounds(50, 100, 300, 300);
                 switchingLabel.remove(tempLabel);
-                switchingLabel.add(fontLabel);
+
+                if (prefsPanelIndex == 1) {
+                    switchingLabel.add(fontLabel);
+                }
             }
         },"Preference Font Loader");
 
