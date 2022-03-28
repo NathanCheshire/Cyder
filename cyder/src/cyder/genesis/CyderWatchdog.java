@@ -133,8 +133,6 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
-    // todo don't call revalidate menu if it's not needed, find cases
-
     /**
      * Attempts to boostrap Cyder by quitting and opening a new instance.
      */

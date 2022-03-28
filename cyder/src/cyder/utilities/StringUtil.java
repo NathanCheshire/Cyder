@@ -1070,4 +1070,21 @@ public class StringUtil {
     public static String stripNewLinesAndTrim(String line) {
         return line.replace("\n", " ").replace("\r", " ").trim();
     }
+
+    /**
+     * Returns a string of the individual strings trimmed and separated via a single space.
+     *
+     * @param strings the strings to build into a single string
+     * @return the combined string
+     */
+    public static String separate(String... strings) {
+        StringBuilder ret = new StringBuilder();
+
+        for (String s : strings) {
+            ret.append(s.trim());
+            ret.append(" ");
+        }
+
+        return ret.toString().trim();
+    }
 }

@@ -43,6 +43,8 @@ import java.util.Objects;
 
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
+// todo work on optimizations for when you actually need to refresh something
+
 /**
  * Singleton of components that represent the GUI way a user
  * interacts with Cyder and its copious functions.
@@ -52,6 +54,14 @@ public enum ConsoleFrame {
      * The ConsoleFrame singleton.
      */
     INSTANCE;
+
+    /**
+     * Log when teh console frame singleton is constructed
+     * (enums are constructed when they are first referenced).
+     */
+    ConsoleFrame() {
+        Logger.log(LoggerTag.OBJECT_CREATION, "ConsoleFrame singleton constructed");
+    }
 
     /**
      * Whether the ConsoleFrame singleton has been initialized.
