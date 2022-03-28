@@ -81,7 +81,7 @@ public class Preferences {
                 "","f0f0f0",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = foreground");
 
-            ConsoleFrame.getConsoleFrame().getInputField()
+            ConsoleFrame.INSTANCE.getInputField()
                     .setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
 
             return null;
@@ -115,9 +115,9 @@ public class Preferences {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = outputborder");
 
             if (UserUtil.getUserData("OutputBorder").equals("0")) {
-                ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
+                ConsoleFrame.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
             } else {
-                ConsoleFrame.getConsoleFrame().getOutputScroll().setBorder(new LineBorder(ColorUtil.hexToRgb(
+                ConsoleFrame.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexToRgb(
                         UserUtil.getUserData("Background")), 3, true));
             }
 
@@ -128,9 +128,9 @@ public class Preferences {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = inputborder");
 
             if (UserUtil.getUserData("InputBorder").equals("0")) {
-                ConsoleFrame.getConsoleFrame().getInputField().setBorder(null);
+                ConsoleFrame.INSTANCE.getInputField().setBorder(null);
             } else {
-                ConsoleFrame.getConsoleFrame().getInputField().setBorder(
+                ConsoleFrame.INSTANCE.getInputField().setBorder(
                         new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),
                                 3, true));
             }
@@ -153,7 +153,7 @@ public class Preferences {
                 "Fullscreen Cyder (this will also cover the Windows taskbar)","0",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = fullscreen");
 
-            ConsoleFrame.getConsoleFrame().setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
+            ConsoleFrame.INSTANCE.setFullscreen(UserUtil.getCyderUser().getFullscreen().equals("1"));
 
             return null;
         }));
@@ -163,14 +163,14 @@ public class Preferences {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = outputfill");
 
             if (UserUtil.getUserData("OutputFill").equals("0")) {
-                ConsoleFrame.getConsoleFrame().getOutputArea().setBackground(null);
-                ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(false);
+                ConsoleFrame.INSTANCE.getOutputArea().setBackground(null);
+                ConsoleFrame.INSTANCE.getOutputArea().setOpaque(false);
             } else {
-                ConsoleFrame.getConsoleFrame().getOutputArea().setOpaque(true);
-                ConsoleFrame.getConsoleFrame().getOutputArea().setBackground(
+                ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
+                ConsoleFrame.INSTANCE.getOutputArea().setBackground(
                         ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
-                ConsoleFrame.getConsoleFrame().getOutputArea().repaint();
-                ConsoleFrame.getConsoleFrame().getOutputArea().revalidate();
+                ConsoleFrame.INSTANCE.getOutputArea().repaint();
+                ConsoleFrame.INSTANCE.getOutputArea().revalidate();
             }
 
             return null;
@@ -181,14 +181,14 @@ public class Preferences {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = inputfill");
 
             if (UserUtil.getUserData("InputFill").equals("0")) {
-                ConsoleFrame.getConsoleFrame().getInputField().setBackground(null);
-                ConsoleFrame.getConsoleFrame().getInputField().setOpaque(false);
+                ConsoleFrame.INSTANCE.getInputField().setBackground(null);
+                ConsoleFrame.INSTANCE.getInputField().setOpaque(false);
             } else {
-                ConsoleFrame.getConsoleFrame().getInputField().setOpaque(true);
-                ConsoleFrame.getConsoleFrame().getInputField().setBackground(
+                ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
+                ConsoleFrame.INSTANCE.getInputField().setBackground(
                         ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
-                ConsoleFrame.getConsoleFrame().getInputField().repaint();
-                ConsoleFrame.getConsoleFrame().getInputField().revalidate();
+                ConsoleFrame.INSTANCE.getInputField().repaint();
+                ConsoleFrame.INSTANCE.getInputField().revalidate();
             }
 
             return null;
@@ -196,13 +196,13 @@ public class Preferences {
         ret.add(new Preference("clockonconsole", "Clock On Console",
                 "Show a clock at the top of the console","1",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = clockonconsole");
-            ConsoleFrame.getConsoleFrame().refreshClockText();
+            ConsoleFrame.INSTANCE.refreshClockText();
             return null;
         }));
         ret.add(new Preference("showseconds", "Show Seconds",
                 "Show seconds on the console clock if enabled","1",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = showseconds");
-            ConsoleFrame.getConsoleFrame().refreshClockText();
+            ConsoleFrame.INSTANCE.refreshClockText();
             return null;
         }));
         ret.add(new Preference("filterchat", "Filter Chat",
@@ -270,7 +270,7 @@ public class Preferences {
         ret.add(new Preference("consoleclockformat","IGNORE",
                 "","EEEEEEEEE h:mmaa",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key =  consoleclockformat");
-            ConsoleFrame.getConsoleFrame().refreshClockText();
+            ConsoleFrame.INSTANCE.refreshClockText();
             return null;
         }));
         ret.add(new Preference("youtubeuuid","IGNORE",
@@ -338,7 +338,7 @@ public class Preferences {
                 "Compact the text/components in supported text panes","0",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = compacttextmode");
 
-            ConsoleFrame.getConsoleFrame().revalidateMenu();
+            ConsoleFrame.INSTANCE.revalidateMenu();
             CyderScrollList.refreshAllLists();
 
             return null;
@@ -347,8 +347,8 @@ public class Preferences {
                 "1", (optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = fontmetric");
 
-            ConsoleFrame.getConsoleFrame().getInputField().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
-            ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+            ConsoleFrame.INSTANCE.getInputField().setFont(ConsoleFrame.INSTANCE.generateUserFont());
+            ConsoleFrame.INSTANCE.getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
 
             return null;
         }));
@@ -356,8 +356,8 @@ public class Preferences {
                 "30", (optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = fontsize");
 
-            ConsoleFrame.getConsoleFrame().getInputField().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
-            ConsoleFrame.getConsoleFrame().getOutputArea().setFont(ConsoleFrame.getConsoleFrame().generateUserFont());
+            ConsoleFrame.INSTANCE.getInputField().setFont(ConsoleFrame.INSTANCE.generateUserFont());
+            ConsoleFrame.INSTANCE.getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
 
             return null;
         }));

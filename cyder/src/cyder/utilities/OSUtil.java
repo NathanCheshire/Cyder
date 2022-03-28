@@ -257,9 +257,9 @@ public class OSUtil {
      */
     // todo userutil method
     public static File createFileInUserSpace(String name) {
-        if (!StringUtil.isNull(ConsoleFrame.getConsoleFrame().getUUID())) {
+        if (!StringUtil.isNull(ConsoleFrame.INSTANCE.getUUID())) {
             File saveDir = new File(buildPath("dynamic", "users",
-                    ConsoleFrame.getConsoleFrame().getUUID(), UserFile.FILES.getName()));
+                    ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName()));
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {

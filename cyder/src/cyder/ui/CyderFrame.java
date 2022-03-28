@@ -289,7 +289,7 @@ public class CyderFrame extends JFrame {
         setIconImage(CyderIcons.CYDER_ICON.getImage());
 
         //try and get preference for frame shape
-        if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
+        if (ConsoleFrame.INSTANCE.getUUID() != null) {
             if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
                 setShape(new RoundRectangle2D.Double(0, 0,
                         getWidth(), getHeight(), 20, 20));
@@ -1271,8 +1271,8 @@ public class CyderFrame extends JFrame {
     public void minimizeAnimation() {
         try {
             // if we are the ConsoleFrame, save position vars
-            if (this == ConsoleFrame.getConsoleFrame().getConsoleCyderFrame())
-                ConsoleFrame.getConsoleFrame().saveScreenStat();
+            if (this == ConsoleFrame.INSTANCE.getConsoleCyderFrame())
+                ConsoleFrame.INSTANCE.saveScreenStat();
 
             //set restore vars here
             setRestoreX(getX());
@@ -1404,7 +1404,7 @@ public class CyderFrame extends JFrame {
                 }
 
                 //remove from ConsoleFrame
-                ConsoleFrame.getConsoleFrame().removeTaskbarIcon(this);
+                ConsoleFrame.INSTANCE.removeTaskbarIcon(this);
 
                 super.dispose();
 
@@ -2013,10 +2013,10 @@ public class CyderFrame extends JFrame {
      * Set the background of {@code this} to the current ConsoleFrame background.
      */
     public void stealConsoleBackground() {
-        if (ConsoleFrame.getConsoleFrame().getCurrentBackground() == null)
+        if (ConsoleFrame.INSTANCE.getCurrentBackground() == null)
             return;
 
-        iconLabel.setIcon(new ImageIcon(ConsoleFrame.getConsoleFrame().getCurrentBackground()
+        iconLabel.setIcon(new ImageIcon(ConsoleFrame.INSTANCE.getCurrentBackground()
                 .generateImageIcon().getImage().getScaledInstance(
                         getWidth(), getHeight(), Image.SCALE_DEFAULT)));
     }
@@ -2119,7 +2119,7 @@ public class CyderFrame extends JFrame {
         try {
             //fix shape
             if (cr == null) {
-                if (ConsoleFrame.getConsoleFrame().getUUID() != null) {
+                if (ConsoleFrame.INSTANCE.getUUID() != null) {
                     if (UserUtil.getCyderUser().getRoundedwindows().equals("1")) {
                         setShape(new RoundRectangle2D.Double(0, 0,
                                 getWidth(), getHeight(), 20, 20));
@@ -2439,7 +2439,7 @@ public class CyderFrame extends JFrame {
         if (!useCustomTaskbarIcon)
             customTaskbarIcon = null;
 
-        ConsoleFrame.getConsoleFrame().revalidateMenu();
+        ConsoleFrame.INSTANCE.revalidateMenu();
     }
 
     /**
@@ -2716,14 +2716,14 @@ public class CyderFrame extends JFrame {
         super.setVisible(b);
 
         //add to console frame's taskbar as long as it's not an exception
-        if (b && !ConsoleFrame.getConsoleFrame().isClosed() && this != ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()) {
-            ConsoleFrame.getConsoleFrame().addTaskbarIcon(this);
+        if (b && !ConsoleFrame.INSTANCE.isClosed() && this != ConsoleFrame.INSTANCE.getConsoleCyderFrame()) {
+            ConsoleFrame.INSTANCE.addTaskbarIcon(this);
         }
 
         //if the console is set to always on top, then we need this frame to be automatically set on top as well
         // so that new frames are not behind the console
-        if (b && ConsoleFrame.getConsoleFrame().getConsoleCyderFrame() != null &&
-                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().isAlwaysOnTop()) {
+        if (b && ConsoleFrame.INSTANCE.getConsoleCyderFrame() != null &&
+                ConsoleFrame.INSTANCE.getConsoleCyderFrame().isAlwaysOnTop()) {
             setAlwaysOnTop(true);
 
             if (topDrag != null)

@@ -52,7 +52,7 @@ public class NotesWidget {
     public static void showGUI() {
         
 
-        if (ConsoleFrame.getConsoleFrame().getUUID() == null)
+        if (ConsoleFrame.INSTANCE.getUUID() == null)
             return;
 
         if (noteFrame != null)
@@ -213,7 +213,7 @@ public class NotesWidget {
 
             try {
                 BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes/" +
+                        "dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() + "/Notes/" +
                                 newNoteField.getText() + ".txt",true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
@@ -249,7 +249,7 @@ public class NotesWidget {
     }
 
     private static void initializeNotesList() {
-        File dir = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() + "/Notes");
+        File dir = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() + "/Notes");
 
         if (!dir.exists())
             dir.mkdir();

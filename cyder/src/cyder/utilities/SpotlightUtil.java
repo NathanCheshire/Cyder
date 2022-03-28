@@ -61,16 +61,16 @@ public class SpotlightUtil {
             try {
                 File spotlightDirectory = getSpotlightsDirectory();
 
-                ConsoleFrame.getConsoleFrame().getInputHandler().println("Windows spotlight images wiped from directory: "
+                ConsoleFrame.INSTANCE.getInputHandler().println("Windows spotlight images wiped from directory: "
                         + getWindowsContentDeliveryManagerDir());
-                ConsoleFrame.getConsoleFrame().getInputHandler().println("Spotights found: "
+                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights found: "
                         + spotlightDirectory.listFiles().length);
 
                 for (File spotlight : spotlightDirectory.listFiles()) {
                     OSUtil.delete(spotlight);
                 }
 
-                ConsoleFrame.getConsoleFrame().getInputHandler().println("Spotights left: "
+                ConsoleFrame.INSTANCE.getInputHandler().println("Spotights left: "
                         + spotlightDirectory.listFiles().length);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

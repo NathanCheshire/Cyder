@@ -133,10 +133,6 @@ public class CyderWatchdog {
         }, "Cyder Watchdog");
     }
 
-    // todo convert ConsoleFrame to singleton using enum instance pattern
-    // ConsoleFrame.getConsoleFrame()
-    // ConsoleFrame.INSTANCE
-
     // todo don't call revalidate menu if it's not needed, find cases
 
     /**

@@ -39,10 +39,10 @@ public class StatUtil {
             PropertiesList.add(key + ": " + value);
         }
 
-        ConsoleFrame.getConsoleFrame().getInputHandler().println("Java Properties:\n------------------------");
+        ConsoleFrame.INSTANCE.getInputHandler().println("Java Properties:\n------------------------");
 
         for (String s : PropertiesList) {
-            ConsoleFrame.getConsoleFrame().getInputHandler().println(s);
+            ConsoleFrame.INSTANCE.getInputHandler().println(s);
         }
     }
 
@@ -64,7 +64,7 @@ public class StatUtil {
         arrayLines.add("Computer Username: " + System.getProperty("user.name"));
 
         for (String arrayLine : arrayLines)
-            ConsoleFrame.getConsoleFrame().getInputHandler().println(arrayLine);
+            ConsoleFrame.INSTANCE.getInputHandler().println(arrayLine);
     }
 
     public static void computerProperties() {
@@ -88,7 +88,7 @@ public class StatUtil {
         }
 
         for (String arrayLine : arrayLines)
-            ConsoleFrame.getConsoleFrame().getInputHandler().println(arrayLine);
+            ConsoleFrame.INSTANCE.getInputHandler().println(arrayLine);
     }
 
     public static void allStats() {
@@ -115,8 +115,8 @@ public class StatUtil {
                 double x = flag.getWidth();
                 double y = flag.getHeight();
 
-                ConsoleFrame.getConsoleFrame().getInputHandler().println("Country: " + IPUtil.getIpdata().getCountry_name() + "\nCountry Flag: ");
-                ConsoleFrame.getConsoleFrame().getInputHandler().printlnImage(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
+                ConsoleFrame.INSTANCE.getInputHandler().println("Country: " + IPUtil.getIpdata().getCountry_name() + "\nCountry Flag: ");
+                ConsoleFrame.INSTANCE.getInputHandler().printlnImage(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
                 String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
                         "ISP: " + IPUtil.getIpdata().getAsn().getName(),
@@ -145,7 +145,7 @@ public class StatUtil {
                         "Local Host Address: " + InetAddress.getLocalHost(),
                         "Loopback Address: " + InetAddress.getLoopbackAddress()};
 
-                ConsoleFrame.getConsoleFrame().getInputHandler().printlns(lines);
+                ConsoleFrame.INSTANCE.getInputHandler().printlns(lines);
             }
 
             catch (Exception e) {
@@ -418,7 +418,7 @@ public class StatUtil {
         prints.sort(new FileComparator());
 
         for (FileSize print : prints) {
-            ConsoleFrame.getConsoleFrame().getInputHandler().println(print.getName() + ": " + formatBytes(print.getSize()));
+            ConsoleFrame.INSTANCE.getInputHandler().println(print.getName() + ": " + formatBytes(print.getSize()));
         }
     }
 
@@ -485,7 +485,7 @@ public class StatUtil {
 
                 while ((line = lineReader.readLine()) != null) {
                     if (isComment(line) && StringUtil.containsBlockedWords(line,false)) {
-                       ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                       ConsoleFrame.INSTANCE.getInputHandler().println(
                                FileUtil.getFilename(startDir.getName()) + ": " + line.trim());
                     }
                 }

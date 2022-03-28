@@ -25,7 +25,7 @@ public class ThreadUtil {
         Thread[] printThreads = new Thread[num];
         threadGroup.enumerate(printThreads);
         for (int i = 0; i < num; i++)
-            ConsoleFrame.getConsoleFrame().getInputHandler().println(printThreads[i].getName());
+            ConsoleFrame.INSTANCE.getInputHandler().println(printThreads[i].getName());
     }
 
     public static void printThreads() {
@@ -36,6 +36,6 @@ public class ThreadUtil {
 
         for (int i = 0; i < num; i++)
             if (!printThreads[i].isDaemon())
-                ConsoleFrame.getConsoleFrame().getInputHandler().println(printThreads[i].getName());
+                ConsoleFrame.INSTANCE.getInputHandler().println(printThreads[i].getName());
     }
 }

@@ -3,7 +3,6 @@ package cyder.handlers;
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
 import cyder.enums.*;
-import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.handlers.external.AudioPlayer;
@@ -45,39 +44,19 @@ import java.util.Objects;
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
 /**
- * Class of components that represent the GUI way a user
+ * Singleton of components that represent the GUI way a user
  * interacts with Cyder and its copious functions.
  */
-public final class ConsoleFrame {
+public enum ConsoleFrame {
     /**
      * The ConsoleFrame singleton.
      */
-    private static final ConsoleFrame consoleFrameInstance = new ConsoleFrame();
+    INSTANCE;
 
     /**
      * Whether the ConsoleFrame singleton has been initialized.
      */
     private static boolean singletonCreated;
-
-    /**
-     * Returns the ConsoleFrame singleton object.
-     *
-     * @return the ConsoleFrame singleton object
-     */
-    public static ConsoleFrame getConsoleFrame() {
-        return consoleFrameInstance;
-    }
-
-    /**
-     * Constructor necessary once, after that it should never be invoked again.
-     */
-    private ConsoleFrame() {
-        if (singletonCreated)
-            throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-
-        singletonCreated = true;
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
-    }
 
     /**
      * The UUID of the user currently associated with the ConsoleFrame.
@@ -107,7 +86,7 @@ public final class ConsoleFrame {
     /**
      * The ConsoleFrame output TextPane controlled by the scroll pane.
      */
-    private static JTextPane outputArea;
+    private JTextPane outputArea;
 
     /**
      * The JTextPane used for the console menu.
@@ -415,8 +394,8 @@ public final class ConsoleFrame {
             outputArea.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             outputArea.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
             outputArea.setAutoscrolls(true);
-            outputArea.setBounds(10, 62, getConsoleFrame().getBackgroundWidth() - 20,
-                    getConsoleFrame().getBackgroundHeight() - 204);
+            outputArea.setBounds(10, 62, INSTANCE.getBackgroundWidth() - 20,
+                    INSTANCE.getBackgroundHeight() - 204);
             outputArea.setFocusable(true);
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
@@ -434,7 +413,7 @@ public final class ConsoleFrame {
             outputArea.setOpaque(false);
             outputArea.setBackground(CyderColors.nullus);
             outputArea.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
-            outputArea.setFont(getConsoleFrame().generateUserFont());
+            outputArea.setFont(INSTANCE.generateUserFont());
 
             //init input handler
             inputHandler = new InputHandler(outputArea);
@@ -577,7 +556,7 @@ public final class ConsoleFrame {
             inputField.setCaretColor(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             inputField.setCaret(new CyderCaret(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground())));
             inputField.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
-            inputField.setFont(getConsoleFrame().generateUserFont());
+            inputField.setFont(INSTANCE.generateUserFont());
 
             if (UserUtil.getUserData("OutputFill").equals("1")) {
                 outputArea.setOpaque(true);
@@ -1122,7 +1101,7 @@ public final class ConsoleFrame {
             ArrayList<String> musicList = new ArrayList<>();
 
             File userMusicDir = new File(OSUtil.buildPath("dynamic","users",
-                    getConsoleFrame().getUUID(), UserFile.MUSIC.getName()));
+                    INSTANCE.getUUID(), UserFile.MUSIC.getName()));
 
             String[] fileNames = userMusicDir.list();
 
@@ -1139,7 +1118,7 @@ public final class ConsoleFrame {
                 String audioName = fileNames[NumberUtil.randInt(0, fileNames.length - 1)];
 
                 IOUtil.playAudio(OSUtil.buildPath("dynamic","users",
-                        getConsoleFrame().getUUID(), UserFile.MUSIC.getName(), audioName));
+                        INSTANCE.getUUID(), UserFile.MUSIC.getName(), audioName));
             }
             // otherwise, play our own
             else {
@@ -2851,15 +2830,15 @@ public final class ConsoleFrame {
                 break;
             case TOP_RIGHT:
                 consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth()
-                        - getConsoleFrame().getWidth(), 0);
+                        - INSTANCE.getWidth(), 0);
                 break;
             case BOTTOM_LEFT:
                 consoleCyderFrame.setLocation(0, ScreenUtil.getScreenHeight()
-                        - getConsoleFrame().getHeight());
+                        - INSTANCE.getHeight());
                 break;
             case BOTTOM_RIGHT:
-                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - getConsoleFrame().getWidth(),
-                        ScreenUtil.getScreenHeight() - getConsoleFrame().getHeight());
+                consoleCyderFrame.setLocation(ScreenUtil.getScreenWidth() - INSTANCE.getWidth(),
+                        ScreenUtil.getScreenHeight() - INSTANCE.getHeight());
                 break;
         }
 
@@ -3126,18 +3105,18 @@ public final class ConsoleFrame {
      */
     public void originalChams() {
         try {
-            CyderFrame ref = getConsoleFrame().getConsoleCyderFrame();
+            CyderFrame ref = INSTANCE.getConsoleCyderFrame();
             Robot robot = new Robot();
             Rectangle monitorBounds = ref.getMonitorBounds();
 
-            getConsoleFrame().getConsoleCyderFrame().setVisible(false);
+            INSTANCE.getConsoleCyderFrame().setVisible(false);
             BufferedImage capture = new Robot().createScreenCapture(monitorBounds);
-            getConsoleFrame().getConsoleCyderFrame().setVisible(true);
+            INSTANCE.getConsoleCyderFrame().setVisible(true);
 
             capture = ImageUtil.getCroppedImage(capture, (int) (Math.abs(monitorBounds.getX()) + ref.getX()),
                     (int) (Math.abs(monitorBounds.getY()) + ref.getY()), ref.getWidth(), ref.getHeight());
 
-            getConsoleFrame().setBackground(ImageUtil.toImageIcon(capture));
+            INSTANCE.setBackground(ImageUtil.toImageIcon(capture));
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

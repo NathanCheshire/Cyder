@@ -52,7 +52,7 @@ public class YoutubeUtil {
     public static void downloadVideo(String url) {
         if (ffmpegInstalled() && youtubedlInstalled()) {
             String saveDir = OSUtil.buildPath("dynamic",
-                    "users", ConsoleFrame.getConsoleFrame().getUUID(), "Music");
+                    "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
             String extension = ".mp3";
 
             Runtime rt = Runtime.getRuntime();
@@ -62,7 +62,7 @@ public class YoutubeUtil {
                             .replace("- YouTube","")
                             .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim();
 
-            ConsoleFrame.getConsoleFrame().getInputHandler()
+            ConsoleFrame.INSTANCE.getInputHandler()
                     .println("Downloading audio as: " + parsedAsciiSaveName + extension);
 
             // remove trailing periods
@@ -109,12 +109,12 @@ public class YoutubeUtil {
                     audioProgress.repaint();
 
                     CyderLabel printLabel = new CyderLabel("\"" + finalParsedAsciiSaveName + "\" file size: ");
-                    printLabel.setForeground(ConsoleFrame.getConsoleFrame().getInputField().getForeground());
-                    printLabel.setFont(ConsoleFrame.getConsoleFrame().getInputField().getFont());
+                    printLabel.setForeground(ConsoleFrame.INSTANCE.getInputField().getForeground());
+                    printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
 
-                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                    ConsoleFrame.INSTANCE.getInputHandler()
                             .printlnComponent(audioProgress);
-                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                    ConsoleFrame.INSTANCE.getInputHandler()
                             .printlnComponent(printLabel);
 
                     Pattern updatePattern  = Pattern.compile(
@@ -148,7 +148,7 @@ public class YoutubeUtil {
                     }
 
                     downloadThumbnail(url);
-                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                    ConsoleFrame.INSTANCE.getInputHandler()
                             .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
                             + " and added to mp3 queue");
                     AudioPlayer.addToMp3Queue(new File(OSUtil.buildPath(
@@ -157,7 +157,7 @@ public class YoutubeUtil {
                     ui.stopAnimationTimer();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
-                    ConsoleFrame.getConsoleFrame().getInputHandler()
+                    ConsoleFrame.INSTANCE.getInputHandler()
                             .println("An exception occured while attempting to download: " + url);
                     ui.stopAnimationTimer();
                 }
@@ -177,7 +177,7 @@ public class YoutubeUtil {
             String playlistID = extractPlaylistId(playlist);
 
             if (StringUtil.isNull(UserUtil.getCyderUser().getYouTubeAPI3Key())) {
-                ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                ConsoleFrame.INSTANCE.getInputHandler().println(
                         "Sorry, your YouTubeAPI3 key has not been set. Visit the user editor " +
                                 "to learn how to set this in order to download whole playlists. " +
                                 "In order to download individual videos, simply use the same play " +
@@ -205,7 +205,7 @@ public class YoutubeUtil {
                     }
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
-                    ConsoleFrame.getConsoleFrame().getInputHandler().println(
+                    ConsoleFrame.INSTANCE.getInputHandler().println(
                             "An exception occured while downloading playlist: " + playlistID);
                 }
             }
@@ -237,7 +237,7 @@ public class YoutubeUtil {
      * @param dimension the dimensions to crop the image to
      */
     public static void downloadThumbnail(String url, Dimension dimension) {
-        Preconditions.checkNotNull(ConsoleFrame.getConsoleFrame().getUUID());
+        Preconditions.checkNotNull(ConsoleFrame.INSTANCE.getUUID());
 
         // get thumbnail url and file name to save it as
         BufferedImage save = getSquareThumbnail(url, dimension);
@@ -263,7 +263,7 @@ public class YoutubeUtil {
         String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
         // init album art dir
-        File albumArtDir = new File(OSUtil.buildPath("dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(),
+        File albumArtDir = new File(OSUtil.buildPath("dynamic","users", ConsoleFrame.INSTANCE.getUUID(),
                 "Music","AlbumArt"));
 
         // create if not there
@@ -271,7 +271,7 @@ public class YoutubeUtil {
             albumArtDir.mkdir();
 
         // create the reference file and save to it
-        File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+        File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()
                 + "/Music/AlbumArt/" + parsedAsciiSaveName);
         try {
             ImageIO.write(save, "png", saveAlbumArt);
@@ -344,26 +344,26 @@ public class YoutubeUtil {
      * Outputs instructions to the ConsoleFrame due to youtube-dl or ffmpeg not being installed.
      */
     private static void noFfmpegOrYoutubedl() {
-        ConsoleFrame.getConsoleFrame().getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
+        ConsoleFrame.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
                 "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
                 " variable");
-        ConsoleFrame.getConsoleFrame().getInputHandler().println(
+        ConsoleFrame.INSTANCE.getInputHandler().println(
                 "Remember to also set the path to your youtube-dl executable in the user editor");
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
         environmentVariableHelp.addActionListener(e ->
                 NetworkUtil.openUrl(CyderUrls.environmentVariables));
-        ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(environmentVariableHelp);
+        ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
         downloadFFMPEG.addActionListener(e ->
                 NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
-        ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadFFMPEG);
+        ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
                 NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION));
-        ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(downloadYoutubeDL);
+        ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(downloadYoutubeDL);
     }
 
     /**
@@ -441,7 +441,7 @@ public class YoutubeUtil {
 
                         String title = videoTitle.substring(Math.min(MAX_THUMBNAIL_CHARS, videoTitle.length()));
 
-                        File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID()
+                        File saveFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()
                                 + "/Backgrounds/" + title + ".png");
 
                         ImageIO.write(save, "png", saveFile);

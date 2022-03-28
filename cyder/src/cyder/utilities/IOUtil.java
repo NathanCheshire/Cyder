@@ -199,11 +199,11 @@ public class IOUtil {
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 } finally {
-                    ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+                    ConsoleFrame.INSTANCE.revalidateAudioMenu();
                 }
             }, "IOUtil audio thread");
 
-            ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+            ConsoleFrame.INSTANCE.revalidateAudioMenu();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -257,7 +257,7 @@ public class IOUtil {
             ExceptionHandler.handle(e);
         }
 
-        ConsoleFrame.getConsoleFrame().revalidateAudioMenu();
+        ConsoleFrame.INSTANCE.revalidateAudioMenu();
     }
 
     /**
@@ -431,13 +431,13 @@ public class IOUtil {
      */
     public static Future<ArrayList<String>> getUsbDevices() {
         if (!pythonInstalled()) {
-            ConsoleFrame.getConsoleFrame().getInputHandler()
+            ConsoleFrame.INSTANCE.getInputHandler()
                     .println("Python was not found; please install Python and add it" +
                             " to the windows PATH environment variable");
 
             CyderButton installPython = new CyderButton("Downlaod Python");
             installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
-            ConsoleFrame.getConsoleFrame().getInputHandler().printlnComponent(installPython);
+            ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(installPython);
 
             return null;
         }

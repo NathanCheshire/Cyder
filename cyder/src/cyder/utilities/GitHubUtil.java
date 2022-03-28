@@ -173,10 +173,10 @@ public class GitHubUtil {
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
         return cloningExecutor.submit(() -> {
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("Validating github link: " + githubRepo);
+            ConsoleFrame.INSTANCE.getInputHandler().println("Validating github link: " + githubRepo);
 
             if (!validateGitHubRepoCloneUrl(githubRepo)) {
-                ConsoleFrame.getConsoleFrame().getInputHandler().println("Provided repo link is invalid");
+                ConsoleFrame.INSTANCE.getInputHandler().println("Provided repo link is invalid");
                 return Optional.of(Boolean.FALSE);
             }
 
@@ -201,7 +201,7 @@ public class GitHubUtil {
             if (saveDir.exists())
                 saveDir.mkdir();
 
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("Checking for git");
+            ConsoleFrame.INSTANCE.getInputHandler().println("Checking for git");
             boolean git = true;
 
             try {
@@ -214,12 +214,12 @@ public class GitHubUtil {
             }
 
             if (!git) {
-                ConsoleFrame.getConsoleFrame().getInputHandler()
+                ConsoleFrame.INSTANCE.getInputHandler()
                         .println("Git not installed. Please install it at: " + CyderUrls.GIT_DOWNLOAD);
                 return Optional.of(Boolean.FALSE);
             }
 
-            ConsoleFrame.getConsoleFrame().getInputHandler().println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
+            ConsoleFrame.INSTANCE.getInputHandler().println("Cloning: \"" + NetworkUtil.getURLTitle(githubRepo)
                     + "\" to \"" + saveDir.getName() + OSUtil.FILE_SEP + "\"");
 
             try {

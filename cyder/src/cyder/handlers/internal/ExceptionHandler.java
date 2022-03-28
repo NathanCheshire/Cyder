@@ -34,8 +34,8 @@ public class ExceptionHandler {
                 Logger.log(LoggerTag.EXCEPTION, write.get());
 
             //if the user has show errors configured, then we open the file
-            if (ConsoleFrame.getConsoleFrame().getUUID() != null &&
-                    !ConsoleFrame.getConsoleFrame().isClosed() &&
+            if (ConsoleFrame.INSTANCE.getUUID() != null &&
+                    !ConsoleFrame.INSTANCE.isClosed() &&
                     UserUtil.getUserData("SilenceErrors").equals("0")) {
                 silentHandleWithoutLogging(e);
             }

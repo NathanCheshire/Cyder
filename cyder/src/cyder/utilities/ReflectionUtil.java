@@ -392,7 +392,7 @@ public class ReflectionUtil {
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
                             String shortWidgetName = getBottomLevelClass(classer);
-                            ConsoleFrame.getConsoleFrame().getInputHandler().println("Opening widget: " + shortWidgetName);
+                            ConsoleFrame.INSTANCE.getInputHandler().println("Opening widget: " + shortWidgetName);
                             try {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(classer);

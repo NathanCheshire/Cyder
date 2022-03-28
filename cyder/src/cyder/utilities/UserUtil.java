@@ -967,7 +967,7 @@ public class UserUtil {
      * @return the provided user file
      */
     public static File getUserFile(String fileName) {
-        Preconditions.checkArgument(ConsoleFrame.getConsoleFrame().getUUID() != null,
+        Preconditions.checkArgument(ConsoleFrame.INSTANCE.getUUID() != null,
                 "ConsoleFrame uuid is not yet set");
 
         boolean in = false;
@@ -984,7 +984,7 @@ public class UserUtil {
         }
 
         File ret = new File(OSUtil.buildPath("dynamic",
-                "users", ConsoleFrame.getConsoleFrame().getUUID(), fileName));
+                "users", ConsoleFrame.INSTANCE.getUUID(), fileName));
 
         if (!ret.exists()) {
             if (ret.mkdir()) {

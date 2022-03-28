@@ -117,7 +117,7 @@ public class PaintWidget {
             String defaultFilename = base + increment + ".png";
 
             String path = OSUtil.buildPath("dynamic","users",
-                    ConsoleFrame.getConsoleFrame().getUUID(), "Files");
+                    ConsoleFrame.INSTANCE.getUUID(), "Files");
 
             while (new File(path + OSUtil.FILE_SEP + defaultFilename).exists()) {
                 increment++;
@@ -706,7 +706,7 @@ public class PaintWidget {
 
         // 40 is a taskbar offset estimate
         int y = ScreenUtil.getScreenHeight() - paintControlsFrame.getHeight() - 40;
-        Rectangle screen = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getMonitorBounds();
+        Rectangle screen = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getMonitorBounds();
         int x = screen.x + (screen.width - paintControlsFrame.getWidth()) / 2;
 
         paintControlsFrame.setLocation(x, y);

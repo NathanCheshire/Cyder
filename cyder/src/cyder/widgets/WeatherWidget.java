@@ -113,7 +113,7 @@ public class WeatherWidget {
      */
     private void innerShowGUI() {
         if (CyderShare.isHighLatency()) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Sorry, "
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");
             return;
@@ -514,7 +514,7 @@ public class WeatherWidget {
                 String key = UserUtil.getCyderUser().getWeatherkey();
 
                 if (key.trim().isEmpty()) {
-                    ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
+                    ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
                             ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
                             " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
                     return;
@@ -573,7 +573,7 @@ public class WeatherWidget {
                         weatherFrame.setTitle("Weather");
                     }
 
-                    ConsoleFrame.getConsoleFrame().revalidateMenu();
+                    ConsoleFrame.INSTANCE.revalidateMenu();
                 }
             } catch (FileNotFoundException e) {
                 //invalid custom location so go back to the old one

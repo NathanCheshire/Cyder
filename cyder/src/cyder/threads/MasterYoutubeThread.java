@@ -82,7 +82,7 @@ public class MasterYoutubeThread {
 
         //if this is running or a bletchy
         if (BletchyThread.isActive() || isActive()) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
         }
@@ -94,7 +94,7 @@ public class MasterYoutubeThread {
         }
 
         // say how to stop scripts
-        ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().notify("Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
+        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
         isActive = true;
     }
 

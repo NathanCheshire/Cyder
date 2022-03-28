@@ -187,7 +187,7 @@ public class InputHandler {
 
                     //create the file name
                     redirectionFile = new File("dynamic/users/" +
-                            ConsoleFrame.getConsoleFrame().getUUID() + "/Files/" + filename);
+                            ConsoleFrame.INSTANCE.getUUID() + "/Files/" + filename);
 
                     //create file for current use
                     try {
@@ -246,7 +246,7 @@ public class InputHandler {
         //clean up routines --------------------------------------
 
         //just to be safe...
-        ConsoleFrame.getConsoleFrame().getInputField().setText("");
+        ConsoleFrame.INSTANCE.getInputField().setText("");
     }
 
     //primary sections of handle methods
@@ -428,16 +428,16 @@ public class InputHandler {
         boolean ret = true;
 
         if (commandAndArgsToString().equalsIgnoreCase("top left")) {
-            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_LEFT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.TOP_LEFT);
         } else if (commandAndArgsToString().equalsIgnoreCase("top right")) {
-            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.TOP_RIGHT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.TOP_RIGHT);
         } else if (commandAndArgsToString().equalsIgnoreCase("bottom left")) {
-            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.BOTTOM_LEFT);
         } else if (commandAndArgsToString().equalsIgnoreCase("bottom right")) {
-            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.BOTTOM_RIGHT);
         } else if (commandAndArgsToString().equalsIgnoreCase("middle")
                 || commandAndArgsToString().equals("center")) {
-            ConsoleFrame.getConsoleFrame().setLocationOnScreen(ScreenPosition.CENTER);
+            ConsoleFrame.INSTANCE.setLocationOnScreen(ScreenPosition.CENTER);
         } else if (commandAndArgsToString().equalsIgnoreCase("frame titles")) {
             Frame[] frames = Frame.getFrames();
             for (Frame f : frames)
@@ -454,59 +454,59 @@ public class InputHandler {
                     for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX()
-                                    + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
-                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                            f.setRestoreX(ConsoleFrame.INSTANCE.getX()
+                                    + ConsoleFrame.INSTANCE.getWidth() - f.getWidth());
+                            f.setRestoreY(ConsoleFrame.INSTANCE.getY());
                         }
 
-                        f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
-                                - f.getWidth(), ConsoleFrame.getConsoleFrame().getY());
+                        f.setLocation(ConsoleFrame.INSTANCE.getX() + ConsoleFrame.INSTANCE.getWidth()
+                                - f.getWidth(), ConsoleFrame.INSTANCE.getY());
                     }
                 } else if (getArg(2).equalsIgnoreCase("bottom")
                         && getArg(3).equalsIgnoreCase("right")) {
                     for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX()
-                                    + ConsoleFrame.getConsoleFrame().getWidth() - f.getWidth());
-                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY()
-                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                            f.setRestoreX(ConsoleFrame.INSTANCE.getX()
+                                    + ConsoleFrame.INSTANCE.getWidth() - f.getWidth());
+                            f.setRestoreY(ConsoleFrame.INSTANCE.getY()
+                                    + ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
 
                         }
 
-                        f.setLocation(ConsoleFrame.getConsoleFrame().getX() + ConsoleFrame.getConsoleFrame().getWidth()
-                                - f.getWidth(), ConsoleFrame.getConsoleFrame().getY() +
-                                ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                        f.setLocation(ConsoleFrame.INSTANCE.getX() + ConsoleFrame.INSTANCE.getWidth()
+                                - f.getWidth(), ConsoleFrame.INSTANCE.getY() +
+                                ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
                     }
                 } else if (getArg(2).equalsIgnoreCase("bottom")
                         && getArg(3).equalsIgnoreCase("left")) {
                     for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY()
-                                    + ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                            f.setRestoreX(ConsoleFrame.INSTANCE.getX());
+                            f.setRestoreY(ConsoleFrame.INSTANCE.getY()
+                                    + ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
                         }
 
-                        f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY() +
-                                ConsoleFrame.getConsoleFrame().getHeight() - f.getHeight());
+                        f.setLocation(ConsoleFrame.INSTANCE.getX(), ConsoleFrame.INSTANCE.getY() +
+                                ConsoleFrame.INSTANCE.getHeight() - f.getHeight());
                     }
                 } else {
                     for (CyderFrame f : FrameUtil.getCyderFrames()) {
                         if (f.getState() == Frame.ICONIFIED) {
                             f.setState(Frame.NORMAL);
-                            f.setRestoreX(ConsoleFrame.getConsoleFrame().getX());
-                            f.setRestoreY(ConsoleFrame.getConsoleFrame().getY());
+                            f.setRestoreX(ConsoleFrame.INSTANCE.getX());
+                            f.setRestoreY(ConsoleFrame.INSTANCE.getY());
                         }
 
-                        f.setLocation(ConsoleFrame.getConsoleFrame().getX(), ConsoleFrame.getConsoleFrame().getY());
+                        f.setLocation(ConsoleFrame.INSTANCE.getX(), ConsoleFrame.INSTANCE.getY());
                     }
                 }
             } else {
                 println("Command usage: consolidate windows top left");
             }
         } else if (commandIs("dance")) {
-            ConsoleFrame.getConsoleFrame().dance();
+            ConsoleFrame.INSTANCE.dance();
         }
 
         else ret = false;
@@ -619,8 +619,8 @@ public class InputHandler {
         } else if (commandIs("backgroundcolor")) {
             if (checkArgsLength(1)) {
                 try {
-                    int w = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getWidth();
-                    int h = ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getHeight();
+                    int w = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getWidth();
+                    int h = ConsoleFrame.INSTANCE.getConsoleCyderFrame().getHeight();
 
                     if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
                         w = ScreenUtil.getScreenWidth();
@@ -632,14 +632,14 @@ public class InputHandler {
 
                     String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
 
-                    File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                    File saveFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() +
                             "/Backgrounds/" + saveName);
 
                     ImageIO.write(saveImage, "png", saveFile);
 
                     println("Background generated, set, and saved as a separate background file.");
 
-                    ConsoleFrame.getConsoleFrame().setBackgroundFile(saveFile);
+                    ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
                 } catch (Exception e) {
                     println("Background color command usage: backgroundcolor EC407A");
                     ExceptionHandler.silentHandle(e);
@@ -649,27 +649,27 @@ public class InputHandler {
             }
         } else if (commandIs("fixforeground")) {
             Color backgroundDom = ColorUtil.getDominantColor(ImageIO.read(
-                    ConsoleFrame.getConsoleFrame().getCurrentBackground().getReferenceFile()));
+                    ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile()));
 
             if ((backgroundDom.getRed() * 0.299 + backgroundDom.getGreen()
                     * 0.587 + backgroundDom.getBlue() * 0.114) > 186) {
-                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);
-                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.defaultLightModeTextColor);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
+                ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultLightModeTextColor);
+                ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultLightModeTextColor);
+                ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
+                ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
                 UserUtil.setUserData("Foreground",ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
             } else {
-                ConsoleFrame.getConsoleFrame().getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
-                ConsoleFrame.getConsoleFrame().getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
-                ConsoleFrame.getConsoleFrame().getInputField().setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
+                ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
+                ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
+                ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
+                ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
                 UserUtil.setUserData("Foreground", ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
             }
 
             Preferences.invokeRefresh("foreground");
             println("Foreground fixed");
         } else if (commandIs("repaint")) {
-            ConsoleFrame.getConsoleFrame().revalidate(false, false);
+            ConsoleFrame.INSTANCE.revalidate(false, false);
             println("ConsoleFrame repainted");
         } else if (commandIs("javaproperties")) {
             StatUtil.javaProperties();
@@ -692,13 +692,13 @@ public class InputHandler {
                 println("wikisum usage: wikisum YOUR_WORD/expression");
             }
         } else if (commandIs("pixelate") && checkArgsLength(0)) {
-            if (ImageUtil.solidColor(ConsoleFrame.getConsoleFrame().getCurrentBackground().getReferenceFile())) {
+            if (ImageUtil.solidColor(ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile())) {
                 println("Silly " + UserUtil.getCyderUser().getName() + "; your background " +
                         "is a solid color :P");
             } else {
                 CyderThreadRunner.submit(() -> {
                     GetterBuilder builder = new GetterBuilder("Pixel size");
-                    builder.setRelativeTo(ConsoleFrame.getConsoleFrame().getConsoleCyderFrame());
+                    builder.setRelativeTo(ConsoleFrame.INSTANCE.getConsoleCyderFrame());
                     builder.setFieldTooltip("Enter an integer");
                     builder.setSubmitButtonText("Pixelate");
                     builder.setSubmitButtonColor(CyderColors.regularPink);
@@ -711,21 +711,21 @@ public class InputHandler {
                         int pixelSize = Integer.parseInt(input);
 
                         if (pixelSize > 0) {
-                            BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.getConsoleFrame().
+                            BufferedImage img = ImageUtil.pixelate(ImageIO.read(ConsoleFrame.INSTANCE.
                                     getCurrentBackground().getReferenceFile().getAbsoluteFile()), pixelSize);
 
-                            String newName = FileUtil.getFilename(ConsoleFrame.getConsoleFrame()
+                            String newName = FileUtil.getFilename(ConsoleFrame.INSTANCE
                                     .getCurrentBackground().getReferenceFile().getName())
                                     + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
-                            File saveFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                            File saveFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() +
                                     "/Backgrounds/" + newName);
 
                             ImageIO.write(img, "png", saveFile);
 
                             println("Background pixelated and saved as a separate background file.");
 
-                            ConsoleFrame.getConsoleFrame().setBackgroundFile(saveFile);
+                            ConsoleFrame.INSTANCE.setBackgroundFile(saveFile);
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -733,7 +733,7 @@ public class InputHandler {
                 }, "Image Pixelator");
             }
         } else if (commandIs("hide")) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().minimizeAnimation();
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
             if (CyderShare.JAR_MODE) {
                 println("Code analyzing is not available when in Jar mode");
@@ -809,7 +809,7 @@ public class InputHandler {
             if (UserUtil.getUserData("minimizeonclose").equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
-                ConsoleFrame.getConsoleFrame().closeConsoleFrame(true, false);
+                ConsoleFrame.INSTANCE.closeConsoleFrame(true, false);
             }
         } else if (commandIs("monitors")) {
             println(OSUtil.getMonitorStatsString());
@@ -871,15 +871,15 @@ public class InputHandler {
                 println("Hexdump usage: hexdump -f /path/to/binary/file");
             }
         } else if (commandIs("barrelroll")) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().barrelRoll();
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().barrelRoll();
         } else if (commandIs("askew")) {
-            ConsoleFrame.getConsoleFrame().rotateBackground(5);
+            ConsoleFrame.INSTANCE.rotateBackground(5);
         } else if (commandIs("logout")) {
-            ConsoleFrame.getConsoleFrame().logout();
+            ConsoleFrame.INSTANCE.logout();
         } else if (commandIs("throw")) {
             ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
         } else if (commandIs("clearops")) {
-            ConsoleFrame.getConsoleFrame().clearCommandHistory();
+            ConsoleFrame.INSTANCE.clearCommandHistory();
             Logger.log(LoggerTag.HANDLE_METHOD, "User cleared command history");
             println("Command history reset");
         } else if (commandIs("stopscript")) {
@@ -1047,7 +1047,7 @@ public class InputHandler {
             }
         } else if (commandIs("xxx")) {
             CyderIcons.setCurrentCyderIcon(CyderIcons.xxxIcon);
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                     .setIconImage(new ImageIcon("static/pictures/print/x.png").getImage());
             IOUtil.playAudio("static/audio/x.mp3");
         } else if (commandIs("issues")) {
@@ -1210,7 +1210,7 @@ public class InputHandler {
         } else if (commandIs("wipe")) {
             if (checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
-                        "dynamic","users", ConsoleFrame.getConsoleFrame().getUUID(), getArg(0)));
+                        "dynamic","users", ConsoleFrame.INSTANCE.getUUID(), getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
                         if (OSUtil.delete(requestedDeleteFile)) {
@@ -1235,7 +1235,7 @@ public class InputHandler {
                 print("Wipe command usage: wipe [directory/file within your user directory]");
             }
         } else if (commandIs("originalchams")) {
-            ConsoleFrame.getConsoleFrame().originalChams();
+            ConsoleFrame.INSTANCE.originalChams();
         } else if (commandIs("opacity")) {
             JSlider opacitySlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 100);
             opacitySlider.setBounds(0,0, 300, 50);
@@ -1256,7 +1256,7 @@ public class InputHandler {
             opacitySlider.setVisible(true);
             opacitySlider.setValue(100);
             opacitySlider.addChangeListener(e -> {
-                ConsoleFrame.getConsoleFrame().getConsoleCyderFrame()
+                ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                         .setOpacity(opacitySlider.getValue() / 100.0f);
                 opacitySlider.repaint();
             });
@@ -1281,10 +1281,10 @@ public class InputHandler {
                     }
 
                     File saveFile = new File(OSUtil.buildPath("dynamic","users",
-                            ConsoleFrame.getConsoleFrame().getUUID(), UserFile.FILES.getName(), saveName));
+                            ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
 
                     // clear text as soon as possible
-                    ConsoleFrame.getConsoleFrame().getInputField().setText("");
+                    ConsoleFrame.INSTANCE.getInputField().setText("");
 
                     println("Saving file: " + saveName + " to files directory");
 
@@ -1366,7 +1366,7 @@ public class InputHandler {
         } else if (commandAndArgsToString().equalsIgnoreCase("wipe spotlights")) {
             SpotlightUtil.wipeSpotlights();
         } else if (commandIs("toast")) {
-            ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().toast("A toast to you, sir/madam");
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().toast("A toast to you, sir/madam");
         }
 
         else ret = false;
@@ -1912,7 +1912,7 @@ public class InputHandler {
                 long lastPull = System.currentTimeMillis();
                 long dataPullTimeout = 3000;
 
-                while (!ConsoleFrame.getConsoleFrame().isClosed()) {
+                while (!ConsoleFrame.INSTANCE.isClosed()) {
                     //update typingAnimationLocal every 3 seconds to reduce resource usage
                     if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
                         lastPull = System.currentTimeMillis();
@@ -2621,7 +2621,7 @@ public class InputHandler {
         IOUtil.stopAudio();
 
         //cancel dancing threads
-        ConsoleFrame.getConsoleFrame().stopDancing();
+        ConsoleFrame.INSTANCE.stopDancing();
 
         //finish printing anything in printing queue
         finishPrinting = true;

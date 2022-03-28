@@ -232,14 +232,14 @@ public class LoginHandler {
                 doLoginAnimations = false;
 
                 //if the console frame isn't open, close the user creator if it's open
-                if (ConsoleFrame.getConsoleFrame().isClosed()) {
+                if (ConsoleFrame.INSTANCE.isClosed()) {
                     UserCreator.close();
                 }
             }
         });
 
         //exit cyder frame on disposal call of login frame if ConsoleFrame isn't active
-        if (ConsoleFrame.getConsoleFrame().isClosed()) {
+        if (ConsoleFrame.INSTANCE.isClosed()) {
             loginFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
         }
 
@@ -345,7 +345,7 @@ public class LoginHandler {
                                 loginMode = 1;
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
-                                if (ConsoleFrame.getConsoleFrame().isClosed())
+                                if (ConsoleFrame.INSTANCE.isClosed())
                                     CyderShare.exit(ExitCondition.GenesisControlledExit);
 
                             } else if (inputString.equalsIgnoreCase("help")) {
@@ -467,12 +467,12 @@ public class LoginHandler {
 
                 UserUtil.logoutAllUsers();
 
-                ConsoleFrame.getConsoleFrame().setUUID(loggedInUUID);
+                ConsoleFrame.INSTANCE.setUUID(loggedInUUID);
 
                 Logger.log(LoggerTag.LOGIN,  CyderEntry.PreviouslyLoggedIn.getName().toUpperCase()
                         + ", " + loggedInUUID);
 
-                ConsoleFrame.getConsoleFrame().launch(CyderEntry.PreviouslyLoggedIn);
+                ConsoleFrame.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
             } else {
                 showGUI();
             }
@@ -499,7 +499,7 @@ public class LoginHandler {
 
             if (uuid != null) {
                 //set the UUID
-                ConsoleFrame.getConsoleFrame().setUUID(uuid);
+                ConsoleFrame.INSTANCE.setUUID(uuid);
 
                 ret = true;
 
@@ -508,11 +508,11 @@ public class LoginHandler {
                 Logger.log(LoggerTag.LOGIN, (autoCypherAttempt
                         ? "AUTOCYPHER PASS, " : "[STD LOGIN], ") + uuid);
 
-                if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-                    ConsoleFrame.getConsoleFrame().closeConsoleFrame(false, true);
+                if (!ConsoleFrame.INSTANCE.isClosed()) {
+                    ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);
                 }
 
-                ConsoleFrame.getConsoleFrame().launch(autoCypherAttempt
+                ConsoleFrame.INSTANCE.launch(autoCypherAttempt
                         ? CyderEntry.AutoCypher : CyderEntry.Login);
 
                 // and exiting the program when we have just logged in

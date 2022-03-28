@@ -53,10 +53,10 @@ public class CyderShare {
      * @return the dominant frame for Cyder
      */
     public static @Nullable CyderFrame getDominantFrame() {
-        if (!ConsoleFrame.getConsoleFrame().isClosed()) {
-            if (ConsoleFrame.getConsoleFrame().getConsoleCyderFrame().getState() == JFrame.ICONIFIED) {
+        if (!ConsoleFrame.INSTANCE.isClosed()) {
+            if (ConsoleFrame.INSTANCE.getConsoleCyderFrame().getState() == JFrame.ICONIFIED) {
                 return null;
-            } else return ConsoleFrame.getConsoleFrame().getConsoleCyderFrame();
+            } else return ConsoleFrame.INSTANCE.getConsoleCyderFrame();
         } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null){
             return LoginHandler.getLoginFrame();
         }

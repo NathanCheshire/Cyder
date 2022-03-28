@@ -215,7 +215,7 @@ public class ImageAveragerWidget {
                 save.setToolTipText("Save image");
                 save.addActionListener(e -> {
                     try {
-                        File outFile = new File("dynamic/users/" + ConsoleFrame.getConsoleFrame().getUUID() +
+                        File outFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() +
                                 "/Backgrounds/" + combineImageNames() + ".png");
                         ImageIO.write(saveImage, "png", outFile);
                         averagerFrame.notify("Average computed and saved to your user's backgrounds/ directory");
