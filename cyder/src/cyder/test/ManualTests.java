@@ -46,7 +46,7 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         MessagingUtils.generateWaveForm(new File(
-                "dynamic/users/7d7ebb00-81fe-329f-8a78-62f463d0b7da/Music/Cordae - RNP.mp3"));
+                "c:/users/nathan/Downloads/SquidGames.mp3"));
     }
 
     /**

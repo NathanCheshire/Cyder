@@ -139,9 +139,9 @@ public class WaveFile {
      * @return the amplitude at the sample point.
      */
     public int getSampleInt(int samplePoint) {
-        Preconditions.checkArgument(samplePoint < 0,
-                "Invalid 0th sample point: " + samplePoint);
-        Preconditions.checkArgument(samplePoint >= data.length / sampleSize,
+        Preconditions.checkArgument(samplePoint >= 0,
+                "Invalid negative sample point: " + samplePoint);
+        Preconditions.checkArgument(samplePoint <= data.length / sampleSize,
                 "Invalid sample point: " + samplePoint + ", data length = "
                         + data.length + ", sample size = " + sampleSize);
 
