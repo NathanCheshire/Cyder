@@ -17,8 +17,6 @@ import cyder.ui.*;
 import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
-import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.Header;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
@@ -43,6 +41,8 @@ import java.util.LinkedList;
 
 // todo need a failsafe so the audio controls on console are revalidated
 //      and never displayed if the audio player frame isn't visible
+// todo while we're at it, just allow wav files too, add a menu option to quickly convert a file to a wav file
+// you'll need to account for wav vs mp3 in a lot more places I'm sure so think about that for a second
 
 /**
  * An audio player widget that only supports mp3 files at the moment.
@@ -1286,7 +1286,7 @@ public class AudioPlayer {
                                     (double) audioProgress.getMaximum()));
                             double percentLeft = 1.0 - percentIn;
 
-                            float totalMilis = audioFileDuration(currentAudioFiles.get(audioIndex));
+                            float totalMilis = AudioUtil.millisLength(currentAudioFiles.get(audioIndex));
 
                             int totalSeconds = (int) (totalMilis / 1000.0);
                             int secondsIn = (int) (percentIn * totalSeconds);
@@ -1553,28 +1553,6 @@ public class AudioPlayer {
             return null;
         else
             return currentAudioFiles.get(audioIndex);
-    }
-
-    /**
-     * Get's the total duration of an audio file.
-     *
-     * @param audioFile the provided audio file
-     * @return the time in ms that it takes to comlete the audio file
-     */
-    public static float audioFileDuration(File audioFile) {
-        float milisRet = 0;
-
-        try {
-            FileInputStream fis = new FileInputStream(audioFile);
-            Bitstream bitstream = new Bitstream(fis);
-            Header h = bitstream.readFrame();
-            long tn = fis.getChannel().size();
-            milisRet = h.total_ms((int) tn);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return milisRet;
     }
 
     /**

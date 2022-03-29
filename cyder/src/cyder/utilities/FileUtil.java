@@ -139,7 +139,7 @@ public class FileUtil {
         checkNotNull(expectedExtension);
         checkArgument(!expectedExtension.isEmpty());
 
-        return getExtension(file).equals(expectedExtension);
+        return getExtension(file).equalsIgnoreCase(expectedExtension);
     }
 
     /**

@@ -5,8 +5,9 @@ import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.utilities.AudioUtil;
+import cyder.utilities.FileUtil;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,16 +16,6 @@ import java.io.File;
  * Utilities related to the messaging client.
  */
 public class MessagingUtils {
-    /**
-     * The ffmpeg command
-     */
-    private static final String FFMPEG = "FFMPEG";
-
-    /**
-     * The ffmpeg input flag.
-     */
-    private static final String INPUT_FLAG = "-i";
-
     /**
      * Suppress default constructor.
      */
@@ -36,7 +27,7 @@ public class MessagingUtils {
      * The default image width.
      */
     private static final int DEFAULT_IMAGE_WIDTH = 1800;
-
+    // todo this is a good ratio for an image
     /**
      * The default image height.
      */
@@ -53,151 +44,147 @@ public class MessagingUtils {
     private static final Color DEFAULT_WAVE_COLOR = CyderColors.navy;
 
     /**
-     * Generates a png depicting the waveform of the provided mp3 file.
+     * Generates a png depicting the waveform of the provided mp3/wav file.
      *
-     * @param mp3File the p3 file
+     * @param wavOrMp3File the mp3 opr wav file
      * @return the generated image
      */
-    public static BufferedImage generateWaveForm(File mp3File) {
-        return generateWaveForm(mp3File, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT,
+    public static BufferedImage generateWaveForm(File wavOrMp3File) {
+        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
+                || FileUtil.validateExtension(wavOrMp3File, ".wav"));
+
+        // if it's an mp3, convert o wav before passing off
+        if (FileUtil.validateExtension(wavOrMp3File, ".mp3")) {
+            wavOrMp3File = AudioUtil.mp3ToWav(wavOrMp3File);
+        }
+
+        return generateWaveForm(wavOrMp3File, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT,
                 DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
     }
 
-    // todo some stuff should ideally go to audio util like an mp3 to wav and vice versa methods
+    // todo I want a bass boost feature for an mp3 or wav file
 
-    // todo I want a bass boost feature for an mp3 and wav file
-
-    public static void main (String[] args) {
-        BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = ret.createGraphics();
-
-        File tmpWav = new File("C:/users/nathan/Downloads/SquidGames.wav");
-
-        if (tmpWav.exists()) {
-            WaveFile wav = new WaveFile(tmpWav);
-
-            int numSamples = DEFAULT_IMAGE_WIDTH;
-            int numFrames = (int) wav.getNumFrames();
-            int[] foundSamples = new int[numSamples];
-
-            if (numSamples > numFrames) {
-                System.out.println("Error"); //todo
-            } else {
-                int sampleLocInc = (int) Math.ceil(numFrames / (double) numSamples);
-                int currentSampleInc = 0;
-                int currentSampleIndex = 0;
-
-                int max = 0;
-
-                // find the max and add to the samples
-                for (int i = 0; i < wav.getNumFrames(); i++) {
-                    max = Math.max(max, wav.getSampleInt(i));
-
-                    if (i == currentSampleInc) {
-                        foundSamples[currentSampleIndex] = wav.getSampleInt(i);
-
-                        currentSampleInc += sampleLocInc;
-                        currentSampleIndex++;
-                    }
-                }
-
-                // paint background of image
-                g2d.setPaint(Color.WHITE);
-                g2d.fillRect(0,0, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT);
-
-                // set to line color
-                g2d.setColor(CyderColors.navy);
-
-                // actual y values for painting
-                int[] normalizedValues = new int[numSamples];
-
-                for (int i = 0 ; i < numSamples ; i++) {
-                    int normalizedValue = (int) ((foundSamples[i] / (double) max) * DEAULT_IMAGE_HEIGHT);
-
-                    // if extending beyond bounds of our image, paint as zero and don't interpolate
-                    if (normalizedValue > DEAULT_IMAGE_HEIGHT / 2)
-                        normalizedValue = -69;
-
-                    normalizedValues[i] = normalizedValue;
-                }
-
-                // interpolate between surrounding values where the amplitude is 0
-                for (int i = 0 ; i < normalizedValues.length ; i++) {
-                    // if a true zero amplitude don't paint it
-                    if (normalizedValues[i] == 0)
-                        continue;
-
-                    // if we are at an amplitude of 0 that we skipped
-                    else if (normalizedValues[i] == -69) {
-                        // get the first value after this one that is not a 0
-                        int nextNonZeroIndex = 0;
-
-                        for (int j = i ; j < normalizedValues.length ; j++) {
-                            if (normalizedValues[j] != 0 && normalizedValues[j] != -69) {
-                                nextNonZeroIndex = j;
-                                break;
-                            }
-                        }
-
-                        int lastNonZeroIndex = 0;
-
-                        for (int j = i ; j >= 0 ; j--) {
-                            if (normalizedValues[j] != 0 && normalizedValues[j] != -69) {
-                                lastNonZeroIndex = j;
-                                break;
-                            }
-                        }
-
-                        // average surrounding non zero values
-                        int avg = (normalizedValues[nextNonZeroIndex] + normalizedValues[lastNonZeroIndex]) / 2;
-                        // update current value
-                        normalizedValues[i] = avg;
-                    }
-                }
-
-                // paint the amplitude wave
-                for (int i = 0 ; i < normalizedValues.length ; i++) {
-                    // from the center line extending downwards
-                    g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i,
-                        DEAULT_IMAGE_HEIGHT / 2 + normalizedValues[i]);
-
-                    // from the center line extending upwards
-                    g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2 - normalizedValues[i],
-                        i, DEAULT_IMAGE_HEIGHT / 2);
-                }
-
-                try {
-                    // output the image todo in the future we'll return ret
-                   ImageIO.write(ret, "png", new File("c:/users/nathan/downloads/out.png"));
-                } catch (Exception e) {
-                    // ExceptionHandler.handle(e);
-                }
-            }
-        }
-    }
-
+    // todo ensure meets valid min width and height
     /**
-     * Generates a png depicting the waveform of the provided mp3 file.
+     * Generates a png depicting the waveform of the provided wav file.
      *
-     * @param mp3File the mp3 file
+     * @param wavFile the wav file
      * @param width the width of the requested image
      * @param height the height of the requested image
      * @param backgroundColor the background color of the iamge
      * @param waveColor the color of the waveform
      * @return the generated image
      */
-    public static BufferedImage generateWaveForm(File mp3File, int width, int height,
+    public static BufferedImage generateWaveForm(File wavFile, int width, int height,
                                                  Color backgroundColor, Color waveColor) {
-        Preconditions.checkNotNull(mp3File);
+        Preconditions.checkNotNull(wavFile);
+        Preconditions.checkArgument(wavFile.exists());
         Preconditions.checkArgument(width > 0);
         Preconditions.checkArgument(height > 0);
         Preconditions.checkNotNull(backgroundColor);
         Preconditions.checkNotNull(waveColor);
+        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
 
-        BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = ret.createGraphics();
 
-        // todo copy from above when testing complete
+        WaveFile wav = new WaveFile(wavFile);
+
+        int samplesToTake = DEFAULT_IMAGE_WIDTH;
+        int numFrames = (int) wav.getNumFrames();
+        int[] nonNormalizedSamples = new int[samplesToTake];
+
+        if (samplesToTake < numFrames) {
+            throw new IllegalStateException("Samples to take is less than num frames: "
+                    + "samples = " + samplesToTake + ", frames = " + numFrames
+                    + "\n" + CyderStrings.europeanToymaker);
+        }
+
+        int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) samplesToTake);
+        int currentSampleLoc = 0;
+        int currentSampleIndex = 0;
+
+        int maxAmp = 0;
+
+        // find the max and add to the samples
+        for (int i = 0; i < wav.getNumFrames(); i++) {
+            maxAmp = Math.max(maxAmp, wav.getSampleInt(i));
+
+            if (i == currentSampleLoc) {
+                nonNormalizedSamples[currentSampleIndex] = wav.getSampleInt(i);
+
+                currentSampleLoc += sampleLocIncrementer;
+                currentSampleIndex++;
+            }
+        }
+
+        // paint background of image
+        g2d.setPaint(Color.WHITE);
+        g2d.fillRect(0,0, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT);
+
+        // set to line color
+        g2d.setColor(CyderColors.navy);
+
+        // actual y values for painting
+        int[] normalizedSamples = new int[samplesToTake];
+
+        // get raw samples from file
+        for (int i = 0 ; i < samplesToTake ; i++) {
+            int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmp) * DEAULT_IMAGE_HEIGHT);
+
+            // if extending beyond bounds of our image, paint as zero and don't interpolate
+            if (normalizedValue > DEAULT_IMAGE_HEIGHT / 2)
+                normalizedValue = -69;
+
+            normalizedSamples[i] = normalizedValue;
+        }
+
+        // interpolate between surrounding values where the amplitude is 0
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+            // if a true zero amplitude don't paint it
+            if (normalizedSamples[i] == 0)
+                continue;
+
+            // at a value that needs interpolation
+            else if (normalizedSamples[i] == -69) {
+                // find the next value that isn't a 0 or an amp that has yet to be interpolated
+                int nextNonZeroIndex = 0;
+                for (int j = i ; j < normalizedSamples.length ; j++) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
+                        nextNonZeroIndex = j;
+                        break;
+                    }
+                }
+
+                // find the previous value that isn't 0 or an amp that has yet to be interpolated
+                int lastNonZeroIndex = 0;
+                for (int j = i ; j >= 0 ; j--) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
+                        lastNonZeroIndex = j;
+                        break;
+                    }
+                }
+
+                // average surrounding non zero values
+                int avg = (normalizedSamples[nextNonZeroIndex] + normalizedSamples[lastNonZeroIndex]) / 2;
+
+                // update current value
+                normalizedSamples[i] = avg;
+            }
+        }
+
+        // todo redraw center line to ensure something is there for small image sizes
+
+        // paint the amplitude wave
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+            // from the center line extending downwards
+            g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i,
+                    DEAULT_IMAGE_HEIGHT / 2 + normalizedSamples[i]);
+
+            // from the center line extending upwards
+            g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2 - normalizedSamples[i],
+                    i, DEAULT_IMAGE_HEIGHT / 2);
+        }
 
         return ret;
     }
