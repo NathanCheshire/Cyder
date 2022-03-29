@@ -282,6 +282,9 @@ public class OSUtil {
         throw new IllegalStateException("File could not be created at this time: " + name);
     }
 
+    /**
+     * The temporary directory file path.
+     */
     public static final String TMP_DIR_PATH = buildPath("dynamic","tmp");
 
     /**
@@ -292,10 +295,7 @@ public class OSUtil {
      * @throws IllegalStateException if the file could not be created
      */
     public static File createFileInSystemSpace(String name) {
-        File tmpDir = new File(TMP_DIR_PATH);
-
-        if (!tmpDir.exists())
-            tmpDir.mkdir();
+        createTempDir();
 
         File createFile = new File(TMP_DIR_PATH + FILE_SEP + name);
 
@@ -322,6 +322,27 @@ public class OSUtil {
     public static void deleteTempDir() {
         try {
             delete(new File(TMP_DIR_PATH));
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * The Temporary directory file object.
+     */
+    private static final File TMP_DIR = new File(TMP_DIR_PATH);
+
+    /**
+     * Creates the temporary directory if it does not exist.
+     */
+    public static void createTempDir() {
+        if (TMP_DIR.exists())
+            return;
+
+        try {
+            if (!TMP_DIR.mkdir()) {
+                Logger.log(LoggerTag.DEBUG, "Could not create tmp dir");
+            }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

@@ -5,12 +5,16 @@ import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.threads.CyderThreadFactory;
 import cyder.utilities.AudioUtil;
 import cyder.utilities.FileUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Utilities related to the messaging client.
@@ -27,11 +31,15 @@ public class MessagingUtils {
      * The default image width.
      */
     private static final int DEFAULT_IMAGE_WIDTH = 1800;
-    // todo this is a good ratio for an image
+
     /**
      * The default image height.
      */
     private static final int DEAULT_IMAGE_HEIGHT = 280;
+
+    // todo test these for visibility
+    public static final int MINIMUM_IMAGE_WIDTH = 280;
+    public static final int MINIMUM_IMAGE_HEIGHT = 44;
 
     /**
      * The default background color.
@@ -49,17 +57,38 @@ public class MessagingUtils {
      * @param wavOrMp3File the mp3 opr wav file
      * @return the generated image
      */
-    public static BufferedImage generateWaveForm(File wavOrMp3File) {
+    public static Future<BufferedImage> generateWaveForm(File wavOrMp3File) {
         Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
                 || FileUtil.validateExtension(wavOrMp3File, ".wav"));
 
-        // if it's an mp3, convert o wav before passing off
-        if (FileUtil.validateExtension(wavOrMp3File, ".mp3")) {
-            wavOrMp3File = AudioUtil.mp3ToWav(wavOrMp3File);
-        }
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Waveform generator")).submit(() -> {
 
-        return generateWaveForm(wavOrMp3File, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT,
-                DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
+            // init effectively final var for usage
+            File usageWav = wavOrMp3File;
+
+            // if it's an mp3, convert o wav before passing off
+            if (FileUtil.validateExtension(usageWav, ".mp3")) {
+                Future<Optional<File>> waitFor = AudioUtil.mp3ToWav(usageWav);
+
+                System.out.println("waiting");
+
+                // wait for conversion
+                while (!waitFor.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                System.out.println("Finished");
+                if (waitFor.get().isPresent()) {
+                    usageWav = waitFor.get().get();
+                }
+            }
+
+            System.out.println("returning bigger method");
+            return generateWaveForm(usageWav, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT,
+                    DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
+
+        });
     }
 
     // todo I want a bass boost feature for an mp3 or wav file
@@ -85,6 +114,10 @@ public class MessagingUtils {
         Preconditions.checkNotNull(waveColor);
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
 
+        System.out.println("Received file: " + wavFile.getAbsolutePath());
+
+        // todo ensure meets min dimensions
+
         BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = ret.createGraphics();
 
@@ -94,8 +127,8 @@ public class MessagingUtils {
         int numFrames = (int) wav.getNumFrames();
         int[] nonNormalizedSamples = new int[samplesToTake];
 
-        if (samplesToTake < numFrames) {
-            throw new IllegalStateException("Samples to take is less than num frames: "
+        if (samplesToTake > numFrames) {
+            throw new IllegalStateException("Samples to take is greater than num frames: "
                     + "samples = " + samplesToTake + ", frames = " + numFrames
                     + "\n" + CyderStrings.europeanToymaker);
         }
@@ -173,7 +206,12 @@ public class MessagingUtils {
             }
         }
 
-        // todo redraw center line to ensure something is there for small image sizes
+        // draw center line to ensure every y value on
+        // the image contains at least one pixel
+        for (int i = 0 ; i < width ; i++) {
+            // from the center line extending downwards
+            g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i, DEAULT_IMAGE_HEIGHT / 2);
+        }
 
         // paint the amplitude wave
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
@@ -186,6 +224,7 @@ public class MessagingUtils {
                     i, DEAULT_IMAGE_HEIGHT / 2);
         }
 
+        System.out.println("returning ret");
         return ret;
     }
 }

@@ -4,12 +4,15 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
-import cyder.threads.CyderThreadRunner;
+import cyder.threads.CyderThreadFactory;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Utilities related to audio files, typically MP3 and wav files.
@@ -67,35 +70,35 @@ public class AudioUtil {
      * @param mp3File the mp3 file to convert to wav
      * @return the mp3 file converted to wav
      */
-    public static File mp3ToWav(File mp3File) {
+    public static Future<Optional<File>> mp3ToWav(File mp3File) {
         Preconditions.checkNotNull(mp3File);
         Preconditions.checkArgument(FileUtil.validateExtension(mp3File, ".mp3"));
 
-        String command = StringUtil.separate(FFMPEG, INPUT_FLAG, mp3File.getAbsolutePath(),
-                OSUtil.buildPath("dynamic", "tmp", FileUtil.getFilename(mp3File) + ".wav"));
-        File resultingWavFile = new File(command);
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
+            // ensure temporary directory exists
+            OSUtil.createTempDir();
 
-        // todo ensure tmp exists, create method if not exists
+            String filePath = OSUtil.buildPath("dynamic", "tmp", FileUtil.getFilename(mp3File) + ".wav");
+            File resultingWavFile = new File(filePath);
+            String command = StringUtil.separate(FFMPEG, INPUT_FLAG, mp3File.getAbsolutePath(), resultingWavFile.getAbsolutePath());
 
-        CyderThreadRunner.submit(() -> {
-            try {
-                Runtime run = Runtime.getRuntime();
-                Process proc = run.exec(command);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
+            Runtime run = Runtime.getRuntime();
+            Process proc = run.exec(command);
+
+
+            // wait for file to be created by ffmpeg
+            while (!resultingWavFile.exists()) {
+                Thread.onSpinWait();
             }
-        }, "MP3 to wav converter");
 
-        // wait for file to be created by ffmpeg
-        while (!resultingWavFile.exists()) {
-            Thread.onSpinWait();
-        }
-
-        return resultingWavFile;
+            if (resultingWavFile.exists()) {
+                return Optional.of(resultingWavFile);
+            } else {
+                return Optional.empty();
+            }
+        });
     }
-
-    // todo test these
-    // todo technically these should be futures but they shoulnd't ever take long
 
     /**
      * Converts the wav file to an mp3 file and returns the file object.
@@ -105,30 +108,7 @@ public class AudioUtil {
      * @param wavFile the wav file to convert to mp3
      * @return the wav file converted to mp3
      */
-    public static File waveToMp3(File wavFile) {
-        Preconditions.checkNotNull(wavFile);
-        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
-
-        String command = StringUtil.separate(FFMPEG, INPUT_FLAG, wavFile.getAbsolutePath(),
-                OSUtil.buildPath("dynamic", "tmp", FileUtil.getFilename(wavFile) + ".mp3"));
-        File resultingWavFile = new File(command);
-
-        // todo ensure tmp exists, create method if not exists
-
-        CyderThreadRunner.submit(() -> {
-            try {
-                Runtime run = Runtime.getRuntime();
-                Process proc = run.exec(command);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "Wav to mp3 converter");
-
-        // wait for file to be created by ffmpeg
-        while (!resultingWavFile.exists()) {
-            Thread.onSpinWait();
-        }
-
-        return resultingWavFile;
+    public static Future<Optional<File>> wavToMp3(File wavFile) {
+        return null;
     }
 }
