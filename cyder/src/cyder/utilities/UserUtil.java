@@ -649,6 +649,9 @@ public class UserUtil {
         return ret;
     }
 
+    // todo remove this type of method or at least exception proof it
+    // todo comment User.java even though it will take a while it needs to be doc-ed
+
     /**
      * Returns the requested data from the currently logged-in user.
      * This method exists purely for legacy calls such as getUserData("foreground").

@@ -1293,7 +1293,7 @@ public class AudioPlayer {
 
                             int secondsLeft = totalSeconds - secondsIn;
 
-                            if (UserUtil.getUserData("audiolength").equals("1")) {
+                            if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
                                 audioProgressLabel.setText(formatSeconds(secondsIn) + " played, "
                                         + formatSeconds(totalMilis / 1000.0) + " total");
                             } else {

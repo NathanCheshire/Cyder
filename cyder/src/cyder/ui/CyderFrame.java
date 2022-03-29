@@ -1387,8 +1387,7 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(true);
 
                 if (this != null && isVisible() && !fastClose
-                        // todo source of a bug, remove as many of these primitive calls as yo ucan
-                        && UserUtil.getUserData("closeanimation").equals("1")) {
+                        && UserUtil.getCyderUser().getCloseAnimation().equals("1")) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
                     int y = (int) point.getY();

@@ -257,7 +257,7 @@ public enum ConsoleFrame {
             menuTaskbarFrames.clear();
 
             //handle random background by setting a random background index
-            if (UserUtil.getUserData("RandomBackground").equals("1")) {
+            if (UserUtil.getCyderUser().getRandombackground().equals("1")) {
                 if (getBackgrounds().size() <= 1) {
                     consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
                             "but you only have one background file so there's no random element to be chosen.");
@@ -276,7 +276,7 @@ public enum ConsoleFrame {
             int consoleFrameBackgroundHeight;
             ImageIcon usage;
 
-            if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+            if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
                 consoleFrameBackgroundWidth = ScreenUtil.getScreenWidth();
                 consoleFrameBackgroundHeight = ScreenUtil.getScreenHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(consoleFrameBackgroundWidth,
@@ -337,7 +337,7 @@ public enum ConsoleFrame {
             //more of a failsafe and not really necessary
             consoleCyderFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
 
-            if (UserUtil.getUserData("fullscreen").equals("1")) {
+            if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
                 consoleCyderFrame.disableDragging();
             }
 
@@ -410,7 +410,8 @@ public enum ConsoleFrame {
             outputArea.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent e) {
-                    outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),3));
+                    outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(
+                            UserUtil.getCyderUser().getBackground()),3));
                 }
 
                 @Override
@@ -450,8 +451,8 @@ public enum ConsoleFrame {
             outputScroll.setOpaque(false);
             outputScroll.setFocusable(true);
 
-            if (UserUtil.getUserData("OutputBorder").equalsIgnoreCase("1")) {
-                outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),
+            if (UserUtil.getCyderUser().getOutputborder().equals("1")) {
+                outputScroll.setBorder(new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
                         3, false));
             } else {
                 outputScroll.setBorder(BorderFactory.createEmptyBorder());
@@ -465,9 +466,9 @@ public enum ConsoleFrame {
             inputField.setEchoChar((char)0);
             inputField.setText(consoleBashString);
 
-            if (UserUtil.getUserData("InputBorder").equalsIgnoreCase("1")) {
+            if (UserUtil.getCyderUser().getInputborder().equals("1")) {
                 inputField.setBorder(new LineBorder(ColorUtil.hexToRgb
-                        (UserUtil.getUserData("Background")), 3, false));
+                        (UserUtil.getCyderUser().getBackground()), 3, false));
             } else {
                 inputField.setBorder(null);
             }
@@ -568,16 +569,16 @@ public enum ConsoleFrame {
             inputField.setForeground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
             inputField.setFont(INSTANCE.generateUserFont());
 
-            if (UserUtil.getUserData("OutputFill").equals("1")) {
+            if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
                 outputArea.setOpaque(true);
-                outputArea.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                outputArea.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                 outputArea.repaint();
                 outputArea.revalidate();
             }
 
-            if (UserUtil.getUserData("InputFill").equals("1")) {
+            if (UserUtil.getCyderUser().getInputfill().equals("1")) {
                 inputField.setOpaque(true);
-                inputField.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                inputField.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                 inputField.repaint();
                 inputField.revalidate();
             }
@@ -722,7 +723,7 @@ public enum ConsoleFrame {
 
             CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon, CyderIcons.closeIconHover);
             close.addActionListener(e -> {
-                if (UserUtil.getUserData("minimizeonclose").equals("1")) {
+                if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                     FrameUtil.minimizeAllFrames();
                 } else {
                     closeConsoleFrame(true, false);
@@ -886,7 +887,7 @@ public enum ConsoleFrame {
 
                 OUTER:
                 while (true) {
-                    if (!isClosed() && UserUtil.getUserData("HourlyChimes").equalsIgnoreCase("1")) {
+                    if (!isClosed() && UserUtil.getCyderUser().getHourlychimes().equals("1")) {
                         IOUtil.playSystemAudio("static/audio/chime.mp3");
                     }
 
@@ -933,7 +934,7 @@ public enum ConsoleFrame {
             try {
                 OUTER:
                 while (true) {
-                    if (!isClosed() && UserUtil.getUserData("showbusyicon").equals("1")) {
+                    if (!isClosed() && UserUtil.getCyderUser().getShowbusyicon().equals("1")) {
                         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
                         int num = threadGroup.activeCount();
                         Thread[] printThreads = new Thread[num];
@@ -1053,7 +1054,7 @@ public enum ConsoleFrame {
         }
 
         //preferences that launch widgets/stats on start
-        if (UserUtil.getUserData("DebugWindows").equals("1")) {
+        if (UserUtil.getCyderUser().getDebugwindows().equals("1")) {
             StatUtil.systemProperties();
             StatUtil.computerProperties();
             StatUtil.javaProperties();
@@ -1068,7 +1069,7 @@ public enum ConsoleFrame {
 
         //last start time operations
         if (TimeUtil.millisToDays(System.currentTimeMillis() -
-                Long.parseLong(UserUtil.getUserData("laststart"))) > 1) {
+                Long.parseLong(UserUtil.getCyderUser().getLaststart())) > 1) {
             consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
         }
 
@@ -2163,7 +2164,7 @@ public enum ConsoleFrame {
      *      * returns the width of the screen the frame is on
      */
     private int getBackgroundWidth() {
-        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
             return (int) consoleCyderFrame.getMonitorBounds().getWidth();
         } else {
             return getCurrentBackground().generateImageIcon().getIconWidth();
@@ -2178,7 +2179,7 @@ public enum ConsoleFrame {
      *      * returns the height of the screen the frame is on
      */
     private int getBackgroundHeight() {
-        if (UserUtil.getUserData("FullScreen").equalsIgnoreCase("1")) {
+        if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
             return (int) consoleCyderFrame.getMonitorBounds().getHeight();
         } else {
             return getCurrentBackground().generateImageIcon().getIconHeight();

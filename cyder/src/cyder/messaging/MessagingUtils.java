@@ -63,6 +63,8 @@ public class MessagingUtils {
                 DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
     }
 
+    // todo some stuff should ideally go to audio util like an mp3 to wav and vice versa methods
+
     // todo I want a bass boost feature for an mp3 and wav file
 
     public static void main (String[] args) {
@@ -106,20 +108,52 @@ public class MessagingUtils {
 
                 g2d.setColor(CyderColors.navy);
 
-                double[] normalizedValues = new double[numSamples];
+                int[] normalizedValues = new int[numSamples];
 
                 for (int i = 0 ; i < numSamples ; i++) {
-                    int normalized = (int) ((foundSamples[i] / (double) max) * DEAULT_IMAGE_HEIGHT);
+                    int normalizedValue = (int) ((foundSamples[i] / (double) max) * DEAULT_IMAGE_HEIGHT);
 
-                    // todo need to linearly interpolate these values with slight variation
-                    if (normalized > DEAULT_IMAGE_HEIGHT / 2)
-                        continue;
+                    if (normalizedValue > DEAULT_IMAGE_HEIGHT / 2)
+                        normalizedValue = 0; //todo how to prevent actual zeros from being interpolated
 
+                    normalizedValues[i] = normalizedValue;
+                }
+
+                for (int i = 0 ; i < normalizedValues.length ; i++) {
+                    // if we are at a zero
+                    if (normalizedValues[i] == 0) {
+                        // get the first value after this one that is not a 0
+                        int nextNonZeroIndex = 0;
+
+                        for (int j = i ; j < normalizedValues.length ; j++) {
+                            if (normalizedValues[j] != 0) {
+                                nextNonZeroIndex = j;
+                                break;
+                            }
+                        }
+
+                        int lastNonZeroIndex = 0;
+
+                        for (int j = i ; j >= 0 ; j--) {
+                            if (normalizedValues[j] != 0) {
+                                lastNonZeroIndex = j;
+                                break;
+                            }
+                        }
+
+                        // average surrounding non zero values
+                        int avg = (normalizedValues[nextNonZeroIndex] + normalizedValues[lastNonZeroIndex]) / 2;
+                        // update current value
+                        normalizedValues[i] = avg;
+                    }
+                }
+
+                for (int i = 0 ; i < normalizedValues.length ; i++) {
                     g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i,
-                            DEAULT_IMAGE_HEIGHT / 2 + normalized);
+                        DEAULT_IMAGE_HEIGHT / 2 + normalizedValues[i]);
 
-                    g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2 - normalized,
-                             i, DEAULT_IMAGE_HEIGHT / 2);
+                    g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2 - normalizedValues[i],
+                        i, DEAULT_IMAGE_HEIGHT / 2);
                 }
 
                 try {

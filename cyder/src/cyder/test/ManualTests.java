@@ -15,7 +15,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
-import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
@@ -24,7 +23,6 @@ import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -45,8 +43,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        MessagingUtils.generateWaveForm(new File(
-                "c:/users/nathan/Downloads/SquidGames.mp3"));
+
     }
 
     /**
