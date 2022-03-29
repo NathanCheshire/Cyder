@@ -97,7 +97,8 @@ public class WaveFile {
     }
 
     /**
-     * Performs setup after the wav file has been validated and set.
+     * Performs setup for common wav file props after the object
+     * has been constructed and the file validated.
      */
     private void setup() {
         try {

@@ -71,9 +71,6 @@ public class MessagingUtils {
         BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = ret.createGraphics();
 
-        // samples is width minus padding on each side of resulting image
-        int samples = DEFAULT_IMAGE_WIDTH - 5 * 2;
-
         File tmpWav = new File("C:/users/nathan/Downloads/SquidGames.wav");
 
         if (tmpWav.exists()) {
@@ -84,7 +81,7 @@ public class MessagingUtils {
             int[] foundSamples = new int[numSamples];
 
             if (numSamples > numFrames) {
-                System.out.println("Error");
+                System.out.println("Error"); //todo
             } else {
                 int sampleLocInc = (int) Math.ceil(numFrames / (double) numSamples);
                 int currentSampleInc = 0;
@@ -92,6 +89,7 @@ public class MessagingUtils {
 
                 int max = 0;
 
+                // find the max and add to the samples
                 for (int i = 0; i < wav.getNumFrames(); i++) {
                     max = Math.max(max, wav.getSampleInt(i));
 
@@ -103,30 +101,39 @@ public class MessagingUtils {
                     }
                 }
 
+                // paint background of image
                 g2d.setPaint(Color.WHITE);
                 g2d.fillRect(0,0, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT);
 
+                // set to line color
                 g2d.setColor(CyderColors.navy);
 
+                // actual y values for painting
                 int[] normalizedValues = new int[numSamples];
 
                 for (int i = 0 ; i < numSamples ; i++) {
                     int normalizedValue = (int) ((foundSamples[i] / (double) max) * DEAULT_IMAGE_HEIGHT);
 
+                    // if extending beyond bounds of our image, paint as zero and don't interpolate
                     if (normalizedValue > DEAULT_IMAGE_HEIGHT / 2)
-                        normalizedValue = 0; //todo how to prevent actual zeros from being interpolated
+                        normalizedValue = -69;
 
                     normalizedValues[i] = normalizedValue;
                 }
 
+                // interpolate between surrounding values where the amplitude is 0
                 for (int i = 0 ; i < normalizedValues.length ; i++) {
-                    // if we are at a zero
-                    if (normalizedValues[i] == 0) {
+                    // if a true zero amplitude don't paint it
+                    if (normalizedValues[i] == 0)
+                        continue;
+
+                    // if we are at an amplitude of 0 that we skipped
+                    else if (normalizedValues[i] == -69) {
                         // get the first value after this one that is not a 0
                         int nextNonZeroIndex = 0;
 
                         for (int j = i ; j < normalizedValues.length ; j++) {
-                            if (normalizedValues[j] != 0) {
+                            if (normalizedValues[j] != 0 && normalizedValues[j] != -69) {
                                 nextNonZeroIndex = j;
                                 break;
                             }
@@ -135,7 +142,7 @@ public class MessagingUtils {
                         int lastNonZeroIndex = 0;
 
                         for (int j = i ; j >= 0 ; j--) {
-                            if (normalizedValues[j] != 0) {
+                            if (normalizedValues[j] != 0 && normalizedValues[j] != -69) {
                                 lastNonZeroIndex = j;
                                 break;
                             }
@@ -148,18 +155,22 @@ public class MessagingUtils {
                     }
                 }
 
+                // paint the amplitude wave
                 for (int i = 0 ; i < normalizedValues.length ; i++) {
+                    // from the center line extending downwards
                     g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i,
                         DEAULT_IMAGE_HEIGHT / 2 + normalizedValues[i]);
 
+                    // from the center line extending upwards
                     g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2 - normalizedValues[i],
                         i, DEAULT_IMAGE_HEIGHT / 2);
                 }
 
                 try {
+                    // output the image todo in the future we'll return ret
                    ImageIO.write(ret, "png", new File("c:/users/nathan/downloads/out.png"));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    // ExceptionHandler.handle(e);
                 }
             }
         }
