@@ -1057,7 +1057,7 @@ public class UserUtil {
     }
 
     /**
-     * Searches through the users/ directory and finds the first logged-in user.
+     * Searches through the users directory and finds the first logged-in user.
      *
      * @return the uuid of the first logged-in user
      */

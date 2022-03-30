@@ -290,7 +290,9 @@ public class Logger {
                 bufferedWriter.newLine();
             }
 
-            // todo need a new line here that isn't consolidated
+            bufferedWriter.newLine();
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -579,14 +581,23 @@ public class Logger {
         Preconditions.checkArgument(FileUtil.getExtension(file).equalsIgnoreCase(".log"),
                 "Provided file does not exist: " + file);
 
+        boolean beforeFirstTimeTag = true;
+
+        ArrayList<String> prelines = new ArrayList<>();
         ArrayList<String> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
 
             while ((line = br.readLine()) != null) {
-                if (!StringUtil.stripNewLinesAndTrim(line).isEmpty()) {
+                if (beforeFirstTimeTag) {
+                    prelines.add(line);
+                } else if (!StringUtil.stripNewLinesAndTrim(line).isEmpty()) {
                     lines.add(line);
+                }
+
+                if (line.matches("\\s+\\[(\\d+-\\d+-\\d+)|(\\d+-\\d+-\\d+-\\d+)]\\s+.*")) {
+                    beforeFirstTimeTag = false;
                 }
             }
         } catch (Exception e) {
@@ -626,7 +637,18 @@ public class Logger {
             writeLines.add(lines.get(lines.size() - 1));
         }
 
+        // prelines
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,false))) {
+            for (String line : prelines) {
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        // actual log lines
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file,true))) {
             for (String line : writeLines) {
                 bw.write(line);
                 bw.newLine();
