@@ -255,7 +255,9 @@ public class Logger {
     public static void initialize() {
         generateAndSetLogFile();
 
-        // first log call should always be a JVM_ENTRY tag
+        writeCyderAsciiArt();
+
+        // first log tag call should always be a JVM_ENTRY tag
         log(LoggerTag.JVM_ENTRY, OSUtil.getSystemUsername());
 
         startObjectCreationLogger();
@@ -271,6 +273,27 @@ public class Logger {
      */
     public static File getCurrentLog() {
         return currentLog;
+    }
+
+    /**
+     * Writes the lines contained in static/txt/cyder.txt to the current log file.
+     */
+    private static void writeCyderAsciiArt() {
+        // log file created so write Cyder Ascii art first
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(
+                OSUtil.buildFile(OSUtil.buildPath("static","txt","cyder.txt")))) ;
+             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(currentLog, true))) {
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                bufferedWriter.write(line);
+                bufferedWriter.newLine();
+            }
+
+            // todo need a new line here that isn't consolidated
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
@@ -292,7 +315,7 @@ public class Logger {
 
             // ensure uniqueness
             int number = 1;
-            File logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
+            File logFile = new File("logs/" + logSubDirName + "/" + logFileName + ".log");
             while (logFile.exists()) {
                 number++;
                 logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
@@ -304,7 +327,6 @@ public class Logger {
             } else {
                 throw new FatalException("Log file not created");
             }
-
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

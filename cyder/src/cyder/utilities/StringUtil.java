@@ -1101,7 +1101,7 @@ public class StringUtil {
      * @return the levenshtein distance between alpha and beta
      */
     public static int levenshteinDistance(String alpha, String beta) {
-        return distance(alpha, beta, -1);
+        return distance(alpha, beta);
     }
 
     /**
@@ -1111,11 +1111,12 @@ public class StringUtil {
      *
      * @param alpha the first string
      * @param beta the second string
-     * @param max the maximum difference before terminating the algorithm
      * @return the number of operations required to transform
      * string alpha into string beta
      */
-    private static int distance(String alpha, String beta, int max) {
+    private static int distance(String alpha, String beta) {
+        // note: -1 is what max prop used to be
+
         if (alpha == beta) {
             return 0;
         }
@@ -1123,8 +1124,8 @@ public class StringUtil {
         int la = alpha.length();
         int lb = beta.length();
 
-        if (max >= 0 && Math.abs(la - lb) > max) {
-            return max + 1;
+        if (-1 >= 0 && Math.abs(la - lb) > -1) {
+            return -1 + 1;
         }
 
         if (la == 0) {
@@ -1164,13 +1165,13 @@ public class StringUtil {
                 }
             }
 
-            if (max >= 0 && min > max) {
-                return max + 1;
+            if (-1 >= 0 && min > -1) {
+                return -1 + 1;
             }
         }
 
-        if (max >= 0 && cost[lb] > max) {
-            return max + 1;
+        if (-1 >= 0 && cost[lb] > -1) {
+            return -1 + 1;
         }
 
         return cost[lb];

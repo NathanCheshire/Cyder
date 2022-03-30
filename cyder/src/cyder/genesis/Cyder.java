@@ -104,6 +104,9 @@ public class Cyder {
             ReflectionUtil.validateWidgets();
             setLoadingMessage("Validating manual tests");
             ReflectionUtil.validateTests();
+            // todo after new input handler and context engine implemented
+//            setLoadingMessage("Validating handles);
+//            ReflectionUtil.validateHandles();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine. "
                     + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);
@@ -116,6 +119,7 @@ public class Cyder {
             IOUtil.logArgs(ca);
             IOUtil.cleanSandbox();
             OSUtil.deleteTempDir();
+            OSUtil.createTempDir();
         },"Cyder Start Secondary Subroutines");
 
         // Off-ship how to login to the LoginHandler since all subroutines finished

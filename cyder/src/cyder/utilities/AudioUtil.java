@@ -114,7 +114,35 @@ public class AudioUtil {
      * @return the wav file converted to mp3
      */
     public static Future<Optional<File>> wavToMp3(File wavFile) {
-        // todo
-        return null;
+        Preconditions.checkNotNull(wavFile);
+        Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
+
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
+            // ensure temporary directory exists
+            OSUtil.createTempDir();
+
+            String builtPath = new File(OSUtil.buildPath(
+                    "dynamic", "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();
+            String safePath = "\"" + builtPath + "\"";
+
+            File outputFile = new File(builtPath);
+            ProcessBuilder pb = new ProcessBuilder(FFMPEG, INPUT_FLAG,
+                    "\"" + wavFile.getAbsolutePath() + "\"", safePath);
+            pb.redirectErrorStream();
+            Process p = pb.start();
+
+            // another precaution to ensure process is completed before file is returned
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {}
+
+            // wait for file to be created by ffmpeg
+            while (!outputFile.exists()) {
+                Thread.onSpinWait();
+            }
+
+            return Optional.of(outputFile);
+        });
     }
 }

@@ -113,6 +113,8 @@ public class MessagingUtils {
         // maybe an audio player that scrolls and turns the navy
         // to red as it aligns with the song percentage would be cool
 
+        // todo make sure toast border is present
+
         // todo ensure meets min dimensions
 
         BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
