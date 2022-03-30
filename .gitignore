@@ -8,3 +8,4 @@ logs/*
 build/
 Userdata.json
 dynamic/backup/*
+dynamic/tmp/*

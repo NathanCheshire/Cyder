@@ -15,7 +15,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
-import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
@@ -24,10 +23,7 @@ import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.Future;
 
 /**
  * Tests which must be performed manually and cannot be unit tested.
@@ -47,26 +43,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-        CyderThreadRunner.submit(() -> {
-//            AudioUtil.mp3ToWav(new File("C:\\Users\\Nathan\\Documents" +
-//                    "\\IntelliJava\\Cyder\\dynamic\\users\\7d7ebb00-81fe-329f-8a78-62f463d0b7da" +
-//                    "\\Music\\Chillstep  Wayr - Follow the Light.mp3"));
 
-            try {
-                Future<BufferedImage> bi = MessagingUtils.generateWaveForm(
-                         new File("C:\\Users\\Nathan\\Documents" +
-                                "\\IntelliJava\\Cyder\\dynamic\\users\\7d7ebb00-81fe-329f-8a78-62f463d0b7da" +
-                                 "\\Music\\Chillstep  Wayr - Follow the Light.mp3"));
-
-                while (!bi.isDone()){
-                    Thread.onSpinWait();
-                }
-
-                ImageUtil.drawBufferedImage(bi.get());
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        },"Tester");
     }
 
     /**

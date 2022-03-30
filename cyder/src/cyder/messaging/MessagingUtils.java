@@ -110,7 +110,8 @@ public class MessagingUtils {
         Preconditions.checkNotNull(waveColor);
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
 
-        System.out.println("Received file: " + wavFile.getAbsolutePath());
+        // maybe an audio player that scrolls and turns the navy
+        // to red as it aligns with the song percentage would be cool
 
         // todo ensure meets min dimensions
 
@@ -220,7 +221,6 @@ public class MessagingUtils {
                     i, DEAULT_IMAGE_HEIGHT / 2);
         }
 
-        System.out.println("returning ret");
         return ret;
     }
 }

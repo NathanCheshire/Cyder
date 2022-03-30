@@ -8,8 +8,10 @@ import cyder.threads.CyderThreadFactory;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.Header;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -86,8 +88,13 @@ public class AudioUtil {
             File outputFile = new File(builtPath);
             ProcessBuilder pb = new ProcessBuilder(FFMPEG, INPUT_FLAG,
                     "\"" + mp3File.getAbsolutePath() + "\"", safePath);
-            pb.redirectErrorStream(); // This will make both stdout and stderr be redirected to process.getInputStream();
-            pb.start();
+            pb.redirectErrorStream();
+            Process p = pb.start();
+
+            // another precaution to ensure process is completed before file is returned
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null) {}
 
             // wait for file to be created by ffmpeg
             while (!outputFile.exists()) {
@@ -107,6 +114,7 @@ public class AudioUtil {
      * @return the wav file converted to mp3
      */
     public static Future<Optional<File>> wavToMp3(File wavFile) {
+        // todo
         return null;
     }
 }

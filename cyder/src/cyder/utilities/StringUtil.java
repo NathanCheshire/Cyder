@@ -1087,4 +1087,109 @@ public class StringUtil {
 
         return ret.toString().trim();
     }
+
+    // -------------------
+    // Levenshtein methods
+    // -------------------
+
+    /**
+     * Returns the levenshtein distance between string alpha and string beta.
+     * From <a href="http://rosettacode.org/wiki/Levenshtein_distance#Iterative_space_optimized_.28even_bounded.29</a>
+     *
+     * @param alpha the first string
+     * @param beta the second string
+     * @return the levenshtein distance between alpha and beta
+     */
+    public static int levenshteinDistance(String alpha, String beta) {
+        return distance(alpha, beta, -1);
+    }
+
+    /**
+     * Computes the distance between the two strings meaning
+     * the number of operations needed to morph string alpha
+     * into string beta.
+     *
+     * @param alpha the first string
+     * @param beta the second string
+     * @param max the maximum difference before terminating the algorithm
+     * @return the number of operations required to transform
+     * string alpha into string beta
+     */
+    private static int distance(String alpha, String beta, int max) {
+        if (alpha == beta) {
+            return 0;
+        }
+
+        int la = alpha.length();
+        int lb = beta.length();
+
+        if (max >= 0 && Math.abs(la - lb) > max) {
+            return max + 1;
+        }
+
+        if (la == 0) {
+            return lb;
+        }
+
+        if (lb == 0) {
+            return la;
+        }
+
+        if (la < lb) {
+            int tl = la;
+            la = lb;
+            lb = tl;
+            String ts = alpha;
+            alpha = beta;
+            beta = ts;
+        }
+
+        int[] cost = new int[lb + 1];
+
+        for (int i = 0 ; i <= lb ; i += 1) {
+            cost[i] = i;
+        }
+
+        for (int i = 1 ; i <= la ; i += 1) {
+            cost[0] = i;
+            int prv = i-1;
+            int min = prv;
+
+            for (int j = 1; j <= lb ; j += 1) {
+                int act = prv + (alpha.charAt(i - 1) == beta.charAt(j - 1) ? 0 : 1);
+                cost[j] = min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
+
+                if (prv < min) {
+                    min = prv;
+                }
+            }
+
+            if (max >= 0 && min > max) {
+                return max + 1;
+            }
+        }
+
+        if (max >= 0 && cost[lb] > max) {
+            return max + 1;
+        }
+
+        return cost[lb];
+    }
+
+    /**
+     * Finds the minimum of the provided interger array.
+     *
+     * @param ints the array of ints
+     * @return the minimum integer value found
+     */
+    private static int min(int ... ints) {
+        int min = Integer.MAX_VALUE;
+
+        for (int i : ints)
+            if (i < min) {
+                min = i;
+            }
+
+        return min;
+    }
 }

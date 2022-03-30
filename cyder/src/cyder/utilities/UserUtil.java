@@ -211,7 +211,7 @@ public class UserUtil {
             if (previousSerializedUser.isEmpty()) {
                 currentLevenshteinDistance = currentSerializedUser.length();
             } else {
-                currentLevenshteinDistance = LevenshteinUtil.levenshteinDistance(
+                currentLevenshteinDistance = StringUtil.levenshteinDistance(
                         currentSerializedUser, previousSerializedUser);
             }
 
