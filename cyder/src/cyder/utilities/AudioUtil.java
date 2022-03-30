@@ -79,24 +79,22 @@ public class AudioUtil {
             // ensure temporary directory exists
             OSUtil.createTempDir();
 
-            String filePath = OSUtil.buildPath("dynamic", "tmp", FileUtil.getFilename(mp3File) + ".wav");
-            File resultingWavFile = new File(filePath);
-            String command = StringUtil.separate(FFMPEG, INPUT_FLAG, mp3File.getAbsolutePath(), resultingWavFile.getAbsolutePath());
+            String builtPath = new File(OSUtil.buildPath(
+                    "dynamic", "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
+            String safePath = "\"" + builtPath + "\"";
 
-            Runtime run = Runtime.getRuntime();
-            Process proc = run.exec(command);
-
+            File outputFile = new File(builtPath);
+            ProcessBuilder pb = new ProcessBuilder(FFMPEG, INPUT_FLAG,
+                    "\"" + mp3File.getAbsolutePath() + "\"", safePath);
+            pb.redirectErrorStream(); // This will make both stdout and stderr be redirected to process.getInputStream();
+            pb.start();
 
             // wait for file to be created by ffmpeg
-            while (!resultingWavFile.exists()) {
+            while (!outputFile.exists()) {
                 Thread.onSpinWait();
             }
 
-            if (resultingWavFile.exists()) {
-                return Optional.of(resultingWavFile);
-            } else {
-                return Optional.empty();
-            }
+            return Optional.of(outputFile);
         });
     }
 

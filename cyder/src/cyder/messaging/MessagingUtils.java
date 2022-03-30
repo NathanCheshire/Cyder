@@ -71,20 +71,16 @@ public class MessagingUtils {
             if (FileUtil.validateExtension(usageWav, ".mp3")) {
                 Future<Optional<File>> waitFor = AudioUtil.mp3ToWav(usageWav);
 
-                System.out.println("waiting");
-
                 // wait for conversion
                 while (!waitFor.isDone()) {
                     Thread.onSpinWait();
                 }
 
-                System.out.println("Finished");
                 if (waitFor.get().isPresent()) {
                     usageWav = waitFor.get().get();
                 }
             }
 
-            System.out.println("returning bigger method");
             return generateWaveForm(usageWav, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT,
                     DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
 
@@ -92,8 +88,8 @@ public class MessagingUtils {
     }
 
     // todo I want a bass boost feature for an mp3 or wav file
-
     // todo ensure meets valid min width and height
+
     /**
      * Generates a png depicting the waveform of the provided wav file.
      *
