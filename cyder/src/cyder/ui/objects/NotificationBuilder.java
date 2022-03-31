@@ -31,7 +31,7 @@ public final class NotificationBuilder {
     private NotificationDirection notificationDirection = NotificationDirection.TOP;
     private NotificationType notificationType = NotificationType.NOTIFICATION;
 
-    // used in conjunction
+    // the container, typically just the text label
     private JLabel container;
 
     // set on object creation

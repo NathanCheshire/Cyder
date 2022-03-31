@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.enums.LoggerTag;
+import cyder.enums.NotificationType;
 import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -957,7 +958,7 @@ public class CyderFrame extends JFrame {
         notificationList.add(notificationBuilder);
 
         if (!notificationCheckerStarted) {
-            CyderThreadRunner.submit(NotificationQueueRunnable, this + " notification queue checker");
+            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
             notificationCheckerStarted = true;
         }
     }
@@ -971,14 +972,13 @@ public class CyderFrame extends JFrame {
         checkArgument(StringUtil.getRawTextLength(htmlText)
                 > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
 
-        // toasts only require the toast tag
-        CyderNotification toast = new CyderNotification(new NotificationBuilder(htmlText));
-        toast.setDrawArrow(false);
+        NotificationBuilder toastBuilder = new NotificationBuilder(htmlText);
+        toastBuilder.setNotificationType(NotificationType.TOAST);
 
-        notificationList.add(toast);
+        notificationList.add(toastBuilder);
 
         if (!notificationCheckerStarted) {
-            CyderThreadRunner.submit(NotificationQueueRunnable, this + " notification queue checker");
+            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
             notificationCheckerStarted = true;
         }
     }
@@ -988,67 +988,64 @@ public class CyderFrame extends JFrame {
      */
     private final Runnable NotificationQueueRunnable = () -> {
         try {
-            while (this != null && !threadsKilled) {
+            while (!threadsKilled) {
                 if (!notificationList.isEmpty()) {
-                    //init notification object
-                    currentNotification = notificationList.remove(0);
+                    // pull next builder
+                    NotificationBuilder currentBuilder = notificationList.remove(0);
 
-                    //get dimensions and formatted text for the notification
+                    // init current notification object
+                    currentNotification = new CyderNotification(currentBuilder);
+
+                    // generate label for notification
                     BoundsString bs = BoundsUtil.widthHeightCalculation(
-                            currentNotification.getHtmlText(),
+                            currentBuilder.getHtmlText(),
                             (int) Math.ceil(width * 0.8), CyderFonts.notificationFont);
+                    int notificationWidth = bs.getWidth();
+                    int notificationHeight = bs.getHeight();
+                    String brokenText = bs.getText();
 
-                    int w = bs.getWidth();
-                    int h = bs.getHeight();
-                    String text = bs.getText();
-
-                    //if too big for the frame, turn it into an external frame popup
-                    if (h > height * NOTIFICATION_MAX_RATIO
-                            || w > width * NOTIFICATION_MAX_RATIO) {
-                        inform(text,"Notification");
+                    // if too wide, cannot notify so inform
+                    if (notificationHeight > height * NOTIFICATION_MAX_RATIO
+                            || notificationWidth > width * NOTIFICATION_MAX_RATIO) {
+                        // inform original text
+                        inform(currentBuilder.getHtmlText(), "Notification ("
+                                + currentBuilder.getNotifyTime() + ")");
                         continue;
                     }
 
-                    // if no custom container
-                    if (currentNotification.getContianer() == null) {
+                    // if no custom container, generate text label
+                    if (currentBuilder.getContainer() == null) {
                         //create text label to go on top of notification label
-                        JLabel textLabel = new JLabel(text);
+                        JLabel textLabel = new JLabel(brokenText);
 
                         // for opacity changing if needed for a toast
+                        // todo notification itself needs access to this label to disable it
                         currentNotification.setTextLabel(textLabel);
 
-                        // log the bounds and text of the notification
-                        Logger.log(LoggerTag.UI_ACTION, "[" +
-                                getTitle() + "] [NOTIFICATION] w = " +
-                                w + ", h = " + h + ", text = " + text);
-
-                        //set the text bounds to the proper x,y and the
-                        // calculated width and height
-                        textLabel.setBounds(
-                                CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
-
-                        currentNotification.setTextWidth(w);
-                        currentNotification.setTextHeight(h);
-
+                        // use calculated bounds for label
+                        textLabel.setSize(notificationWidth, notificationHeight);
                         textLabel.setFont(CyderFonts.notificationFont);
                         textLabel.setForeground(CyderColors.notificationForegroundColor);
-                        currentNotification.add(textLabel);
 
+                        // todo need to use text label some how
+                        //currentNotification.add(textLabel);
+
+                        // todo dispose label should be generated by the construct method
+                        //  to layer over the entire notification component
                         JLabel disposeLabel = new JLabel();
-                        disposeLabel.setBounds(CyderNotification.getTextXOffset(),
-                                CyderNotification.getTextYOffset(), w, h);
-
-                        disposeLabel.setToolTipText("Notified at: " + currentNotification.getTime());
+                        // todo bounds of label, bigger than bounds of text label
+                        disposeLabel.setToolTipText("Notified at: " + currentNotification.getBuilder().getNotifyTime());
                         disposeLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 //fire any on kill actions if it's not null
-                                if (currentNotification.getOnKillAction() != null) {
+                                if (currentNotification.getBuilder().getOnKillAction() != null) {
                                     currentNotification.kill();
-                                    currentNotification.getOnKillAction().run();
+                                    currentNotification.getBuilder().getOnKillAction().run();
                                 } else {
-                                    //smoothly animate notification away
-                                    currentNotification.vanish(currentNotification.getNotificationDirection(),
+                                    // smoothly animate notification away if no action
+                                    currentNotification.vanish(
+                                            currentNotification.getBuilder().getNotificationDirection(),
                                             getContentPane(), 0);
 
                                 }
@@ -1057,63 +1054,72 @@ public class CyderFrame extends JFrame {
                         currentNotification.add(disposeLabel);
                     } else {
                         //container should have things on it already so no need to place text here
-                        currentNotification.add(currentNotification.getContianer());
+                        currentNotification.add(currentNotification.getBuilder().getContainer());
                     }
 
-                    switch (currentNotification.getNotificationDirection()) {
+                    switch (currentNotification.getBuilder().getNotificationDirection()) {
                         case TOP_LEFT:
-                            currentNotification.setLocation(-currentNotification.getWidth() + 5, topDrag.getHeight());
-                            break;
-                        case TOP_RIGHT:
-                            currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
+                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
                                     topDrag.getHeight());
                             break;
+                        case TOP_RIGHT:
+                            currentNotification.setLocation(getContentPane().getWidth()
+                                            - 5 + currentNotification.getWidth(), topDrag.getHeight());
+                            break;
                         case BOTTOM:
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - CyderNotification.getTextXOffset(),
+                            currentNotification.setLocation(getContentPane().getWidth() / 2
+                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
                                     getHeight() - 5);
                             break;
                         case LEFT:
                             currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                    getContentPane().getHeight() / 2 - (h / 2) - CyderNotification.getTextYOffset());
+                                    getContentPane().getHeight() / 2 - (notificationHeight / 2)
+                                            - CyderNotification.getTextYOffset());
                             break;
                         case RIGHT:
-                            currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                    getContentPane().getHeight() / 2 - (h / 2) - CyderNotification.getTextYOffset());
+                            currentNotification.setLocation(getContentPane().getWidth()
+                                            - 5 + currentNotification.getWidth(),
+                                    getContentPane().getHeight() / 2
+                                            - (notificationHeight / 2) - CyderNotification.getTextYOffset());
                             break;
                         case BOTTOM_LEFT:
-                            //parent.getHeight() - this.getHeight() + 10
                             currentNotification.setLocation(-currentNotification.getWidth() + 5,
                                     getHeight() - currentNotification.getHeight() + 5);
                             break;
                         case BOTTOM_RIGHT:
-                            currentNotification.setLocation(getContentPane().getWidth() - 5 + currentNotification.getWidth(),
-                                    getHeight() - currentNotification.getHeight() + 5);
+                            currentNotification.setLocation(getContentPane().getWidth() - 5
+                                            + currentNotification.getWidth(), getHeight()
+                                    - currentNotification.getHeight() + 5);
                             break;
-                        default:  // top
-                            currentNotification.setLocation(getContentPane().getWidth() / 2 - (w / 2) - CyderNotification.getTextXOffset(),
+                        case TOP:
+                        default:
+                            currentNotification.setLocation(getContentPane().getWidth() / 2
+                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
                                     CyderDragLabel.DEFAULT_HEIGHT - currentNotification.getHeight());
                     }
 
+                    // add notification component to proper layer
                     iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
                     getContentPane().repaint();
 
-                    //duration is always 300ms per word unless less than 5 seconds
+                    // duration is 300ms per word unless less than 5 seconds
                     int duration = 300 * StringUtil.countWords(
-                            Jsoup.clean(bs.getText(), Safelist.none())
-                    );
+                            Jsoup.clean(bs.getText(), Safelist.none()));
                     duration = Math.max(duration, 5000);
-                    duration = currentNotification.getDuration() == 0 ?
-                            duration : currentNotification.getDuration();
+                    duration = currentBuilder.getViewDuration() == 0 ?
+                               duration : currentBuilder.getViewDuration();
 
-                    currentNotification.setVanishDirection(currentNotification.getNotificationDirection());
+                    // log right before appear call
+                    Logger.log(LoggerTag.UI_ACTION, "[" +
+                            getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
 
-                    currentNotification.appear(currentNotification.getNotificationDirection(),
+                    currentNotification.appear(currentBuilder.getNotificationDirection(),
                             getContentPane(), duration);
 
                     while (getCurrentNotification().isVisible())
                         Thread.onSpinWait();
                 } else {
-                    //for optimization purposes, end queue thread
+                    // for optimization purposes, end queue thread
                     notificationCheckerStarted = false;
                     break;
                 }
@@ -1139,7 +1145,8 @@ public class CyderFrame extends JFrame {
      */
     public void revokeCurrentNotification(boolean animate) {
         if (animate) {
-            currentNotification.vanish(this);
+            currentNotification.vanish(currentNotification.getBuilder()
+                    .getNotificationDirection(), this, 0);
         } else {
             currentNotification.kill();
         }
@@ -1153,7 +1160,7 @@ public class CyderFrame extends JFrame {
      */
     public void revokeNotification(String expectedText) {
         // if it's the current one, revoke it
-        if (currentNotification.getHtmlText().equals(expectedText)) {
+        if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {
             // if in the queue
@@ -1719,16 +1726,19 @@ public class CyderFrame extends JFrame {
         }
 
         if (getCurrentNotification() != null)
-            switch (getCurrentNotification().getArrowDir()) {
+            switch (getCurrentNotification().getBuilder().getArrowDir()) {
+                // center on frame
                 case TOP:
                 case BOTTOM:
                     currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
                         currentNotification.getY());
                     break;
+                // maintain right of frame
                 case RIGHT:
                     currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
                         currentNotification.getY());
                     break;
+                // maintain left of frame
                 case LEFT:
                     currentNotification.setLocation(5, currentNotification.getY());
                     break;
