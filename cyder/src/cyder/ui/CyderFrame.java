@@ -1043,8 +1043,8 @@ public class CyderFrame extends JFrame {
                         // calculated width and height
                         textLabel.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
 
-                        currentNotification.setWidth(w);
-                        currentNotification.setHeight(h);
+                        currentNotification.setTextWidth(w);
+                        currentNotification.setTextHeight(h);
 
                         textLabel.setFont(CyderFonts.notificationFont);
                         textLabel.setForeground(CyderColors.notificationForegroundColor);
