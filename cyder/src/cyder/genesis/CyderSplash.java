@@ -42,6 +42,21 @@ public class CyderSplash {
     private static CyderLabel loadingLabel;
 
     /**
+     * The width and height for the borderless splash frame.
+     */
+    private static final int FRAME_LEN = 600;
+
+    /**
+     * The length of the blue borders that animate in to surround the Cyder logo.
+     */
+    private static final int LOGO_BORDER_LEN = 200;
+
+    /**
+     * The padding from the borders to the Cyder logo.
+     */
+    private static final int LOGO_BORDER_PADDING = 40;
+
+    /**
      * Instantiation of CyderSplash is not allowed
      */
     private CyderSplash() {
@@ -59,7 +74,7 @@ public class CyderSplash {
 
         CyderThreadRunner.submit(() -> {
             try {
-                splashFrame = new CyderFrame(600);
+                splashFrame = new CyderFrame(FRAME_LEN);
                 splashFrame.setTitle("Cyder Splash");
 
                 // set AlwaysOnTop, this will be quickly turned off
@@ -68,34 +83,30 @@ public class CyderSplash {
                 CyderThreadRunner.submit(() -> {
                     try {
                         JLabel cBlock = new JLabel(generateCIcon());
-                        cBlock.setBounds(20,600 / 2 - 150 / 2, 150, 150);
+                        cBlock.setBounds(20,FRAME_LEN / 2 - ICON_LEN / 2, ICON_LEN, ICON_LEN);
                         splashFrame.getContentPane().add(cBlock);
 
                         JLabel yBlock = new JLabel(generateYIcon());
-                        yBlock.setBounds(600 - 150 - 20,600 / 2 - 150 / 2, 150, 150);
+                        yBlock.setBounds(FRAME_LEN - ICON_LEN - 20,FRAME_LEN / 2 - ICON_LEN / 2, ICON_LEN, ICON_LEN);
                         splashFrame.getContentPane().add(yBlock);
 
-                        while (cBlock.getX() < 600 / 2 - cBlock.getWidth() / 2) {
+                        while (cBlock.getX() < FRAME_LEN / 2 - cBlock.getWidth() / 2) {
                             cBlock.setLocation(cBlock.getX() + 5, cBlock.getY());
                             yBlock.setLocation(yBlock.getX() - 5, yBlock.getY());
                             Thread.sleep(6);
                         }
 
-                        int longSide = 200;
-                        int sub = 40;
-                        long delay = 3;
-
                         JLabel topBorder = new JLabel() {
                             @Override
                             public void paintComponent(Graphics g) {
                                 g.setColor(CyderColors.regularBlue);
-                                g.fillRect(0,0,longSide,10);
+                                g.fillRect(0,0, LOGO_BORDER_LEN,10);
                             }
                         };
-                        topBorder.setBounds(600 / 2 - longSide / 2,- 10, longSide,10);
+                        topBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_LEN / 2,- 10, LOGO_BORDER_LEN,10);
                         splashFrame.getContentPane().add(topBorder);
 
-                        while (topBorder.getY() < 600 / 2 - (longSide - sub) / 2 - 20) {
+                        while (topBorder.getY() < FRAME_LEN / 2 - (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 - 20) {
                             topBorder.setLocation(topBorder.getX(), topBorder.getY() + 5);
                             Thread.sleep(5);
                         }
@@ -104,45 +115,45 @@ public class CyderSplash {
                             @Override
                             public void paintComponent(Graphics g) {
                                 g.setColor(CyderColors.regularBlue);
-                                g.fillRect(0,0,10,longSide);
+                                g.fillRect(0,0,10, LOGO_BORDER_LEN);
                             }
                         };
-                        rightBorder.setBounds(600 ,splashFrame.getHeight() / 2 - longSide / 2, 10,longSide);
+                        rightBorder.setBounds(FRAME_LEN ,splashFrame.getHeight() / 2 - LOGO_BORDER_LEN / 2, 10, LOGO_BORDER_LEN);
                         splashFrame.getContentPane().add(rightBorder);
 
-                        while (rightBorder.getX() > 600 / 2 + (longSide - sub) / 2 + 10) {
+                        while (rightBorder.getX() > FRAME_LEN / 2 + (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 + 10) {
                             rightBorder.setLocation(rightBorder.getX() - 5, rightBorder.getY());
-                            Thread.sleep(delay);
+                            Thread.sleep(3);
                         }
 
                         JLabel bottomBorder = new JLabel() {
                             @Override
                             public void paintComponent(Graphics g) {
                                 g.setColor(CyderColors.regularBlue);
-                                g.fillRect(0,0,longSide,10);
+                                g.fillRect(0,0, LOGO_BORDER_LEN,10);
                             }
                         };
-                        bottomBorder.setBounds(600 / 2 - longSide / 2,splashFrame.getHeight() + 10, longSide,10);
+                        bottomBorder.setBounds(FRAME_LEN / 2 - LOGO_BORDER_LEN / 2,splashFrame.getHeight() + 10, LOGO_BORDER_LEN,10);
                         splashFrame.getContentPane().add(bottomBorder);
 
-                        while (bottomBorder.getY() > 600 / 2 + (longSide - sub) / 2 + 10) {
+                        while (bottomBorder.getY() > FRAME_LEN / 2 + (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 + 10) {
                             bottomBorder.setLocation(bottomBorder.getX(), bottomBorder.getY() - 5);
-                            Thread.sleep(delay);
+                            Thread.sleep(3);
                         }
 
                         JLabel leftBorder = new JLabel() {
                             @Override
                             public void paintComponent(Graphics g) {
                                 g.setColor(CyderColors.regularBlue);
-                                g.fillRect(0,0,10,longSide);
+                                g.fillRect(0,0,10, LOGO_BORDER_LEN);
                             }
                         };
-                        leftBorder.setBounds(-10 ,splashFrame.getHeight() / 2 - longSide / 2, 10,longSide);
+                        leftBorder.setBounds(-10 ,splashFrame.getHeight() / 2 - LOGO_BORDER_LEN / 2, 10, LOGO_BORDER_LEN);
                         splashFrame.getContentPane().add(leftBorder);
 
-                        while (leftBorder.getX() < 600 / 2 - (longSide - sub) / 2 - 20) {
+                        while (leftBorder.getX() < FRAME_LEN / 2 - (LOGO_BORDER_LEN - LOGO_BORDER_PADDING) / 2 - 20) {
                             leftBorder.setLocation(leftBorder.getX() + 5, leftBorder.getY());
-                            Thread.sleep(delay);
+                            Thread.sleep(3);
                         }
 
                         Font cyderFont = new Font("Agency FB", Font.BOLD, 80);
@@ -150,10 +161,10 @@ public class CyderSplash {
                         cyderLabel.setFont(cyderFont);
                         cyderLabel.setForeground(CyderColors.vanila);
                         cyderLabel.setBounds(0, -StringUtil.getMinHeight("Cyder",cyderFont),
-                                600, StringUtil.getMinHeight("Cyder",cyderFont));
+                                FRAME_LEN, StringUtil.getMinHeight("Cyder",cyderFont));
                         splashFrame.getContentPane().add(cyderLabel);
 
-                        while (cyderLabel.getY() < 600 / 2 - 150 / 2 - cyderLabel.getHeight() - 30) {
+                        while (cyderLabel.getY() < FRAME_LEN / 2 - ICON_LEN / 2 - cyderLabel.getHeight() - 30) {
                             cyderLabel.setLocation(cyderLabel.getX(), cyderLabel.getY() + 5);
                             Thread.sleep(5);
                         }
@@ -163,11 +174,11 @@ public class CyderSplash {
                         CyderLabel creatorLabel = new CyderLabel("By Nathan Cheshire");
                         creatorLabel.setFont(nathanFont);
                         creatorLabel.setForeground(CyderColors.vanila);
-                        creatorLabel.setBounds(0, 600, 600,
+                        creatorLabel.setBounds(0, FRAME_LEN, FRAME_LEN,
                                 StringUtil.getMinHeight("By Nathan Cheshire",nathanFont) + 10);
                         splashFrame.getContentPane().add(creatorLabel);
 
-                        while (creatorLabel.getY() > 600 / 2 + 150 / 2 + creatorLabel.getHeight() + 10) {
+                        while (creatorLabel.getY() > FRAME_LEN / 2 + ICON_LEN / 2 + creatorLabel.getHeight() + 10) {
                             creatorLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
                             Thread.sleep(5);
                         }
@@ -184,7 +195,7 @@ public class CyderSplash {
                         loadingLabel = new CyderLabel("Test text");
                         loadingLabel.setFont(newFont);
                         loadingLabel.setForeground(CyderColors.vanila);
-                        loadingLabel.setSize(600, StringUtil.getMinHeight(CyderStrings.europeanToymaker, newFont));
+                        loadingLabel.setSize(FRAME_LEN, StringUtil.getMinHeight(CyderStrings.europeanToymaker, newFont));
                         loadingLabel.setLocation(0,510);
                         splashFrame.getContentPane().add(loadingLabel);
 
@@ -212,8 +223,12 @@ public class CyderSplash {
                             }
                         }
 
+                        // to be safe always set message back to whatever it was
+                        loadingLabel.setText(message);
+                        loadingLabel.repaint();
+
                         // if frame is still active and it should have been dispoed
-                        if (splashFrame != null && CyderShare.isDisposeFlash()) {
+                        if (splashFrame != null && CyderShare.isDisposeSplash()) {
                             splashFrame.dispose(true);
 
                             // this has been going on for over a minute at this point if the program reaches here
@@ -241,7 +256,7 @@ public class CyderSplash {
     public static void fastDispose() {
         if (disposed)
             return;
-        if (!CyderShare.isDisposeFlash())
+        if (!CyderShare.isDisposeSplash())
             return;
 
         splashFrame.dispose(true);
@@ -282,17 +297,24 @@ public class CyderSplash {
     }
 
     /**
+     * The length of the C and Y icons.
+     */
+    private static final int ICON_LEN = 150;
+
+    private static final int LETTER_LEN = 30;
+
+    /**
      * Generates and returns the C symbol for the splash animation.
      *
      * @return the C symbol for the splash
      */
     private static ImageIcon generateCIcon() {
-        BufferedImage drawMe = new BufferedImage(150,150, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
         Graphics g = drawMe.getGraphics();
         g.setColor(CyderColors.vanila);
         g.fillRect(0,0, 95, 25);
         g.fillRect(0,125, 95, 25);
-        g.fillRect(0,0, 30, 150);
+        g.fillRect(0,0, LETTER_LEN, ICON_LEN);
 
         return ImageUtil.toImageIcon(drawMe);
     }
@@ -303,11 +325,11 @@ public class CyderSplash {
      * @return the Y symbol for the splash animation
      */
     private static ImageIcon generateYIcon() {
-        BufferedImage drawMe = new BufferedImage(150,150, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage drawMe = new BufferedImage(ICON_LEN, ICON_LEN, BufferedImage.TYPE_INT_ARGB);
         Graphics g = drawMe.getGraphics();
         g.setColor(CyderColors.vanila);
-        g.fillRect(120,0, 30, 150);
-        g.fillRect(60,60, 95, 30);
+        g.fillRect(ICON_LEN - LETTER_LEN, 0, LETTER_LEN, ICON_LEN);
+        g.fillRect(60, 60, 95, LETTER_LEN);
 
         return ImageUtil.toImageIcon(drawMe);
     }

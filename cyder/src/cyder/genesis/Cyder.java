@@ -11,6 +11,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.test.ManualTests;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
 
@@ -19,7 +20,8 @@ import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.io.File;
 import java.net.ServerSocket;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
@@ -50,12 +52,12 @@ public class Cyder {
         // start session logger
         Logger.initialize();
 
-        // initialize watchdog timer for fatal GUI thread blocks
-        CyderWatchdog.initializeWatchDog();
-
         // platform key:value pair subroutines
         initSystemProps();
         initUiManagerProps();
+
+        // initialize watchdog timer for fatal GUI thread blocks
+        CyderWatchdog.initializeWatchDog();
 
         // prevent multiple instances, fatal subroutine if failure
         if (!ensureCyderSingleInstance()) {
@@ -207,28 +209,20 @@ public class Cyder {
      *
      * @return whether the provided instance of Cyder is the only one
      */
-    private static boolean ensureCyderSingleInstance() {
-        AtomicBoolean ret = new AtomicBoolean(true);
+    private static Future<Boolean> ensureCyderSingleInstance() {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Waveform generator")).submit(() -> {
 
-        CyderThreadRunner.submit(() -> {
+            boolean ret = false;
+
             try {
-                //blocking method which also throws
-
                 new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
+                ret = true;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
-                ret.set(false);
             }
-        }, "Singular Cyder Instance Ensurer");
 
-        try {
-            // started blocking method in above thread but need to wait
-            // for it to either bind or fail
-            Thread.sleep(CyderNumbers.singleInstanceEnsurerTimeout);
-        } catch (InterruptedException e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return ret.get();
+            return ret;
+        });
     }
 }

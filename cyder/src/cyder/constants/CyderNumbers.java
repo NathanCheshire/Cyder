@@ -9,7 +9,7 @@ public class CyderNumbers {
     /**
      * 'nuff said.
      */
-    public static final int Jenny = 8675309;
+    public static final int JENNY = 8675309;
 
     /**
      * Java integer limit.
@@ -26,11 +26,6 @@ public class CyderNumbers {
      * 143 does have a hidden meaning ;)
      */
     public static final int INSTANCE_SOCKET_PORT = 143;
-
-    /**
-     * The timeout to wait for the server socket to connect/fail.
-     */
-    public static final long singleInstanceEnsurerTimeout = 500;
 
     /**
      * The tolerance value that the similar command function must be at or above

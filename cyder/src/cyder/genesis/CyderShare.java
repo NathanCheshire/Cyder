@@ -230,14 +230,14 @@ public class CyderShare {
     /**
      * Whether the splash frame should be auto disposed.
      */
-    private static final boolean disposeFlash = true;
+    private static final boolean disposeSplash = true;
 
     /**
      * Returns whether the splash frame should be auto-disposed.
      *
      * @return whether the splash frame should be auto-disposed
      */
-    public static boolean isDisposeFlash() {
-        return disposeFlash;
+    public static boolean isDisposeSplash() {
+        return disposeSplash;
     }
 }

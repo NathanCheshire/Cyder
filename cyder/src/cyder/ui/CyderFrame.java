@@ -1015,12 +1015,12 @@ public class CyderFrame extends JFrame {
 
                     // if no custom container, generate text label
                     if (currentBuilder.getContainer() == null) {
-                        //create text label to go on top of notification label
+                        // create text label to go on top of notification label
                         JLabel textLabel = new JLabel(brokenText);
 
                         // for opacity changing if needed for a toast
                         // todo notification itself needs access to this label to disable it
-                        currentNotification.setTextLabel(textLabel);
+                        //currentNotification.setTextLabel(textLabel);
 
                         // use calculated bounds for label
                         textLabel.setSize(notificationWidth, notificationHeight);
@@ -1058,44 +1058,44 @@ public class CyderFrame extends JFrame {
                     }
 
                     switch (currentNotification.getBuilder().getNotificationDirection()) {
-                        case TOP_LEFT:
-                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                    topDrag.getHeight());
-                            break;
-                        case TOP_RIGHT:
-                            currentNotification.setLocation(getContentPane().getWidth()
-                                            - 5 + currentNotification.getWidth(), topDrag.getHeight());
-                            break;
-                        case BOTTOM:
-                            currentNotification.setLocation(getContentPane().getWidth() / 2
-                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
-                                    getHeight() - 5);
-                            break;
-                        case LEFT:
-                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                    getContentPane().getHeight() / 2 - (notificationHeight / 2)
-                                            - CyderNotification.getTextYOffset());
-                            break;
-                        case RIGHT:
-                            currentNotification.setLocation(getContentPane().getWidth()
-                                            - 5 + currentNotification.getWidth(),
-                                    getContentPane().getHeight() / 2
-                                            - (notificationHeight / 2) - CyderNotification.getTextYOffset());
-                            break;
-                        case BOTTOM_LEFT:
-                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
-                                    getHeight() - currentNotification.getHeight() + 5);
-                            break;
-                        case BOTTOM_RIGHT:
-                            currentNotification.setLocation(getContentPane().getWidth() - 5
-                                            + currentNotification.getWidth(), getHeight()
-                                    - currentNotification.getHeight() + 5);
-                            break;
-                        case TOP:
-                        default:
-                            currentNotification.setLocation(getContentPane().getWidth() / 2
-                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
-                                    CyderDragLabel.DEFAULT_HEIGHT - currentNotification.getHeight());
+//                        case TOP_LEFT:
+//                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
+//                                    topDrag.getHeight());
+//                            break;
+//                        case TOP_RIGHT:
+//                            currentNotification.setLocation(getContentPane().getWidth()
+//                                            - 5 + currentNotification.getWidth(), topDrag.getHeight());
+//                            break;
+//                        case BOTTOM:
+//                            currentNotification.setLocation(getContentPane().getWidth() / 2
+//                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
+//                                    getHeight() - 5);
+//                            break;
+//                        case LEFT:
+//                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
+//                                    getContentPane().getHeight() / 2 - (notificationHeight / 2)
+//                                            - CyderNotification.getTextYOffset());
+//                            break;
+//                        case RIGHT:
+//                            currentNotification.setLocation(getContentPane().getWidth()
+//                                            - 5 + currentNotification.getWidth(),
+//                                    getContentPane().getHeight() / 2
+//                                            - (notificationHeight / 2) - CyderNotification.getTextYOffset());
+//                            break;
+//                        case BOTTOM_LEFT:
+//                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
+//                                    getHeight() - currentNotification.getHeight() + 5);
+//                            break;
+//                        case BOTTOM_RIGHT:
+//                            currentNotification.setLocation(getContentPane().getWidth() - 5
+//                                            + currentNotification.getWidth(), getHeight()
+//                                    - currentNotification.getHeight() + 5);
+//                            break;
+//                        case TOP:
+//                        default:
+//                            currentNotification.setLocation(getContentPane().getWidth() / 2
+//                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
+//                                    CyderDragLabel.DEFAULT_HEIGHT - currentNotification.getHeight());
                     }
 
                     // add notification component to proper layer
@@ -3211,12 +3211,12 @@ public class CyderFrame extends JFrame {
         if (currentMenuType == MenuType.PANEL) {
             int add = menuItems.size() == 1 ? 5 : 0;
             menuLabel.setSize(menuWidth, 2 * paddingHeight +
-                    (menuItems.size() * (StringUtil.getAbsoluteMinHeight(String.valueOf(CyderNumbers.Jenny),
+                    (menuItems.size() * (StringUtil.getAbsoluteMinHeight(String.valueOf(CyderNumbers.JENNY),
                             CyderFonts.defaultFontSmall))) + add);
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         } else {
             menuLabel.setSize(getWidth() - 10,
-                    (StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny), CyderFonts.defaultFontSmall)));
+                    (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY), CyderFonts.defaultFontSmall)));
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         }
 
@@ -3246,7 +3246,7 @@ public class CyderFrame extends JFrame {
         if (currentMenuType == MenuType.PANEL) {
             menuScroll.setBounds(menuPadding, menuPadding, menuWidth - 2 * menuPadding,
                     (menuItems.size()
-                            * (StringUtil.getMinHeight(String.valueOf(CyderNumbers.Jenny),
+                            * (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY),
                             CyderFonts.defaultFontSmall))));
 
             menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
