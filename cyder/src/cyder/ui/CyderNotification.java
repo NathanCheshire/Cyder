@@ -2,13 +2,14 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
-import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
+import cyder.enums.NotificationType;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.ReflectionUtil;
 import cyder.utilities.UserUtil;
 
@@ -22,15 +23,46 @@ import java.awt.geom.GeneralPath;
  * A custom notification component used for CyderFrames.
  */
 public class CyderNotification extends JLabel {
-    /**
-     * The width of the text label of the notification.
+    /*
+    Note: I am aware this could be a tagged class but per
+          Effective Java item 23, tagged classes are generally
+          a bad idea and class hierarchies should be used instead.
+          I've opted to use an enum in the builder pattern
+           used for notifications, however.
      */
-    private int textWidth;
 
     /**
-     * The height of the text label the notification.
+     * The builder to construct this notification/toast.
      */
-    private int textHeight;
+    private final NotificationBuilder builder;
+
+    /**
+     * Constructs a new CyderNotification.
+     *
+     * @param builder the notification builder to construct the notification
+     *                when it is pulled from the notificaiton queue for
+     *                the frame it was notified from.
+     */
+    public CyderNotification(NotificationBuilder builder) {
+        Preconditions.checkNotNull(builder);
+        this.builder = builder;
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
+            }
+        });
+
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Suppress default constructor.
+     */
+    private CyderNotification() {
+        throw new IllegalMethodException("Instantiation not allowed without valid parameters");
+    }
 
     /**
      * The length of the notification arrow.
@@ -39,26 +71,9 @@ public class CyderNotification extends JLabel {
 
     /**
      * The arow length of this notification.
+     * This supports changing the arrow length in the future if needed.
      */
-    private int arrowLen = DEFAULT_ARROW_LEN;
-
-    /**
-     * Returns the arrow length for this notification.
-     *
-     * @return the arrow length for this notificaiton
-     */
-    public int getArrowLen() {
-        return arrowLen;
-    }
-
-    /**
-     * Sets the arrow length for this notification.
-     *
-     * @param arrowLen the arrow length for this notificaiton
-     */
-    public void setArrowLen(int arrowLen) {
-        this.arrowLen = arrowLen;
-    }
+    private final int arrowLen = DEFAULT_ARROW_LEN;
 
     /**
      * Whether this notification has been killed.
@@ -78,128 +93,9 @@ public class CyderNotification extends JLabel {
     private static final int INCREMENT = 8;
 
     /**
-     * Whether to draw the arrow for a notification
-     * or to hide it for a toast.
-     */
-    private boolean drawArrow = true;
-
-    /**
-     * Whether to draw the arrow on the notification or to disable it for a toast.
-     *
-     * @return whether to draw the arrow on the notification or to disable it for a toast
-     */
-    public boolean shouldDrawArrow() {
-        return drawArrow;
-    }
-
-    /**
-     * Sets whether to draw the arrow on the notification.
-     *
-     * @param drawArrow whether to draw the arrow on the notification
-     */
-    public void setDrawArrow(boolean drawArrow) {
-        this.drawArrow = drawArrow;
-    }
-
-    /**
-     * The x offset for the custom painted component.
-     */
-    private static final int xOff = 14;
-    // todo diff
-    /**
-     * Returns the text x-offset from 0,0. 14 for notifications.
-     *
-     * @return the text x-offset from 0,0. 14 for notifications
-     */
-    public static int getTextXOffset() {
-        return xOff;
-    }
-
-    /**
-     * The y offset for the custom painted component.
-     */
-    private static final int yOff = 16;
-    // todo diff
-    /**
-     * Returns the text y-offset from 0,0. 16 for notifications.
-     *
-     * @return the text y-offset from 0,0. 16 for notifications
-     */
-    public static int getTextYOffset() {
-        return yOff;
-    }
-
-    /**
-     * Sets the width.
-     *
-     * @param w the width
-     */
-    public void setTextWidth(int w) {
-        textWidth = w;
-    }
-
-    /**
-     * Sets the height.
-     *
-     * @param h the height
-     */
-    public void setTextHeight(int h) {
-        textHeight = h;
-    }
-
-    /**
-     * Returns the actual width of the component accounting
-     * for the arrow and custom painted component.
-     *
-     * @return the width of the component as a whole
-     */
-    @Override
-    public int getWidth() {
-        // todo
-        return textWidth + getTextXOffset() * 2 + ((arrowDir == Direction.LEFT
-                || arrowDir == Direction.RIGHT) ? 6 : 0);
-    }
-
-    /**
-     * Returns the actual height of the component accounting
-     * for the arrow and custom painted component.
-     *
-     * @return the height of the component as a whole
-     */
-    @Override
-    public int getHeight() {
-        // todo
-        return textHeight + getTextYOffset() * 2 + ((arrowDir == Direction.BOTTOM
-                || arrowDir == Direction.TOP) ? arrowLen : 0);
-    }
-
-    /**
-     * Sets the opacity to the provided value and repaints the notificaiton.
-     *
-     * @param opacity the notificaiton opacity
-     */
-    private void setOpacity(int opacity) {
-        this.opacity = opacity;
-    }
-
-    /**
-     * The opacity for the notificaiton/toast.
+     * The opacity for the toast animation if the type is a toast.
      */
     private int opacity = 255;
-
-    /**
-     * The label the notification's text is on to change the opacity of
-     */
-    private JLabel textLabel;
-
-    /**
-     * Sets the text label of this notification so that we can control the opacity here.
-     *
-     * @param textLabel the text label on this notification
-     */
-    public void setTextLabel(JLabel textLabel) {
-        this.textLabel = textLabel;
-    }
 
     /**
      * {@inheritDoc}
@@ -208,6 +104,10 @@ public class CyderNotification extends JLabel {
     protected void paintComponent(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
 
+        if (builder.getNotificationType() == NotificationType.TOAST) {
+            builder.getContainer()
+        }
+
         // if it's a toast, hide label temporarily
         if (textLabel != null && opacity < 128) {
             textLabel.setVisible(false);
@@ -215,12 +115,13 @@ public class CyderNotification extends JLabel {
             textLabel.setVisible(true);
         }
 
+        // some fancy shit or whatever
         RenderingHints qualityHints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
         // draw the border, bigger bounds //todo yeah so changing this color does nothing....
-        Color borderColor = CyderColors.regularPink;
+        Color borderColor = CyderColors.notificationBorderColor;
         graphics2D.setPaint(new Color(
                 borderColor.getRed(), borderColor.getGreen(), borderColor.getBlue(), opacity));
 
@@ -594,173 +495,6 @@ public class CyderNotification extends JLabel {
         },"Notificaiton Vanish Animator");
     }
 
-    // ---------------------------------------------------
-    // QueuedNotification components of notification class
-    // ---------------------------------------------------
-
-    /*
-    Note: I am aware this could be a tagged class but per
-          Effective Java item 23, tagged classes are generally
-          a bad idea and class hierarchies should be used instead.
-     */
-
-    /**
-     * The html styled text of the notificaiton.
-     */
-    private final String htmlText;
-
-    /**
-     * The duration the notification lasts after fully visible.
-     */
-    private final int duration;
-
-    /**
-     * The direction the arrow is painted.
-     */
-    private final Direction arrowDir;
-
-    /**
-     * The direction the notification appears/vanishes from/to.
-     */
-    private final NotificationDirection notificationDirection;
-
-    /**
-     * The action to invoke if the notification is killed via a user.
-     */
-    private final Runnable onKillAction;
-
-    /**
-     * The time the notificaiton was queued at.
-     */
-    private final String time;
-
-    /**
-     * A custom container for the notification. Needed for rare cases.
-     */
-    private final Container contianer;
-
-    /**
-     * The background of the notification. Only applicable if a
-     * custom container is being used.
-     */
-    private Color notificationBackground = CyderColors.navy;
-
-    /**
-     * Constructs a new CyderNotification.
-     *
-     * @param text the html text for the eventual notification to display
-     * @param dur the duration in miliseconds the notification should last for. Use 0 for auto-calculation
-     * @param arrowDir the arrow direction
-     * @param notificationDirection the notification direction
-     * @param onKillAction the action to perform if the notification is dismissed by the user
-     */
-    public CyderNotification(String text, int dur, Direction arrowDir,
-                              NotificationDirection notificationDirection,
-                              Runnable onKillAction, Container container,
-                              Color notificationBackground, String time) {
-        Preconditions.checkNotNull(text);
-        Preconditions.checkArgument(text.length() > 3);
-        htmlText = text;
-
-        duration = dur;
-        contianer = container;
-        this.arrowDir = arrowDir;
-        this.notificationDirection = notificationDirection;
-        this.onKillAction = onKillAction;
-        this.notificationBackground = notificationBackground;
-        this.time = time;
-
-        killed = false;
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
-            }
-        });
-
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Suppress default constructor.
-     */
-    private CyderNotification() {
-        throw new IllegalMethodException("Instantiation not allowed without valid parameters");
-    }
-
-    /**
-     * Returns the html text.
-     *
-     * @return the html text
-     */
-    public String getHtmlText() {
-        return htmlText;
-    }
-
-    /**
-     * Returns the duration.
-     *
-     * @return the duration
-     */
-    public int getDuration() {
-        return duration;
-    }
-
-    /**
-     * Returns the arrow direction.
-     * @return the arrow direction
-     */
-    public Direction getArrowDir() {
-        return arrowDir;
-    }
-
-    /**
-     * Returns the notification direction.
-     *
-     * @return the notification direction
-     */
-    public NotificationDirection getNotificationDirection() {
-        return notificationDirection;
-    }
-
-    /**
-     * Returns the on kill action of this notification.
-     *
-     * @return the on kill action of this notification
-     */
-    public Runnable getOnKillAction() {
-        return onKillAction;
-    }
-
-    /**
-     * Returns the time this notifcation was addedd to the queue at.
-     *
-     * @return the time this notifcation was addedd to the queue at
-     */
-    public String getTime() {
-        return time;
-    }
-
-    /**
-     * The custom container for this notification.
-     *
-     * @return custom container for this notification
-     */
-    public Container getContianer() {
-        return contianer;
-    }
-
-    /**
-     * Returns the notification background for a
-     * notification with a custom component.
-     *
-     * @return the notification background
-     */
-    public Color getNotificationBackground() {
-        return notificationBackground;
-    }
-
     // -------------------------------------------------------
     // Primary methods to override according to Effective Java
     // -------------------------------------------------------
@@ -777,11 +511,7 @@ public class CyderNotification extends JLabel {
         } else {
             CyderNotification other = (CyderNotification) o;
 
-            return arrowDir == other.getArrowDir()
-                    && getWidth() == other.getWidth()
-                    && getHeight() == other.getHeight()
-                    && getHtmlText().equals(other.getHtmlText())
-                    && getTime().equals(other.getTime());
+            // TODO
         }
     }
 
@@ -790,12 +520,8 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int hashCode() {
-        int ret = arrowDir.hashCode();
-        ret = 31 * ret + Integer.hashCode(getWidth());
-        ret = 31 * ret + Integer.hashCode(getHeight());
-        ret = 31 * ret + htmlText.hashCode();
-        ret = 31 * ret + time.hashCode();
-        return ret;
+        // TODO
+        return 0;
     }
 
     /**

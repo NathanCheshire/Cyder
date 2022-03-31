@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.enums.LoggerTag;
-import cyder.enums.NotificationDirection;
 import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -32,6 +31,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -212,7 +212,7 @@ public class CyderFrame extends JFrame {
     /**
      * The list of notifications that have yet to be pulled and notified via this frame.
      */
-    private final ArrayList<CyderNotification> notificationList = new ArrayList<>();
+    private final ArrayList<NotificationBuilder> notificationList = new ArrayList<>();
 
     /**
      * The area exposed to allow frame resizing. The maximum is 5 since
@@ -954,15 +954,7 @@ public class CyderFrame extends JFrame {
         checkArgument(StringUtil.getRawTextLength(notificationBuilder.getHtmlText())
                 > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
 
-        notificationList.add(new CyderNotification(
-                notificationBuilder.getHtmlText(),
-                notificationBuilder.getViewDuration(),
-                notificationBuilder.getArrowDir(),
-                notificationBuilder.getNotificationDirection(),
-                notificationBuilder.getOnKillAction(),
-                notificationBuilder.getContainer(),
-                notificationBuilder.getNotificationBackground(),
-                TimeUtil.notificationTime()));
+        notificationList.add(notificationBuilder);
 
         if (!notificationCheckerStarted) {
             CyderThreadRunner.submit(NotificationQueueRunnable, this + " notification queue checker");
@@ -979,20 +971,10 @@ public class CyderFrame extends JFrame {
         checkArgument(StringUtil.getRawTextLength(htmlText)
                 > NotificationBuilder.MINIMUM_TEXT_LENGTH, "Raw text must be 3 characters or greater");
 
-        NotificationBuilder builder = new NotificationBuilder(htmlText);
-        builder.setNotificationDirection(NotificationDirection.BOTTOM);
-
-        CyderNotification toast = new CyderNotification(
-                builder.getHtmlText(),
-                builder.getViewDuration(),
-                builder.getArrowDir(),
-                builder.getNotificationDirection(),
-                builder.getOnKillAction(),
-                builder.getContainer(),
-                builder.getNotificationBackground(),
-                TimeUtil.notificationTime());
-
+        // toasts only require the toast tag
+        CyderNotification toast = new CyderNotification(new NotificationBuilder(htmlText));
         toast.setDrawArrow(false);
+
         notificationList.add(toast);
 
         if (!notificationCheckerStarted) {
@@ -1002,7 +984,7 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * The notification queue for internal frame notifications.
+     * The notification queue for internal frame notifications/toasts.
      */
     private final Runnable NotificationQueueRunnable = () -> {
         try {
@@ -1027,6 +1009,7 @@ public class CyderFrame extends JFrame {
                         continue;
                     }
 
+                    // if no custom container
                     if (currentNotification.getContianer() == null) {
                         //create text label to go on top of notification label
                         JLabel textLabel = new JLabel(text);
@@ -1041,7 +1024,8 @@ public class CyderFrame extends JFrame {
 
                         //set the text bounds to the proper x,y and the
                         // calculated width and height
-                        textLabel.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
+                        textLabel.setBounds(
+                                CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
 
                         currentNotification.setTextWidth(w);
                         currentNotification.setTextHeight(h);
@@ -1051,7 +1035,8 @@ public class CyderFrame extends JFrame {
                         currentNotification.add(textLabel);
 
                         JLabel disposeLabel = new JLabel();
-                        disposeLabel.setBounds(CyderNotification.getTextXOffset(), CyderNotification.getTextYOffset(), w, h);
+                        disposeLabel.setBounds(CyderNotification.getTextXOffset(),
+                                CyderNotification.getTextYOffset(), w, h);
 
                         disposeLabel.setToolTipText("Notified at: " + currentNotification.getTime());
                         disposeLabel.addMouseListener(new MouseAdapter() {
@@ -1171,22 +1156,15 @@ public class CyderFrame extends JFrame {
         if (currentNotification.getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {
-            CyderNotification remove = null;
+            // if in the queue
+            Iterator<NotificationBuilder> iter = notificationList.iterator();
 
-            // should be fast enough to avoid concurrency issues
-            for (CyderNotification notification : notificationList) {
-                if (notification.getHtmlText().equals(expectedText)) {
-                    remove = notification;
-                    break;
+            while (iter.hasNext()) {
+                if (iter.next().getHtmlText().equals(expectedText)) {
+                   iter.remove();
                 }
             }
-
-            // remove from list
-            notificationList.remove(remove);
         }
-
-        // for all notifications shown or in queue:
-        // if text is equal to expected, revoke or remove
     }
 
     /**

@@ -43,7 +43,7 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-
+        notificationTest();
     }
 
     /**

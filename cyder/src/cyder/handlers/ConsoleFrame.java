@@ -56,7 +56,7 @@ public enum ConsoleFrame {
     INSTANCE;
 
     /**
-     * Log when teh console frame singleton is constructed
+     * Log when the console frame singleton is constructed
      * (enums are constructed when they are first referenced).
      */
     ConsoleFrame() {
