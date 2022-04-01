@@ -17,10 +17,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.ui.objects.NotificationBuilder;
-import cyder.utilities.IPUtil;
-import cyder.utilities.ImageUtil;
-import cyder.utilities.StringUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -409,7 +406,7 @@ public class WeatherWidget {
     public String getWeatherTime() {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ssaa EEEEEEEEEEEEE, MMMMMMMMMMMMMMMMMM dd, yyyy");
+        SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         try {
@@ -489,7 +486,8 @@ public class WeatherWidget {
     }
 
     private String getTimezoneLabel() {
-        return "GMT" + (Integer.parseInt(gmtOffset)/3600) + (IPUtil.getIpdata().getTime_zone().isIs_dst() ? " [DST Active]" : "");
+        return "GMT" + (Integer.parseInt(gmtOffset)/3600)
+                + (IPUtil.getIpdata().getTime_zone().isIs_dst() ? " [DST Active]" : "");
     }
 
     private String correctedSunTime(String absoluteTime) {
@@ -501,6 +499,16 @@ public class WeatherWidget {
         return hour + ":" + (minute < 10 ? "0" + minute : minute);
     }
 
+    // todo surely the temperature range is for this hour? make it for the day
+
+    /**
+     * The gson object to use for deserializing json data.
+     */
+    private static final Gson gson = new Gson();
+
+    /**
+     * Refreshes the weather stat variables.
+     */
     protected void repullWeatherStats() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -514,16 +522,16 @@ public class WeatherWidget {
                 String key = UserUtil.getCyderUser().getWeatherkey();
 
                 if (key.trim().isEmpty()) {
-                    ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has not been set or is invalid" +
-                            ", as a result, many features of Cyder will not work as intended. Please see the fields panel of the" +
-                            " user editor to learn how to acquire a key and set it.","Weather Key Not Set");
+                    ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
+                            + "not been set or is invalid, as a result, many features of Cyder will not work as"
+                            + " intended. Please see the fields panel of the user editor to learn how to acquire "
+                            + "a key and set it.","Weather Key Not Set");
                     return;
                 }
 
                 String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                         locationString + "&appid=" + key + "&units=imperial";
 
-                Gson gson = new Gson();
                 WeatherData wd;
 
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
@@ -565,7 +573,6 @@ public class WeatherWidget {
 
                     String[] parts = locationString.split(",");
 
-                    //frame title
                     if (!parts[0].trim().isEmpty()) {
                         String city = StringUtil.capsFirstWords(parts[0].trim()).trim();
                         weatherFrame.setTitle(city + StringUtil.getApostrophe(city) + " weather");
@@ -573,6 +580,7 @@ public class WeatherWidget {
                         weatherFrame.setTitle("Weather");
                     }
 
+                    // needed to change the title on the menu
                     ConsoleFrame.INSTANCE.revalidateMenu();
                 }
             } catch (FileNotFoundException e) {

@@ -165,29 +165,6 @@ public class UserUtil {
         return cyderUser;
     }
 
-    // todo duplciate methods?
-    /**
-     * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
-     *
-     * @param name the name of the data to set
-     * @param value the new value
-     */
-    public static void setUserData(String name, String value) {
-        try {
-            for (Method m : cyderUser.getClass().getMethods()) {
-                if (m.getName().startsWith("set")
-                        && m.getParameterTypes().length == 1
-                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
-                    m.invoke(cyderUser, value);
-                    writeUser();
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
     /**
      * Writes the provided user to the provided file.
      *
@@ -653,6 +630,29 @@ public class UserUtil {
     // todo remove this type of method or at least exception proof it
     // todo comment User.java even though it will take a while it needs to be doc-ed
 
+    // todo directly use set calls
+    /**
+     * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
+     *
+     * @param name the name of the data to set
+     * @param value the new value
+     */
+    public static void setUserData(String name, String value) {
+        try {
+            for (Method m : cyderUser.getClass().getMethods()) {
+                if (m.getName().startsWith("set")
+                        && m.getParameterTypes().length == 1
+                        && m.getName().replace("set","").equalsIgnoreCase(name)) {
+                    m.invoke(cyderUser, value);
+                    writeUser();
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
     /**
      * Returns the requested data from the currently logged-in user.
      * This method exists purely for legacy calls such as getUserData("foreground").
@@ -662,26 +662,8 @@ public class UserUtil {
      * @return the resulting data
      */
     public static String getUserData(String name) {
-        // todo stuff that uses this should use the getUserData(String, String)
-        return extractUserData(cyderUser, name);
-    }
-
-    // todo all of one of these should be able to be removed
-
-    /**
-     * Assuming the corresponding getter function exist in User.java,
-     * this method will call the getter method that matches the provided data.
-     * This method exists purely for legacy calls such as extractUserData("font").
-     *
-     * @param u the user containing the data we want to obtain
-     * @param id the data id for which to return
-     * @return the requested data
-     */
-    public static String extractUserData(User u, String id) {
-        checkNotNull(u);
-        checkNotNull(id);
-        checkNotNull(u.getClass().getMethods());
-        Preconditions.checkArgument(!StringUtil.isNull(id), "Invalid id argument: " + id);
+        Preconditions.checkArgument(!StringUtil.isNull(name),
+                "Invalid id argument: " + name);
 
         String ret = null;
 
@@ -689,22 +671,22 @@ public class UserUtil {
         boolean in = false;
 
         for (IgnoreData ignoreData : IgnoreData.values()) {
-            if (ignoreData.getId().equalsIgnoreCase(id)) {
+            if (ignoreData.getId().equalsIgnoreCase(name)) {
                 in = true;
                 break;
             }
         }
 
         if (!in) {
-            Logger.log(LoggerTag.SYSTEM_IO, "Userdata requested: " + id);
+            Logger.log(LoggerTag.SYSTEM_IO, "Userdata requested: " + name);
         }
 
         try {
-            for (Method m : u.getClass().getMethods()) {
+            for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith("get")
                         && m.getParameterTypes().length == 0
-                        && m.getName().toLowerCase().contains(id.toLowerCase())) {
-                    Object r = m.invoke(u);
+                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                    Object r = m.invoke(cyderUser);
                     ret = (String) r;
                     break;
                 }
@@ -716,10 +698,17 @@ public class UserUtil {
         return ret;
     }
 
+    // todo all of one of these should be able to be removed
+    // todo console frame laggy, optimize cyderframe and frame refreshing
+
     /**
      * Returns a user with all the default values set.
      * Note some default values are empty strings and others
      * are objects that should not be cast to strings.
+     *
+     * Due to the mutability of a User, this method exist to create
+     * a brand new object with default values each time as a static final
+     * user cannot be created and returned safely.
      *
      * @return a user object with all the default
      * {@link Preferences} found in {@code GenesisShare}.

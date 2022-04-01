@@ -813,7 +813,7 @@ public class AudioPlayer {
             playPauseAudioButton.setToolTipText("Play");
 
             //revalidate the console audio menu
-            ConsoleFrame.INSTANCE.revalidateAudioMenu();
+            ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -864,7 +864,7 @@ public class AudioPlayer {
             playPauseAudioButton.setToolTipText("Play");
 
             //revalidate console frame's audio menu
-            ConsoleFrame.INSTANCE.revalidateAudioMenu();
+            ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
 
             //take away the custom icon since no audio is playing nor paused
             if (audioFrame != null) {
@@ -1055,7 +1055,7 @@ public class AudioPlayer {
                 //set the play/pause icons
                 playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                 playPauseAudioButton.setToolTipText("Pause");
-                ConsoleFrame.INSTANCE.revalidateAudioMenu();
+                ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
 
                 //album art if possible
                 if (refreshAlbumArt()) {
@@ -1201,7 +1201,7 @@ public class AudioPlayer {
 
                     playPauseAudioButton.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
                     playPauseAudioButton.setToolTipText("Pause");
-                    ConsoleFrame.INSTANCE.revalidateAudioMenu();
+                    ConsoleFrame.INSTANCE.revalidateAudioMenuVisibility();
 
                     lastAction = LastAction.PLAY;
 

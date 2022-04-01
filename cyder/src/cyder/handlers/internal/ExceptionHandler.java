@@ -63,6 +63,7 @@ public class ExceptionHandler {
         }
     }
 
+    // todo remove need for, isn't the point to log everything? maybe you mean to debug print
     /**
      * This method handles an exception the same way as {@link ExceptionHandler#handle(Exception)} (String)}
      * except it does so without logging the exception.

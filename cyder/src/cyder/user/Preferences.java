@@ -264,7 +264,11 @@ public class Preferences {
         ret.add(new Preference("windowcolor","IGNORE",
                 "","1A2033",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = windowcolor");
+
             FrameUtil.repaintCyderFrames();
+            ConsoleFrame.INSTANCE.revalidateMenuBackgrounds();
+            // todo revalidate menus on frames
+
             return null;
         }));
         ret.add(new Preference("consoleclockformat","IGNORE",

@@ -327,6 +327,7 @@ public enum ConsoleFrame {
 
                 @Override
                 public void dispose() {
+                    // prevent focus borders from appearing
                     outputArea.setFocusable(false);
                     outputScroll.setFocusable(false);
                     super.dispose();
@@ -2563,6 +2564,10 @@ public enum ConsoleFrame {
         return consoleCyderFrame;
     }
 
+    // --------------------------------
+    // menu generation and revalidation
+    // --------------------------------
+
     /**
      * Revalidates the console menu bounds and height and places
      * it where it in the proper spot depending on if it is shown.
@@ -2585,9 +2590,7 @@ public enum ConsoleFrame {
             //no other actions needed
         }
 
-        // ---------------------------------------------
         // set bounds of components affected by the menu
-        // ---------------------------------------------
 
         int addX = 0;
         int w = consoleCyderFrame.getWidth();
@@ -2651,9 +2654,9 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Revalidates the audio menu based on if audio is playing.
+     * Revalidates the visibility audio menu based on if audio is playing.
      */
-    public void revalidateAudioMenu() {
+    public void revalidateAudioMenuVisibility() {
         if (!AudioPlayer.windowOpen() && !IOUtil.generalAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
@@ -2675,7 +2678,7 @@ public enum ConsoleFrame {
     }
 
     /**
-     * Simply removes the audio controls, no questions asked.
+     * Hides the audio controls panel and toggle button.
      */
     private void removeAudioControls() {
         audioControlsLabel.setVisible(false);
@@ -2697,6 +2700,7 @@ public enum ConsoleFrame {
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
 
+        // todo use cyder icon button?
         JLabel stopMusicLabel = new JLabel("");
         stopMusicLabel.setBounds(45,5,30, 30);
         stopMusicLabel.setIcon(new ImageIcon("static/pictures/music/Stop.png"));
@@ -2822,6 +2826,21 @@ public enum ConsoleFrame {
         lastMusicLabel.setVisible(true);
         lastMusicLabel.setOpaque(false);
         audioControlsLabel.add(lastMusicLabel);
+    }
+
+    /**
+     * Revalidates the background colors of the console menus that are active.
+     */
+    public void revalidateMenuBackgrounds() {
+        if (menuLabel != null && menuLabel.isVisible()) {
+            generateConsoleMenu();
+            menuLabel.setLocation(2, CyderDragLabel.DEFAULT_HEIGHT - 2);
+        }
+
+        if (audioControlsLabel != null && audioControlsLabel.isVisible()) {
+            audioControlsLabel.setBackground(CyderColors.getGuiThemeColor());
+            audioControlsLabel.repaint();
+        }
     }
 
     /**

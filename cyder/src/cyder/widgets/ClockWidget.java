@@ -40,31 +40,59 @@ public class ClockWidget {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
+    /**
+     * The clock frame.
+     */
     private static CyderFrame clockFrame;
+
+    /**
+     * The custom label to paint.
+     */
     private static JLabel clockLabel;
 
+    /**
+     * The digital time label.
+     */
     private static JLabel digitalTimeAndDateLabel;
 
+    /**
+     * Whether to show the seconds hand
+     */
     private static boolean showSecondHand = true;
+
+    /**
+     * Whether to show the hour numerals.
+     */
     private static boolean paintHourLabels = true;
 
-    private static Color clockColor = CyderColors.navy;
+    /**
+     * The default clock color
+     */
+    private static Color clockColor = CyderColors.getGuiThemeColor();
 
+    /**
+     * Whether to update the clock.
+     */
     private static boolean update;
 
-    private static int[] currentSecond = {0};
-    private static int[] currentMinute = {0};
-    private static int[] currentHour = {0};
+    private static final int[] currentSecond = {0};
+    private static final int[] currentMinute = {0};
+    private static final int[] currentHour = {0};
 
+    /**
+     * The GMT location string.
+     */
     private static String currentLocation = "Greenwich, London";
+
+    /**
+     * The GMT offset for the current timezone.
+     */
     private static int currentGMTOffset;
 
+    // it's ya boi, Greenwich
     @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone")
-    //it's ya boi, Greenwich
     public static void showGUI() {
         CyderThreadRunner.submit(() -> {
-            
-
             if (clockFrame != null)
                 clockFrame.dispose();
 
@@ -129,8 +157,7 @@ public class ClockWidget {
                     int originalR = r;
 
                     //center point to draw our hands from
-                    int centerX = labelLen / 2;
-                    int centerY = centerX;
+                    int center = labelLen / 2;
 
                     //vars used in if
                     int numPoints = 12;
@@ -153,8 +180,8 @@ public class ClockWidget {
                             g2d.setColor(clockColor);
                             ((Graphics2D) g).setStroke(new BasicStroke(6));
                             int radius = 20;
-                            int topLeftX = (int) (x - radius / 2 + centerX) + 10;
-                            int topleftY = (int) (y - radius / 2 + centerY);
+                            int topLeftX = (int) (x - radius / 2 + center) + 10;
+                            int topleftY = (int) (y - radius / 2 + center);
 
                             String minText = numerals[i];
                             FontMetrics fm = g.getFontMetrics();
@@ -177,8 +204,8 @@ public class ClockWidget {
                             g2d.setColor(clockColor);
                             ((Graphics2D) g).setStroke(new BasicStroke(6));
                             int radius = 20;
-                            int topLeftX = (int) (x - radius / 2 + centerX) + 5;
-                            int topleftY = (int) (y - radius / 2 + centerY) - 10;
+                            int topLeftX = (int) (x - radius / 2 + center) + 5;
+                            int topleftY = (int) (y - radius / 2 + center) - 10;
 
                             g.fillRect(topLeftX, topleftY, boxLen / 2, boxLen);
 
@@ -217,7 +244,7 @@ public class ClockWidget {
                     ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw hour hand
-                    g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
+                    g.drawLine(center, center, center + drawToX,  center + drawToY);
 
                     //minute hand is 20% decrease
                     r = (int) (originalR * 0.80);
@@ -234,7 +261,7 @@ public class ClockWidget {
                     ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                     //draw minute hand
-                    g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
+                    g.drawLine(center, center, center + drawToX,  center + drawToY);
 
                     if (showSecondHand) {
                         //second hand is 85% of original r
@@ -252,7 +279,7 @@ public class ClockWidget {
                         ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
                         //draw second hand
-                        g.drawLine(centerX, centerY, centerX + drawToX,  centerY + drawToY);
+                        g.drawLine(center, center, center + drawToX,  center + drawToY);
                     }
 
                     //draw center dot
@@ -261,7 +288,7 @@ public class ClockWidget {
                     g2d.setColor(CyderColors.navy);
                     ((Graphics2D) g).setStroke(new BasicStroke(6,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                     int radius = 20;
-                    g.fillOval(centerX - radius / 2, centerY - radius / 2, radius, radius);
+                    g.fillOval(center - radius / 2, center - radius / 2, radius, radius);
                 }
             };
             clockLabel.setBounds(80,100, 640, 640);
@@ -343,8 +370,7 @@ public class ClockWidget {
                 String text = hexField.getText().trim();
 
                 try {
-                    Color newColor = ColorUtil.hexToRgb(text);
-                    clockColor = newColor;
+                    clockColor = ColorUtil.hexToRgb(text);
                     hexField.setText(ColorUtil.rgbToHexString(clockColor));
                     clockLabel.repaint();
                 } catch (Exception ex) {
@@ -489,7 +515,7 @@ public class ClockWidget {
     private static String getWeatherTime(int gmtOffsetInHours) {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("h:mm:ssaa EEEEEEEEEEEEE, MMMMMMMMMMMMMMMMMM dd, yyyy");
+        SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
         dateFormatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         try {

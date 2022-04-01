@@ -598,10 +598,7 @@ public class UserEditor {
 
                     CyderColors.setGuiThemeColor(c);
 
-                    for (Frame f : Frame.getFrames()) {
-                        if (f instanceof CyderFrame)
-                            f.repaint();
-                    }
+                    Preferences.invokeRefresh("windowcolor");
                 } catch (Exception ignored) {}
             }
         });
@@ -815,14 +812,13 @@ public class UserEditor {
             windowField.setText(UserUtil.buildDefaultUser().getWindowcolor());
             windowColorBlock.setBackground((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
             CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
-
-            for (CyderFrame f : FrameUtil.getCyderFrames()) {
-                f.repaint();
-            }
+            Preferences.invokeRefresh("windowcolor");
 
             // set scroll list position to top
-            fontScrollRef.get().getScrollPane().getVerticalScrollBar().setValue(
-                    fontScrollRef.get().getScrollPane().getVerticalScrollBar().getMinimum());
+            if (fontScrollRef.get() != null) {
+                fontScrollRef.get().getScrollPane().getVerticalScrollBar().setValue(
+                        fontScrollRef.get().getScrollPane().getVerticalScrollBar().getMinimum());
+            }
 
             // other defaults colors below
             switchingLabel.revalidate();

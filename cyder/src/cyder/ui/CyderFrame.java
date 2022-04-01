@@ -2150,6 +2150,11 @@ public class CyderFrame extends JFrame {
         getContentPane().repaint();
         getTrueContentPane().repaint();
 
+        if (menuLabel != null) {
+            menuLabel.setBackground(CyderColors.getGuiThemeColor());
+            menuLabel.repaint();
+        }
+
         //finally super call
         super.repaint();
     }
@@ -3207,7 +3212,7 @@ public class CyderFrame extends JFrame {
 
         menuLabel = new JLabel();
         menuLabel.setOpaque(true);
-        menuLabel.setBackground(CyderColors.navy);
+        menuLabel.setBackground(CyderColors.getGuiThemeColor());
 
         if (currentMenuType == MenuType.PANEL) {
             int add = menuItems.size() == 1 ? 5 : 0;
