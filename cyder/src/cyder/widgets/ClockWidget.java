@@ -15,6 +15,7 @@ import cyder.ui.CyderLabel;
 import cyder.ui.CyderSwitch;
 import cyder.ui.CyderTextField;
 import cyder.utilities.*;
+import cyder.widgets.objects.WeatherData;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -425,11 +426,11 @@ public class ClockWidget {
                                 possibleLocation + "&appid=" + key + "&units=imperial";
 
                         Gson gson = new Gson();
-                        WeatherWidget.WeatherData wd;
+                        WeatherData wd;
 
                         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                                 new URL(OpenString).openStream()))) {
-                            wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
+                            wd = gson.fromJson(reader, WeatherData.class);
                             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
                             currentLocation = possibleLocation;
 
@@ -581,10 +582,10 @@ public class ClockWidget {
                 currentLocation + "&appid=" + key + "&units=imperial";
 
         Gson gson = new Gson();
-        WeatherWidget.WeatherData wd;
+        WeatherData wd;
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
-            wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
+            wd = gson.fromJson(reader, WeatherData.class);
             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
         } catch (Exception e) {
             ExceptionHandler.handle(e);

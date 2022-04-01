@@ -115,7 +115,7 @@ public class MessagingUtils {
 
         // todo make sure toast border is present
 
-        // todo ensure meets min dimensions
+        // todo ensure meets min dimensions here
 
         BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = ret.createGraphics();

@@ -37,6 +37,7 @@ public class ExceptionHandler {
             if (ConsoleFrame.INSTANCE.getUUID() != null &&
                     !ConsoleFrame.INSTANCE.isClosed() &&
                     UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
+                // todo what???
                 silentHandleWithoutLogging(e);
             }
         }
