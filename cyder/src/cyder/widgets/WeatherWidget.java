@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -18,6 +19,7 @@ import cyder.ui.CyderFrame;
 import cyder.ui.CyderTextField;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
+import cyder.widgets.objects.WeatherData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +30,6 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.TimeZone;
 
 public class WeatherWidget {
@@ -399,11 +400,27 @@ public class WeatherWidget {
         },"Weather Clock Updater");
     }
 
-    public static double map(double x, double in_min, double in_max, double out_min, double out_max) {
-        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    /**
+     * Maps the value in from one range to the next.
+     *
+     * @param value the value to map
+     * @param oldRangeMin the old range's min
+     * @param oldRangeMax the old range's max
+     * @param newRangeMin the new range's min
+     * @param newRangeMax the new range's max
+     * @return the value mapped from the old range to the new range
+     */
+    public static double map(double value, double oldRangeMin, double oldRangeMax,
+                             double newRangeMin, double newRangeMax) {
+        return (value - oldRangeMin) * (newRangeMax - newRangeMin) / (oldRangeMax - oldRangeMin) + newRangeMin;
     }
 
-    public String getWeatherTime() {
+    /**
+     * Returns the current weather time.
+     *
+     * @return the current weather time
+     */
+    private String getWeatherTime() {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
@@ -419,7 +436,10 @@ public class WeatherWidget {
         return dateFormatter.format(cal.getTime());
     }
 
-    private void refreshWeather() {
+    /**
+     * Refreshes the weather labels based off of the current vars.
+     */
+    private void refreshWeatherLabels() {
         try {
             if (locationString.length() > 1) {
                 String[] parts = locationString.split(",");
@@ -485,21 +505,43 @@ public class WeatherWidget {
         }
     }
 
+    /**
+     * Returns the text for the timezone label.
+     *
+     * @return the text for the timezone label
+     */
     private String getTimezoneLabel() {
-        return "GMT" + (Integer.parseInt(gmtOffset)/3600)
+        return "GMT" + (Integer.parseInt(gmtOffset) / 3600)
                 + (IPUtil.getIpdata().getTime_zone().isIs_dst() ? " [DST Active]" : "");
     }
 
+    /**
+     * Returns the hh:mm time after accounting for the GMT offset.
+     *
+     * @param absoluteTime the absolute hh:mm time
+     * @return the hh:mm time after accounting for the GMT offset
+     */
     private String correctedSunTime(String absoluteTime) {
-        int hour = Integer.parseInt(absoluteTime.split(":")[0]);
-        int minute = Integer.parseInt(absoluteTime.split(":")[1]);
+        Preconditions.checkNotNull(absoluteTime);
+        Preconditions.checkArgument(absoluteTime.contains(":"));
+
+        String[] parts = absoluteTime.split(":");
+
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Illegal absolute time: " + absoluteTime);
+        }
+
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1]);
 
         hour += (Integer.parseInt(gmtOffset) / 3600 - (currentLocationGMTOffset / 60 / 60));
 
+        // hour, colon, 01,...,09,10,..., 59,01
         return hour + ":" + (minute < 10 ? "0" + minute : minute);
     }
 
     // todo surely the temperature range is for this hour? make it for the day
+    // todo a lot of method shere don't make sense, optimize weather widget
 
     /**
      * The gson object to use for deserializing json data.
@@ -592,381 +634,64 @@ public class WeatherWidget {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             } finally {
-                refreshWeather();
+                refreshWeatherLabels();
             }
         },"Weather Stats Updater");
     }
 
-    public static String getWindDirection(String wb) {
-        return getWindDirection(Double.parseDouble(wb));
+    /**
+     * Returns the wind direction String.
+     *
+     * @param bearing the bearing of the wind vector
+     * @return the wind direction string
+     */
+    public static String getWindDirection(String bearing) {
+        return getWindDirection(Double.parseDouble(bearing));
     }
 
-    public static String getWindDirection(double bear) {
-        while (bear > 360.0)
-            bear -= 360.0;
-        while (bear < 0.0)
-            bear += 360.0;
+    /**
+     * Returns the wind direction string based off of the current wind bearing.
+     *
+     * @param bearing the current wind bearing
+     * @return the wind directionstring based off of the current wind bearing.
+     */
+    public static String getWindDirection(double bearing) {
+        while (bearing > 360.0)
+            bearing -= 360.0;
+        while (bearing < 0.0)
+            bearing += 360.0;
 
         String ret = "";
 
-        //northern hemisphere
-       if (bear >= 0.0 && bear <= 180.0) {
-           if (bear == 0.0)
+        // northern hemisphere
+        if (bearing >= 0.0 && bearing <= 180.0) {
+           if (bearing == 0.0)
                ret = "E";
-           else if (bear == 180.0)
+           else if (bearing == 180.0)
                ret = "W";
            else {
                //we now know it's north something
                ret += "N";
 
-               if (bear > 90.0) {
+               if (bearing > 90.0) {
                    ret += "W";
-               } else if (bear < 90.0){
+               } else if (bearing < 90.0){
                    ret += "E";
                }
            }
        }
-       //southern hemisphere excluding east and west directions
+       // southern hemisphere excluding directly East and West
        else {
            //already know it must be S appended
            ret = "S";
 
            //is it east
-           if (bear < 270.0)
+           if (bearing < 270.0)
                ret += "W";
-           if (bear > 270.0)
+           if (bearing > 270.0)
                ret += "E";
        }
 
         return ret;
-    }
-
-    //weather object used for json serialization
-
-    static class WeatherData {
-        private Coord coord;
-        private LinkedList<JsonWeather> weather;
-        private String base;
-        private Main main;
-        private int visibility;
-        private Wind wind;
-        private Clouds clouds;
-        private int dt;
-        private Sys sys;
-        private int timezone;
-        private int id;
-        private String name;
-        private double cod;
-
-        public Coord getCoord() {
-            return coord;
-        }
-
-        public void setCoord(Coord coord) {
-            this.coord = coord;
-        }
-
-        public LinkedList<JsonWeather> getWeather() {
-            return weather;
-        }
-
-        public void setWeather(LinkedList<JsonWeather> weather) {
-            this.weather = weather;
-        }
-
-        public String getBase() {
-            return base;
-        }
-
-        public void setBase(String base) {
-            this.base = base;
-        }
-
-        public Main getMain() {
-            return main;
-        }
-
-        public void setMain(Main main) {
-            this.main = main;
-        }
-
-        public int getVisibility() {
-            return visibility;
-        }
-
-        public void setVisibility(int visibility) {
-            this.visibility = visibility;
-        }
-
-        public Wind getWind() {
-            return wind;
-        }
-
-        public void setWind(Wind wind) {
-            this.wind = wind;
-        }
-
-        public Clouds getClouds() {
-            return clouds;
-        }
-
-        public void setClouds(Clouds clouds) {
-            this.clouds = clouds;
-        }
-
-        public int getDt() {
-            return dt;
-        }
-
-        public void setDt(int dt) {
-            this.dt = dt;
-        }
-
-        public Sys getSys() {
-            return sys;
-        }
-
-        public void setSys(Sys sys) {
-            this.sys = sys;
-        }
-
-        public int getTimezone() {
-            return timezone;
-        }
-
-        public void setTimezone(int timezone) {
-            this.timezone = timezone;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public double getCod() {
-            return cod;
-        }
-
-        public void setCod(double cod) {
-            this.cod = cod;
-        }
-
-        public static class Coord {
-            private double lon;
-            private double lat;
-
-            public double getLon() {
-                return lon;
-            }
-
-            public void setLon(double lon) {
-                this.lon = lon;
-            }
-
-            public double getLat() {
-                return lat;
-            }
-
-            public void setLat(double lat) {
-                this.lat = lat;
-            }
-        }
-
-        public static class JsonWeather {
-            private int id;
-            private String main;
-            private String description;
-            private String icon;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getMain() {
-                return main;
-            }
-
-            public void setMain(String main) {
-                this.main = main;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-
-            public void setDescription(String description) {
-                this.description = description;
-            }
-
-            public String getIcon() {
-                return icon;
-            }
-
-            public void setIcon(String icon) {
-                this.icon = icon;
-            }
-        }
-
-        public static class Main {
-            private double temp;
-            private double feels_like;
-            private double temp_min;
-            private double temp_max;
-            private double pressure;
-            private double humidity;
-
-            public double getTemp() {
-                return temp;
-            }
-
-            public double getFeels_like() {
-                return feels_like;
-            }
-
-            public double getTemp_min() {
-                return temp_min;
-            }
-
-            public double getTemp_max() {
-                return temp_max;
-            }
-
-            public double getPressure() {
-                return pressure;
-            }
-
-            public double getHumidity() {
-                return humidity;
-            }
-
-            public void setTemp(double temp) {
-                this.temp = temp;
-            }
-
-            public void setFeels_like(double feels_like) {
-                this.feels_like = feels_like;
-            }
-
-            public void setTemp_min(double temp_min) {
-                this.temp_min = temp_min;
-            }
-
-            public void setTemp_max(double temp_max) {
-                this.temp_max = temp_max;
-            }
-
-            public void setPressure(double pressure) {
-                this.pressure = pressure;
-            }
-
-            public void setHumidity(double humidity) {
-                this.humidity = humidity;
-            }
-        }
-
-        public static class Wind {
-            private double speed;
-            private int deg;
-            private double gust;
-
-            public double getSpeed() {
-                return speed;
-            }
-
-            public int getDeg() {
-                return deg;
-            }
-
-            public double getGust() {
-                return gust;
-            }
-
-            public void setSpeed(double speed) {
-                this.speed = speed;
-            }
-
-            public void setDeg(int deg) {
-                this.deg = deg;
-            }
-
-            public void setGust(double gust) {
-                this.gust = gust;
-            }
-        }
-
-        public static class Clouds {
-            private double all;
-
-            public double getAll() {
-                return all;
-            }
-
-            public void setAll(double all) {
-                this.all = all;
-            }
-        }
-
-        public static class Sys {
-            private int type;
-            private int id;
-            private String country;
-            private int sunrise;
-            private int sunset;
-
-            public void setType(int type) {
-                this.type = type;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public void setCountry(String country) {
-                this.country = country;
-            }
-
-            public void setSunrise(int sunrise) {
-                this.sunrise = sunrise;
-            }
-
-            public void setSunset(int sunset) {
-                this.sunset = sunset;
-            }
-
-            public int getType() {
-                return type;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public String getCountry() {
-                return country;
-            }
-
-            public int getSunrise() {
-                return sunrise;
-            }
-
-            public int getSunset() {
-                return sunset;
-            }
-        }
     }
 }
