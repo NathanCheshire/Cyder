@@ -530,7 +530,7 @@ public class UserEditor {
                 try {
                     Color c = ColorUtil.hexToRgb(foregroundField.getText());
                     foregroundColorBlock.setBackground(c);
-                    UserUtil.setUserData("Foreground", foregroundField.getText());
+                    UserUtil.getCyderUser().setForeground(foregroundField.getText());
                     Color updateC = ColorUtil.hexToRgb(foregroundField.getText());
 
                     ConsoleFrame.INSTANCE.getOutputArea().setForeground(updateC);
@@ -594,7 +594,7 @@ public class UserEditor {
                 try {
                     Color c = ColorUtil.hexToRgb(windowField.getText());
                     windowColorBlock.setBackground(c);
-                    UserUtil.setUserData("windowcolor", windowField.getText());
+                    UserUtil.getCyderUser().setWindowcolor(windowField.getText());
 
                     CyderColors.setGuiThemeColor(c);
 
@@ -655,7 +655,7 @@ public class UserEditor {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 try {
                     fillColorBlock.setBackground(ColorUtil.hexToRgb(fillField.getText()));
-                    UserUtil.setUserData("Background", fillField.getText());
+                    UserUtil.getCyderUser().setBackground(fillField.getText());
 
                     if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
                         ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
@@ -736,7 +736,7 @@ public class UserEditor {
             String selectedFont = fontScrollRef.get().getSelectedElements().get(0);
 
             if (selectedFont != null) {
-                UserUtil.setUserData("Font", selectedFont);
+                UserUtil.getCyderUser().setFont(selectedFont);
                 Font ApplyFont = new Font(selectedFont,
                         Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
                         Integer.parseInt(UserUtil.getCyderUser().getFontsize()));
@@ -755,24 +755,26 @@ public class UserEditor {
         resetValues.setFocusPainted(false);
         resetValues.setBackground(CyderColors.regularRed);
         resetValues.addActionListener(e -> {
+            User defaultUser = UserUtil.buildDefaultUser();
+
             // reset foreground
-            UserUtil.setUserData("foreground",UserUtil.buildDefaultUser().getForeground());
-            foregroundColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
-            foregroundField.setText(UserUtil.buildDefaultUser().getForeground());
+            UserUtil.getCyderUser().setForeground(defaultUser.getForeground());
+            foregroundColorBlock.setBackground(ColorUtil.hexToRgb(defaultUser.getForeground()));
+            foregroundField.setText(defaultUser.getForeground());
 
             // apply to input field, output area, and carets
             ConsoleFrame.INSTANCE.getOutputArea().setForeground(
-                    ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+                    ColorUtil.hexToRgb(defaultUser.getForeground()));
             ConsoleFrame.INSTANCE.getInputField().setForeground(
-                    ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+                    ColorUtil.hexToRgb(defaultUser.getForeground()));
             ConsoleFrame.INSTANCE.getInputField().setCaretColor(
-                    ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground()));
+                    ColorUtil.hexToRgb(defaultUser.getForeground()));
             ConsoleFrame.INSTANCE.getInputField().setCaret(
-                    new CyderCaret(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getForeground())));
+                    new CyderCaret(ColorUtil.hexToRgb(defaultUser.getForeground())));
 
             // reset font
-            UserUtil.setUserData("font",UserUtil.buildDefaultUser().getFont());
-            Font ApplyFont = new Font(UserUtil.buildDefaultUser().getFont(), Font.BOLD, 30);
+            UserUtil.getCyderUser().setForeground(defaultUser.getFont());
+            Font ApplyFont = new Font(defaultUser.getFont(), Font.BOLD, 30);
             ConsoleFrame.INSTANCE.getOutputArea().setFont(ApplyFont);
             ConsoleFrame.INSTANCE.getInputField().setFont(ApplyFont);
 
@@ -784,9 +786,9 @@ public class UserEditor {
             FontLabel.setFont(ApplyFont);
 
             // reset background color
-            UserUtil.setUserData("background",UserUtil.buildDefaultUser().getBackground());
-            fillColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getBackground()));
-            fillField.setText(UserUtil.buildDefaultUser().getBackground());
+            UserUtil.getCyderUser().setBackground(defaultUser.getBackground());
+            fillColorBlock.setBackground(ColorUtil.hexToRgb(defaultUser.getBackground()));
+            fillField.setText(defaultUser.getBackground());
 
             // reset output fill if active
             if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
@@ -807,11 +809,11 @@ public class UserEditor {
             }
 
             // window color
-            UserUtil.setUserData("windowcolor",UserUtil.buildDefaultUser().getWindowcolor());
-            windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor()));
-            windowField.setText(UserUtil.buildDefaultUser().getWindowcolor());
-            windowColorBlock.setBackground((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
-            CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(UserUtil.buildDefaultUser().getWindowcolor())));
+            UserUtil.getCyderUser().setWindowcolor(defaultUser.getWindowcolor());
+            windowColorBlock.setBackground(ColorUtil.hexToRgb(defaultUser.getWindowcolor()));
+            windowField.setText(defaultUser.getWindowcolor());
+            windowColorBlock.setBackground((ColorUtil.hexToRgb(defaultUser.getWindowcolor())));
+            CyderColors.setGuiThemeColor((ColorUtil.hexToRgb(defaultUser.getWindowcolor())));
             Preferences.invokeRefresh("windowcolor");
 
             // set scroll list position to top
@@ -871,7 +873,7 @@ public class UserEditor {
             JLabel togglePrefLabel = new JLabel("<html>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR</html>") {
                 @Override
                 public void paintComponent(Graphics g) {
-                    boolean setSelected = UserUtil.getUserData((Preferences
+                    boolean setSelected = UserUtil.getUserDataById((Preferences
                             .getPreferences().get(localIndex).getID())).equalsIgnoreCase("1");
 
                     int xOffset = switchingLabel.getWidth() / 2 - 35;
@@ -945,8 +947,8 @@ public class UserEditor {
                 public void mouseClicked(MouseEvent e) {
                     String localID = Preferences.getPreferences().get(localIndex).getID();
 
-                    boolean wasSelected = UserUtil.getUserData(localID).equalsIgnoreCase("1");
-                    UserUtil.setUserData(localID, wasSelected ? "0" : "1");
+                    boolean wasSelected = UserUtil.getUserDataById(localID).equalsIgnoreCase("1");
+                    UserUtil.setUserDataById(localID, wasSelected ? "0" : "1");
 
                     Preferences.invokeRefresh(localID);
                     togglePrefLabel.repaint();
@@ -1159,7 +1161,7 @@ public class UserEditor {
                 new SimpleDateFormat(fieldText).format(new Date());
 
                 //valid so write and refresh ConsoleClock
-                UserUtil.setUserData("consoleclockformat", fieldText);
+                UserUtil.getCyderUser().setConsoleclockformat(fieldText);
                 ConsoleFrame.INSTANCE.refreshClockText();
                 consoleDatePatternField.setText(fieldText);
             } catch (Exception ex) {
@@ -1498,7 +1500,7 @@ public class UserEditor {
                 }
 
                 if (valid) {
-                    UserUtil.setUserData("weatherkey",text);
+                    UserUtil.getCyderUser().setWeatherkey(text);
                     editUserFrame.notify("Weather key validated and set");
                 } else {
                     editUserFrame.notify("Invalid weather key");
@@ -1565,7 +1567,7 @@ public class UserEditor {
                 }
 
                 if (valid) {
-                    UserUtil.setUserData("ipkey",text);
+                    UserUtil.getCyderUser().setIpkey(text);
                     editUserFrame.notify("IP key validated and set");
 
                     // pull data from the IP key
@@ -1613,7 +1615,7 @@ public class UserEditor {
                     return;
                 }
 
-                UserUtil.setUserData("fontmetric", numbers);
+                UserUtil.getCyderUser().setFontmetric(numbers);
 
                 fontMetricField.setFont(new Font(
                         UserUtil.getCyderUser().getFont(), number,
@@ -1672,7 +1674,7 @@ public class UserEditor {
                 try {
                     NetworkUtil.readUrl(CyderUrls.YOUTUBE_API_V3_SEARCH +
                             "?part=snippet&q=gift+and+a+curse+skizzy+mars&type=video&key=" + text);
-                    UserUtil.setUserData("youtubeapi3key", text);
+                    UserUtil.getCyderUser().setYouTubeAPI3Key(text);
                     editUserFrame.notify("YouTubeAPI3 key successfully set");
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);

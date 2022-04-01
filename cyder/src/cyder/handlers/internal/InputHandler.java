@@ -657,13 +657,13 @@ public class InputHandler {
                 ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultLightModeTextColor);
                 ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultLightModeTextColor);
                 ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(CyderColors.defaultLightModeTextColor));
-                UserUtil.setUserData("Foreground",ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
+                UserUtil.getCyderUser().setForeground(ColorUtil.rgbToHexString(CyderColors.defaultLightModeTextColor));
             } else {
                 ConsoleFrame.INSTANCE.getOutputArea().setForeground(CyderColors.defaultDarkModeTextColor);
                 ConsoleFrame.INSTANCE.getInputField().setForeground(CyderColors.defaultDarkModeTextColor);
                 ConsoleFrame.INSTANCE.getInputField().setCaretColor(CyderColors.defaultDarkModeTextColor);
                 ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(CyderColors.defaultDarkModeTextColor));
-                UserUtil.setUserData("Foreground", ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
+                UserUtil.getCyderUser().setForeground(ColorUtil.rgbToHexString(CyderColors.defaultDarkModeTextColor));
             }
 
             Preferences.invokeRefresh("foreground");
@@ -1516,8 +1516,8 @@ public class InputHandler {
         for (Preference pref : Preferences.getPreferences()) {
             if (targetedPreference.equalsIgnoreCase(pref.getID().trim())) {
                 if (!pref.getDisplayName().equals("IGNORE")) {
-                    String newVal = UserUtil.getUserData(pref.getID()).equals("1") ? "0" : "1";
-                    UserUtil.setUserData(pref.getID(), newVal);
+                    String newVal = UserUtil.getUserDataById(pref.getID()).equals("1") ? "0" : "1";
+                    UserUtil.setUserDataById(pref.getID(), newVal);
                     println(pref.getDisplayName() + " set to " + (newVal.equals("1") ? "true" : "false"));
 
                     Preferences.invokeRefresh(pref.getID());
@@ -1908,7 +1908,7 @@ public class InputHandler {
 
         CyderThreadRunner.submit(() -> {
             try {
-                boolean typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
+                boolean typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                 long lastPull = System.currentTimeMillis();
                 long dataPullTimeout = 3000;
 
@@ -1916,7 +1916,7 @@ public class InputHandler {
                     //update typingAnimationLocal every 3 seconds to reduce resource usage
                     if (System.currentTimeMillis() - lastPull > dataPullTimeout) {
                         lastPull = System.currentTimeMillis();
-                        typingAnimationLocal = UserUtil.getUserData("typinganimation").equals("1");
+                        typingAnimationLocal = UserUtil.getCyderUser().getTypinganimation().equals("1");
                     }
 
                     if (!consolePriorityPrintingList.isEmpty()) {

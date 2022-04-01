@@ -50,6 +50,8 @@ public class Preferences {
         return prefs;
     }
 
+    // todo these should be Runnables and not functions :/
+
     /**
      * Initializes the preferences collection.
      *

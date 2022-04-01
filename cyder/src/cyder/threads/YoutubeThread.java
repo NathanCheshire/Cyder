@@ -230,7 +230,7 @@ public class YoutubeThread {
      */
     public void kill() {
         exit = true;
-        UserUtil.setUserData("youtubeuuid", uuid);
+        UserUtil.getCyderUser().setYoutubeuuid(uuid);
     }
 
     @Override

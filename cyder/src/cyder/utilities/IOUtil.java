@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.LoggerTag;
@@ -287,11 +288,9 @@ public class IOUtil {
      * @param newName the new name of the user
      */
     public static void changeUsername(String newName) {
-        try {
-            UserUtil.setUserData("name", newName);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        Preconditions.checkNotNull(newName);
+        Preconditions.checkArgument(!newName.isEmpty());
+        UserUtil.getCyderUser().setName(newName);
     }
 
     /**
@@ -300,12 +299,10 @@ public class IOUtil {
      * @param newPassword the raw char[] new password to hash and store
      */
     public static void changePassword(char[] newPassword) {
-        try {
-            UserUtil.setUserData("pass", SecurityUtil.toHexString(SecurityUtil.getSHA256(
-                    SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
+        Preconditions.checkNotNull(newPassword);
+        Preconditions.checkArgument(newPassword.length > 0);
+        UserUtil.getCyderUser().setPass(SecurityUtil.toHexString(SecurityUtil.getSHA256(
+                SecurityUtil.toHexString(SecurityUtil.getSHA256(newPassword)).toCharArray())));
     }
 
     /**

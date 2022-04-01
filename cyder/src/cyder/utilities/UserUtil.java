@@ -627,14 +627,17 @@ public class UserUtil {
         return ret;
     }
 
-    // todo directly use set calls when possible
+    // todo console frame laggy, optimize cyderframe and frame refreshing
+
     /**
      * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
+     * This method exists purely for when indexing the preferences and user data
+     * is required. The direct setter should be used if possible.
      *
      * @param name the name of the data to set
      * @param value the new value
      */
-    public static void setUserData(String name, String value) {
+    public static void setUserDataById(String name, String value) {
         try {
             for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith("set")
@@ -650,18 +653,17 @@ public class UserUtil {
         }
     }
 
-    // todo remove method
     /**
      * Returns the requested data from the currently logged-in user.
-     * This method exists purely for legacy calls such as getUserData("foreground").
-     * Ideally the call should be extractUser().getForeground().
+     * This method exists purely for when indexing the preferences and user data
+     * is required. The direct getter should be used if possible.
      *
-     * @param name the ID of the data we want to obtain
+     * @param id the ID of the data we want to obtain
      * @return the resulting data
      */
-    public static String getUserData(String name) {
-        Preconditions.checkArgument(!StringUtil.isNull(name),
-                "Invalid id argument: " + name);
+    public static String getUserDataById(String id) {
+        Preconditions.checkArgument(!StringUtil.isNull(id),
+                "Invalid id argument: " + id);
 
         String ret = null;
 
@@ -669,21 +671,21 @@ public class UserUtil {
         boolean in = false;
 
         for (IgnoreData ignoreData : IgnoreData.values()) {
-            if (ignoreData.getId().equalsIgnoreCase(name)) {
+            if (ignoreData.getId().equalsIgnoreCase(id)) {
                 in = true;
                 break;
             }
         }
 
         if (!in) {
-            Logger.log(LoggerTag.SYSTEM_IO, "Userdata requested: " + name);
+            Logger.log(LoggerTag.SYSTEM_IO, "Userdata requested: " + id);
         }
 
         try {
             for (Method m : cyderUser.getClass().getMethods()) {
                 if (m.getName().startsWith("get")
                         && m.getParameterTypes().length == 0
-                        && m.getName().toLowerCase().contains(name.toLowerCase())) {
+                        && m.getName().toLowerCase().contains(id.toLowerCase())) {
                     Object r = m.invoke(cyderUser);
                     ret = (String) r;
                     break;
@@ -695,9 +697,6 @@ public class UserUtil {
 
         return ret;
     }
-
-    // todo all of one of these should be able to be removed
-    // todo console frame laggy, optimize cyderframe and frame refreshing
 
     /**
      * Returns a user with all the default values set.

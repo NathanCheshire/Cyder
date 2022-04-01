@@ -249,7 +249,7 @@ public enum ConsoleFrame {
             commandList.clear();
             commandIndex = 0;
 
-            UserUtil.setUserData("fullscreen","0");
+            UserUtil.getCyderUser().setFullscreen("0");
             consoleFrameClosed = false;
 
             //menu items
@@ -281,7 +281,7 @@ public enum ConsoleFrame {
                 consoleFrameBackgroundHeight = ScreenUtil.getScreenHeight();
                 usage = new ImageIcon(ImageUtil.resizeImage(consoleFrameBackgroundWidth,
                         consoleFrameBackgroundHeight,getCurrentBackground().getReferenceFile()));
-                UserUtil.setUserData("fullscreen","1");
+                UserUtil.getCyderUser().setFullscreen("1");
             } else {
                 consoleFrameBackgroundWidth = getCurrentBackground().generateBufferedImage().getWidth();
                 consoleFrameBackgroundHeight = getCurrentBackground().generateBufferedImage().getHeight();
@@ -1074,7 +1074,7 @@ public enum ConsoleFrame {
             consoleCyderFrame.notify("Welcome back, " + UserUtil.getCyderUser().getName() + "!");
         }
 
-        UserUtil.setUserData("laststart", String.valueOf(System.currentTimeMillis()));
+        UserUtil.getCyderUser().setLaststart(String.valueOf(System.currentTimeMillis()));
 
         introMusicCheck();
     }
@@ -1595,7 +1595,7 @@ public enum ConsoleFrame {
                 inputField.setFont(new Font(fontName, fontMetric, size));
                 outputArea.setFont(new Font(fontName, fontMetric, size));
 
-                UserUtil.setUserData("fontsize", String.valueOf(size));
+                UserUtil.getCyderUser().setFontsize(String.valueOf(size));
             } catch (Exception ignored) {}
             //sometimes this throws so ignore it
         } else {
@@ -1629,7 +1629,7 @@ public enum ConsoleFrame {
         UserUtil.logoutAllUsers();
 
         // log in the current user
-        UserUtil.setUserData("loggedin","1");
+        UserUtil.getCyderUser().setLoggedin("1");
 
         // delete invalid backgrounds backgrounds before they're used
         UserUtil.deleteInvalidBackgrounds(uuid);
@@ -2199,7 +2199,7 @@ public enum ConsoleFrame {
 
         lastConsoleDir = consoleDir;
         consoleDir = consoleDirection;
-        UserUtil.setUserData("fullscreen","0");
+        UserUtil.getCyderUser().setFullscreen("0");
         revalidate(true, false, revalidateConsoleSize);
     }
 
@@ -2247,7 +2247,7 @@ public enum ConsoleFrame {
      */
     public void setFullscreen(boolean fullscreen) {
         try {
-            UserUtil.setUserData("fullscreen", fullscreen ? "1" : "0");
+            UserUtil.getCyderUser().setFullscreen(fullscreen ? "1" : "0");
 
             if (fullscreen) {
                 consoleDir = Direction.TOP;
@@ -2470,7 +2470,7 @@ public enum ConsoleFrame {
                     break;
             }
 
-            UserUtil.setUserData("fullscreen", "0");
+            UserUtil.getCyderUser().setFullscreen("0");
         } else if (maintainFullscreen && UserUtil.getCyderUser().getFullscreen().equals("1")) {
             // have fullscreen on current monitor
             background = ImageUtil.resizeImage(getCurrentBackground().generateImageIcon(),
@@ -2970,7 +2970,7 @@ public enum ConsoleFrame {
         //logs
         if (logoutUser) {
             Logger.log(LoggerTag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
-            UserUtil.setUserData("loggedin","0");
+            UserUtil.getCyderUser().setLoggedin("0");
         }
 
         //remove closing actions
