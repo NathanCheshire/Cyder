@@ -104,7 +104,7 @@ public class ClockWidget {
 
             currentLocation  = IPUtil.getIpdata().getCity() + "," + IPUtil.getIpdata().getRegion() + ","
                     + IPUtil.getIpdata().getCountry_name();
-            currentGMTOffset = gmtBasedOffLocation();
+            currentGMTOffset = getGmtFromUserLocation();
 
             clockFrame = new CyderFrame(800,900) {
                 @Override
@@ -138,7 +138,7 @@ public class ClockWidget {
             spawnMini.setFocusPainted(false);
             clockFrame.getTopDragLabel().addButton(spawnMini, 0);
 
-            digitalTimeAndDateLabel = new CyderLabel(getWeatherTime(currentGMTOffset));
+            digitalTimeAndDateLabel = new CyderLabel(getTime(currentGMTOffset));
             digitalTimeAndDateLabel.setFont(CyderFonts.defaultFont);
             digitalTimeAndDateLabel.setBounds(10,60, 780, 40);
             clockFrame.getContentPane().add(digitalTimeAndDateLabel);
@@ -330,7 +330,7 @@ public class ClockWidget {
                             }
                         }
 
-                        digitalTimeAndDateLabel.setText(getWeatherTime(currentGMTOffset));
+                        digitalTimeAndDateLabel.setText(getTime(currentGMTOffset));
                         clockLabel.repaint();
                     }
                 } catch (Exception e) {
@@ -427,7 +427,8 @@ public class ClockWidget {
                         Gson gson = new Gson();
                         WeatherWidget.WeatherData wd;
 
-                        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()))) {
+                        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                                new URL(OpenString).openStream()))) {
                             wd = gson.fromJson(reader, WeatherWidget.WeatherData.class);
                             currentGMTOffset = Integer.parseInt(String.valueOf(wd.getTimezone())) / 3600;
                             currentLocation = possibleLocation;
@@ -461,6 +462,9 @@ public class ClockWidget {
         }, "Clock Widget Initializer");
     }
 
+    /**
+     * Spawns a mini clock with its own timer based off of the current location.
+     */
     private static void spawnMiniClock() {
         boolean[] updateMiniClock = {true};
 
@@ -475,7 +479,7 @@ public class ClockWidget {
         miniFrame.setTitle("Timezone: " + "(GMT" + currentGMTOffset + ")");
         miniFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
-        JLabel currentTimeLabel = new JLabel(getWeatherTime(currentGMTOffset), SwingConstants.CENTER);
+        JLabel currentTimeLabel = new JLabel(getTime(currentGMTOffset), SwingConstants.CENTER);
         currentTimeLabel.setForeground(CyderColors.navy);
         currentTimeLabel.setFont(CyderFonts.segoe20);
         currentTimeLabel.setBounds(0, 50, 600, 30);
@@ -500,7 +504,7 @@ public class ClockWidget {
                 int effectivelyFinal = currentGMTOffset;
                 while (updateMiniClock[0]) {
                     Thread.sleep(500);
-                    currentTimeLabel.setText(getWeatherTime(effectivelyFinal));
+                    currentTimeLabel.setText(getTime(effectivelyFinal));
                 }
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
@@ -511,8 +515,13 @@ public class ClockWidget {
         miniFrame.setLocationRelativeTo(clockFrame);
     }
 
-    //gets the time with the format calculating in the current GMT offset
-    private static String getWeatherTime(int gmtOffsetInHours) {
+    /**
+     * Returns the current time accounting for the GMT offset.
+     *
+     * @param gmtOffsetInHours the GMT offset for the location
+     * @return the current time accounting for the GMT offset
+     */
+    private static String getTime(int gmtOffsetInHours) {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
         SimpleDateFormat dateFormatter = TimeUtil.weatherFormat;
@@ -527,6 +536,12 @@ public class ClockWidget {
         return dateFormatter.format(cal.getTime());
     }
 
+    /**
+     * Returns the h/m/s provided accounting for the GMT offset
+     *
+     * @param unit the h, m, or s unit
+     * @return the unit accounting for the GMT offset
+     */
     private static int getUnitForCurrentGMT(String unit) {
         Calendar cal = Calendar.getInstance();
         Date Time = cal.getTime();
@@ -542,15 +557,20 @@ public class ClockWidget {
         return Integer.parseInt(dateFormatter.format(cal.getTime()));
     }
 
-    private static int gmtBasedOffLocation() {
+    /**
+     * Returns the GMT based off of the current location.
+     *
+     * @return the GMT based off of the current location
+     */
+    private static int getGmtFromUserLocation() {
         String key = UserUtil.getCyderUser().getWeatherkey();
 
         if (key.trim().isEmpty()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, " +
-                    "but the Weather Key has not been set or is invalid" +
-                    ", as a result, many features of Cyder will not work as intended. " +
-                    "Please see the fields panel of the user editor to learn how to acquire a key" +
-                    " and set it.","Weather Key Not Set");
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, "
+                    + "but the Weather Key has not been set or is invalid"
+                    + ", as a result, many features of Cyder will not work as intended. "
+                    + "Please see the fields panel of the user editor to learn how to acquire a key"
+                    + " and set it.","Weather Key Not Set");
 
             currentGMTOffset = 0;
             currentLocation = "Greenwich, London";
