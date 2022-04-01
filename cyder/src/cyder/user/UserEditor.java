@@ -513,7 +513,7 @@ public class UserEditor {
         foregroundColorBlock.setBackground(CyderColors.navy);
         foregroundColorBlock.setFocusable(false);
         foregroundColorBlock.setCursor(null);
-        foregroundColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Foreground")));
+        foregroundColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getForeground()));
         foregroundColorBlock.setToolTipText("Color Preview");
         foregroundColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         foregroundColorBlock.setBounds(330 + colorOffsetX, 100 + colorOffsetY, 40, 50);
@@ -521,8 +521,8 @@ public class UserEditor {
 
         CyderTextField foregroundField = new CyderTextField(6);
         foregroundField.setHorizontalAlignment(JTextField.CENTER);
-        foregroundField.setRegexMatcher("[A-Fa-f0-9]+");
-        foregroundField.setText(UserUtil.getUserData("Foreground"));
+        foregroundField.setRegexMatcher("[A-Fa-f0-9]{0,6}");
+        foregroundField.setText(UserUtil.getCyderUser().getForeground());
         foregroundField.setFont(CyderFonts.segoe30);
         foregroundField.setToolTipText("Console input/output text color");
         foregroundField.addKeyListener(new KeyAdapter() {
@@ -577,7 +577,7 @@ public class UserEditor {
         windowColorBlock.setBackground(CyderColors.navy);
         windowColorBlock.setFocusable(false);
         windowColorBlock.setCursor(null);
-        windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("windowcolor")));
+        windowColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getWindowcolor()));
         windowColorBlock.setToolTipText("Color Preview");
         windowColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         windowColorBlock.setBounds(330 + colorOffsetX, 240 + colorOffsetY, 40, 50);
@@ -585,8 +585,8 @@ public class UserEditor {
 
         CyderTextField windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
-        windowField.setRegexMatcher("[A-Fa-f0-9]+");
-        windowField.setText(UserUtil.getUserData("windowcolor"));
+        windowField.setRegexMatcher("[A-Fa-f0-9]{0,6}");
+        windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.segoe30);
         windowField.setToolTipText("Window border color");
         windowField.addKeyListener(new KeyAdapter() {
@@ -642,7 +642,7 @@ public class UserEditor {
         fillColorBlock.setBackground(CyderColors.navy);
         fillColorBlock.setFocusable(false);
         fillColorBlock.setCursor(null);
-        fillColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+        fillColorBlock.setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
         fillColorBlock.setToolTipText("Color Preview");
         fillColorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         fillColorBlock.setBounds(330 + colorOffsetX, 380 + colorOffsetY, 40, 50);
@@ -650,8 +650,8 @@ public class UserEditor {
 
         CyderTextField fillField = new CyderTextField(6);
         fillField.setHorizontalAlignment(JTextField.CENTER);
-        fillField.setRegexMatcher("[A-Fa-f0-9]+");
-        fillField.setText(UserUtil.getUserData("Background"));
+        fillField.setRegexMatcher("[A-Fa-f0-9]{0,6}");
+        fillField.setText(UserUtil.getCyderUser().getBackground());
         fillField.setFont(CyderFonts.segoe30);
         fillField.setToolTipText("Input field and output area fill color if enabled");
         fillField.addKeyListener(new KeyAdapter() {
@@ -660,19 +660,19 @@ public class UserEditor {
                     fillColorBlock.setBackground(ColorUtil.hexToRgb(fillField.getText()));
                     UserUtil.setUserData("Background", fillField.getText());
 
-                    if (UserUtil.getUserData("OutputFill").equals("1")) {
+                    if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
                         ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
                         ConsoleFrame.INSTANCE.getOutputArea()
-                                .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                                .setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                         ConsoleFrame.INSTANCE.getOutputArea().repaint();
                         ConsoleFrame.INSTANCE.getOutputArea().revalidate();
                     }
 
                     //input color fill
-                    if (UserUtil.getUserData("InputFill").equals("1")) {
+                    if (UserUtil.getCyderUser().getInputfill().equals("1")) {
                         ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
                         ConsoleFrame.INSTANCE.getInputField()
-                                .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                                .setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                         ConsoleFrame.INSTANCE.getInputField().repaint();
                         ConsoleFrame.INSTANCE.getInputField().revalidate();
                     }
@@ -792,19 +792,19 @@ public class UserEditor {
             fillField.setText(UserUtil.buildDefaultUser().getBackground());
 
             // reset output fill if active
-            if (UserUtil.getUserData("OutputFill").equals("1")) {
+            if (UserUtil.getCyderUser().getOutputfill().equals("1")) {
                 ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
                 ConsoleFrame.INSTANCE.getOutputArea()
-                        .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                        .setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                 ConsoleFrame.INSTANCE.getOutputArea().repaint();
                 ConsoleFrame.INSTANCE.getOutputArea().revalidate();
             }
 
             // reset input fill if active
-            if (UserUtil.getUserData("InputFill").equals("1")) {
+            if (UserUtil.getCyderUser().getInputfill().equals("1")) {
                 ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
                 ConsoleFrame.INSTANCE.getInputField()
-                        .setBackground(ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                        .setBackground(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                 ConsoleFrame.INSTANCE.getInputField().repaint();
                 ConsoleFrame.INSTANCE.getInputField().revalidate();
             }
@@ -871,11 +871,12 @@ public class UserEditor {
             printingUtil.print("\n");
 
             //check boxes to toggle preferences
+            // todo this is the bodge required to do a checkbox with the proper bounds in a loop
             JLabel togglePrefLabel = new JLabel("<html>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR</html>") {
                 @Override
                 public void paintComponent(Graphics g) {
-                    boolean setSelected = UserUtil.getUserData((
-                            Preferences.getPreferences().get(localIndex).getID())).equalsIgnoreCase("1");
+                    boolean setSelected = UserUtil.getUserData((Preferences
+                            .getPreferences().get(localIndex).getID())).equalsIgnoreCase("1");
 
                     int xOffset = switchingLabel.getWidth() / 2 - 35;
                     Color background = CyderColors.navy;
@@ -1330,7 +1331,7 @@ public class UserEditor {
         ffmpegField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         ffmpegField.setOpaque(true);
         printingUtil.printlnComponent(ffmpegField);
-        ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
+        ffmpegField.setText(UserUtil.getCyderUser().getFfmpegpath());
 
         printingUtil.print("\n");
 
@@ -1345,7 +1346,7 @@ public class UserEditor {
                     editUserFrame.notify("ffmpeg path successfully set");
                 } else {
                     editUserFrame.notify("ffmpeg does not exist at the provided path");
-                    ffmpegField.setText(UserUtil.getUserData("ffmpegpath"));
+                    ffmpegField.setText(UserUtil.getCyderUser().getFfmpegpath());
                 }
             }
         });
@@ -1372,7 +1373,7 @@ public class UserEditor {
         youtubedlField.setBorder(new LineBorder(CyderColors.navy, 5, false));
         youtubedlField.setOpaque(true);
         printingUtil.printlnComponent(youtubedlField);
-        youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
+        youtubedlField.setText(UserUtil.getCyderUser().getYoutubedlpath());
 
         printingUtil.print("\n");
 
@@ -1387,7 +1388,7 @@ public class UserEditor {
                     editUserFrame.notify("youtube-dl path successfully set");
                 } else {
                     editUserFrame.notify("youtube-dl does not exist at the provided path");
-                    youtubedlField.setText(UserUtil.getUserData("youtubedlpath"));
+                    youtubedlField.setText(UserUtil.getCyderUser().getYoutubedlpath());
                 }
             }
         });

@@ -165,6 +165,7 @@ public class UserUtil {
         return cyderUser;
     }
 
+    // todo duplciate methods?
     /**
      * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
      *
@@ -661,8 +662,11 @@ public class UserUtil {
      * @return the resulting data
      */
     public static String getUserData(String name) {
+        // todo stuff that uses this should use the getUserData(String, String)
         return extractUserData(cyderUser, name);
     }
+
+    // todo all of one of these should be able to be removed
 
     /**
      * Assuming the corresponding getter function exist in User.java,
@@ -674,14 +678,14 @@ public class UserUtil {
      * @return the requested data
      */
     public static String extractUserData(User u, String id) {
-        Preconditions.checkArgument(u != null, "User is null");
-        Preconditions.checkArgument(u.getClass() != null, "User class is null somehow");
-        Preconditions.checkArgument(u.getClass().getMethods() != null, "No user methods found");
+        checkNotNull(u);
+        checkNotNull(id);
+        checkNotNull(u.getClass().getMethods());
         Preconditions.checkArgument(!StringUtil.isNull(id), "Invalid id argument: " + id);
 
         String ret = null;
 
-        //log handler calls unless set to be ignored (due to lots of calls)
+        // log handler calls unless set to be ignored (due to lots of calls)
         boolean in = false;
 
         for (IgnoreData ignoreData : IgnoreData.values()) {

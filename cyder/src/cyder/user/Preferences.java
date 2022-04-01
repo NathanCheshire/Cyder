@@ -114,11 +114,11 @@ public class Preferences {
                 "Draw a border around the output area","0", (optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = outputborder");
 
-            if (UserUtil.getUserData("OutputBorder").equals("0")) {
+            if (UserUtil.getCyderUser().getOutputborder().equals("0")) {
                 ConsoleFrame.INSTANCE.getOutputScroll().setBorder(BorderFactory.createEmptyBorder());
             } else {
                 ConsoleFrame.INSTANCE.getOutputScroll().setBorder(new LineBorder(ColorUtil.hexToRgb(
-                        UserUtil.getUserData("Background")), 3, true));
+                        UserUtil.getCyderUser().getBackground()), 3, true));
             }
 
             return null;
@@ -127,11 +127,11 @@ public class Preferences {
                 "Draw a border around the input area","0", (optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = inputborder");
 
-            if (UserUtil.getUserData("InputBorder").equals("0")) {
+            if (UserUtil.getCyderUser().getInputborder().equals("0")) {
                 ConsoleFrame.INSTANCE.getInputField().setBorder(null);
             } else {
                 ConsoleFrame.INSTANCE.getInputField().setBorder(
-                        new LineBorder(ColorUtil.hexToRgb(UserUtil.getUserData("Background")),
+                        new LineBorder(ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()),
                                 3, true));
             }
 
@@ -162,13 +162,13 @@ public class Preferences {
                 "0",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = outputfill");
 
-            if (UserUtil.getUserData("OutputFill").equals("0")) {
+            if (UserUtil.getCyderUser().getOutputfill().equals("0")) {
                 ConsoleFrame.INSTANCE.getOutputArea().setBackground(null);
                 ConsoleFrame.INSTANCE.getOutputArea().setOpaque(false);
             } else {
                 ConsoleFrame.INSTANCE.getOutputArea().setOpaque(true);
                 ConsoleFrame.INSTANCE.getOutputArea().setBackground(
-                        ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                        ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                 ConsoleFrame.INSTANCE.getOutputArea().repaint();
                 ConsoleFrame.INSTANCE.getOutputArea().revalidate();
             }
@@ -180,13 +180,13 @@ public class Preferences {
                 "0",(optionalParam) -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = inputfill");
 
-            if (UserUtil.getUserData("InputFill").equals("0")) {
+            if (UserUtil.getCyderUser().getInputfill().equals("0")) {
                 ConsoleFrame.INSTANCE.getInputField().setBackground(null);
                 ConsoleFrame.INSTANCE.getInputField().setOpaque(false);
             } else {
                 ConsoleFrame.INSTANCE.getInputField().setOpaque(true);
                 ConsoleFrame.INSTANCE.getInputField().setBackground(
-                        ColorUtil.hexToRgb(UserUtil.getUserData("Background")));
+                        ColorUtil.hexToRgb(UserUtil.getCyderUser().getBackground()));
                 ConsoleFrame.INSTANCE.getInputField().repaint();
                 ConsoleFrame.INSTANCE.getInputField().revalidate();
             }

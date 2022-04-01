@@ -206,7 +206,7 @@ public class InputHandler {
         }
 
         //check for bad language if filterchat
-        if (UserUtil.getUserData("filterchat").equals("1")
+        if (UserUtil.getCyderUser().getFilterchat().equals("1")
                 && StringUtil.containsBlockedWords(this.command, true)) {
             println("Sorry, " + UserUtil.getCyderUser().getName() + ", but that language is prohibited.");
             return false;
@@ -674,7 +674,7 @@ public class InputHandler {
         } else if (commandIs("javaproperties")) {
             StatUtil.javaProperties();
         } else if (commandIs("panic")) {
-            if (UserUtil.getUserData("minimizeonclose").equals("1")) {
+            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
                 CyderShare.exit(ExitCondition.GenesisControlledExit);
@@ -806,7 +806,7 @@ public class InputHandler {
                 commandIs("exit") ||
                 commandIs("leave") ||
                 commandIs("close")) {
-            if (UserUtil.getUserData("minimizeonclose").equals("1")) {
+            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
                 ConsoleFrame.INSTANCE.closeConsoleFrame(true, false);

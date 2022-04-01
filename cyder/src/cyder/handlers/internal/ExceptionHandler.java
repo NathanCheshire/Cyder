@@ -36,7 +36,7 @@ public class ExceptionHandler {
             //if the user has show errors configured, then we open the file
             if (ConsoleFrame.INSTANCE.getUUID() != null &&
                     !ConsoleFrame.INSTANCE.isClosed() &&
-                    UserUtil.getUserData("SilenceErrors").equals("0")) {
+                    UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
                 silentHandleWithoutLogging(e);
             }
         }

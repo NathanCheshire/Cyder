@@ -919,7 +919,7 @@ public class CyderFrame extends JFrame {
     /**
      * The notification that is currently being displayed.
      */
-    private CyderNotification currentNotification;
+    private CyderNotification currentNotif;
 
     /**
      * Whether the notification thread has been started for this frame.
@@ -932,7 +932,7 @@ public class CyderFrame extends JFrame {
      * @return the current notification
      */
     public CyderNotification getCurrentNotification() {
-        return currentNotification;
+        return currentNotif;
     }
 
     /**
@@ -990,11 +990,12 @@ public class CyderFrame extends JFrame {
         try {
             while (!threadsKilled) {
                 if (!notificationList.isEmpty()) {
-                    // pull next builder
+                    // pull next notification to build
                     NotificationBuilder currentBuilder = notificationList.remove(0);
 
-                    // init current notification object
-                    currentNotification = new CyderNotification(currentBuilder);
+                    // init current notification object, needed
+                    // for builder access and to directly kill
+                    currentNotif = new CyderNotification(currentBuilder);
 
                     // generate label for notification
                     BoundsString bs = BoundsUtil.widthHeightCalculation(
@@ -1034,30 +1035,30 @@ public class CyderFrame extends JFrame {
                         //  to layer over the entire notification component
                         JLabel disposeLabel = new JLabel();
                         // todo bounds of label, bigger than bounds of text label
-                        disposeLabel.setToolTipText("Notified at: " + currentNotification.getBuilder().getNotifyTime());
+                        disposeLabel.setToolTipText("Notified at: " + currentNotif.getBuilder().getNotifyTime());
                         disposeLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 //fire any on kill actions if it's not null
-                                if (currentNotification.getBuilder().getOnKillAction() != null) {
-                                    currentNotification.kill();
-                                    currentNotification.getBuilder().getOnKillAction().run();
+                                if (currentNotif.getBuilder().getOnKillAction() != null) {
+                                    currentNotif.kill();
+                                    currentNotif.getBuilder().getOnKillAction().run();
                                 } else {
                                     // smoothly animate notification away if no action
-                                    currentNotification.vanish(
-                                            currentNotification.getBuilder().getNotificationDirection(),
+                                    currentNotif.vanish(
+                                            currentNotif.getBuilder().getNotificationDirection(),
                                             getContentPane(), 0);
 
                                 }
                             }
                         });
-                        currentNotification.add(disposeLabel);
+                        currentNotif.add(disposeLabel);
                     } else {
                         //container should have things on it already so no need to place text here
-                        currentNotification.add(currentNotification.getBuilder().getContainer());
+                        currentNotif.add(currentNotif.getBuilder().getContainer());
                     }
 
-                    switch (currentNotification.getBuilder().getNotificationDirection()) {
+                    switch (currentNotif.getBuilder().getNotificationDirection()) {
 //                        case TOP_LEFT:
 //                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
 //                                    topDrag.getHeight());
@@ -1099,7 +1100,7 @@ public class CyderFrame extends JFrame {
                     }
 
                     // add notification component to proper layer
-                    iconPane.add(currentNotification, JLayeredPane.POPUP_LAYER);
+                    iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
                     getContentPane().repaint();
 
                     // duration is 300ms per word unless less than 5 seconds
@@ -1113,7 +1114,7 @@ public class CyderFrame extends JFrame {
                     Logger.log(LoggerTag.UI_ACTION, "[" +
                             getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
 
-                    currentNotification.appear(currentBuilder.getNotificationDirection(),
+                    currentNotif.appear(currentBuilder.getNotificationDirection(),
                             getContentPane(), duration);
 
                     while (getCurrentNotification().isVisible())
@@ -1145,10 +1146,10 @@ public class CyderFrame extends JFrame {
      */
     public void revokeCurrentNotification(boolean animate) {
         if (animate) {
-            currentNotification.vanish(currentNotification.getBuilder()
+            currentNotif.vanish(currentNotif.getBuilder()
                     .getNotificationDirection(), this, 0);
         } else {
-            currentNotification.kill();
+            currentNotif.kill();
         }
     }
 
@@ -1160,7 +1161,7 @@ public class CyderFrame extends JFrame {
      */
     public void revokeNotification(String expectedText) {
         // if it's the current one, revoke it
-        if (currentNotification.getBuilder().getHtmlText().equals(expectedText)) {
+        if (currentNotif.getBuilder().getHtmlText().equals(expectedText)) {
             revokeCurrentNotification();
         } else {
             // if in the queue
@@ -1178,8 +1179,8 @@ public class CyderFrame extends JFrame {
      * Removes all currently displayed notifications and wipes the notification queue.
      */
     public void revokeAllNotifications() {
-        if (currentNotification != null)
-            currentNotification.kill();
+        if (currentNotif != null)
+            currentNotif.kill();
 
         if (notificationList != null)
             notificationList.clear();
@@ -1263,7 +1264,7 @@ public class CyderFrame extends JFrame {
             setRestoreX(getX());
             setRestoreY(getY());
 
-            if (UserUtil.getUserData("minimizeanimation").equals("1")) {
+            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 setDisableContentRepainting(true);
 
                 //figure out increment for frame num
@@ -1359,8 +1360,8 @@ public class CyderFrame extends JFrame {
                 for (PreCloseAction action : preCloseActions)
                     action.invokeAction();
 
-                if (currentNotification != null)
-                    currentNotification.kill();
+                if (currentNotif != null)
+                    currentNotif.kill();
 
                 //kill all threads
                 killThreads();
@@ -1730,17 +1731,17 @@ public class CyderFrame extends JFrame {
                 // center on frame
                 case TOP:
                 case BOTTOM:
-                    currentNotification.setLocation(getWidth() / 2 - currentNotification.getWidth() / 2,
-                        currentNotification.getY());
+                    currentNotif.setLocation(getWidth() / 2 - currentNotif.getWidth() / 2,
+                        currentNotif.getY());
                     break;
                 // maintain right of frame
                 case RIGHT:
-                    currentNotification.setLocation(getWidth() - currentNotification.getWidth() + 5,
-                        currentNotification.getY());
+                    currentNotif.setLocation(getWidth() - currentNotif.getWidth() + 5,
+                        currentNotif.getY());
                     break;
                 // maintain left of frame
                 case LEFT:
-                    currentNotification.setLocation(5, currentNotification.getY());
+                    currentNotif.setLocation(5, currentNotif.getY());
                     break;
             }
     }

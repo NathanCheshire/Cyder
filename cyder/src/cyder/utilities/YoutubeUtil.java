@@ -385,7 +385,6 @@ public class YoutubeUtil {
 
         CyderTextField inputField = new CyderTextField(30);
         inputField.setHorizontalAlignment(JTextField.CENTER);
-        inputField.setRegexMatcher("[A-Za-z0-9_\\-]{0,11}");
         inputField.setBounds(200 - labelWidth / 2, 100, labelWidth, 40);
         inputField.setToolTipText("Must be a valid UUID");
         uuidFrame.add(inputField);
@@ -398,6 +397,11 @@ public class YoutubeUtil {
             try {
                 String uuid = inputField.getText().trim();
 
+                if (!uuid.matches("[A-Za-z0-9_\\-]{0,11}")) {
+                    uuidFrame.notify("Invalid UUID");
+                    return;
+                }
+
                 String thumbnailURL = buildMaxResThumbnailUrl(uuid);
                 String videoTitle = NetworkUtil.getURLTitle(CyderUrls.YOUTUBE_VIDEO_HEADER + uuid);
 
@@ -405,15 +409,11 @@ public class YoutubeUtil {
 
                 try {
                     thumbnail = ImageIO.read(new URL(thumbnailURL));
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-
+                } catch (Exception ignored) {
                     try {
                         thumbnailURL = buildSdDefThumbnailUrl(uuid);
                         thumbnail = ImageIO.read(new URL(thumbnailURL));
-                    } catch (Exception exc) {
-                        ExceptionHandler.handle(exc);
-                    }
+                    } catch (Exception ignoredDos) {}
                 }
 
                 if (thumbnail == null) {
