@@ -1,7 +1,9 @@
 
 ![](./static/svgs/Primary.svg)
 
-![](./static/svgs/Author.svg)
+![](./static/svgs/Secondary.svg)
+
+![](./static/svgs/Tertiary.svg)
 
 ## Description
 

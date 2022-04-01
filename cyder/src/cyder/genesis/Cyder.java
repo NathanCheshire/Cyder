@@ -11,7 +11,6 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
 import cyder.test.ManualTests;
-import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.*;
 
@@ -20,8 +19,7 @@ import javax.swing.plaf.BorderUIResource;
 import java.awt.*;
 import java.io.File;
 import java.net.ServerSocket;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
@@ -60,19 +58,11 @@ public class Cyder {
         CyderWatchdog.initializeWatchDog();
 
         // prevent multiple instances, fatal subroutine if failure
-        if (!ensureCyderSingleInstance()) {
+        if (!isSingularInstance()) {
             Logger.log(LoggerTag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
-                    "Terminate other instances before launching a new one.", "Instance Exception",
+                            "Terminate other instances before launching a new one.", "Instance Exception",
                     ExitCondition.MultipleInstancesExit);
-            return;
-        }
-
-        // check for fast testing
-        if (CyderShare.isFastTestingMode()) {
-            ManualTests.launchTests();
-            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
-                    ExitCondition.TestingModeExit);
             return;
         }
 
@@ -88,8 +78,16 @@ public class Cyder {
         if (OSUtil.isOSX()) {
             Logger.log(LoggerTag.EXCEPTION, "IMPROPER OS");
             ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
-                    " install a dual boot or a VM or something.","OS Exception",
+                    " install a dual boot or a VM or something :/","OS Exception",
                     ExitCondition.CorruptedSystemFiles);
+            return;
+        }
+
+        // check for fast testing
+        if (CyderShare.isFastTestingMode()) {
+            ManualTests.launchTests();
+            ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
+                    ExitCondition.TestingModeExit);
             return;
         }
 
@@ -115,7 +113,7 @@ public class Cyder {
             return;
         }
 
-        //IOUtil secondary subroutines that can be executed when program has started essentially
+        // secondary subroutines that can be executed when program has started essentially
         CyderThreadRunner.submit(() -> {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(ca);
@@ -124,7 +122,7 @@ public class Cyder {
             OSUtil.createTempDir();
         },"Cyder Start Secondary Subroutines");
 
-        // Off-ship how to login to the LoginHandler since all subroutines finished
+        // off-ship how to login to the LoginHandler since all subroutines finished
         LoginHandler.determineCyderEntry();
     }
 
@@ -168,35 +166,32 @@ public class Cyder {
      * @return whether all the fonts were loaded properly
      */
     private static boolean registerFonts() {
+        File fontsDir = new File(OSUtil.buildPath("static","fonts"));
+
+        if (!fontsDir.exists()) {
+            return false;
+        }
+
+        File[] fontFiles = fontsDir.listFiles();
+
+        if (fontFiles == null || fontFiles.length == 0) {
+            return false;
+        }
+
         boolean ret = true;
 
-        File fontsDir = new File("static/fonts");
-
-        if (!fontsDir.exists())
-            throw new IllegalStateException("Fonts directory does not exist");
-
-        File[] fontFiles = new File("static/fonts").listFiles();
-
-        if (fontFiles == null || fontFiles.length == 0)
-            throw new IllegalStateException("No fonts were found to load");
-
-        if (!new File("static/fonts").exists()) {
-            ret = false;
-        } else {
-            // loop through fonts dir
-            for (File f : fontFiles) {
-                // if it's a valid font file
-                if (StringUtil.in(FileUtil.getExtension(f), true, FileUtil.validFontExtensions)) {
-                    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    try {
-                        // register the font so we can use it throughout Cyder
-                        ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
-                        Logger.log(LoggerTag.FONT_LOADED, FileUtil.getFilename(f));
-                    } catch (Exception e) {
-                        ExceptionHandler.silentHandle(e);
-                        ret = false;
-                        break;
-                    }
+        for (File f : fontFiles) {
+            // if it's a valid font file
+            if (StringUtil.in(FileUtil.getExtension(f), true, FileUtil.validFontExtensions)) {
+                GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                try {
+                    // register the font so we can use it throughout Cyder
+                    ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
+                    Logger.log(LoggerTag.FONT_LOADED, FileUtil.getFilename(f));
+                } catch (Exception e) {
+                    ExceptionHandler.silentHandle(e);
+                    ret = false;
+                    break;
                 }
             }
         }
@@ -209,20 +204,28 @@ public class Cyder {
      *
      * @return whether the provided instance of Cyder is the only one
      */
-    private static Future<Boolean> ensureCyderSingleInstance() {
-        return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Waveform generator")).submit(() -> {
+    private static boolean isSingularInstance() {
+        AtomicBoolean ret = new AtomicBoolean(true);
 
-            boolean ret = false;
-
+        CyderThreadRunner.submit(() -> {
             try {
+                //blocking method which also throws
+
                 new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
-                ret = true;
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
+                ret.set(false);
             }
+        }, "Singular Cyder Instance Ensurer");
 
-            return ret;
-        });
+        try {
+            // started blocking method in above thread but need to wait
+            // for it to either bind or fail
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ret.get();
     }
 }

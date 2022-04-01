@@ -143,6 +143,16 @@ public class CyderColors {
     public static final Color regularBackgroundColor = vanila;
 
     /**
+     * The primary badge svg color.
+     */
+    public static final Color SVG_PRIMARY = Color.decode("#A7BFC1");
+
+    /**
+     * The secondary badge svg color.
+     */
+    public static final Color SVG_SECONDARY = Color.decode("#5593C7");
+
+    /**
      * Instantiation of the CyderColors class is not allowed
      */
     private CyderColors() {
