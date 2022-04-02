@@ -8,7 +8,6 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.LoginHandler;
-import cyder.test.ManualTests;
 import cyder.ui.CyderFrame;
 import cyder.utilities.UserUtil;
 import org.jetbrains.annotations.Nullable;
@@ -149,30 +148,12 @@ public class CyderShare {
     /**
      * Whether Cyder is currently released.
      */
-    private static final boolean released = false;
-
-    /**
-     * Returns whether Cyder is currently released.
-     *
-     * @return whether Cyder is currently released
-     */
-    public static boolean isReleased() {
-        return released;
-    }
+    public static final boolean RELEASED = false;
 
     /**
      * Whether Cyder is in fast testing mode.
      */
-    private static final boolean fastTestingMode = false;
-
-    /**
-     * Returns whether Cyder is in fast testing mode.
-     *
-     * @return whether Cyder is in fast testing mode
-     */
-    static boolean isFastTestingMode() {
-        return fastTestingMode;
-    }
+    public static final boolean FAST_TESTING_MODE = false;
 
     /**
      * The name of the current Cyder version.
@@ -187,57 +168,26 @@ public class CyderShare {
     /**
      * Whether components can be moved on their parent.
      */
-    private static final boolean componentsRelocatable = false;
-
-    /**
-     * Returns whether components can be moved on their parent.
-     *
-     * @return whether components can be moved on their parent
-     */
-    public static boolean areComponentsRelocatable() {
-        return componentsRelocatable;
-    }
+    public static final boolean COMPONENTS_RELOCATABLE = false;
 
     /**
      * Whether normal testing mode is on.
      */
-    private static final boolean testingMode = true;
-
-    /**
-     * Returns whether normal testing mode is active.
-     * This will execute {@link ManualTests#launchTests()} upon Cyder start.
-     *
-     * @return whether normal testing mode is active
-     */
-    public static boolean isTestingMode() {
-        return testingMode;
-    }
+    public static final boolean TESTING_MODE = true;
 
     /**
      * Whether auto cypher is active.
      */
-    private static final boolean autoCypher = true;
-
-    /**
-     * Returns whether auto cypher is active.
-     *
-     * @return whether auto cypher is active
-     */
-    public static boolean isAutoCypher() {
-        return autoCypher;
-    }
+    public static final boolean AUTO_CYPHER = true;
 
     /**
      * Whether the splash frame should be auto disposed.
      */
-    private static final boolean disposeSplash = true;
+    public static final boolean DISPOSE_SPLASH = true;
 
+    // todo implement me
     /**
-     * Returns whether the splash frame should be auto-disposed.
-     *
-     * @return whether the splash frame should be auto-disposed
+     * Whether to automatically wipe all past logs on Cyder start.
      */
-    public static boolean isDisposeSplash() {
-        return disposeSplash;
-    }
+    public static final boolean WIPE_LOGS_ON_START = true;
 }

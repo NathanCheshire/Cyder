@@ -250,7 +250,10 @@ public class MessagingUtils {
         return ret;
     }
 
-    // todo ensure users/ exist on startup, I think cloning empty repo breaks Cyder
+    // todo add boolean toggle package, take out of CyderShare, add a bool toggle to auto delete past logs
+    // and only keep most recent.
+
+    // todo enums should go to the package they are primary from
 
     // todo maybe an audio player that scrolls and turns the navy
     // to red as it aligns with the song percentage would be cool

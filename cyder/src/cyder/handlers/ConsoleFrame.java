@@ -1064,7 +1064,7 @@ public enum ConsoleFrame {
         }
 
         //testing mode to auto execute Debug tests
-        if (CyderShare.isTestingMode()) {
+        if (CyderShare.TESTING_MODE) {
             Logger.log(LoggerTag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
@@ -1088,7 +1088,7 @@ public enum ConsoleFrame {
      */
     private void cardReflector(String holiday, int year) {
         //don't reflect if in testing mode
-        if (CyderShare.isTestingMode())
+        if (CyderShare.TESTING_MODE)
             return;
 
         try {
@@ -1139,7 +1139,7 @@ public enum ConsoleFrame {
             }
         }
         // otherwise, no intro music so check for gray scale image/play startup sound if released
-        else if (CyderShare.isReleased()) {
+        else if (CyderShare.RELEASED) {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
@@ -1165,7 +1165,7 @@ public enum ConsoleFrame {
                         if (correct) {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
-                        } else if (CyderShare.isReleased()) {
+                        } else if (CyderShare.RELEASED) {
                             IOUtil.playSystemAudio("static/audio/CyderIntroTheme.mp3");
                         }
                     } catch (Exception e) {

@@ -665,11 +665,6 @@ public class OSUtil {
         }, "Successive Process Runner, pipeTo = " + pipeTo + ", builders.length() = " + builders.length);
     }
 
-    // todo enums should go to the package they are primary from
-
-    // todo instances of keyword dynamic should be consolidated to singular string
-    //  so if we wanted to change it we techncially could
-
     /**
      * Ensures the dynamic directory and all DynamicDirectories are generated.
      */

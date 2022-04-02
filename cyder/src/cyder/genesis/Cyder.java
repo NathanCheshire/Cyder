@@ -84,7 +84,7 @@ public class Cyder {
         }
 
         // check for fast testing
-        if (CyderShare.isFastTestingMode()) {
+        if (CyderShare.FAST_TESTING_MODE) {
             ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
                     ExitCondition.TestingModeExit);
@@ -94,7 +94,7 @@ public class Cyder {
         // launch splash screen since we will most likely be launching Cyder
         CyderSplash.showSplash();
 
-        // necessary subroutines to complete with success before continuing
+        // necessary subroutines to successfully complete before continuing
         try {
             setLoadingMessage("Creating dynamics");
             OSUtil.ensureDynamicsCreated();
@@ -105,15 +105,10 @@ public class Cyder {
             setLoadingMessage("Cleaning users");
             UserUtil.cleanUsers();
 
-            setLoadingMessage("Validating widgets");
+            setLoadingMessage("Validating annotations");
             ReflectionUtil.validateWidgets();
-
-            setLoadingMessage("Validating manual tests");
             ReflectionUtil.validateTests();
-
-            // todo after new input handler and context engine implemented
-//            setLoadingMessage("Validating handles);
-//            ReflectionUtil.validateHandles();
+            // todo ReflectionUtil.validateHandles();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine. "
                     + e.getMessage(), "Subroutine Exception", ExitCondition.SubroutineException);

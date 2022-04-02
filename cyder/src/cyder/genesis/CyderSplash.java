@@ -228,7 +228,7 @@ public class CyderSplash {
                         loadingLabel.repaint();
 
                         // if frame is still active and it should have been dispoed
-                        if (splashFrame != null && CyderShare.isDisposeSplash()) {
+                        if (splashFrame != null && CyderShare.DISPOSE_SPLASH) {
                             splashFrame.dispose(true);
 
                             // this has been going on for over a minute at this point if the program reaches here
@@ -256,7 +256,7 @@ public class CyderSplash {
     public static void fastDispose() {
         if (disposed)
             return;
-        if (!CyderShare.isDisposeSplash())
+        if (!CyderShare.DISPOSE_SPLASH)
             return;
 
         splashFrame.dispose(true);

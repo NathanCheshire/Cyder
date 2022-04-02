@@ -441,7 +441,7 @@ public class LoginHandler {
         CyderSplash.setLoadingMessage("Checking for an AutoCypher");
 
         //if AutoCyphering is enabled, attempt all cyphers
-        if (CyderShare.isAutoCypher()) {
+        if (CyderShare.AUTO_CYPHER) {
             Logger.log(LoggerTag.LOGIN, "AUTOCYPHER ATTEMPT");
             CyderSplash.setLoadingMessage("Auto Cyphering");
 
@@ -452,7 +452,7 @@ public class LoginHandler {
             }
         }
         // otherwise, unreleased exit
-        else if (!CyderShare.isReleased()) {
+        else if (!CyderShare.RELEASED) {
             ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception", ExitCondition.NotReleased);
         }
         // otherwise, if Cyder is released/usage is permitted

@@ -142,8 +142,9 @@ public class IOUtil {
                 }
 
                 // only log if autoCypher, means either Nathan or an advanced developer
-                if (!CyderShare.isAutoCypher())
+                if (!CyderShare.AUTO_CYPHER) {
                     Logger.log(LoggerTag.JVM_ARGS, argBuilder);
+                }
 
                 BackendUtil.put(String.valueOf(argBuilder), BackendUtil.JVM_PATH);
             } catch (Exception e) {
