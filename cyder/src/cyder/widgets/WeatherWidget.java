@@ -14,11 +14,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
-import cyder.ui.CyderTextField;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.objects.WeatherData;
 
 import javax.swing.*;
@@ -188,35 +187,25 @@ public class WeatherWidget {
 
         weatherFrame.setMenuEnabled(true);
         weatherFrame.addMenuItem("Location", () -> {
-            CyderFrame changeLocationFrame = new CyderFrame(600,310);
-            changeLocationFrame.setBackground(CyderColors.vanila);
-            changeLocationFrame.setTitle("Change Location");
+            GetterBuilder builder = new GetterBuilder("Change Location");
+            builder.setRelativeTo(weatherFrame);
+            builder.setSubmitButtonText("Change Location");
+            builder.setInitialString(locationString);
+            builder.setSubmitButtonColor(CyderColors.notificationForegroundColor);
+            builder.setLabelText("<html><div style='text-align: center;'>Enter your city, "
+                    + "state, and country code separated by a comma"
+                    + "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">"
+                    + "New Orleans, LA, US</p></p></div></html>");
 
-            JLabel explenation = new JLabel("<html><div style='text-align: center;'>Enter your city, state, and country code separated by a comma" +
-                    "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">New Orleans, LA, US</p></p></div></html>");
+            CyderThreadRunner.submit(() -> {
+                String newLocation = GetterUtil.getInstance().getString(builder);
 
-            explenation.setFont(CyderFonts.segoe20);
-            explenation.setForeground(CyderColors.navy);
-            explenation.setHorizontalAlignment(JLabel.CENTER);
-            explenation.setVerticalAlignment(JLabel.CENTER);
-            explenation.setBounds(40,40,520,170);
-            changeLocationFrame.getContentPane().add(explenation);
-
-            CyderTextField changeLocField = new CyderTextField(0);
-            changeLocField.setHorizontalAlignment(JTextField.CENTER);
-            changeLocField.setBackground(Color.white);
-            changeLocField.setBounds(40,200,520,40);
-            changeLocationFrame.getContentPane().add(changeLocField);
-
-            CyderButton changeLoc = new CyderButton("Change Location");
-            changeLocField.addActionListener(e1 -> changeLoc.doClick());
-            changeLoc.addActionListener(e12 -> {
                 try {
-                    if (changeLocField.getText().trim().length() < 1)
+                    if (StringUtil.isNull(newLocation))
                         return;
 
                     oldLocation = locationString;
-                    String[] parts = changeLocField.getText().split(",");
+                    String[] parts = newLocation.split(",");
 
                     StringBuilder sb = new StringBuilder();
 
@@ -230,20 +219,14 @@ public class WeatherWidget {
                     locationString = sb.toString();
                     useCustomLoc = true;
 
-                    changeLocationFrame.dispose();
-                    weatherFrame.notify("Attempting to refresh weather stats for location \"" + locationString + "\"");
+                    weatherFrame.notify("Attempting to refresh weather stats for location \""
+                            + locationString + "\"");
 
                     repullWeatherStats();
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
                 }
-            });
-
-            changeLoc.setBounds(40,250,520,40);
-            changeLocationFrame.getContentPane().add(changeLoc);
-
-            changeLocationFrame.setVisible(true);
-            changeLocationFrame.setLocationRelativeTo(weatherFrame);
+            }, "Weather Location Changer");
         });
 
         JLabel minTempLabel = new JLabel("");

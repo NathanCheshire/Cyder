@@ -25,6 +25,7 @@ public class GetterBuilder {
     private Component relativeTo;
     private Color submitButtonColor = CyderColors.regularRed;
     private String initialString = "";
+    private String labelText = "";
 
     private String yesButtonText = "Yes";
     private String noButtonText = "No";
@@ -112,5 +113,13 @@ public class GetterBuilder {
 
     public void setNoButtonText(String noButtonText) {
         this.noButtonText = noButtonText;
+    }
+
+    public String getLabelText() {
+        return labelText;
+    }
+
+    public void setLabelText(String labelText) {
+        this.labelText = labelText;
     }
 }

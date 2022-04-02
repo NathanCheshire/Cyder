@@ -92,7 +92,11 @@ public class GetterUtil {
 
                 CyderButton submit = new CyderButton(builder.getSubmitButtonText());
                 submit.setBackground(builder.getSubmitButtonColor());
-                inputField.addActionListener(e1 -> submit.doClick());
+                inputField.addActionListener(e1 -> {
+                    returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
+                            "NULL" : inputField.getText()));
+                    inputFrame.dispose();
+                });
                 submit.setBorder(new LineBorder(CyderColors.navy,5,false));
                 submit.setFont(CyderFonts.segoe20);
                 submit.setForeground(CyderColors.navy);
@@ -105,7 +109,10 @@ public class GetterUtil {
                         getStringWidth - 2 * getStringXPadding,40);
                 inputFrame.getContentPane().add(submit);
 
-                inputFrame.addPreCloseAction(submit::doClick);
+                inputFrame.addPreCloseAction(() -> {
+                    returnString.set((inputField.getText() == null || inputField.getText().isEmpty() ?
+                            "NULL" : inputField.getText()));
+                });
 
                 inputFrame.setAlwaysOnTop(true);
                 inputFrame.setLocationRelativeTo(builder.getRelativeTo());
