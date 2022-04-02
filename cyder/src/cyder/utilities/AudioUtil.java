@@ -78,9 +78,6 @@ public class AudioUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
-            // ensure temporary directory exists
-            OSUtil.createTempDir();
-
             String builtPath = new File(OSUtil.buildPath(
                     "dynamic", "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
@@ -119,8 +116,6 @@ public class AudioUtil {
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
-            // ensure temporary directory exists
-            OSUtil.createTempDir();
 
             String builtPath = new File(OSUtil.buildPath(
                     "dynamic", "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();

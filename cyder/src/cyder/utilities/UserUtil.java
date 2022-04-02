@@ -757,7 +757,7 @@ public class UserUtil {
         File users = new File(OSUtil.buildPath("dynamic","users"));
 
         if (!users.exists()) {
-            users.mkdirs();
+            users.mkdir();
         } else {
             File[] UUIDs = users.listFiles();
 
@@ -1100,5 +1100,40 @@ public class UserUtil {
         }
 
         return backgroundFile;
+    }
+
+    /**
+     * Saves the provided file in the current user's files/ directory.
+     *
+     * @param name the filename + extension to create in the files/ directory
+     * @return a File object representing the file that was created
+     * @throws IllegalStateException if the file could not be created at this time
+     */
+    public static File createFileInUserSpace(String name) {
+        if (!StringUtil.isNull(ConsoleFrame.INSTANCE.getUUID())) {
+            File saveDir = new File(OSUtil.buildPath("dynamic", "users",
+                    ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName()));
+            File createFile = new File(saveDir, name);
+
+            if (createFile.exists()) {
+                Logger.log(LoggerTag.SYSTEM_IO, "File already existed in userspace: " + name);
+                return createFile;
+            }
+
+            try {
+                if (!saveDir.exists())
+                    saveDir.mkdir();
+
+                boolean created = OSUtil.create(createFile);
+
+                if (created) {
+                    Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
+                    return createFile;
+                }
+            } catch (Exception ignored) {}
+            //impossible to throw due to check, or is it?
+        }
+
+        throw new IllegalStateException("File could not be created at this time: " + name);
     }
 }

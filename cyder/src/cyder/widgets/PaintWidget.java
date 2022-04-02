@@ -144,7 +144,7 @@ public class PaintWidget {
                 }
 
                 try {
-                    ImageIO.write(image, "png", OSUtil.createFileInUserSpace(filename));
+                    ImageIO.write(image, "png", UserUtil.createFileInUserSpace(filename));
 
                     NotificationBuilder notifBuilder = new NotificationBuilder(
                             "Successfully saved grid as \"" + filename

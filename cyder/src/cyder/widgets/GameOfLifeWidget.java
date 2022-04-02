@@ -13,10 +13,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.GridNode;
 import cyder.ui.objects.SwitcherState;
-import cyder.utilities.FileUtil;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.objects.ConwayState;
 
@@ -583,7 +580,7 @@ public class GameOfLifeWidget {
             String filename = saveName + ".json";
 
             if (OSUtil.isValidFilename(filename)) {
-                File saveFile = OSUtil.createFileInUserSpace(filename);
+                File saveFile = UserUtil.createFileInUserSpace(filename);
 
                 LinkedList<Point> points = new LinkedList<>();
 

@@ -96,14 +96,21 @@ public class Cyder {
 
         // necessary subroutines to complete with success before continuing
         try {
+            setLoadingMessage("Creating dynamics");
+            OSUtil.ensureDynamicsCreated();
+
             setLoadingMessage("Validating users");
             UserUtil.validateAllusers();
+
             setLoadingMessage("Cleaning users");
             UserUtil.cleanUsers();
+
             setLoadingMessage("Validating widgets");
             ReflectionUtil.validateWidgets();
+
             setLoadingMessage("Validating manual tests");
             ReflectionUtil.validateTests();
+
             // todo after new input handler and context engine implemented
 //            setLoadingMessage("Validating handles);
 //            ReflectionUtil.validateHandles();
@@ -117,9 +124,9 @@ public class Cyder {
         CyderThreadRunner.submit(() -> {
             setLoadingMessage("Logging JVM args");
             IOUtil.logArgs(ca);
+
+            setLoadingMessage("Cleaning sandbox");
             IOUtil.cleanSandbox();
-            OSUtil.deleteTempDir();
-            OSUtil.createTempDir();
         },"Cyder Start Secondary Subroutines");
 
         // off-ship how to login to the LoginHandler since all subroutines finished

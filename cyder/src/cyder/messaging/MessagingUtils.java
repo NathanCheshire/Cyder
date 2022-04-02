@@ -250,9 +250,6 @@ public class MessagingUtils {
         return ret;
     }
 
-    // todo be able to terminate other session if provide a valid user password and username
-    // and then startup instead of just exiting
-
     // todo ensure users/ exist on startup, I think cloning empty repo breaks Cyder
 
     // todo maybe an audio player that scrolls and turns the navy

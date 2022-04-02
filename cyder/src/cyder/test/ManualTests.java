@@ -11,12 +11,10 @@ import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
-import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.NotificationBuilder;
@@ -25,9 +23,7 @@ import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.Future;
 
 /**
  * Tests which must be performed manually and cannot be unit tested.
@@ -48,31 +44,29 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
-                 CyderThreadRunner.submit(() -> {
-            try {
-                Future<JLabel> label = MessagingUtils.generateAudioPreviewLabel(
-                        new File("c:/users/nathan/downloads/I love you.wav"), () -> System.out.println("here"));
-
-                while (!label.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                JLabel theLabel = label.get();
-
-                ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(theLabel);
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-
-            try {
-                ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(
-                        MessagingUtils.generatePicturePreviewLabel(
-                        new File("c:/users/nathan/downloads/Test.png"),
-                                () -> System.out.println("here")));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-    }, "Manual Tester");
+//            try {
+//                Future<JLabel> label = MessagingUtils.generateAudioPreviewLabel(
+//                        new File("c:/users/nathan/downloads/I love you.wav"), () -> System.out.println("here"));
+//
+//                while (!label.isDone()) {
+//                    Thread.onSpinWait();
+//                }
+//
+//                JLabel theLabel = label.get();
+//
+//                ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(theLabel);
+//            } catch (Exception e) {
+//                ExceptionHandler.handle(e);
+//            }
+//
+//            try {
+//                ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(
+//                        MessagingUtils.generatePicturePreviewLabel(
+//                        new File("c:/users/nathan/downloads/Test.png"),
+//                                () -> System.out.println("here")));
+//            } catch (Exception e) {
+//                ExceptionHandler.handle(e);
+//            }
         }, "Manual Tester");
     }
 

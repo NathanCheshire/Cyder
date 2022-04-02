@@ -2,14 +2,13 @@ package cyder.utilities;
 
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
-import cyder.user.UserFile;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
@@ -154,6 +153,11 @@ public class OSUtil {
     public static final int MAX_DELETION_ATTEMPTS = 100;
 
     /**
+     * The maximum number of times something should be attempted to be created.
+     */
+    public static final int MAX_CREATION_ATTEMPTS = 100;
+
+    /**
      * The default user directory.
      */
     public static final String USER_DIR = System.getProperty("user.dir");
@@ -249,40 +253,6 @@ public class OSUtil {
     }
 
     /**
-     * Saves the provided file in the current user's files/ directory.
-     *
-     * @param name the filename + extension to create in the files/ directory
-     * @return a File object representing the file that was created
-     * @throws IllegalStateException if the file could not be created at this time
-     */
-    // todo userutil method
-    public static File createFileInUserSpace(String name) {
-        if (!StringUtil.isNull(ConsoleFrame.INSTANCE.getUUID())) {
-            File saveDir = new File(buildPath("dynamic", "users",
-                    ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName()));
-            File createFile = new File(saveDir, name);
-
-            if (createFile.exists()) {
-                Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
-                return createFile;
-            }
-
-            try {
-                if (!saveDir.exists())
-                    saveDir.mkdir();
-
-                Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
-
-                createFile.createNewFile();
-                return createFile;
-            } catch (Exception ignored) {}
-            //impossible to throw due to check, or is it?
-        }
-
-        throw new IllegalStateException("File could not be created at this time: " + name);
-    }
-
-    /**
      * The temporary directory file path.
      */
     public static final String TMP_DIR_PATH = buildPath("dynamic","tmp");
@@ -294,8 +264,8 @@ public class OSUtil {
      * @return a File object representing the file that was created
      * @throws IllegalStateException if the file could not be created
      */
-    public static File createFileInSystemSpace(String name) {
-        createTempDir();
+    public static File createTemporaryFile(String name) {
+        ensureDynamicsCreated();
 
         File createFile = new File(TMP_DIR_PATH + FILE_SEP + name);
 
@@ -331,22 +301,6 @@ public class OSUtil {
      * The Temporary directory file object.
      */
     private static final File TMP_DIR = new File(TMP_DIR_PATH);
-
-    /**
-     * Creates the temporary directory if it does not exist.
-     */
-    public static void createTempDir() {
-        if (TMP_DIR.exists())
-            return;
-
-        try {
-            if (!TMP_DIR.mkdir()) {
-                Logger.log(LoggerTag.DEBUG, "Could not create tmp dir");
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
 
     /**
      * Builds the provided strings into a filepath by inserting the OS' path separators.
@@ -476,6 +430,37 @@ public class OSUtil {
         if (folder.exists()) {
             Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] file: "
                     + folder.getAbsolutePath());
+        }
+
+        return false;
+    }
+
+    /**
+     * Creates the provided file/folder if possible.
+     *
+     * @param file the file/folder to attempt to create
+     * @return whether the file/fodler could be created
+     */
+    public static boolean create(File file) {
+        try {
+            int inc = 0;
+            while (inc < MAX_CREATION_ATTEMPTS) {
+                // figure out type to create
+                if (file.isFile()) {
+                    file.createNewFile();
+                } else {
+                    file.mkdirs();
+                }
+
+                // success
+                if (file.exists()) {
+                    return true;
+                }
+
+                inc++;
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
         }
 
         return false;
@@ -678,5 +663,31 @@ public class OSUtil {
                 runAndPrintProcess(pipeTo, builder);
             }
         }, "Successive Process Runner, pipeTo = " + pipeTo + ", builders.length() = " + builders.length);
+    }
+
+    // todo enums should go to the package they are primary from
+
+    // todo instances of keyword dynamic should be consolidated to singular string
+    //  so if we wanted to change it we techncially could
+
+    /**
+     * Ensures the dynamic directory and all DynamicDirectories are generated.
+     */
+    public static void ensureDynamicsCreated() {
+        File dynamic = new File("dynamic");
+
+        if (!dynamic.exists()) {
+            dynamic.mkdir();
+        }
+
+        for (DynamicDirectory dynamicDirectory : DynamicDirectory.values()) {
+            File currentDynamic = buildFile("dynamic", dynamicDirectory.getDirectoryName());
+
+            if (dynamicDirectory == DynamicDirectory.TEMPORARY) {
+                delete(currentDynamic);
+            }
+
+            create(currentDynamic);
+        }
     }
 }
