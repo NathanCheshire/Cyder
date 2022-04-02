@@ -21,6 +21,9 @@ import java.awt.*;
  * A calculator widget to parse mathematical expressions.
  */
 public class CalculatorWidget {
+    private static CyderTextField resultField;
+    private static CyderTextField calculatorField;
+
     /**
      * The text to display to user if an expression could not be parsed.
      */
@@ -44,7 +47,7 @@ public class CalculatorWidget {
 
         Font fieldFont = new Font("Agency FB", Font.BOLD, 25);
 
-        CyderTextField resultField = new CyderTextField(0);
+        resultField = new CyderTextField(0);
         resultField.setBorder(null);
         resultField.setEditable(false);
         resultField.setFocusable(true);
@@ -54,7 +57,7 @@ public class CalculatorWidget {
         resultField.setBounds(25, CyderDragLabel.DEFAULT_HEIGHT + 10,350,30);
         calculatorFrame.getContentPane().add(resultField);
 
-        CyderTextField calculatorField = new CyderTextField(0);
+        calculatorField = new CyderTextField(0);
         calculatorField.setBorder(null);
         calculatorField.setHorizontalAlignment(JTextField.LEFT);
         calculatorField.setSelectionColor(CyderColors.selectionColor);
@@ -148,27 +151,8 @@ public class CalculatorWidget {
         calculatorEquals.setFocusPainted(false);
         calculatorEquals.setBackground(CyderColors.regularOrange);
         calculatorEquals.setFont(CyderFonts.segoe30);
-        calculatorEquals.addActionListener(e -> {
-            try {
-                double result = new DoubleEvaluator().evaluate(calculatorField.getText().trim());
-                String resultString = String.valueOf(result);
-
-                if (result == Double.POSITIVE_INFINITY) {
-                    resultString = "+∞";
-                } else if (result == Double.NEGATIVE_INFINITY) {
-                    resultString = "-∞";
-                }
-
-                resultField.setText(resultString);
-            } catch (Exception exc) {
-                if (exc instanceof IllegalArgumentException) {
-                    resultField.setText(ERROR);
-                } else {
-                    ExceptionHandler.silentHandle(exc);
-                }
-            }
-        });
-        calculatorField.addActionListener(e -> calculatorEquals.doClick());
+        calculatorEquals.addActionListener(e -> compute());
+        calculatorField.addActionListener(e -> compute());
 
         CyderButton calculatorFour = new CyderButton("4");
         calculatorFour.setColors(CyderColors.regularOrange);
@@ -299,5 +283,26 @@ public class CalculatorWidget {
         calculatorCloseP.addActionListener(e -> calculatorField.setText(calculatorField.getText() + ")"));
 
         calculatorFrame.finalizeAndShow();
+    }
+
+    private static void compute() {
+        try {
+            double result = new DoubleEvaluator().evaluate(calculatorField.getText().trim());
+            String resultString = String.valueOf(result);
+
+            if (result == Double.POSITIVE_INFINITY) {
+                resultString = "+∞";
+            } else if (result == Double.NEGATIVE_INFINITY) {
+                resultString = "-∞";
+            }
+
+            resultField.setText(resultString);
+        } catch (Exception exc) {
+            if (exc instanceof IllegalArgumentException) {
+                resultField.setText(ERROR);
+            } else {
+                ExceptionHandler.silentHandle(exc);
+            }
+        }
     }
 }

@@ -17,9 +17,28 @@ import cyder.utilities.SecurityUtil;
 import javax.swing.*;
 import java.util.ArrayList;
 
+/**
+ * A widget for computing the hash of strings.
+ */
 public class HashingWidget {
+    /**
+     * The hash frame.
+     */
+    private CyderFrame hashFrame;
+
+    /**
+     * The hash button.
+     */
     private CyderButton hashButton;
+
+    /**
+     * The hash field.
+     */
     private CyderPasswordField hashField;
+
+    /**
+     * The hash algorithm switcher.
+     */
     private CyderSwitcher switcher;
 
     /**
@@ -44,8 +63,11 @@ public class HashingWidget {
         getInstance().innerShowGUI();
     }
 
+    /**
+     * Shows the gui for this instance of the hashing widget.
+     */
     public void innerShowGUI() {
-        CyderFrame hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
+        hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");
 
@@ -57,42 +79,12 @@ public class HashingWidget {
         hashFrame.getContentPane().add(Instructions);
 
         hashField = new CyderPasswordField();
-        hashField.addActionListener(e -> hashButton.doClick());
+        hashField.addActionListener(e -> hash());
         hashField.setBounds(50,90, 400, 40);
         hashFrame.getContentPane().add(hashField);
 
         hashButton = new CyderButton("Hash");
-        hashButton.addActionListener(e -> {
-            char[] Hash = hashField.getPassword();
-
-            if (Hash.length > 0) {
-                String hashResult;
-                String inform;
-                String algorithm;
-
-                algorithm = switcher.getCurrentState().getDisplayValue();
-
-                if (algorithm.equals("SHA-256")) {
-                    hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
-                } else if (algorithm.equals("SHA-1")) {
-                    hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
-                } else {
-                    hashResult = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
-                }
-
-                inform = "Your hashed password is:<br/>" + hashResult
-                        + "<br/>It has also been copied to your clipboard.<br/>Provided by " + algorithm;
-
-                InformBuilder builder = new InformBuilder(inform);
-                builder.setTitle(algorithm + " Hash Result");
-                builder.setRelativeTo(hashFrame);
-                InformHandler.inform(builder);
-
-                OSUtil.setClipboard(hashResult);
-
-                hashField.setText("");
-            }
-        });
+        hashButton.addActionListener(e -> hash());
         hashButton.setBounds(50,140, 180, 40);
         hashFrame.getContentPane().add(hashButton);
 
@@ -108,5 +100,37 @@ public class HashingWidget {
         hashFrame.getContentPane().add(switcher);
 
         hashFrame.finalizeAndShow();
+    }
+
+    private void hash() {
+        char[] Hash = hashField.getPassword();
+
+        if (Hash.length > 0) {
+            String hashResult;
+            String inform;
+            String algorithm;
+
+            algorithm = switcher.getCurrentState().getDisplayValue();
+
+            if (algorithm.equals("SHA-256")) {
+                hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA256(hashField.getPassword()));
+            } else if (algorithm.equals("SHA-1")) {
+                hashResult = SecurityUtil.toHexString(SecurityUtil.getSHA1(hashField.getPassword()));
+            } else {
+                hashResult = SecurityUtil.toHexString(SecurityUtil.getMD5(hashField.getPassword()));
+            }
+
+            inform = "Your hashed password is:<br/>" + hashResult
+                    + "<br/>It has also been copied to your clipboard.<br/>Provided by " + algorithm;
+
+            InformBuilder builder = new InformBuilder(inform);
+            builder.setTitle(algorithm + " Hash Result");
+            builder.setRelativeTo(hashFrame);
+            InformHandler.inform(builder);
+
+            OSUtil.setClipboard(hashResult);
+
+            hashField.setText("");
+        }
     }
 }

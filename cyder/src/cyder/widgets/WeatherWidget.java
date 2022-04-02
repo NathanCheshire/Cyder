@@ -522,7 +522,7 @@ public class WeatherWidget {
     }
 
     // todo surely the temperature range is for this hour? make it for the day
-    // todo a lot of method shere don't make sense, optimize weather widget
+    // todo a lot of methods here don't make sense, optimize weather widget
 
     /**
      * The gson object to use for deserializing json data.

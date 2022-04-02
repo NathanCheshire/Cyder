@@ -87,7 +87,6 @@ public class MessagingUtils {
         });
     }
 
-    // todo remove all doClick() calls
     // todo I want a bass boost feature for an mp3 or wav file
     // todo ensure meets valid min width and height
 

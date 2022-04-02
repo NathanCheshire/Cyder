@@ -1030,7 +1030,7 @@ public class UserEditor {
         CyderButton changeUsernameButton = new CyderButton("   Change Username   ");
         JTextField changeUsernameField = new JTextField(0);
         changeUsernameField.setHorizontalAlignment(JTextField.CENTER);
-        changeUsernameField.addActionListener(e -> changeUsernameButton.doClick());
+        changeUsernameField.addActionListener(e -> changeUsername(changeUsernameField));
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
         changeUsernameField.setBackground(CyderColors.vanila);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
@@ -1049,16 +1049,7 @@ public class UserEditor {
         changeUsernameButton.setBackground(CyderColors.regularRed);
         changeUsernameButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
         changeUsernameButton.setFont(CyderFonts.segoe20);
-        changeUsernameButton.addActionListener(e -> {
-            String newUsername = changeUsernameField.getText();
-            if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
-                IOUtil.changeUsername(newUsername);
-                editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
-                ConsoleFrame.INSTANCE.getConsoleCyderFrame()
-                        .setTitle(CyderShare.VERSION + " Cyder [" + newUsername + "]");
-                changeUsernameField.setText(UserUtil.getCyderUser().getName());
-            }
-        });
+        changeUsernameButton.addActionListener(e -> changeUsername(changeUsernameField));
         printingUtil.printlnComponent(changeUsernameButton);
 
         printingUtil.print("\n\n");
@@ -1082,52 +1073,14 @@ public class UserEditor {
         // init button here to add listener to field
         CyderButton changePassword = new CyderButton("    Change Password    ");
 
-        changePasswordConfField.addActionListener(e -> changePassword.doClick());
+        changePasswordConfField.addActionListener(e -> changePassword(changePasswordField, changePasswordConfField));
         changePasswordConfField.setFont(changePasswordField.getFont());
         changePasswordConfField.setToolTipText("New Password Confirmation");
         printingUtil.printlnComponent(changePasswordConfField);
 
         printingUtil.print("\n");
 
-        changePassword.addActionListener(e -> {
-            char[] newPassword = changePasswordField.getPassword();
-            char[] newPasswordConf = changePasswordConfField.getPassword();
-
-            boolean alphabet = false;
-            boolean number = false;
-
-            for (char c : newPassword) {
-                if (Character.isDigit(c))
-                    number = true;
-                else if (Character.isAlphabetic(c))
-                    alphabet = true;
-
-                if (number && alphabet)
-                    break;
-            }
-
-            if (newPassword.length < 5 || !number || !alphabet) {
-                editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
-                        + ", " + "but your password must contain at least"
-                        + " one number, one letter, and be 5 characters long");
-            } else {
-                if (!Arrays.equals(newPasswordConf,newPassword)) {
-                    editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
-                            "but your provided passwords were not equal");
-                    changePasswordField.setText("");
-                    changePasswordConfField.setText("");
-                } else {
-                    IOUtil.changePassword(newPassword);
-                    editUserFrame.notify("Password successfully changed");
-                }
-            }
-
-            changePasswordField.setText("");
-            changePasswordConfField.setText("");
-
-            Arrays.fill(newPasswordConf, '\0');
-            Arrays.fill(newPassword, '\0');
-        });
+        changePassword.addActionListener(e -> changePassword(changePasswordField, changePasswordConfField));
         printingUtil.printlnComponent(changePassword);
 
         printingUtil.print("\n\n");
@@ -1418,44 +1371,12 @@ public class UserEditor {
         CyderButton deleteUserButton = new CyderButton("    Delete user    ");
         CyderPasswordField deletePasswordField = new CyderPasswordField();
         deletePasswordField.setToolTipText("Enter password to confirm account deletion");
-        deletePasswordField.addActionListener(e -> deleteUserButton.doClick());
+        deletePasswordField.addActionListener(e -> deleteUser(deletePasswordField));
         printingUtil.printlnComponent(deletePasswordField);
 
         printingUtil.print("\n");
 
-        deleteUserButton.addActionListener(e -> {
-            String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
-
-            if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray()))
-                    .equals(UserUtil.getCyderUser().getPass())) {
-                editUserFrame.notify("Invalid password; user not deleted");
-                deletePasswordField.setText("");
-            } else {
-                CyderThreadRunner.submit(() -> {
-                    GetterBuilder builder = new GetterBuilder("Final warning: you are about to"
-                            + " delete your Cyder account. All files, pictures, downloaded music, notes," +
-                            " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?");
-                    builder.setRelativeTo(editUserFrame);
-                    boolean delete = GetterUtil.getInstance().getConfirmation(builder);
-
-                    if (delete) {
-                        ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);
-
-                        // close all frames, console frame is already closed
-                        FrameUtil.closeAllFrames(true);
-
-                        // attempt to delete directory
-                        OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()));
-
-                        // exit with proper condition
-                        CyderShare.exit(ExitCondition.UserDeleted);
-                    } else {
-                       deletePasswordField.setText("");
-                       editUserFrame.notify("Account not deleted");
-                    }
-               },"Account deletion confirmation");
-            }
-        });
+        deleteUserButton.addActionListener(e -> deleteUser(deletePasswordField));
         printingUtil.printlnComponent(deleteUserButton);
 
         printingUtil.print("\n\n");
@@ -1730,5 +1651,91 @@ public class UserEditor {
 
         switchingLabel.add(fieldInputsScroll);
         switchingLabel.revalidate();
+    }
+
+    private static void deleteUser(CyderPasswordField deletePasswordField) {
+        String hashed = SecurityUtil.toHexString(SecurityUtil.getSHA256(deletePasswordField.getPassword()));
+
+        if (!SecurityUtil.toHexString(SecurityUtil.getSHA256(hashed.toCharArray()))
+                .equals(UserUtil.getCyderUser().getPass())) {
+            editUserFrame.notify("Invalid password; user not deleted");
+            deletePasswordField.setText("");
+        } else {
+            CyderThreadRunner.submit(() -> {
+                GetterBuilder builder = new GetterBuilder("Final warning: you are about to"
+                        + " delete your Cyder account. All files, pictures, downloaded music, notes," +
+                        " etc. will be deleted. Are you ABSOLUTELY sure you wish to continue?");
+                builder.setRelativeTo(editUserFrame);
+                boolean delete = GetterUtil.getInstance().getConfirmation(builder);
+
+                if (delete) {
+                    ConsoleFrame.INSTANCE.closeConsoleFrame(false, true);
+
+                    // close all frames, console frame is already closed
+                    FrameUtil.closeAllFrames(true);
+
+                    // attempt to delete directory
+                    OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()));
+
+                    // exit with proper condition
+                    CyderShare.exit(ExitCondition.UserDeleted);
+                } else {
+                    deletePasswordField.setText("");
+                    editUserFrame.notify("Account not deleted");
+                }
+            },"Account deletion confirmation");
+        }
+    }
+
+    private static void changePassword(CyderPasswordField changePasswordField,
+                                       CyderPasswordField changePasswordConfField) {
+        char[] newPassword = changePasswordField.getPassword();
+        char[] newPasswordConf = changePasswordConfField.getPassword();
+
+        boolean alphabet = false;
+        boolean number = false;
+
+        for (char c : newPassword) {
+            if (Character.isDigit(c))
+                number = true;
+            else if (Character.isAlphabetic(c))
+                alphabet = true;
+
+            if (number && alphabet)
+                break;
+        }
+
+        if (newPassword.length < 5 || !number || !alphabet) {
+            editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
+                    + ", " + "but your password must contain at least"
+                    + " one number, one letter, and be 5 characters long");
+        } else {
+            if (!Arrays.equals(newPasswordConf,newPassword)) {
+                editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
+                        "but your provided passwords were not equal");
+                changePasswordField.setText("");
+                changePasswordConfField.setText("");
+            } else {
+                IOUtil.changePassword(newPassword);
+                editUserFrame.notify("Password successfully changed");
+            }
+        }
+
+        changePasswordField.setText("");
+        changePasswordConfField.setText("");
+
+        Arrays.fill(newPasswordConf, '\0');
+        Arrays.fill(newPassword, '\0');
+    }
+
+    private static void changeUsername(JTextField changeUsernameField) {
+        String newUsername = changeUsernameField.getText();
+        if (!StringUtil.isNull(newUsername) && !newUsername.equalsIgnoreCase(UserUtil.getCyderUser().getName())) {
+            IOUtil.changeUsername(newUsername);
+            editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame()
+                    .setTitle(CyderShare.VERSION + " Cyder [" + newUsername + "]");
+            changeUsernameField.setText(UserUtil.getCyderUser().getName());
+        }
     }
 }
