@@ -16,6 +16,10 @@ import java.util.ArrayList;
  * They basically are a wrapper for layouts that extends {@link CyderBaseLayout}.
  */
 public class CyderPanel extends JLabel {
+    // extends JLabel so that we can use as the CyderFrame's actual content pane
+    // so it will always appear the same as manually adding components via the
+    // old absolute layout design.
+
     /**
      * Restict class instnatiation without a valid cyder layout.
      */
@@ -39,7 +43,7 @@ public class CyderPanel extends JLabel {
     /**
      * The layout which we are wrapping with this panel.
      */
-    private CyderBaseLayout cyderLayout;
+    private final CyderBaseLayout cyderLayout;
 
     /**
      * Sets the layout manager to null due to this being a CyderPanel.

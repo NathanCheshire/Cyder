@@ -33,7 +33,9 @@ public class CyderGridLayout extends CyderBaseLayout {
         BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
     }
 
-    //the components linked to the CyderPanel this LM is managing
+    /**
+     * The list of components to be linked to the CyderPanel this LayoutManager is managing.
+     */
     private final GridComponent[][] components;
 
     /**

@@ -127,6 +127,8 @@ public class PhotoViewer {
      * Refreshses the valid files list.
      */
     private void refreshValidFiles() {
+        validDirectoryImages.clear();
+
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
@@ -148,14 +150,6 @@ public class PhotoViewer {
             for (File f : neighbors) {
                 if (FileUtil.isSupportedImageExtension(f)) {
                     validDirectoryImages.add(f);
-                }
-            }
-
-            // refresh the index we are at if possible :/
-            for (int i = 0; i < validDirectoryImages.size() ; i++) {
-                if (validDirectoryImages.get(i).equals(startDir)) {
-                    currentIndex = i;
-                    break;
                 }
             }
         }
@@ -258,6 +252,7 @@ public class PhotoViewer {
                builder.setFieldTooltip("Valid filename");
                builder.setSubmitButtonText("Rename");
                String name = GetterUtil.getInstance().getString(builder);
+
                if (!StringUtil.isNull(name)) {
                    File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
 
@@ -265,22 +260,48 @@ public class PhotoViewer {
 
                    File newName = new File(oldName.getAbsolutePath()
                            .replace(replaceOldName, name));
-                   oldName.renameTo(newName);
-                   pictureFrame.notify("Successfully renamed to " + name);
+                   boolean renamed = oldName.renameTo(newName);
 
-                   refreshValidFiles();
+                   if (renamed) {
+                       pictureFrame.notify("Successfully renamed to " + name);
 
-                   for (int i = 0; i < validDirectoryImages.size() ; i++) {
-                       if (validDirectoryImages.get(i).getName().equals(name)) {
-                           currentIndex = i;
+                       refreshValidFiles();
+
+                       // update index based on new name
+                       for (int i = 0 ; i < validDirectoryImages.size() ; i++) {
+                           if (FileUtil.getFilename(validDirectoryImages.get(i)).equals(name)) {
+                               currentIndex = i;
+                           }
                        }
-                   }
 
-                   pictureFrame.setTitle(name);
+                       pictureFrame.setTitle(name);
+
+                       // invoke callback
+                       if (onRenameCallback != null) {
+                           onRenameCallback.run();
+                       }
+                   } else {
+                       pictureFrame.notify("Could not rename at this time");
+                   }
                }
            } catch (Exception e) {
                ExceptionHandler.handle(e);
            }
        }, "PhotoViewer Image Renamer: " + this);
+    }
+
+    /**
+     * The callback to run whenever a photo is renamed.
+     */
+    private Runnable onRenameCallback;
+
+    /**
+     * Invokes the provided runnable whenever a file is renamed via this photo viewer instance.
+     *
+     * @param runnable the runnable to invoke.
+     */
+    public void setRenameCallback(Runnable runnable) {
+        Preconditions.checkNotNull(runnable);
+        onRenameCallback = runnable;
     }
 }

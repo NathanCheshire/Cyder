@@ -7,6 +7,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
+import cyder.handlers.external.PhotoViewer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
@@ -198,13 +199,28 @@ public class UserEditor {
         CyderScrollList filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
         filesScroll.setBorder(null);
 
+        // forward reference
+        AtomicReference<JLabel> filesLabelRef = new AtomicReference<>();
+        JLabel filesLabel = null;
+        filesLabelRef.set(filesLabel);
+
         for (int i = 0; i < filesNameList.size() ; i++) {
             int finalI = i;
             filesScroll.addElement(filesNameList.get(i),
-                    () -> IOUtil.openFile(filesList.get(finalI).getAbsolutePath()));
+            () -> {
+                // if photo viewer can handle
+                if (FileUtil.isSupportedImageExtension(filesList.get(finalI))) {
+                    PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
+                    pv.setRenameCallback(() -> revalidateFilesScroll(filesScroll, filesLabelRef.get()));
+                    pv.showGUI();
+                } else {
+                    IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
+                }
+            });
         }
 
-        JLabel filesLabel = filesScroll.generateScrollList();
+        filesLabel = filesScroll.generateScrollList();
+        filesLabelRef.set(filesLabel);
         filesLabel.setBounds(20, 60, 680, 360);
         editUserFrame.getContentPane().add(filesLabel);
         switchingLabel.add(filesLabel);
@@ -246,7 +262,7 @@ public class UserEditor {
                                 folderName).getAbsolutePath() + OSUtil.FILE_SEP + addFile.getName());
                         Files.copy(copyPath, destination.toPath());
 
-                        revalidateFilesScroll(filesScroll, filesLabel);
+                        revalidateFilesScroll(filesScroll, filesLabelRef.get());
 
                         if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName()))
                             ConsoleFrame.INSTANCE.resizeBackgrounds();
@@ -314,13 +330,15 @@ public class UserEditor {
                         builder.setInitialString(oldName);
                         String newName = GetterUtil.getInstance().getString(builder);
 
-                        if (oldName.equals(newName) || newName.equals("NULL"))
+                        if (oldName.equals(newName) || StringUtil.isNull(newName)) {
                             return;
+                        }
 
                         File renameTo = new File(selectedFile.getParent() + "/" + newName + extension);
 
-                        if (renameTo.exists())
+                        if (renameTo.exists()) {
                             throw new IOException("file exists");
+                        }
 
                         //rename file to new name
                         boolean success = selectedFile.renameTo(renameTo);
@@ -366,7 +384,7 @@ public class UserEditor {
                             }
                         }
 
-                        revalidateFilesScroll(filesScroll, filesLabel);
+                        revalidateFilesScroll(filesScroll, filesLabelRef.get());
                     }
                 }
             } catch (Exception ex) {
@@ -403,7 +421,7 @@ public class UserEditor {
                     boolean deleted = selectedFile.delete();
 
                     if (deleted) {
-                        revalidateFilesScroll(filesScroll, filesLabel);
+                        revalidateFilesScroll(filesScroll, filesLabelRef.get());
 
                         if (FileUtil.getExtension(selectedFile).equals(".mp3"))
                             ConsoleFrame.INSTANCE.getInputHandler()

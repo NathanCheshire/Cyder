@@ -110,7 +110,13 @@ public class CyderWatchdog {
                 if (currentState == Thread.State.RUNNABLE) {
                     watchdogCounter.getAndIncrement();
 
-                    Logger.log(LoggerTag.THREAD_STATUS, awtEventQueueThread);
+                    int get = watchdogCounter.get();
+
+                    // log if getting close to a timeout
+                    if (get > MAX_WATCHDOG_COUNT / 2) {
+                        Logger.log(LoggerTag.DEBUG, "Watchdog timer over halfway "
+                                + "to timeout, value = " + get);
+                    }
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
                         Logger.log(LoggerTag.DEBUG, "Hault detected by watchdog,");
