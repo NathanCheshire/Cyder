@@ -1,7 +1,6 @@
 package cyder.ui;
 
-import cyder.constants.CyderIcons;
-import cyder.constants.CyderStrings;
+import com.google.common.base.Preconditions;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -22,7 +21,7 @@ public class CyderIconButton extends JButton {
      * Suppress default JButton constructor.
      */
     private CyderIconButton() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        throw new IllegalMethodException("Construction not allowed without proper parameters");
     }
 
     /**
@@ -174,14 +173,17 @@ public class CyderIconButton extends JButton {
      * @param msDelay the delay in milliseconds between button flash calls
      */
     public void flash(int iterations, int msDelay) {
+        Preconditions.checkArgument(hoverAndFocusIcon != null && defaultIcon != null,
+                "Cannot flash when both icons are not present");
+
         CyderThreadRunner.submit(() -> {
             try {
                 Icon originalIcon = getIcon();
 
                 for (int i = 0 ; i < iterations ; i++) {
-                    setIcon(CyderIcons.helpIconHover);
+                    setIcon(hoverAndFocusIcon);
                     Thread.sleep(msDelay);
-                    setIcon(CyderIcons.helpIcon);
+                    setIcon(defaultIcon);
                     Thread.sleep(msDelay);
                 }
 

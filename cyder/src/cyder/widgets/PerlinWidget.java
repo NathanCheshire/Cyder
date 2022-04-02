@@ -99,13 +99,13 @@ public class PerlinWidget {
      * The state used for two dimensions of noise.
      */
     private static final SwitcherState twoDimensionState =
-            new SwitcherState("2D","2D");
+            new SwitcherState("2D");
 
     /**
      * The state used for three dimensions of noise (technically 4).
      */
     private static final SwitcherState threeDimensionState =
-            new SwitcherState("3D","3D");
+            new SwitcherState("3D");
 
     /**
      * The slider used to determine the speed of the animation.

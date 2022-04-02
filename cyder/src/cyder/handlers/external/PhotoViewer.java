@@ -1,42 +1,55 @@
 package cyder.handlers.external;
 
+import com.google.common.base.Preconditions;
 import cyder.enums.LoggerTag;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
-import cyder.utilities.*;
+import cyder.ui.CyderIconButton;
+import cyder.utilities.FileUtil;
+import cyder.utilities.GetterUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.LinkedList;
 
+/**
+ * A widget which displays the images supported by Cyder in a provided directory.
+ */
 public class PhotoViewer {
-    private final LinkedList<File> validImages = new LinkedList<>();
+    /**
+     * The list of valid image files in the current directory, not recursive.
+     */
+    private final LinkedList<File> validDirectoryImages = new LinkedList<>();
+
+    /**
+     * The starting directory/file.
+     */
     private final File startDir;
+
+    /**
+     * The current index of the valid directory images list.
+     */
     private int currentIndex;
 
+    /**
+     * The image frame.
+     */
     private CyderFrame pictureFrame;
-
-    private JButton nextImage;
-    private JButton lastImage;
-    private JButton renameButton;
-
-    private int oldCenterX;
-    private int oldCenterY;
 
     /**
      * Returns a new instance of photo viewer with the provided starting directory.
      *
      * @param startDir the starting directory
-     * @return a new instance of photo viewer
+     * @return a new instance of the PhotoViewer
      */
     public static PhotoViewer getInstance(File startDir) {
         return new PhotoViewer(startDir);
@@ -46,9 +59,18 @@ public class PhotoViewer {
      * Creates a new photo viewer object.
      *
      * @param startDir the starting directory of the photo viewer.
+     *                 If a file is provided, the file's parent is
+     *                 used as the starting directory
      */
     private PhotoViewer(File startDir) {
-        this.startDir = startDir;
+        Preconditions.checkNotNull(startDir);
+        Preconditions.checkArgument(startDir.exists());
+
+        if (startDir.isFile()) {
+            this.startDir = startDir;
+        } else {
+            this.startDir = startDir.getParentFile();
+        }
     }
 
     /**
@@ -57,31 +79,26 @@ public class PhotoViewer {
     public void showGUI() {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
 
-        initFiles();
+        refreshValidFiles();
 
-        File currentImage = validImages.get(0);
+        File currentImage = validDirectoryImages.get(0);
 
         if (startDir.isFile()) {
-            for (int i = 0 ; i < validImages.size() ; i++) {
-                if (validImages.get(i).equals(startDir)) {
-                    currentImage = validImages.get(i);
+            for (int i = 0; i < validDirectoryImages.size() ; i++) {
+                if (validDirectoryImages.get(i).equals(startDir)) {
+                    currentImage = validDirectoryImages.get(i);
                     break;
                 }
             }
         }
 
         ImageIcon newImage;
-        newImage = checkImage(currentImage);
+        newImage = scaleImageIfNeeded(currentImage);
 
         pictureFrame = new CyderFrame(newImage.getIconWidth(), newImage.getIconHeight(), newImage);
         pictureFrame.setBackground(Color.BLACK);
         pictureFrame.setTitle(FileUtil.getFilename(currentImage.getName()));
         pictureFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
-        pictureFrame.initializeResizing();
-        pictureFrame.setResizable(true);
-        pictureFrame.setSnapSize(new Dimension(1,1));
-        pictureFrame.setMinimumSize(new Dimension(newImage.getIconWidth() / 2, newImage.getIconHeight() / 2));
-        pictureFrame.setMaximumSize(new Dimension(newImage.getIconWidth(), newImage.getIconHeight()));
         pictureFrame.setVisible(true);
 
         pictureFrame.finalizeAndShow();
@@ -91,166 +108,146 @@ public class PhotoViewer {
             rename();
         });
 
-        nextImage = new JButton("");
-        nextImage.setToolTipText("Next image");
-        nextImage.addActionListener(e -> scrollForward());
-        nextImage.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("static/pictures/icons/nextPicture2.png"));
-            }
+        ImageIcon nextIcon = new ImageIcon("static/pictures/icons/nextPicture1.png");
+        ImageIcon nextIconHover = new ImageIcon("static/pictures/icons/nextPicture2.png");
+        CyderIconButton next = new CyderIconButton("Next", nextIcon, nextIconHover, null);
+        next.setSize(nextIcon.getIconWidth(), nextIconHover.getIconHeight());
+        next.addActionListener(e -> transition(true));
+        pictureFrame.getTopDragLabel().addButton(next, 0);
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                nextImage.setIcon(new ImageIcon("static/pictures/icons/nextPicture1.png"));
-            }
-        });
-
-        nextImage.setIcon(new ImageIcon("static/pictures/icons/nextPicture1.png"));
-        nextImage.setContentAreaFilled(false);
-        nextImage.setBorderPainted(false);
-        nextImage.setFocusPainted(false);
-        pictureFrame.getTopDragLabel().addButton(nextImage, 0);
-
-        lastImage = new JButton("");
-        lastImage.setToolTipText("Previous image");
-        lastImage.addActionListener(e -> scrollBack());
-        lastImage.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("static/pictures/icons/lastPicture2.png"));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                lastImage.setIcon(new ImageIcon("static/pictures/icons/lastPicture1.png"));
-            }
-        });
-
-        lastImage.setIcon(new ImageIcon("static/pictures/icons/lastPicture1.png"));
-        lastImage.setContentAreaFilled(false);
-        lastImage.setBorderPainted(false);
-        lastImage.setFocusPainted(false);
-        pictureFrame.getTopDragLabel().addButton(lastImage, 0);
+        ImageIcon lastIcon = new ImageIcon("static/pictures/icons/lastPicture1.png");
+        ImageIcon lastIconHover = new ImageIcon("static/pictures/icons/lastPicture2.png");
+        CyderIconButton last = new CyderIconButton("Last", lastIcon, lastIconHover, null);
+        last.setSize(lastIcon.getIconWidth(), lastIcon.getIconHeight());
+        last.addActionListener(e -> transition(false));
+        pictureFrame.getTopDragLabel().addButton(last, 0);
     }
 
-    private void initFiles() {
+    /**
+     * Refreshses the valid files list.
+     */
+    private void refreshValidFiles() {
         if (startDir.isDirectory()) {
             File[] files = startDir.listFiles();
 
+            if (files.length == 0)
+                return;
+
             for (File f : files) {
-                if (FileUtil.isSupportedImageExtension(f))
-                    validImages.add(f);
+                if (FileUtil.isSupportedImageExtension(f)) {
+                    validDirectoryImages.add(f);
+                }
             }
         } else {
             File parent = startDir.getParentFile();
             File[] neighbors = parent.listFiles();
 
+            if (neighbors.length == 0)
+                return;
+
             for (File f : neighbors) {
-                if (FileUtil.isSupportedImageExtension(f))
-                    validImages.add(f);
+                if (FileUtil.isSupportedImageExtension(f)) {
+                    validDirectoryImages.add(f);
+                }
             }
 
-            for (int i = 0 ; i < validImages.size() ; i++) {
-                if (validImages.get(i).equals(startDir)) {
+            // refresh the index we are at if possible :/
+            for (int i = 0; i < validDirectoryImages.size() ; i++) {
+                if (validDirectoryImages.get(i).equals(startDir)) {
                     currentIndex = i;
                     break;
                 }
             }
         }
     }
-    private void scrollForward() {
-        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
-        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
 
-        try {
-            if (currentIndex + 1 < validImages.size()) {
+    /**
+     * Transitions to a new image in the directory if more exist.
+     *
+     * @param forward whether to transition forwards.
+     *                If false, the direction traversed is backwards.
+     */
+    private void transition(boolean forward) {
+        refreshValidFiles();
+
+        if (validDirectoryImages.size() < 1)
+            return;
+
+        // change the index
+        if (forward) {
+            if (currentIndex + 1 < validDirectoryImages.size()) {
                 currentIndex += 1;
             } else {
                 currentIndex = 0;
             }
-
-            ImageIcon nextImage = checkImage(validImages.get(currentIndex));
-            pictureFrame.setSize(nextImage.getIconWidth(),nextImage.getIconHeight());
-            pictureFrame.setBackground(nextImage);
-            pictureFrame.setLocation(oldCenterX - nextImage.getIconWidth() / 2,
-                    oldCenterY - nextImage.getIconHeight() / 2);
-
-            pictureFrame.setMinimumSize(new Dimension(nextImage.getIconWidth() / 2,
-                    nextImage.getIconHeight() / 2));
-            pictureFrame.setMaximumSize(new Dimension(nextImage.getIconWidth(),
-                    nextImage.getIconHeight()));
-
-            pictureFrame.refreshBackground();
-            pictureFrame.setTitle(FileUtil.getFilename(validImages.get(currentIndex).getName()));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    private void scrollBack() {
-        oldCenterX = pictureFrame.getX() + pictureFrame.getWidth() / 2;
-        oldCenterY = pictureFrame.getY() + pictureFrame.getHeight() / 2;
-
-        try {
+        } else {
             if (currentIndex - 1 >= 0) {
                 currentIndex -= 1;
             } else {
-                currentIndex = validImages.size() - 1;
+                currentIndex = validDirectoryImages.size() - 1;
             }
-
-            ImageIcon previousImage = checkImage(validImages.get(currentIndex));
-            pictureFrame.setSize(previousImage.getIconWidth(),previousImage.getIconHeight());
-            pictureFrame.setBackground(previousImage);
-            pictureFrame.setLocation(oldCenterX - previousImage.getIconWidth() / 2,
-                    oldCenterY - previousImage.getIconHeight() / 2);
-
-            pictureFrame.setMinimumSize(new Dimension(previousImage.getIconWidth() / 2,
-                    previousImage.getIconHeight() / 2));
-            pictureFrame.setMaximumSize(new Dimension(previousImage.getIconWidth(),
-                    previousImage.getIconHeight()));
-
-            pictureFrame.refreshBackground();
-            pictureFrame.setTitle(FileUtil.getFilename(validImages.get(currentIndex).getName()));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
+
+        Point center = pictureFrame.getCenterPoint();
+
+        ImageIcon newImage = scaleImageIfNeeded(validDirectoryImages.get(currentIndex));
+        pictureFrame.setSize(newImage.getIconWidth(), newImage.getIconHeight());
+        pictureFrame.setBackground(newImage);
+
+        pictureFrame.setLocation((int) (center.getX() - newImage.getIconWidth() / 2),
+                (int) (center.getY() - newImage.getIconHeight() / 2));
+
+        pictureFrame.refreshBackground();
+        pictureFrame.setTitle(FileUtil.getFilename(validDirectoryImages.get(currentIndex).getName()));
     }
 
-    //returns a scaled down ImageIcon if the image file is too big
-    private ImageIcon checkImage(File im) {
+    /**
+     * The maximum length of the photo viewer frame.
+     */
+    private static final int MAX_LEN = 800;
+
+    /**
+     * Returns a scaled image icon for the provided image
+     * file if the image is bigger than MAX_LEN x MAX_LEN.
+     *
+     * @param imageFile the image file to process
+     * @return the ImageIcon from the image file guaranteed to be no bigger than MAX_LEN x MAX_LEN
+     */
+    private ImageIcon scaleImageIfNeeded(File imageFile) {
         try {
-            ImageIcon originalIcon = new ImageIcon(ImageIO.read(im));
-            BufferedImage bi = ImageIO.read(im);
+            ImageIcon originalIcon = new ImageIcon(ImageIO.read(imageFile));
+            BufferedImage bi = ImageIO.read(imageFile);
+
             int width = originalIcon.getIconWidth();
             int height = originalIcon.getIconHeight();
 
             if (width > height) {
-                int scaledHeight = 800 * height / width;
-                return new ImageIcon(bi.getScaledInstance(800, scaledHeight, Image.SCALE_SMOOTH));
+                int scaledHeight = MAX_LEN * height / width;
+                return new ImageIcon(bi.getScaledInstance(MAX_LEN, scaledHeight, Image.SCALE_SMOOTH));
             } else if (height > width) {
-                int scaledWidth = 800 * width / height;
-                return new ImageIcon(bi.getScaledInstance(scaledWidth, 800, Image.SCALE_SMOOTH));
+                int scaledWidth = MAX_LEN * width / height;
+                return new ImageIcon(bi.getScaledInstance(scaledWidth, MAX_LEN, Image.SCALE_SMOOTH));
             } else {
-                return new ImageIcon(bi.getScaledInstance(800, 800, Image.SCALE_SMOOTH));
+                return new ImageIcon(bi.getScaledInstance(MAX_LEN, MAX_LEN, Image.SCALE_SMOOTH));
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
         throw new IllegalStateException("Could not generate ImageIcon at this time");
     }
 
+    /**
+     * Attempts to rename the current image file if not in use by the ConsoleFrame.
+     */
     private void rename() {
-        File currentRename = new File(validImages.get(currentIndex).getAbsolutePath());
+        File currentRename = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
         File currentBackground = ConsoleFrame.INSTANCE
                 .getCurrentBackground().getReferenceFile().getAbsoluteFile();
 
         if (currentRename.getAbsolutePath().equals(currentBackground.getAbsolutePath())) {
-           pictureFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", but you're not allowed to" +
-                    " rename the background you are currently using");
+            pictureFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
+                    + ", but you're not allowed to" + " rename the background you are currently using");
             return;
         }
 
@@ -262,7 +259,7 @@ public class PhotoViewer {
                builder.setSubmitButtonText("Rename");
                String name = GetterUtil.getInstance().getString(builder);
                if (!StringUtil.isNull(name)) {
-                   File oldName = new File(validImages.get(currentIndex).getAbsolutePath());
+                   File oldName = new File(validDirectoryImages.get(currentIndex).getAbsolutePath());
 
                    String replaceOldName = FileUtil.getFilename(oldName);
 
@@ -271,10 +268,10 @@ public class PhotoViewer {
                    oldName.renameTo(newName);
                    pictureFrame.notify("Successfully renamed to " + name);
 
-                   initFiles();
+                   refreshValidFiles();
 
-                   for (int i = 0 ; i < validImages.size() ; i++) {
-                       if (validImages.get(i).getName().equals(name)) {
+                   for (int i = 0; i < validDirectoryImages.size() ; i++) {
+                       if (validDirectoryImages.get(i).getName().equals(name)) {
                            currentIndex = i;
                        }
                    }
@@ -284,11 +281,6 @@ public class PhotoViewer {
            } catch (Exception e) {
                ExceptionHandler.handle(e);
            }
-       }, "wait thread for GetterUtil().getString() " + this);
-    }
-
-    @Override
-    public final String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+       }, "PhotoViewer Image Renamer: " + this);
     }
 }

@@ -9,11 +9,20 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class CyderGridLayout extends CyderBaseLayout {
-    //the default cells to use for both the vertical and horizontal axes
+    /**
+     * The default amount of cells to use for each axis.
+     */
     public static final int DEFAULT_CELLS = 1;
 
-    private int horizontalCells;
-    private int vertialCells;
+    /**
+     * The amount of horizontal cells allowable for this grid layout.
+     */
+    private final int horizontalCells;
+
+    /**
+     * The amount of veritcal cells allowable for this grid layout.
+     */
+    private final int vertialCells;
 
     /**
      * Enum to use to figure out how to position components if/when overflow occurs

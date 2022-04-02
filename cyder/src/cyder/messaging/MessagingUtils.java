@@ -87,6 +87,7 @@ public class MessagingUtils {
         });
     }
 
+    // todo remove all doClick() calls
     // todo I want a bass boost feature for an mp3 or wav file
     // todo ensure meets valid min width and height
 
@@ -96,7 +97,7 @@ public class MessagingUtils {
      * @param wavFile the wav file
      * @param width the width of the requested image
      * @param height the height of the requested image
-     * @param backgroundColor the background color of the iamge
+     * @param backgroundColor the background color of the image
      * @param waveColor the color of the waveform
      * @return the generated image
      */
