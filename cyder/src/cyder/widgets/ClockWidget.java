@@ -365,7 +365,7 @@ public class ClockWidget {
             hexField.setHorizontalAlignment(JTextField.CENTER);
             hexField.setText(ColorUtil.rgbToHexString(clockColor));
             hexField.setToolTipText("Clock color");
-            hexField.setRegexMatcher("[abcdefABCDEF0-9]*");
+            hexField.setKeyEventRegexMatcher("[abcdefABCDEF0-9]*");
             hexField.setBounds(240, 830, 140, 40);
             hexField.addActionListener(e -> {
                 String text = hexField.getText().trim();

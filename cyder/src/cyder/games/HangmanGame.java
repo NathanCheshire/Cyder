@@ -64,7 +64,7 @@ public class HangmanGame {
         letterField.setHorizontalAlignment(JTextField.CENTER);
         letterField.setBackground(Color.white);
         letterField.setBorder(new LineBorder(CyderColors.navy,5,false));
-        letterField.setRegexMatcher("[A-Za-z]*");
+        letterField.setKeyEventRegexMatcher("[A-Za-z]*");
         letterField.setToolTipText("Enter your letter guess here [A-Z]");
         letterField.addKeyListener(new KeyListener() {
             @Override

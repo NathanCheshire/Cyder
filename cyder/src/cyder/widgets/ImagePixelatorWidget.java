@@ -95,7 +95,7 @@ public class ImagePixelatorWidget {
         });
 
         integerField = new CyderTextField(0);
-        integerField.setRegexMatcher("[0-9]*");
+        integerField.setKeyEventRegexMatcher("[0-9]*");
         integerField.setBounds(300,100,200,40);
         integerField.setToolTipText("How many old pixels should be combined into a new pixel?");
         pixelFrame.getContentPane().add(integerField);

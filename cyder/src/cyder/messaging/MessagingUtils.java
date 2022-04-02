@@ -28,18 +28,25 @@ public class MessagingUtils {
     }
 
     /**
-     * The default image width.
+     * The default large width for waveform image generation.
      */
-    private static final int DEFAULT_IMAGE_WIDTH = 1800;
+    public static final int DEFAULT_LARGE_WAVEFORM_WIDTH = 1800;
 
     /**
-     * The default image height.
+     * The default large height for waveform image generation.
      */
-    private static final int DEAULT_IMAGE_HEIGHT = 280;
+    public static final int DEFAULT_LARGE_WAVEFORM_HEIGHT = 280;
 
-    // todo test these for visibility
-    public static final int MINIMUM_IMAGE_WIDTH = 280;
-    public static final int MINIMUM_IMAGE_HEIGHT = 44;
+    /**
+     * The default small width for waveform image generation.
+     */
+    public static final int DEFAULT_SMALL_WAVEFORM_WIDTH = 140;
+
+    /**
+     * The default small height for waveform image generation.
+     * "Gave 'em 44, now here's 44 more."
+     */
+    public static final int DEFAULT_SMALL_WAVEFORM_HEIGHT = 44;
 
     /**
      * The default background color.
@@ -53,14 +60,33 @@ public class MessagingUtils {
 
     /**
      * Generates a png depicting the waveform of the provided mp3/wav file.
+     * The dimensions used are DEFAULT_LARGE_WAVEFORM_WIDTH x DEFAULT_LARGE_WAVEFORM_HEIGHT.
      *
      * @param wavOrMp3File the mp3 opr wav file
      * @return the generated image
      */
-    public static Future<BufferedImage> generateWaveForm(File wavOrMp3File) {
+    public static Future<BufferedImage> generateLargeWaveform(File wavOrMp3File) {
         Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
                 || FileUtil.validateExtension(wavOrMp3File, ".wav"));
 
+       return generateWaveform(wavOrMp3File, DEFAULT_LARGE_WAVEFORM_WIDTH, DEFAULT_LARGE_WAVEFORM_HEIGHT);
+    }
+
+    /**
+     * Generates a png depicting the waveform of the provided mp3/wav file.
+     * The dimensions used are DEFAULT_SMALL_WAVEFORM_WIDTH x DEFAULT_SMALL_WAVEFORM_HEIGHT.
+     *
+     * @param wavOrMp3File the mp3 opr wav file
+     * @return the generated image
+     */
+    public static Future<BufferedImage> generateSmallWaveform(File wavOrMp3File) {
+        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
+                || FileUtil.validateExtension(wavOrMp3File, ".wav"));
+
+        return generateWaveform(wavOrMp3File, DEFAULT_SMALL_WAVEFORM_WIDTH, DEFAULT_SMALL_WAVEFORM_HEIGHT);
+    }
+
+    private static Future<BufferedImage> generateWaveform(File wavOrMp3File, int width, int height) {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Waveform generator")).submit(() -> {
 
@@ -81,14 +107,22 @@ public class MessagingUtils {
                 }
             }
 
-            return generateWaveForm(usageWav, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT,
+            return generateWaveform(usageWav, width, height,
                     DEFAULT_BACKGROUND_COLOR, DEFAULT_WAVE_COLOR);
 
         });
     }
 
+    // todo maybe an audio player that scrolls and turns the navy
+    // to red as it aligns with the song percentage would be cool
+
+    // todo test decreasing the socket timeout for a faster start
+
     // todo I want a bass boost feature for an mp3 or wav file
-    // todo ensure meets valid min width and height
+    // todo use this in the new audio player widget which should handle mp3s and wavs
+
+    // todo officially support mp3 and wav, will need updated code in a lot of places
+    // and an method like images to check if valid
 
     /**
      * Generates a png depicting the waveform of the provided wav file.
@@ -100,39 +134,33 @@ public class MessagingUtils {
      * @param waveColor the color of the waveform
      * @return the generated image
      */
-    public static BufferedImage generateWaveForm(File wavFile, int width, int height,
+    public static BufferedImage generateWaveform(File wavFile, int width, int height,
                                                  Color backgroundColor, Color waveColor) {
         Preconditions.checkNotNull(wavFile);
         Preconditions.checkArgument(wavFile.exists());
-        Preconditions.checkArgument(width > 0);
-        Preconditions.checkArgument(height > 0);
-        Preconditions.checkNotNull(backgroundColor);
-        Preconditions.checkNotNull(waveColor);
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
 
-        // maybe an audio player that scrolls and turns the navy
-        // to red as it aligns with the song percentage would be cool
+        Preconditions.checkArgument(width > DEFAULT_SMALL_WAVEFORM_WIDTH);
+        Preconditions.checkArgument(height > DEFAULT_SMALL_WAVEFORM_HEIGHT);
 
-        // todo make sure toast border is present
+        Preconditions.checkNotNull(backgroundColor);
+        Preconditions.checkNotNull(waveColor);
 
-        // todo ensure meets min dimensions here
-
-        BufferedImage ret = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2d = ret.createGraphics();
 
         WaveFile wav = new WaveFile(wavFile);
 
-        int samplesToTake = DEFAULT_IMAGE_WIDTH;
         int numFrames = (int) wav.getNumFrames();
-        int[] nonNormalizedSamples = new int[samplesToTake];
+        int[] nonNormalizedSamples = new int[width];
 
-        if (samplesToTake > numFrames) {
+        if (width > numFrames) {
             throw new IllegalStateException("Samples to take is greater than num frames: "
-                    + "samples = " + samplesToTake + ", frames = " + numFrames
+                    + "samples = " + width + ", frames = " + numFrames
                     + "\n" + CyderStrings.europeanToymaker);
         }
 
-        int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) samplesToTake);
+        int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) width);
         int currentSampleLoc = 0;
         int currentSampleIndex = 0;
 
@@ -152,20 +180,20 @@ public class MessagingUtils {
 
         // paint background of image
         g2d.setPaint(Color.WHITE);
-        g2d.fillRect(0,0, DEFAULT_IMAGE_WIDTH, DEAULT_IMAGE_HEIGHT);
+        g2d.fillRect(0,0, width, height);
 
         // set to line color
         g2d.setColor(CyderColors.navy);
 
         // actual y values for painting
-        int[] normalizedSamples = new int[samplesToTake];
+        int[] normalizedSamples = new int[width];
 
         // get raw samples from file
-        for (int i = 0 ; i < samplesToTake ; i++) {
-            int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmp) * DEAULT_IMAGE_HEIGHT);
+        for (int i = 0; i < width; i++) {
+            int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmp) * height);
 
             // if extending beyond bounds of our image, paint as zero and don't interpolate
-            if (normalizedValue > DEAULT_IMAGE_HEIGHT / 2)
+            if (normalizedValue > height / 2)
                 normalizedValue = -69;
 
             normalizedSamples[i] = normalizedValue;
@@ -209,18 +237,18 @@ public class MessagingUtils {
         // the image contains at least one pixel
         for (int i = 0 ; i < width ; i++) {
             // from the center line extending downwards
-            g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i, DEAULT_IMAGE_HEIGHT / 2);
+            g2d.drawLine(i, height / 2, i, height / 2);
         }
 
         // paint the amplitude wave
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
             // from the center line extending downwards
-            g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2, i,
-                    DEAULT_IMAGE_HEIGHT / 2 + normalizedSamples[i]);
+            g2d.drawLine(i, height / 2, i,
+                    height / 2 + normalizedSamples[i]);
 
             // from the center line extending upwards
-            g2d.drawLine(i, DEAULT_IMAGE_HEIGHT / 2 - normalizedSamples[i],
-                    i, DEAULT_IMAGE_HEIGHT / 2);
+            g2d.drawLine(i, height / 2 - normalizedSamples[i],
+                    i, height / 2);
         }
 
         return ret;

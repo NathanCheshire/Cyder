@@ -4,7 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
+import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -32,9 +32,9 @@ public class CyderTextField extends JTextField {
     private Color backgroundColor = CyderColors.vanila;
 
     /**
-     * The regex to restrict text to.
+     * The regex to restrict entered text to.
      */
-    private String regex;
+    private String keyEventRegexMatcher;
 
     /**
      * Constructs a new Cyder TextField object with no character limit.
@@ -55,15 +55,15 @@ public class CyderTextField extends JTextField {
             charLimit = Integer.MAX_VALUE;
 
         limit = charLimit;
-        regex = null;
+        keyEventRegexMatcher = null;
 
         addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent evt) {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (regex != null && !regex.isEmpty() && getText() != null && !getText().isEmpty()) {
-                    if (!getText().matches(regex)) {
+                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty() && getText() != null && !getText().isEmpty()) {
+                    if (!getText().matches(keyEventRegexMatcher)) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
@@ -74,8 +74,8 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (regex != null && !regex.isEmpty() && getText() != null && !getText().isEmpty()) {
-                    if (!getText().matches(regex)) {
+                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty() && getText() != null && !getText().isEmpty()) {
+                    if (!getText().matches(keyEventRegexMatcher)) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
@@ -86,8 +86,8 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (regex != null && !regex.isEmpty() && getText() != null && !getText().isEmpty()) {
-                    if (!getText().matches(regex)) {
+                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty() && getText() != null && !getText().isEmpty()) {
+                    if (!getText().matches(keyEventRegexMatcher)) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
@@ -134,18 +134,23 @@ public class CyderTextField extends JTextField {
 
     /**
      * Sets the regex to restrict the input to.
+     * Note that this is applied every key event.
+     * To validate a pattern which may be valid and not complete until
+     * some time after the user initially started typing, you'll need
+     * to do the validation on your own by grabbing the text and matching
+     * it before using the input.
      *
      * @param regex the regex to restrict the input to
      */
-    public void setRegexMatcher(String regex) {
-        this.regex = regex;
+    public void setKeyEventRegexMatcher(String regex) {
+        keyEventRegexMatcher = regex;
     }
 
     /**
      * Removes the regex from the text field.
      */
-    public void removeRegexMatcher() {
-        regex = null;
+    public void removeKeyEventRegexMatcher() {
+        keyEventRegexMatcher = null;
     }
 
     /**
@@ -153,8 +158,8 @@ public class CyderTextField extends JTextField {
      *
      * @return the regex matcher for the text field
      */
-    public String getRegexMatcher() {
-        return regex;
+    public String getKeyEventRegexMatcher() {
+        return keyEventRegexMatcher;
     }
 
     /**
@@ -164,8 +169,9 @@ public class CyderTextField extends JTextField {
      */
     public void setCharLimit(int limit) {
         this.limit = limit;
+
         if (getText().length() > limit) {
-            setText(getText().substring(0,limit + 1));
+            setText(getText().substring(0, limit + 1));
         }
     }
 
@@ -176,14 +182,6 @@ public class CyderTextField extends JTextField {
      */
     public int getCharLimit() {
         return limit;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderUIReflection(this);
     }
 
     /**
@@ -203,11 +201,16 @@ public class CyderTextField extends JTextField {
 
     /**
      * {@inheritDoc}
+     *
+     * If line borders are used, then the invalid
+     * and valid form data methods may be called.
      */
     @Override
     public void setBorder(Border border) {
         if (border instanceof LineBorder) {
             lineBorder = (LineBorder) border;
+        } else {
+            lineBorder = null;
         }
 
         // no need to cast since instanceof LineBorder is ensured
@@ -317,6 +320,6 @@ public class CyderTextField extends JTextField {
      * @return the text with trimming performed
      */
     public String getTrimmedText() {
-        return getText().replaceAll("\\s+"," ").trim();
+        return StringUtil.getTrimmedText(getText());
     }
 }

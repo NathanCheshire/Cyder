@@ -539,7 +539,7 @@ public class UserEditor {
 
         CyderTextField foregroundField = new CyderTextField(6);
         foregroundField.setHorizontalAlignment(JTextField.CENTER);
-        foregroundField.setRegexMatcher("[A-Fa-f0-9]{0,6}");
+        foregroundField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
         foregroundField.setText(UserUtil.getCyderUser().getForeground());
         foregroundField.setFont(CyderFonts.segoe30);
         foregroundField.setToolTipText("Console input/output text color");
@@ -603,7 +603,7 @@ public class UserEditor {
 
         CyderTextField windowField = new CyderTextField(6);
         windowField.setHorizontalAlignment(JTextField.CENTER);
-        windowField.setRegexMatcher("[A-Fa-f0-9]{0,6}");
+        windowField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
         windowField.setText(UserUtil.getCyderUser().getWindowcolor());
         windowField.setFont(CyderFonts.segoe30);
         windowField.setToolTipText("Window border color");
@@ -665,7 +665,7 @@ public class UserEditor {
 
         CyderTextField fillField = new CyderTextField(6);
         fillField.setHorizontalAlignment(JTextField.CENTER);
-        fillField.setRegexMatcher("[A-Fa-f0-9]{0,6}");
+        fillField.setKeyEventRegexMatcher("[A-Fa-f0-9]{0,6}");
         fillField.setText(UserUtil.getCyderUser().getBackground());
         fillField.setFont(CyderFonts.segoe30);
         fillField.setToolTipText("Input field and output area fill color if enabled");
