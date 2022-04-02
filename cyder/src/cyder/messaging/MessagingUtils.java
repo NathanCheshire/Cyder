@@ -323,8 +323,8 @@ public class MessagingUtils {
                         150, buttonHeight);
                 containerLabel.add(saveButton);
                 saveButton.setBackground(CyderColors.regularPurple);
+                saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
                 saveButton.addActionListener(e -> onSaveRunnable.run());
-                saveButton.setForeground(CyderColors.vanila);
 
                 BufferedImage preview = new BufferedImage(
                         containerLabel.getWidth(),
@@ -376,7 +376,7 @@ public class MessagingUtils {
             CyderButton saveButton = new CyderButton("Save");
             saveButton.setSize(IMAGE_PREVIEW_LEN, 40);
             saveButton.setBackground(CyderColors.regularPurple);
-            saveButton.setForeground(CyderColors.vanila);
+            saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
 
             ret = new JLabel(StringUtil.generateTextForCustomComponent(12));
             imagePreviewLabel.setLocation(0,0);
