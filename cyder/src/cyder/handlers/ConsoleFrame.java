@@ -44,6 +44,7 @@ import java.util.Objects;
 import static cyder.genesis.CyderSplash.setLoadingMessage;
 
 // todo work on optimizations for when you actually need to refresh something
+// todo console frame laggy, optimize cyderframe and frame refreshing
 
 /**
  * Singleton of components that represent the GUI way a user

@@ -627,8 +627,6 @@ public class UserUtil {
         return ret;
     }
 
-    // todo console frame laggy, optimize cyderframe and frame refreshing
-
     /**
      * Sets the {@link UserUtil#cyderUser}'s data to the provided value.
      * This method exists purely for when indexing the preferences and user data
