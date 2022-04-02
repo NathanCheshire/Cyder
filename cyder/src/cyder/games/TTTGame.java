@@ -22,8 +22,7 @@ public class TTTGame {
      * The CyderFrame instancer to use to ensure no other games exist with one Cyder instance.
      */
     private static CyderFrame tttFrame;
-    
-    // The tic tac toe buttons
+
     private static CyderButton ttt9;
     private static CyderButton ttt8;
     private static CyderButton ttt7;
@@ -36,7 +35,7 @@ public class TTTGame {
     private static CyderButton tttReset;
 
     /**
-     * The foreground color used for the tic tac toe buttons.
+     * The foreground color used for the buttons.
      */
     public static final Color tttblue = new Color(71, 81, 117);
 
@@ -44,7 +43,7 @@ public class TTTGame {
      * Player enums.
      */
     private enum Player {
-        EXES, OHS
+        X, O
     }
 
     /**
@@ -88,16 +87,16 @@ public class TTTGame {
         ttt1.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt1.addActionListener(e -> {
             if (ttt1.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt1.setText("X");
                     ttt1.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
 
                 } else {
                     ttt1.setText("O");
                     ttt1.setForeground(tttblue);
                     ttt1.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
                 }
 
                 updateTurnLabel();
@@ -117,16 +116,16 @@ public class TTTGame {
         ttt2.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt2.addActionListener(e -> {
             if (ttt2.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt2.setText("X");
                     ttt2.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
 
                 } else {
                     ttt2.setText("O");
                     ttt2.setForeground(tttblue);
                     ttt2.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
 
                 }
 
@@ -147,16 +146,16 @@ public class TTTGame {
         ttt3.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt3.addActionListener(e -> {
             if (ttt3.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt3.setText("X");
                     ttt3.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
 
                 } else {
                     ttt3.setText("O");
                     ttt3.setForeground(tttblue);
                     ttt3.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
 
                 }
 
@@ -177,15 +176,15 @@ public class TTTGame {
         ttt4.setFont(CyderFonts.segoe30);
         ttt4.addActionListener(e -> {
             if (ttt4.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt4.setText("X");
                     ttt4.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
                 } else {
                     ttt4.setText("O");
                     ttt4.setForeground(tttblue);
                     ttt4.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
                 }
 
                 updateTurnLabel();
@@ -205,15 +204,15 @@ public class TTTGame {
         ttt5.setFont(CyderFonts.segoe30);
         ttt5.addActionListener(e -> {
             if (ttt5.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt5.setText("X");
                     ttt5.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
                 } else {
                     ttt5.setText("O");
                     ttt5.setForeground(tttblue);
                     ttt5.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
                 }
 
                 updateTurnLabel();
@@ -233,16 +232,16 @@ public class TTTGame {
         ttt6.setFont(CyderFonts.segoe30);
         ttt6.addActionListener(e -> {
             if (ttt6.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt6.setText("X");
                     ttt6.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
 
                 } else {
                     ttt6.setText("O");
                     ttt6.setForeground(tttblue);
                     ttt6.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
                 }
 
                 updateTurnLabel();
@@ -262,15 +261,15 @@ public class TTTGame {
         ttt7.setFont(CyderFonts.segoe30);
         ttt7.addActionListener(e -> {
             if (ttt7.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt7.setText("X");
                     ttt7.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
                 } else {
                     ttt7.setText("O");
                     ttt7.setForeground(tttblue);
                     ttt7.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
                 }
 
                 updateTurnLabel();
@@ -290,15 +289,15 @@ public class TTTGame {
         ttt8.setBorder(new LineBorder(CyderColors.navy,5,false));
         ttt8.addActionListener(e -> {
             if (ttt8.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt8.setText("X");
                     ttt8.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
                 } else {
                     ttt8.setText("O");
                     ttt8.setForeground(tttblue);
                     ttt8.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.EXES;
+                    currentPlayer = Player.X;
                 }
 
                 updateTurnLabel();
@@ -318,14 +317,14 @@ public class TTTGame {
         ttt9.setFont(CyderFonts.segoe30);
         ttt9.addActionListener(e -> {
             if (ttt9.getText().isEmpty()) {
-                if (currentPlayer == Player.EXES) {
+                if (currentPlayer == Player.X) {
                     ttt9.setText("X");
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
                 } else {
                     ttt9.setText("O");
                     ttt9.setForeground(tttblue);
                     ttt9.setFont(CyderFonts.segoe30);
-                    currentPlayer = Player.OHS;
+                    currentPlayer = Player.O;
                 }
 
                 updateTurnLabel();
@@ -348,7 +347,7 @@ public class TTTGame {
 
         tttFrame.finalizeAndShow();
 
-        currentPlayer = Player.EXES;
+        currentPlayer = Player.X;
 
         updateTurnLabel();
     }
@@ -357,18 +356,14 @@ public class TTTGame {
      * Updates the player turn label.
      */
     private static void updateTurnLabel() {
-        if (currentPlayer == Player.EXES) {
-            infoLabel.setText("Player Turn: X");
-        } else {
-            infoLabel.setText("Player Turn: O");
-        }
+        infoLabel.setText("Player Turn: " + (currentPlayer == Player.X ? "X" : "O"));
     }
 
     /**
      * Resets the ttt board
      */
     private static void resetBoard() {
-        currentPlayer = Player.EXES;
+        currentPlayer = Player.X;
         updateTurnLabel();
 
         ttt1.setText("");
@@ -388,13 +383,13 @@ public class TTTGame {
     private static void checkForWin() {
         if (checkPlayerWin("X")) {
             tttFrame.notify("X's have won the game! Congratulations!");
-            tttReset.doClick();
+            resetBoard();
         } else if (checkPlayerWin("O")) {
             tttFrame.notify("O's have won the game! Congratulations!");
-            tttReset.doClick();
+            resetBoard();
         } else if (isBoardFull()) {
             tttFrame.notify("The game ended with no winners.");
-            tttReset.doClick();
+            resetBoard();
         }
     }
 
@@ -405,21 +400,14 @@ public class TTTGame {
      * @return whether the provided player has won
      */
     private static boolean checkPlayerWin(String Player) {
-        if (ttt1.getText().equals(Player) && ttt2.getText().equals(Player) && ttt3.getText().equals(Player)) {
-            return true;
-        } else if (ttt4.getText().equals(Player) && ttt5.getText().equals(Player) && ttt6.getText().equals(Player)) {
-            return true;
-        } else if (ttt7.getText().equals(Player) && ttt8.getText().equals(Player) && ttt9.getText().equals(Player)) {
-            return true;
-        } else if (ttt1.getText().equals(Player) && ttt4.getText().equals(Player) && ttt7.getText().equals(Player)) {
-            return true;
-        } else if (ttt2.getText().equals(Player) && ttt5.getText().equals(Player) && ttt8.getText().equals(Player)) {
-            return true;
-        } else if (ttt3.getText().equals(Player) && ttt6.getText().equals(Player) && ttt9.getText().equals(Player)) {
-            return true;
-        } else if (ttt1.getText().equals(Player) && ttt5.getText().equals(Player) && ttt9.getText().equals(Player)) {
-            return true;
-        } else return ttt3.getText().equals(Player) && ttt5.getText().equals(Player) && ttt7.getText().equals(Player);
+        return (ttt1.getText().equals(Player) && ttt2.getText().equals(Player) && ttt3.getText().equals(Player))
+                || (ttt4.getText().equals(Player) && ttt5.getText().equals(Player) && ttt6.getText().equals(Player))
+                || (ttt7.getText().equals(Player) && ttt8.getText().equals(Player) && ttt9.getText().equals(Player))
+                || (ttt1.getText().equals(Player) && ttt4.getText().equals(Player) && ttt7.getText().equals(Player))
+                || (ttt2.getText().equals(Player) && ttt5.getText().equals(Player) && ttt8.getText().equals(Player))
+                || (ttt3.getText().equals(Player) && ttt6.getText().equals(Player) && ttt9.getText().equals(Player))
+                || (ttt1.getText().equals(Player) && ttt5.getText().equals(Player) && ttt9.getText().equals(Player))
+                || ttt3.getText().equals(Player) && ttt5.getText().equals(Player) && ttt7.getText().equals(Player);
     }
 
     private static boolean isBoardFull() {

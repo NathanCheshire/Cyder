@@ -1109,7 +1109,7 @@ public class UserEditor {
         CyderButton validateDatePatternButton = new CyderButton("   Validate   ");
         JTextField consoleDatePatternField = new JTextField(0);
         consoleDatePatternField.setHorizontalAlignment(JTextField.CENTER);
-        consoleDatePatternField.addActionListener(e -> validateDatePatternButton.doClick());
+        consoleDatePatternField.addActionListener(e -> validateDatePattern(consoleDatePatternField));
         consoleDatePatternLabel.setToolTipText("Java date/time pattern to use for the console clock");
         consoleDatePatternField.setBackground(CyderColors.vanila);
         consoleDatePatternField.setSelectionColor(CyderColors.selectionColor);
@@ -1124,21 +1124,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        validateDatePatternButton.addActionListener(e -> {
-            String fieldText = StringUtil.getTrimmedText(consoleDatePatternField.getText());
-
-            try {
-                // if success, valid date pattern
-                new SimpleDateFormat(fieldText).format(new Date());
-
-                //valid so write and refresh ConsoleClock
-                UserUtil.getCyderUser().setConsoleclockformat(fieldText);
-                ConsoleFrame.INSTANCE.refreshClockText();
-                consoleDatePatternField.setText(fieldText);
-            } catch (Exception ex) {
-                ExceptionHandler.silentHandle(ex);
-            }
-        });
+        validateDatePatternButton.addActionListener(e -> validateDatePattern(consoleDatePatternField));
         printingUtil.printlnComponent(validateDatePatternButton);
 
         printingUtil.print("\n\n");
@@ -1151,7 +1137,7 @@ public class UserEditor {
         CyderButton addMapButton = new CyderButton("    Add Map    ");
         JTextField addMapField = new JTextField(0);
         addMapField.setHorizontalAlignment(JTextField.CENTER);
-        addMapField.addActionListener(e -> addMapButton.doClick());
+        addMapField.addActionListener(e -> addMap(addMapField));
         addMapField.setToolTipText("Add format: map_name, PATH/TO/EXE or FILE or URL");
         addMapField.setBackground(CyderColors.vanila);
         addMapField.setSelectionColor(CyderColors.selectionColor);
@@ -1165,66 +1151,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        addMapButton.addActionListener(e -> {
-            if (!addMapField.getText().trim().isEmpty()) {
-                if (!addMapField.getText().trim().contains(",")) {
-                    editUserFrame.notify("Invalid map format");
-                } else {
-                    String[] parts = addMapField.getText().trim().split(",");
-
-                    if (parts.length != 2) {
-                        editUserFrame.notify("Too many arguments");
-                    } else {
-                        String name = parts[0].trim();
-                        String path = parts[1].trim();
-
-                        File pointerFile = new File(path);
-                        boolean validLink;
-
-                        try {
-                            URL url = new URL(path);
-                            URLConnection conn = url.openConnection();
-                            conn.connect();
-                            validLink = true;
-                        } catch (Exception ex) {
-                            validLink = false;
-                        }
-
-                        if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink && !pointerFile.isDirectory()) {
-                            editUserFrame.notify("File does not exist or link is invalid");
-                        } else {
-                            if (!name.isEmpty()) {
-                                LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
-                                boolean exists = false;
-
-                                for (MappedExecutable exe : exes) {
-                                    if (exe.getName().equalsIgnoreCase(name)) {
-                                        exists = true;
-                                        break;
-                                    }
-                                }
-
-                                if (exists) {
-                                    editUserFrame.notify("Mapped exe name already in use");
-                                } else {
-                                    MappedExecutable addExe = new MappedExecutable(name, path);
-                                    LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
-                                    newExes.add(addExe);
-                                    UserUtil.getCyderUser().setExecutables(newExes);
-
-                                    editUserFrame.notify("Mapped exe successfully added");
-                                    ConsoleFrame.INSTANCE.revalidateMenu();
-                                }
-                            } else {
-                                editUserFrame.notify("Invalid map name");
-                            }
-                        }
-                    }
-
-                    addMapField.setText("");
-                }
-            }
-        });
+        addMapButton.addActionListener(e -> addMap(addMapField));
         printingUtil.printlnComponent(addMapButton);
 
         printingUtil.print("\n\n");
@@ -1237,7 +1164,7 @@ public class UserEditor {
         CyderButton removeMapButton = new CyderButton("    Remove Map   ");
         JTextField removeMapField = new JTextField(0);
         removeMapField.setHorizontalAlignment(JTextField.CENTER);
-        removeMapField.addActionListener(e -> removeMapButton.doClick());
+        removeMapField.addActionListener(e -> removeMap(removeMapField));
         removeMapField.setToolTipText("Name of map to remove");
         removeMapField.setBackground(CyderColors.vanila);
         removeMapField.setSelectionColor(CyderColors.selectionColor);
@@ -1251,32 +1178,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        removeMapButton.addActionListener(e -> {
-            String text = removeMapField.getText().trim();
-
-            if (!text.isEmpty()) {
-                LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
-                boolean found = false;
-
-                for (MappedExecutable exe : exes) {
-                    if (exe.getName().equalsIgnoreCase(text)) {
-                        found = true;
-                        exes.remove(exe);
-                        break;
-                    }
-                }
-
-                if (found) {
-                    UserUtil.getCyderUser().setExecutables(exes);
-                    editUserFrame.notify("Map successfully removed");
-                    ConsoleFrame.INSTANCE.revalidateMenu();
-                } else {
-                    editUserFrame.notify("Could not locate specified map");
-                }
-
-                removeMapField.setText("");
-            }
-        });
+        removeMapButton.addActionListener(e -> removeMap(removeMapField));
         printingUtil.printlnComponent(removeMapButton);
 
         printingUtil.print("\n\n");
@@ -1289,7 +1191,7 @@ public class UserEditor {
         CyderButton validateFfmpegButton = new CyderButton("    Validate Path   ");
         JTextField ffmpegField = new JTextField(0);
         ffmpegField.setHorizontalAlignment(JTextField.CENTER);
-        ffmpegField.addActionListener(e -> validateFfmpegButton.doClick());
+        ffmpegField.addActionListener(e -> validateFfmpeg(ffmpegField));
         ffmpegField.setToolTipText("Path to ffmpeg.exe");
         ffmpegField.setBackground(CyderColors.vanila);
         ffmpegField.setSelectionColor(CyderColors.selectionColor);
@@ -1304,21 +1206,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        validateFfmpegButton.addActionListener(e -> {
-            String text = ffmpegField.getText().trim();
-
-            if (!text.isEmpty()) {
-                File ffmpegMaybe = new File(text);
-                if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
-                        FileUtil.getExtension(ffmpegMaybe).equals(".exe")) {
-                    UserUtil.getCyderUser().setFfmpegpath(text);
-                    editUserFrame.notify("ffmpeg path successfully set");
-                } else {
-                    editUserFrame.notify("ffmpeg does not exist at the provided path");
-                    ffmpegField.setText(UserUtil.getCyderUser().getFfmpegpath());
-                }
-            }
-        });
+        validateFfmpegButton.addActionListener(e -> validateFfmpeg(ffmpegField));
         printingUtil.printlnComponent(validateFfmpegButton);
 
         printingUtil.print("\n\n");
@@ -1331,7 +1219,7 @@ public class UserEditor {
         CyderButton validateYouTubeDL = new CyderButton("   Validate Path  ");
         JTextField youtubedlField = new JTextField(0);
         youtubedlField.setHorizontalAlignment(JTextField.CENTER);
-        youtubedlField.addActionListener(e -> validateYouTubeDL.doClick());
+        youtubedlField.addActionListener(e -> validateYoutubeDl(youtubedlField));
         youtubedlField.setToolTipText("Path to youtubedl.exe");
         youtubedlField.setBackground(CyderColors.vanila);
         youtubedlField.setSelectionColor(CyderColors.selectionColor);
@@ -1346,21 +1234,7 @@ public class UserEditor {
 
         printingUtil.print("\n");
 
-        validateYouTubeDL.addActionListener(e -> {
-            String text = youtubedlField.getText().trim();
-
-            if (!text.isEmpty()) {
-                File youtubeDLMaybe = new File(text);
-                if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
-                        FileUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
-                    UserUtil.getCyderUser().setYoutubedlpath(text);
-                    editUserFrame.notify("youtube-dl path successfully set");
-                } else {
-                    editUserFrame.notify("youtube-dl does not exist at the provided path");
-                    youtubedlField.setText(UserUtil.getCyderUser().getYoutubedlpath());
-                }
-            }
-        });
+        validateYouTubeDL.addActionListener(e -> validateYoutubeDl(youtubedlField));
         printingUtil.printlnComponent(validateYouTubeDL);
 
         printingUtil.print("\n\n");
@@ -1736,6 +1610,142 @@ public class UserEditor {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
                     .setTitle(CyderShare.VERSION + " Cyder [" + newUsername + "]");
             changeUsernameField.setText(UserUtil.getCyderUser().getName());
+        }
+    }
+
+    private static void validateDatePattern(JTextField consoleDatePatternField) {
+        String fieldText = StringUtil.getTrimmedText(consoleDatePatternField.getText());
+
+        try {
+            // if success, valid date pattern
+            new SimpleDateFormat(fieldText).format(new Date());
+
+            //valid so write and refresh ConsoleClock
+            UserUtil.getCyderUser().setConsoleclockformat(fieldText);
+            ConsoleFrame.INSTANCE.refreshClockText();
+            consoleDatePatternField.setText(fieldText);
+        } catch (Exception ex) {
+            ExceptionHandler.silentHandle(ex);
+        }
+    }
+
+    private static void addMap(JTextField addMapField) {
+        if (!addMapField.getText().trim().isEmpty()) {
+            if (!addMapField.getText().trim().contains(",")) {
+                editUserFrame.notify("Invalid map format");
+            } else {
+                String[] parts = addMapField.getText().trim().split(",");
+
+                if (parts.length != 2) {
+                    editUserFrame.notify("Too many arguments");
+                } else {
+                    String name = parts[0].trim();
+                    String path = parts[1].trim();
+
+                    File pointerFile = new File(path);
+                    boolean validLink;
+
+                    try {
+                        URL url = new URL(path);
+                        URLConnection conn = url.openConnection();
+                        conn.connect();
+                        validLink = true;
+                    } catch (Exception ex) {
+                        validLink = false;
+                    }
+
+                    if ((!pointerFile.exists() || !pointerFile.isFile()) && !validLink && !pointerFile.isDirectory()) {
+                        editUserFrame.notify("File does not exist or link is invalid");
+                    } else {
+                        if (!name.isEmpty()) {
+                            LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+                            boolean exists = false;
+
+                            for (MappedExecutable exe : exes) {
+                                if (exe.getName().equalsIgnoreCase(name)) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+
+                            if (exists) {
+                                editUserFrame.notify("Mapped exe name already in use");
+                            } else {
+                                MappedExecutable addExe = new MappedExecutable(name, path);
+                                LinkedList<MappedExecutable> newExes = UserUtil.getCyderUser().getExecutables();
+                                newExes.add(addExe);
+                                UserUtil.getCyderUser().setExecutables(newExes);
+
+                                editUserFrame.notify("Mapped exe successfully added");
+                                ConsoleFrame.INSTANCE.revalidateMenu();
+                            }
+                        } else {
+                            editUserFrame.notify("Invalid map name");
+                        }
+                    }
+                }
+
+                addMapField.setText("");
+            }
+        }
+    }
+
+    private static void removeMap(JTextField removeMapField) {
+        String text = removeMapField.getText().trim();
+
+        if (!text.isEmpty()) {
+            LinkedList<MappedExecutable> exes = UserUtil.getCyderUser().getExecutables();
+            boolean found = false;
+
+            for (MappedExecutable exe : exes) {
+                if (exe.getName().equalsIgnoreCase(text)) {
+                    found = true;
+                    exes.remove(exe);
+                    break;
+                }
+            }
+
+            if (found) {
+                UserUtil.getCyderUser().setExecutables(exes);
+                editUserFrame.notify("Map successfully removed");
+                ConsoleFrame.INSTANCE.revalidateMenu();
+            } else {
+                editUserFrame.notify("Could not locate specified map");
+            }
+
+            removeMapField.setText("");
+        }
+    }
+
+    private static void validateFfmpeg(JTextField ffmpegField) {
+        String text = ffmpegField.getText().trim();
+
+        if (!text.isEmpty()) {
+            File ffmpegMaybe = new File(text);
+            if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
+                    FileUtil.getExtension(ffmpegMaybe).equals(".exe")) {
+                UserUtil.getCyderUser().setFfmpegpath(text);
+                editUserFrame.notify("ffmpeg path successfully set");
+            } else {
+                editUserFrame.notify("ffmpeg does not exist at the provided path");
+                ffmpegField.setText(UserUtil.getCyderUser().getFfmpegpath());
+            }
+        }
+    }
+
+    private static void validateYoutubeDl(JTextField youtubedlField) {
+        String text = youtubedlField.getText().trim();
+
+        if (!text.isEmpty()) {
+            File youtubeDLMaybe = new File(text);
+            if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
+                    FileUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
+                UserUtil.getCyderUser().setYoutubedlpath(text);
+                editUserFrame.notify("youtube-dl path successfully set");
+            } else {
+                editUserFrame.notify("youtube-dl does not exist at the provided path");
+                youtubedlField.setText(UserUtil.getCyderUser().getYoutubedlpath());
+            }
         }
     }
 }
