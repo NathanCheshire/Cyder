@@ -147,8 +147,8 @@ public class MessagingUtils {
         Preconditions.checkArgument(wavFile.exists());
         Preconditions.checkArgument(FileUtil.validateExtension(wavFile, ".wav"));
 
-        Preconditions.checkArgument(width > DEFAULT_SMALL_WAVEFORM_WIDTH);
-        Preconditions.checkArgument(height > DEFAULT_SMALL_WAVEFORM_HEIGHT);
+        Preconditions.checkArgument(width >= DEFAULT_SMALL_WAVEFORM_WIDTH);
+        Preconditions.checkArgument(height >= DEFAULT_SMALL_WAVEFORM_HEIGHT);
 
         Preconditions.checkNotNull(backgroundColor);
         Preconditions.checkNotNull(waveColor);
@@ -285,23 +285,35 @@ public class MessagingUtils {
                     Thread.onSpinWait();
                 }
 
-                // maybe this will work
-                Thread.sleep(50);
-
-                int borderOffset = 5;
+                int borderLen = 5;
                 int buttonHeight = 40;
 
-                JLabel containerLabel = new JLabel();
-                containerLabel.setSize(150, DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderOffset);
-                containerLabel.setBorder(new LineBorder(CyderColors.navy, borderOffset));
+                int containerWidth = 150;
+                int containerHeight = DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderLen;
+
+                JLabel containerLabel = new JLabel("<html> <br/> <br/> <br/>" +
+                        " <br/> <br/> <br/></html>") {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        g.setColor(CyderColors.nullus);
+                        g.fillRect(0,0, containerWidth, containerHeight);
+                        super.paintComponent(g);
+                    }
+                };
+                containerLabel.setSize(containerWidth, containerHeight);
 
                 JLabel imageLabel = new JLabel();
-                imageLabel.setBounds(borderOffset,borderOffset, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
+                imageLabel.setBounds(borderLen,borderLen, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
                 imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
-                containerLabel.add(imageLabel);
+
+                JLabel imageContainerLabel = new JLabel();
+                containerLabel.setBorder(new LineBorder(CyderColors.navy, borderLen));
+                imageContainerLabel.setBounds(0, 0, 150, DEFAULT_SMALL_WAVEFORM_HEIGHT + 5);
+                imageContainerLabel.add(imageLabel);
+                containerLabel.add(imageContainerLabel);
 
                 CyderButton saveButton = new CyderButton("Save");
-                saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderOffset,
+                saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderLen,
                         150, buttonHeight);
                 containerLabel.add(saveButton);
                 saveButton.addActionListener(e -> onSaveRunnable.run());
