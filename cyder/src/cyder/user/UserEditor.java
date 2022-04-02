@@ -13,6 +13,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.objects.CyderBackground;
 import cyder.user.objects.MappedExecutable;
+import cyder.user.objects.Preference;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.ColorConverterWidget;
@@ -26,7 +27,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.GeneralPath;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -852,7 +852,6 @@ public class UserEditor {
 
     /**
      * Switches to the preferences preference page.
-     * TODO: use CyderSwitch for this instead of checkboxes
      */
     private static void switchToPreferences() {
         JTextPane preferencePane = new JTextPane();
@@ -875,8 +874,7 @@ public class UserEditor {
             if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 
-            int localIndex = i;
-
+            // label for information
             CyderLabel preferenceLabel = new CyderLabel(Preferences.getPreferences().get(i).getDisplayName());
             preferenceLabel.setForeground(CyderColors.navy);
             preferenceLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -886,94 +884,34 @@ public class UserEditor {
             //separate the components
             printingUtil.print("\n");
 
-            //check boxes to toggle preferences
-            // todo this is the bodge required to do a checkbox with the proper bounds in a loop
-            JLabel togglePrefLabel = new JLabel("<html>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR<br/>SEPARATOR</html>") {
-                @Override
-                public void paintComponent(Graphics g) {
-                    boolean setSelected = UserUtil.getUserDataById((Preferences
-                            .getPreferences().get(localIndex).getID())).equalsIgnoreCase("1");
+            // local vars
+            Preference localPref = Preferences.getPreferences().get(i);
+            boolean selected = UserUtil.getUserDataById(localPref.getID()).equalsIgnoreCase("1");
 
-                    int xOffset = switchingLabel.getWidth() / 2 - 35;
-                    Color background = CyderColors.navy;
-                    int sideLength = 50;
-                    int borderWidth = 3;
+            // init switcher
+            CyderSwitch curPrefSwitcher = new CyderSwitch(200, 50,
+                    selected ? CyderSwitch.State.ON : CyderSwitch.State.OFF);
+            curPrefSwitcher.setButtonPercent(35);
 
-                    Graphics2D graphics2D = (Graphics2D) g;
+            // button text
+            curPrefSwitcher.setOnText("On");
+            curPrefSwitcher.setOffText("Off");
 
-                    //common part extracted
-                    graphics2D.setPaint(background);
-                    GeneralPath outlinePath = new GeneralPath();
-                    outlinePath.moveTo(xOffset, 0);
-                    outlinePath.lineTo(sideLength + xOffset,0);
-                    outlinePath.lineTo(sideLength + xOffset,sideLength);
+            // tooltip from prefs
+            curPrefSwitcher.setToolTipText(Preferences.getPreferences().get(i).getTooltip());
 
-                    if (setSelected) {
-                        outlinePath.lineTo(xOffset,sideLength);
-                        outlinePath.lineTo(xOffset,0);
-                        outlinePath.closePath();
-                        graphics2D.fill(outlinePath);
+            // ensure proper size with magic
+            curPrefSwitcher.setText("<html> <br/> <br/> <br/> </html>");
 
-                        //move enter check down
-                        int yTranslate = 4;
+            // actual pref toggling
+            curPrefSwitcher.getSwitchButton().addActionListener( e -> {
+                UserUtil.setUserDataById(localPref.getID(), curPrefSwitcher.getNextState()
+                        == CyderSwitch.State.ON ? "1" : "0");
 
-                        graphics2D.setColor(CyderColors.regularPink);
-
-                        //thickness of line drawn
-                        graphics2D.setStroke(new BasicStroke(5));
-
-                        int cornerOffset = 5;
-                        graphics2D.drawLine(xOffset + sideLength - borderWidth - cornerOffset,
-                                borderWidth + cornerOffset + yTranslate,
-                                xOffset + sideLength / 2, sideLength / 2 + yTranslate);
-
-                        //length from center to bottom most check point
-                        int secondaryDip = 5;
-                        graphics2D.drawLine(xOffset + sideLength / 2,
-                                sideLength / 2 + yTranslate,
-                                xOffset + sideLength / 2 - secondaryDip,
-                                sideLength / 2 + secondaryDip + yTranslate);
-
-                        //length from bottom most part back up
-                        int lengthUp = 9;
-                        graphics2D.drawLine(xOffset + sideLength / 2 - secondaryDip,
-                                sideLength / 2 + secondaryDip + yTranslate,
-                                xOffset + sideLength / 2 - secondaryDip - lengthUp,
-                                sideLength / 2 + secondaryDip - lengthUp + yTranslate);
-
-                    } else {
-                        outlinePath.lineTo(xOffset,50);
-                        outlinePath.lineTo(xOffset,0);
-                        outlinePath.closePath();
-                        graphics2D.fill(outlinePath);
-
-                        graphics2D.setPaint(CyderColors.vanila);
-                        GeneralPath fillPath = new GeneralPath();
-                        fillPath.moveTo(borderWidth + xOffset, borderWidth);
-                        fillPath.lineTo(xOffset + sideLength - borderWidth,borderWidth);
-                        fillPath.lineTo(xOffset + sideLength - borderWidth,sideLength - borderWidth);
-                        fillPath.lineTo(xOffset + borderWidth,sideLength - borderWidth);
-                        fillPath.lineTo(xOffset + borderWidth,borderWidth);
-                        fillPath.closePath();
-                        graphics2D.fill(fillPath);
-                    }
-                }
-            };
-
-            togglePrefLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    String localID = Preferences.getPreferences().get(localIndex).getID();
-
-                    boolean wasSelected = UserUtil.getUserDataById(localID).equalsIgnoreCase("1");
-                    UserUtil.setUserDataById(localID, wasSelected ? "0" : "1");
-
-                    Preferences.invokeRefresh(localID);
-                    togglePrefLabel.repaint();
-                }
+                Preferences.invokeRefresh(localPref.getID());
             });
-            togglePrefLabel.setToolTipText(Preferences.getPreferences().get(localIndex).getTooltip());
-            printingUtil.printlnComponent(togglePrefLabel);
+
+            printingUtil.printlnComponent(curPrefSwitcher);
         }
 
         CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePane);

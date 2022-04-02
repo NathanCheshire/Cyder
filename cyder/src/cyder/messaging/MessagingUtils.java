@@ -118,19 +118,6 @@ public class MessagingUtils {
         });
     }
 
-    // todo maybe an audio player that scrolls and turns the navy
-    // to red as it aligns with the song percentage would be cool
-
-    // todo I want a bass boost feature for an mp3 or wav file
-    // todo use this in the new audio player widget which should handle mp3s and wavs
-
-    // todo officially support mp3 and wav, will need updated code in a lot of places
-    // and an method like images to check if valid
-
-    // todo for updating image to red from navy, method inside of audio player
-    // to set navy pixels/foreground color pixels to red, image should still be long
-    // enough to buffer to most parts of a 3-5 minute audio withou ~5 pixels
-
     /**
      * Generates a png depicting the waveform of the provided wav file.
      *
@@ -261,6 +248,37 @@ public class MessagingUtils {
         return ret;
     }
 
+    // todo maybe an audio player that scrolls and turns the navy
+    // to red as it aligns with the song percentage would be cool
+
+    // todo I want a bass boost feature for an mp3 or wav file
+    // todo use this in the new audio player widget which should handle mp3s and wavs
+
+    // todo officially support mp3 and wav, will need updated code in a lot of places
+    // and an method like images to check if valid
+
+    // todo for updating image to red from navy, method inside of audio player
+    // to set navy pixels/foreground color pixels to red, image should still be long
+    // enough to buffer to most parts of a 3-5 minute audio withou ~5 pixels
+
+    // todo invoking below
+//     CyderThreadRunner.submit(() -> {
+//        try {
+//            Future<JLabel> label = MessagingUtils.generateAudioPreviewLabel(
+//                    new File("c:/users/nathan/downloads/I love you.wav"), () -> System.out.println("here"));
+//
+//            while (!label.isDone()) {
+//                Thread.onSpinWait();
+//            }
+//
+//            JLabel theLabel = label.get();
+//
+//            ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(theLabel);
+//        } catch (Exception e) {
+//            ExceptionHandler.handle(e);
+//        }
+//    }, "Manual Tester");
+
     /**
      * Generates and returns a file preview for the provided audio file.
      *
@@ -307,7 +325,7 @@ public class MessagingUtils {
                 imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
 
                 JLabel imageContainerLabel = new JLabel();
-                containerLabel.setBorder(new LineBorder(CyderColors.navy, borderLen));
+                imageContainerLabel.setBorder(new LineBorder(CyderColors.navy, borderLen));
                 imageContainerLabel.setBounds(0, 0, 150, DEFAULT_SMALL_WAVEFORM_HEIGHT + 5);
                 imageContainerLabel.add(imageLabel);
                 containerLabel.add(imageContainerLabel);
