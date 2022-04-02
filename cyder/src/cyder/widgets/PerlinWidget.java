@@ -6,8 +6,8 @@ import cyder.constants.CyderStrings;
 import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
 import cyder.ui.*;
+import cyder.ui.objects.GridNode;
 import cyder.ui.objects.SwitcherState;
-import cyder.utilities.ImageUtil;
 import cyder.utilities.NumberUtil;
 import cyder.utilities.SimplexNoiseUtil;
 
@@ -115,27 +115,27 @@ public class PerlinWidget {
     /**
      * The default value for the speed slider.
      */
-    private static int speedSliderValue = 500;
+    private static int speedSliderValue = 400;
 
     /**
-     * The maximum value for the speed slider in ms.
+     * The maximum value for the speed slider.
      */
-    private static final int speedSliderMaxValue = 1000;
+    private static final int speedSliderMaxValue = 500;
 
     /**
-     * The maximum delay for the speed timer.
+     * The maximum value for the speed slider.
      */
-    private static final int speedSliderMaxDelay = 500;
+    private static final int speedsliderMinValue = 0;
 
     /**
      * The resolution of open simplex noise.
      */
-    private static final int resolution = 512;
+    private static final int resolution = 600;
 
     /**
      * The node array to store the open simplex noise.
      */
-    private static Node[][] _3DNoise;
+    private static GridNode[][] _3DNoise;
 
     /**
      * The array to store the perlin noise.
@@ -177,8 +177,6 @@ public class PerlinWidget {
      */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
     public static void showGUI() {
-        
-
         if (perlinFrame != null)
             perlinFrame.dispose(true);
 
@@ -187,19 +185,19 @@ public class PerlinWidget {
 
         //init with random
         _2DNoise = new float[resolution];
-        _3DNoise = new Node[resolution][resolution];
+        _3DNoise = new GridNode[resolution][resolution];
         
         timeStep = 0;
 
         for (int x = 0 ; x < resolution ; x++) {
             for (int y = 0 ; y < resolution ; y++) {
-                _3DNoise[x][y] = new Node(x,y);
+                _3DNoise[x][y] = new GridNode(x,y);
             }
         }
 
         instanceSeed = new float[resolution][resolution];
 
-        timer = new Timer((int) ((float) speedSliderValue / (float) speedSliderMaxValue * speedSliderMaxDelay), animationAction);
+        timer = new Timer(speedSliderMaxValue - speedSliderValue, animationAction);
 
         for (int i = 0 ; i < resolution ; i++) {
             _2DNoise[i] = rand.nextFloat();
@@ -218,12 +216,8 @@ public class PerlinWidget {
         _2DNoise = generate2DNoise(instanceSeed[0], octaves);
 
         //ui constructions
-        perlinFrame = new CyderFrame(512 + 200,750,
-               new ImageIcon(ImageUtil.getImageGradient(1000,750,
-               new Color(252,245,255),
-               new Color(164,154,187),
-               new Color(249, 233, 241))));
-        perlinFrame.setTitle("Perlin Noise");
+        perlinFrame = new CyderFrame(600 + 10,750 + CyderDragLabel.DEFAULT_HEIGHT);
+        perlinFrame.setTitle("Noise");
 
         perlinFrame.addPreCloseAction(() -> {
             _2DNoise = null;
@@ -278,8 +272,8 @@ public class PerlinWidget {
 
                         lenDown += 10;
 
-                        //brown dirt
-                        g2d.setColor(new Color(131,101,57));
+                        // brown dirt
+                        g2d.setColor(CyderColors.DIRT_BROWN);
                         g2d.fillRect(x, minY + lenDown,2, 20);
 
                         lenDown += 20;
@@ -289,6 +283,7 @@ public class PerlinWidget {
                         g2d.fillRect(x, minY + lenDown,2, resolution - (minY + lenDown));
                     }
                 } else {
+                    System.out.println("3d paint");
                     for (int i = 0 ; i < resolution ; i++) {
                         for (int j = 0 ; j < resolution ; j++) {
                             g2d.setColor(_3DNoise[i][j].getColor());
@@ -306,7 +301,7 @@ public class PerlinWidget {
                 g2d.drawLine(1, labelWidth - 1, labelWidth - 1, labelWidth - 1);
             }
         };
-        noiseLabel.setBounds(100,100, resolution, resolution);
+        noiseLabel.setBounds(1, 0, resolution, resolution);
         perlinFrame.getContentPane().add(noiseLabel);
 
         animateCheckBox = new CyderCheckbox();
@@ -320,33 +315,47 @@ public class PerlinWidget {
                 timer.stop();
             }
         });
-        animateCheckBox.setBounds(120,650,50,50);
+        animateCheckBox.setBounds(25,630,50,50);
         perlinFrame.getContentPane().add(animateCheckBox);
 
         CyderLabel animateLabel = new CyderLabel("Animate");
-        animateLabel.setBounds(95,625, 100, 20);
+        animateLabel.setBounds(0,605, 100, 20);
         perlinFrame.getContentPane().add(animateLabel);
 
         generate = new CyderButton("Generate");
         generate.addActionListener(e -> generate());
         generate.setToolTipText("resets the seed, octaves, and current noise");
-        generate.setBounds(230,630, 150, 40);
+        generate.setBounds(25 + 25 + 50,630, 180, 40);
         perlinFrame.getContentPane().add(generate);
 
         nextIteration = new CyderButton("Next Iteration");
         nextIteration.addActionListener(e -> nextIteration());
         nextIteration.setToolTipText("increments the octave and displayed the revalidated noise");
-        nextIteration.setBounds(400,630, 170, 40);
+        nextIteration.setBounds(25 + 25 + 50 + 180 + 25,630, 180, 40);
         perlinFrame.getContentPane().add(nextIteration);
 
         ArrayList<SwitcherState> states = new ArrayList<>();
         states.add(twoDimensionState);
         states.add(threeDimensionState);
         switcher = new CyderSwitcher(80, 40, states, twoDimensionState);
-        switcher.setBounds(490, 675, 80, 40);
+        switcher.setBounds(25 + 25 + 50 + 180 + 25 + 180 + 25, 630, 80, 40);
         perlinFrame.getContentPane().add(switcher);
+        switcher.getIterationButton().addActionListener(e ->  {
+            nextIteration();
 
-        speedSlider = new JSlider(JSlider.HORIZONTAL, 0, speedSliderMaxValue, speedSliderValue);
+            timeStep += 0.1;
+            for (int y = 0; y < resolution; y++) {
+                for (int x = 0; x < resolution; x++) {
+                    double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
+                    _3DNoise[x][y].setColor(generateGrayscaleColor(value));
+                    _3DNoise[x][y].setX(x);
+                    _3DNoise[x][y].setY(y);
+                }
+            }
+            noiseLabel.repaint();
+        });
+
+        speedSlider = new JSlider(JSlider.HORIZONTAL, speedsliderMinValue, speedSliderMaxValue, speedSliderValue);
         CyderSliderUI UI = new CyderSliderUI(speedSlider);
         UI.setThumbStroke(new BasicStroke(2.0f));
         UI.setSliderShape(SliderShape.RECT);
@@ -356,14 +365,14 @@ public class PerlinWidget {
         UI.setOldValColor(CyderColors.regularPink);
         UI.setTrackStroke(new BasicStroke(3.0f));
         speedSlider.setUI(UI);
-        speedSlider.setBounds(230, 680, 250, 40);
+        speedSlider.setBounds(25, 630 + 50, 600 - 50, 40);
         speedSlider.setPaintTicks(false);
         speedSlider.setPaintLabels(false);
         speedSlider.setVisible(true);
         speedSlider.setValue(speedSliderValue);
         speedSlider.addChangeListener(e -> {
             speedSliderValue = speedSlider.getValue();
-            timer.setDelay((int) ((float) speedSliderValue / (float) speedSliderMaxValue * speedSliderMaxDelay));
+            timer.setDelay(speedSliderMaxValue - speedSliderValue);
         });
         speedSlider.setOpaque(false);
         speedSlider.setToolTipText("Animation Timeout");
@@ -381,7 +390,7 @@ public class PerlinWidget {
         UI2.setOldValColor(CyderColors.regularPink);
         UI2.setTrackStroke(new BasicStroke(3.0f));
         featureSlider.setUI(UI2);
-        featureSlider.setBounds(230, 710, 250, 40);
+        featureSlider.setBounds(25, 630 + 50 + 50, 600 - 50, 40);
         featureSlider.setPaintTicks(false);
         featureSlider.setPaintLabels(false);
         featureSlider.setVisible(true);
@@ -394,7 +403,7 @@ public class PerlinWidget {
                 for (int y = 0; y < resolution; y++) {
                     for (int x = 0; x < resolution; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                        _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                        _3DNoise[x][y].setColor(generateGrayscaleColor(value));
                         _3DNoise[x][y].setX(x);
                         _3DNoise[x][y].setY(y);
                     }
@@ -457,7 +466,7 @@ public class PerlinWidget {
                 for (int y = 0; y < resolution; y++) {
                     for (int x = 0; x < resolution; x++) {
                         double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                        _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                        _3DNoise[x][y].setColor(generateGrayscaleColor(value));
                         _3DNoise[x][y].setX(x);
                         _3DNoise[x][y].setY(y);
                     }
@@ -488,15 +497,7 @@ public class PerlinWidget {
 
             _2DNoise = generate2DNoise(instanceSeed[0], octaves);
         } else {
-            timeStep += 0.1;
-            for (int y = 0; y < resolution; y++) {
-                for (int x = 0; x < resolution; x++) {
-                    double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                    _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
-                    _3DNoise[x][y].setX(x);
-                    _3DNoise[x][y].setY(y);
-                }
-            }
+
         }
 
         //repaint
@@ -564,8 +565,12 @@ public class PerlinWidget {
 
             for (int y = 0; y < resolution; y++) {
                 for (int x = 0; x < resolution; x++) {
+                    // just to be safe
+                    if (closed)
+                        return;
+
                     double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, timeStep);
-                    _3DNoise[x][y].setColor(new Color(0x010101 * (int)((value + 1) * 127.5)));
+                    _3DNoise[x][y].setColor(generateGrayscaleColor(value));
                     _3DNoise[x][y].setX(x);
                     _3DNoise[x][y].setY(y);
                 }
@@ -575,6 +580,16 @@ public class PerlinWidget {
         //repaint
         noiseLabel.repaint();
     };
+
+    /**
+     * Generates a grayscale color from the double value.
+     *
+     * @param value the value to map to a grayscale color
+     * @return a grayscale color unique to the double provided.
+     */
+    private static Color generateGrayscaleColor(double value) {
+        return new Color(0x010101 * (int)((value + 1) * 127.5));
+    }
 
     /**
      * Locks the perlin UI.
@@ -604,43 +619,5 @@ public class PerlinWidget {
      */
     private static Color getColor(float val) {
         return Color.decode(String.valueOf(0x010101 * (int)((val + 1) * 127.5)));
-    }
-
-    /**
-     * Wrapper to assocate a color to a point object.
-     */
-    private static class Node {
-        private int x;
-        private int y;
-        private Color color;
-
-        public Node(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public void setColor(Color color) {
-            this.color = color;
-        }
     }
 }

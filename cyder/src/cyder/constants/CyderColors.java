@@ -153,6 +153,11 @@ public class CyderColors {
     public static final Color SVG_SECONDARY = Color.decode("#5593C7");
 
     /**
+     * The brown dirt color used for the perlin widget.
+     */
+    public static final Color DIRT_BROWN = new Color(131,101,57);
+
+    /**
      * Instantiation of the CyderColors class is not allowed
      */
     private CyderColors() {
