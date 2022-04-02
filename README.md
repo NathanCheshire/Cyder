@@ -19,7 +19,7 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 
 ![Liminal Cyder](https://user-images.githubusercontent.com/60986919/160317185-836111d3-172b-4399-8196-4449a9d355e6.png)
 
-![Conway](https://user-images.githubusercontent.com/60986919/160317204-c29f04ae-2e7b-4d32-8524-99ccf30a86fe.png)
+https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
 
 ![Weather](https://user-images.githubusercontent.com/60986919/156911464-73221df7-68fa-4ce3-8211-555ddc9c0ac2.png)
 
@@ -28,12 +28,6 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 ![Kirby](https://user-images.githubusercontent.com/60986919/158036314-055f87d4-b21c-4eec-a92c-d65561c75483.png)
 
 ![PaintControls](https://user-images.githubusercontent.com/60986919/158036316-0abe20d4-3414-40e9-8da5-5ec83430d54d.png)
-
-### Pathfinder
-
-Cyder comes with a path finding visualizer for Dijkstra's algorithm
-and the famous A* algorithm with Euclidean and Manhattan distances
-as available heuristics.
 
 https://user-images.githubusercontent.com/60986919/160253262-8b10844a-6385-4328-ab84-961d05777526.mp4
 
