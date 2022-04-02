@@ -10,6 +10,7 @@ import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
+import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderCaret;
@@ -116,9 +117,9 @@ public class LoginHandler {
         printingList.clear();
 
         //add the standard login animation
-        printingList.add("Cyder version: " + CyderShare.VERSION + "\n");
+        printingList.add("Cyder version: " + CyderToggles.VERSION + "\n");
         printingList.add("Type \"help\" for a list of valid commands\n");
-        printingList.add("Build: " + CyderShare.RELEASE_DATE +"\n");
+        printingList.add("Build: " + CyderToggles.RELEASE_DATE +"\n");
         printingList.add("Author: Nathan Cheshire\n");
         printingList.add("Design JVM: 8+\n");
         printingList.add("Description: A programmer's swiss army knife\n");
@@ -220,7 +221,7 @@ public class LoginHandler {
         //new anonymous CyderFrame so that we can control the login animation var
         loginFrame = new CyderFrame(LOGIN_FRAME_WIDTH, LOGIN_FRAME_HEIGHT,
                 ImageUtil.imageIconFromColor(new Color(21,23,24), 1, 1));
-        loginFrame.setTitle("Cyder Login [" + CyderShare.VERSION + " Build]");
+        loginFrame.setTitle("Cyder Login [" + CyderToggles.VERSION + " Build]");
         loginFrame.setBackground(new Color(21,23,24));
 
         //whether the frame is open or closed handling
@@ -441,7 +442,7 @@ public class LoginHandler {
         CyderSplash.setLoadingMessage("Checking for an AutoCypher");
 
         //if AutoCyphering is enabled, attempt all cyphers
-        if (CyderShare.AUTO_CYPHER) {
+        if (CyderToggles.AUTO_CYPHER) {
             Logger.log(LoggerTag.LOGIN, "AUTOCYPHER ATTEMPT");
             CyderSplash.setLoadingMessage("Auto Cyphering");
 
@@ -452,8 +453,9 @@ public class LoginHandler {
             }
         }
         // otherwise, unreleased exit
-        else if (!CyderShare.RELEASED) {
-            ExceptionHandler.exceptionExit("Unreleased build of Cyder","Exception", ExitCondition.NotReleased);
+        else if (!CyderToggles.RELEASED) {
+            ExceptionHandler.exceptionExit("Unreleased build of Cyder",
+                    "Exception", ExitCondition.NotReleased);
         }
         // otherwise, if Cyder is released/usage is permitted
         else {

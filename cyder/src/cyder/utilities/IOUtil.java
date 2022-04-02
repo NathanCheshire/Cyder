@@ -5,7 +5,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
+import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
@@ -142,7 +142,7 @@ public class IOUtil {
                 }
 
                 // only log if autoCypher, means either Nathan or an advanced developer
-                if (!CyderShare.AUTO_CYPHER) {
+                if (!CyderToggles.AUTO_CYPHER) {
                     Logger.log(LoggerTag.JVM_ARGS, argBuilder);
                 }
 

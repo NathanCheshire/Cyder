@@ -84,7 +84,7 @@ public class Cyder {
         }
 
         // check for fast testing
-        if (CyderShare.FAST_TESTING_MODE) {
+        if (CyderToggles.FAST_TESTING_MODE) {
             ManualTests.launchTests();
             ExceptionHandler.exceptionExit("Fast Testing Loaded; dispose this frame to exit","Fast Testing",
                     ExitCondition.TestingModeExit);

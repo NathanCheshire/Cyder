@@ -250,6 +250,8 @@ public class MessagingUtils {
         return ret;
     }
 
+    // todo remove CyderShare, methods can go to CF, OSutil, etc.
+
     // todo add boolean toggle package, take out of CyderShare, add a bool toggle to auto delete past logs
     // and only keep most recent.
 

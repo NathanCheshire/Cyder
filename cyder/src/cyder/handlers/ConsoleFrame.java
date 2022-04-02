@@ -5,6 +5,7 @@ import cyder.constants.*;
 import cyder.enums.*;
 import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
+import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -362,7 +363,7 @@ public enum ConsoleFrame {
 
             consoleCyderFrame.setPaintWindowTitle(false);
             consoleCyderFrame.setPaintSuperTitle(true);
-            consoleCyderFrame.setTitle(CyderShare.VERSION +
+            consoleCyderFrame.setTitle(CyderToggles.VERSION +
                     " Cyder [" + UserUtil.getCyderUser().getName() + "]");
 
             // ConsoleFrame resizing
@@ -1064,7 +1065,7 @@ public enum ConsoleFrame {
         }
 
         //testing mode to auto execute Debug tests
-        if (CyderShare.TESTING_MODE) {
+        if (CyderToggles.TESTING_MODE) {
             Logger.log(LoggerTag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
@@ -1088,7 +1089,7 @@ public enum ConsoleFrame {
      */
     private void cardReflector(String holiday, int year) {
         //don't reflect if in testing mode
-        if (CyderShare.TESTING_MODE)
+        if (CyderToggles.TESTING_MODE)
             return;
 
         try {
@@ -1139,7 +1140,7 @@ public enum ConsoleFrame {
             }
         }
         // otherwise, no intro music so check for gray scale image/play startup sound if released
-        else if (CyderShare.RELEASED) {
+        else if (CyderToggles.RELEASED) {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
@@ -1165,7 +1166,7 @@ public enum ConsoleFrame {
                         if (correct) {
                             IOUtil.playAudio(grayscaleAudioPaths.get(
                                     NumberUtil.randInt(0, grayscaleAudioPaths.size() - 1)));
-                        } else if (CyderShare.RELEASED) {
+                        } else if (CyderToggles.RELEASED) {
                             IOUtil.playSystemAudio("static/audio/CyderIntroTheme.mp3");
                         }
                     } catch (Exception e) {
@@ -2701,7 +2702,7 @@ public enum ConsoleFrame {
         audioControlsLabel.setVisible(false);
         consoleCyderFrame.getIconPane().add(audioControlsLabel, JLayeredPane.MODAL_LAYER);
 
-        // todo use cyder icon button?
+        // todo use cyder icon button and svgs
         JLabel stopMusicLabel = new JLabel("");
         stopMusicLabel.setBounds(45,5,30, 30);
         stopMusicLabel.setIcon(new ImageIcon("static/pictures/music/Stop.png"));

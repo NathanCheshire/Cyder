@@ -5,6 +5,7 @@ import cyder.constants.*;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderShare;
+import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.external.PhotoViewer;
@@ -1547,7 +1548,7 @@ public class UserEditor {
             IOUtil.changeUsername(newUsername);
             editUserFrame.notify("Username successfully changed to \"" + newUsername + "\"");
             ConsoleFrame.INSTANCE.getConsoleCyderFrame()
-                    .setTitle(CyderShare.VERSION + " Cyder [" + newUsername + "]");
+                    .setTitle(CyderToggles.VERSION + " Cyder [" + newUsername + "]");
             changeUsernameField.setText(UserUtil.getCyderUser().getName());
         }
     }
