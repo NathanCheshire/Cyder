@@ -1158,7 +1158,7 @@ public class StringUtil {
 
             for (int j = 1; j <= lb ; j += 1) {
                 int act = prv + (alpha.charAt(i - 1) == beta.charAt(j - 1) ? 0 : 1);
-                cost[j] = min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
+                cost[j] = MathUtil.min(1 + (prv = cost[j]), 1 + cost[j - 1], act);
 
                 if (prv < min) {
                     min = prv;
@@ -1178,19 +1178,23 @@ public class StringUtil {
     }
 
     /**
-     * Finds the minimum of the provided interger array.
+     * Generates the text to use for a custom component that extends JLabel to
+     * for the component to paint with the necessary size for the component
+     * to be visible.
      *
-     * @param ints the array of ints
-     * @return the minimum integer value found
+     * @param numLines the number of lines of text to return
+     * @return the text to use for the JLabel's text
      */
-    private static int min(int ... ints) {
-        int min = Integer.MAX_VALUE;
+    public static String generateTextForCustomComponent(int numLines) {
+        Preconditions.checkArgument(numLines > 0);
 
-        for (int i : ints)
-            if (i < min) {
-                min = i;
-            }
+        StringBuilder ret = new StringBuilder();
+        ret.append("<html>");
 
-        return min;
+        for (int i = 0 ; i < numLines ; i++) {
+            ret.append(" ").append("<br/>");
+        }
+
+        return ret + " </html>";
     }
 }

@@ -11,7 +11,9 @@ import cyder.ui.CyderButton;
 import cyder.utilities.AudioUtil;
 import cyder.utilities.FileUtil;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.StringUtil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -248,6 +250,11 @@ public class MessagingUtils {
         return ret;
     }
 
+    // todo be able to terminate other session if provide a valid user password and username
+    // and then startup instead of just exiting
+
+    // todo ensure users/ exist on startup, I think cloning empty repo breaks Cyder
+
     // todo maybe an audio player that scrolls and turns the navy
     // to red as it aligns with the song percentage would be cool
 
@@ -260,24 +267,6 @@ public class MessagingUtils {
     // todo for updating image to red from navy, method inside of audio player
     // to set navy pixels/foreground color pixels to red, image should still be long
     // enough to buffer to most parts of a 3-5 minute audio withou ~5 pixels
-
-    // todo invoking below
-//     CyderThreadRunner.submit(() -> {
-//        try {
-//            Future<JLabel> label = MessagingUtils.generateAudioPreviewLabel(
-//                    new File("c:/users/nathan/downloads/I love you.wav"), () -> System.out.println("here"));
-//
-//            while (!label.isDone()) {
-//                Thread.onSpinWait();
-//            }
-//
-//            JLabel theLabel = label.get();
-//
-//            ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(theLabel);
-//        } catch (Exception e) {
-//            ExceptionHandler.handle(e);
-//        }
-//    }, "Manual Tester");
 
     /**
      * Generates and returns a file preview for the provided audio file.
@@ -309,8 +298,7 @@ public class MessagingUtils {
                 int containerWidth = 150;
                 int containerHeight = DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderLen;
 
-                JLabel containerLabel = new JLabel("<html> <br/> <br/> <br/>" +
-                        " <br/> <br/> <br/></html>") {
+                JLabel containerLabel = new JLabel(StringUtil.generateTextForCustomComponent(6)) {
                     @Override
                     protected void paintComponent(Graphics g) {
                         g.setColor(CyderColors.nullus);
@@ -334,7 +322,9 @@ public class MessagingUtils {
                 saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderLen,
                         150, buttonHeight);
                 containerLabel.add(saveButton);
+                saveButton.setBackground(CyderColors.regularPurple);
                 saveButton.addActionListener(e -> onSaveRunnable.run());
+                saveButton.setForeground(CyderColors.vanila);
 
                 BufferedImage preview = new BufferedImage(
                         containerLabel.getWidth(),
@@ -351,5 +341,54 @@ public class MessagingUtils {
 
             return null;
         });
+    }
+
+    /**
+     * The length of the image for the generated image previews.
+     */
+    public static final int IMAGE_PREVIEW_LEN = 150;
+
+    /**
+     * Generates and returns a file preview for the provided image file.
+     *
+     * @param imageFile the image file
+     * @param onSaveRunnable the runnable to invoke when the save button is pressed.
+     * @return the label with the image preview and save button.
+     */
+    public static JLabel generatePicturePreviewLabel(File imageFile, Runnable onSaveRunnable) {
+        Preconditions.checkNotNull(imageFile);
+        Preconditions.checkArgument(imageFile.exists());
+        Preconditions.checkNotNull(onSaveRunnable);
+
+        JLabel ret = null;
+
+        try {
+            Preconditions.checkArgument(FileUtil.isSupportedImageExtension(imageFile));
+
+            ImageIcon resized = ImageUtil.resizeImage(ImageUtil.toImageIcon(ImageIO.read(imageFile)),
+                    IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
+
+            JLabel imagePreviewLabel = new JLabel();
+            imagePreviewLabel.setSize(IMAGE_PREVIEW_LEN, IMAGE_PREVIEW_LEN);
+            imagePreviewLabel.setIcon(resized);
+            imagePreviewLabel.setBorder(new LineBorder(CyderColors.navy, 5));
+
+            CyderButton saveButton = new CyderButton("Save");
+            saveButton.setSize(IMAGE_PREVIEW_LEN, 40);
+            saveButton.setBackground(CyderColors.regularPurple);
+            saveButton.setForeground(CyderColors.vanila);
+
+            ret = new JLabel(StringUtil.generateTextForCustomComponent(12));
+            imagePreviewLabel.setLocation(0,0);
+            ret.add(imagePreviewLabel);
+
+            saveButton.setLocation(0, IMAGE_PREVIEW_LEN - 5);
+            ret.add(saveButton);
+
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return ret;
     }
 }

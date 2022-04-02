@@ -53,11 +53,6 @@ public class CyderColors {
     public static final Color tooltipBorderColor = new Color(26, 32, 51);
 
     /**
-     * The foreground used for tooltips
-     */
-    public static final Color tooltipForegroundColor = new Color(85,85,255);
-
-    /**
      * The background used for tooltips
      */
     public static final Color tooltipBackgroundColor = new Color(0,0,0);
@@ -97,6 +92,16 @@ public class CyderColors {
      * The color used for notification borders
      */
     public static final Color notificationBorderColor = new Color(26, 32, 51);
+
+    /**
+     * The standard Cyder purple color.
+     */
+    public static final Color regularPurple = new Color(85,85,255);
+
+    /**
+     * The foreground used for tooltips
+     */
+    public static final Color tooltipForegroundColor = regularPurple;
 
     /**
      * The foreground color used for notifications
@@ -145,17 +150,17 @@ public class CyderColors {
     /**
      * The primary badge svg color.
      */
-    public static final Color SVG_PRIMARY = Color.decode("#A7BFC1");
+    public static final Color svgPrimary = Color.decode("#A7BFC1");
 
     /**
      * The secondary badge svg color.
      */
-    public static final Color SVG_SECONDARY = Color.decode("#5593C7");
+    public static final Color svgSecondary = Color.decode("#5593C7");
 
     /**
      * The brown dirt color used for the perlin widget.
      */
-    public static final Color DIRT_BROWN = new Color(131,101,57);
+    public static final Color brownDirt = new Color(131,101,57);
 
     /**
      * Instantiation of the CyderColors class is not allowed

@@ -273,7 +273,7 @@ public class PerlinWidget {
                         lenDown += 10;
 
                         // brown dirt
-                        g2d.setColor(CyderColors.DIRT_BROWN);
+                        g2d.setColor(CyderColors.brownDirt);
                         g2d.fillRect(x, minY + lenDown,2, 20);
 
                         lenDown += 20;

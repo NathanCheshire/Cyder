@@ -491,20 +491,20 @@ public class UserEditor {
      * Switches to the fonts and colors preference page.
      */
     private static void switchToFontAndColor() {
-        JLabel TitleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
-        TitleLabel.setFont(CyderFonts.segoe30);
-        TitleLabel.setForeground(CyderColors.navy);
-        TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
-        switchingLabel.add(TitleLabel);
+        JLabel titleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
+        titleLabel.setFont(CyderFonts.segoe30);
+        titleLabel.setForeground(CyderColors.navy);
+        titleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
+        switchingLabel.add(titleLabel);
 
         int colorOffsetX = 340;
         int colorOffsetY = 10;
 
-        JLabel ColorLabel = new JLabel("Text Color");
-        ColorLabel.setFont(CyderFonts.segoe30);
-        ColorLabel.setForeground(CyderColors.navy);
-        ColorLabel.setBounds(120 + colorOffsetX, 50 + colorOffsetY, 300, 30);
-        switchingLabel.add(ColorLabel);
+        JLabel colorLabel = new JLabel("Text Color");
+        colorLabel.setFont(CyderFonts.segoe30);
+        colorLabel.setForeground(CyderColors.navy);
+        colorLabel.setBounds(120 + colorOffsetX, 50 + colorOffsetY, 300, 30);
+        switchingLabel.add(colorLabel);
 
         JLabel hexLabel = new JLabel("HEX:");
         hexLabel.setFont(CyderFonts.segoe20);
@@ -907,8 +907,7 @@ public class UserEditor {
             curPrefSwitcher.setToolTipText(Preferences.getPreferences().get(i).getTooltip());
 
             // ensure proper size with magic
-            curPrefSwitcher.setText("<html> <br/> <br/> <br/> </html>");
-            // todo make a method in string util for this or something
+            curPrefSwitcher.setText(StringUtil.generateTextForCustomComponent(3));
 
             // actual pref toggling
             curPrefSwitcher.getSwitchButton().addActionListener( e -> {
