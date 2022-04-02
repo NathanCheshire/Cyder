@@ -43,20 +43,9 @@ public class ManualTests {
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
-//        CyderThreadRunner.submit(() -> {
-//          try {
-//              Future<BufferedImage> image = MessagingUtils.generateLargeWaveform(
-//                      new File("c:/users/nathan/downloads/I love you.wav"));
-//
-//              while (!image.isDone()) {
-//                  Thread.onSpinWait();
-//              }
-//
-//              ImageIO.write(image.get(), "png", new File("C:/users/nathan/downloads/out.png"));
-//          } catch (Exception e) {
-//              ExceptionHandler.handle(e);
-//          }
-//        }, "Manual Tester");
+        CyderThreadRunner.submit(() -> {
+
+        }, "Manual Tester");
     }
 
     /**

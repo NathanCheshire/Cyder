@@ -5,10 +5,15 @@ import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import cyder.ui.CyderButton;
 import cyder.utilities.AudioUtil;
 import cyder.utilities.FileUtil;
+import cyder.utilities.ImageUtil;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -113,18 +118,18 @@ public class MessagingUtils {
         });
     }
 
-    // log inform calls
-
     // todo maybe an audio player that scrolls and turns the navy
     // to red as it aligns with the song percentage would be cool
-
-    // todo test decreasing the socket timeout for a faster start
 
     // todo I want a bass boost feature for an mp3 or wav file
     // todo use this in the new audio player widget which should handle mp3s and wavs
 
     // todo officially support mp3 and wav, will need updated code in a lot of places
     // and an method like images to check if valid
+
+    // todo for updating image to red from navy, method inside of audio player
+    // to set navy pixels/foreground color pixels to red, image should still be long
+    // enough to buffer to most parts of a 3-5 minute audio withou ~5 pixels
 
     /**
      * Generates a png depicting the waveform of the provided wav file.
@@ -254,5 +259,67 @@ public class MessagingUtils {
         }
 
         return ret;
+    }
+
+    /**
+     * Generates and returns a file preview for the provided audio file.
+     *
+     * @param mp3OrWavFile the wav or mp3 file
+     * @param onSaveRunnable the runnable to invoke when the save button is pressed
+     * @return the label with the waveform preview and save button
+     */
+    public static Future<JLabel> generateAudioPreviewLabel(File mp3OrWavFile, Runnable onSaveRunnable) {
+        Preconditions.checkNotNull(mp3OrWavFile);
+        Preconditions.checkArgument(mp3OrWavFile.exists());
+        Preconditions.checkNotNull(onSaveRunnable);
+
+        Preconditions.checkArgument(FileUtil.validateExtension(mp3OrWavFile, ".mp3")
+                || FileUtil.validateExtension(mp3OrWavFile, ".wav"));
+
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Audio file preview generator")).submit(() -> {
+            try {
+                Future<BufferedImage> image = generateSmallWaveform(mp3OrWavFile);
+
+                while (!image.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                // maybe this will work
+                Thread.sleep(50);
+
+                int borderOffset = 5;
+                int buttonHeight = 40;
+
+                JLabel containerLabel = new JLabel();
+                containerLabel.setSize(150, DEFAULT_SMALL_WAVEFORM_HEIGHT + buttonHeight + 2 * borderOffset);
+                containerLabel.setBorder(new LineBorder(CyderColors.navy, borderOffset));
+
+                JLabel imageLabel = new JLabel();
+                imageLabel.setBounds(borderOffset,borderOffset, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
+                imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
+                containerLabel.add(imageLabel);
+
+                CyderButton saveButton = new CyderButton("Save");
+                saveButton.setBounds(0, DEFAULT_SMALL_WAVEFORM_HEIGHT + borderOffset,
+                        150, buttonHeight);
+                containerLabel.add(saveButton);
+                saveButton.addActionListener(e -> onSaveRunnable.run());
+
+                BufferedImage preview = new BufferedImage(
+                        containerLabel.getWidth(),
+                        containerLabel.getHeight(),
+                        BufferedImage.TYPE_INT_RGB
+                );
+
+                containerLabel.paint(preview.getGraphics());
+
+                return containerLabel;
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            return null;
+        });
     }
 }
