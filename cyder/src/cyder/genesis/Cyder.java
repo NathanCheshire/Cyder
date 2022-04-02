@@ -29,7 +29,7 @@ import static cyder.genesis.CyderSplash.setLoadingMessage;
  */
 public class Cyder {
     /**
-     * Instantiation of the Cyder class is not allowed.
+     * Instantiation of top level program genesis not permitted.
      */
     private Cyder() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -59,7 +59,7 @@ public class Cyder {
 
         // prevent multiple instances, fatal subroutine if failure
         if (!isSingularInstance()) {
-            Logger.log(LoggerTag.EXCEPTION, "ATTEMPTED MULTIPLE CYDER INSTANCES");
+            Logger.log(LoggerTag.DEBUG, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
                             "Terminate other instances before launching a new one.", "Instance Exception",
                     ExitCondition.MultipleInstancesExit);
@@ -213,7 +213,6 @@ public class Cyder {
 
                 new ServerSocket(CyderNumbers.INSTANCE_SOCKET_PORT).accept();
             } catch (Exception e) {
-                ExceptionHandler.handle(e);
                 ret.set(false);
             }
         }, "Singular Cyder Instance Ensurer");

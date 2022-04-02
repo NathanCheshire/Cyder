@@ -355,6 +355,7 @@ public class Logger {
             if (tag != LoggerTag.EXCEPTION) {
                 writeLines(lengthCheck(line));
             } else {
+                // todo possible bug here if for some reason we pass a single line as representation.
                 writeLines(StringUtil.split(line, Pattern.compile("\\R")));
             }
 

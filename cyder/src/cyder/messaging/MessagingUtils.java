@@ -113,6 +113,8 @@ public class MessagingUtils {
         });
     }
 
+    // log inform calls
+
     // todo maybe an audio player that scrolls and turns the navy
     // to red as it aligns with the song percentage would be cool
 

@@ -2,6 +2,7 @@ package cyder.handlers.internal;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
+import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderDragLabel;
@@ -98,6 +99,10 @@ public class InformHandler {
             informFrame.setVisible(true);
             informFrame.setAlwaysOnTop(true);
             informFrame.setLocationRelativeTo(builder.getRelativeTo());
+
+            // log inform call
+            Logger.log(LoggerTag.UI_ACTION, "[INFORMATION PANE] text = \""
+                    + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
