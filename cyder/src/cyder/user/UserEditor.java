@@ -191,6 +191,7 @@ public class UserEditor {
     private static void switchToUserFiles() {
         JLabel titleLabel = new JLabel("Files", SwingConstants.CENTER);
         titleLabel.setFont(CyderFonts.segoe30);
+        titleLabel.setForeground(CyderColors.navy);
         titleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         switchingLabel.add(titleLabel);
 
@@ -492,6 +493,7 @@ public class UserEditor {
     private static void switchToFontAndColor() {
         JLabel TitleLabel = new JLabel("Colors & Font", SwingConstants.CENTER);
         TitleLabel.setFont(CyderFonts.segoe30);
+        TitleLabel.setForeground(CyderColors.navy);
         TitleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         switchingLabel.add(TitleLabel);
 
@@ -854,10 +856,13 @@ public class UserEditor {
      * Switches to the preferences preference page.
      */
     private static void switchToPreferences() {
+        int prefWidth = 220;
+
         JTextPane preferencePane = new JTextPane();
         preferencePane.setEditable(false);
         preferencePane.setAutoscrolls(false);
-        preferencePane.setBounds(0, 0, 720, 500);
+        preferencePane.setBounds(switchingLabel.getWidth() / 2 - prefWidth / 2,
+                10, prefWidth, switchingLabel.getHeight() - 20);
         preferencePane.setFocusable(true);
         preferencePane.setOpaque(false);
         preferencePane.setBackground(Color.white);
@@ -865,11 +870,12 @@ public class UserEditor {
         //adding components
         StringUtil printingUtil = new StringUtil(new CyderOutputPane(preferencePane));
 
-        //print pairs here
+        // print title
         CyderLabel prefsTitle = new CyderLabel("Preferences");
         prefsTitle.setFont(CyderFonts.segoe30);
         printingUtil.printlnComponent(prefsTitle);
 
+        // print boolean userdatas (preferences)
         for (int i = 0; i < Preferences.getPreferences().size() ; i++) {
             if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
@@ -902,6 +908,7 @@ public class UserEditor {
 
             // ensure proper size with magic
             curPrefSwitcher.setText("<html> <br/> <br/> <br/> </html>");
+            // todo make a method in string util for this or something
 
             // actual pref toggling
             curPrefSwitcher.getSwitchButton().addActionListener( e -> {
@@ -915,7 +922,7 @@ public class UserEditor {
         }
 
         CyderScrollPane preferenceScroll = new CyderScrollPane(preferencePane);
-        preferenceScroll.setThumbSize(7);
+        preferenceScroll.setThumbSize(8);
         preferenceScroll.getViewport().setOpaque(false);
         preferenceScroll.setFocusable(true);
         preferenceScroll.setOpaque(false);
@@ -923,13 +930,8 @@ public class UserEditor {
         preferenceScroll.setBackground(Color.white);
         preferenceScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         preferenceScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        preferenceScroll.setBounds(6, 5, 708, 490);
-
-        //after everything is on pane, use this to center it
-        StyledDocument doc = preferencePane.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        preferenceScroll.setBounds(switchingLabel.getWidth() / 2 - prefWidth / 2, 10,
+                prefWidth, switchingLabel.getHeight() - 20);
 
         //set menu location to top
         preferencePane.setCaretPosition(0);
