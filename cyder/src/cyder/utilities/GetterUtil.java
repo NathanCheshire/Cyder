@@ -40,8 +40,8 @@ public class GetterUtil {
         return new GetterUtil();
     }
 
-    private static final int getStringWidth = 400;
-    private static final int getStringHeight = 170;
+    private static final int GET_STRING_MIN_WIDTH = 400;
+    private static final int GET_STRING_MIN_HEIGHT = 170;
     private static final int getStringYPadding = 10;
     private static final int getStringXPadding = 40;
 
@@ -73,22 +73,52 @@ public class GetterUtil {
 
         CyderThreadRunner.submit(() -> {
             try {
-                CyderFrame inputFrame = new CyderFrame(getStringWidth, getStringHeight, CyderIcons.defaultBackground);
+                int height = GET_STRING_MIN_HEIGHT;
+                int width = GET_STRING_MIN_WIDTH;
+
+                BoundsString bounds = null;
+
+                if (!StringUtil.isNull(builder.getLabelText())) {
+                    bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
+                            GET_STRING_MIN_WIDTH, CyderFonts.defaultFont);
+
+                    height += bounds.getHeight() + 2 * getStringYPadding;
+                    width = bounds.getWidth() + 2 * getStringXPadding;
+                    builder.setLabelText(bounds.getText());
+                }
+
+                CyderFrame inputFrame = new CyderFrame(width,
+                        height, CyderIcons.defaultBackground);
                 inputFrame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 inputFrame.setTitle(builder.getTitle());
+
+                int yOff = CyderDragLabel.DEFAULT_HEIGHT + getStringYPadding;
+
+                if (bounds != null) {
+                    CyderLabel textLabel = new CyderLabel(builder.getLabelText());
+                    textLabel.setBounds(getStringXPadding, yOff, bounds.getWidth(), bounds.getHeight());
+                    inputFrame.getContentPane().add(textLabel);
+                }
+
+                yOff += getStringYPadding + bounds.getHeight();
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setHorizontalAlignment(JTextField.CENTER);
                 inputField.setBackground(Color.white);
 
-                if (!StringUtil.isNull(builder.getInitialString()))
+                if (!StringUtil.isNull(builder.getInitialString())) {
                     inputField.setText(builder.getInitialString());
-                if (!StringUtil.isNull(builder.getFieldTooltip()))
-                    inputField.setToolTipText(builder.getFieldTooltip());
+                }
 
-                inputField.setBounds(getStringXPadding, CyderDragLabel.DEFAULT_HEIGHT + getStringYPadding,
-                        getStringWidth - 2 * getStringXPadding,40);
+                if (!StringUtil.isNull(builder.getFieldTooltip())) {
+                    inputField.setToolTipText(builder.getFieldTooltip());
+                }
+
+                inputField.setBounds(getStringXPadding, yOff,
+                        width - 2 * getStringXPadding,40);
                 inputFrame.getContentPane().add(inputField);
+
+                yOff += getStringYPadding + 40;
 
                 CyderButton submit = new CyderButton(builder.getSubmitButtonText());
                 submit.setBackground(builder.getSubmitButtonColor());
@@ -105,8 +135,8 @@ public class GetterUtil {
                             "NULL" : inputField.getText()));
                     inputFrame.dispose();
                 });
-                submit.setBounds(getStringXPadding,100,
-                        getStringWidth - 2 * getStringXPadding,40);
+                submit.setBounds(getStringXPadding, yOff,
+                        width - 2 * getStringXPadding,40);
                 inputFrame.getContentPane().add(submit);
 
                 inputFrame.addPreCloseAction(() -> {

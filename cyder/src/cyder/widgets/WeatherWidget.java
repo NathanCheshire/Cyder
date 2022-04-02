@@ -192,10 +192,8 @@ public class WeatherWidget {
             builder.setSubmitButtonText("Change Location");
             builder.setInitialString(locationString);
             builder.setSubmitButtonColor(CyderColors.notificationForegroundColor);
-            builder.setLabelText("<html><div style='text-align: center;'>Enter your city, "
-                    + "state, and country code separated by a comma"
-                    + "<br/>Example: <p style=\"font-family:verdana\"><p style=\"color:rgb(45, 100, 220)\">"
-                    + "New Orleans, LA, US</p></p></div></html>");
+            builder.setLabelText("<html>Enter your city, state, and country code separated by a comma. "
+                    + "Example:<p style=\"color:rgb(45, 100, 220)\">New Orleans, LA, US</p></html>");
 
             CyderThreadRunner.submit(() -> {
                 String newLocation = GetterUtil.getInstance().getString(builder);
