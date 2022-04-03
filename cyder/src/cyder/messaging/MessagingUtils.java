@@ -250,8 +250,6 @@ public class MessagingUtils {
         return ret;
     }
 
-    // todo enums should go to the package they are primary from
-
     // todo I want a bass boost feature for an mp3 or wav file
     // todo use this in the new audio player widget which should handle mp3s and wavs
 

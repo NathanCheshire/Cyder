@@ -1,9 +1,9 @@
 package cyder.ui;
 
 import cyder.constants.CyderColors;
-import cyder.enums.AnimationDirection;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
+import cyder.ui.enums.AnimationDirection;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;

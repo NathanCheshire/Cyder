@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
-import cyder.enums.IgnoreData;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -19,6 +18,7 @@ import cyder.user.UserFile;
 import cyder.user.objects.MappedExecutable;
 import cyder.user.objects.Preference;
 import cyder.user.objects.ScreenStat;
+import cyder.utilities.enums.IgnoreData;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

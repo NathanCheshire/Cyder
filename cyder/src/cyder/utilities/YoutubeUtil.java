@@ -3,13 +3,13 @@ package cyder.utilities;
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.constants.*;
-import cyder.enums.AnimationDirection;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.ui.enums.AnimationDirection;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

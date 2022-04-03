@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.utilities.enums;
 
 public enum NotificationType {
     /**

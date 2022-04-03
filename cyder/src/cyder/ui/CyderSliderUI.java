@@ -1,8 +1,8 @@
 package cyder.ui;
 
 import cyder.enums.LoggerTag;
-import cyder.enums.SliderShape;
 import cyder.handlers.internal.Logger;
+import cyder.ui.enums.SliderShape;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;

@@ -4,11 +4,11 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
-import cyder.enums.SliderShape;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
+import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.GridNode;
 import cyder.widgets.objects.PathNode;
 

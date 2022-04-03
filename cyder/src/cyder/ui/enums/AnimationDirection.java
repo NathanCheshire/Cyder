@@ -1,4 +1,4 @@
-package cyder.enums;
+package cyder.ui.enums;
 
 public enum AnimationDirection {
     LEFT_TO_RIGHT,

@@ -2,11 +2,16 @@ package cyder.handlers;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
-import cyder.enums.*;
+import cyder.enums.Direction;
+import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
+import cyder.enums.LoggerTag;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.*;
+import cyder.handlers.internal.enums.CyderEntry;
+import cyder.handlers.internal.enums.ScreenPosition;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.test.ManualTests;
 import cyder.threads.CyderThreadRunner;
