@@ -38,10 +38,10 @@ public class Cyder {
 
     /**
      * Setup and start the best program ever made :D
-     * @param ca possible command line args passed in. They serve no purpose yet,
+     * @param arguments possible command line args passed in. They serve no purpose yet,
      *           but we shall log them regardless (just like Big Brother would want)
      */
-    public static void main(String[] ca) {
+    public static void main(String[] arguments) {
         // set start time, this should be the first call always
         TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
@@ -119,7 +119,7 @@ public class Cyder {
         // secondary subroutines that can be executed when program has started essentially
         CyderThreadRunner.submit(() -> {
             setLoadingMessage("Logging JVM args");
-            IOUtil.logArgs(ca);
+            IOUtil.logArgs(arguments);
 
             setLoadingMessage("Cleaning sandbox");
             IOUtil.cleanSandbox();
@@ -156,8 +156,21 @@ public class Cyder {
      */
     private static void addExitHook() {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
-            OSUtil.delete(OSUtil.buildFile("dynamic",
-                    DynamicDirectory.TEMPORARY.getDirectoryName()), false);
+            // Currently all that's done here is delete the tmp directory.
+            // Occasionally this fails due to file handles still being open
+            // on files inside of tmp.
+
+            File deleteDirectory = OSUtil.buildFile("dynamic",
+                    DynamicDirectory.TEMPORARY.getDirectoryName());
+            OSUtil.delete(deleteDirectory, false);
+
+            if (deleteDirectory.exists()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception ignored) {}
+            }
+
+            OSUtil.delete(deleteDirectory, false);
         }, "common-exit-hook"));
     }
 

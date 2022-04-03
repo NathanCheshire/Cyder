@@ -825,9 +825,12 @@ public enum ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
-            //push into bounds
+            // push into bounds
             FrameUtil.requestFramePosition(requestedConsoleStats.getMonitor(),
                     requestedConsoleStats.getConsoleX(), requestedConsoleStats.getConsoleY(), consoleCyderFrame);
+
+            // close splash
+            CyderSplash.fastDispose();
 
             consoleCyderFrame.setVisible(true);
 
@@ -839,7 +842,8 @@ public enum ConsoleFrame {
             Logger.log(LoggerTag.UI_ACTION, logString);
             consoleCyderFrame.toast(logString);
 
-            CyderSplash.fastDispose();
+            // set mouse loc to primary component
+            OSUtil.setMouseLoc(inputField);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

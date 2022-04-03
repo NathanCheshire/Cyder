@@ -19,12 +19,10 @@ import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
-import cyder.utilities.AudioUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -46,7 +44,26 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
-            AudioUtil.dreamifyAudio(new File("C:/users/nathan/downloads/Robbery.wav"));
+//          try {
+//              Future<Optional<File>> dreamy =
+//                      AudioUtil.dreamifyAudio(new File("C:/users/nathan/downloads/Summit.mp3"));;
+//
+//              while (!dreamy.isDone()) {
+//                  Thread.onSpinWait();
+//              }
+//
+//              if (dreamy.get().isPresent()) {
+//                  Future<Optional<File>> mp3 = AudioUtil.wavToMp3(dreamy.get().get());
+//
+//                  while (!mp3.isDone()) {
+//                      Thread.onSpinWait();
+//                  }
+//
+//                  AudioPlayer.showGUI(mp3.get().get());
+//              }
+//          } catch (Exception e) {
+//              ExceptionHandler.handle(e);
+//          }
         }, "Manual Tester");
     }
 

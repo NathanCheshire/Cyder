@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
@@ -426,11 +427,33 @@ public class OSUtil {
     }
 
     /**
+     * Sets the mouse to the middle of the provided component.
+     *
+     * @param c the component to move the mouse to the center of
+     */
+    public static void setMouseLoc(Component c) {
+        checkNotNull(c);
+
+        try {
+            Point topleft = c.getLocationOnScreen();
+
+            int x = (int) (topleft.getX() + c.getWidth() / 2);
+            int y = (int) (topleft.getY() + c.getHeight() / 2);
+
+            Robot Rob = new Robot();
+            Rob.mouseMove(x, y);
+        } catch (Exception ex) {
+            ExceptionHandler.handle(ex);
+        }
+    }
+
+    /**
      * Deletes the provided file/folder recursively.
      *
      * @param folder the folder/file to delete
      * @return whether the folder/file was successfully deleted
      */
+    @CanIgnoreReturnValue
     public static boolean delete(File folder) {
         return delete(folder, true);
     }
@@ -443,6 +466,7 @@ public class OSUtil {
      *            always true but some rare cases require loggin to be skipped.
      * @return whether the folder/file was successfully deleted
      */
+    @CanIgnoreReturnValue
     public static boolean delete(File folder, boolean log) {
         if (log) {
             Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
@@ -469,7 +493,7 @@ public class OSUtil {
             inc++;
         }
 
-        if (folder.exists()) {
+        if (folder.exists() && log) {
             Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] file: "
                     + folder.getAbsolutePath());
         }

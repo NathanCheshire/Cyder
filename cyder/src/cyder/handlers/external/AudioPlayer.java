@@ -327,6 +327,26 @@ public class AudioPlayer {
                      killWidget();
                      currentAudioFiles.clear();
                      audioIndex = -1;
+
+                     try {
+                         if (player != null) {
+                             player.close();
+                         }
+
+                         if (bis != null) {
+                             bis.close();
+                         }
+
+                         if (fis != null) {
+                             fis.close();
+                         }
+                     } catch (Exception ex) {
+                         ExceptionHandler.handle(ex);
+                     }
+
+                     player = null;
+                     bis = null;
+                     fis = null;
                  }
              }
         );
