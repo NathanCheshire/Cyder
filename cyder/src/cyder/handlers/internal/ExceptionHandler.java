@@ -9,9 +9,8 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
-import cyder.utilities.OSUtil;
-import cyder.utilities.ScreenUtil;
-import cyder.utilities.UserUtil;
+import cyder.utilities.*;
+import cyder.utilities.objects.BoundsString;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ExceptionHandler {
     /**
@@ -64,31 +64,51 @@ public class ExceptionHandler {
      */
     private static final Color exceptionWhite = new Color(254, 254, 254);
 
+    /**
+     * The opacity delta to increment/decrement by.
+     */
+    private static final float opacityShiftDelta = 0.05f;
+
+    /**
+     * Shows a popup pane containing a preview of the exception.
+     * If the user clicks on the popup, it vanishes immediately and the
+     * current log is opened externally.
+     *
+     * @param e the exception to preview/show
+     */
     private static void showExceptionPane(Exception e) {
         Optional<String> informTextOptional = getPrintableException(e);
 
         if (informTextOptional.isPresent()) {
-            String informText = informTextOptional.get();
-            // if not on, opacity slide in, 5s pause, opacity slide out,
-            // should be a specific windowthro size with regular red background, vanila text
-            // if clicked, open current log
-            // use borderless frame
+            AtomicBoolean escapeOpacityThread = new AtomicBoolean();
+            escapeOpacityThread.set(false);
 
-            CyderFrame borderlessFrame = new CyderFrame(500,500, exceptionRed, "borderless");
+            BoundsString bounds = BoundsUtil.widthHeightCalculation(informTextOptional.get().replace("\n", ""),
+                    CyderFonts.defaultFontSmall, 500);
+
+            String informText = informTextOptional.get();
+
+            // todo think of better way to do borderless frames
+            CyderFrame borderlessFrame = new CyderFrame(bounds.getWidth() + 20,
+                    bounds.getHeight() + 20, exceptionRed, "borderless");
             borderlessFrame.setTitle(e.getMessage());
 
-            JLabel label = new JLabel("hello internet");
+            JLabel label = new JLabel("<html>" + informText + "</html>");
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    System.out.println("open log");
+                    escapeOpacityThread.set(true);
+
+                    borderlessFrame.dispose(true);
+
+                    IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
                 }
             });
             label.setForeground(exceptionWhite);
             label.setFont(CyderFonts.defaultFontSmall);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setVerticalAlignment(JLabel.CENTER);
-            label.setBounds(10, 10, 480, 480);
+            label.setBounds(10, 10, bounds.getWidth(), bounds.getHeight());
             borderlessFrame.getContentPane().add(label);
 
             borderlessFrame.setLocation(ScreenUtil.getScreenWidth() - borderlessFrame.getWidth(),
@@ -98,11 +118,12 @@ public class ExceptionHandler {
             borderlessFrame.setOpacity(0.0f);
             borderlessFrame.setVisible(true);
 
-            float delta = 0.05f;
-
             CyderThreadRunner.submit(() -> {
                 try {
-                    for (float i = 0.0f ; i <= 1 ; i += delta) {
+                    for (float i = 0.0f ; i <= 1 ; i += opacityShiftDelta) {
+                        if (escapeOpacityThread.get())
+                            return;
+
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
                         Thread.sleep(20);
@@ -112,17 +133,26 @@ public class ExceptionHandler {
                     borderlessFrame.repaint();
                     Thread.sleep(5000);
 
-                    for (float i = 1.0f ; i >= 0 ; i -= delta) {
+                    if (escapeOpacityThread.get())
+                        return;
+
+                    for (float i = 1.0f ; i >= 0 ; i -= opacityShiftDelta) {
+                        if (escapeOpacityThread.get())
+                            return;
+
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
                         Thread.sleep(20);
                     }
 
+                    if (escapeOpacityThread.get())
+                        return;
+
                     borderlessFrame.dispose(true);
                 } catch (Exception ex) {
                     Logger.Debug(getPrintableException(ex));
                 }
-            }, "Exception Popup: " + e.getMessage());
+            }, "Exception Popup Opacity Animator: " + e.getMessage());
         }
     }
 

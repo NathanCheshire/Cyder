@@ -1,7 +1,6 @@
 package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
-import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
@@ -369,14 +368,12 @@ public class Logger {
             if (tag != LoggerTag.EXCEPTION) {
                 writeLines(lengthCheck(line));
             } else {
-                if (line.contains("\\R")) {
-                    LinkedList<String> lines = StringUtil.split(line, CyderRegexPatterns.newLinePattern);
-
-                    for (String subLine : lines) {
-                        writeLines(lengthCheck(subLine));
-                    }
-                } else {
-                    writeLines(lengthCheck(line));
+                try {
+                    // todo here
+                    String[] lines = line.split("\n");
+                    writeLines(lines);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
                 }
             }
 
@@ -384,6 +381,33 @@ public class Logger {
             System.out.println(line);
         }
     }
+
+    /**
+     * Writes the lines to the current log file. The first one is not offset
+     * whilst all lines after the first are offset by 11 spaces.
+     *
+     * @param lines the lines to write to the current log file
+     */
+    private static void writeLines(String... lines) {
+        Preconditions.checkArgument(currentLog.exists());
+        Preconditions.checkArgument(lines != null);
+        Preconditions.checkArgument(lines.length > 0);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true)))  {
+            for (int i = 0 ; i < lines.length ; i++) {
+                if (i != 0) {
+                    bw.write(StringUtil.generateNSpaces(NEWLINE_SPACE_OFFSET));
+                }
+
+                // to be safe, remove new lines and trim even though there should be none
+                bw.write(StringUtil.stripNewLinesAndTrim(lines[i]));
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            Debug(ExceptionHandler.getPrintableException(e));
+        }
+    }
+
 
     /**
      * Writes the lines to the current log file. The first one is not offset
