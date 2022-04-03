@@ -41,11 +41,11 @@ public class BoundsUtil {
      *           for the provided display string.
      */
     public static BoundsString widthHeightCalculation(String text) {
-        return widthHeightCalculation(text, ScreenUtil.getScreenWidth() / 2, CyderFonts.defaultFontSmall);
+        return widthHeightCalculation(text, CyderFonts.defaultFontSmall, ScreenUtil.getScreenWidth() / 2);
     }
 
     public static BoundsString widthHeightCalculation(String text, Font font) {
-        return widthHeightCalculation(text, ScreenUtil.getScreenWidth() / 2, font);
+        return widthHeightCalculation(text, font, ScreenUtil.getScreenWidth() / 2);
     }
 
     /**
@@ -56,7 +56,7 @@ public class BoundsUtil {
      * @return an object composed of the width, height, and possibly corrected text to form the bounding box
      *           for the provided display string.
      */
-    public static BoundsString widthHeightCalculation(String text, int maxWidth, Font font) {
+    public static BoundsString widthHeightCalculation(String text, Font font, int maxWidth) {
         // init red object
         BoundsString ret;
 

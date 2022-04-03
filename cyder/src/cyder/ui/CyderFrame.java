@@ -433,8 +433,20 @@ public class CyderFrame extends JFrame {
      * @param len the length of this borderless frame
      */
     public CyderFrame(int len) {
-        width = len;
-        height = len;
+        this(len, len, CyderColors.navy, "borderless");
+    }
+
+    /**
+     * Constructs a CyderFrame object that exists without
+     * surrounding drag labels, the title label, and the button list.
+     *
+     * @param width the width of this borderless frame
+     * @param height the height of this borderless frame
+     * @param background the background color of the borderless frame
+     */
+    public CyderFrame(int width, int height, Color background, String borderless) {
+        this.width = width;
+        this.height = height;
 
         setSize(new Dimension(width, height));
         setResizable(false);
@@ -493,6 +505,7 @@ public class CyderFrame extends JFrame {
 
         CyderDragLabel masterDrag = new CyderDragLabel(width, height, this);
         masterDrag.setButtonList(null);
+        masterDrag.setBackground(background);
         masterDrag.setBounds(0, 0, width, height);
         contentLabel.add(masterDrag, JLayeredPane.DRAG_LAYER);
         masterDrag.setFocusable(false);
@@ -1001,7 +1014,7 @@ public class CyderFrame extends JFrame {
                     // generate label for notification
                     BoundsString bs = BoundsUtil.widthHeightCalculation(
                             currentBuilder.getHtmlText(),
-                            (int) Math.ceil(width * 0.8), CyderFonts.notificationFont);
+                            CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
                     int notificationWidth = bs.getWidth();
                     int notificationHeight = bs.getHeight();
                     String brokenText = bs.getText();

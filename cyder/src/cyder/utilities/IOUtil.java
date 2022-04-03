@@ -469,7 +469,7 @@ public class IOUtil {
                     }
                 }
             } catch (Exception e) {
-                ExceptionHandler.handleWithoutLogging(e);
+                ExceptionHandler.handle(e);
             }
 
             return ret;

@@ -235,11 +235,14 @@ public class Logger {
             case CONSOLE_REDIRECTION:
                 logBuilder.append("[CONSOLE OUTPUT REDIRECTION]: console output was redirected to files/" + representation);
                 break;
+            case CRUD_OP:
+                logBuilder.append("[CRUD OPERATION]: " + representation);
+                break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
                 // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
-                        "idiot and added an enum to LoggerTag but forgot to handle it Logger.log. Tag = " + tag);
+                        "idiot and added an enum to LoggerTag but forgot to handle it Logger.log, Tag = " + tag);
         }
 
         // if tag shouldn't be logged when it's called
@@ -404,7 +407,7 @@ public class Logger {
                 bw.newLine();
             }
         } catch (Exception e) {
-            ExceptionHandler.handleWithoutLogging(e);
+            Debug(ExceptionHandler.getPrintableException(e));
         }
     }
 

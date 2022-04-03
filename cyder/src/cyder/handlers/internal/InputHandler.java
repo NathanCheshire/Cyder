@@ -880,7 +880,8 @@ public class InputHandler {
         } else if (commandIs("logout")) {
             ConsoleFrame.INSTANCE.logout();
         } else if (commandIs("throw")) {
-            ExceptionHandler.handle(new Exception("Error thrown on " + TimeUtil.userTime()));
+            ExceptionHandler.handle(new Exception("Big boi exceptions; " +
+                    "\"I chase your love around figure 8, I need you more than I can take\""));
         } else if (commandIs("clearops")) {
             ConsoleFrame.INSTANCE.clearCommandHistory();
             Logger.log(LoggerTag.HANDLE_METHOD, "User cleared command history");

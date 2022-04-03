@@ -841,9 +841,6 @@ public enum ConsoleFrame {
                     (TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime()) + "ms";
             Logger.log(LoggerTag.UI_ACTION, logString);
             consoleCyderFrame.toast(logString);
-
-            // set mouse loc to primary component
-            OSUtil.setMouseLoc(inputField);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

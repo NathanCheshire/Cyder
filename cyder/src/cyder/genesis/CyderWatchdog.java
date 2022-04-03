@@ -76,7 +76,7 @@ public class CyderWatchdog {
                             }
                         }
                     } catch (Exception e) {
-                        ExceptionHandler.handleWithoutLogging(e);
+                        Logger.Debug(ExceptionHandler.getPrintableException(e));
                     }
             }
         }, "Watchdog Initializer");

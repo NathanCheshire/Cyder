@@ -1,21 +1,29 @@
 package cyder.handlers.internal;
 
+import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.objects.InformBuilder;
+import cyder.threads.CyderThreadRunner;
+import cyder.ui.CyderFrame;
 import cyder.utilities.OSUtil;
+import cyder.utilities.ScreenUtil;
 import cyder.utilities.UserUtil;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 
 public class ExceptionHandler {
     /**
-     * Restrict default instantiation.
+     * Restrict default constructor.
      */
     private ExceptionHandler() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -33,18 +41,88 @@ public class ExceptionHandler {
             if (write.isPresent() && !write.get().trim().isEmpty())
                 Logger.log(LoggerTag.EXCEPTION, write.get());
 
-            //if the user has show errors configured, then we open the file
+            // if user wants to be informed of exceptions
             if (ConsoleFrame.INSTANCE.getUUID() != null &&
                     !ConsoleFrame.INSTANCE.isClosed() &&
                     UserUtil.getCyderUser().getSilenceerrors().equals("0")) {
-                // todo what???
-                silentHandleWithoutLogging(e);
-            }
-        }
 
-        //uh oh; error was thrown inside here, so we'll just generic inform the user of it
-        catch (Exception ex) {
-            silentHandleWithoutLogging(ex);
+               showExceptionPane(e);
+            }
+        } catch (Exception ex) {
+            // uh oh
+            Logger.Debug(getPrintableException(e));
+        }
+    }
+
+    /**
+     * The red color used for exception panes.
+     */
+    private static final Color exceptionRed = new Color(254, 157, 158);
+
+    /**
+     * The white color used for exception pane text.
+     */
+    private static final Color exceptionWhite = new Color(254, 254, 254);
+
+    private static void showExceptionPane(Exception e) {
+        Optional<String> informTextOptional = getPrintableException(e);
+
+        if (informTextOptional.isPresent()) {
+            String informText = informTextOptional.get();
+            // if not on, opacity slide in, 5s pause, opacity slide out,
+            // should be a specific windowthro size with regular red background, vanila text
+            // if clicked, open current log
+            // use borderless frame
+
+            CyderFrame borderlessFrame = new CyderFrame(500,500, exceptionRed, "borderless");
+            borderlessFrame.setTitle(e.getMessage());
+
+            JLabel label = new JLabel("hello internet");
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    System.out.println("open log");
+                }
+            });
+            label.setForeground(exceptionWhite);
+            label.setFont(CyderFonts.defaultFontSmall);
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setVerticalAlignment(JLabel.CENTER);
+            label.setBounds(10, 10, 480, 480);
+            borderlessFrame.getContentPane().add(label);
+
+            borderlessFrame.setLocation(ScreenUtil.getScreenWidth() - borderlessFrame.getWidth(),
+                    ScreenUtil.getScreenHeight() - borderlessFrame.getHeight());
+            borderlessFrame.setAlwaysOnTop(true);
+
+            borderlessFrame.setOpacity(0.0f);
+            borderlessFrame.setVisible(true);
+
+            float delta = 0.05f;
+
+            CyderThreadRunner.submit(() -> {
+                try {
+                    for (float i = 0.0f ; i <= 1 ; i += delta) {
+                        borderlessFrame.setOpacity(i);
+                        borderlessFrame.repaint();
+                        Thread.sleep(20);
+                    }
+
+                    borderlessFrame.setOpacity(1.0f);
+                    borderlessFrame.repaint();
+                    Thread.sleep(5000);
+
+                    for (float i = 1.0f ; i >= 0 ; i -= delta) {
+                        borderlessFrame.setOpacity(i);
+                        borderlessFrame.repaint();
+                        Thread.sleep(20);
+                    }
+
+                    borderlessFrame.dispose(true);
+                } catch (Exception ex) {
+                    Logger.Debug(getPrintableException(ex));
+                }
+            }, "Exception Popup: " + e.getMessage());
         }
     }
 
@@ -60,34 +138,9 @@ public class ExceptionHandler {
             if (write.isPresent() && !write.get().trim().isEmpty())
                 Logger.log(LoggerTag.EXCEPTION, write.get());
         } catch (Exception ex) {
-            silentHandleWithoutLogging(ex);
+            // uh oh
+            Logger.Debug(getPrintableException(e));
         }
-    }
-
-    // todo remove need for, isn't the point to log everything? maybe you mean to debug print
-    /**
-     * This method handles an exception the same way as {@link ExceptionHandler#handle(Exception)} (String)}
-     * except it does so without logging the exception.
-     * @param e the exception to be handled without logging
-     */
-    public static void handleWithoutLogging(Exception e) {
-        try {
-            Optional<String> exception = getPrintableException(e);
-
-            if (exception.isPresent() && !exception.get().trim().isEmpty())
-                System.out.println(exception.get());
-        } catch (Exception ex) {
-            silentHandleWithoutLogging(ex);
-        }
-    }
-
-    /**
-     * Handles the exception by displaying a CyderFrame with the exception on it
-     * (does not log the message. As such, this method should only be used in rare scenarios)
-     * @param e the exception to be displayed
-     */
-    private static void silentHandleWithoutLogging(Exception e) {
-       Logger.Debug(getPrintableException(e));
     }
 
     /**

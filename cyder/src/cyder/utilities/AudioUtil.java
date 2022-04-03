@@ -240,18 +240,8 @@ public class AudioUtil {
         });
     }
 
-    // todo not making email client here, too much work and wont be used
-    // instead use Cyder@nathancheshire.com email address to auto email
-    // message if commit not detected for day idea
-
-    // todo link for ffmpeg, should be stored in backend so it can be updated
-    //https://objects.githubusercontent.com/github-production-release-asset-2e65be/292087234/fd12d018-4fb6-459b-8855-372df98a430c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20220403%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220403T170244Z&X-Amz-Expires=300&X-Amz-Signature=78e4fa5c6b7dade2a92f2280e66431ca004f15b5aa56dafbeb3cdc8f650e5b71&X-Amz-SignedHeaders=host&actor_id=60986919&key_id=0&repo_id=292087234&response-content-disposition=attachment%3B%20filename%3Dffmpeg-master-latest-win64-gpl.zip&response-content-type=application%2Foctet-stream
-
-    // todo fix silence errors
-    // if not on, opacity slide in, 5s pause, opacity slide out,
-    // should be a specific iwnodw size with regular red background, vanila text
-    // if clicked, open current log
-    // use borderless frame
+    // todo after a barrell roll, setting console
+    //  orientation is broken and any barrel roll calls after that
 
     // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
     // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically

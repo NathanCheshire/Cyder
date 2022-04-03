@@ -80,7 +80,7 @@ public class GetterUtil {
 
                 if (!StringUtil.isNull(builder.getLabelText())) {
                     bounds = BoundsUtil.widthHeightCalculation(builder.getLabelText(),
-                            GET_STRING_MIN_WIDTH, CyderFonts.defaultFont);
+                            CyderFonts.defaultFont, GET_STRING_MIN_WIDTH);
 
                     height += bounds.getHeight() + 2 * getStringYPadding;
                     width = bounds.getWidth() + 2 * getStringXPadding;
