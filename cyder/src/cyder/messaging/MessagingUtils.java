@@ -250,16 +250,6 @@ public class MessagingUtils {
         return ret;
     }
 
-    // todo I want a bass boost feature for an mp3 or wav file
-    // todo use this in the new audio player widget which should handle mp3s and wavs
-
-    // todo officially support mp3 and wav, will need updated code in a lot of places
-    // and an method like images to check if valid
-
-    // todo for updating image to red from navy, method inside of audio player
-    // to set navy pixels/foreground color pixels to red, image should still be long
-    // enough to buffer to most parts of a 3-5 minute audio withou ~5 pixels
-
     /**
      * Generates and returns a file preview for the provided audio file.
      *

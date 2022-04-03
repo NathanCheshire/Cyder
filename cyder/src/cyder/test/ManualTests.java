@@ -19,11 +19,15 @@ import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
+import cyder.utilities.AudioUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.concurrent.Future;
 
 /**
  * Tests which must be performed manually and cannot be unit tested.
@@ -67,6 +71,8 @@ public class ManualTests {
 //            } catch (Exception e) {
 //                ExceptionHandler.handle(e);
 //            }
+
+            Future<Optional<File>> file = AudioUtil.dreamifyAudio(new File("C:/users/nathan/downloads/Robbery.wav"));
         }, "Manual Tester");
     }
 

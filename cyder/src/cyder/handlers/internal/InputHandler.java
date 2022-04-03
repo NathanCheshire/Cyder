@@ -1613,12 +1613,15 @@ public class InputHandler {
 
             CyderThreadRunner.submit(() -> {
                 try {
-                    ProcessBuilder builder = new ProcessBuilder(command, argsToString());
+                    args.add(0, command);
+                    ProcessBuilder builder = new ProcessBuilder(args);
                     builder.redirectErrorStream(true);
                     Process process = builder.start();
 
                     BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     String line;
+
+                    process.waitFor();
 
                     while ((line = reader.readLine()) != null) {
                         println(line);

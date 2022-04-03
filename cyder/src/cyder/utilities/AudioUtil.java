@@ -140,4 +140,74 @@ public class AudioUtil {
             return Optional.of(outputFile);
         });
     }
+
+    // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
+    // after conversion finished, should be seamless audio transition
+
+    // todo officially support mp3 and wav, will need updated code in a lot of places
+    // and an method like images to check if valid
+
+    /**
+     * Dreamifies the provided wav or mp3 audio file.
+     * The optional may be empty if the file could not
+     * be converted if required and processed.
+     *
+     * @param wavOrMp3File the old file to dreamify
+     * @return the dreamified wav or mp3 file
+     */
+    public static Future<Optional<File>> dreamifyAudio(File wavOrMp3File) {
+        Preconditions.checkNotNull(wavOrMp3File);
+        Preconditions.checkArgument(wavOrMp3File.exists());
+
+        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".wav")
+                || FileUtil.validateExtension(wavOrMp3File, ".mp3"));
+
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Audio Dreamifier: "
+                        + FileUtil.getFilename(wavOrMp3File))).submit(() -> {
+            File usageFile = wavOrMp3File;
+
+            // if an mp3 file, convert usageFile to wav
+            if (!FileUtil.validateExtension(usageFile, ".wav")) {
+                Future<Optional<File>> wavFile = mp3ToWav(usageFile);
+
+                while (!wavFile.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                if (wavFile.get().isPresent()) {
+                    usageFile = wavFile.get().get();
+                } else {
+                    // couldn't convert so return an empty optional
+                    return Optional.empty();
+                }
+            }
+
+            // in case the audio wav name contains spaces, surround with quotes
+            String safeFilename = "\"" + usageFile.getAbsolutePath() + "\"";
+
+            File outputFile =  OSUtil.buildFile("dynamic",
+                    "tmp", FileUtil.getFilename(usageFile) + "_Dreamy.wav");
+
+            ProcessBuilder pb = new ProcessBuilder(
+                    FFMPEG,
+                    INPUT_FLAG,
+                    safeFilename,
+                    "-filter:a",
+                    "\"highpass=f=2, lowpass=f=300\"",
+                    "\"" + outputFile.getAbsolutePath() + "\"");
+
+            Process p = pb.start();
+
+            // wait for file to be created by ffmpeg
+            while (!outputFile.exists()) {
+                Thread.onSpinWait();
+            }
+
+            // todo maybe use ffprobe to probe for same audio len?
+
+            // return dreamified wav
+            return Optional.of(outputFile);
+        });
+    }
 }
