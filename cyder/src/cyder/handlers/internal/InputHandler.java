@@ -1589,10 +1589,10 @@ public class InputHandler {
                         if (tol >= CyderNumbers.SIMILAR_COMMAND_TOL) {
                             println("Unknown command; Most similar command: \"" + parts[0] + "\"");
                         } else {
-                            wrapTerminalCheck();
+                            wrapShellCheck();
                         }
                     }
-                } else wrapTerminalCheck();
+                } else wrapShellCheck();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1602,14 +1602,14 @@ public class InputHandler {
     /**
      * Used to escape the terminal wrapper.
      */
-    private boolean escapeWrapTerminal;
+    private boolean escapeWrapShell;
 
     /**
-     * Checks for wrap terminal mode and passes the args and command to the native termainl.
+     * Checks for wrap shell mode and passes the args and command to the native termainl.
      */
-    private void wrapTerminalCheck() {
-        if (UserUtil.getCyderUser().getWrapterminal().equalsIgnoreCase("1")) {
-            println("Unknown command, passing to native terminal...");
+    private void wrapShellCheck() {
+        if (UserUtil.getCyderUser().getWrapshell().equalsIgnoreCase("1")) {
+            println("Unknown command, passing to native shell");
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -1626,15 +1626,15 @@ public class InputHandler {
                     while ((line = reader.readLine()) != null) {
                         println(line);
 
-                        if (escapeWrapTerminal)
+                        if (escapeWrapShell)
                             break;
                     }
 
-                    escapeWrapTerminal = false;
+                    escapeWrapShell = false;
                 } catch (Exception ignored) {
                     println("Unknown command");
                 }
-            }, "Wrap Terminal Thread");
+            }, "Wrap Shell Thread");
         } else {
             println("Unknown command");
         }
@@ -2610,7 +2610,7 @@ public class InputHandler {
         killThreads();
 
         //escape possible wrapped terminal call
-        escapeWrapTerminal = true;
+        escapeWrapShell = true;
 
         //stop music
         IOUtil.stopAudio();

@@ -234,7 +234,7 @@ public class User {
     /**
      * If true, any unrecognized input is passed to the native termain/shell.
      */
-    private String wrapterminal;
+    private String wrapshell;
     
     /**
      * Dark mode controls certain gui aspects about Cyder
@@ -639,8 +639,8 @@ public class User {
      *
      * @return whether to wrap the native terminal
      */
-    public String getWrapterminal() {
-        return wrapterminal;
+    public String getWrapshell() {
+        return wrapshell;
     }
 
     /**
@@ -1044,12 +1044,12 @@ public class User {
     }
 
     /**
-     * Sets whether to wrap the native terminal.
+     * Sets whether to wrap the native shell.
      *
-     * @param wrapterminal whether to wrap the native terminal
+     * @param wrapshell whether to wrap the native shell
      */
-    public void setWrapterminal(String wrapterminal) {
-        this.wrapterminal = wrapterminal;
+    public void setWrapshell(String wrapshell) {
+        this.wrapshell = wrapshell;
     }
 
     /**

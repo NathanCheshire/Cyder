@@ -240,8 +240,6 @@ public class Preferences {
 
             FrameUtil.repaintCyderFrames();
             ConsoleFrame.INSTANCE.revalidateMenuBackgrounds();
-            // todo revalidate menus on frames
-
             }));
         ret.add(new Preference("consoleclockformat","IGNORE",
                 "","EEEEEEEEE h:mmaa",() -> {
@@ -323,10 +321,10 @@ public class Preferences {
             ConsoleFrame.INSTANCE.getOutputArea().setFont(ConsoleFrame.INSTANCE.generateUserFont());
 
             }));
-        ret.add(new Preference("wrapterminal","Wrap Terminal",
+        ret.add(new Preference("wrapshell","Wrap Shell",
                 "Wrap the native shell by passing unrecognized commands to it and allowing it to process them",
                 "0", () -> {
-            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = wrapterminal");
+            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = wrapshell");
 
             //no action required
 
