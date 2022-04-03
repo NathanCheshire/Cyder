@@ -369,7 +369,6 @@ public class Logger {
                 writeLines(lengthCheck(line));
             } else {
                 try {
-                    // todo here
                     String[] lines = line.split("\n");
                     writeLines(lines);
                 } catch (Exception e) {
@@ -377,7 +376,7 @@ public class Logger {
                 }
             }
 
-            // print to std output
+            // print to standard output
             System.out.println(line);
         }
     }

@@ -9,8 +9,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
-import cyder.utilities.*;
-import cyder.utilities.objects.BoundsString;
+import cyder.utilities.OSUtil;
+import cyder.utilities.ScreenUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.UserUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,32 +85,48 @@ public class ExceptionHandler {
             AtomicBoolean escapeOpacityThread = new AtomicBoolean();
             escapeOpacityThread.set(false);
 
-            BoundsString bounds = BoundsUtil.widthHeightCalculation(informTextOptional.get().replace("\n", ""),
-                    CyderFonts.defaultFontSmall, 500);
+            String[] lines = informTextOptional.get().split("\n");
 
-            String informText = informTextOptional.get();
+            int width = 0;
+            Font font = CyderFonts.defaultFontSmall;
+
+            for (String line : lines) {
+                width = Math.max(width, StringUtil.getMinWidth(line, font));
+            }
+
+            int height = StringUtil.getMinHeight(lines[0], font) * lines.length;
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("<html>");
+
+            for (int i = 0 ; i < lines.length ; i++) {
+                builder.append(lines[i]);
+
+                if (i != lines.length - 1) {
+                    builder.append("<br/>");
+                }
+            }
+
+            builder.append("</html>");
 
             // todo think of better way to do borderless frames
-            CyderFrame borderlessFrame = new CyderFrame(bounds.getWidth() + 20,
-                    bounds.getHeight() + 20, exceptionRed, "borderless");
+            CyderFrame borderlessFrame = new CyderFrame(width + 20,
+                    height + 20, exceptionRed, "borderless");
             borderlessFrame.setTitle(e.getMessage());
 
-            JLabel label = new JLabel("<html>" + informText + "</html>");
+            JLabel label = new JLabel(builder.toString());
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     escapeOpacityThread.set(true);
-
                     borderlessFrame.dispose(true);
-
-                    IOUtil.openFileOutsideProgram(Logger.getCurrentLog().getAbsolutePath());
                 }
             });
             label.setForeground(exceptionWhite);
             label.setFont(CyderFonts.defaultFontSmall);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setVerticalAlignment(JLabel.CENTER);
-            label.setBounds(10, 10, bounds.getWidth(), bounds.getHeight());
+            label.setBounds(10, 10, width, height);
             borderlessFrame.getContentPane().add(label);
 
             borderlessFrame.setLocation(ScreenUtil.getScreenWidth() - borderlessFrame.getWidth(),
