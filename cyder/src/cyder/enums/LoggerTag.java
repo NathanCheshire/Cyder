@@ -100,5 +100,10 @@ public enum LoggerTag {
     /**
      * The status of a thread, typically AWT-EventQueue-0.
      */
-    THREAD_STATUS
+    THREAD_STATUS,
+    /**
+     * A Create (PUT), Read (GET), Update (POST), or Delete (DELETE) operation was performed
+     * on the Cyder backend.
+     */
+    CRUD_OP
 }

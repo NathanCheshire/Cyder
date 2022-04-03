@@ -24,7 +24,12 @@ public enum DynamicDirectory {
     /**
      * The logs directory.
      */
-    LOGS("logs");
+    LOGS("logs"),
+
+    /**
+     * The executables directory.
+     */
+    EXES("exes");
 
     /**
      * The actual name of the directory to create.

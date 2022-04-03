@@ -14,8 +14,6 @@ import java.net.URL;
  * Util methods for performing GET/POST request to the Cyder FastAPI backend.
  */
 public class BackendUtil {
-
-
     /**
      * The relative path from the backend url to the jvm post path.
      */
@@ -35,8 +33,7 @@ public class BackendUtil {
      * @param relativePath the relative path to the backend
      * @return the create result
      */
-    public static boolean put(String putSchema, String relativePath) {
-        // todo
+    public static boolean PUT(String putSchema, String relativePath) {
 
         return false;
     }
@@ -47,8 +44,7 @@ public class BackendUtil {
      * @param relativePath the relative path to the backend
      * @return the get result
      */
-    public static String get(String relativePath) {
-        // todo
+    public static String GET(String relativePath) {
 
         return "";
     }
@@ -60,8 +56,7 @@ public class BackendUtil {
      * @param relativePath the relative path to the backend path
      * @return whether the post result
      */
-    public static String post(String postSchema, String relativePath) {
-        // todo
+    public static String POST(String postSchema, String relativePath) {
 
         return "";
     }
@@ -73,9 +68,7 @@ public class BackendUtil {
      * @param relativePath the relative path to the backend
      * @return whether the delete operation was successful
      */
-    public static boolean delete(String deleteSchema, String relativePath) {
-        // todo
-
+    public static boolean DELETE(String deleteSchema, String relativePath) {
         return false;
     }
 
@@ -96,6 +89,24 @@ public class BackendUtil {
         return false;
     }
 
+    /**
+     * Downloads ffmpeg.exe and ffprobe.exe to the exes/ directory.
+     *
+     * @return whether the download could be completed.
+     */
+    public static boolean downloadFFmpegAndFFprobe() {
+        // get url
+
+        // attempt to download both exes
+
+        // ensure downloaded successfully
+
+        // need another method to set paths if user asks
+
+        return false;
+    }
+
+    // testing method
     private static void postHelper() {
         try {
             URL url = new URL(CyderUrls.CYDER_BACKEND_URL);

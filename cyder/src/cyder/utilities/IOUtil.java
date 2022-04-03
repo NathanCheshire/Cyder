@@ -146,7 +146,11 @@ public class IOUtil {
                     Logger.log(LoggerTag.JVM_ARGS, argBuilder);
                 }
 
-                BackendUtil.put(String.valueOf(argBuilder), BackendUtil.JVM_PATH);
+                boolean success = BackendUtil.PUT(String.valueOf(argBuilder), BackendUtil.JVM_PATH);
+
+                if (!success) {
+                    Logger.log(LoggerTag.CRUD_OP, "[PUT] Put of JVM args failed");
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
