@@ -19,15 +19,11 @@ import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
-import cyder.utilities.AudioUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Optional;
-import java.util.concurrent.Future;
 
 /**
  * Tests which must be performed manually and cannot be unit tested.
@@ -48,31 +44,7 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
-//            try {
-//                Future<JLabel> label = MessagingUtils.generateAudioPreviewLabel(
-//                        new File("c:/users/nathan/downloads/I love you.wav"), () -> System.out.println("here"));
-//
-//                while (!label.isDone()) {
-//                    Thread.onSpinWait();
-//                }
-//
-//                JLabel theLabel = label.get();
-//
-//                ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(theLabel);
-//            } catch (Exception e) {
-//                ExceptionHandler.handle(e);
-//            }
-//
-//            try {
-//                ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(
-//                        MessagingUtils.generatePicturePreviewLabel(
-//                        new File("c:/users/nathan/downloads/Test.png"),
-//                                () -> System.out.println("here")));
-//            } catch (Exception e) {
-//                ExceptionHandler.handle(e);
-//            }
 
-            Future<Optional<File>> file = AudioUtil.dreamifyAudio(new File("C:/users/nathan/downloads/Robbery.wav"));
         }, "Manual Tester");
     }
 

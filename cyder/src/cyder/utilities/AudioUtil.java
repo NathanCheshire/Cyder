@@ -21,9 +21,14 @@ import java.util.concurrent.Future;
  */
 public class AudioUtil {
     /**
-     * The ffmpeg command
+     * The ffmpeg command.
      */
-    public static final String FFMPEG = "FFMPEG";
+    public static final String FFMPEG = "ffmpeg";
+
+    /**
+     * The ffprobe command.
+     */
+    public static final String FFPROBE = "ffprobe";
 
     /**
      * The ffmpeg input flag.
@@ -44,6 +49,10 @@ public class AudioUtil {
      * @return the length of the audio file in milliseconds
      */
     public static int millisLength(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
+                || FileUtil.validateExtension(audioFile, ".mp3"));
+
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
                 || FileUtil.validateExtension(audioFile, ".mp3"));
@@ -178,10 +187,14 @@ public class AudioUtil {
                 if (wavFile.get().isPresent()) {
                     usageFile = wavFile.get().get();
                 } else {
-                    // couldn't convert so return an empty optional
+                    // couldn't convert so return an empty
+                    // optional, caller should check for this
                     return Optional.empty();
                 }
             }
+
+            long startingLen = millisLength(usageFile);
+            System.out.println("Staring: " + startingLen);
 
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = "\"" + usageFile.getAbsolutePath() + "\"";
@@ -204,10 +217,54 @@ public class AudioUtil {
                 Thread.onSpinWait();
             }
 
+            System.out.println("Length: " + getMillis(outputFile));
+
             // todo maybe use ffprobe to probe for same audio len?
 
             // return dreamified wav
             return Optional.of(outputFile);
         });
     }
+
+    /**
+     * Uses ffprobe to get the length of the audio file in milliseconds.
+     *
+     * @param audioFile the audio file to get the length of
+     * @return the length of the audio file in milliseconds
+     */
+    public static int getMillis(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+
+        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
+                || FileUtil.validateExtension(audioFile, ".mp3"));
+
+        try {
+            ProcessBuilder pb = new ProcessBuilder(FFPROBE, INPUT_FLAG,
+                    "\"" + audioFile.getAbsolutePath() + "\"", "-show_format");
+            Process p = pb.start();
+
+            // another precaution to ensure process is completed before file is returned
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.matches("\\s*duration=.*\\s*")) {
+                    return (int) (Double.parseDouble(
+                            line.replace("duration=", "").trim()) * 1000);
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return -1;
+    }
+
+    // todo be able to download ffmpeg and ffprobe if user confirms they want to
+    // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpath
+    //  OR set path via user editor
+
+    // todo audio player should be able to search for songs on youtube and display preview of top 10 results
+    //  and click on one to download
 }
