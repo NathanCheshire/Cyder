@@ -2,10 +2,12 @@ package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.CyderToggles;
 import cyder.threads.CyderThreadRunner;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
@@ -253,6 +255,10 @@ public class Logger {
      * and zips the past logs.
      */
     public static void initialize() {
+        if (CyderToggles.WIPE_LOGS_ON_START) {
+            OSUtil.delete(OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName()), false);
+        }
+
         generateAndSetLogFile();
 
         writeCyderAsciiArt();
@@ -304,12 +310,12 @@ public class Logger {
     private static void generateAndSetLogFile() {
         try {
             // ensure logs dir exists
-            File logsDir = new File("logs");
+            File logsDir = OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName());
             logsDir.mkdir();
 
             // if dir for today's logs doesn't exists, create
             String logSubDirName = TimeUtil.logSubDirTime();
-            File logSubDir = new File("logs/" + logSubDirName);
+            File logSubDir = new File("dynamic/logs/" + logSubDirName);
             logSubDir.mkdir();
 
             // actual log file
@@ -317,10 +323,10 @@ public class Logger {
 
             // ensure uniqueness
             int number = 1;
-            File logFile = new File("logs/" + logSubDirName + "/" + logFileName + ".log");
+            File logFile = new File("dynamic/logs/" + logSubDirName + "/" + logFileName + ".log");
             while (logFile.exists()) {
                 number++;
-                logFile = new File("logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
+                logFile = new File("dynamic/logs/" + logSubDirName + "/" + logFileName + "-" + number + ".log");
             }
 
             // found unique file so create
@@ -517,7 +523,7 @@ public class Logger {
      * Zips the log files of the past.
      */
     public static void zipPastLogs() {
-        File topLevelLogsDir = new File("logs");
+        File topLevelLogsDir = OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {
             topLevelLogsDir.mkdir();
@@ -548,7 +554,7 @@ public class Logger {
      * Consolidates the lines of all non-zipped files within the logs/SubLogDir directory.
      */
     public static void consolidateLogLines() {
-        File logsDir = new File("logs");
+        File logsDir = OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName());
 
         if (!logsDir.exists())
             return;
@@ -692,7 +698,7 @@ public class Logger {
      */
     public static void concludeLogs() {
         try {
-            File logDir = new File("logs");
+            File logDir = OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName());
 
             if (!logDir.exists())
                 return;

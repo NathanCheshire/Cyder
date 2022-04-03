@@ -8,7 +8,6 @@ import cyder.enums.DebugHash;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
@@ -241,7 +240,7 @@ public class LoginHandler {
 
         //exit cyder frame on disposal call of login frame if ConsoleFrame isn't active
         if (ConsoleFrame.INSTANCE.isClosed()) {
-            loginFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
+            loginFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
         }
 
         //printing animation output
@@ -292,8 +291,8 @@ public class LoginHandler {
         //set visibility and location
         loginFrame.setVisible(true);
 
-        loginFrame.setLocationRelativeTo(CyderShare.getDominantFrame() == loginFrame
-                ? null : CyderShare.getDominantFrame());
+        loginFrame.setLocationRelativeTo(CyderFrame.getDominantFrame() == loginFrame
+                ? null : CyderFrame.getDominantFrame());
 
         //dispose the splash frame immediately
         CyderSplash.fastDispose();
@@ -347,7 +346,7 @@ public class LoginHandler {
                             } else if (inputString.equalsIgnoreCase("quit")) {
                                 loginFrame.dispose();
                                 if (ConsoleFrame.INSTANCE.isClosed())
-                                    CyderShare.exit(ExitCondition.GenesisControlledExit);
+                                    OSUtil.exit(ExitCondition.GenesisControlledExit);
 
                             } else if (inputString.equalsIgnoreCase("help")) {
                                 loginField.setText(currentBashString);

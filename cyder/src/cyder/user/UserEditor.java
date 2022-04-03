@@ -4,7 +4,6 @@ import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
@@ -1492,7 +1491,7 @@ public class UserEditor {
                     OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()));
 
                     // exit with proper condition
-                    CyderShare.exit(ExitCondition.UserDeleted);
+                    OSUtil.exit(ExitCondition.UserDeleted);
                 } else {
                     deletePasswordField.setText("");
                     editUserFrame.notify("Account not deleted");

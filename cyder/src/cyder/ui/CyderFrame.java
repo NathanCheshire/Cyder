@@ -7,17 +7,18 @@ import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationType;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
+import cyder.handlers.internal.LoginHandler;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.utilities.*;
 import cyder.utilities.objects.BoundsString;
 import cyder.utilities.objects.GetterBuilder;
+import org.jetbrains.annotations.Nullable;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -3322,7 +3323,7 @@ public class CyderFrame extends JFrame {
      * temporarily to ensure the frame is on top.
      */
     public void finalizeAndShow() {
-        setLocationRelativeTo(CyderShare.getDominantFrame());
+        setLocationRelativeTo(getDominantFrame());
         setVisible(true);
 
         boolean wasOnTop = isAlwaysOnTop();
@@ -3332,12 +3333,29 @@ public class CyderFrame extends JFrame {
         if (!wasOnTop) {
             CyderThreadRunner.submit(() -> {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(715);
                     setAlwaysOnTop(wasOnTop);
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
             }, "[" + getTitle() + "]  finalizeAndShow()");
         }
+    }
+
+    /**
+     * Returns the current dominant frame for Cyder.
+     *
+     * @return the current dominant frame for Cyder
+     */
+    public static @Nullable CyderFrame getDominantFrame() {
+        if (!ConsoleFrame.INSTANCE.isClosed()) {
+            if (ConsoleFrame.INSTANCE.getConsoleCyderFrame().getState() == ICONIFIED) {
+                return null;
+            } else return ConsoleFrame.INSTANCE.getConsoleCyderFrame();
+        } else if (!LoginHandler.isLoginFrameClosed() && LoginHandler.getLoginFrame() != null){
+            return LoginHandler.getLoginFrame();
+        }
+        // other possibly dominant/stand-alone frame checks here
+        else return null;
     }
 }

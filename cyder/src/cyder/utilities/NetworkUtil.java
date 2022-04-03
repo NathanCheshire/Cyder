@@ -25,6 +25,29 @@ public class NetworkUtil {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
+    /**
+     * Whether connection to the internet is slow.
+     */
+    private static boolean highLatency;
+
+    /**
+     * Returns whether connection to the internet is slow.
+     *
+     * @return whether connection to the internet is slow.
+     */
+    public static boolean isHighLatency() {
+        return highLatency;
+    }
+
+    /**
+     * Sets the value of highLatency.
+     *
+     * @param highLatency the value of high latency
+     */
+    public static void setHighLatency(boolean highLatency) {
+        NetworkUtil.highLatency = highLatency;
+    }
+
     public static void openUrl(String URL) {
         Desktop Internet = Desktop.getDesktop();
         try {

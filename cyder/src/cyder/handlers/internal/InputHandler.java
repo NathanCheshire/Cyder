@@ -7,7 +7,6 @@ import cyder.annotations.ManualTest;
 import cyder.constants.*;
 import cyder.enums.*;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.threads.BletchyThread;
 import cyder.threads.CyderThreadRunner;
@@ -677,7 +676,7 @@ public class InputHandler {
             if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
                 FrameUtil.minimizeAllFrames();
             } else {
-                CyderShare.exit(ExitCondition.GenesisControlledExit);
+                OSUtil.exit(ExitCondition.GenesisControlledExit);
             }
         } else if (commandIs("define")) {
             if (!args.isEmpty()) {
@@ -735,7 +734,7 @@ public class InputHandler {
         } else if (commandIs("hide")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().minimizeAnimation();
         } else if (commandIs("analyzecode")) {
-            if (CyderShare.JAR_MODE) {
+            if (OSUtil.JAR_MODE) {
                 println("Code analyzing is not available when in Jar mode");
             } else {
                 if (checkArgsLength(0) || checkArgsLength(1)) {
@@ -926,7 +925,7 @@ public class InputHandler {
         } else if (commandIs("help")) {
             help();
         } else if (commandIs("todos")) {
-            if (CyderShare.JAR_MODE) {
+            if (OSUtil.JAR_MODE) {
                 println("Todos not available in jar mode");
             } else {
                 int total = StatUtil.totalTodos(new File("cyder"));
@@ -941,22 +940,10 @@ public class InputHandler {
                 }
             }
         } else if (commandIs("wipelogs")) {
-            File[] logDirs = new File("logs").listFiles();
-            int count = 0;
-
-            for (File logDir : logDirs) {
-                for (File log : logDir.listFiles()) {
-                    if (FileUtil.getExtension(log).equals(".log")
-                            && !log.equals(Logger.getCurrentLog())) {
-                        log.delete();
-                        count++;
-                    }
-                }
-            }
-
-            println("Deleted " + count + " log" + (count == 1 ? "" : "s"));
+            OSUtil.delete(OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName()));
+            println("Logs wiped");
         } else if (commandIs("countlogs")) {
-            File[] logDirs = new File("logs").listFiles();
+            File[] logDirs = new File("dynamic/logs").listFiles();
             int count = 0;
             int days = 0;
 
@@ -1112,7 +1099,7 @@ public class InputHandler {
         } else if (commandIs("filesizes")) {
             StatUtil.fileSizes();
         } else if (commandIs("badwords") ) {
-            if (CyderShare.JAR_MODE) {
+            if (OSUtil.JAR_MODE) {
                 println("Bad words not available in jar mode");
             } else {
                 CyderThreadRunner.submit(() -> {
@@ -1175,7 +1162,7 @@ public class InputHandler {
                 println("-------------------------------------");
             }
         } else if (commandIs("jarmode")) {
-            println(CyderShare.JAR_MODE ? "Cyder is currently running from a JAR"
+            println(OSUtil.JAR_MODE ? "Cyder is currently running from a JAR"
                     : "Cyder is currently running from a non-JAR source");
         } else if (commandIs("git")) {
             if (!checkArgsLength(2)) {

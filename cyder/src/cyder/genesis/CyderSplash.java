@@ -11,6 +11,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -235,7 +236,7 @@ public class CyderSplash {
                             // clearly something is wrong so exit
                             InformBuilder builder = new InformBuilder("idk what happened but you screwed something up");
                             builder.setTitle("Startup Exception");
-                            builder.setPostCloseAction(() -> CyderShare.exit(ExitCondition.FatalTimeout));
+                            builder.setPostCloseAction(() -> OSUtil.exit(ExitCondition.FatalTimeout));
                             InformHandler.inform(builder);
                         }
                     } catch (Exception e) {

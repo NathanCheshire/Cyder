@@ -555,4 +555,61 @@ public class TimeUtil {
     public static double millisToYears(long msTime) {
         return millisToMonths(msTime) / 12.0;
     }
+
+    // -----------------------------------
+    // Relative timing methods and members
+    // -----------------------------------
+
+    /**
+     * The time at which Cyder was first started.
+     */
+    private static long absoluteStartTime;
+
+    /**
+     * The time at which the console frame first appeared.
+     */
+    private static long consoleStartTime;
+
+    /**
+     * Returns the absolute start time of Cyder.
+     *
+     * @return the absolute start time of Cyder
+     */
+    public static long getAbsoluteStartTime() {
+        return absoluteStartTime;
+    }
+
+    /**
+     * Sets the absolute start time of Cyder.
+     *
+     * @param absoluteStartTime the absolute start time of Cyder
+     */
+    public static void setAbsoluteStartTime(long absoluteStartTime) {
+        if (TimeUtil.absoluteStartTime != 0)
+            throw new IllegalArgumentException("Absolute Start Time already set");
+
+        TimeUtil.absoluteStartTime = absoluteStartTime;
+    }
+
+    /**
+     * Returns the time at which the console frame first appeared visible.
+     * This is not affected by a user logout and successive login.
+     *
+     * @return the time at which the console frame first appeared visible
+     */
+    public static long getConsoleStartTime() {
+        return consoleStartTime;
+    }
+
+    /**
+     * Sets the time the console frame was shown.
+     *
+     * @param consoleStartTime the time the console frame was shown
+     */
+    public static void setConsoleStartTime(long consoleStartTime) {
+        if (TimeUtil.consoleStartTime != 0)
+            return;
+
+        TimeUtil.consoleStartTime = consoleStartTime;
+    }
 }

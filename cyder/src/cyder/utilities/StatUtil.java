@@ -4,7 +4,6 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
@@ -101,7 +100,7 @@ public class StatUtil {
     public static void debugMenu() {
         CyderThreadRunner.submit(() -> {
             try {
-                if (CyderShare.isHighLatency()) {
+                if (NetworkUtil.isHighLatency()) {
                     throw new RuntimeException("Stable connection not established");
                 }
 

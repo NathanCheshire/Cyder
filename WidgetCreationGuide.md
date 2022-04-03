@@ -128,7 +128,7 @@ Cyder.
 ## Finishing calls
 
 To finalize your frame, make sure to set the frame's visibility and location. Typically in Cyder, component's locations
-are set relatively to the current dominant frame. You don't have to worry about this, however, `CyderShare` takes care
+are set relatively to the current dominant frame. You don't have to worry about this, however, `CyderFrame` takes care
 of this for you. Even better, use the new `CyderFrame` method `finalizeAndShow()` which performs the required actions
 for you.
 

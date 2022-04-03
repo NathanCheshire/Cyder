@@ -1,6 +1,6 @@
 package cyder.enums;
 
-import cyder.genesis.CyderShare;
+import cyder.utilities.OSUtil;
 
 /**
  * Cyder exit codes and their corresponding meanings.
@@ -34,7 +34,7 @@ public enum ExitCondition {
 
     /**
      * The code associated with this ExitCondition.
-     * {@link CyderShare#exit(ExitCondition)} will invoke
+     * {@link OSUtil#exit(ExitCondition)} will invoke
      * {@link System#exit(int)} using this code.
      */
     private final int code;

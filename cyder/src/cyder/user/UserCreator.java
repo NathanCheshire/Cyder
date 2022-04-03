@@ -6,7 +6,6 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.LoginHandler;
@@ -245,7 +244,7 @@ public class UserCreator {
                         InformBuilder builder = new InformBuilder("The new user \"" + newUserName.getText().trim()
                                 + "\" has been created successfully.");
                         builder.setTitle("Creation Success");
-                        builder.setRelativeTo(CyderShare.getDominantFrame());
+                        builder.setRelativeTo(CyderFrame.getDominantFrame());
                         InformHandler.inform(builder);
 
                         //attempt to log in new user if it's the only user
@@ -286,7 +285,7 @@ public class UserCreator {
         CyderThreadRunner.submit(() -> {
             try {
                 GetterBuilder builder = new GetterBuilder("Choose new user's background file");
-                builder.setRelativeTo(CyderShare.getDominantFrame());
+                builder.setRelativeTo(CyderFrame.getDominantFrame());
                 File temp = GetterUtil.getInstance().getFile(builder);
                 if (temp != null) {
                     createUserBackground = temp;

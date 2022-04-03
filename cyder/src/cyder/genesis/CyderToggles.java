@@ -47,7 +47,6 @@ public class CyderToggles {
      */
     public static final boolean DISPOSE_SPLASH = true;
 
-    // todo implement me
     /**
      * Whether to automatically wipe all past logs on Cyder start.
      */

@@ -3,7 +3,6 @@ package cyder.handlers;
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
 import cyder.enums.*;
-import cyder.genesis.CyderShare;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
@@ -338,7 +337,7 @@ public enum ConsoleFrame {
             consoleCyderFrame.setBackground(Color.black);
 
             //more of a failsafe and not really necessary
-            consoleCyderFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
+            consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
 
             if (UserUtil.getCyderUser().getFullscreen().equals("1")) {
                 consoleCyderFrame.disableDragging();
@@ -498,7 +497,7 @@ public enum ConsoleFrame {
             inputField.getActionMap().put("forcedexit", new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    CyderShare.exit(ExitCondition.ForcedImmediateExit);
+                    OSUtil.exit(ExitCondition.ForcedImmediateExit);
                 }
             });
 
@@ -828,10 +827,10 @@ public enum ConsoleFrame {
             consoleCyderFrame.setVisible(true);
 
             // log how long it took to start
-            CyderShare.setConsoleStartTime(System.currentTimeMillis());
+            TimeUtil.setConsoleStartTime(System.currentTimeMillis());
 
             String logString = "Console loaded in " +
-                    (CyderShare.getConsoleStartTime() - CyderShare.getAbsoluteStartTime()) + "ms";
+                    (TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime()) + "ms";
             Logger.log(LoggerTag.UI_ACTION, logString);
             consoleCyderFrame.toast(logString);
 
@@ -854,9 +853,9 @@ public enum ConsoleFrame {
                                 ", but I had trouble connecting to the internet.\n" +
                                 "As a result, some features have been restricted until a " +
                                 "stable connection can be established.");
-                        CyderShare.setHighLatency(true);
+                        NetworkUtil.setHighLatency(true);
                     } else {
-                        CyderShare.setHighLatency(false);
+                        NetworkUtil.setHighLatency(false);
                     }
 
                     //sleep 2 minutes
@@ -1139,7 +1138,7 @@ public enum ConsoleFrame {
                 IOUtil.playAudio(OSUtil.buildPath("static","audio","Ride.mp3"));
             }
         }
-        // otherwise, no intro music so check for gray scale image/play startup sound if released
+        // intro music not on, check for grayscale image
         else if (CyderToggles.RELEASED) {
             try {
                 CyderThreadRunner.submit(() -> {
@@ -2969,7 +2968,6 @@ public enum ConsoleFrame {
         inputHandler.killThreads();
         inputHandler = null;
 
-        //logs
         if (logoutUser) {
             Logger.log(LoggerTag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
             UserUtil.getCyderUser().setLoggedin("0");
@@ -2980,7 +2978,7 @@ public enum ConsoleFrame {
 
         //dispose and set closed var as true
         if (exit) {
-            consoleCyderFrame.addPostCloseAction(() -> CyderShare.exit(ExitCondition.GenesisControlledExit));
+            consoleCyderFrame.addPostCloseAction(() -> OSUtil.exit(ExitCondition.GenesisControlledExit));
         }
 
         consoleCyderFrame.dispose();

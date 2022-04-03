@@ -19,7 +19,12 @@ public enum DynamicDirectory {
     /**
      * The users directory.
      */
-    USERS("users");
+    USERS("users"),
+
+    /**
+     * The logs directory.
+     */
+    LOGS("logs");
 
     /**
      * The actual name of the directory to create.

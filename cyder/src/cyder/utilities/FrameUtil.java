@@ -94,7 +94,7 @@ public class FrameUtil {
             return false;
 
         String saveName = refFrame.getTitle().substring(0, Math.min(15, refFrame.getTitle().length()));
-        File refFile = UserUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logSubDirTime()
+        File refFile = UserUtil.createFileInUserSpace(saveName + "_" + TimeUtil.logTime()
                 + "_" + TimeUtil.logTime()+ ".png");
         return screenshotCyderFrame(refFrame, refFile);
     }
@@ -116,7 +116,7 @@ public class FrameUtil {
         String saveName = cyderFrame.getTitle().substring(0,
                 Math.min(MAX_FRAME_TITLE_FILE_LENGTH, cyderFrame.getTitle().length()));
         File refFile = UserUtil.createFileInUserSpace(saveName.trim() + "_"
-                + TimeUtil.logSubDirTime().trim() + ".png");
+                + TimeUtil.logTime().trim() + ".png");
         screenshotCyderFrame(cyderFrame, refFile);
     }
 

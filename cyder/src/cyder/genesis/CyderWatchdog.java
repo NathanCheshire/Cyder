@@ -8,6 +8,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
+import cyder.utilities.OSUtil;
 
 import javax.swing.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -122,14 +123,14 @@ public class CyderWatchdog {
                         Logger.log(LoggerTag.DEBUG, "Hault detected by watchdog,");
 
                         boolean tmpJarMode = true;
-                        if (CyderShare.JAR_MODE) {
+                        if (OSUtil.JAR_MODE) {
                             Logger.log(LoggerTag.DEBUG, "JAR_MODE detected; attempting to " +
                                     "locate jar to boostrap from");
                             bootstrap();
                         } else {
                             Logger.log(LoggerTag.DEBUG, "JAR_MODE is not active thus " +
                                     "no jar can be located to boostrap from; exiting Cyder");
-                            CyderShare.exit(ExitCondition.WatchdogTimeout);
+                            OSUtil.exit(ExitCondition.WatchdogTimeout);
                         }
                     }
                 } else {

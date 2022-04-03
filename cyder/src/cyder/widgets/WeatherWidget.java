@@ -9,7 +9,6 @@ import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -109,7 +108,7 @@ public class WeatherWidget {
      * while still having the public static showGUI() method with the @Widget annotation.
      */
     private void innerShowGUI() {
-        if (CyderShare.isHighLatency()) {
+        if (NetworkUtil.isHighLatency()) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");

@@ -4,9 +4,9 @@ import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
-import cyder.genesis.CyderShare;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.objects.InformBuilder;
+import cyder.utilities.OSUtil;
 import cyder.utilities.UserUtil;
 
 import java.io.PrintWriter;
@@ -146,7 +146,7 @@ public class ExceptionHandler {
     public static void exceptionExit(String message, String title, ExitCondition condition) {
         InformBuilder builder = new InformBuilder(message);
         builder.setTitle(title);
-        builder.setPostCloseAction(() -> CyderShare.exit(condition));
+        builder.setPostCloseAction(() -> OSUtil.exit(condition));
         InformHandler.inform(builder);
     }
 }

@@ -3,8 +3,10 @@ package cyder.utilities;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
+import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
+import cyder.genesis.Cyder;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InputHandler;
 import cyder.handlers.internal.Logger;
@@ -24,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -64,6 +67,12 @@ public class OSUtil {
         add("LPT8");
         add("LPT9");
     }};
+
+    /**
+     * Whether Cyder is being run as a compiled JAR file.
+     */
+    public static final boolean JAR_MODE = Objects.requireNonNull(
+            Cyder.class.getResource("Cyder.class")).toString().startsWith("jar:");
 
     /**
      * Prevent illegal class instantiation.
@@ -129,6 +138,26 @@ public class OSUtil {
      * The raw operating system name.
      */
     public static final String OPERATING_SYSTEM_NAME = System.getProperty("os.name");
+
+    /**
+     * Controlled program exit that calls System.exit which will also invoke the shutdown hook.
+     *
+     * @param exitCondition the exiting code to describe why the program exited (0 is standard
+     *             but for this program, the key/value pairs in {@link ExitCondition} are followed)
+     */
+    public static void exit(ExitCondition exitCondition) {
+        try {
+            //ensures IO finishes and is not invoked again
+            UserUtil.blockFutureIO();
+
+            //log exit
+            Logger.log(LoggerTag.EXIT, exitCondition);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        System.exit(exitCondition.getCode());
+    }
 
     /**
      * The three primary operating systems.
@@ -403,8 +432,21 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     public static boolean delete(File folder) {
-        // log requested deltion of file/folder
-        Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
+        return delete(folder, true);
+    }
+
+    /**
+     * Deletes the provided file/folder recursively.
+     *
+     * @param folder the folder/file to delete
+     * @param log whether to log the delete operation. Ideally this is
+     *            always true but some rare cases require loggin to be skipped.
+     * @return whether the folder/file was successfully deleted
+     */
+    public static boolean delete(File folder, boolean log) {
+        if (log) {
+            Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
+        }
 
         // directory means recursive case to delete contents
         if (folder.isDirectory()) {
@@ -412,7 +454,7 @@ public class OSUtil {
 
             if (files.length != 0) {
                 for (File file : files) {
-                    delete(file);
+                    delete(file, log);
                 }
             }
         }

@@ -4,6 +4,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
@@ -42,7 +43,7 @@ public class Cyder {
      */
     public static void main(String[] ca) {
         // set start time, this should be the first call always
-        CyderShare.setAbsoluteStartTime(System.currentTimeMillis());
+        TimeUtil.setAbsoluteStartTime(System.currentTimeMillis());
 
         //set shutdown hooks
         addExitHook();
@@ -155,7 +156,8 @@ public class Cyder {
      */
     private static void addExitHook() {
         Runtime.getRuntime().addShutdownHook(CyderThreadRunner.createThread(() -> {
-            OSUtil.deleteTempDir();
+            OSUtil.delete(OSUtil.buildFile("dynamic",
+                    DynamicDirectory.TEMPORARY.getDirectoryName()), false);
         }, "common-exit-hook"));
     }
 
