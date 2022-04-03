@@ -250,13 +250,7 @@ public class MessagingUtils {
         return ret;
     }
 
-    // todo weird chime bug, I think we should have a range and we're
-    //  just checking if greater than or less than or something
-
     // todo enums should go to the package they are primary from
-
-    // todo maybe an audio player that scrolls and turns the navy
-    // to red as it aligns with the song percentage would be cool
 
     // todo I want a bass boost feature for an mp3 or wav file
     // todo use this in the new audio player widget which should handle mp3s and wavs

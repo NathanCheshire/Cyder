@@ -875,33 +875,21 @@ public enum ConsoleFrame {
 
         CyderThreadRunner.submit(() -> {
             try {
-                long initSleep = (3600 * 1000 //1 hour
-                        - LocalDateTime.now().getMinute() * 60 * 1000 //minus minutes in hour to millis
-                        - LocalDateTime.now().getSecond() * 1000); //minus seconds in hour to millis
-                int j = 0;
-                while (j < initSleep) {
-                    Thread.sleep(50);
-                    if (consoleFrameClosed) {
-                        return;
-                    }
-                    j += 50;
-                }
+                int lastChimeHour = -1;
 
-                OUTER:
                 while (true) {
-                    if (!isClosed() && UserUtil.getCyderUser().getHourlychimes().equals("1")) {
-                        IOUtil.playSystemAudio("static/audio/chime.mp3");
+                    int min = LocalDateTime.now().getMinute();
+                    int sec = LocalDateTime.now().getSecond();
+
+                    // if at hh:00:00 and we haven't chimed for this hour yet
+                    if (min == 0 && sec == 0 && lastChimeHour != LocalDateTime.now().getHour()) {
+                        if (!isClosed() && UserUtil.getCyderUser().getHourlychimes().equals("1")) {
+                            IOUtil.playSystemAudio("static/audio/chime.mp3");
+                            lastChimeHour = LocalDateTime.now().getHour();
+                        }
                     }
 
-                    //sleep 60 minutes
-                    int i = 0;
-                    while (i < 60 * 60 * 1000) {
-                        Thread.sleep(50);
-                        if (consoleFrameClosed) {
-                            break OUTER;
-                        }
-                        i += 50;
-                    }
+                    Thread.sleep(50);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

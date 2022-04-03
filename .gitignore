@@ -1,7 +1,7 @@
 .idea/
 bin/
 out/
-logs/*
+dynamic/logs/*
 *.iml
 *.git
 .gradle/*
