@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.LoggerTag;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class IOUtil {
     /**
@@ -121,10 +121,8 @@ public class IOUtil {
 
                 String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
 
-                Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
-
                 for (String line : lines) {
-                    Matcher matcher = p.matcher(line);
+                    Matcher matcher = CyderRegexPatterns.whereAmIPattern.matcher(line);
                     if (matcher.find()) {
                         isp = matcher.group(1);
                     }

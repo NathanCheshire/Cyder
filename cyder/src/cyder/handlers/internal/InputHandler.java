@@ -54,7 +54,6 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /* some methods have yet to be utilized, arg lengths are always checked before accessing*/
 public class InputHandler {
@@ -1321,10 +1320,8 @@ public class InputHandler {
 
                     String[] lines = NetworkUtil.readUrl(CyderUrls.ISP_URL).split("\n");
 
-                    Pattern p = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
-
                     for (String line : lines) {
-                        Matcher matcher = p.matcher(line);
+                        Matcher matcher = CyderRegexPatterns.whereAmIPattern.matcher(line);
                         if (matcher.find()) {
                             isp = matcher.group(1);
                         }

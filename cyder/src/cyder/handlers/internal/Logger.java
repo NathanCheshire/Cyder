@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
+import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
@@ -22,7 +23,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
@@ -50,6 +50,11 @@ public class Logger {
      * The maximum number of chars per line of a log.
      */
     public static final int MAX_LINE_LENGTH = 120;
+
+    /**
+     * The number of spaces to prepend to a continuation line.
+     */
+    public static final int NEWLINE_SPACE_OFFSET = 11;
 
     /**
      * Whether the current log should not be written to again.
@@ -361,8 +366,15 @@ public class Logger {
             if (tag != LoggerTag.EXCEPTION) {
                 writeLines(lengthCheck(line));
             } else {
-                // todo possible bug here if for some reason we pass a single line as representation.
-                writeLines(StringUtil.split(line, Pattern.compile("\\R")));
+                if (line.contains("\\R")) {
+                    LinkedList<String> lines = StringUtil.split(line, CyderRegexPatterns.newLinePattern);
+
+                    for (String subLine : lines) {
+                        writeLines(lengthCheck(subLine));
+                    }
+                } else {
+                    writeLines(lengthCheck(line));
+                }
             }
 
             // print to std output
@@ -384,7 +396,7 @@ public class Logger {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(currentLog,true)))  {
             for (int i = 0 ; i < lines.size() ; i++) {
                 if (i != 0) {
-                    bw.write(StringUtil.generateNSpaces(11));
+                    bw.write(StringUtil.generateNSpaces(NEWLINE_SPACE_OFFSET));
                 }
 
                 // to be safe, remove new lines and trim even though there should be none

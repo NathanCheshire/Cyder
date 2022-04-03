@@ -68,25 +68,42 @@ public final class CyderRegexPatterns {
             "|(\\d{1,3},\\d{1,3},\\d{1,3}))";
 
     /**
+     * The pattern for matching carriage returns.
+     */
+    public static final Pattern newLinePattern = Pattern.compile("\\R");
+
+    /**
      * Prevent illegal class instantiation.
      */
     private CyderRegexPatterns() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    public static final String openGroup = "(";
-    public static final String closeGroup = ")";
-    public static final String digit = "\\d";
-    public static final String nonDigit = "\\D";
-    public static final String whitespace = "\\s";
-    public static final String nonWhitespace = "\\S";
-    public static final String letterNumberUnderscore = "\\w";
-    public static final String nonLetterNumberUnderscore = "\\W";
-    public static final String to = "-";
-    public static final String previousOptional = "?";
-    public static final String or = "|";
-    public static final String zeroOrMore = "*";
-    public static final String oneOrMore = "+";
+    /**
+     * The pattern used to grab the youtube-dl progress from the process.
+     */
+    public static final Pattern updatePattern  = Pattern.compile(
+            "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
+                    "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
+
+    /**
+     * The pattern used to scrape the youtube uuids returned from the youtube api v3 instead
+     * of using JSON serialization via GSON.
+     */
+    public static final Pattern youtubeApiV3UuidPattern = Pattern.compile(
+            "\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"" +
+                    "videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
+
+    /**
+     * The pattern sued to webscrape the isp from a google search.
+     */
+    public static final Pattern whereAmIPattern = Pattern.compile("^\\s*<p class=\"isp\">(.*)</p>\\s*$");
+
+    /**
+     * The pattern used to extract the uuid from a youtube video.
+     */
+    public static final Pattern extractYoutubeUuidPattern
+            = Pattern.compile("(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*");
 
     /**
      * Retuns a regex pattern for the previous char/sequence to be repeated n times.
@@ -115,24 +132,4 @@ public final class CyderRegexPatterns {
     public static final Pattern urlFormationPattern = Pattern.compile("\\b(?:(https?|ftp|file)://" +
             "|www\\.)?[-A-Z0-9+&#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]\\.[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
-    public static final String beginLine = "^";
-    public static final String endLine = "$";
-    public static final String lattin = "\\{IsLatin}";
-    public static final String ascii = "\\p{ASCII}";
-    public static final String anyChar = ".";
-    public static final String openCharClass = "[";
-    public static final String closeCharClass = "]";
-    public static final String notCharClass = "^";
-    public static final String aToz = "[a-z]";
-    public static final String ATOZ = "[A-Z]";
-    public static final String atoZCaseInsensitive = "[a-zA-Z]";
-
-    //line terminators
-    public static final String newLine = "\n";
-    public static final String carriageReturns = "\r";
-    public static final String carriageNewline = "\r\n";
-    public static final String lineSepChar = "\u2028";
-    public static final String paragraphSepChar = "\u2029";
-    public static final String nextLineChar = "0085";
 }

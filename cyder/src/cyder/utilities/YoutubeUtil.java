@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Utility methods related to youtube videos.
@@ -34,8 +33,6 @@ public class YoutubeUtil {
      * The maximum number of chars that can be used for a filename from a youtube video's title.
      */
     public static final int MAX_THUMBNAIL_CHARS = 20;
-
-
 
     /**
      * Restrict instantiation of class.
@@ -117,16 +114,12 @@ public class YoutubeUtil {
                     ConsoleFrame.INSTANCE.getInputHandler()
                             .printlnComponent(printLabel);
 
-                    Pattern updatePattern  = Pattern.compile(
-                            "\\s*\\[download]\\s*([0-9]{1,3}.[0-9]%)\\s*of\\s*([0-9A-Za-z.]+)" +
-                                    "\\s*at\\s*([0-9A-Za-z./]+)\\s*ETA\\s*([0-9:]+)");
-
                     String fileSize = null;
 
                     String outputString;
 
                     while ((outputString = stdInput.readLine()) != null) {
-                        Matcher updateMatcher = updatePattern.matcher(outputString);
+                        Matcher updateMatcher = CyderRegexPatterns.updatePattern.matcher(outputString);
 
                         if (updateMatcher.find()) {
                             float progress = Float.parseFloat(updateMatcher.group(1)
@@ -190,10 +183,7 @@ public class YoutubeUtil {
 
                     String jsonResponse = NetworkUtil.readUrl(link);
 
-                    Pattern p = Pattern.compile(
-                            "\"resourceId\":\\s*\\{\\s*\n\\s*\"kind\":\\s*\"youtube#video\",\\s*\n\\s*\"" +
-                                    "videoId\":\\s*\"(.*)\"\\s*\n\\s*},");
-                    Matcher m = p.matcher(jsonResponse);
+                    Matcher m = CyderRegexPatterns.youtubeApiV3UuidPattern .matcher(jsonResponse);
                     ArrayList<String> uuids = new ArrayList<>();
 
                     while (m.find()) {
@@ -596,9 +586,7 @@ public class YoutubeUtil {
      * @return the extracted uuid
      */
     public static String getYoutubeUUID(String youtubeURL) {
-        String pattern = "(?<=youtu.be/|watch\\?v=|/videos/|embed/)[^#&?]*";
-        Pattern compiledPattern = Pattern.compile(pattern);
-        Matcher matcher = compiledPattern.matcher(youtubeURL);
+        Matcher matcher = CyderRegexPatterns.extractYoutubeUuidPattern.matcher(youtubeURL);
 
         if(matcher.find()){
             return matcher.group();
