@@ -240,9 +240,6 @@ public class AudioUtil {
         });
     }
 
-    // todo before exiting need to wait in some file handles such as audio player on tmp files to be able
-    //  to completely delete the tmp dir
-
     // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
     // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
     //  OR set path via user editor, place in dynamic/exes

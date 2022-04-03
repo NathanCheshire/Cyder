@@ -929,21 +929,6 @@ public class InputHandler {
             println("Clipboard has been reset.");
         } else if (commandIs("help")) {
             help();
-        } else if (commandIs("todos")) {
-            if (OSUtil.JAR_MODE) {
-                println("Todos not available in jar mode");
-            } else {
-                int total = StatUtil.totalTodos(new File("cyder"));
-
-                if (total > 0) {
-                    println("Total todos: " + total);
-                    println("Todos:");
-                    println("----------------------------------------");
-                    println(StatUtil.getTodos(new File("cyder")));
-                } else {
-                    println("No todos found, good job");
-                }
-            }
         } else if (commandIs("wipelogs")) {
             OSUtil.delete(OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName()));
             println("Logs wiped");
