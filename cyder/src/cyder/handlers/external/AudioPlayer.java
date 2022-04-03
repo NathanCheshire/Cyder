@@ -1286,7 +1286,11 @@ public class AudioPlayer {
                                     (double) audioProgress.getMaximum()));
                             double percentLeft = 1.0 - percentIn;
 
-                            float totalMilis = AudioUtil.millisLength(currentAudioFiles.get(audioIndex));
+                            // alright well this should in fact be a future since it takes a second
+                            // but we also shouldn't need to update this unless the audio changed
+                            // todo we'll need a good design doc for this new player
+                            //float totalMilis = AudioUtil.getMillis(currentAudioFiles.get(audioIndex));
+                            float totalMilis = 0f;
 
                             int totalSeconds = (int) (totalMilis / 1000.0);
                             int secondsIn = (int) (percentIn * totalSeconds);

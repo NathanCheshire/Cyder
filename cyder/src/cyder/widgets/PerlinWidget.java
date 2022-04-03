@@ -283,7 +283,6 @@ public class PerlinWidget {
                         g2d.fillRect(x, minY + lenDown,2, resolution - (minY + lenDown));
                     }
                 } else {
-                    System.out.println("3d paint");
                     for (int i = 0 ; i < resolution ; i++) {
                         for (int j = 0 ; j < resolution ; j++) {
                             g2d.setColor(_3DNoise[i][j].getColor());

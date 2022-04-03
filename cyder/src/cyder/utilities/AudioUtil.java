@@ -5,12 +5,9 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
-import javazoom.jl.decoder.Bitstream;
-import javazoom.jl.decoder.Header;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Optional;
 import java.util.concurrent.Executors;
@@ -40,36 +37,6 @@ public class AudioUtil {
      */
     private AudioUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-    }
-
-    /**
-     * Returns the length of the audio file in milliseconds.
-     *
-     * @param audioFile the audio file, must be in mp3 or wav format.
-     * @return the length of the audio file in milliseconds
-     */
-    public static int millisLength(File audioFile) {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
-                || FileUtil.validateExtension(audioFile, ".mp3"));
-
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
-                || FileUtil.validateExtension(audioFile, ".mp3"));
-
-        int milisRet = 0;
-
-        try {
-            FileInputStream fis = new FileInputStream(audioFile);
-            Bitstream bitstream = new Bitstream(fis);
-            Header h = bitstream.readFrame();
-            long tn = fis.getChannel().size();
-            milisRet = (int) h.total_ms((int) tn);
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-
-        return milisRet;
     }
 
     /**
@@ -150,12 +117,6 @@ public class AudioUtil {
         });
     }
 
-    // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
-    // after conversion finished, should be seamless audio transition
-
-    // todo officially support mp3 and wav, will need updated code in a lot of places
-    // and an method like images to check if valid
-
     /**
      * Dreamifies the provided wav or mp3 audio file.
      * The optional may be empty if the file could not
@@ -193,9 +154,6 @@ public class AudioUtil {
                 }
             }
 
-            long startingLen = millisLength(usageFile);
-            System.out.println("Staring: " + startingLen);
-
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = "\"" + usageFile.getAbsolutePath() + "\"";
 
@@ -209,17 +167,33 @@ public class AudioUtil {
                     "-filter:a",
                     "\"highpass=f=2, lowpass=f=300\"",
                     "\"" + outputFile.getAbsolutePath() + "\"");
-
             Process p = pb.start();
+
+            // get original time of wav (after process started to save time)
+            Future<Integer> startingMilis = getMillis(usageFile);
+            while (!startingMilis.isDone()) {
+                Thread.onSpinWait();
+            }
 
             // wait for file to be created by ffmpeg
             while (!outputFile.exists()) {
                 Thread.onSpinWait();
             }
 
-            System.out.println("Length: " + getMillis(outputFile));
+            // wait until length is equal to the original length
+            while (true) {
+                Future<Integer> updatedLen = getMillis(outputFile);
 
-            // todo maybe use ffprobe to probe for same audio len?
+                while (!updatedLen.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                if (updatedLen.get().equals(startingMilis.get())) {
+                    break;
+                }
+
+                Thread.sleep(500);
+            }
 
             // return dreamified wav
             return Optional.of(outputFile);
@@ -232,39 +206,50 @@ public class AudioUtil {
      * @param audioFile the audio file to get the length of
      * @return the length of the audio file in milliseconds
      */
-    public static int getMillis(File audioFile) {
+    public static Future<Integer> getMillis(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
 
         Preconditions.checkArgument(FileUtil.validateExtension(audioFile, ".wav")
                 || FileUtil.validateExtension(audioFile, ".mp3"));
 
-        try {
-            ProcessBuilder pb = new ProcessBuilder(FFPROBE, INPUT_FLAG,
-                    "\"" + audioFile.getAbsolutePath() + "\"", "-show_format");
-            Process p = pb.start();
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Audio Length Finder: "
+                        + FileUtil.getFilename(audioFile))).submit(() -> {
+            try {
+                ProcessBuilder pb = new ProcessBuilder(FFPROBE, INPUT_FLAG,
+                        "\"" + audioFile.getAbsolutePath() + "\"", "-show_format");
+                Process p = pb.start();
 
-            // another precaution to ensure process is completed before file is returned
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                // another precaution to ensure process is completed before file is returned
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                if (line.matches("\\s*duration=.*\\s*")) {
-                    return (int) (Double.parseDouble(
-                            line.replace("duration=", "").trim()) * 1000);
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    if (line.matches("\\s*duration=.*\\s*")) {
+                        return (int) (Double.parseDouble(
+                                line.replace("duration=", "").trim()) * 1000);
+                    }
                 }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
 
-        return -1;
+            // return values are auto boxed.
+            return -1;
+        });
     }
 
-    // todo be able to download ffmpeg and ffprobe if user confirms they want to
-    // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpath
-    //  OR set path via user editor
+    // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
+    // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
+    //  OR set path via user editor, place in dynamic/exes
 
     // todo audio player should be able to search for songs on youtube and display preview of top 10 results
     //  and click on one to download
+
+    // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
+    // after conversion finished, should be seamless audio transition
+
+    // todo officially support mp3 and wav, will need updated code in a lot of places
+    // and an method like images to check if valid
 }
