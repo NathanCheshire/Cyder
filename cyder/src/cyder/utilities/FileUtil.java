@@ -8,7 +8,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -33,6 +32,21 @@ public class FileUtil {
     public static final int[] JPG_SIGNATURE = {0xFF, 0xD8, 0xFF};
 
     /**
+     * The audio formats Cyder supports.
+     */
+    public static final String[] SUPPORTED_AUDIO_EXTENSIONS = {".wav", ".mp3"};
+
+    /**
+     * The metadata signature for a wav file (RIFF).
+     */
+    public static final int[] WAV_SIGNATURE = {0x52, 0x49, 0x46, 0x46};
+
+    /**
+     * The metadata signature for an mp3 file.
+     */
+    public static final int[] MP3_SIGNATURE = {0x49, 0x44, 0x33};
+
+    /**
      * Suppress default constructor.
      */
     private FileUtil() {
@@ -47,8 +61,26 @@ public class FileUtil {
      * @return whether the provided file is a supported image file
      */
     public static boolean isSupportedImageExtension(File f) {
+        checkNotNull(f);
+        checkArgument(f.exists());
+
         return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
                 && (matchesSignature(f, PNG_SIGNATURE) || matchesSignature(f, JPG_SIGNATURE));
+    }
+
+    /**
+     * Returns whether the provided file is a supported audio file by validating
+     * the file extension and the file byte signature.
+     *
+     * @param f the file to determine if it is a supported audio type
+     * @return whether the provided file is a supported audio file
+     */
+    public static boolean isSupportedAudioExtension(File f) {
+        checkNotNull(f);
+        checkArgument(f.exists());
+
+        return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_AUDIO_EXTENSIONS)
+                && (matchesSignature(f, WAV_SIGNATURE) || matchesSignature(f, MP3_SIGNATURE));
     }
 
     /**
@@ -175,9 +207,12 @@ public class FileUtil {
     /**
      * Supported font types that are loaded upon Cyder's start.
      */
-    public static final ArrayList<String> validFontExtensions = new ArrayList<>() {{
-        add(".ttf");
-    }};
+    public static final String[] SUPPORTED_FONT_EXTENSIONS = {".ttf"};
+
+    /**
+     * The metadata signature for a ttf file.
+     */
+    public static final int[] TTF_SIGNATURE = {0x00, 0x01, 0x00, 0x00, 0x00, 0x10, 0x01, 0x00, 0x00, 0x04, 0x00, 0x00};
 
     /**
      * Returns whether the contents of the two files are equal.

@@ -199,7 +199,7 @@ public class Cyder {
 
         for (File f : fontFiles) {
             // if it's a valid font file
-            if (StringUtil.in(FileUtil.getExtension(f), true, FileUtil.validFontExtensions)) {
+            if (StringUtil.in(FileUtil.getExtension(f), true, FileUtil.SUPPORTED_FONT_EXTENSIONS)) {
                 GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 try {
                     // register the font so we can use it throughout Cyder

@@ -180,12 +180,12 @@ public class OSUtil {
     /**
      * The maximum number of times something should be attepted to be deleted.
      */
-    public static final int MAX_DELETION_ATTEMPTS = 100;
+    public static final int MAX_DELETION_ATTEMPTS = 500;
 
     /**
      * The maximum number of times something should be attempted to be created.
      */
-    public static final int MAX_CREATION_ATTEMPTS = 100;
+    public static final int MAX_CREATION_ATTEMPTS = 500;
 
     /**
      * The default user directory.
