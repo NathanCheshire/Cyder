@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
 import cyder.enums.LoggerTag;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -237,12 +238,45 @@ public class CyderFrame extends JFrame {
      */
     public static final float MAX_TITLE_LENGTH_RATIO = 0.75f;
 
+    /**
+     * Allowable indicies to add components to the contentLabel
+     * which is a JLayeredPane and the content pane.
+     */
     public static final ArrayList<Integer> allowableContentLabelIndicies = new ArrayList<>(){{
         // Drag labels
         add(JLayeredPane.DRAG_LAYER);
         // notifications
         add(JLayeredPane.POPUP_LAYER);
     }};
+
+    /**
+     * Restrict default constructor.
+     */
+    private CyderFrame() {
+        throw new IllegalMethodException("Illegal CyderFrame constructor");
+    }
+
+    /**
+     * Default constructor for a CyderFrame with specified width and height.
+     *
+     * @param width the specified width of the CyderFrame
+     * @param height the specified height of the CyderFrame
+     */
+    public CyderFrame(int width, int height) {
+        this(width, height, CyderIcons.defaultBackground);
+    }
+
+    /**
+     * Default CyderFrame constructor for width, height, and content label background color.
+     *
+     * @param width the width of the CyderFrame
+     * @param height the height of the CyderFrame
+     * @param c the color of the content pane background
+     */
+    public CyderFrame(int width, int height, Color c) {
+        this(width, height, ImageUtil.imageIconFromColor(c,
+                Math.max(MINIMUM_WIDTH, width), Math.max(MINIMUM_HEIGHT, height)));
+    }
 
     /**
      * Constructs an instance of CyderFrame with the specified width, height, and
@@ -426,14 +460,19 @@ public class CyderFrame extends JFrame {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
+    // ------------------
+    // Borderless frames
+    // ------------------
+
     /**
-     * Constructs a CyderFrame object that exists without
-     * surrounding drag labels, the title label, and the button list.
+     * Generates and returns a borderless CyderFrame.
      *
-     * @param len the length of this borderless frame
+     * @param width the width of the frame.
+     * @param height the height of the frame.
+     * @return the borderless frame
      */
-    public CyderFrame(int len) {
-        this(len, len, CyderColors.navy, "borderless");
+    public static CyderFrame generateBorderlessFrame(int width, int height, Color backgroundColor) {
+        return new CyderFrame(width, height, backgroundColor, "borderless");
     }
 
     /**
@@ -444,7 +483,10 @@ public class CyderFrame extends JFrame {
      * @param height the height of this borderless frame
      * @param background the background color of the borderless frame
      */
-    public CyderFrame(int width, int height, Color background, String borderless) {
+    private CyderFrame(int width, int height, Color background, String borderless) {
+        // borderless param still here since I haven't thought of a better way
+        // to achieve this functionality in a clean, elegant way
+
         this.width = width;
         this.height = height;
 
@@ -516,36 +558,6 @@ public class CyderFrame extends JFrame {
         threadsKilled = false;
 
         Logger.log(LoggerTag.OBJECT_CREATION, this);
-    }
-
-    /**
-     * Default constructor for CyderFrame using the {@link CyderFrame#DEFAULT_WIDTH}
-     * and {@link CyderFrame#DEFAULT_HEIGHT} for dimensions
-     */
-    public CyderFrame() {
-        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
-
-    /**
-     * Default constructor for a CyderFrame with specified width and height.
-     *
-     * @param width the specified width of the CyderFrame
-     * @param height the specified height of the CyderFrame
-     */
-    public CyderFrame(int width, int height) {
-        this(width, height, CyderIcons.defaultBackground);
-    }
-
-    /**
-     * Default CyderFrame constructor for width, height, and content label background color.
-     *
-     * @param width the width of the CyderFrame
-     * @param height the height of the CyderFrame
-     * @param c the color of the content pane background
-     */
-    public CyderFrame(int width, int height, Color c) {
-        this(width, height, ImageUtil.imageIconFromColor(c,
-                Math.max(MINIMUM_WIDTH, width), Math.max(MINIMUM_HEIGHT, height)));
     }
 
     // ----------------

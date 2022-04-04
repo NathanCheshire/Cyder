@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
@@ -62,14 +63,24 @@ public class ExceptionHandler {
     private static final Color exceptionRed = new Color(254, 157, 158);
 
     /**
-     * The white color used for exception pane text.
-     */
-    private static final Color exceptionWhite = new Color(254, 254, 254);
-
-    /**
      * The opacity delta to increment/decrement by.
      */
     private static final float opacityShiftDelta = 0.05f;
+
+    /**
+     * The number of lines to display on an exception preview.
+     */
+    private static final int exceptionLines = 10;
+
+    /**
+     * The insets offset for the exception label on the frame.
+     */
+    private static final int offset = 10;
+
+    /**
+     * The timeout between opacity increments/decrements.
+     */
+    private static final int opacityTimeout = 20;
 
     /**
      * Shows a popup pane containing a preview of the exception.
@@ -81,25 +92,30 @@ public class ExceptionHandler {
     private static void showExceptionPane(Exception e) {
         Optional<String> informTextOptional = getPrintableException(e);
 
+        // if exception pretty stack present
         if (informTextOptional.isPresent()) {
             AtomicBoolean escapeOpacityThread = new AtomicBoolean();
             escapeOpacityThread.set(false);
 
+            // split at the newlines the method adds
             String[] lines = informTextOptional.get().split("\n");
 
+            // find maxa width of lines
             int width = 0;
             Font font = CyderFonts.defaultFontSmall;
 
-            for (String line : lines) {
-                width = Math.max(width, StringUtil.getMinWidth(line, font));
+            for (int i = 0 ; i < 10 ; i++) {
+                width = Math.max(width, StringUtil.getMinWidth(lines[i], font));
             }
 
-            int height = StringUtil.getMinHeight(lines[0], font) * lines.length;
+            // find height of frame
+            int height = StringUtil.getAbsoluteMinHeight(lines[0], font) * (exceptionLines + 1);
 
+            // form label string
             StringBuilder builder = new StringBuilder();
             builder.append("<html>");
 
-            for (int i = 0 ; i < lines.length ; i++) {
+            for (int i = 0 ; i < exceptionLines; i++) {
                 builder.append(lines[i]);
 
                 if (i != lines.length - 1) {
@@ -109,11 +125,12 @@ public class ExceptionHandler {
 
             builder.append("</html>");
 
-            // todo think of better way to do borderless frames
-            CyderFrame borderlessFrame = new CyderFrame(width + 20,
-                    height + 20, exceptionRed, "borderless");
+            // generate frame
+            CyderFrame borderlessFrame = CyderFrame.generateBorderlessFrame(width + 2 * offset,
+                    height + 2 * offset, exceptionRed);
             borderlessFrame.setTitle(e.getMessage());
 
+            // generate label for text
             JLabel label = new JLabel(builder.toString());
             label.addMouseListener(new MouseAdapter() {
                 @Override
@@ -122,17 +139,19 @@ public class ExceptionHandler {
                     borderlessFrame.dispose(true);
                 }
             });
-            label.setForeground(exceptionWhite);
+            label.setForeground(CyderColors.navy);
             label.setFont(CyderFonts.defaultFontSmall);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setVerticalAlignment(JLabel.CENTER);
-            label.setBounds(10, 10, width, height);
+            label.setBounds(offset, offset, width, height);
             borderlessFrame.getContentPane().add(label);
 
+            // position on bottom right
             borderlessFrame.setLocation(ScreenUtil.getScreenWidth() - borderlessFrame.getWidth(),
                     ScreenUtil.getScreenHeight() - borderlessFrame.getHeight());
             borderlessFrame.setAlwaysOnTop(true);
 
+            // start opacity animation
             borderlessFrame.setOpacity(0.0f);
             borderlessFrame.setVisible(true);
 
@@ -144,11 +163,12 @@ public class ExceptionHandler {
 
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
-                        Thread.sleep(20);
+                        Thread.sleep(opacityTimeout);
                     }
 
                     borderlessFrame.setOpacity(1.0f);
                     borderlessFrame.repaint();
+
                     Thread.sleep(5000);
 
                     if (escapeOpacityThread.get())
@@ -160,7 +180,7 @@ public class ExceptionHandler {
 
                         borderlessFrame.setOpacity(i);
                         borderlessFrame.repaint();
-                        Thread.sleep(20);
+                        Thread.sleep(opacityTimeout);
                     }
 
                     if (escapeOpacityThread.get())

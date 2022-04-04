@@ -240,8 +240,6 @@ public class AudioUtil {
         });
     }
 
-    // todo logging exceptions is broken, log looks weird and is unreadable
-
     // todo after a barrell roll, setting console
     //  orientation is broken and any barrel roll calls after that
 
