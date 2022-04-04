@@ -568,7 +568,7 @@ public class Logger {
      * Zips the log files of the past.
      */
     public static void zipPastLogs() {
-        File topLevelLogsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH
+        File topLevelLogsDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.LOGS.getDirectoryName());
 
         if (!topLevelLogsDir.exists()) {

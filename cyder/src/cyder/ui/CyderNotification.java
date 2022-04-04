@@ -20,7 +20,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
-//DynamicDirectory.DYNAMIC_PATH
 // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
 
 // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
