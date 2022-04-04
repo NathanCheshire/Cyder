@@ -339,7 +339,7 @@ public class Logger {
                 number++;
                 logFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                         DynamicDirectory.LOGS.getDirectoryName(),
-                        logSubDirName, logFileName, logFileName + "-" + number + ".log");
+                        logSubDirName, logFileName + "-" + number + ".log");
 
             }
 

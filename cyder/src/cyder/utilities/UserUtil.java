@@ -587,7 +587,8 @@ public class UserUtil {
 
             File currentUserBackgrounds = OSUtil.buildFile(
                     DynamicDirectory.DYNAMIC_PATH,
-                    DynamicDirectory.USERS.getDirectoryName(),uuid, "Backgrounds");
+                    DynamicDirectory.USERS.getDirectoryName(),uuid,
+                    UserFile.BACKGROUNDS.getName());
 
             if (!currentUserBackgrounds.exists())
                 return;
@@ -995,7 +996,8 @@ public class UserUtil {
         }
 
         File ret = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(), fileName);
+                DynamicDirectory.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(), fileName);
 
         if (!ret.exists()) {
             if (ret.mkdir()) {

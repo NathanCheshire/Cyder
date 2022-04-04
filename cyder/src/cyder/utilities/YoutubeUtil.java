@@ -43,6 +43,8 @@ public class YoutubeUtil {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
+    public static final String AUDIO_FORMAT = "mp3"; // todo preference
+
     /**
      * Downloads the youtube video with the provided url.
      *
@@ -52,7 +54,7 @@ public class YoutubeUtil {
         if (ffmpegInstalled() && youtubedlInstalled()) {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
-            String extension = ".mp3"; // todo preference
+            String extension = "." + AUDIO_FORMAT;
 
             Runtime rt = Runtime.getRuntime();
 
@@ -78,7 +80,7 @@ public class YoutubeUtil {
                     "youtube-dl",
                     url,
                     "--extract-audio",
-                    "--audio-format","mp3", // todo preference for this
+                    "--audio-format", AUDIO_FORMAT,
                     "--output", new File(saveDir).getAbsolutePath()
                     + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
             };
@@ -145,7 +147,7 @@ public class YoutubeUtil {
                     downloadThumbnail(url);
                     ConsoleFrame.INSTANCE.getInputHandler()
                             .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
-                            + " and added to mp3 queue");
+                            + " and added to audio queue");
                     AudioPlayer.addAudioToQueue(new File(OSUtil.buildPath(
                             saveDir, finalParsedAsciiSaveName + extension)));
 
@@ -242,7 +244,7 @@ public class YoutubeUtil {
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                         .replace("- YouTube","")
-                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim() + ".png";
+                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim();
 
         // remove trailing periods
         while (parsedAsciiSaveName.endsWith("."))
@@ -252,7 +254,7 @@ public class YoutubeUtil {
         if (parsedAsciiSaveName.isEmpty())
             parsedAsciiSaveName = SecurityUtil.generateUUID();
 
-        String finalParsedAsciiSaveName = parsedAsciiSaveName;
+        String finalParsedAsciiSaveName = parsedAsciiSaveName + ".png";
 
         // init album art dir
         File albumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
@@ -260,14 +262,15 @@ public class YoutubeUtil {
                 UserFile.MUSIC.getName(), "AlbumArt");
 
         // create if not there
-        if (!albumArtDir.exists())
+        if (!albumArtDir.exists()) {
             albumArtDir.mkdir();
+        }
 
         // create the reference file and save to it
         File saveAlbumArt = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName(),
                 ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(),
-                "AlbumArt" + parsedAsciiSaveName);
+                "AlbumArt", finalParsedAsciiSaveName);
 
         try {
             ImageIO.write(save, "png", saveAlbumArt);
