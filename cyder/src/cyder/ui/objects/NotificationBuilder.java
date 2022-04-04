@@ -156,6 +156,10 @@ public final class NotificationBuilder {
      * @param container the JLabel container for this notification
      */
     public void setContainer(JLabel container) {
+        Preconditions.checkNotNull(container);
+        Preconditions.checkArgument(container.getWidth() > 0);
+        Preconditions.checkArgument(container.getHeight() > 0);
+
         this.container = container;
     }
 

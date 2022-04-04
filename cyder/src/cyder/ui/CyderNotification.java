@@ -3,6 +3,7 @@ package cyder.ui;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
+import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
@@ -44,9 +45,14 @@ public class CyderNotification extends JLabel {
      */
 
     /**
-     * The length of the notification arrow.
+     * The length of the notification arrow above the border.
      */
-    public static final int DEFAULT_ARROW_LEN = 6;
+    public static final int DEFAULT_ARROW_LEN = 8;
+
+    /**
+     * The length of the border around the notification
+     */
+    public static final int DEFAULT_BORDER_LEN = 5;
 
     /**
      * The arow length of this notification.
@@ -63,13 +69,13 @@ public class CyderNotification extends JLabel {
      * The animation delay for the notification
      * moving through its parent container.
      */
-    private static final int DELAY = 8;
+    private static final int ANIMATION_DELAY = 8;
 
     /**
      * The increment between setLocation calls for the
      * notification during the animation through the parent container.
      */
-    private static final int INCREMENT = 8;
+    private static final int ANIMATION_INCREMENT = 8;
 
     /**
      * The opacity for the toast animation if the type is a toast.
@@ -123,6 +129,14 @@ public class CyderNotification extends JLabel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        // ensure criteria met
+        Preconditions.checkNotNull(builder);
+        Preconditions.checkNotNull(builder.getContainer());
+
+        int componentWidth = builder.getContainer().getWidth();
+        int componentHeight = builder.getContainer().getHeight();
+
+        // obtain painting object
         Graphics2D graphics2D = (Graphics2D) g;
 
         // containers are set to invisible if the opacity is less than half
@@ -133,34 +147,46 @@ public class CyderNotification extends JLabel {
         qualityHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHints(qualityHints);
 
-        // draw the bigger shape to hold the smaller, fill color, one
-//        Color borderColor = CyderColors.notificationBorderColor;
-//        graphics2D.setPaint(new Color(
-//                borderColor.getRed(), borderColor.getGreen(), borderColor.getBlue(), opacity));
-//
-//        GeneralPath outlinePath = new GeneralPath();
-//
-//        outlinePath.moveTo(8, 8 + 2);
-//
-//        outlinePath.curveTo(8, 8 + 2,10,6 + 2, 12, 4 + 2);
-//        outlinePath.lineTo(textWidth + 14 + 2, 4 + 2);
-//
-//        outlinePath.curveTo(textWidth + 14 + 2, 4 + 2,
-//                textWidth + 16 + 2, 6 + 2,
-//                textWidth + 18 + 2, 8 + 2);
-//        outlinePath.lineTo(textWidth + 18 + 2, textHeight + 10 + 2 + 2);
-//
-//        outlinePath.curveTo(textWidth + 18 + 2, textHeight + 10 + 2 + 2,
-//                textWidth + 16 + 2, textHeight + 12 + 2  + 2,
-//                textWidth + 14 + 2, textHeight + 14 + 2  + 2);
-//        outlinePath.lineTo(12, textHeight + 14 + 2 + 2);
-//
-//        outlinePath.curveTo(12, textHeight + 14 + 2 + 2,
-//                10, textHeight + 12 + 2 + 2,
-//                8, textHeight + 10 + 2 + 2);
-//        outlinePath.lineTo( 8, 8 + 2);
+        // draw the bigger shape to hold the smaller one
+        Color borderColor = CyderColors.notificationBorderColor;
+        graphics2D.setPaint(new Color(borderColor.getRed(), borderColor.getGreen(),
+                                      borderColor.getBlue(), opacity));
 
-        // draw the border arrow, bigger b ounds
+        GeneralPath outlinePath = new GeneralPath();
+
+        int curveInc = 2;
+
+        // already at 0,0
+        // move out of way to draw since arrow might be left or right
+        int x = 0;
+        int y = 0;
+
+        if (builder.getArrowDir() == Direction.LEFT) {
+            x = DEFAULT_ARROW_LEN;
+        }
+
+        if (builder.getArrowDir() == Direction.TOP) {
+            y = DEFAULT_ARROW_LEN;
+        }
+
+        // always 4 more down due to curve up 2 and then another 2
+        y += 2 * curveInc;
+
+        outlinePath.moveTo(x, y);
+
+        // curve up 2 and right 2, twice
+        outlinePath.curveTo(x, y,x + 2,y - 2, x + 4, y - 4);
+
+        // new x,y we're at
+        x += 4;
+        y -= 4;
+
+        // line for component width
+        outlinePath.lineTo(x + componentWidth, y);
+
+
+
+        // draw the border arrow if not a toast
         if (builder.getNotificationType() == NotificationType.TOAST) {
 //            switch (arrowDir) {
 //                case TOP:
@@ -264,6 +290,62 @@ public class CyderNotification extends JLabel {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getWidth() {
+        int ret = 2 * DEFAULT_BORDER_LEN + builder.getContainer().getWidth();
+
+        if (builder.getArrowDir() == Direction.LEFT) {
+            ret += DEFAULT_ARROW_LEN;
+        } else if (builder.getArrowDir() == Direction.RIGHT) {
+            ret -= DEFAULT_ARROW_LEN;
+        }
+
+        return ret;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getHeight() {
+        int ret = 2 * DEFAULT_BORDER_LEN + builder.getContainer().getHeight();
+
+        if (builder.getArrowDir() == Direction.TOP) {
+            ret += DEFAULT_ARROW_LEN;
+        } else if (builder.getArrowDir() == Direction.BOTTOM) {
+            ret -= DEFAULT_ARROW_LEN;
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns the height of this notification accounting for the custom
+     * painting of the container, border, and arrow. This width is intended
+     * to be used forcomponent centering.
+     *
+     * @return the height of this custom notification component
+     */
+    public int getTrueWidth() {
+        return (builder.getArrowDir() == Direction.LEFT || builder.getArrowDir() == Direction.RIGHT
+                ? arrowLen : 0) + 2 * DEFAULT_BORDER_LEN + builder.getContainer().getWidth();
+    }
+
+    /**
+     * Returns the height of this notification accounting for the custom
+     * painting of the container, border, and arrow. This height is intended
+     * to be used for component centering.
+     *
+     * @return the height of this custom notification component
+     */
+    public int getTrueHeight() {
+        return (builder.getArrowDir() == Direction.TOP || builder.getArrowDir() == Direction.BOTTOM
+                ? arrowLen : 0) + 2 * DEFAULT_BORDER_LEN + builder.getContainer().getHeight();
+    }
+
+    /**
      * Animates in the notification on the parent container.
      * The components position is expected to have already
      * been set out of bounds on the parent.
@@ -290,83 +372,83 @@ public class CyderNotification extends JLabel {
 
                     switch (notificationDirection) {
                         case TOP:
-                            for (int i = getY(); i < CyderDragLabel.DEFAULT_HEIGHT; i += INCREMENT) {
+                            for (int i = getY(); i < CyderDragLabel.DEFAULT_HEIGHT; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
                             break;
                         case TOP_RIGHT:
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= INCREMENT) {
+                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(parent.getWidth() - getWidth() + 5, getY(), getWidth(), getHeight());
                             break;
                         case TOP_LEFT:
-                            for (int i = getX(); i < 5; i += INCREMENT) {
+                            for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(2, getY(), getWidth(), getHeight());
                             break;
                         case LEFT:
-                            for (int i = getX() ; i < 5 ; i+= INCREMENT) {
+                            for (int i = getX() ; i < 5 ; i+= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(2, parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             break;
                         case RIGHT:
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= INCREMENT) {
+                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(parent.getWidth() - getWidth() + 5,
                                     parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
                             break;
                         case BOTTOM:
-                            for (int i = getY(); i > parent.getHeight() - getHeight() + 5; i -= INCREMENT) {
+                            for (int i = getY(); i > parent.getHeight() - getHeight() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(getX(), parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
                             break;
                         case BOTTOM_LEFT:
-                            for (int i = getX(); i < 5; i += INCREMENT) {
+                            for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(2, parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
                             break;
                         case BOTTOM_RIGHT:
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= INCREMENT) {
+                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             setBounds(parent.getWidth() - getWidth() + 5,
                                     parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
@@ -427,43 +509,43 @@ public class CyderNotification extends JLabel {
                 } else {
                     switch(notificationDirection) {
                         case TOP:
-                            for (int i = getY() ; i > - getHeight() ; i -= INCREMENT) {
+                            for (int i = getY() ; i > - getHeight() ; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             break;
                         case BOTTOM:
-                            for (int i = getY() ; i < parent.getHeight() - 5 ; i += INCREMENT) {
+                            for (int i = getY() ; i < parent.getHeight() - 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(getX(), i, getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             break;
                         case TOP_LEFT:
                         case LEFT:
                         case BOTTOM_LEFT:
-                            for (int i = getX() ; i > -getWidth() + 5 ; i -= INCREMENT) {
+                            for (int i = getX() ; i > -getWidth() + 5 ; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             break;
                         case RIGHT:
                         case BOTTOM_RIGHT:
                         case TOP_RIGHT:
-                            for (int i = getX() ; i < parent.getWidth() - 5 ; i += INCREMENT) {
+                            for (int i = getX() ; i < parent.getWidth() - 5 ; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
                                 setBounds(i, getY(), getWidth(), getHeight());
-                                Thread.sleep(DELAY);
+                                Thread.sleep(ANIMATION_DELAY);
                             }
                             break;
                     }
