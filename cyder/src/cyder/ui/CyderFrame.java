@@ -1571,38 +1571,6 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * transforms the content pane by an incremental angle of 2 degrees
-     * emulating Google's barrel roll easter egg.
-     */
-    public void barrelRoll() {
-        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
-        BufferedImage master = ImageUtil.getBi(masterIcon);
-
-        Timer timer = null;
-        Timer finalTimer = timer;
-
-        timer = new Timer(10, new ActionListener() {
-            private double angle;
-
-            BufferedImage rotated;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                angle += BARREL_ROLL_DELTA;
-                if (angle > 360) {
-                    rotated = ImageUtil.rotateImageByDegrees(master, 0);
-                    ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
-                    return;
-                }
-                rotated = ImageUtil.rotateImageByDegrees(master, angle);
-                ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
-            }
-        });
-        timer.start();
-    }
-
-
-    /**
      * Rotates the currently content pane by the specified degrees from the top left corner.
      *
      * @param degrees the degrees to be rotated by (360deg <==> 0deg)
@@ -1612,6 +1580,38 @@ public class CyderFrame extends JFrame {
         BufferedImage master = ImageUtil.getBi(masterIcon);
         BufferedImage rotated = ImageUtil.rotateImageByDegrees(master, degrees);
         ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
+    }
+
+    /**
+     * transforms the content pane by an incremental angle of 2 degrees
+     * emulating Google's barrel roll easter egg.
+     */
+    public void barrelRoll() {
+        ImageIcon masterIcon = (ImageIcon) ((JLabel) getContentPane()).getIcon();
+        BufferedImage master = ImageUtil.getBi(masterIcon);
+
+        new Timer(10, new ActionListener() {
+            private double angle;
+
+            BufferedImage rotated;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                angle += BARREL_ROLL_DELTA;
+
+                if (angle >= 360) {
+                    setBackground(masterIcon);
+                    return;
+                }
+
+                if (threadsKilled) {
+                    return;
+                }
+
+                rotated = ImageUtil.rotateImageByDegrees(master, angle);
+                ((JLabel) getContentPane()).setIcon(new ImageIcon(rotated));
+            }
+        }).start();
     }
 
     /**

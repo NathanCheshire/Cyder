@@ -6,6 +6,7 @@ import cyder.enums.Direction;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
+import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.external.AudioPlayer;
@@ -337,6 +338,11 @@ public enum ConsoleFrame {
                     outputArea.setFocusable(false);
                     outputScroll.setFocusable(false);
                     super.dispose();
+                }
+
+                @Override
+                public void barrelRoll() {
+                   throw new IllegalMethodException("Method is broken for ConsoleFrame; implementation pending");
                 }
             };
             consoleCyderFrame.setBackground(Color.black);
@@ -2360,18 +2366,9 @@ public enum ConsoleFrame {
         return consoleCyderFrame.getHeight();
     }
 
-    /**
-     * Rotates the console frame by the provided degrees.
-     *
-     * @param degrees the console frame by the provided degrees
-     */
-    public void rotateBackground(int degrees) {
-        consoleCyderFrame.rotateBackground(degrees);
-    }
-
-    // -----------------
+    // --------------------
     // command history mods
-    // -----------------
+    // --------------------
 
     /**
      * Wipes all command history and sets the command index back to 0.

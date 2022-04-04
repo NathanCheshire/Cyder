@@ -876,7 +876,7 @@ public class InputHandler {
         } else if (commandIs("barrelroll")) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().barrelRoll();
         } else if (commandIs("askew")) {
-            ConsoleFrame.INSTANCE.rotateBackground(5);
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().rotateBackground(5);
         } else if (commandIs("logout")) {
             ConsoleFrame.INSTANCE.logout();
         } else if (commandIs("throw")) {
