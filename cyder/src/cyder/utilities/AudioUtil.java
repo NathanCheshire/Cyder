@@ -240,9 +240,6 @@ public class AudioUtil {
         });
     }
 
-    // todo after a barrell roll, setting console
-    //  orientation is broken and any barrel roll calls after that
-
     // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
     // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
     //  OR set path via user editor, place in dynamic/exes

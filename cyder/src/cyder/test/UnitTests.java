@@ -144,7 +144,6 @@ public class UnitTests {
          assert StatUtil.isComment("//*");
          assert StatUtil.isComment("*/");
          assert StatUtil.isComment("**");
-         assert StatUtil.isComment("//todos");
          assert StatUtil.isComment("/* is this one */");
          assert StatUtil.isComment("//**//**//");
          assert StatUtil.isComment("/*/");

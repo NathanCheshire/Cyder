@@ -1,7 +1,10 @@
 package cyder.user;
 
 import cyder.annotations.Widget;
-import cyder.constants.*;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
+import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
@@ -19,6 +22,7 @@ import cyder.utilities.objects.GetterBuilder;
 import cyder.widgets.ColorConverterWidget;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -86,8 +90,9 @@ public class UserEditor {
             editUserFrame.dispose();
 
         editUserFrame = new CyderFrame(720 + 2 * 5,
-                500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderIcons.defaultBackground);
+                500 + 5 + CyderDragLabel.DEFAULT_HEIGHT + 25, CyderColors.vanila);
         editUserFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);
+        editUserFrame.setBackground(CyderColors.vanila);
         editUserFrame.setTitle("Preferences");
 
         switchingLabel = new JLabel();
@@ -155,22 +160,22 @@ public class UserEditor {
             if (FileUtil.isSupportedImageExtension(file)) {
                 filesList.add(file.getAbsoluteFile());
                 filesNameList.add(OSUtil.buildPath(
-                        UserFile.BACKGROUNDS.getName(), FileUtil.getFilename(file)));
+                        UserFile.BACKGROUNDS.getName(), file.getName()));
             }
         }
 
         for (File file : musicDir.listFiles()) {
-            if (file.getName().endsWith((".mp3"))) {
+            if (FileUtil.isSupportedAudioExtension(file)) {
                 filesList.add(file.getAbsoluteFile());
                 filesNameList.add(OSUtil.buildPath(
-                        UserFile.MUSIC.getName(), FileUtil.getFilename(file)));
+                        UserFile.MUSIC.getName(), file.getName()));
             }
         }
 
         for (File file : filesDir.listFiles()) {
             filesList.add(file.getAbsoluteFile());
             filesNameList.add(OSUtil.buildPath(
-                    UserFile.FILES.getName(), FileUtil.getFilename(file)));
+                    UserFile.FILES.getName(), file.getName()));
         }
     }
 
@@ -190,9 +195,9 @@ public class UserEditor {
      */
     private static void switchToUserFiles() {
         JLabel titleLabel = new JLabel("Files", SwingConstants.CENTER);
+        titleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         titleLabel.setFont(CyderFonts.segoe30);
         titleLabel.setForeground(CyderColors.navy);
-        titleLabel.setBounds(720 / 2 - 375 / 2, 10, 375, 40);
         switchingLabel.add(titleLabel);
 
         initFilesList();
@@ -223,6 +228,10 @@ public class UserEditor {
         filesLabel = filesScroll.generateScrollList();
         filesLabelRef.set(filesLabel);
         filesLabel.setBounds(20, 60, 680, 360);
+        filesLabel.setBackground(CyderColors.vanila);
+        filesLabel.setBorder(new CompoundBorder(
+                new LineBorder(CyderColors.navy, 3),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         editUserFrame.getContentPane().add(filesLabel);
         switchingLabel.add(filesLabel);
 
@@ -253,7 +262,7 @@ public class UserEditor {
 
                         if (FileUtil.isSupportedImageExtension(addFile)) {
                             folderName = UserFile.BACKGROUNDS.getName();
-                        } else if (addFile.getName().endsWith(".mp3")) {
+                        } else if (FileUtil.isSupportedAudioExtension(addFile)) {
                             folderName = UserFile.MUSIC.getName();
                         } else {
                             folderName = UserFile.FILES.getName();
