@@ -20,16 +20,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
+//DynamicDirectory.DYNAMIC_PATH
+// todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
+
+// todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
+//  OR set path via user editor, place in dynamic/exes
+
+// todo audio player should be able to search for songs on youtube and display preview of top 10 results
+//  and click on one to download
+
+// todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
+// after conversion finished, should be seamless audio transition
+
 /**
  * A custom notification component used for CyderFrames.
  */
 public class CyderNotification extends JLabel {
     /*
     Note: I am aware this could be a tagged class but per
-          Effective Java item 23, tagged classes are generally
+          Effective Java item 23, tagged classes are
           a bad idea and class hierarchies should be used instead.
           I've opted to use an enum in the builder pattern
-           used for notifications, however.
+          used for notifications, however.
      */
 
     /**

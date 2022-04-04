@@ -240,7 +240,7 @@ public class TemperatureWidget {
                             temperatureFrame.notify("Get out of here with that. Your value is already in Celsius.");
                         } else if (newKelvin.isSelected()) {
                             double KelvinFromCelsius;
-                            KelvinFromCelsius = CalculationValue + 273.15 ;
+                            KelvinFromCelsius = CalculationValue + 273.15;
 
                             if (KelvinFromCelsius >= 0) {
                                 temperatureFrame.notify(CalculationValue + " Celsius converted to Kelvin equals: "

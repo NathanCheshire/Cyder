@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -232,7 +233,8 @@ public class UserCreator {
                         createUserFrame.notify("Failed to create user");
 
                         if (lastGeneratedUUID != null) {
-                            File deleteMe = new File(OSUtil.buildPath("dynamic","users",lastGeneratedUUID));
+                            File deleteMe = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                    DynamicDirectory.USERS.getDirectoryName(), lastGeneratedUUID);
 
                             if (deleteMe.exists() && !deleteMe.delete()) {
                                 throw new RuntimeException("Failed to delete failed user creation folder");
@@ -248,7 +250,8 @@ public class UserCreator {
                         InformHandler.inform(builder);
 
                         //attempt to log in new user if it's the only user
-                        if (new File(OSUtil.buildPath("dynamic","users")).listFiles().length == 1) {
+                        if (OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName()).listFiles().length == 1) {
                             LoginHandler.getLoginFrame().dispose();
                             LoginHandler.recognize(newUserName.getText().trim(),
                                     SecurityUtil.toHexString(SecurityUtil.getSHA256(
@@ -364,11 +367,13 @@ public class UserCreator {
 
         //generate the user uuid and ensure it is unique
         String uuid = SecurityUtil.generateUUID();
-        File folder = new File(OSUtil.buildPath("dynamic", "users",uuid));
+        File folder = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(), uuid);
 
         while (folder.exists()) {
             uuid = SecurityUtil.generateUUID();
-            folder = new File(OSUtil.buildPath("dynamic", "users",uuid));
+            folder = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(), uuid);
         }
 
         //set the uuid so that we can delete the folder if something fails later
@@ -403,14 +408,16 @@ public class UserCreator {
         }
 
         //create the user folder
-        File userFolder = new File(OSUtil.buildPath("dynamic","users",uuid));
+        File userFolder = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(), uuid);
 
         if (!userFolder.mkdir())
             return false;
 
         //create the default user files
         for (UserFile f : UserFile.values()) {
-            File makeMe = new File(OSUtil.buildPath("dynamic","users",uuid,f.getName()));
+            File makeMe = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(), uuid, f.getName());
 
             if (f.isFile()) {
                 try {
@@ -432,8 +439,9 @@ public class UserCreator {
 
         // create the user background in the directory
         try {
-            File destination = new File(OSUtil.buildPath("dynamic", "users", uuid,
-                    UserFile.BACKGROUNDS.getName(), createUserBackground.getName()));
+            File destination = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),
+                    uuid, UserFile.BACKGROUNDS.getName(), createUserBackground.getName());
             Files.copy(Paths.get(createUserBackground.getAbsolutePath()), destination.toPath());
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -518,8 +526,11 @@ public class UserCreator {
         user.setExecutables(new LinkedList<>());
 
         // write all data
-        UserUtil.setUserData(new File(OSUtil.buildPath(
-                "dynamic","users",uuid,UserFile.USERDATA.getName())), user);
+        UserUtil.setUserData(OSUtil.buildFile(
+                DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                uuid, UserFile.USERDATA.getName()
+        ), user);
 
         //password security
         Arrays.fill(password, '\0');

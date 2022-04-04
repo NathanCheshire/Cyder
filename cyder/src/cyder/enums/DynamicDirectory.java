@@ -32,6 +32,11 @@ public enum DynamicDirectory {
     EXES("exes");
 
     /**
+     * The path from the top level Cyder directory to the dynamic root.
+     */
+    public static final String DYNAMIC_PATH = "dynamic";
+
+    /**
      * The actual name of the directory to create.
      */
     private final String directoryName;

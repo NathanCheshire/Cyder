@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
@@ -21,7 +22,7 @@ public class AudioUtil {
      * The ffmpeg command.
      */
     public static final String FFMPEG = "ffmpeg";
-
+    // todo these should be defaults but we should prefer the directly set path to ffmpeg and ffmprobe.exe
     /**
      * The ffprobe command.
      */
@@ -55,7 +56,8 @@ public class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Mp3 to wav converter")).submit(() -> {
             String builtPath = new File(OSUtil.buildPath(
-                    "dynamic", "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
+                    DynamicDirectory.DYNAMIC_PATH,
+                    "tmp", FileUtil.getFilename(mp3File) + ".wav")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
 
             File outputFile = new File(builtPath);
@@ -94,7 +96,8 @@ public class AudioUtil {
                 new CyderThreadFactory("Wav to mp3 converter")).submit(() -> {
 
             String builtPath = new File(OSUtil.buildPath(
-                    "dynamic", "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();
+                    DynamicDirectory.DYNAMIC_PATH,
+                    "tmp", FileUtil.getFilename(wavFile) + ".mp3")).getAbsolutePath();
             String safePath = "\"" + builtPath + "\"";
 
             File outputFile = new File(builtPath);
@@ -157,7 +160,7 @@ public class AudioUtil {
             // in case the audio wav name contains spaces, surround with quotes
             String safeFilename = "\"" + usageFile.getAbsolutePath() + "\"";
 
-            File outputFile =  OSUtil.buildFile("dynamic",
+            File outputFile =  OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     "tmp", FileUtil.getFilename(usageFile) + "_Dreamy.wav");
 
             ProcessBuilder pb = new ProcessBuilder(
@@ -239,14 +242,4 @@ public class AudioUtil {
             return -1;
         });
     }
-
-    // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
-    // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
-    //  OR set path via user editor, place in dynamic/exes
-
-    // todo audio player should be able to search for songs on youtube and display preview of top 10 results
-    //  and click on one to download
-
-    // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
-    // after conversion finished, should be seamless audio transition
 }

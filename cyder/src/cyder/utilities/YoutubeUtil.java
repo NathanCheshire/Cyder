@@ -3,6 +3,7 @@ package cyder.utilities;
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.constants.*;
+import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.external.AudioPlayer;
@@ -10,6 +11,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
+import cyder.user.UserFile;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -48,7 +50,7 @@ public class YoutubeUtil {
      */
     public static void downloadVideo(String url) {
         if (ffmpegInstalled() && youtubedlInstalled()) {
-            String saveDir = OSUtil.buildPath("dynamic",
+            String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
             String extension = ".mp3"; // todo preference
 
@@ -253,16 +255,20 @@ public class YoutubeUtil {
         String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
         // init album art dir
-        File albumArtDir = new File(OSUtil.buildPath("dynamic","users", ConsoleFrame.INSTANCE.getUUID(),
-                "Music","AlbumArt"));
+        File albumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+                UserFile.MUSIC.getName(), "AlbumArt");
 
         // create if not there
         if (!albumArtDir.exists())
             albumArtDir.mkdir();
 
         // create the reference file and save to it
-        File saveAlbumArt = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()
-                + "/Music/AlbumArt/" + parsedAsciiSaveName);
+        File saveAlbumArt = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(),
+                "AlbumArt" + parsedAsciiSaveName);
+
         try {
             ImageIO.write(save, "png", saveAlbumArt);
         } catch (Exception e) {
@@ -431,8 +437,9 @@ public class YoutubeUtil {
 
                         String title = videoTitle.substring(Math.min(MAX_THUMBNAIL_CHARS, videoTitle.length()));
 
-                        File saveFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()
-                                + "/Backgrounds/" + title + ".png");
+                        File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(),
+                                UserFile.BACKGROUNDS.getName(), title + ".png");
 
                         ImageIO.write(save, "png", saveFile);
 

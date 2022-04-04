@@ -189,8 +189,10 @@ public class InputHandler {
                     }
 
                     //create the file name
-                    redirectionFile = new File("dynamic/users/" +
-                            ConsoleFrame.INSTANCE.getUUID() + "/Files/" + filename);
+                    redirectionFile = OSUtil.buildFile(
+                            DynamicDirectory.DYNAMIC_PATH, "users",
+                            ConsoleFrame.INSTANCE.getUUID(),
+                            UserFile.FILES.getName(), filename);
 
                     //create file for current use
                     try {
@@ -635,8 +637,8 @@ public class InputHandler {
 
                     String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
 
-                    File saveFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() +
-                            "/Backgrounds/" + saveName);
+                    File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
+                            ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), saveName);
 
                     ImageIO.write(saveImage, "png", saveFile);
 
@@ -721,8 +723,8 @@ public class InputHandler {
                                     .getCurrentBackground().getReferenceFile().getName())
                                     + "_Pixelated_Pixel_Size_" + pixelSize + ".png";
 
-                            File saveFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() +
-                                    "/Backgrounds/" + newName);
+                            File saveFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH, "users",
+                                    ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(), newName);
 
                             ImageIO.write(img, "png", saveFile);
 
@@ -930,10 +932,12 @@ public class InputHandler {
         } else if (commandIs("help")) {
             help();
         } else if (commandIs("wipelogs")) {
-            OSUtil.delete(OSUtil.buildFile("dynamic", DynamicDirectory.LOGS.getDirectoryName()));
+            OSUtil.delete(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.LOGS.getDirectoryName()));
             println("Logs wiped");
         } else if (commandIs("countlogs")) {
-            File[] logDirs = new File("dynamic/logs").listFiles();
+            File[] logDirs = new File(OSUtil.buildPath(
+                    DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.LOGS.getDirectoryName())).listFiles();
             int count = 0;
             int days = 0;
 
@@ -1187,7 +1191,8 @@ public class InputHandler {
         } else if (commandIs("wipe")) {
             if (checkArgsLength(1)) {
                 File requestedDeleteFile = new File(OSUtil.buildPath(
-                        "dynamic","users", ConsoleFrame.INSTANCE.getUUID(), getArg(0)));
+                        DynamicDirectory.DYNAMIC_PATH,"users",
+                        ConsoleFrame.INSTANCE.getUUID(), getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
                         if (OSUtil.delete(requestedDeleteFile)) {
@@ -1257,7 +1262,7 @@ public class InputHandler {
                         }
                     }
 
-                    File saveFile = new File(OSUtil.buildPath("dynamic","users",
+                    File saveFile = new File(OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,"users",
                             ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName(), saveName));
 
                     // clear text as soon as possible

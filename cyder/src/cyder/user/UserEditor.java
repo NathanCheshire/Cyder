@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
@@ -361,8 +362,12 @@ public class UserEditor {
 
                             // was it a music file?
                             if (StringUtil.in(extension, true, ".mp3", ".wav")) {
-                                File albumArtDir = new File("dynamic/users/"
-                                        + ConsoleFrame.INSTANCE.getUUID() + "/Music/AlbumArt");
+                                File albumArtDir = OSUtil.buildFile(
+                                        DynamicDirectory.DYNAMIC_PATH,
+                                        DynamicDirectory.USERS.getDirectoryName(),
+                                        ConsoleFrame.INSTANCE.getUUID(),
+                                        UserFile.MUSIC.getName(),
+                                        "AlbumArt");
 
                                 if (albumArtDir.exists()) {
                                     //try to find a file with the same name as oldName
@@ -375,12 +380,14 @@ public class UserEditor {
                                         }
                                     }
 
-                                    //found corresponding album art so rename it as well
+                                    // found corresponding album art so rename it as well
                                     if (refFile != null) {
-                                        File artRename = new File("dynamic/users/"
-                                                + ConsoleFrame.INSTANCE.getUUID()
-                                                + "/Music/AlbumArt/" + newName + ".png");
-
+                                        File artRename = OSUtil.buildFile(
+                                                DynamicDirectory.DYNAMIC_PATH,
+                                                DynamicDirectory.USERS.getDirectoryName(),
+                                                ConsoleFrame.INSTANCE.getUUID(),
+                                                UserFile.MUSIC.getName(),
+                                                "AlbumArt", newName + ".png");
                                         if (artRename.exists())
                                             throw new IOException("album art file exists");
 
@@ -449,8 +456,10 @@ public class UserEditor {
                             String name = FileUtil.getFilename(selectedFile.getName());
 
                             //find corresponding album art and delete
-                            for (File f : new File("dynamic/users/"
-                                    + ConsoleFrame.INSTANCE.getUUID() + "/Music/AlbumArt").listFiles()) {
+                            for (File f : OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                    DynamicDirectory.USERS.getDirectoryName(),
+                                    ConsoleFrame.INSTANCE.getUUID(),
+                                    UserFile.MUSIC.getName(), "AlbumArt").listFiles()) {
                                 if (FileUtil.getFilename(f).equals(name)) {
                                     f.delete();
                                     break;
@@ -1497,7 +1506,8 @@ public class UserEditor {
                     FrameUtil.closeAllFrames(true);
 
                     // attempt to delete directory
-                    OSUtil.delete(new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID()));
+                    OSUtil.delete(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                            DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID()));
 
                     // exit with proper condition
                     OSUtil.exit(ExitCondition.UserDeleted);

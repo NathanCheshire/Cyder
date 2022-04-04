@@ -5,6 +5,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -664,7 +665,9 @@ public class AudioPlayer {
             startAudio();
         } else {
             try {
-                File userAudioDir = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() + "/Music/" );
+                File userAudioDir = OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH, "users",
+                        ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName());
 
                 if (!userAudioDir.exists()) {
                     userAudioDir.mkdir();
@@ -1629,8 +1632,9 @@ public class AudioPlayer {
 
             String currentName = FileUtil.getFilename(currentAudioFiles.get(audioIndex));
 
-            File albumArtDir = new File("dynamic/users/"
-                    + ConsoleFrame.INSTANCE.getUUID() + "/Music/AlbumArt");
+            File albumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),
+                    ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(), "AlbumArt");
 
             if (!albumArtDir.exists() || !albumArtDir.isDirectory()) {
                 currentAlbumArt = null;

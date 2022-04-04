@@ -160,7 +160,7 @@ public class Cyder {
             // Occasionally this fails due to file handles still being open
             // on files inside of tmp.
 
-            File deleteDirectory = OSUtil.buildFile("dynamic",
+            File deleteDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.TEMPORARY.getDirectoryName());
             OSUtil.delete(deleteDirectory, false);
 

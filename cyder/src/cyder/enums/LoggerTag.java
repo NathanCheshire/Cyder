@@ -37,7 +37,7 @@ public enum LoggerTag {
      */
     SUGGESTION,
     /**
-     * IO by Cyder typically to/from a json file but moreso to files within dynamic/
+     * IO by Cyder typically to/from a json file but moreso to files within DynamicDirectory.DYNAMIC_PATH
      */
     SYSTEM_IO,
     /**

@@ -285,7 +285,7 @@ public class OSUtil {
     /**
      * The temporary directory file path.
      */
-    public static final String TMP_DIR_PATH = buildPath("dynamic","tmp");
+    public static final String TMP_DIR_PATH = buildPath(DynamicDirectory.DYNAMIC_PATH, "tmp");
 
     /**
      * Creates the provided file in the tmp/ directory.
@@ -735,14 +735,15 @@ public class OSUtil {
      * Ensures the dynamic directory and all DynamicDirectories are generated.
      */
     public static void ensureDynamicsCreated() {
-        File dynamic = new File("dynamic");
+        File dynamic = new File(DynamicDirectory.DYNAMIC_PATH);
 
         if (!dynamic.exists()) {
             dynamic.mkdir();
         }
 
         for (DynamicDirectory dynamicDirectory : DynamicDirectory.values()) {
-            File currentDynamic = buildFile("dynamic", dynamicDirectory.getDirectoryName());
+            File currentDynamic = buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    dynamicDirectory.getDirectoryName());
 
             if (dynamicDirectory == DynamicDirectory.TEMPORARY) {
                 delete(currentDynamic);

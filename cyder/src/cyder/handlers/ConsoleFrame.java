@@ -2,10 +2,7 @@ package cyder.handlers;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
-import cyder.enums.Direction;
-import cyder.enums.ExitCondition;
-import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
+import cyder.enums.*;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;
@@ -1113,7 +1110,8 @@ public enum ConsoleFrame {
         if (UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1")) {
             ArrayList<File> musicList = new ArrayList<>();
 
-            File userMusicDir = new File(OSUtil.buildPath("dynamic","users",
+            File userMusicDir = new File(OSUtil.buildPath(
+                    DynamicDirectory.DYNAMIC_PATH,"users",
                     INSTANCE.getUUID(), UserFile.MUSIC.getName()));
 
             File[] files = userMusicDir.listFiles();
@@ -1620,7 +1618,8 @@ public enum ConsoleFrame {
         this.uuid = uuid;
 
         // build file and pass to user util to set user and user file
-        UserUtil.setCyderUser(OSUtil.buildFile("dynamic","users",uuid, UserFile.USERDATA.getName()));
+        UserUtil.setCyderUser(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),uuid, UserFile.USERDATA.getName()));
 
         // log out all users that may have been left as logged in
         // since we are now logging in this one
@@ -1723,11 +1722,12 @@ public enum ConsoleFrame {
         try {
             //allowable image formats include png and jpg
             ArrayList<File> backgroundFiles = new ArrayList<>(Arrays.asList(
-                        Objects.requireNonNull(new File(
-                                OSUtil.buildPath("dynamic", "users", uuid, "Backgrounds"))
+                        Objects.requireNonNull(
+                                OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                        DynamicDirectory.USERS.getDirectoryName(), uuid, "Backgrounds"))
                                 .listFiles((directory, filename) ->
                                         StringUtil.in(FileUtil.getExtension(filename),
-                                true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS)))));
+                                true, FileUtil.SUPPORTED_IMAGE_EXTENSIONS))));
 
             if (backgroundFiles.isEmpty()) {
                 //create and reload backgrounds since this shouldn't be empty now

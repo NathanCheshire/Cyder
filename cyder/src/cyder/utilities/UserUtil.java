@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
+import cyder.enums.DynamicDirectory;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -206,7 +207,9 @@ public class UserUtil {
     /**
      * The backup directory.
      */
-    public static final File backupDirectory = new File(OSUtil.buildPath("dynamic", "backup"));
+    public static final File backupDirectory =
+            new File(OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.BACKUP.getDirectoryName()));
 
     /**
      * Saves the provided jsonFile to the backup directory in case
@@ -259,14 +262,17 @@ public class UserUtil {
 
             // found one if the timestamp isn't the initial value
             if (currentMaxTimestamp != 0) {
-                mostRecentFile = new File(OSUtil.buildPath(
-                        "dynamic", "backup", uuid + "_" + currentMaxTimestamp));
+                mostRecentFile = OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.BACKUP.getDirectoryName(), uuid + "_" + currentMaxTimestamp);
             }
 
             // if no files in directory or current is different from previous
             if (mostRecentFile == null || !FileUtil.fileContentsEqual(jsonFile, mostRecentFile)) {
                 // copy file contents from jsonFile to newBackup
-                File newBackup = new File(OSUtil.buildPath("dynamic", "backup", newFilename));
+                File newBackup = OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.BACKUP.getDirectoryName(), newFilename);
                 newBackup.createNewFile();
 
                 BufferedReader jsonReader = new BufferedReader(new FileReader(jsonFile));
@@ -343,8 +349,10 @@ public class UserUtil {
 
             // if a recent backup was found for the user
             if (mostRecentTimestamp != 0) {
-                File mostRecentBackup = new File(OSUtil.buildPath(
-                        "dynamic", "backup", uuid + "_" + mostRecentTimestamp + ".json"));
+                File mostRecentBackup = OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.USERS.getDirectoryName(),
+                        uuid + "_" + mostRecentTimestamp + ".json");
 
                 if (mostRecentBackup.exists()) {
                     ret = Optional.of(mostRecentBackup);
@@ -372,8 +380,10 @@ public class UserUtil {
             if (val.getName().equals(UserFile.USERDATA.getName()))
                 continue;
 
-            File currentUserFile = new File(OSUtil.buildPath("dynamic","users",
-                    uuid, val.getName()));
+            File currentUserFile = OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),
+                    uuid, val.getName());
 
             if (!currentUserFile.exists()) {
                 int attempts = 0;
@@ -547,7 +557,8 @@ public class UserUtil {
      */
     public static void validateAllusers() {
         // we use all user files here since we are determining if they are corrupted or not
-        File users = new File(OSUtil.buildPath("dynamic","users"));
+        File users = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName());
 
         // for all files
         for (File userFile : users.listFiles()) {
@@ -574,8 +585,9 @@ public class UserUtil {
             //acquire sem so that any user requested exit will not corrupt the background
             getUserIOSemaphore().acquire();
 
-            File currentUserBackgrounds = new File(OSUtil.buildPath(
-                    "dynamic","users",uuid, "Backgrounds"));
+            File currentUserBackgrounds = OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),uuid, "Backgrounds");
 
             if (!currentUserBackgrounds.exists())
                 return;
@@ -753,7 +765,8 @@ public class UserUtil {
      * Removing album art not linked to an audio file
      */
     public static void cleanUsers() {
-        File users = new File(OSUtil.buildPath("dynamic","users"));
+        File users = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName());
 
         if (!users.exists()) {
             users.mkdir();
@@ -844,8 +857,10 @@ public class UserUtil {
      */
     public static void userJsonCorruption(String uuid) {
         try {
-            File userJson = new File(OSUtil.buildPath("dynamic","users",
-                    uuid, UserFile.USERDATA.getName()));
+            File userJson = OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),
+                    uuid, UserFile.USERDATA.getName());
 
             try {
                // attempt to recovery a backup
@@ -889,8 +904,12 @@ public class UserUtil {
             addInvalidUuid(uuid);
 
             // create parent directory
-            File userDir = new File(OSUtil.buildPath("dynamic","users", uuid));
-            File json = new File(OSUtil.buildPath("dynamic","users",uuid, UserFile.USERDATA.getName()));
+            File userDir = OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(), uuid);
+            File json = OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),uuid, UserFile.USERDATA.getName());
 
             // check for empty content
             if (json.exists()) {
@@ -911,7 +930,9 @@ public class UserUtil {
                 //String path = "";
                 String informString = "Unfortunately a user's data file was corrupted and had to be deleted. " +
                         "The following files still exists and are associated with the user at the following " +
-                        "path:<br/><b>" + OSUtil.buildPath("dynamic", "users", uuid) + "</b><br/>Files:";
+                        "path:<br/><b>"
+                        + OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.USERS.getDirectoryName(), uuid) + "</b><br/>Files:";
 
                 LinkedList<String> filenames = new LinkedList<>();
 
@@ -973,8 +994,8 @@ public class UserUtil {
             throw new IllegalArgumentException("Provided userfile does not exists as standard enum type");
         }
 
-        File ret = new File(OSUtil.buildPath("dynamic",
-                "users", ConsoleFrame.INSTANCE.getUUID(), fileName));
+        File ret = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID(), fileName);
 
         if (!ret.exists()) {
             if (ret.mkdir()) {
@@ -1004,7 +1025,8 @@ public class UserUtil {
     public static ArrayList<String> getUserUUIDs() {
         ArrayList<String> uuids = new ArrayList<>();
 
-        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
+        for (File user : OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName()).listFiles()) {
             File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
@@ -1022,7 +1044,8 @@ public class UserUtil {
     public static ArrayList<File> getUserJsons() {
         ArrayList<File> userFiles = new ArrayList<>();
 
-        for (File user : new File(OSUtil.buildPath("dynamic","users")).listFiles()) {
+        for (File user : OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName()).listFiles()) {
             File json = new File(OSUtil.buildPath(user.getAbsolutePath(), UserFile.USERDATA.getName()));
 
             if (json.exists() && !StringUtil.in(user.getName(), false, invalidUUIDs))
@@ -1082,11 +1105,15 @@ public class UserUtil {
             g2.dispose();
         }
 
-        File backgroundFile = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.BACKGROUNDS.getName(), "Default.png"));
+        File backgroundFile = OSUtil.buildFile(
+                DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                uuid, UserFile.BACKGROUNDS.getName(), "Default.png");
 
-        File backgroundFolder = new File(OSUtil.buildPath("dynamic","users",
-                uuid, UserFile.BACKGROUNDS.getName()));
+        File backgroundFolder = OSUtil.buildFile(
+                DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                uuid, UserFile.BACKGROUNDS.getName());
 
         try {
             if (!backgroundFolder.exists()) {
@@ -1110,8 +1137,9 @@ public class UserUtil {
      */
     public static File createFileInUserSpace(String name) {
         if (!StringUtil.isNull(ConsoleFrame.INSTANCE.getUUID())) {
-            File saveDir = new File(OSUtil.buildPath("dynamic", "users",
-                    ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName()));
+            File saveDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.USERS.getDirectoryName(),
+                    ConsoleFrame.INSTANCE.getUUID(), UserFile.FILES.getName());
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {

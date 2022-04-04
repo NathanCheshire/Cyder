@@ -4,6 +4,7 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -11,10 +12,8 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderScrollList;
-import cyder.utilities.FileUtil;
-import cyder.utilities.GetterUtil;
-import cyder.utilities.IOUtil;
-import cyder.utilities.ImageUtil;
+import cyder.user.UserFile;
+import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
 
 import javax.imageio.ImageIO;
@@ -215,8 +214,11 @@ public class ImageAveragerWidget {
                 save.setToolTipText("Save image");
                 save.addActionListener(e -> {
                     try {
-                        File outFile = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() +
-                                "/Backgrounds/" + combineImageNames() + ".png");
+                        File outFile = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName(),
+                                ConsoleFrame.INSTANCE.getUUID(), UserFile.BACKGROUNDS.getName(),
+                                combineImageNames() + ".png");
+
                         ImageIO.write(saveImage, "png", outFile);
                         averagerFrame.notify("Average computed and saved to your user's backgrounds/ directory");
                         drawFrame.dispose();

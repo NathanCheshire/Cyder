@@ -5,10 +5,12 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.*;
+import cyder.user.UserFile;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
@@ -212,9 +214,10 @@ public class NotesWidget {
             }
 
             try {
-                BufferedWriter NoteWriter = new BufferedWriter(new FileWriter(
-                        "dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() + "/Notes/" +
-                                newNoteField.getText() + ".txt",true));
+                BufferedWriter NoteWriter = new BufferedWriter(
+                        new FileWriter(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                                "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName(),
+                                newNoteField.getText().trim() + ".txt"), true));
                 newNoteArea.write(NoteWriter);
                 NoteWriter.close();
             }
@@ -249,7 +252,8 @@ public class NotesWidget {
     }
 
     private static void initializeNotesList() {
-        File dir = new File("dynamic/users/" + ConsoleFrame.INSTANCE.getUUID() + "/Notes");
+        File dir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName());
 
         if (!dir.exists())
             dir.mkdir();
