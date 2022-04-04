@@ -50,7 +50,7 @@ public class YoutubeUtil {
         if (ffmpegInstalled() && youtubedlInstalled()) {
             String saveDir = OSUtil.buildPath("dynamic",
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
-            String extension = ".mp3";
+            String extension = ".mp3"; // todo preference
 
             Runtime rt = Runtime.getRuntime();
 
@@ -76,7 +76,7 @@ public class YoutubeUtil {
                     "youtube-dl",
                     url,
                     "--extract-audio",
-                    "--audio-format","mp3",
+                    "--audio-format","mp3", // todo preference for this
                     "--output", new File(saveDir).getAbsolutePath()
                     + OSUtil.FILE_SEP + finalParsedAsciiSaveName + ".%(ext)s"
             };
@@ -144,7 +144,7 @@ public class YoutubeUtil {
                     ConsoleFrame.INSTANCE.getInputHandler()
                             .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
                             + " and added to mp3 queue");
-                    AudioPlayer.addToMp3Queue(new File(OSUtil.buildPath(
+                    AudioPlayer.addAudioToQueue(new File(OSUtil.buildPath(
                             saveDir, finalParsedAsciiSaveName + extension)));
 
                     ui.stopAnimationTimer();

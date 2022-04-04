@@ -3,7 +3,7 @@ package cyder.handlers.internal.enums;
 public enum Suggestion {
     Pathfinder("pathfinder","open an A* and Dijkstras algorithm path finding visualizer"),
     Math("e^pi","calculate e^pi using the command line mathematical expression parser"),
-    Audio("mp3","open Cyder's custom MP3 audio player"),
+    Audio("mp3","open Cyder's custom audio player"),
     Prefs("prefs","open up the preference editor"),
     Weather("weather","open up the weather widget"),
     Curl("curl","curl a url just like linux"),

@@ -1111,27 +1111,24 @@ public enum ConsoleFrame {
     private void introMusicCheck() {
         //if the user wants some custom intro music
         if (UserUtil.getCyderUser().getIntromusic().equalsIgnoreCase("1")) {
-            ArrayList<String> musicList = new ArrayList<>();
+            ArrayList<File> musicList = new ArrayList<>();
 
             File userMusicDir = new File(OSUtil.buildPath("dynamic","users",
                     INSTANCE.getUUID(), UserFile.MUSIC.getName()));
 
-            String[] fileNames = userMusicDir.list();
+            File[] files = userMusicDir.listFiles();
 
-            if (fileNames != null) {
-                for (String fileName : fileNames) {
-                    if (fileName.endsWith(".mp3")) {
-                        musicList.add(fileName);
+            if (files.length > 0) {
+                for (File file : files) {
+                    if (FileUtil.isSupportedAudioExtension(file)) {
+                        musicList.add(file);
                     }
                 }
             }
 
             //if they have music then play their own
             if (!musicList.isEmpty()) {
-                String audioName = fileNames[NumberUtil.randInt(0, fileNames.length - 1)];
-
-                IOUtil.playAudio(OSUtil.buildPath("dynamic","users",
-                        INSTANCE.getUUID(), UserFile.MUSIC.getName(), audioName));
+                IOUtil.playAudio(files[NumberUtil.randInt(0, files.length - 1)].getAbsolutePath());
             }
             // otherwise, play our own
             else {

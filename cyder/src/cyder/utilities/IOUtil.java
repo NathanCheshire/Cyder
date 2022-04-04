@@ -167,7 +167,7 @@ public class IOUtil {
             TextViewer.getInstance(file).showGUI();
         } else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
             PhotoViewer.getInstance(file).showGUI();
-        } else if (filePath.endsWith(".mp3")) {
+        } else if (FileUtil.isSupportedAudioExtension(new File(filePath))) {
             AudioPlayer.showGUI(file);
         } else {
             Desktop OpenFile = Desktop.getDesktop();
@@ -226,7 +226,7 @@ public class IOUtil {
      * Plays the requested audio file using a new JLayer Player object.
      *      (this cannot be stopped util the mpeg is finished)
      *
-     * @param FilePath the path to the mp3 file to play
+     * @param FilePath the path to the audio file to play
      */
     public static void playSystemAudio(String FilePath) {
         try {

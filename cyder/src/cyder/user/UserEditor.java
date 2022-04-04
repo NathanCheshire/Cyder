@@ -359,8 +359,8 @@ public class UserEditor {
                             editUserFrame.notify(selectedFile.getName() +
                                     " was successfully renamed to " + renameTo.getName());
 
-                            //was it a music file?
-                            if (extension.equals(".mp3")) {
+                            // was it a music file?
+                            if (StringUtil.in(extension, true, ".mp3", ".wav")) {
                                 File albumArtDir = new File("dynamic/users/"
                                         + ConsoleFrame.INSTANCE.getUUID() + "/Music/AlbumArt");
 
@@ -433,7 +433,7 @@ public class UserEditor {
                     if (deleted) {
                         revalidateFilesScroll(filesScroll, filesLabelRef.get());
 
-                        if (FileUtil.getExtension(selectedFile).equals(".mp3"))
+                        if (FileUtil.isSupportedAudioExtension(selectedFile))
                             ConsoleFrame.INSTANCE.getInputHandler()
                                     .println("Music: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
                         else if (FileUtil.isSupportedImageExtension(selectedFile)) {
@@ -444,7 +444,7 @@ public class UserEditor {
                                     .println("File: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
                         }
 
-                        if (FileUtil.getExtension(selectedFile.getName()).equals(".mp3")) {
+                        if (FileUtil.isSupportedAudioExtension(selectedFile)) {
                             //attempt to find album art
                             String name = FileUtil.getFilename(selectedFile.getName());
 

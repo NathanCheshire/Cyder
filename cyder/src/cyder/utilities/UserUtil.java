@@ -749,9 +749,8 @@ public class UserUtil {
 
     /**
      * Clean the user directories meaning the following actions are taken:
-     *
-     * Deleting non mp3 files from the Music/ directory
-     * Removing album art not linked to an mp3
+     * Deleting non audio files from the Music/ directory
+     * Removing album art not linked to an audio file
      */
     public static void cleanUsers() {
         File users = new File(OSUtil.buildPath("dynamic","users"));
@@ -777,9 +776,9 @@ public class UserUtil {
                     File[] files = musicDir.listFiles();
                     ArrayList<String> validMusicFileNames = new ArrayList<>();
 
-                    // delete all non mp3 files
+                    // delete all non audio files
                     for (File musicFile : files) {
-                        if (!FileUtil.getExtension(musicFile).equals(".mp3") && !musicFile.isDirectory()) {
+                        if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
                             OSUtil.delete(musicFile);
                         } else {
                             validMusicFileNames.add(FileUtil.getFilename(musicFile));

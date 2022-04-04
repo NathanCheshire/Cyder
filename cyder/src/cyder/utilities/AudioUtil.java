@@ -249,7 +249,4 @@ public class AudioUtil {
 
     // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
     // after conversion finished, should be seamless audio transition
-
-    // todo officially support mp3 and wav, will need updated code in a lot of places
-    // and an method like images to check if valid
 }

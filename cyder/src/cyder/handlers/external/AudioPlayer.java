@@ -41,11 +41,10 @@ import java.util.LinkedList;
 
 // todo need a failsafe so the audio controls on console are revalidated
 //      and never displayed if the audio player frame isn't visible
-// todo while we're at it, just allow wav files too, add a menu option to quickly convert a file to a wav file
-// you'll need to account for wav vs mp3 in a lot more places I'm sure so think about that for a second
+// todo add a menu option to quickly convert between wav and mp3
 
 /**
- * An audio player widget that only supports mp3 files at the moment.
+ * An audio player widget that supports mp3 and wav files.
  */
 public class AudioPlayer {
     /**
@@ -135,7 +134,7 @@ public class AudioPlayer {
     private static JButton loopAudioButton;
 
     /**
-     * Button allowing user to select an mp3 file from any directory
+     * Button allowing user to select an audio file from any directory
      * and skip around to the neighboring files from that directory.
      */
     private static JButton selectAudioDirButton;
@@ -295,7 +294,7 @@ public class AudioPlayer {
             refreshAudioFiles(startPlaying);
 
             // if audio files were found then play
-            // (might be startPlaying if it was not null and is avalid mp3 file)
+            // (might be startPlaying if it was not null and is a valid audio file)
             if (!currentAudioFiles.isEmpty()) {
                 startAudio();
             }
@@ -395,12 +394,13 @@ public class AudioPlayer {
         selectAudioDirButton.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 CyderThreadRunner.submit(() -> {
-                    GetterBuilder builder = new GetterBuilder("Choose any mp3 file to startAudio");
+                    GetterBuilder builder = new GetterBuilder("Choose any mp3 or wav file to startAudio");
                     builder.setRelativeTo(audioFrame);
                     File selectedChildFile = GetterUtil.getInstance().getFile(builder);
                     if (selectedChildFile != null) {
-                        if (!selectedChildFile.toString().endsWith("mp3")) {
-                            audioFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", but that's not an mp3 file.");
+                        if (!FileUtil.isSupportedAudioExtension(selectedChildFile)) {
+                            audioFrame.notify("Sorry, " + UserUtil.getCyderUser().getName()
+                                    + ", but that's not a supported audio file.");
                         } else if (selectedChildFile != null){
                             stopAudio();
                             refreshAudioFiles(selectedChildFile);
@@ -693,11 +693,12 @@ public class AudioPlayer {
 
     /**
      * Adds the given file to the queue.
-     * If the player is not open, the Player is started and begins playing the audioFile.
+     * If the player is not open, the Player is
+     * started and begins playing the audioFile.
      *
      * @param audioFile the audio to play
      */
-    public static synchronized void addToMp3Queue(File audioFile) {
+    public static synchronized void addAudioToQueue(File audioFile) {
         if (audioPlaying()) {
             queue.add(audioFile);
         } else if (windowOpen()) {
