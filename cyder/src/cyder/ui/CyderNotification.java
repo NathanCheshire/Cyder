@@ -327,7 +327,10 @@ public class CyderNotification extends JLabel {
             try {
                 if (builder.getNotificationType() == NotificationType.TOAST) {
                     // centered on x, y has offset of 10 pixels from bottom
-                    setBounds(getX(), parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
+                    setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                            parent.getHeight() - getHeight() - 10, getWidth(), getHeight());
+                    // todo the first one has to be a set bounds so the width and height can be properly set
+
                     opacity = 0;
                     setVisible(true);
 
@@ -337,91 +340,128 @@ public class CyderNotification extends JLabel {
                         Thread.sleep(2);
                     }
                 } else {
-                    // location is expected to have been set already by parent before invoking appear method
-                    setVisible(true);
-
                     switch (notificationDirection) {
                         case TOP:
+                            setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                                    CyderDragLabel.DEFAULT_HEIGHT - getHeight(), getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getY(); i < CyderDragLabel.DEFAULT_HEIGHT; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(getX(), i, getWidth(), getHeight());
+                                setLocation(getX(), i);
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
+
+                            setLocation(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1);
                             break;
                         case TOP_RIGHT:
+                            setBounds(parent.getWidth() + getWidth(),
+                                    CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(parent.getWidth() - getWidth() + 5, getY(), getWidth(), getHeight());
+
+                            setLocation(parent.getWidth() - getWidth() + 5, getY());
                             break;
                         case TOP_LEFT:
+                            setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT, getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(2, getY(), getWidth(), getHeight());
+
+                            setLocation(2, getY());
                             break;
                         case LEFT:
+                            // note drag label used here to center on content pane
+                            setBounds(-getWidth(), CyderDragLabel.DEFAULT_HEIGHT
+                                            + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getX() ; i < 5 ; i+= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(2, parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+
+                            setLocation(2, parent.getHeight() / 2 - getHeight() / 2);
                             break;
                         case RIGHT:
+                            // note drag label used here to center on content pane
+                            setBounds(parent.getWidth() + getWidth(), CyderDragLabel.DEFAULT_HEIGHT
+                                    + parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(parent.getWidth() - getWidth() + 5,
-                                    parent.getHeight() / 2 - getHeight() / 2, getWidth(), getHeight());
+
+                            setLocation(parent.getWidth() - getWidth() + 5,
+                                    parent.getHeight() / 2 - getHeight() / 2);
                             break;
                         case BOTTOM:
+                            setBounds(parent.getWidth() / 2 - getWidth() / 2, parent.getHeight()
+                                    + getHeight(), getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getY(); i > parent.getHeight() - getHeight() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(getX(), i, getWidth(), getHeight());
+                                setLocation(getX(), i);
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(getX(), parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
+
+                            setLocation(getX(), parent.getHeight() - getHeight() + 10);
                             break;
                         case BOTTOM_LEFT:
+                            setBounds(-getWidth(), parent.getHeight() - getHeight(), getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(2, parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
+
+                            setLocation(2, parent.getHeight() - getHeight() + 10);
                             break;
                         case BOTTOM_RIGHT:
+                            setBounds(parent.getWidth() + getWidth(), parent.getHeight()
+                                    - getHeight(), getWidth(), getHeight());
+                            setVisible(true);
+
                             for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setLocation(i, getY());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(parent.getWidth() - getWidth() + 5,
-                                    parent.getHeight() - getHeight() + 10, getWidth(), getHeight());
+
+                            setLocation(parent.getWidth() - getWidth() + 5,
+                                    parent.getHeight() - getHeight() + 10);
                             break;
                         default:
                             throw new IllegalStateException("Unexpected value: " + notificationDirection);

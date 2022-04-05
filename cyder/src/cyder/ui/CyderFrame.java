@@ -1012,6 +1012,7 @@ public class CyderFrame extends JFrame {
     /**
      * The notification queue for internal frame notifications/toasts.
      */
+    // todo apparently the queue is broken? multiple notifications can be allowed
     private final Runnable NotificationQueueRunnable = () -> {
         try {
             while (!threadsKilled) {
@@ -1022,6 +1023,9 @@ public class CyderFrame extends JFrame {
                     // init current notification object, needed
                     // for builder access and to directly kill
                     currentNotif = new CyderNotification(currentBuilder);
+
+                    currentNotif.setVisible(false);
+                    // ensure invisible to start
 
                     // generate label for notification
                     BoundsString bs = BoundsUtil.widthHeightCalculation(
@@ -1058,9 +1062,6 @@ public class CyderFrame extends JFrame {
                         textContainerLabel.setFont(CyderFonts.notificationFont);
                         textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
-                        // todo for opacity animation, maybe interaction label can have an
-                        //  icon that we painted to from textContainerLabel's graphics
-
                         JLabel interactionLabel = new JLabel();
                         interactionLabel.setSize(notificationWidth, notificationHeight);
                         interactionLabel.setToolTipText("Notified at: " + currentNotif.getBuilder().getNotifyTime());
@@ -1092,55 +1093,14 @@ public class CyderFrame extends JFrame {
                             }
                         });
 
+                        textContainerLabel.add(interactionLabel);
+
                         // now when building the notification component, we'll use
                         // this as our container that we must build around
                         currentBuilder.setContainer(textContainerLabel);
                     }
 
-                    // todo notification generate function to finalize bounds and such in notification class
-
-                    System.out.println("Builder's container: " + currentBuilder.getContainer());
-
                     int borderLen = 5;
-
-                    switch (currentNotif.getBuilder().getNotificationDirection()) {
-                        case TOP_LEFT:
-                            currentNotif.setLocation(-currentNotif.getWidth() + borderLen,
-                                    topDrag.getHeight());
-                            break;
-                        case TOP_RIGHT:
-                            currentNotif.setLocation(getContentPane().getWidth() - borderLen
-                                    + currentNotif.getWidth(), topDrag.getHeight());
-                            break;
-                        case BOTTOM:
-                            currentNotif.setLocation(getContentPane().getWidth() / 2 - (notificationWidth / 2),
-                                    getHeight() - borderLen);
-                            break;
-                        case LEFT:
-                            currentNotif.setLocation(-currentNotif.getWidth() + borderLen,
-                                    getContentPane().getHeight() / 2 - (notificationHeight / 2));
-                            break;
-                        case RIGHT:
-                            currentNotif.setLocation(getContentPane().getWidth()
-                                            - borderLen + currentNotif.getWidth(),
-                                    getContentPane().getHeight() / 2
-                                            - (notificationHeight / 2));
-                            break;
-                        case BOTTOM_LEFT:
-                            currentNotif.setLocation(-currentNotif.getWidth() + borderLen,
-                                    getHeight() - currentNotif.getHeight() + borderLen);
-                            break;
-                        case BOTTOM_RIGHT:
-                            currentNotif.setLocation(getContentPane().getWidth() - borderLen
-                                            + currentNotif.getWidth(), getHeight()
-                                    - currentNotif.getHeight() + borderLen);
-                            break;
-                        case TOP:
-                        default:
-                            currentNotif.setLocation(getContentPane().getWidth() / 2
-                                            - (currentNotif.getWidth() / 2),
-                                    CyderDragLabel.DEFAULT_HEIGHT - currentNotif.getHeight());
-                    }
 
                     // add notification component to proper layer
                     iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
