@@ -261,6 +261,11 @@ public class CyderNotification extends JLabel {
 
                     break;
                 case BOTTOM:
+                    // bottom so x axis is middle but y is all the way down
+                    outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2 + componentHeight);
+                    outlinePath.lineTo(2 * 2 + componentWidth / 2, 2 * 2 * 2 + componentHeight + len);
+                    outlinePath.lineTo(2 * 2 + componentWidth / 2 + len, 2 * 2 * 2 + componentHeight);
+                    outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, 2 * 2 * 2+ componentHeight);
 
                     break;
             }
@@ -342,10 +347,8 @@ public class CyderNotification extends JLabel {
     public int getWidth() {
         int ret = 2 * DEFAULT_BORDER_LEN + builder.getContainer().getWidth();
 
-        if (builder.getArrowDir() == Direction.LEFT) {
-            ret += DEFAULT_ARROW_LEN;
-        } else if (builder.getArrowDir() == Direction.RIGHT) {
-            ret -= DEFAULT_ARROW_LEN;
+        if (builder.getArrowDir() == Direction.LEFT || builder.getArrowDir() == Direction.RIGHT) {
+            ret += 2 * DEFAULT_ARROW_LEN;
         }
 
         return ret;
@@ -358,37 +361,11 @@ public class CyderNotification extends JLabel {
     public int getHeight() {
         int ret = 2 * DEFAULT_BORDER_LEN + builder.getContainer().getHeight();
 
-        if (builder.getArrowDir() == Direction.TOP) {
-            ret += DEFAULT_ARROW_LEN;
-        } else if (builder.getArrowDir() == Direction.BOTTOM) {
-            ret -= DEFAULT_ARROW_LEN;
+        if (builder.getArrowDir() == Direction.TOP || builder.getArrowDir() == Direction.BOTTOM) {
+            ret += 2 * DEFAULT_ARROW_LEN;
         }
 
         return ret;
-    }
-
-    /**
-     * Returns the height of this notification accounting for the custom
-     * painting of the container, border, and arrow. This width is intended
-     * to be used forcomponent centering.
-     *
-     * @return the height of this custom notification component
-     */
-    public int getTrueWidth() {
-        return (builder.getArrowDir() == Direction.LEFT || builder.getArrowDir() == Direction.RIGHT
-                ? arrowLen : 0) + 2 * DEFAULT_BORDER_LEN + builder.getContainer().getWidth();
-    }
-
-    /**
-     * Returns the height of this notification accounting for the custom
-     * painting of the container, border, and arrow. This height is intended
-     * to be used for component centering.
-     *
-     * @return the height of this custom notification component
-     */
-    public int getTrueHeight() {
-        return (builder.getArrowDir() == Direction.TOP || builder.getArrowDir() == Direction.BOTTOM
-                ? arrowLen : 0) + 2 * DEFAULT_BORDER_LEN + builder.getContainer().getHeight();
     }
 
     /**
@@ -428,14 +405,14 @@ public class CyderNotification extends JLabel {
                             setBounds(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
                             break;
                         case TOP_RIGHT:
-                            for (int i = getX(); i > parent.getWidth() - getTrueWidth() + 5; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getTrueWidth(), getHeight());
+                                setBounds(i, getY(), getWidth(), getHeight());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(parent.getWidth() - getTrueWidth() + 5, getY(), getTrueWidth(), getHeight());
+                            setBounds(parent.getWidth() - getWidth() + 5, getY(), getWidth(), getHeight());
                             break;
                         case TOP_LEFT:
                             for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
