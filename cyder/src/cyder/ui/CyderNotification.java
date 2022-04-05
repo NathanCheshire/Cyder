@@ -139,8 +139,13 @@ public class CyderNotification extends JLabel {
         Preconditions.checkNotNull(builder);
         Preconditions.checkNotNull(builder.getContainer());
 
+        // this is the width x height of what we will be surrounding
         int componentWidth = builder.getContainer().getWidth();
         int componentHeight = builder.getContainer().getHeight();
+
+        // artificially inflate the width and height to draw the border
+        componentHeight += (borderLen * 2);
+        componentWidth += (borderLen * 2);
 
         // obtain painting object
         Graphics2D graphics2D = (Graphics2D) g;
@@ -281,11 +286,15 @@ public class CyderNotification extends JLabel {
         outlinePath.closePath();
         graphics2D.fill(outlinePath);
 
-        // todo inner shape and inner arrow if not toast
+        // reset component width and height to original
+        componentHeight -= (borderLen * 2);
+        componentWidth -= (borderLen * 2);
 
-        // label is offset by border plus the arrow if applicable
-        int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + borderLen;
-        int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + borderLen;
+        // todo inner shape and inner arrow if not toast, need to be offset by borderlen
+
+        // label is offset by border plus the arrow if applicable and the curvature
+        int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
+        int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
 
         JLabel refContainer = builder.getContainer();
         refContainer.setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
@@ -297,7 +306,8 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int getWidth() {
-        int ret = 2 * borderLen + builder.getContainer().getWidth();
+        // border, container, curvature
+        int ret = 2 * borderLen + builder.getContainer().getWidth() + 2 * 2 * 2;
 
         if (builder.getArrowDir() == Direction.LEFT || builder.getArrowDir() == Direction.RIGHT) {
             ret += 2 * arrowLen;
@@ -311,7 +321,8 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int getHeight() {
-        int ret = 2 * borderLen + builder.getContainer().getHeight();
+        // border, container, curvature
+        int ret = 2 * borderLen + builder.getContainer().getHeight() + 2 * 2 * 2;
 
         if (builder.getArrowDir() == Direction.TOP || builder.getArrowDir() == Direction.BOTTOM) {
             ret += 2 * arrowLen;
