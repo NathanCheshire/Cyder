@@ -148,7 +148,7 @@ public class CyderNotification extends JLabel {
         graphics2D.setRenderingHints(qualityHints);
 
         // draw the bigger shape to hold the smaller one
-        Color borderColor = CyderColors.notificationBorderColor;
+        Color borderColor = CyderColors.regularPink;
         graphics2D.setPaint(new Color(borderColor.getRed(), borderColor.getGreen(),
                                       borderColor.getBlue(), opacity));
 
@@ -181,57 +181,103 @@ public class CyderNotification extends JLabel {
         x += 4;
         y -= 4;
 
-        // line for component width
+        // line right for component width
         outlinePath.lineTo(x + componentWidth, y);
 
+        // new x
+        x += componentWidth;
 
+        // curve down 2 and right 2, twice
+        outlinePath.curveTo(x, y, x + 2, y + 2, x + 4, y + 4);
+
+        // new x,y we're at
+        x += 4;
+        y += 4;
+
+        // line down for component height
+        outlinePath.lineTo(x, y + componentHeight);
+
+        // new y
+        y += componentHeight;
+
+        // curve down 2 and left 2, twice
+        outlinePath.curveTo(x, y, x - 2, y + 2, x - 4, y + 4);
+
+        // new x,y we're at
+        x -= 4;
+        y += 4;
+
+        // line left for component width
+        outlinePath.lineTo(x - componentWidth, y);
+
+        // new x
+        x -= componentWidth;
+
+        // curve up 2 and left 2, twice
+        outlinePath.curveTo(x, y, x - 2, y - 2, x - 4, y - 4);
+
+        // new x,y we're at
+        x -= 4;
+        y -= 4;
+
+        // line up for component height
+        outlinePath.lineTo(x, y - componentHeight);
+
+        // new y
+        y -= componentHeight;
+
+        // close and fill
+        outlinePath.closePath();
+        graphics2D.fill(outlinePath);
 
         // draw the border arrow if not a toast
-        if (builder.getNotificationType() == NotificationType.TOAST) {
-//            switch (arrowDir) {
-//                case TOP:
-//                    outlinePath.moveTo(6 + textWidth / 2, 6 + 2);
-//                    outlinePath.lineTo(14 + textWidth / 2, -2 + 2);
-//                    outlinePath.lineTo(22 + textWidth / 2, 6 + 2);
-//                    outlinePath.lineTo(6 + textWidth / 2, 6 + 2);
-//                    outlinePath.closePath();
-//                    graphics2D.fill(outlinePath);
-//                    break;
-//                case LEFT:
-//                    outlinePath.moveTo(8, 2 + textHeight / 2 + 2);
-//                    outlinePath.lineTo(2, 10 + textHeight / 2 + 2);
-//                    outlinePath.lineTo(8, 18 + textHeight / 2 + 2);
-//                    outlinePath.lineTo(8, 2 + textHeight / 2 + 2);
-//                    outlinePath.closePath();
-//                    graphics2D.fill(outlinePath);
-//                    break;
-//                case RIGHT:
-//                    outlinePath.moveTo(18 + textWidth, 2 + textHeight / 2 + 2);
-//                    outlinePath.lineTo(26 + textWidth, 10 + textHeight / 2 + 2);
-//                    outlinePath.lineTo(18 + textWidth, 18 + textHeight / 2 + 2);
-//                    outlinePath.lineTo(18 + textWidth, 2 + textHeight / 2 + 2);
-//                    outlinePath.closePath();
-//                    graphics2D.fill(outlinePath);
-//                    break;
-//                case BOTTOM:
-//                    outlinePath.moveTo(8 + textWidth / 2, 16 + textHeight + 2);
-//                    outlinePath.lineTo(14 + textWidth / 2, 22 + textHeight + 2);
-//                    outlinePath.lineTo(20 + textWidth / 2, 16 + textHeight + 2);
-//                    outlinePath.lineTo(8 + textWidth / 2, 16 + textHeight + 2);
-//                    outlinePath.closePath();
-//                    graphics2D.fill(outlinePath);
-//                    break;
-//            }
+        if (builder.getNotificationType() != NotificationType.TOAST) {
+            int len = DEFAULT_ARROW_LEN;
+
+            switch (builder.getArrowDir()) {
+                case TOP:
+                    // top so we know that the x needs to be offset by 4 and the height by arrow len
+                    outlinePath.moveTo(2 * 2 + componentWidth / 2 - len, len);
+                    outlinePath.lineTo(2 * 2 + componentWidth / 2, 0);
+                    outlinePath.lineTo(2 * 2 + (componentWidth / 2) +  len, len);
+                    outlinePath.lineTo(2 * 2 + componentWidth / 2 - len, len);
+
+                    break;
+                case LEFT:
+                    // left so we know that the x needs to be offset by arrow len and the height by 4
+                    outlinePath.moveTo(len, 2 * 2 + componentHeight / 2 - len);
+                    outlinePath.lineTo(0, 2 * 2 + componentHeight / 2);
+                    outlinePath.lineTo(len, 2 * 2 + componentHeight / 2 + len);
+                    outlinePath.moveTo(len, 2 * 2 + componentHeight / 2 - len);
+
+                    break;
+                case RIGHT:
+                    // right so we know that the x needs to be offset by 4 * 2 + componentWidth
+                    // and the height by 2 * 2 + componentHeight / 2 - len
+                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 - len);
+                    outlinePath.lineTo(2 * 2 * 2 + componentWidth + len, 2 * 2 + componentHeight / 2);
+                    outlinePath.lineTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 + len);
+                    outlinePath.moveTo(2 * 2 * 2 + componentWidth, 2 * 2 + componentHeight / 2 - len);
+
+                    break;
+                case BOTTOM:
+
+                    break;
+            }
         }
 
+        // close and fill
+        outlinePath.closePath();
+        graphics2D.fill(outlinePath);
+
         // fill the background color, smaller bounds
-        Color backgroundColor = CyderColors.notificationBackgroundColor;
-        graphics2D.setPaint(new Color(
-                backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), opacity));
-
-        GeneralPath fillPath = new GeneralPath();
-
-        fillPath.moveTo(10, 10 + 2);
+//        Color backgroundColor = CyderColors.notificationBackgroundColor;
+//        graphics2D.setPaint(new Color(
+//                backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), opacity));
+//
+//        GeneralPath fillPath = new GeneralPath();
+//
+//        fillPath.moveTo(10, 10 + 2);
 
 //        fillPath.curveTo(10, 10 + 2,12,8 + 2, 14, 6 + 2);
 //        fillPath.lineTo(textWidth + 14, 6 + 2);
@@ -248,8 +294,8 @@ public class CyderNotification extends JLabel {
 //                12, textHeight + 12 + 2, 10, textHeight + 10 + 2);
 //        fillPath.lineTo( 10, 10 + 2);
 
-        fillPath.closePath();
-        graphics2D.fill(fillPath);
+//        fillPath.closePath();
+//        graphics2D.fill(fillPath);
 
         // draw the arrow fill, smaller bounds
         if (builder.getNotificationType() == NotificationType.TOAST) {
@@ -382,14 +428,14 @@ public class CyderNotification extends JLabel {
                             setBounds(getX(), CyderDragLabel.DEFAULT_HEIGHT - 1, getWidth(), getHeight());
                             break;
                         case TOP_RIGHT:
-                            for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
+                            for (int i = getX(); i > parent.getWidth() - getTrueWidth() + 5; i -= ANIMATION_INCREMENT) {
                                 if (killed)
                                     break;
 
-                                setBounds(i, getY(), getWidth(), getHeight());
+                                setBounds(i, getY(), getTrueWidth(), getHeight());
                                 Thread.sleep(ANIMATION_DELAY);
                             }
-                            setBounds(parent.getWidth() - getWidth() + 5, getY(), getWidth(), getHeight());
+                            setBounds(parent.getWidth() - getTrueWidth() + 5, getY(), getTrueWidth(), getHeight());
                             break;
                         case TOP_LEFT:
                             for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {

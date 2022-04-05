@@ -1101,45 +1101,45 @@ public class CyderFrame extends JFrame {
 
                     System.out.println("Builder's container: " + currentBuilder.getContainer());
 
+                    int borderLen = 5;
+
                     switch (currentNotif.getBuilder().getNotificationDirection()) {
-//                        case TOP_LEFT:
-//                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
-//                                    topDrag.getHeight());
-//                            break;
-//                        case TOP_RIGHT:
-//                            currentNotification.setLocation(getContentPane().getWidth()
-//                                            - 5 + currentNotification.getWidth(), topDrag.getHeight());
-//                            break;
-//                        case BOTTOM:
-//                            currentNotification.setLocation(getContentPane().getWidth() / 2
-//                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
-//                                    getHeight() - 5);
-//                            break;
-//                        case LEFT:
-//                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
-//                                    getContentPane().getHeight() / 2 - (notificationHeight / 2)
-//                                            - CyderNotification.getTextYOffset());
-//                            break;
-//                        case RIGHT:
-//                            currentNotification.setLocation(getContentPane().getWidth()
-//                                            - 5 + currentNotification.getWidth(),
-//                                    getContentPane().getHeight() / 2
-//                                            - (notificationHeight / 2) - CyderNotification.getTextYOffset());
-//                            break;
-//                        case BOTTOM_LEFT:
-//                            currentNotification.setLocation(-currentNotification.getWidth() + 5,
-//                                    getHeight() - currentNotification.getHeight() + 5);
-//                            break;
-//                        case BOTTOM_RIGHT:
-//                            currentNotification.setLocation(getContentPane().getWidth() - 5
-//                                            + currentNotification.getWidth(), getHeight()
-//                                    - currentNotification.getHeight() + 5);
-//                            break;
-//                        case TOP:
-//                        default:
-//                            currentNotification.setLocation(getContentPane().getWidth() / 2
-//                                            - (notificationWidth / 2) - CyderNotification.getTextXOffset(),
-//                                    CyderDragLabel.DEFAULT_HEIGHT - currentNotification.getHeight());
+                        case TOP_LEFT:
+                            currentNotif.setLocation(-currentNotif.getWidth() + borderLen,
+                                    topDrag.getHeight());
+                            break;
+                        case TOP_RIGHT:
+                            currentNotif.setLocation(getContentPane().getWidth() - borderLen
+                                    + currentNotif.getWidth(), topDrag.getHeight());
+                            break;
+                        case BOTTOM:
+                            currentNotif.setLocation(getContentPane().getWidth() / 2 - (notificationWidth / 2),
+                                    getHeight() - borderLen);
+                            break;
+                        case LEFT:
+                            currentNotif.setLocation(-currentNotif.getWidth() + borderLen,
+                                    getContentPane().getHeight() / 2 - (notificationHeight / 2));
+                            break;
+                        case RIGHT:
+                            currentNotif.setLocation(getContentPane().getWidth()
+                                            - borderLen + currentNotif.getWidth(),
+                                    getContentPane().getHeight() / 2
+                                            - (notificationHeight / 2));
+                            break;
+                        case BOTTOM_LEFT:
+                            currentNotif.setLocation(-currentNotif.getWidth() + borderLen,
+                                    getHeight() - currentNotif.getHeight() + borderLen);
+                            break;
+                        case BOTTOM_RIGHT:
+                            currentNotif.setLocation(getContentPane().getWidth() - borderLen
+                                            + currentNotif.getWidth(), getHeight()
+                                    - currentNotif.getHeight() + borderLen);
+                            break;
+                        case TOP:
+                        default:
+                            currentNotif.setLocation(getContentPane().getWidth() / 2
+                                            - (currentNotif.getWidth() / 2),
+                                    CyderDragLabel.DEFAULT_HEIGHT - currentNotif.getHeight());
                     }
 
                     // add notification component to proper layer
