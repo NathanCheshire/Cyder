@@ -61,6 +61,12 @@ public class CyderNotification extends JLabel {
     private final int arrowLen = DEFAULT_ARROW_LEN;
 
     /**
+     * The border length of this notification.
+     * This supports changing the arrow length in the future if needed.
+     */
+    private final int borderLen = DEFAULT_BORDER_LEN;
+
+    /**
      * Whether this notification has been killed.
      */
     private boolean killed;
@@ -162,11 +168,11 @@ public class CyderNotification extends JLabel {
         int y = 0;
 
         if (builder.getArrowDir() == Direction.LEFT) {
-            x = DEFAULT_ARROW_LEN;
+            x = arrowLen;
         }
 
         if (builder.getArrowDir() == Direction.TOP) {
-            y = DEFAULT_ARROW_LEN;
+            y = arrowLen;
         }
 
         // always 4 more down due to curve up 2 and then another 2
@@ -232,7 +238,7 @@ public class CyderNotification extends JLabel {
 
         // draw the border arrow if not a toast
         if (builder.getNotificationType() != NotificationType.TOAST) {
-            int len = DEFAULT_ARROW_LEN;
+            int len = arrowLen;
 
             switch (builder.getArrowDir()) {
                 case TOP:
@@ -275,12 +281,11 @@ public class CyderNotification extends JLabel {
         outlinePath.closePath();
         graphics2D.fill(outlinePath);
 
-        // todo inner shape and arrow
+        // todo inner shape and inner arrow if not toast
 
-        // todo tooltips and dispose action not working
         // label is offset by border plus the arrow if applicable
-        int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + DEFAULT_BORDER_LEN;
-        int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + DEFAULT_BORDER_LEN;
+        int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + borderLen;
+        int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + borderLen;
 
         JLabel refContainer = builder.getContainer();
         refContainer.setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
@@ -292,10 +297,10 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int getWidth() {
-        int ret = 2 * DEFAULT_BORDER_LEN + builder.getContainer().getWidth();
+        int ret = 2 * borderLen + builder.getContainer().getWidth();
 
         if (builder.getArrowDir() == Direction.LEFT || builder.getArrowDir() == Direction.RIGHT) {
-            ret += 2 * DEFAULT_ARROW_LEN;
+            ret += 2 * arrowLen;
         }
 
         return ret;
@@ -306,10 +311,10 @@ public class CyderNotification extends JLabel {
      */
     @Override
     public int getHeight() {
-        int ret = 2 * DEFAULT_BORDER_LEN + builder.getContainer().getHeight();
+        int ret = 2 * borderLen + builder.getContainer().getHeight();
 
         if (builder.getArrowDir() == Direction.TOP || builder.getArrowDir() == Direction.BOTTOM) {
-            ret += 2 * DEFAULT_ARROW_LEN;
+            ret += 2 * arrowLen;
         }
 
         return ret;
@@ -329,7 +334,6 @@ public class CyderNotification extends JLabel {
                     // centered on x, y has offset of 10 pixels from bottom
                     setBounds(parent.getWidth() / 2 - getWidth() / 2,
                             parent.getHeight() - getHeight() - 10, getWidth(), getHeight());
-                    // todo the first one has to be a set bounds so the width and height can be properly set
 
                     opacity = 0;
                     setVisible(true);

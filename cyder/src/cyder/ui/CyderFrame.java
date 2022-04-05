@@ -1120,8 +1120,9 @@ public class CyderFrame extends JFrame {
                     currentNotif.appear(currentBuilder.getNotificationDirection(),
                             getContentPane(), duration);
 
-                    while (getCurrentNotification().isVisible())
+                    while (getCurrentNotification().isVisible()) {
                         Thread.onSpinWait();
+                    }
                 } else {
                     // for optimization purposes, end queue thread
                     notificationCheckerStarted = false;
