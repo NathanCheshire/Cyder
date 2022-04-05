@@ -290,7 +290,155 @@ public class CyderNotification extends JLabel {
         componentHeight -= (borderLen * 2);
         componentWidth -= (borderLen * 2);
 
-        // todo inner shape and inner arrow if not toast, need to be offset by borderlen
+        /*
+        There's some duplicate code here you could possibly clean up but it's easier to read this way
+
+        Now draw the inner shape, accounting for the border len offset
+         */
+
+        Color fillColor = CyderColors.notificationBackgroundColor;
+        graphics2D.setPaint(new Color(fillColor.getRed(), fillColor.getGreen(),
+                fillColor.getBlue(), opacity));
+
+        GeneralPath fillPath = new GeneralPath();
+
+        // already at 0,0 but need to be reset
+        // move out of way to draw since arrow might be left or right
+        x = 0;
+        y = 0;
+
+        if (builder.getArrowDir() == Direction.LEFT) {
+            x = arrowLen;
+        }
+
+        if (builder.getArrowDir() == Direction.TOP) {
+            y = arrowLen;
+        }
+
+        // always 4 more down due to curve up 2 and then another 2
+        y += 2 * curveInc;
+
+        // offset inward for fill shape
+        x += borderLen;
+        y += borderLen;
+
+        fillPath.moveTo(x, y);
+
+        // curve up 2 and right 2, twice
+        fillPath.curveTo(x, y,x + 2,y - 2, x + 4, y - 4);
+
+        // new x,y we're at
+        x += 4;
+        y -= 4;
+
+        // line right for component width
+        fillPath.lineTo(x + componentWidth, y);
+
+        // new x
+        x += componentWidth;
+
+        // curve down 2 and right 2, twice
+        fillPath.curveTo(x, y, x + 2, y + 2, x + 4, y + 4);
+
+        // new x,y we're at
+        x += 4;
+        y += 4;
+
+        // line down for component height
+        fillPath.lineTo(x, y + componentHeight);
+
+        // new y
+        y += componentHeight;
+
+        // curve down 2 and left 2, twice
+        fillPath.curveTo(x, y, x - 2, y + 2, x - 4, y + 4);
+
+        // new x,y we're at
+        x -= 4;
+        y += 4;
+
+        // line left for component width
+        fillPath.lineTo(x - componentWidth, y);
+
+        // new x
+        x -= componentWidth;
+
+        // curve up 2 and left 2, twice
+        fillPath.curveTo(x, y, x - 2, y - 2, x - 4, y - 4);
+
+        // new x,y we're at
+        x -= 4;
+        y -= 4;
+
+        // line up for component height
+        fillPath.lineTo(x, y - componentHeight);
+
+        // new y
+        y -= componentHeight;
+
+        // close and fill
+        fillPath.closePath();
+        graphics2D.fill(fillPath);
+
+        // draw the border arrow if not a toast
+        if (builder.getNotificationType() != NotificationType.TOAST) {
+            int len = arrowLen;
+
+            switch (builder.getArrowDir()) {
+                case TOP:
+                    // top so we know that the x needs to be offset
+                    // by 2 * 2 + border and the height by border + arrow len
+                    fillPath.moveTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2, borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen + (componentWidth / 2) +  len, len + borderLen);
+                    fillPath.lineTo(2 * 2 + borderLen + componentWidth / 2 - len, len + borderLen);
+
+                    break;
+                case LEFT:
+                    // left so we know that the x needs to be offset
+                    // by arrow len + border and the height by 2 * 2 + border
+                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 - len);
+                    fillPath.lineTo(borderLen, 2 * 2 + borderLen + componentHeight / 2);
+                    fillPath.lineTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 + len);
+                    fillPath.moveTo(len + borderLen, 2 * 2 + borderLen + componentHeight / 2 - len);
+
+                    break;
+                case RIGHT:
+                    // right so we know that the x needs to be offset by 2 * 2 * 2 + componentWidth + borderlen
+                    // and the height by 2 * 2 + componentHeight / 2 - len + borderlen
+                    fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
+                            2 * 2 + componentHeight / 2 - len + borderLen);
+                    fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth + len,
+                            2 * 2 + componentHeight / 2 + borderLen);
+                    fillPath.lineTo(2 * 2 * 2 + borderLen + componentWidth,
+                            2 * 2 + componentHeight / 2 + len + borderLen);
+                    fillPath.moveTo(2 * 2 * 2 + borderLen + componentWidth,
+                            2 * 2 + componentHeight / 2 - len + borderLen);
+
+                    break;
+                case BOTTOM:
+                    // bottom so we know that the x needs to be offset by 2 * 2 + width / 2 + border len
+                    // and y needs to be offset 2 * 2 * 2 + height + border len
+                    fillPath.moveTo(2 * 2 + componentWidth / 2 - len + borderLen,
+                            2 * 2 * 2 + componentHeight + borderLen);
+                    fillPath.lineTo(2 * 2 + componentWidth / 2 + borderLen,
+                            2 * 2 * 2 + componentHeight + len + borderLen);
+                    fillPath.lineTo(2 * 2 + componentWidth / 2 + len + borderLen,
+                            2 * 2 * 2 + componentHeight + borderLen);
+                    fillPath.lineTo(2 * 2 + componentWidth / 2 - len + borderLen,
+                            2 * 2 * 2 + componentHeight + borderLen);
+
+                    break;
+            }
+        }
+
+        // close and fill
+        fillPath.closePath();
+        graphics2D.fill(fillPath);
+
+        /*
+        Done with custom component drawing
+         */
 
         // label is offset by border plus the arrow if applicable and the curvature
         int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;

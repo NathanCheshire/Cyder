@@ -1102,6 +1102,8 @@ public class CyderFrame extends JFrame {
 
                     int borderLen = 5;
 
+                    // todo backup restoration algorithm is broken
+
                     // add notification component to proper layer
                     iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
                     getContentPane().repaint();
