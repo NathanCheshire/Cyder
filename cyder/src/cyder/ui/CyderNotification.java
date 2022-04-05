@@ -148,7 +148,7 @@ public class CyderNotification extends JLabel {
         graphics2D.setRenderingHints(qualityHints);
 
         // draw the bigger shape to hold the smaller one
-        Color borderColor = CyderColors.regularPink;
+        Color borderColor = CyderColors.notificationBorderColor;
         graphics2D.setPaint(new Color(borderColor.getRed(), borderColor.getGreen(),
                                       borderColor.getBlue(), opacity));
 
@@ -275,69 +275,16 @@ public class CyderNotification extends JLabel {
         outlinePath.closePath();
         graphics2D.fill(outlinePath);
 
-        // fill the background color, smaller bounds
-//        Color backgroundColor = CyderColors.notificationBackgroundColor;
-//        graphics2D.setPaint(new Color(
-//                backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), opacity));
-//
-//        GeneralPath fillPath = new GeneralPath();
-//
-//        fillPath.moveTo(10, 10 + 2);
+        // todo inner shape and arrow
 
-//        fillPath.curveTo(10, 10 + 2,12,8 + 2, 14, 6 + 2);
-//        fillPath.lineTo(textWidth + 14, 6 + 2);
-//
-//        fillPath.curveTo(textWidth + 14, 6 + 2,
-//                textWidth + 16, 8 + 2, textWidth + 18, 10 + 2);
-//        fillPath.lineTo(textWidth + 18, textHeight + 10 + 2);
-//
-//        fillPath.curveTo(textWidth + 18, textHeight + 10 + 2,
-//                textWidth + 16, textHeight + 12 + 2, textWidth + 14, textHeight + 14 + 2);
-//        fillPath.lineTo(14, textHeight + 14 + 2);
-//
-//        fillPath.curveTo(14, textHeight + 14 + 2,
-//                12, textHeight + 12 + 2, 10, textHeight + 10 + 2);
-//        fillPath.lineTo( 10, 10 + 2);
+        // todo tooltips and dispose action not working
+        // label is offset by border plus the arrow if applicable
+        int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + DEFAULT_BORDER_LEN;
+        int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + DEFAULT_BORDER_LEN;
 
-//        fillPath.closePath();
-//        graphics2D.fill(fillPath);
-
-        // draw the arrow fill, smaller bounds
-        if (builder.getNotificationType() == NotificationType.TOAST) {
-            switch (builder.getArrowDir()) {
-//                case TOP:
-//                    fillPath.moveTo(8 + textWidth / 2, 6 + 2);
-//                    fillPath.lineTo(14 + textWidth / 2, 2);
-//                    fillPath.lineTo(20 + textWidth / 2, 6 + 2);
-//                    fillPath.lineTo(8 + textWidth / 2, 6 + 2);
-//                    fillPath.closePath();
-//                    graphics2D.fill(fillPath);
-//                    break;
-//                case LEFT:
-//                    fillPath.moveTo(10, 4 + textHeight / 2 + 2);
-//                    fillPath.lineTo(4, 10 + textHeight / 2 + 2);
-//                    fillPath.lineTo(10, 16 + textHeight / 2 + 2);
-//                    fillPath.lineTo(10, 4 + textHeight / 2 + 2);
-//                    fillPath.closePath();
-//                    graphics2D.fill(fillPath);
-//                    break;
-//                case RIGHT:
-//                    fillPath.moveTo(18 + textWidth, 4 + textHeight / 2 + 2);
-//                    fillPath.lineTo(24 + textWidth, 10 + textHeight / 2 + 2);
-//                    fillPath.lineTo(18 + textWidth, 16 + textHeight / 2 + 2);
-//                    fillPath.lineTo(18 + textWidth, 4 + textHeight / 2 + 2);
-//                    fillPath.closePath();
-//                    graphics2D.fill(fillPath);
-//                    break;
-//                case BOTTOM:
-//                    fillPath.moveTo(8 + textWidth / 2, 14 + textHeight + 2);
-//                    fillPath.lineTo(14 + textWidth / 2, 20 + textHeight + 2);
-//                    fillPath.lineTo(20 + textWidth / 2, 14 + textHeight + 2);
-//                    fillPath.lineTo(8 + textWidth / 2, 14 + textHeight + 2);
-//                    fillPath.closePath();
-//                    graphics2D.fill(fillPath);
-            }
-        }
+        JLabel refContainer = builder.getContainer();
+        refContainer.setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
+        add(refContainer);
     }
 
     /**

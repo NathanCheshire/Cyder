@@ -10,7 +10,6 @@ import cyder.utilities.ReflectionUtil;
 import cyder.utilities.enums.NotificationType;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * Notification Builder for CyderFrame notifications as opposed to telescoping constructors.
@@ -145,7 +144,7 @@ public final class NotificationBuilder {
      *
      * @return the container for this notification
      */
-    public Container getContainer() {
+    public JLabel getContainer() {
         return container;
     }
 
