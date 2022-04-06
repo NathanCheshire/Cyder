@@ -69,6 +69,8 @@ import java.util.LinkedList;
 
 // todo stuff taht returns "null" as a string and must be checked need to used optionals
 
+// todo be able to toggle a frame to always fast dispose
+
 /**
  * An audio player widget that supports mp3 and wav files.
  */

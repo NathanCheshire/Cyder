@@ -300,31 +300,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
             rows.add(currentRow);
         }
 
-        // the horizontal line to center the current row on,
-        // this will be based off of the row's tallest component
-        // and the vertical alignment
-        int currentHeightCenteringInc = 0;
-
-        // figure out starting height and increment based off of vertical alignment
-        switch (verticalAlignment) {
-            // this is the default, components are layered down
-            // with the minimum spacing in between them (vertical padding)
-            case TOP:
-                currentHeightCenteringInc += 5;
-                break;
-            case CENTER:
-
-                break;
-            case BOTTOM:
-
-                break;
-            case CENTER_STATIC:
-
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
-        }
-
         // find the max component height of each row
         ArrayList<Integer> maxRowHeights = new ArrayList<>();
         for (ArrayList<Component> row : rows) {
@@ -337,18 +312,58 @@ public class CyderFlowLayout extends CyderBaseLayout {
             maxRowHeights.add(currentRowMax);
         }
 
-        // todo how to account when done with row increment?
+        // now figure out how many rows we can show
+        // and from that, we can determine how to do vertical alignment
+        // by having an initial offset and a gap which mayo not be equal to the one provided.
+        int numRows = 0;
+        int heightAcc = 0;
 
-        // for all the rows
-        while (!rows.isEmpty()) {
+        // for all row heights
+        for (int maxRowHeight : maxRowHeights) {
+            // if we can fit it in the view even if it's a singular pixel
+            if (heightAcc + maxRowHeight < associatedPanel.getHeight()) {
+                heightAcc += maxRowHeight;
+                numRows++;
+            } else break;
+        }
+
+        // ensure that we always do at least 1 row, less than 1 should be impossible
+        numRows = Math.max(1, numRows);
+
+        // the horizontal line to center the current row on,
+        // this is based off of  the vertical alignment
+        int currentHeightCenteringInc = 0;
+
+        // figure out starting height and increment based off of vertical alignment
+        switch (verticalAlignment) {
+            // this is the default, components are layered down
+            // with the minimum spacing in between them (vertical padding)
+            case TOP:
+                currentHeightCenteringInc += 5;
+                break;
+            // component rows are spaced evenly to take up teh whole space available
+            case CENTER:
+                // todo
+                break;
+            // component rows are placed to border the bottom with teh minimum
+            // padding in between them
+            case BOTTOM:
+                // todo
+                break;
+            // compoent rows are spaced with the minimum gap and placed at the center
+            case CENTER_STATIC:
+                // todo
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
+        }
+
+        // for all the rows we can show
+        for (int i = 0 ; i < numRows ; i++) {
             currentRow = rows.remove(0);
 
-            // figure out the max component height for this
-            // row to center the components on
-            int maxHeight = currentRow.get(0).getHeight();
-            for (Component flowComponent : currentRow) {
-                maxHeight = Math.max(flowComponent.getHeight(), maxHeight);
-            }
+            // the current max height for the row from the above computed list
+            int maxHeight = maxRowHeights.remove(0);
 
             // the centering horizontal start line is now the
             // padding plus half the max component height
@@ -386,9 +401,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
                         currentLeftX += flowComponent.getWidth() + hgap;
                     }
 
-                    // increment the centering line by the other half
-                    // of the max height and the vertical gap
-                    currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
 
                 // center means the components are centered and excess space is placed
@@ -414,9 +426,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
                         currentCenterX += flowComponent.getWidth() + hgap + partitionedRemainingWidth;
                     }
 
-                    // increment the centering line by the other half
-                    // of the max height and the veritcal gap
-                    currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
 
                 // center static means the components are grouped together with minimum spacing
@@ -439,9 +448,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
                         centeringXAcc += flowComponent.getWidth() + hgap;
                     }
 
-                    // increment the centering line by the other half
-                    // of the max height and the vertical gap
-                    currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
 
                 // right means the minimum spacing between components
@@ -464,10 +470,41 @@ public class CyderFlowLayout extends CyderBaseLayout {
                         currentRightX += flowComponent.getWidth() + hgap;
                     }
 
-                    // increment the centering line by the other half
-                    // of the max height and the vertical gap
-                    currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
+            }
+
+            // todo figure out next row start, vgap will be the main thing to change
+            // increment the centering line by the other half of the max height
+            currentHeightCenteringInc +=  maxHeight / 2;
+
+            // additionally increment by the vertical gap which may or may not be
+            // the one passed in depending on the horizontal alingment
+            switch (verticalAlignment) {
+                // the default gap
+                case TOP:
+                    currentHeightCenteringInc += 5;
+                    break;
+                // component rows are spaced evenly to take up teh whole space available
+                case CENTER:
+                    // todo
+                    break;
+                // the default gap since we've already translated down by a proper starting amount
+                case BOTTOM:
+                    currentHeightCenteringInc += 5;
+                    break;
+                // the default gap since we've already translated down by a proper starting amount
+                case CENTER_STATIC:
+                    currentHeightCenteringInc += 5;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
+            }
+
+            // if the next row's starting y value is not visible at
+            // all (exceeds the panel's height), then we can stop rendering rows
+            if (!maxRowHeights.isEmpty() &&
+                    (currentHeightCenteringInc - maxRowHeights.get(0) / 2) > associatedPanel.getHeight()) {
+                break;
             }
         }
 

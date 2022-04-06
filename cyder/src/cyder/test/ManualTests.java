@@ -44,7 +44,7 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
-
+            flowLayoutTest();
         }, "Manual Tester");
     }
 
@@ -731,7 +731,6 @@ public class ManualTests {
      * Tests for the notify and possibly overflow
      * onto an inform pane custom container test.
      */
-    // todo testing here for field to be centered
     @ManualTest(trigger = "notify container test")
     public static void notifyAndInformCustomContainerTest() {
         CyderFrame testFrame = new CyderFrame(400,400);
