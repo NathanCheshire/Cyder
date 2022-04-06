@@ -17,7 +17,7 @@ the Convex Hull problem, and Conway's Game of Life (Rest in peace John Conway).
 
 ## Screenshots
 
-![Liminal Cyder](https://user-images.githubusercontent.com/60986919/160317185-836111d3-172b-4399-8196-4449a9d355e6.png)
+![Liminal Cyder](https://user-images.githubusercontent.com/60986919/161875622-3a1c5ec3-ffe1-4d02-aa9e-f44ada0e088a.png)
 
 https://user-images.githubusercontent.com/60986919/161394292-cb7bf459-d405-4efc-8ea1-33a127036a69.mp4
 
