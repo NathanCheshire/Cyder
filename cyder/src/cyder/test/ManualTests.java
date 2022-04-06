@@ -756,7 +756,7 @@ public class ManualTests {
         });
 
         // todo flow should center
-        CyderFlowLayout cyderFlow = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER);
+        CyderFlowLayout cyderFlow = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER_STATIC);
         cyderFlow.addComponent(ctf);
 
         CyderPanel panel = new CyderPanel(cyderFlow);

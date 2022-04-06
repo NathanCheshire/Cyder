@@ -1031,6 +1031,9 @@ public class CyderFrame extends JFrame {
 
     // todo sometimes notifications don't work, like same one twice doesn't work
 
+    // todo look into redrawing a notifcation on frame resize
+    //  events if it will "crush" the notification
+
     /**
      * The semaphore used to lock the notification queue
      * so that only one may ever be present at a time.

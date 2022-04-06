@@ -135,109 +135,102 @@ public class CyderFlowLayout extends CyderBaseLayout {
      */
     @Override
     public void revalidateComponents() {
-        //if we have no components or no panel then we can't revalidate
-        if (flowComponents.size() < 1 ||
-                associatedPanel == null ||
-                associatedPanel.getWidth() == 0)
+        // if no components or no panel, cannot revalidate
+        if (flowComponents.size() < 1 || associatedPanel == null
+                || associatedPanel.getWidth() == 0) {
             return;
+        }
 
-        //for focus restoration after moving components
+        // for attempted focus restoration
         Component focusOwner = null;
 
-        //lists for organizing components
+        // lists for organizing components
         ArrayList<ArrayList<Component>> rows = new ArrayList<>();
         ArrayList<Component> currentRow = new ArrayList<>();
 
         int currentWidthAcc = 0;
 
-        //maximum allocated width for our components plus their gaps
-        // is the panel width minus our horizontal padding
+        // max allowable width per row is the panel width minus the horizontal padding
         int maxWidth = associatedPanel.getWidth() - 2 * hpadding;
 
-        //figure out all the rows and the most that can fit on each row
+        // validate all rows and figure out if we can display some/all rows
         for (Component flowComponent : flowComponents) {
-            //find the first focus owner
-            if (flowComponent.isFocusOwner() && focusOwner == null)
+            // find the focus owner to reset after revalidation
+            if (flowComponent.isFocusOwner() && focusOwner == null) {
                 focusOwner = flowComponent;
+            }
 
-            //if we cannot fit the component on the current row then start a new one
+            // if this component cannot start on this row, then wrap it to a new row
             if (currentWidthAcc + flowComponent.getWidth() + hgap > maxWidth) {
-                //if nothing is in the current row,
-                // such as if the width is smaller than the first component's width
+                // if nothing is on the current row
                 if (currentRow.size() < 1) {
-                    //add current row to rows list after adding
-                    // component to the current row
+                    // add the component to this row
                     currentRow.add(flowComponent);
+
+                    // add the row with a singular element to the rows list
                     rows.add(currentRow);
 
-                    //reset row vars
+                    // reset to a new row to add to
                     currentRow = new ArrayList<>();
                     currentWidthAcc = 0;
                 }
-                //otherwise simly proceed to new row after adding
-                // the current row to the rows list
+                // something is on this row so we need to add and reset
                 else {
-                    //add current row to rows list
+                    // add current row to rows list
                     rows.add(currentRow);
 
-                    //reset row vars for new row
+                    // reset row vars for new row
                     currentRow = new ArrayList<>();
                     currentWidthAcc = flowComponent.getWidth() + hgap;
                     currentRow.add(flowComponent);
                 }
             }
-            //otherwise it can fit on the current row
+            // component can fit on this row
             else {
-                //increment current width
+                // increment width acc
                 currentWidthAcc += flowComponent.getWidth() + hgap;
-                //add the component to the current row
+
+                // add component to row list
                 currentRow.add(flowComponent);
             }
         }
 
-        //add final row to rows if it has a component since it might have
-        // not been added above due to possibly running out of components
-        // before meeting the maximum width constraint
+        // may have run out of components before meeting the max width constraint
+        // so if the current row has components, add the row to the list of rows
         if (!currentRow.isEmpty()) {
             rows.add(currentRow);
         }
 
-        //this is horizontal line that we center the current row
-        // around and is based off of the row's tallest component
+        // the horizontal line to center the current row on,
+        // this will be based off of the row's tallest component
         int currentHeightCenteringInc = vpadding;
 
-        //for each row
+        // for all the rows
         while (!rows.isEmpty()) {
-            //get the current row
             currentRow = rows.remove(0);
 
-            //find max height component to use for centering
-            // components on currentHeightCenteringInc
+            // figure out the max component height for this
+            // row to center the components on
             int maxHeight = currentRow.get(0).getHeight();
-
             for (Component flowComponent : currentRow) {
-                if (flowComponent.getHeight() > maxHeight)
-                    maxHeight = flowComponent.getHeight();
+                maxHeight = Math.max(flowComponent.getHeight(), maxHeight);
             }
 
-            //increment the centering height by the maxHeight for
-            // now / 2 + the vert padding value
+            // the centering horizontal start line is now the
+            // padding plus half the max component height
             currentHeightCenteringInc += (maxHeight / 2);
 
-            //figure out how much width we need for this row
-            // initial value is -hgap since the last component
-            // in the below loop will have an unnecessary hgap after it
+            // now figure out how much width this row really requires (we know it will fit).
+            // the initial value is -hgap to offset the last component having an hgap after it
             int necessaryWidth = - hgap;
             int componentCount = 0;
-
-            //sum width and component count
             for (Component flowComponent : currentRow) {
                 necessaryWidth += flowComponent.getWidth() + hgap;
                 componentCount++;
             }
 
-            //switch on alignment to figure out how to place the rows
-            // on the pane and what to do with possibly excess space
+            // based on alignment figure out how to place the rows on the pane
+            // and what to do with excess space
             switch (alignment) {
                 //left case means we align the components on the
                 // left side with minimum spacing in between
