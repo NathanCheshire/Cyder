@@ -1,7 +1,9 @@
 package cyder.handlers.internal.objects;
 
+import com.google.common.base.Preconditions;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
+import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,54 +67,108 @@ public final class InformBuilder {
      * @param htmlText the html styled text to display on the inform pane
      */
     public InformBuilder(String htmlText) {
-        if (htmlText == null || htmlText.length() < MINIMUM_TEXT_LENGTH)
-            throw new IllegalArgumentException("Html text is null or less than " + MINIMUM_TEXT_LENGTH + " chars");
+        Preconditions.checkNotNull(htmlText);
+        Preconditions.checkArgument( StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
 
         this.htmlText = htmlText;
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
-
+    /**
+     * Returns the text associated with this builder, possibly containing html style tags.
+     *
+     * @return the text associated with this builder, possibly containing html style tags
+     */
     public String getHtmlText() {
         return htmlText;
     }
 
+    /**
+     * Returns the title for the frame.
+     *
+     * @return the title for the frame
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Sets the title for the frame.
+     *
+     * @param title the title for the frame
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Returns the component to set the frame relative to.
+     *
+     * @return the component to set the frame relative to
+     */
     public Component getRelativeTo() {
         return relativeTo;
     }
 
+    /**
+     * Sets the component to set the frame relative to.
+     *
+     * @param relativeTo the component to set the frame relative to
+     */
     public void setRelativeTo(Component relativeTo) {
         this.relativeTo = relativeTo;
     }
 
+    /**
+     * Returns the pre close action to invoke before disposing the frame.
+     *
+     * @return the pre close action to invoke before disposing the frame
+     */
     public Runnable getPreCloseAction() {
         return preCloseAction;
     }
 
+    /**
+     * Sets the pre close action to invoke before disposing the frame.
+     *
+     * @param preCloseAction the pre close action to invoke before disposing the frame
+     */
     public void setPreCloseAction(Runnable preCloseAction) {
         this.preCloseAction = preCloseAction;
     }
 
+    /**
+     * Returns the post close action to invoke before disposing the frame.
+     *
+     * @return the post close action to invoke before disposing the frame
+     */
     public Runnable getPostCloseAction() {
         return postCloseAction;
     }
 
+    /**
+     * Sets the post close action to invoke before closing the frame.
+     *
+     * @param postCloseAction the post close action to invoke before closing the frame
+     */
     public void setPostCloseAction(Runnable postCloseAction) {
         this.postCloseAction = postCloseAction;
     }
 
+    /**
+     * Returns the container to use for the frame's pane.
+     *
+     * @return the container to use for the frame's pane
+     */
     public JLabel getContainer() {
         return container;
     }
 
+    /**
+     * Sets the container to use for the frame's pane.
+     *
+     * @param container the container to use for the frame's pane
+     */
     public void setContainer(JLabel container) {
         this.container = container;
     }
