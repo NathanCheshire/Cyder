@@ -7,11 +7,6 @@ import javax.swing.*;
  */
 public class CyderStrings {
     /**
-     * Here string used for debugging.
-     */
-    public static final String HERE = "here";
-
-    /**
      * General renowned sentence in English for using all 26 latin chars.
      */
     public static final String QUICK_BROWN_FOX = "The quick brown fox jumps over the lazy dog";

@@ -67,6 +67,8 @@ import java.util.LinkedList;
 // todo look into redrawing a notifcation on frame resize
 //  events if it will "crush" the notification
 
+// todo stuff taht returns "null" as a string and must be checked need to used optionals
+
 /**
  * An audio player widget that supports mp3 and wav files.
  */

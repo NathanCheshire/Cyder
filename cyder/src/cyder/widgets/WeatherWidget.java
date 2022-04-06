@@ -66,6 +66,9 @@ public class WeatherWidget {
     private String userCountry = "";
     private String gmtOffset = "0";
 
+    private JLabel minTempLabel;
+    private JLabel maxTempLabel;
+
     private JButton closeWeather;
     private JButton minimizeWeather;
 
@@ -112,6 +115,12 @@ public class WeatherWidget {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
                     + UserUtil.getCyderUser().getName() + ", but"
                     + " this feature is suspended until a stable internet connection can be established");
+            return;
+        } else if(StringUtil.isNull(UserUtil.getCyderUser().getWeatherkey())) {
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
+                    + "not been set or is invalid, as a result, many features of Cyder will not work as"
+                    + " intended. Please see the fields panel of the user editor to learn how to acquire "
+                    + "a key and set it.","Weather Key Not Set");
             return;
         }
 
@@ -226,12 +235,12 @@ public class WeatherWidget {
             }, "Weather Location Changer");
         });
 
-        JLabel minTempLabel = new JLabel("");
+        minTempLabel = new JLabel("");
         minTempLabel.setForeground(CyderColors.vanila);
         minTempLabel.setFont(CyderFonts.defaultFontSmall);
         weatherFrame.getContentPane().add(minTempLabel);
 
-        JLabel maxTempLabel = new JLabel("");
+        maxTempLabel = new JLabel("");
         maxTempLabel.setForeground(CyderColors.vanila);
         maxTempLabel.setFont(CyderFonts.defaultFontSmall);
 
@@ -453,10 +462,24 @@ public class WeatherWidget {
                                 minTemp, maxTemp, 0 , 400)) + 5;
 
             currentTemperatureLabel.setText(temperature + "F");
+
             int width = StringUtil.getMinWidth(currentTemperatureLabel.getText(), currentTemperatureLabel.getFont());
             int height = StringUtil.getMinHeight(currentTemperatureLabel.getText(), currentTemperatureLabel.getFont());
-            currentTemperatureLabel.setBounds(temperatureLineCenter - (width) / 2,
-                    temperatureLabel.getY() - 3 - height, width, height);
+
+            int minX = temperatureLabel.getX();
+            int maxX = temperatureLabel.getX() + temperatureLabel.getWidth() - width;
+
+            int desiredX = temperatureLineCenter - (width) / 2;
+
+            if (desiredX < minX) {
+                desiredX = minX;
+            }
+
+            if (desiredX > maxX) {
+                desiredX = maxX;
+            }
+
+            currentTemperatureLabel.setBounds(desiredX, temperatureLabel.getY() - 3 - height, width, height);
 
             //redraw arrow
             windDirectionLabel.repaint();
@@ -542,14 +565,6 @@ public class WeatherWidget {
                     locationString = userCity + ", " + userState + ", " + userCountry;
 
                 String key = UserUtil.getCyderUser().getWeatherkey();
-
-                if (key.trim().isEmpty()) {
-                    ConsoleFrame.INSTANCE.getConsoleCyderFrame().inform("Sorry, but the Weather Key has "
-                            + "not been set or is invalid, as a result, many features of Cyder will not work as"
-                            + " intended. Please see the fields panel of the user editor to learn how to acquire "
-                            + "a key and set it.","Weather Key Not Set");
-                    return;
-                }
 
                 String OpenString = CyderUrls.OPEN_WEATHER_BASE +
                         locationString + "&appid=" + key + "&units=imperial";

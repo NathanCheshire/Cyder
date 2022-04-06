@@ -1268,6 +1268,8 @@ public class UserEditor {
                     editUserFrame.notify("Invalid weather key");
                     weatherKeyField.setText(UserUtil.getCyderUser().getWeatherkey());
                 }
+            } else {
+                UserUtil.getCyderUser().setWeatherkey("");
             }
         }, "Weather key validator"));
         printingUtil.printlnComponent(validateWeatherKey);
@@ -1338,6 +1340,8 @@ public class UserEditor {
                     editUserFrame.notify("Invalid IP key");
                     ipKeyField.setText(UserUtil.getCyderUser().getIpkey());
                 }
+            } else {
+                UserUtil.getCyderUser().setIpkey("");
             }
         }, "IP key validator"));
         printingUtil.printlnComponent(validateIpKey);
@@ -1443,6 +1447,8 @@ public class UserEditor {
                     editUserFrame.notify("Invalid api key");
                     youtubeAPI3Field.setText(UserUtil.getCyderUser().getYouTubeAPI3Key());
                 }
+            } else {
+                UserUtil.getCyderUser().setYouTubeAPI3Key("");
             }
         }, "YouTubeAPI3 key validator"));
         printingUtil.printlnComponent(validateYoutubeAPI);

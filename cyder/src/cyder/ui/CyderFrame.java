@@ -979,8 +979,6 @@ public class CyderFrame extends JFrame {
         return currentNotif;
     }
 
-    // todo can I do a mixin for the default notify() method to throw an exception?
-
     /**
      * Simple, quick, and easy way to show a notification on the frame without using
      * a builder.
@@ -3408,7 +3406,8 @@ public class CyderFrame extends JFrame {
      *
      * @return the current dominant frame for Cyder
      */
-    public static @Nullable CyderFrame getDominantFrame() {
+    @Nullable
+    public static CyderFrame getDominantFrame() {
         if (!ConsoleFrame.INSTANCE.isClosed()) {
             if (ConsoleFrame.INSTANCE.getConsoleCyderFrame().getState() == ICONIFIED) {
                 return null;
