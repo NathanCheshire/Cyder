@@ -2,8 +2,8 @@ package cyder.handlers.internal.objects;
 
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
-import cyder.ui.CyderFrame;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -20,14 +20,44 @@ public final class InformBuilder {
      */
     public static final String DEFAULT_TITLE = "Information";
 
-    //required params
+    /*
+    Required params.
+     */
+
+    /**
+     * The text, possibly styled with html elements, to display on the information pane.
+     */
     private final String htmlText;
 
-    //optional params
+    /*
+    Optional params.
+     */
+
+    /**
+     * The title of this information pane.
+     */
     private String title = DEFAULT_TITLE;
+
+    /**
+     * The component to set this inform frame relative to before the call to setVisible().
+     */
     private Component relativeTo;
-    private CyderFrame.PreCloseAction preCloseAction;
-    private CyderFrame.PostCloseAction postCloseAction;
+
+    /**
+     * The action to invoke before the frame is closed.
+     */
+
+    private Runnable preCloseAction;
+
+    /**
+     * The action to invoke after the frame is closed.
+     */
+    private Runnable postCloseAction;
+
+    /**
+     * The custom container component to layer on the CyderFrame content pane.
+     */
+    private JLabel container;
 
     /**
      * Default constructor for an inform pane with the required parameters.
@@ -41,6 +71,7 @@ public final class InformBuilder {
         this.htmlText = htmlText;
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
+
 
     public String getHtmlText() {
         return htmlText;
@@ -62,19 +93,27 @@ public final class InformBuilder {
         this.relativeTo = relativeTo;
     }
 
-    public CyderFrame.PreCloseAction getPreCloseAction() {
+    public Runnable getPreCloseAction() {
         return preCloseAction;
     }
 
-    public void setPreCloseAction(CyderFrame.PreCloseAction preCloseAction) {
+    public void setPreCloseAction(Runnable preCloseAction) {
         this.preCloseAction = preCloseAction;
     }
 
-    public CyderFrame.PostCloseAction getPostCloseAction() {
+    public Runnable getPostCloseAction() {
         return postCloseAction;
     }
 
-    public void setPostCloseAction(CyderFrame.PostCloseAction postCloseAction) {
+    public void setPostCloseAction(Runnable postCloseAction) {
         this.postCloseAction = postCloseAction;
+    }
+
+    public JLabel getContainer() {
+        return container;
+    }
+
+    public void setContainer(JLabel container) {
+        this.container = container;
     }
 }

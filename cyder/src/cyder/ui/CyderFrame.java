@@ -258,7 +258,10 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Default constructor for a CyderFrame with specified width and height.
+     * Constructs a new CyderFrame object with the specified width and height.
+     * Note that if the width or height falls below the minimum size, the returned
+     * frame object will have the minimum width and/or height, not the width and
+     * height provided.
      *
      * @param width the specified width of the CyderFrame
      * @param height the specified height of the CyderFrame
@@ -268,7 +271,10 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Default CyderFrame constructor for width, height, and content label background color.
+     * Constructs a new CyderFrame object with the specified width and height.
+     * Note that if the width or height falls below the minimum size, the returned
+     * frame object will have the minimum width and/or height, not the width and
+     * height provided.
      *
      * @param width the width of the CyderFrame
      * @param height the height of the CyderFrame
@@ -280,13 +286,15 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Constructs an instance of CyderFrame with the specified width, height, and
-     * ImageIcon which is used for the background.
-     * (you may enable resizing of the Frame and rescaling of the image should you choose)
+     * Constructs a new CyderFrame object with the specified width and height.
+     * Note that if the width or height falls below the minimum size, the returned
+     * frame object will have the minimum width and/or height, not the width and
+     * height provided.
      *
      * @param width the specified width of the cyder frame
      * @param height the specified height of the cyder frame
-     * @param background the specified background image
+     * @param background the specified background image (you may
+     *                   enable rescaling of this background on fram resize events should you choose)
      */
     public CyderFrame(int width, int height, ImageIcon background) {
         // ensure non null backgrond
@@ -467,6 +475,8 @@ public class CyderFrame extends JFrame {
 
     /**
      * Generates and returns a borderless CyderFrame.
+     * A drag listener is already attached to this but
+     * the caller needs to handle how the frame will be disposed.
      *
      * @param width the width of the frame.
      * @param height the height of the frame.
@@ -972,19 +982,6 @@ public class CyderFrame extends JFrame {
         notify(new NotificationBuilder(htmlText));
     }
 
-    // todo backup restoration algorithm is broken
-
-    // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
-
-    // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
-    //  OR set path via user editor, place in dynamic/exes
-
-    // todo audio player should be able to search for songs on youtube and display preview of top 10 results
-    //  and click on one to download
-
-    // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
-    // after conversion finished, should be seamless audio transition
-
     /**
      * Notifies the user with a custom notification built from the provided builder.
      * See {@link NotificationBuilder} for more information.
@@ -1069,7 +1066,13 @@ public class CyderFrame extends JFrame {
                         // can't fit so we need to do a popup with the custom component
                         if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                             || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                            // todo need a method in inform handler for a custom container
+                            InformBuilder informBuilder = new InformBuilder("NULL");
+                            informBuilder.setContainer(currentBuilder.getContainer());
+                            informBuilder.setTitle(getTitle() + " Notification");
+                            informBuilder.setRelativeTo(this);
+
+                            // todo test
+                            InformHandler.inform(informBuilder);
                         }
                     }
                     // if the container is empty, we are intended to generate a text label
@@ -1380,8 +1383,9 @@ public class CyderFrame extends JFrame {
 
                 //run all preCloseActions if any exists, this is performed after the confirmation check
                 // since now we are sure that we wish to close the frame
-                for (PreCloseAction action : preCloseActions)
-                    action.invokeAction();
+                for (Runnable action : preCloseActions) {
+                    action.run();
+                }
 
                 if (currentNotif != null) {
                     currentNotif.kill();
@@ -1418,8 +1422,9 @@ public class CyderFrame extends JFrame {
 
                 super.dispose();
 
-                for (PostCloseAction action : postCloseActions)
-                    action.invokeAction();
+                for (Runnable action : postCloseActions) {
+                    action.run();
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
 
@@ -2186,12 +2191,12 @@ public class CyderFrame extends JFrame {
     /**
      * Actions to be invoked before dispose is invoked.
      */
-    private LinkedList<PreCloseAction> preCloseActions = new LinkedList<>();
+    private LinkedList<Runnable> preCloseActions = new LinkedList<>();
 
     /**
      * Actions to be invoked after dispose is invoked.
      */
-    private LinkedList<PostCloseAction> postCloseActions = new LinkedList<>();
+    private LinkedList<Runnable> postCloseActions = new LinkedList<>();
 
     /**
      * Removes all pre close actions.
@@ -2213,7 +2218,7 @@ public class CyderFrame extends JFrame {
      *
      * @param action the action to perform before closing/disposing
      */
-    public void addPreCloseAction(PreCloseAction action) {
+    public void addPreCloseAction(Runnable action) {
         preCloseActions.add(action);
     }
 
@@ -2223,22 +2228,8 @@ public class CyderFrame extends JFrame {
      *
      * @param action the action to perform before closing/disposing
      */
-    public void addPostCloseAction(PostCloseAction action) {
+    public void addPostCloseAction(Runnable action) {
         postCloseActions.add(action);
-    }
-
-    /**
-     * An action to invoke before a dispose call.
-     */
-    public interface PreCloseAction {
-        void invokeAction();
-    }
-
-    /**
-     * An action to invoke after a dispose call.
-     */
-    public interface PostCloseAction {
-        void invokeAction();
     }
 
     /**

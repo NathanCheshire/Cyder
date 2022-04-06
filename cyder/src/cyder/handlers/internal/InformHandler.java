@@ -12,6 +12,8 @@ import cyder.utilities.BoundsUtil;
 import cyder.utilities.UserUtil;
 import cyder.utilities.objects.BoundsString;
 
+import javax.swing.*;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -68,27 +70,45 @@ public class InformHandler {
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
         try {
-            CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
-            textLabel.setOpaque(false);
-            textLabel.setForeground((darkMode ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor));
-            BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
+            int containerWidth = 0;
+            int containerHeight = 0;
 
-            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
+            if (builder.getContainer() == null) {
+                CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
+                textLabel.setOpaque(false);
+                textLabel.setForeground(darkMode
+                        ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor);
 
-            // 10 - label - 10
-            int frameW = boundsString.getWidth() + xPadding * 2;
+                BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
 
-            // dl - 10 - label - 10
-            int frameH = boundsString.getHeight() + yOffset + 2 * yPadding;
+                containerWidth = boundsString.getWidth();
+                containerHeight = boundsString.getHeight();
 
-            textLabel.setBounds(xPadding - borderOffset, yPadding + yOffset,
-                    boundsString.getWidth() - borderOffset, boundsString.getHeight());
+                textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
+
+                builder.setContainer(textLabel);
+            } else {
+                containerWidth = builder.getContainer().getWidth();
+                containerHeight = builder.getContainer().getHeight();
+            }
+
+            // 10 -> label -> 10
+            int frameW = containerWidth + xPadding * 2;
+
+            // DragLabel -> 10 -> label -> 10
+            int frameH = containerHeight + yOffset + 2 * yPadding;
 
             CyderFrame informFrame = new CyderFrame(frameW, frameH,
                     (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
-            informFrame.add(textLabel);
+
+            int x = informFrame.getWidth() / 2 - containerWidth / 2;
+            int y = informFrame.getHeight() / 2 - containerHeight / 2 + 5;
+
+            JLabel container = builder.getContainer();
+            container.setBounds(x, y, containerWidth, containerHeight);
+            informFrame.add(container);
 
             if (builder.getPreCloseAction() != null)
                 informFrame.addPreCloseAction(builder.getPreCloseAction());

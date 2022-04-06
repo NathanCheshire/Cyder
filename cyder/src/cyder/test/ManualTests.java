@@ -44,27 +44,7 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
-//          try {
-//              Future<Optional<File>> dreamy =
-//                      AudioUtil.dreamifyAudio(new File("C:/users/nathan/downloads/Summit.mp3"));;
-//
-//              while (!dreamy.isDone()) {
-//                  Thread.onSpinWait();
-//              }
-//
-//              if (dreamy.get().isPresent()) {
-//                  Future<Optional<File>> mp3 = AudioUtil.wavToMp3(dreamy.get().get());
-//
-//                  while (!mp3.isDone()) {
-//                      Thread.onSpinWait();
-//                  }
-//
-//                  AudioPlayer.showGUI(mp3.get().get());
-//              }
-//          } catch (Exception e) {
-//              ExceptionHandler.handle(e);
-//          }
-            notificationTest();
+
         }, "Manual Tester");
     }
 

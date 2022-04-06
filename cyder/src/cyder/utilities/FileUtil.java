@@ -62,7 +62,6 @@ public class FileUtil {
      */
     public static boolean isSupportedImageExtension(File f) {
         checkNotNull(f);
-        checkArgument(f.exists());
 
         return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_IMAGE_EXTENSIONS)
                 && (matchesSignature(f, PNG_SIGNATURE) || matchesSignature(f, JPG_SIGNATURE));
@@ -77,7 +76,6 @@ public class FileUtil {
      */
     public static boolean isSupportedAudioExtension(File f) {
         checkNotNull(f);
-        checkArgument(f.exists());
 
         return StringUtil.in(getExtension(f.getName()), true, SUPPORTED_AUDIO_EXTENSIONS)
                 && (matchesSignature(f, WAV_SIGNATURE) || matchesSignature(f, MP3_SIGNATURE));

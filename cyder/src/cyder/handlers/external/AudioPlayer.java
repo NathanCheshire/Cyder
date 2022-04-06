@@ -44,6 +44,26 @@ import java.util.LinkedList;
 //      and never displayed if the audio player frame isn't visible
 // todo add a menu option to quickly convert between wav and mp3
 
+// todo backup restoration algorithm is broken
+
+// todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
+
+// todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
+//  OR set path via user editor, place in dynamic/exes
+
+// todo audio player should be able to search for songs on youtube and display preview of top 10 results
+//  and click on one to download
+
+// todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
+// after conversion finished, should be seamless audio transition
+
+// todo consolidate no minimize and close animations to reduce motion preference which will not use threads in
+// a lot of places for animations
+
+// todo automatically infer that boolean user datas are preferences and check for this
+
+// todo make issue to convert userdatas to actual types
+
 /**
  * An audio player widget that supports mp3 and wav files.
  */

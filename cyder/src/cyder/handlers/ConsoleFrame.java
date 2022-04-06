@@ -1229,7 +1229,7 @@ public enum ConsoleFrame {
     /**
      * Refreshes the taskbar icons based on the frames currently in the frame list.
      */
-    private void installMenuTaskbarIcons() {
+    private synchronized void installMenuTaskbarIcons() {
         boolean compactMode = UserUtil.getCyderUser().getCompactTextMode().equals("1");
 
         StyledDocument doc = menuPane.getStyledDocument();
