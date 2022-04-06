@@ -110,15 +110,7 @@ public class UserEditor {
             switchToUserFiles();
             prefsPanelIndex = 0;
         });
-        editUserFrame.addMenuItem("Fonts", () -> {
-            if (prefsPanelIndex == 1)
-                return;
-
-            revalidateOnMenuItemClicked();
-            switchToFontAndColor();
-            prefsPanelIndex = 1;
-        });
-        editUserFrame.addMenuItem("Colors", () -> {
+        editUserFrame.addMenuItem("Font & Color", () -> {
             if (prefsPanelIndex == 1)
                 return;
 

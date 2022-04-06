@@ -643,8 +643,11 @@ public class CyderNotification extends JLabel {
      * visible again via {@link Component#setVisible(boolean)}.
      */
     public void kill() {
-        if (getParent() != null) {
-            getParent().remove(this);
+        Container parent = getParent();
+
+        if (parent != null) {
+            parent.remove(this);
+            parent.repaint();
         }
 
         setVisible(false);
@@ -683,9 +686,12 @@ public class CyderNotification extends JLabel {
                     }
 
                     Container parentcomp = getParent();
-                    parentcomp.remove(this);
-                    setVisible(false);
-                    parentcomp.repaint();
+
+                    if (parentcomp != null) {
+                        parentcomp.remove(this);
+                        setVisible(false);
+                        parentcomp.repaint();
+                    }
                 } else {
                     switch(notificationDirection) {
                         case TOP:
