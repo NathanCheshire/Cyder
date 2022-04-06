@@ -339,16 +339,23 @@ public class CyderFlowLayout extends CyderBaseLayout {
             // this is the default, components are layered down
             // with the minimum spacing in between them (vertical padding)
             case TOP:
-                currentHeightCenteringInc += 5;
+                currentHeightCenteringInc += 5; // todo vertical gap
                 break;
-            // component rows are spaced evenly to take up teh whole space available
+            // component rows are spaced evenly to take up the whole space available
             case CENTER:
                 // todo
                 break;
-            // component rows are placed to border the bottom with teh minimum
+            // component rows are placed to border the bottom with the minimum
             // padding in between them
             case BOTTOM:
-                // todo
+                int rowHeights = 0;
+
+                for (int aMaxHeight : maxRowHeights) {
+                    rowHeights += aMaxHeight;
+                }
+
+                currentHeightCenteringInc = associatedPanel.getHeight()
+                        - vgap * rows.size() - rowHeights;
                 break;
             // compoent rows are spaced with the minimum gap and placed at the center
             case CENTER_STATIC:
@@ -482,19 +489,19 @@ public class CyderFlowLayout extends CyderBaseLayout {
             switch (verticalAlignment) {
                 // the default gap
                 case TOP:
-                    currentHeightCenteringInc += 5;
+                    currentHeightCenteringInc += vgap;
                     break;
-                // component rows are spaced evenly to take up teh whole space available
+                // component rows are spaced evenly to take up the whole space available
                 case CENTER:
                     // todo
                     break;
                 // the default gap since we've already translated down by a proper starting amount
                 case BOTTOM:
-                    currentHeightCenteringInc += 5;
+                    currentHeightCenteringInc += vgap;
                     break;
                 // the default gap since we've already translated down by a proper starting amount
                 case CENTER_STATIC:
-                    currentHeightCenteringInc += 5;
+                    currentHeightCenteringInc += vgap;
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
