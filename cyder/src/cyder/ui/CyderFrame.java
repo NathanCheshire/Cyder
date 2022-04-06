@@ -36,6 +36,7 @@ import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -971,6 +972,19 @@ public class CyderFrame extends JFrame {
         notify(new NotificationBuilder(htmlText));
     }
 
+    // todo backup restoration algorithm is broken
+
+    // todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
+
+    // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
+    //  OR set path via user editor, place in dynamic/exes
+
+    // todo audio player should be able to search for songs on youtube and display preview of top 10 results
+    //  and click on one to download
+
+    // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
+    // after conversion finished, should be seamless audio transition
+
     /**
      * Notifies the user with a custom notification built from the provided builder.
      * See {@link NotificationBuilder} for more information.
@@ -984,8 +998,8 @@ public class CyderFrame extends JFrame {
         notificationList.add(notificationBuilder);
 
         if (!notificationCheckerStarted) {
-            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
             notificationCheckerStarted = true;
+            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
         }
     }
 
@@ -1004,19 +1018,22 @@ public class CyderFrame extends JFrame {
         notificationList.add(toastBuilder);
 
         if (!notificationCheckerStarted) {
-            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
             notificationCheckerStarted = true;
+            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
         }
     }
+
+    private final Semaphore constructionLock = new Semaphore(1);
 
     /**
      * The notification queue for internal frame notifications/toasts.
      */
-    // todo apparently the queue is broken? multiple notifications can be allowed
     private final Runnable NotificationQueueRunnable = () -> {
         try {
             while (!threadsKilled) {
                 if (!notificationList.isEmpty()) {
+                    constructionLock.acquire();
+
                     // pull next notification to build
                     NotificationBuilder currentBuilder = notificationList.remove(0);
 
@@ -1062,9 +1079,10 @@ public class CyderFrame extends JFrame {
                         textContainerLabel.setFont(CyderFonts.notificationFont);
                         textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
 
+                        long notifiedAt = currentNotif.getBuilder().getNotifyTime();
                         JLabel interactionLabel = new JLabel();
                         interactionLabel.setSize(notificationWidth, notificationHeight);
-                        interactionLabel.setToolTipText("Notified at: " + currentNotif.getBuilder().getNotifyTime());
+                        interactionLabel.setToolTipText("Notified at: " + notifiedAt);
                         interactionLabel.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
@@ -1077,7 +1095,6 @@ public class CyderFrame extends JFrame {
                                 else {
                                     currentNotif.vanish(currentBuilder.getNotificationDirection(),
                                             getContentPane(), 0);
-
                                 }
                             }
 
@@ -1102,8 +1119,6 @@ public class CyderFrame extends JFrame {
 
                     int borderLen = 5;
 
-                    // todo backup restoration algorithm is broken
-
                     // add notification component to proper layer
                     iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
                     getContentPane().repaint();
@@ -1122,9 +1137,11 @@ public class CyderFrame extends JFrame {
                     currentNotif.appear(currentBuilder.getNotificationDirection(),
                             getContentPane(), duration);
 
-                    while (getCurrentNotification().isVisible()) {
+                    while (!currentNotif.isKilled()) {
                         Thread.onSpinWait();
                     }
+
+                    constructionLock.release();
                 } else {
                     // for optimization purposes, end queue thread
                     notificationCheckerStarted = false;
@@ -1366,8 +1383,9 @@ public class CyderFrame extends JFrame {
                 for (PreCloseAction action : preCloseActions)
                     action.invokeAction();
 
-                if (currentNotif != null)
+                if (currentNotif != null) {
                     currentNotif.kill();
+                }
 
                 //kill all threads
                 killThreads();

@@ -64,6 +64,7 @@ public class ManualTests {
 //          } catch (Exception e) {
 //              ExceptionHandler.handle(e);
 //          }
+            notificationTest();
         }, "Manual Tester");
     }
 
@@ -198,11 +199,10 @@ public class ManualTests {
 
         int milliDelay = 3000;
 
-        CyderGridLayout layout = new CyderGridLayout(1,9);
+        CyderGridLayout layout = new CyderGridLayout(3,3);
 
         CyderTextField ctf = new CyderTextField(0);
         ctf.setSize(150,40);
-        layout.addComponent(ctf);
 
         CyderButton topNotify = new CyderButton("Top");
         topNotify.setSize(150,40);
@@ -213,7 +213,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.TOP);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(topNotify);
 
         CyderButton rightNotify = new CyderButton("Top Right");
         rightNotify.setSize(150,40);
@@ -224,7 +223,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.TOP_RIGHT);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(rightNotify);
 
         CyderButton bottomNotify = new CyderButton("Bottom");
         bottomNotify.setSize(150,40);
@@ -235,7 +233,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(bottomNotify);
 
         CyderButton leftNotify = new CyderButton("Top Left");
         leftNotify.setSize(150,40);
@@ -246,7 +243,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.TOP_LEFT);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(leftNotify);
 
         CyderButton centerLeftNotify = new CyderButton("Center Left");
         centerLeftNotify.setSize(150,40);
@@ -257,7 +253,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.LEFT);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(centerLeftNotify);
 
         CyderButton centerRightNotify = new CyderButton("Center Right");
         centerRightNotify.setSize(150,40);
@@ -268,7 +263,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.RIGHT);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(centerRightNotify);
 
         CyderButton bottomLeftNotify = new CyderButton("Bottom Left");
         bottomLeftNotify.setSize(150,40);
@@ -279,7 +273,6 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_LEFT);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(bottomLeftNotify);
 
         CyderButton bottomRightNotify = new CyderButton("Bottom Right");
         bottomRightNotify.setSize(170,40);
@@ -290,7 +283,18 @@ public class ManualTests {
             notificationBuilder.setNotificationDirection(NotificationDirection.BOTTOM_RIGHT);
             testFrame.notify(notificationBuilder);
         });
-        layout.addComponent(bottomRightNotify);
+
+        layout.addComponent(leftNotify, 0, 0);
+        layout.addComponent(topNotify, 1, 0);
+        layout.addComponent(rightNotify, 2, 0);
+
+        layout.addComponent(centerLeftNotify, 0, 1);
+        layout.addComponent(ctf, 1, 1);
+        layout.addComponent(centerRightNotify, 2, 1);
+
+        layout.addComponent(bottomLeftNotify, 0 , 2);
+        layout.addComponent(bottomNotify, 1 ,2);
+        layout.addComponent(bottomRightNotify, 2, 2);
 
         CyderPanel panel = new CyderPanel(layout);
         testFrame.setContentPanel(panel);

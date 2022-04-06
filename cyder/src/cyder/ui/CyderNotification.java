@@ -21,17 +21,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 
-// todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
-
-// todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
-//  OR set path via user editor, place in dynamic/exes
-
-// todo audio player should be able to search for songs on youtube and display preview of top 10 results
-//  and click on one to download
-
-// todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
-// after conversion finished, should be seamless audio transition
-
 /**
  * A custom notification component used for CyderFrames.
  */
@@ -503,6 +492,8 @@ public class CyderNotification extends JLabel {
                         Thread.sleep(2);
                     }
                 } else {
+                    int bottomOffset = 5;
+
                     switch (notificationDirection) {
                         case TOP:
                             setBounds(parent.getWidth() / 2 - getWidth() / 2,
@@ -562,7 +553,8 @@ public class CyderNotification extends JLabel {
                                 Thread.sleep(ANIMATION_DELAY);
                             }
 
-                            setLocation(2, parent.getHeight() / 2 - getHeight() / 2);
+                            setLocation(2, CyderDragLabel.DEFAULT_HEIGHT
+                                    + parent.getHeight() / 2 - getHeight() / 2);
                             break;
                         case RIGHT:
                             // note drag label used here to center on content pane
@@ -579,7 +571,7 @@ public class CyderNotification extends JLabel {
                             }
 
                             setLocation(parent.getWidth() - getWidth() + 5,
-                                    parent.getHeight() / 2 - getHeight() / 2);
+                                    CyderDragLabel.DEFAULT_HEIGHT + parent.getHeight() / 2 - getHeight() / 2);
                             break;
                         case BOTTOM:
                             setBounds(parent.getWidth() / 2 - getWidth() / 2, parent.getHeight()
@@ -594,10 +586,12 @@ public class CyderNotification extends JLabel {
                                 Thread.sleep(ANIMATION_DELAY);
                             }
 
-                            setLocation(getX(), parent.getHeight() - getHeight() + 10);
+                            setBounds(parent.getWidth() / 2 - getWidth() / 2,
+                                    parent.getHeight() - getHeight() + arrowLen, getWidth(), getHeight());
                             break;
                         case BOTTOM_LEFT:
-                            setBounds(-getWidth(), parent.getHeight() - getHeight(), getWidth(), getHeight());
+                            setBounds(-getWidth(), parent.getHeight() - getHeight()
+                                    - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
 
                             for (int i = getX(); i < 5; i += ANIMATION_INCREMENT) {
@@ -608,11 +602,11 @@ public class CyderNotification extends JLabel {
                                 Thread.sleep(ANIMATION_DELAY);
                             }
 
-                            setLocation(2, parent.getHeight() - getHeight() + 10);
+                            setLocation(2, parent.getHeight() - getHeight() - bottomOffset);
                             break;
                         case BOTTOM_RIGHT:
                             setBounds(parent.getWidth() + getWidth(), parent.getHeight()
-                                    - getHeight(), getWidth(), getHeight());
+                                    - getHeight() - bottomOffset, getWidth(), getHeight());
                             setVisible(true);
 
                             for (int i = getX(); i > parent.getWidth() - getWidth() + 5; i -= ANIMATION_INCREMENT) {
@@ -624,10 +618,10 @@ public class CyderNotification extends JLabel {
                             }
 
                             setLocation(parent.getWidth() - getWidth() + 5,
-                                    parent.getHeight() - getHeight() + 10);
+                                    parent.getHeight() - getHeight() - bottomOffset);
                             break;
                         default:
-                            throw new IllegalStateException("Unexpected value: " + notificationDirection);
+                            throw new IllegalStateException("Illegal Notification Direction: " + notificationDirection);
                     }
                 }
 
@@ -649,8 +643,21 @@ public class CyderNotification extends JLabel {
      * visible again via {@link Component#setVisible(boolean)}.
      */
     public void kill() {
-        killed = true;
+        if (getParent() != null) {
+            getParent().remove(this);
+        }
+
         setVisible(false);
+        killed = true;
+    }
+
+    /**
+     * Returns whether this notification has been killed.
+     *
+     * @return whether this notification has been killed
+     */
+    public boolean isKilled() {
+        return killed;
     }
 
     /**
@@ -724,12 +731,9 @@ public class CyderNotification extends JLabel {
                     }
                 }
 
-                // if stil visible, remove and set visibility to false
-                if (isVisible()) {
-                    getParent().remove(this);
-                }
-
                 setVisible(false);
+                repaint();
+                kill();
             } catch (Exception e) {
                ExceptionHandler.handle(e);
             }
