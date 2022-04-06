@@ -339,7 +339,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
             // this is the default, components are layered down
             // with the minimum spacing in between them (vertical padding)
             case TOP:
-                currentHeightCenteringInc += 5; // todo vertical gap
+                currentHeightCenteringInc += 5;
                 break;
             // component rows are spaced evenly to take up the whole space available
             case CENTER:
@@ -359,7 +359,17 @@ public class CyderFlowLayout extends CyderBaseLayout {
                 break;
             // compoent rows are spaced with the minimum gap and placed at the center
             case CENTER_STATIC:
-                // todo
+                int sumRowHeights = 0;
+
+                for (int aMaxHeight : maxRowHeights) {
+                    sumRowHeights += aMaxHeight + vgap;
+                }
+
+                // 1 less than num components always
+                sumRowHeights -= vgap;
+
+                currentHeightCenteringInc = associatedPanel.getHeight() / 2 - sumRowHeights / 2;
+
                 break;
             default:
                 throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
