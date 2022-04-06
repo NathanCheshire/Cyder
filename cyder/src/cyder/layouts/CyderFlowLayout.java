@@ -8,75 +8,176 @@ import cyder.utilities.ReflectionUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * A simple flow layout to quickly add components and ensure their
+ * visibility on the frame provided the frame is big enough.
+ */
 public class CyderFlowLayout extends CyderBaseLayout {
-    //alignment determines what to do with excess space
-    private static final Alignment DEFAULT_ALIGNMENT = Alignment.CENTER;
-    private final Alignment alignment;
+    /**
+     * The default horizontal alignment.
+     */
+    public static final HorizontalAlignment DEFAULT_HORIZONTAL_ALIGNMENT = HorizontalAlignment.CENTER;
 
-    //gaps are the spacing between the components themselves
+    /**
+     * The default vertical alignment.
+     */
+    public static final VerticalAlignment DEFAULT_VERTICAL_ALIGNMENT = VerticalAlignment.TOP;
+
+    /**
+     * The horizontal alignment of this layout.
+     */
+    private final HorizontalAlignment horizontalAlignment;
+
+    /**
+     * The vertical alignment of this layout.
+     */
+    private final VerticalAlignment verticalAlignment;
+
+    /**
+     * The default horizontal gap between components.
+     */
     private static final int DEFAULT_HGAP = 5;
+
+    /**
+     * The default vertical gap between components.
+     */
     private static final int DEFAULT_VGAP = 5;
+
+    /**
+     * The horizontal gap of this layout between components.
+     */
     private int hgap;
+
+    /**
+     * The vertical gap of this layout between components.
+     */
     private int vgap;
 
     //padding is the spacing between components the frame bounds
+
+    /**
+     * The default horizontal padding between the frame left and right.
+     */
     private static final int DEFAULT_HPADDING = 5;
+
+    /**
+     * The default vertical padding between the frame top and bottom.
+     */
     private static final int DEFAULT_VPADDING = 5;
+
+    /**
+     * The horizontal padding of this layout.
+     */
     private int hpadding = DEFAULT_HPADDING;
+
+    /**
+     * The vertical padding of this layout.
+     */
     private int vpadding = DEFAULT_VPADDING;
 
-    //alignment enum used to determine what to do with excess space
-    public enum Alignment {
-        LEFT, CENTER, RIGHT, CENTER_STATIC
+    /**
+     * An alignment property to determine how components are layed out
+     * on a specific axis and what to do with excess space.
+     */
+    public enum HorizontalAlignment {
+        /**
+         * Components are aligned on the left with minimum spacing in between.
+         */
+        LEFT,
+        /**
+         * Components are centered and excess space is placed in between components.
+         */
+        CENTER,
+        /**
+         * Components are aligned on the right with minimum spacing in between.
+         */
+        RIGHT,
+        /**
+         * Components are centered absolutely with the excess space placed evenly
+         * on on the left of the left most component and the right of the right most
+         * component.
+         */
+        CENTER_STATIC
     }
 
     /**
-     * Defaault constructor for a CyderFlowLayout which initializes this layout with
-     * alignment = CENTER, hgap = 5, and vgap = 5.
+     * An alignment property to determine how components are layed out
+     * on a specific axis and what to do with excess space.
+     */
+    public enum VerticalAlignment {
+        /**
+         * Components are aligned on the top with minimum spacing in between.
+         */
+        TOP,
+        /**
+         * Components are centered and excess space is placed in between components.
+         */
+        CENTER,
+        /**
+         * Components are aligned on the bottom with minimum spacing in between.
+         */
+        BOTTOM,
+        /**
+         * Components are centered absolutely with the excess space placed evenly
+         * on the absolute top of the top most component and bottom of the bottom
+         * most component.
+         */
+        CENTER_STATIC
+    }
+
+    /**
+     * Constructs a new FlowLayout with horizontal alignment CENTER,
+     * vertical alignment of TOP, and component gaps of 5 pixels.
      */
     public CyderFlowLayout() {
-        this(Alignment.CENTER, DEFAULT_HGAP, DEFAULT_VGAP);
+        this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, DEFAULT_HGAP, DEFAULT_VGAP);
     }
 
-
     /**
-     * Defaault constructor for a CyderFlowLayout which initializes this layout with
-     * alignment = CENTER, hgap = hgap, and vgap = vgap.
+     * Construcsts a new Flowlayout with CENTER horizontal alignment,
+     * a vertical alignment of TOP, and component gaps of 5 pixels.
      *
      * @param hgap the horizontal gap value to use
      * @param vgap the vertical gap value to use
      */
     public CyderFlowLayout(int hgap, int vgap) {
-        this(Alignment.CENTER, hgap, vgap);
+        this(HorizontalAlignment.CENTER, VerticalAlignment.TOP, hgap, vgap);
     }
 
     /**
-     * Default constructor for a CyderFlowLayout which initializes the layout with
-     * alignment = alignment, hgap = 5, and vgap = 5
+     * Constructs a new FlowLayout with the provided alignment and component gaps of 5 pixels.
      *
-     * @param alignment the alignment enum to use
+     * @param horizontalAlignment the horizontal alignment to use
+     * @param verticalAlignment the vertical alignment to use
      */
-    public CyderFlowLayout(Alignment alignment) {
-        this(alignment, DEFAULT_HGAP, DEFAULT_VGAP);
+    public CyderFlowLayout(HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment) {
+        this(horizontalAlignment, verticalAlignment, DEFAULT_HGAP, DEFAULT_VGAP);
     }
 
     /**
-     * Primary constructor for a CyderFlowLayout which initializes the layout
-     * with the provided parameters.
+     * Constructs a new CyderFlowLayout with the provided alignment and gaps
+     * between the components of "hgap" pixels and "vgap" pixels.
      *
-     * @param alignment the alignment to use to determine what to do with excess space
+     * @param horizontalAlignment the alignment to use to determine what
+     *                           to do with excess space on the horizontal axis
+     * @param verticalAlignment the alignment to use to determine what
+     *                          to do with excess space on the vertical axis
      * @param hgap the horizontal spacing value
      * @param vgap the vertical spacing value
      */
-    public CyderFlowLayout(Alignment alignment, int hgap, int vgap) {
-        this.alignment = alignment;
+    public CyderFlowLayout(HorizontalAlignment horizontalAlignment,
+                           VerticalAlignment verticalAlignment, int hgap, int vgap) {
+        this.horizontalAlignment = horizontalAlignment;
+        this.verticalAlignment = verticalAlignment;
         this.hgap = hgap;
         this.vgap = vgap;
 
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
-    // keep track of components on this panel
+    /**
+     * The comprehensive list of components managed by this layout.
+     */
     private final ArrayList<Component> flowComponents = new ArrayList<>();
 
     /**
@@ -127,11 +228,12 @@ public class CyderFlowLayout extends CyderBaseLayout {
         }
     }
 
-    // todo are we centering components in the middle?
+    // todo implement a vertical alingment with default of top (same as left)
+    //  to not break any existing layouts
 
     /**
-     * Revalidates the component sizes for the FlowLayout and repaints the linked panel so that the
-     * component positions are updated.
+     * Revalidates the component sizes for the FlowLayout and repaints
+     * the linked panel so that the component positions are updated.
      */
     @Override
     public void revalidateComponents() {
@@ -231,120 +333,116 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
             // based on alignment figure out how to place the rows on the pane
             // and what to do with excess space
-            switch (alignment) {
-                //left case means we align the components on the
-                // left side with minimum spacing in between
+            switch (horizontalAlignment) {
+                // left means all components on left with the minimum spacing in between
                 case LEFT:
-                    //the current starting value is simply the horizontal padding value
+                    // the left most point we can go
                     int currentLeftX = hpadding;
 
-                    //set component locations based on centering line and currentX
+                    // for all components on this row, set their locations
+                    // on the center line and the currentLeftX
                     for (Component flowComponent : currentRow) {
-                        //the below statement will always work since currentHeightCenteringInc
-                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        // this is guaranteed to work since
+                        // currentHeightCenteringInc >= currentFlowComp.height / 2 is always true
                         flowComponent.setLocation(currentLeftX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add the component to the panel in case it was not added before
+                        // add the component to the panel (sometimes necessary, usually not)
                         associatedPanel.add(flowComponent);
 
-                        //increment x by current width plus the horizontal gap
+                        // increment by the width and gap needed
                         currentLeftX += flowComponent.getWidth() + hgap;
                     }
 
-                    //increment the centering line by the remaining maximum
-                    // height for the current row plus the vertical gap
+                    // increment the centering line by the other half
+                    // of the max height and the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
 
-                //center means we center the components and
-                // evenly divide possibly extra space between both
-                // padding values and gap values
+                // center means the components are centered and excess space is placed
+                // evenly in the padding and gap values
                 case CENTER:
-                    //figure out how much extra padding we can give to gaps between components
+                    // figure out how much excess space we have for this row
                     int partitionedRemainingWidth = (maxWidth - necessaryWidth) / (componentCount + 1);
 
-                    //the current x incrementer is the padding value with the first partitioned width
+                    // the current x incrementer based off of the minimum x and a partitioned width value
                     int currentCenterX = hpadding + partitionedRemainingWidth;
 
-                    //set component locations based on centering line and currentX
+                    // for all the components
                     for (Component flowComponent : currentRow) {
-                        //the below statement will always work since currentHeightCenteringInc
-                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        //the below statement will always work since
+                        // currentHeightCenteringInc >= (currentFlowComp.height / 2) is always true
                         flowComponent.setLocation(currentCenterX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add the component to the panel in case it was not added before
+                        // add the component (sometimes needed, usually not)
                         associatedPanel.add(flowComponent);
 
-                        //increment our centering x by the component's width, the horizontal gap,
-                        // and the partitioned gap value
+                        // increment by the width, gap, and a partition width
                         currentCenterX += flowComponent.getWidth() + hgap + partitionedRemainingWidth;
                     }
 
-                    //increment the centering line by the remaining maximum
-                    // height for the current row plus the vertical gap
+                    // increment the centering line by the other half
+                    // of the max height and the veritcal gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
 
-                //center static means simply center the components
-                // with minimum spacing between them
+                // center static means the components are grouped together with minimum spacing
+                // and placed in the center, excess space is placed on the left and right
                 case CENTER_STATIC:
-                    //the starting x is simply padding plus the
-                    // value to center the row on the panel
-                    int currentCenterStaticX = hpadding + (maxWidth - necessaryWidth) / 2;
+                    // find the starting x
+                    int centeringXAcc = hpadding + (maxWidth - necessaryWidth) / 2;
 
-                    //set component locations based on centering line and currentX
+                    // for all components on this row
                     for (Component flowComponent : currentRow) {
-                        //the below statement will always work since currentHeightCenteringInc
-                        // is guaranteed to be >= (currentFlowComp.height / 2)
-                        flowComponent.setLocation(currentCenterStaticX,
+                        //the below statement will always work since
+                        // currentHeightCenteringInc >= (currentFlowComp.height / 2) is always true
+                        flowComponent.setLocation(centeringXAcc,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add the component to the panel in case it was not added before
+                        // add the component (sometimes needed, usually not)
                         associatedPanel.add(flowComponent);
 
-                        //increment x by current width plus hgap
-                        currentCenterStaticX += flowComponent.getWidth() + hgap;
+                        // increment by width and a gap
+                        centeringXAcc += flowComponent.getWidth() + hgap;
                     }
 
-                    //increment the centering line by the remaining maximum
-                    // height for the current row plus the vertical gap
+                    // increment the centering line by the other half
+                    // of the max height and the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
 
-                 //right means that we align the components to the
-                // right with minimum spacing between components
+                // right means the minimum spacing between components
+                // with the rightward component bordering the frame
                 case RIGHT:
-                    //the current component's starting x is the padding value
-                    // plus the maximum width minus the total width needed for the row
+                    // the start of the row
                     int currentRightX = hpadding + (maxWidth - necessaryWidth);
 
                     //set component locations based on centering line and currentX
                     for (Component flowComponent : currentRow) {
-                        //the below statement will always work since currentHeightCenteringInc
-                        // is guaranteed to be >= (currentFlowComp.height / 2)
+                        // the below statement will always work since >= (currentFlowComp.height / 2)
+                        // is always true
                         flowComponent.setLocation(currentRightX,
                                 currentHeightCenteringInc - (flowComponent.getHeight() / 2));
 
-                        //add the component to the panel in case it was not added before
+                        // add the component (sometimes needed, usually not)
                         associatedPanel.add(flowComponent);
 
-                        //increment currentX by the width of the component we j
-                        // ust added and the necessary gap value
+                        // increment by width and a gap
                         currentRightX += flowComponent.getWidth() + hgap;
                     }
 
-                    //increment the centering line by the remaining maximum
-                    // height for the current row plus the vertical gap
+                    // increment the centering line by the other half
+                    // of the max height and the vertical gap
                     currentHeightCenteringInc += vgap + (maxHeight / 2);
                     break;
             }
         }
 
-        //restore focus if we found a component that was the focus owner
-        if (focusOwner != null)
+        // restore focus if we found a component that was the focus owner
+        if (focusOwner != null) {
             focusOwner.requestFocus();
+        }
     }
 
     /**
@@ -355,7 +453,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
     private CyderPanel associatedPanel;
 
     /**
-     * Sets the associated panel for this to calculate bounds based off of and place components onto.
+     * Sets the associated panel for this to calculate
+     * bounds based off of and place components onto.
      *
      * @param panel the panel to use for bounds and to place components onto
      */

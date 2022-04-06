@@ -642,8 +642,8 @@ public class ManualTests {
         CyderFrame testFrame = new CyderFrame(600,600);
         testFrame.setTitle("Flow Layout Test");
 
-        //make layout
-        CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER,25,15);
+        // make layout
+        CyderFlowLayout layout = new CyderFlowLayout(25,15);
 
         //add 10 buttons to layout
         for (int i = 1 ; i < 11 ; i++) {
@@ -732,6 +732,7 @@ public class ManualTests {
      * Tests for the notify and possibly overflow
      * onto an inform pane custom container test.
      */
+    // todo testing here for field to be centered
     @ManualTest(trigger = "notify container test")
     public static void notifyAndInformCustomContainerTest() {
         CyderFrame testFrame = new CyderFrame(400,400);
@@ -755,8 +756,9 @@ public class ManualTests {
             testFrame.notify(builder);
         });
 
-        // todo flow should center
-        CyderFlowLayout cyderFlow = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER_STATIC);
+        CyderFlowLayout cyderFlow = new CyderFlowLayout(
+                CyderFlowLayout.HorizontalAlignment.CENTER_STATIC,
+                CyderFlowLayout.VerticalAlignment.CENTER_STATIC);
         cyderFlow.addComponent(ctf);
 
         CyderPanel panel = new CyderPanel(cyderFlow);
