@@ -1259,11 +1259,13 @@ public class CyderGrid extends JLabel {
     public LinkedList<GridNode> getNodesOfColor(Color color) {
         LinkedList<GridNode> ret = new LinkedList<>();
 
+        lock();
         for (GridNode node : grid) {
             if (node.getColor().equals(color)) {
                 ret.add(node);
             }
         }
+        unlock();
 
         return ret;
     }
@@ -1275,12 +1277,15 @@ public class CyderGrid extends JLabel {
      * @return the grid node at the point if found
      */
     public Optional<GridNode> getNodeAtPoint(Point point) {
-        for (GridNode gridNode : grid){
+        lock();
+        for (GridNode gridNode : grid) {
             if (gridNode.getX() == point.getX() && gridNode.getY() == point.getY()) {
+                unlock();
                 return Optional.of(gridNode);
             }
         }
 
+        unlock();
         return Optional.empty();
     }
 
@@ -1292,13 +1297,13 @@ public class CyderGrid extends JLabel {
     public void removeNodesOfColor(Color color) {
         LinkedList<GridNode> remove = new LinkedList<>();
 
+        lock();
         for (GridNode node : grid) {
             if (node.getColor().equals(color)) {
                 remove.add(node);
             }
         }
 
-        lock();
         grid.removeAll(remove);
         unlock();
     }

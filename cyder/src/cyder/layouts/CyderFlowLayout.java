@@ -228,9 +228,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
         }
     }
 
-    // todo implement a vertical alingment with default of top (same as left)
-    //  to not break any existing layouts
-
     /**
      * Revalidates the component sizes for the FlowLayout and repaints
      * the linked panel so that the component positions are updated.
@@ -305,7 +302,42 @@ public class CyderFlowLayout extends CyderBaseLayout {
 
         // the horizontal line to center the current row on,
         // this will be based off of the row's tallest component
-        int currentHeightCenteringInc = vpadding;
+        // and the vertical alignment
+        int currentHeightCenteringInc = 0;
+
+        // figure out starting height and increment based off of vertical alignment
+        switch (verticalAlignment) {
+            // this is the default, components are layered down
+            // with the minimum spacing in between them (vertical padding)
+            case TOP:
+                currentHeightCenteringInc += 5;
+                break;
+            case CENTER:
+
+                break;
+            case BOTTOM:
+
+                break;
+            case CENTER_STATIC:
+
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid vertical alignment: " + verticalAlignment);
+        }
+
+        // find the max component height of each row
+        ArrayList<Integer> maxRowHeights = new ArrayList<>();
+        for (ArrayList<Component> row : rows) {
+            int currentRowMax = 0;
+
+            for (Component rowComponent : row) {
+                currentRowMax = Math.max(currentRowMax, rowComponent.getHeight());
+            }
+
+            maxRowHeights.add(currentRowMax);
+        }
+
+        // todo how to account when done with row increment?
 
         // for all the rows
         while (!rows.isEmpty()) {
