@@ -739,12 +739,12 @@ public class ManualTests {
 
         JLabel container = new JLabel("<html><div>Creatine water weight, yeah boi</div></html>",
                 SwingConstants.CENTER);
-        container.setSize(500,550);
+        container.setSize(300,300);
         container.setFont(CyderFonts.defaultFont);
 
         // needs to be opaque to fill background
         container.setOpaque(true);
-        container.setBackground(CyderColors.darkModeBackgroundColor);
+        container.setBackground(CyderColors.notificationBackgroundColor);
         container.setForeground(CyderColors.vanila);
 
         CyderTextField ctf = new CyderTextField(0);
@@ -756,7 +756,7 @@ public class ManualTests {
         });
 
         // todo flow should center
-        CyderFlowLayout cyderFlow = new CyderFlowLayout();
+        CyderFlowLayout cyderFlow = new CyderFlowLayout(CyderFlowLayout.Alignment.CENTER);
         cyderFlow.addComponent(ctf);
 
         CyderPanel panel = new CyderPanel(cyderFlow);

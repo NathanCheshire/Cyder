@@ -127,6 +127,8 @@ public class CyderFlowLayout extends CyderBaseLayout {
         }
     }
 
+    // todo are we centering components in the middle?
+
     /**
      * Revalidates the component sizes for the FlowLayout and repaints the linked panel so that the
      * component positions are updated.
@@ -352,7 +354,11 @@ public class CyderFlowLayout extends CyderBaseLayout {
             focusOwner.requestFocus();
     }
 
-    //the panel that we will call .getWidth(), .getHeight() and add/remove components to/from
+    /**
+     * The CyderPanel that this layout is in control of. This is where the
+     * width and height that we are in control from comes and it is what we add/remove
+     * components to/from.
+     */
     private CyderPanel associatedPanel;
 
     /**

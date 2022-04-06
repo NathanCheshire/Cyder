@@ -1078,8 +1078,6 @@ public class CyderFrame extends JFrame {
                         int containerWidth = currentBuilder.getContainer().getWidth();
                         int containerHeight = currentBuilder.getContainer().getHeight();
 
-                        // todo need a dispose label on top if we can handle a custom container
-
                         // can't fit so we need to do a popup with the custom component
                         if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                             || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
@@ -1093,6 +1091,29 @@ public class CyderFrame extends JFrame {
                             // done with actions so return
                             return;
                         }
+
+                        // we can show a custom container on the notification so add the dispose label
+                        long notifiedAt = currentNotif.getBuilder().getNotifyTime();
+                        JLabel interactionLabel = new JLabel();
+                        interactionLabel.setSize(containerWidth, containerHeight);
+                        interactionLabel.setToolTipText("Notified at: " + notifiedAt);
+                        interactionLabel.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                // fire the on kill actions
+                                if (currentBuilder.getOnKillAction() != null) {
+                                    currentNotif.kill();
+                                    currentBuilder.getOnKillAction().run();
+                                }
+                                // smoothly animate notification away
+                                else {
+                                    currentNotif.vanish(currentBuilder.getNotificationDirection(),
+                                            getContentPane(), 0);
+                                }
+                            }
+                        });
+
+                        currentBuilder.getContainer().add(interactionLabel);
                     }
                     // if the container is empty, we are intended to generate a text label
                     else {
