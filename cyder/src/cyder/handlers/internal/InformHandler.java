@@ -1,5 +1,6 @@
 package cyder.handlers.internal;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
@@ -13,8 +14,6 @@ import cyder.utilities.UserUtil;
 import cyder.utilities.objects.BoundsString;
 
 import javax.swing.*;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Information frames throughout Cyder.
@@ -65,66 +64,85 @@ public class InformHandler {
      * @throws IllegalArgumentException if the provided builder is null
      */
     public static void inform(InformBuilder builder) {
-        checkNotNull(builder);
+        Preconditions.checkNotNull(builder);
 
-        boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
+        // custom container
+        if (builder.getContainer() != null) {
+            int containerWidth = builder.getContainer().getWidth();
+            int containerHeight = builder.getContainer().getHeight();
 
-        try {
-            int containerWidth = 0;
-            int containerHeight = 0;
+            int xPadding = 1;
+            int yTopPadding = CyderDragLabel.DEFAULT_HEIGHT - 4;
+            int yBottomPadding = 2;
 
-            if (builder.getContainer() == null) {
-                CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
-                textLabel.setOpaque(false);
-                textLabel.setForeground(darkMode
-                        ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor);
-
-                BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
-
-                containerWidth = boundsString.getWidth();
-                containerHeight = boundsString.getHeight();
-
-                textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
-
-                builder.setContainer(textLabel);
-            } else {
-                containerWidth = builder.getContainer().getWidth();
-                containerHeight = builder.getContainer().getHeight();
-            }
-
-            // 10 -> label -> 10
-            int frameW = containerWidth + xPadding * 2;
-
-            // DragLabel -> 10 -> label -> 10
-            int frameH = containerHeight + yOffset + 2 * yPadding;
-
-            CyderFrame informFrame = new CyderFrame(frameW, frameH,
-                    (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
+            CyderFrame informFrame = new CyderFrame(containerWidth + 2 * xPadding,
+                    containerHeight + yTopPadding + yBottomPadding);
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
 
-            int x = informFrame.getWidth() / 2 - containerWidth / 2;
-            int y = informFrame.getHeight() / 2 - containerHeight / 2 + 5;
-
             JLabel container = builder.getContainer();
-            container.setBounds(x, y, containerWidth, containerHeight);
-            informFrame.add(container);
+            container.setBounds(xPadding, yTopPadding,
+                    containerWidth, containerHeight);
+            informFrame.getContentPane().add(container);
 
-            if (builder.getPreCloseAction() != null)
+            if (builder.getPreCloseAction() != null) {
                 informFrame.addPreCloseAction(builder.getPreCloseAction());
+            }
 
-            if (builder.getPostCloseAction() != null)
+            if (builder.getPostCloseAction() != null) {
                 informFrame.addPostCloseAction(builder.getPostCloseAction());
+            }
 
             informFrame.setVisible(true);
             informFrame.setAlwaysOnTop(true);
             informFrame.setLocationRelativeTo(builder.getRelativeTo());
-
-            // log inform call
-            Logger.log(LoggerTag.UI_ACTION, "[INFORMATION PANE] text = \""
-                    + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
         }
+        // intended to genreate a text inform pane
+        else {
+            boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
+
+            CyderLabel textLabel = new CyderLabel(builder.getHtmlText());
+            textLabel.setOpaque(false);
+            textLabel.setForeground(darkMode
+                    ? CyderColors.defaultDarkModeTextColor : CyderColors.defaultLightModeTextColor);
+
+            BoundsString boundsString = BoundsUtil.widthHeightCalculation(builder.getHtmlText());
+
+            int containerWidth = boundsString.getWidth();
+            int containerHeight = boundsString.getHeight();
+
+            textLabel.setText(BoundsUtil.addCenteringToHTML(boundsString.getText()));
+
+            builder.setContainer(textLabel);
+
+            CyderFrame informFrame = new CyderFrame(containerWidth + xPadding * 2,
+                    containerHeight + yOffset + 2 * yPadding,
+                    (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
+            informFrame.setFrameType(CyderFrame.FrameType.POPUP);
+            informFrame.setTitle(builder.getTitle());
+
+            int containerX = informFrame.getWidth() / 2 - containerWidth / 2;
+            int containerY = informFrame.getHeight() / 2 - containerHeight / 2 + 5;
+
+            JLabel container = builder.getContainer();
+            container.setBounds(containerX, containerY, containerWidth, containerHeight);
+            informFrame.add(container);
+
+            if (builder.getPreCloseAction() != null) {
+                informFrame.addPreCloseAction(builder.getPreCloseAction());
+            }
+
+            if (builder.getPostCloseAction() != null) {
+                informFrame.addPostCloseAction(builder.getPostCloseAction());
+            }
+
+            informFrame.setVisible(true);
+            informFrame.setAlwaysOnTop(true);
+            informFrame.setLocationRelativeTo(builder.getRelativeTo());
+        }
+
+        // log inform call
+        Logger.log(LoggerTag.UI_ACTION, "[INFORMATION PANE] text = \""
+                + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
     }
 }

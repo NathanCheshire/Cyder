@@ -124,7 +124,7 @@ public class ColorConverterWidget {
         layout.addComponent(rgbField, 0, 4, CyderGridLayout.Position.MIDDLE_CENTER);
 
         CyderPanel panel = new CyderPanel(layout);
-        colorFrame.setContentPanel(panel);
+        colorFrame.setLayoutPanel(panel);
 
         colorFrame.finalizeAndShow();
     }

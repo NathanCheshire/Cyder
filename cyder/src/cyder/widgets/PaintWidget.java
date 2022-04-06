@@ -686,7 +686,7 @@ public class PaintWidget {
 
         // use master layout as content pane
         CyderPanel panel = new CyderPanel(parentLayout);
-        paintControlsFrame.setContentPanel(panel);
+        paintControlsFrame.setLayoutPanel(panel);
 
         // init resizing since we can due to the layout
         paintControlsFrame.initializeResizing();

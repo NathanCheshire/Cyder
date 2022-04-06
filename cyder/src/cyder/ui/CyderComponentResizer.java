@@ -294,7 +294,7 @@ public class CyderComponentResizer extends MouseAdapter {
         currentBounds = source.getBounds();
 
         // if source uses a layout
-        if (source instanceof CyderFrame && ((CyderFrame) source).usingLayoutForContentPane()) {
+        if (source instanceof CyderFrame && ((CyderFrame) source).isUsingCyderLayout()) {
             // wipe past components and original focus owner
             focusableComponents.clear();
             originalFocusOwner = null;

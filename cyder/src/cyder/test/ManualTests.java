@@ -277,7 +277,7 @@ public class ManualTests {
         layout.addComponent(bottomRightNotify, 2, 2);
 
         CyderPanel panel = new CyderPanel(layout);
-        testFrame.setContentPanel(panel);
+        testFrame.setLayoutPanel(panel);
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
@@ -622,7 +622,7 @@ public class ManualTests {
         //create master panel with the layout we have added components to
         CyderPanel panel = new CyderPanel(layout);
         //set the frame's content panel
-        gridTestFrame.setContentPanel(panel);
+        gridTestFrame.setLayoutPanel(panel);
 
         //resizing on
         gridTestFrame.initializeResizing();
@@ -656,7 +656,7 @@ public class ManualTests {
 
         //make panel and set as frame's content panel
         CyderPanel panel = new CyderPanel(layout);
-        testFrame.setContentPanel(panel);
+        testFrame.setLayoutPanel(panel);
 
         //resizing on
         testFrame.initializeResizing();
@@ -724,6 +724,43 @@ public class ManualTests {
             }
         });
 
+
+        testFrame.finalizeAndShow();
+    }
+
+    /**
+     * Tests for the notify and possibly overflow
+     * onto an inform pane custom container test.
+     */
+    @ManualTest(trigger = "notify container test")
+    public static void notifyAndInformCustomContainerTest() {
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setTitle("Notify Container Test");
+
+        JLabel container = new JLabel("<html><div>Creatine water weight, yeah boi</div></html>",
+                SwingConstants.CENTER);
+        container.setSize(500,550);
+        container.setFont(CyderFonts.defaultFont);
+
+        // needs to be opaque to fill background
+        container.setOpaque(true);
+        container.setBackground(CyderColors.darkModeBackgroundColor);
+        container.setForeground(CyderColors.vanila);
+
+        CyderTextField ctf = new CyderTextField(0);
+        ctf.setSize(200, 40);
+        ctf.addActionListener(e -> {
+            NotificationBuilder builder = new NotificationBuilder("NULL");
+            builder.setContainer(container);
+            testFrame.notify(builder);
+        });
+
+        // todo flow should center
+        CyderFlowLayout cyderFlow = new CyderFlowLayout();
+        cyderFlow.addComponent(ctf);
+
+        CyderPanel panel = new CyderPanel(cyderFlow);
+        testFrame.setLayoutPanel(panel);
 
         testFrame.finalizeAndShow();
     }

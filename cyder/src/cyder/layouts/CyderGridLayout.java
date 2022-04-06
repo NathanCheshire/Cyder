@@ -1,7 +1,5 @@
 package cyder.layouts;
 
-import cyder.constants.CyderStrings;
-import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
 
@@ -55,15 +53,14 @@ public class CyderGridLayout extends CyderBaseLayout {
     }
 
     /**
-     * Class instantiation is not allowed unless the cells are specified
+     * Constructs a new CyderGridLayout with a singular grid cell.
      */
     public CyderGridLayout() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+        this(1, 1);
     }
 
     /**
-     * Only supported constructor for CyderGridLayout that initializes the LayoutManager
-     * with the provided values for the grid dimensions.
+     * Constructs a new CyderGridLayout with the provided grid dimensions.
      *
      * @param xCells the amount of horizontal cells to have in the Layout
      * @param yCells the amount of vertical cells to have in the Layout

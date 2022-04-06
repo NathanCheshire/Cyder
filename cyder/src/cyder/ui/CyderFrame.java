@@ -302,14 +302,14 @@ public class CyderFrame extends JFrame {
 
         // correct possibly too small width and heights
         if (width < MINIMUM_WIDTH) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
-                    + "\" was attempted to be set to invalid width: " + width);
+            Logger.log(LoggerTag.DEBUG, "CyderFrame was"
+                    + " attempted to be set to invalid width: " + width);
             width = MINIMUM_WIDTH;
         }
 
         if (height < MINIMUM_HEIGHT) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
-                    + "\" was attempted to be set to invalid height: " + height);
+            Logger.log(LoggerTag.DEBUG, "CyderFrame was"
+                    + " attempted to be set to invalid height: " + height);
             height = MINIMUM_HEIGHT;
         }
 
@@ -614,7 +614,14 @@ public class CyderFrame extends JFrame {
      */
     private CyderPanel cyderPanel;
 
-    public boolean usingLayoutForContentPane() {
+    /**
+     * Returns whether the frame is using a layout for it's content
+     * pane as opposed to the default absolute layout.
+     *
+     * @return whether the frame is using a layout for it's content
+     * pane as opposed to the default absolute layout
+     */
+    public boolean isUsingCyderLayout() {
         return cyderPanel != null;
     }
 
@@ -624,7 +631,7 @@ public class CyderFrame extends JFrame {
      * 
      * @param cyderPanel the CyderPanel with an appropriate CyderLayout
      */
-    public void setContentPanel(CyderPanel cyderPanel) {
+    public void setLayoutPanel(CyderPanel cyderPanel) {
         //removing a panel and setting it to null
         if (cyderPanel == null) {
             if (this.cyderPanel != null) {
@@ -972,6 +979,8 @@ public class CyderFrame extends JFrame {
         return currentNotif;
     }
 
+    // todo can I do a mixin for the default notify() method to throw an exception?
+
     /**
      * Simple, quick, and easy way to show a notification on the frame without using
      * a builder.
@@ -1020,6 +1029,12 @@ public class CyderFrame extends JFrame {
         }
     }
 
+    // todo sometimes notifications don't work, like same one twice doesn't work
+
+    /**
+     * The semaphore used to lock the notification queue
+     * so that only one may ever be present at a time.
+     */
     private final Semaphore constructionLock = new Semaphore(1);
 
     /**
@@ -1063,6 +1078,8 @@ public class CyderFrame extends JFrame {
                         int containerWidth = currentBuilder.getContainer().getWidth();
                         int containerHeight = currentBuilder.getContainer().getHeight();
 
+                        // todo need a dispose label on top if we can handle a custom container
+
                         // can't fit so we need to do a popup with the custom component
                         if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
                             || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
@@ -1071,8 +1088,10 @@ public class CyderFrame extends JFrame {
                             informBuilder.setTitle(getTitle() + " Notification");
                             informBuilder.setRelativeTo(this);
 
-                            // todo test
                             InformHandler.inform(informBuilder);
+
+                            // done with actions so return
+                            return;
                         }
                     }
                     // if the container is empty, we are intended to generate a text label
