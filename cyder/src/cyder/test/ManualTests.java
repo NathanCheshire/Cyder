@@ -724,7 +724,6 @@ public class ManualTests {
             }
         });
 
-
         testFrame.finalizeAndShow();
     }
 
@@ -740,7 +739,7 @@ public class ManualTests {
 
         JLabel container = new JLabel("<html><div>Creatine water weight, yeah boi</div></html>",
                 SwingConstants.CENTER);
-        container.setSize(300,300);
+        container.setSize(500,500);
         container.setFont(CyderFonts.defaultFont);
 
         // needs to be opaque to fill background

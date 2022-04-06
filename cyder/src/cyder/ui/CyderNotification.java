@@ -486,7 +486,7 @@ public class CyderNotification extends JLabel {
                     opacity = 0;
                     setVisible(true);
 
-                    for (int i = 0 ; i < 256 ; i++) {
+                    for (int i = 0 ; i < 256 ; i += 2) {
                         opacity = i;
                         repaint();
                         Thread.sleep(2);
@@ -679,7 +679,7 @@ public class CyderNotification extends JLabel {
                 Thread.sleep(delay);
 
                 if (builder.getNotificationType() == NotificationType.TOAST) {
-                    for (int i = 255 ; i >= 0 ; i--) {
+                    for (int i = 255 ; i >= 0 ; i -= 2) {
                         opacity = i;
                         repaint();
                         Thread.sleep(2);

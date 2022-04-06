@@ -1029,11 +1029,6 @@ public class CyderFrame extends JFrame {
         }
     }
 
-    // todo sometimes notifications don't work, like same one twice doesn't work
-
-    // todo look into redrawing a notifcation on frame resize
-    //  events if it will "crush" the notification
-
     /**
      * The semaphore used to lock the notification queue
      * so that only one may ever be present at a time.
@@ -1044,159 +1039,168 @@ public class CyderFrame extends JFrame {
      * The notification queue for internal frame notifications/toasts.
      */
     private final Runnable NotificationQueueRunnable = () -> {
-        try {
-            while (!threadsKilled) {
-                if (!notificationList.isEmpty()) {
-                    constructionLock.acquire();
-
-                    // pull next notification to build
-                    NotificationBuilder currentBuilder = notificationList.remove(0);
-
-                    // init current notification object, needed
-                    // for builder access and to directly kill
-                    currentNotif = new CyderNotification(currentBuilder);
-
-                    currentNotif.setVisible(false);
-                    // ensure invisible to start
-
-                    // generate label for notification
-                    BoundsString bs = BoundsUtil.widthHeightCalculation(
-                            currentBuilder.getHtmlText(),
-                            CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
-                    int notificationWidth = bs.getWidth();
-                    int notificationHeight = bs.getHeight();
-                    String brokenText = bs.getText();
-
-                    // if too wide, cannot notify so inform
-                    if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
-                            || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
-                        // inform original text
-                        inform(currentBuilder.getHtmlText(), "Notification ("
-                                + currentBuilder.getNotifyTime() + ")");
-                        continue;
-                    }
-
-                    // if container specified, ensure it can fit
-                    if (currentBuilder.getContainer() != null) {
-                        int containerWidth = currentBuilder.getContainer().getWidth();
-                        int containerHeight = currentBuilder.getContainer().getHeight();
-
-                        // can't fit so we need to do a popup with the custom component
-                        if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
-                            || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
-                            InformBuilder informBuilder = new InformBuilder("NULL");
-                            informBuilder.setContainer(currentBuilder.getContainer());
-                            informBuilder.setTitle(getTitle() + " Notification");
-                            informBuilder.setRelativeTo(this);
-
-                            InformHandler.inform(informBuilder);
-
-                            // done with actions so return
-                            return;
-                        }
-
-                        // we can show a custom container on the notification so add the dispose label
-                        long notifiedAt = currentNotif.getBuilder().getNotifyTime();
-                        JLabel interactionLabel = new JLabel();
-                        interactionLabel.setSize(containerWidth, containerHeight);
-                        interactionLabel.setToolTipText("Notified at: " + notifiedAt);
-                        interactionLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                // fire the on kill actions
-                                if (currentBuilder.getOnKillAction() != null) {
-                                    currentNotif.kill();
-                                    currentBuilder.getOnKillAction().run();
-                                }
-                                // smoothly animate notification away
-                                else {
-                                    currentNotif.vanish(currentBuilder.getNotificationDirection(),
-                                            getContentPane(), 0);
-                                }
-                            }
-                        });
-
-                        currentBuilder.getContainer().add(interactionLabel);
-                    }
-                    // if the container is empty, we are intended to generate a text label
-                    else {
-                        JLabel textContainerLabel = new JLabel(brokenText);
-                        textContainerLabel.setSize(notificationWidth, notificationHeight);
-                        textContainerLabel.setFont(CyderFonts.notificationFont);
-                        textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-
-                        long notifiedAt = currentNotif.getBuilder().getNotifyTime();
-                        JLabel interactionLabel = new JLabel();
-                        interactionLabel.setSize(notificationWidth, notificationHeight);
-                        interactionLabel.setToolTipText("Notified at: " + notifiedAt);
-                        interactionLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                // fire the on kill actions
-                                if (currentBuilder.getOnKillAction() != null) {
-                                    currentNotif.kill();
-                                    currentBuilder.getOnKillAction().run();
-                                }
-                                // smoothly animate notification away
-                                else {
-                                    currentNotif.vanish(currentBuilder.getNotificationDirection(),
-                                            getContentPane(), 0);
-                                }
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                textContainerLabel.setForeground(
-                                        CyderColors.notificationForegroundColor.darker());
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-                            }
-                        });
-
-                        textContainerLabel.add(interactionLabel);
-
-                        // now when building the notification component, we'll use
-                        // this as our container that we must build around
-                        currentBuilder.setContainer(textContainerLabel);
-                    }
-
-                    int borderLen = 5;
-
-                    // add notification component to proper layer
-                    iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
-                    getContentPane().repaint();
-
-                    // duration is 300ms per word unless less than 5 seconds
-                    int duration = 300 * StringUtil.countWords(
-                            Jsoup.clean(bs.getText(), Safelist.none()));
-                    duration = Math.max(duration, 5000);
-                    duration = currentBuilder.getViewDuration() == 0 ?
-                               duration : currentBuilder.getViewDuration();
-
-                    // log right before appear call
-                    Logger.log(LoggerTag.UI_ACTION, "[" +
-                            getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
-
-                    currentNotif.appear(currentBuilder.getNotificationDirection(),
-                            getContentPane(), duration);
-
-                    while (!currentNotif.isKilled()) {
-                        Thread.onSpinWait();
-                    }
-
-                    constructionLock.release();
-                } else {
-                    // for optimization purposes, end queue thread
-                    notificationCheckerStarted = false;
-                    break;
-                }
+        // as long as threads aren't killed and we have notifications
+        // to pull, loop
+        while (!threadsKilled && !notificationList.isEmpty()) {
+            // lock so that only one notification is visible at a time
+            try {
+                constructionLock.acquire();
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
             }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+
+            // pull next notification to build
+            NotificationBuilder currentBuilder = notificationList.remove(0);
+
+            // init current notification object, needed
+            // for builder access and to kill via revokes
+            currentNotif = new CyderNotification(currentBuilder);
+
+            currentNotif.setVisible(false);
+            // ensure invisible to start
+
+            // generate label for notification
+            BoundsString bs = BoundsUtil.widthHeightCalculation(
+                    currentBuilder.getHtmlText(),
+                    CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
+            int notificationWidth = bs.getWidth();
+            int notificationHeight = bs.getHeight();
+            String brokenText = bs.getText();
+
+            // if too wide, cannot notify so inform
+            if (notificationHeight > height * NOTIFICATION_TO_FRAME_RATIO
+                    || notificationWidth > width * NOTIFICATION_TO_FRAME_RATIO) {
+                // inform original text
+                inform(currentBuilder.getHtmlText(), "Notification ("
+                        + currentBuilder.getNotifyTime() + ")");
+
+                // release and continue with queue
+                constructionLock.release();
+                continue;
+            }
+
+            // if container specified, ensure it can fit
+            if (currentBuilder.getContainer() != null) {
+                int containerWidth = currentBuilder.getContainer().getWidth();
+                int containerHeight = currentBuilder.getContainer().getHeight();
+
+                // can't fit so we need to do a popup with the custom component
+                if (containerWidth > width * NOTIFICATION_TO_FRAME_RATIO
+                    || containerHeight > height * NOTIFICATION_TO_FRAME_RATIO) {
+                    InformBuilder informBuilder = new InformBuilder("NULL");
+                    informBuilder.setContainer(currentBuilder.getContainer());
+                    informBuilder.setTitle(getTitle() + " Notification");
+                    informBuilder.setRelativeTo(this);
+
+                    InformHandler.inform(informBuilder);
+
+                    // done with actions so release and continue
+                    constructionLock.release();
+                    continue;
+                }
+
+                // we can show a custom container on the notification so add the dispose label
+                long notifiedAt = currentNotif.getBuilder().getNotifyTime();
+                JLabel interactionLabel = new JLabel();
+                interactionLabel.setSize(containerWidth, containerHeight);
+                interactionLabel.setToolTipText("Notified at: " + notifiedAt);
+                interactionLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        // fire the on kill actions
+                        if (currentBuilder.getOnKillAction() != null) {
+                            currentNotif.kill();
+                            currentBuilder.getOnKillAction().run();
+                        }
+                        // smoothly animate notification away
+                        else {
+                            currentNotif.vanish(currentBuilder.getNotificationDirection(),
+                                    getContentPane(), 0);
+                        }
+                    }
+                });
+
+                currentBuilder.getContainer().add(interactionLabel);
+            }
+            // if the container is empty, we are intended to generate a text label
+            else {
+                JLabel textContainerLabel = new JLabel(brokenText);
+                textContainerLabel.setSize(notificationWidth, notificationHeight);
+                textContainerLabel.setFont(CyderFonts.notificationFont);
+                textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+
+                long notifiedAt = currentNotif.getBuilder().getNotifyTime();
+                JLabel interactionLabel = new JLabel();
+                interactionLabel.setSize(notificationWidth, notificationHeight);
+                interactionLabel.setToolTipText("Notified at: " + notifiedAt);
+                interactionLabel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        // fire the on kill action
+                        if (currentBuilder.getOnKillAction() != null) {
+                            currentNotif.kill();
+                            currentBuilder.getOnKillAction().run();
+                        }
+                        // smoothly animate notification away
+                        else {
+                            currentNotif.vanish(currentBuilder.getNotificationDirection(),
+                                    getContentPane(), 0);
+                        }
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        textContainerLabel.setForeground(
+                                CyderColors.notificationForegroundColor.darker());
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+                    }
+                });
+
+                textContainerLabel.add(interactionLabel);
+
+                // now when building the notification component, we'll use
+                // this as our container that we must build around
+                currentBuilder.setContainer(textContainerLabel);
+            }
+
+            // add notification component to proper layer
+            iconPane.add(currentNotif, JLayeredPane.POPUP_LAYER);
+            getContentPane().repaint();
+
+            int duration = currentBuilder.getViewDuration();
+
+            // if duration of 0 was passed, we should calculate it based on words
+            if (duration == 0) {
+                duration = 300 * StringUtil.countWords(
+                        Jsoup.clean(bs.getText(), Safelist.none()));
+            }
+
+            // failsafe to ensure notifications are at least four seconds
+            duration = Math.max(duration, 4000);
+
+            Logger.log(LoggerTag.UI_ACTION, "[" +
+                    getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
+
+            // notification itself handles itself appearing, pausing, and vanishing
+            currentNotif.appear(currentBuilder.getNotificationDirection(),
+                    getContentPane(), duration);
+
+            // when the notification is killed/vanishes, it sets itself
+            // to killed; this loop will exit after
+            while (!currentNotif.isKilled()) {
+                Thread.onSpinWait();
+            }
+
+            constructionLock.release();
         }
+
+        // the above while isn't checking so it needs
+        // to be started again for new notifications
+        notificationCheckerStarted = false;
     };
 
     /**
