@@ -334,16 +334,27 @@ public class CyderFlowLayout extends CyderBaseLayout {
         // this is based off of  the vertical alignment
         int currentHeightCenteringInc = 0;
 
+        int centerPartition = 0;
+
         // figure out starting height and increment based off of vertical alignment
         switch (verticalAlignment) {
             // this is the default, components are layered down
             // with the minimum spacing in between them (vertical padding)
             case TOP:
-                currentHeightCenteringInc += 5;
+                currentHeightCenteringInc += vgap;
                 break;
             // component rows are spaced evenly to take up the whole space available
             case CENTER:
-                // todo
+                int rowHeightsOfVisibleRows = 0;
+                for (int i = 0 ; i < numRows ; i++) {
+                    rowHeightsOfVisibleRows += maxRowHeights.get(i);
+                }
+
+                centerPartition = (associatedPanel.getHeight()
+                        - rowHeightsOfVisibleRows) / (numRows + 1);
+
+                currentHeightCenteringInc = centerPartition;
+
                 break;
             // component rows are placed to border the bottom with the minimum
             // padding in between them
@@ -365,7 +376,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
                     sumRowHeights += aMaxHeight + vgap;
                 }
 
-                // 1 less than num components always
+                // one less than num components always
                 sumRowHeights -= vgap;
 
                 currentHeightCenteringInc = associatedPanel.getHeight() / 2 - sumRowHeights / 2;
@@ -490,7 +501,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
                     break;
             }
 
-            // todo figure out next row start, vgap will be the main thing to change
             // increment the centering line by the other half of the max height
             currentHeightCenteringInc +=  maxHeight / 2;
 
@@ -503,7 +513,7 @@ public class CyderFlowLayout extends CyderBaseLayout {
                     break;
                 // component rows are spaced evenly to take up the whole space available
                 case CENTER:
-                    // todo
+                    currentHeightCenteringInc += centerPartition;
                     break;
                 // the default gap since we've already translated down by a proper starting amount
                 case BOTTOM:

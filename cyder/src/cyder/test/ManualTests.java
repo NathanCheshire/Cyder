@@ -644,7 +644,7 @@ public class ManualTests {
 
         // make layout
         CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.HorizontalAlignment.CENTER,
-                CyderFlowLayout.VerticalAlignment.CENTER_STATIC, 25,15);
+                CyderFlowLayout.VerticalAlignment.CENTER, 25,15);
 
         //add 10 buttons to layout
         for (int i = 1 ; i < 11 ; i++) {
