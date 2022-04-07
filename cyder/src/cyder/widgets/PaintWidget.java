@@ -81,6 +81,10 @@ public class PaintWidget {
                 frameLength + CyderDragLabel.DEFAULT_HEIGHT + padding * 2);
         paintFrame.setTitle("Paint");
         paintFrame.setBackground(CyderIcons.defaultBackgroundLarge);
+        paintFrame.addPreCloseAction(() -> {
+            if (paintControlsFrame != null)
+                paintControlsFrame.dispose(true);
+        });
         paintFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -351,6 +355,7 @@ public class PaintWidget {
         paintControlsFrame = new CyderFrame(frameLength,230);
         paintControlsFrame.setTitle("Paint Controls");
         paintControlsFrame.setResizable(true);
+        paintControlsFrame.setShouldFastClose(true);
 
         CyderGridLayout parentLayout = new CyderGridLayout(1,2);
 

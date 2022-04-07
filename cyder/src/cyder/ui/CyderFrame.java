@@ -1398,6 +1398,29 @@ public class CyderFrame extends JFrame {
     }
 
     /**
+     * Whether this frame should fast close when the default dispose is invoked.
+     */
+    private boolean shouldFastClose;
+
+    /**
+     * Returns whether this frame should fast close when the default dispose is invoked.
+     *
+     * @return this frame should fast close when the default dispose is invoked
+     */
+    public boolean isShouldFastClose() {
+        return shouldFastClose;
+    }
+
+    /**
+     * Sets whether this frame should fast close when the default dispose is invoked.
+     *
+     * @param shouldFastClose whether this frame should fast close when the default dispose is invoked
+     */
+    public void setShouldFastClose(boolean shouldFastClose) {
+        this.shouldFastClose = shouldFastClose;
+    }
+
+    /**
      * Disposes the frame.
      *
      * @param fastClose whether to animate the frame away or immediately dispose the frame
@@ -1442,10 +1465,10 @@ public class CyderFrame extends JFrame {
                 //disable dragging
                 disableDragging();
 
-                //disable content pane REPAINTING not paint to speed up the animation
+                // disable content pane repainting not paint to speed up the animation
                 setDisableContentRepainting(true);
 
-                if (this != null && isVisible() && !fastClose
+                if (isVisible() && (!fastClose && !shouldFastClose)
                         && UserUtil.getCyderUser().getCloseAnimation().equals("1")) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
@@ -3275,10 +3298,19 @@ public class CyderFrame extends JFrame {
         menuLabel.setBackground(CyderColors.getGuiThemeColor());
 
         if (currentMenuType == MenuType.PANEL) {
-            int add = menuItems.size() == 1 ? 5 : 0;
-            menuLabel.setSize(menuWidth, 2 * paddingHeight +
+            int menuHeight = 2 * paddingHeight +
                     (menuItems.size() * (StringUtil.getAbsoluteMinHeight(String.valueOf(CyderNumbers.JENNY),
-                            CyderFonts.defaultFontSmall))) + add);
+                            CyderFonts.defaultFontSmall))) + 5;
+
+            int sub = 5;
+
+            if (menuHeight > getHeight() - topDrag.getHeight() - sub) {
+                menuHeight = getHeight() - topDrag.getHeight() - sub;
+            }
+
+            System.out.println(menuHeight);
+            System.out.println(getHeight());
+            menuLabel.setSize(menuWidth, menuHeight);
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         } else {
             menuLabel.setSize(getWidth() - 10,
@@ -3311,9 +3343,7 @@ public class CyderFrame extends JFrame {
 
         if (currentMenuType == MenuType.PANEL) {
             menuScroll.setBounds(menuPadding, menuPadding, menuWidth - 2 * menuPadding,
-                    (menuItems.size()
-                            * (StringUtil.getMinHeight(String.valueOf(CyderNumbers.JENNY),
-                            CyderFonts.defaultFontSmall))));
+                    menuLabel.getHeight() - 2 * menuPadding);
 
             menuScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             menuScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -3353,26 +3383,9 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        if (menuScroll.getHorizontalScrollBar() != null) {
-            int menuScrollWidth = getWidth() - menuPadding * 2 - 10;
-
-            int acc = 0;
-
-            for (int i = 0 ; i < menuItems.size() ; i++) {
-                acc += StringUtil.getMinWidth(menuItems.get(i).getText(), menuItems.get(i).getFont());
-            }
-
-            if (acc > menuScrollWidth) {
-                menuLabel.setSize(menuLabel.getWidth(), menuLabel.getHeight() + 12);
-                menuScroll.setBounds(menuPadding, menuPadding,
-                        getWidth() - menuPadding * 2 - 10,
-                        menuLabel.getHeight() - menuPadding * 2);
-            }
-        }
-
         menuPane.setCaretPosition(0);
         menuLabel.setVisible(false);
-        menuLabel.setLocation(- menuWidth, animateMenuToPoint.y);
+        menuLabel.setLocation(-menuWidth, animateMenuToPoint.y);
         getIconPane().add(menuLabel, JLayeredPane.MODAL_LAYER);
     }
 

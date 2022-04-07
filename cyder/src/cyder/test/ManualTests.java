@@ -44,7 +44,7 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
-            flowLayoutTest();
+
         }, "Manual Tester");
     }
 
@@ -713,10 +713,16 @@ public class ManualTests {
         testFrame.addMenuItem("I've come to talk", () -> testFrame.notify("I've come to talk"));
         testFrame.addMenuItem("with you again", () -> testFrame.notify("with you again"));
         testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("asdfasdf", () -> testFrame.notify("asdfasdf"));
+        testFrame.addMenuItem("done", () -> testFrame.notify("done"));
 
         CyderButton switchMenuType = new CyderButton("Switch Menu");
-        switchMenuType.setBounds(400 / 2 - 200 / 2, 400 / 2 - 40 / 2, 200, 40);
-        testFrame.getContentPane().add(switchMenuType);
+        switchMenuType.setSize(200, 40);
         switchMenuType.addActionListener(e -> {
             if (testFrame.getCurrentMenuType() == CyderFrame.MenuType.PANEL) {
                 testFrame.setCurrentMenuType(CyderFrame.MenuType.RIBBON);
@@ -724,6 +730,22 @@ public class ManualTests {
                 testFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
             }
         });
+
+        CyderTextField addMenuItem = new CyderTextField(0);
+        addMenuItem.setSize(200, 40);
+        addMenuItem.addActionListener(e -> {
+            if (addMenuItem.getText().trim().length() < 3)
+                return;
+
+            testFrame.addMenuItem(addMenuItem.getText(), () -> testFrame.notify(addMenuItem.getText()));
+        });
+
+        CyderGridLayout gridLayout = new CyderGridLayout(1, 2);
+        gridLayout.addComponent(switchMenuType);
+        gridLayout.addComponent(addMenuItem);
+
+        CyderPanel panel = new CyderPanel(gridLayout);
+        testFrame.setLayoutPanel(panel);
 
         testFrame.finalizeAndShow();
     }
