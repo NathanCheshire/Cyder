@@ -1003,7 +1003,7 @@ public class CyderFrame extends JFrame {
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
+            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + " notification queue checker");
         }
     }
 
@@ -1023,7 +1023,7 @@ public class CyderFrame extends JFrame {
 
         if (!notificationCheckerStarted) {
             notificationCheckerStarted = true;
-            CyderThreadRunner.submit(NotificationQueueRunnable, getTitle() + " notification queue checker");
+            CyderThreadRunner.submit(notificationQueueRunnable, getTitle() + " notification queue checker");
         }
     }
 
@@ -1036,7 +1036,7 @@ public class CyderFrame extends JFrame {
     /**
      * The notification queue for internal frame notifications/toasts.
      */
-    private final Runnable NotificationQueueRunnable = () -> {
+    private final Runnable notificationQueueRunnable = () -> {
         // as long as threads aren't killed and we have notifications
         // to pull, loop
         while (!threadsKilled && !notificationList.isEmpty()) {
@@ -1150,11 +1150,15 @@ public class CyderFrame extends JFrame {
                     public void mouseEntered(MouseEvent e) {
                         textContainerLabel.setForeground(
                                 CyderColors.notificationForegroundColor.darker());
+                        currentNotif.setHovered(true);
+                        currentNotif.repaint();
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
                         textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
+                        currentNotif.setHovered(false);
+                        currentNotif.repaint();
                     }
                 });
 

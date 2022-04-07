@@ -83,6 +83,11 @@ public class CyderNotification extends JLabel {
     private final NotificationBuilder builder;
 
     /**
+     * Whether the notification is currently being hovered over by the user's mouse.
+     */
+    private boolean isHovered;
+
+    /**
      * Constructs a new CyderNotification.
      *
      * @param builder the notification builder to construct the notification
@@ -149,6 +154,11 @@ public class CyderNotification extends JLabel {
 
         // draw the bigger shape to hold the smaller one
         Color borderColor = CyderColors.notificationBorderColor;
+
+        if (isHovered) {
+            borderColor = borderColor.darker();
+        }
+
         graphics2D.setPaint(new Color(borderColor.getRed(), borderColor.getGreen(),
                                       borderColor.getBlue(), opacity));
 
@@ -286,6 +296,11 @@ public class CyderNotification extends JLabel {
          */
 
         Color fillColor = CyderColors.notificationBackgroundColor;
+
+        if (isHovered) {
+            fillColor = fillColor.darker();
+        }
+
         graphics2D.setPaint(new Color(fillColor.getRed(), fillColor.getGreen(),
                 fillColor.getBlue(), opacity));
 
@@ -782,5 +797,23 @@ public class CyderNotification extends JLabel {
     @Override
     public String toString() {
         return ReflectionUtil.commonCyderUIReflection(this);
+    }
+
+    /**
+     * Returns whether the notification is currently drawn as being hovered.
+     *
+     * @return whether the notification is currently drawn as being hovered
+     */
+    public boolean isHovered() {
+        return isHovered;
+    }
+
+    /**
+     * Sets whether the notification is currently drawn as being hovered.
+     *
+     * @param hovered whether the notification is currently drawn as being hovered
+     */
+    public void setHovered(boolean hovered) {
+        isHovered = hovered;
     }
 }
