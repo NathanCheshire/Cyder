@@ -40,9 +40,24 @@ public class GetterUtil {
         return new GetterUtil();
     }
 
+    /**
+     * The minimum width for a get string popup.
+     */
     private static final int GET_STRING_MIN_WIDTH = 400;
+
+    /**
+     * The minimum height for a get string popup.
+     */
     private static final int GET_STRING_MIN_HEIGHT = 170;
+
+    /**
+     * The top and bottom padding for a string popup.
+     */
     private static final int getStringYPadding = 10;
+
+    /**
+     * The lefta nd right padding for a string popup.
+     */
     private static final int getStringXPadding = 40;
 
     /**
@@ -189,8 +204,14 @@ public class GetterUtil {
      */
     private final LinkedList<File> directoryFileList = new LinkedList<>();
 
-    // stacks for traversal
+    /**
+     * The backward stack.
+     */
     private final Stack<File> backward = new Stack<>();
+
+    /**
+     * The forward stack.
+     */
     private final Stack<File> forward = new Stack<>();
 
     /**

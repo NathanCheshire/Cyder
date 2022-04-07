@@ -451,6 +451,15 @@ public class CyderNotification extends JLabel {
         JLabel refContainer = builder.getContainer();
         refContainer.setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
         add(refContainer);
+        currentRefContainer = refContainer;
+    }
+
+    public JLabel currentRefContainer;
+
+    public void removeCurrentRefContainer() {
+        if (currentRefContainer != null) {
+            remove(currentRefContainer);
+        }
     }
 
     /**

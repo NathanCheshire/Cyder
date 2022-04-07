@@ -41,33 +41,36 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 // todo need a failsafe so the audio controls on console are revalidated
-//      and never displayed if the audio player frame isn't visible
-// todo add a menu option to quickly convert between wav and mp3
+//  and never displayed if the audio player frame isn't visible
+
+// todo audio player menu options: export as wav,
+//  export as mp3, export waveform, download audio (can
+//  search for music on youtube and refresh with top 10 queries,
+//  click one and confirm to download, this implies there will be levels of pages to the mp3
+//  player and I kind of want them to slide in and out like StraightShot)
 
 // todo backup restoration algorithm is broken
-
-// todo be able to download ffmpeg and ffprobe.exe if user confirms they want to
 
 // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
 //  OR set path via user editor, place in dynamic/exes
 
-// todo audio player should be able to search for songs on youtube and display preview of top 10 results
-//  and click on one to download
+// todo refer to ffmpeg/youtube dl by the path if set, if not we can try just regular but no guarantee
+//  if the exe isn't set in the Windows path environment variable
 
 // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
-// after conversion finished, should be seamless audio transition
+//  after conversion finished, should be seamless audio transition
 
 // todo consolidate no minimize and close animations to reduce motion preference which will not use threads in
-// a lot of places for animations
-
-// todo automatically infer that boolean user datas are preferences and check for this
-
-// todo make issue to convert userdatas to actual types
+//  a lot of places for animations, stuff will be a lot snappier
 
 // todo look into redrawing a notifcation on frame resize
-//  events if it will "crush" the notification
+//  events if it will "crush" the notification, at a certain point it might be too small
+//  so have a cut off that you'll resize versus let it be crushed
 
 // todo stuff taht returns "null" as a string and must be checked need to used optionals
+//  getter util for example for a string
+
+// todo ensure dynamics are created on start, mkdirs not just mkdir, check mkdir instances in Cyder
 
 /**
  * An audio player widget that supports mp3 and wav files.
