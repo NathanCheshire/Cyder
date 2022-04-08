@@ -287,14 +287,9 @@ public class Preferences {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = persistentnotifications");
             //no action required
             }));
-        ret.add(new Preference("minimizeanimation","Minimize Animation",
-                "Animate the window away for minimizations","1",() -> {
-            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = minimizeanimation");
-            //no action required
-            }));
-        ret.add(new Preference("closeanimation","Close Animation",
-                "Animate the window away for close requests","1",() -> {
-            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = closeanimation");
+        ret.add(new Preference("doanimations","Do Animations",
+                "Use animations for things such as frame movement and notifications","1",() -> {
+            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = doanimations");
             //no action required
             }));
         ret.add(new Preference("compacttextmode", "Compact Text",

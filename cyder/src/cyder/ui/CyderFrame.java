@@ -1339,12 +1339,13 @@ public class CyderFrame extends JFrame {
             setRestoreX(getX());
             setRestoreY(getY());
 
-            if (UserUtil.getCyderUser().getMinimizeonclose().equals("1")) {
+            if (UserUtil.getCyderUser().getDoAnimations().equals("1")) {
                 setDisableContentRepainting(true);
 
-                //figure out increment for frame num
+                // figure out increment for frame num
                 int distanceToTravel = ScreenUtil.getScreenHeight() - getY();
-                //25 frames to animate
+
+                // 25 frames to animate
                 int animationInc = (int) ((double ) distanceToTravel / animationFrames);
 
                 for (int i = getY(); i <= ScreenUtil.getScreenHeight(); i += animationInc) {
@@ -1473,7 +1474,7 @@ public class CyderFrame extends JFrame {
                 setDisableContentRepainting(true);
 
                 if (isVisible() && (!fastClose && !shouldFastClose)
-                        && UserUtil.getCyderUser().getCloseAnimation().equals("1")) {
+                        && UserUtil.getCyderUser().getDoAnimations().equals("1")) {
                     Point point = getLocationOnScreen();
                     int x = (int) point.getX();
                     int y = (int) point.getY();

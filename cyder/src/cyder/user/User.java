@@ -212,14 +212,9 @@ public class User {
     private String persistentnotifications;
 
     /**
-     * Whether to do close animations.
+     * Whether to do animations such as close, minimize, and notification slides.
      */
-    private String closeAnimation;
-
-    /**
-     * Whether to do minimize animations.
-     */
-    private String minimizeAnimation;
+    private String doAnimations;
 
     /**
      * Whether compact text mode is active.
@@ -599,21 +594,12 @@ public class User {
     }
 
     /**
-     * Returns whether to perform close animations.
+     * Returns whether to perform animations.
      *
-     * @return whether to perform close animations
+     * @return whether to perform animations
      */
-    public String getCloseAnimation() {
-        return closeAnimation;
-    }
-
-    /**
-     * Returns whether to perform minimize animations.
-     *
-     * @return whether to perform minimize animations
-     */
-    public String getMinimizeAnimation() {
-        return minimizeAnimation;
+    public String getDoAnimations() {
+        return doAnimations;
     }
 
     /**
@@ -1008,21 +994,12 @@ public class User {
     }
 
     /**
-     * Sets whether to do close animations.
+     * Sets whether to do animations.
      *
-     * @param closeAnimation whether to do close animations
+     * @param doAnimations whether to do animations
      */
-    public void setCloseAnimation(String closeAnimation) {
-        this.closeAnimation = closeAnimation;
-    }
-
-    /**
-     * Sets whether to do minimize animations.
-     *
-     * @param minimizeAnimation whether to do minimize animations
-     */
-    public void setMinimizeAnimation(String minimizeAnimation) {
-        this.minimizeAnimation = minimizeAnimation;
+    public void setDoAnimations(String doAnimations) {
+        this.doAnimations = doAnimations;
     }
 
     /**
