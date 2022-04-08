@@ -263,7 +263,7 @@ public class YoutubeUtil {
 
         // create if not there
         if (!albumArtDir.exists()) {
-            albumArtDir.mkdir();
+            albumArtDir.mkdirs();
         }
 
         // create the reference file and save to it

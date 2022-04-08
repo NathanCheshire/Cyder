@@ -415,18 +415,6 @@ public class IOUtil {
     }
 
     /**
-     * Handles the sandbox and it's files depending on whether or not Cyder is in development
-     * or production mode.
-     */
-    public static void cleanSandbox() {
-        File sandbox = new File("static/sandbox");
-
-        if (!sandbox.exists()) {
-            sandbox.mkdir();
-        }
-    }
-
-    /**
      * Executes the USBq.py script to find the devices connected to the PC via a USB protocol.
      */
     public static Future<ArrayList<String>> getUsbDevices() {

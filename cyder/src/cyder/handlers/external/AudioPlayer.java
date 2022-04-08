@@ -70,8 +70,6 @@ import java.util.LinkedList;
 // todo stuff taht returns "null" as a string and must be checked need to used optionals
 //  getter util for example for a string
 
-// todo ensure dynamics are created on start, mkdirs not just mkdir, check mkdir instances in Cyder
-
 /**
  * An audio player widget that supports mp3 and wav files.
  */
@@ -694,7 +692,7 @@ public class AudioPlayer {
         } else {
             try {
                 File userAudioDir = OSUtil.buildFile(
-                        DynamicDirectory.DYNAMIC_PATH, "users",
+                        DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.USERS.getDirectoryName(),
                         ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName());
 
                 if (!userAudioDir.exists()) {

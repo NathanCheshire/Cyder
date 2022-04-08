@@ -1150,8 +1150,9 @@ public class UserUtil {
             }
 
             try {
-                if (!saveDir.exists())
+                if (!saveDir.exists()) {
                     saveDir.mkdir();
+                }
 
                 boolean created = OSUtil.create(createFile);
 

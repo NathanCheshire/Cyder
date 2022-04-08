@@ -411,8 +411,9 @@ public class UserCreator {
         File userFolder = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName(), uuid);
 
-        if (!userFolder.mkdir())
+        if (!userFolder.mkdir()) {
             return false;
+        }
 
         //create the default user files
         for (UserFile f : UserFile.values()) {
@@ -428,8 +429,9 @@ public class UserCreator {
                    return false;
                }
             } else {
-                if (!makeMe.mkdir())
+                if (!makeMe.mkdir()) {
                     return false;
+                }
             }
         }
 

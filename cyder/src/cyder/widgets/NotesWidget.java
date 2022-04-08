@@ -255,8 +255,9 @@ public class NotesWidget {
         File dir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 "users", ConsoleFrame.INSTANCE.getUUID(), UserFile.NOTES.getName());
 
-        if (!dir.exists())
+        if (!dir.exists()) {
             dir.mkdir();
+        }
 
         noteList = new LinkedList<>();
         noteNameList = new LinkedList<>();

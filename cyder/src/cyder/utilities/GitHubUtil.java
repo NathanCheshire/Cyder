@@ -198,8 +198,9 @@ public class GitHubUtil {
             File saveDir = new File(directory.getAbsolutePath()
                     + OSUtil.FILE_SEP + repoName);
 
-            if (saveDir.exists())
+            if (saveDir.exists()) {
                 saveDir.mkdir();
+            }
 
             ConsoleFrame.INSTANCE.getInputHandler().println("Checking for git");
             boolean git = true;
