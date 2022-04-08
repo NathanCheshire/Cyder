@@ -448,17 +448,19 @@ public class CyderNotification extends JLabel {
         int labelOffX = (builder.getArrowDir() == Direction.LEFT ? arrowLen : 0) + borderLen + 2 * 2;
         int labelOffY = (builder.getArrowDir() == Direction.TOP ? arrowLen : 0) + borderLen + 2 * 2;
 
-        JLabel refContainer = builder.getContainer();
-        refContainer.setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
-        add(refContainer);
-        currentRefContainer = refContainer;
-    }
+        builder.getContainer().setBounds(labelOffX, labelOffY, componentWidth, componentHeight);
 
-    public JLabel currentRefContainer;
+        boolean in = false;
 
-    public void removeCurrentRefContainer() {
-        if (currentRefContainer != null) {
-            remove(currentRefContainer);
+        for (Component c : getComponents()) {
+            if (c.equals(builder.getContainer())) {
+                in = true;
+                break;
+            }
+        }
+
+        if (!in) {
+            add(builder.getContainer());
         }
     }
 

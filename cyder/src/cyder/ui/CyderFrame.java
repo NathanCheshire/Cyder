@@ -1827,75 +1827,11 @@ public class CyderFrame extends JFrame {
             }
         }
 
-        boolean resize = getWidth() >= 2 * MINIMUM_WIDTH;
-
         if (getCurrentNotification() != null)
             switch (getCurrentNotification().getBuilder().getArrowDir()) {
                 // center on frame
                 case TOP:
                 case BOTTOM:
-                    if (resize) {
-                        // todo do this for all cases, extract out 0.8
-                        // resizes work but mouse listener not working?
-                        // todo extract to methdod to simply revalidate notificaiton
-                        // and call on setbounds and setlocation events
-
-                        BoundsString bs = BoundsUtil.widthHeightCalculation(
-                                currentNotif.getBuilder().getHtmlText(),
-                                CyderFonts.notificationFont, (int) Math.ceil(width * 0.8));
-                        int notificationWidth = bs.getWidth();
-                        int notificationHeight = bs.getHeight();
-                        String brokenText = bs.getText();
-
-                        JLabel textContainerLabel = new JLabel(brokenText);
-                        textContainerLabel.setSize(notificationWidth, notificationHeight);
-                        textContainerLabel.setFont(CyderFonts.notificationFont);
-                        textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-
-                        JLabel interactionLabel = new JLabel();
-                        long notifiedAt = currentNotif.getBuilder().getNotifyTime();
-                        interactionLabel.setSize(notificationWidth, notificationHeight);
-                        interactionLabel.setToolTipText("Notified at: " + notifiedAt);
-                        interactionLabel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                // fire the on kill action
-                                if (currentNotif.getBuilder().getOnKillAction() != null) {
-                                    currentNotif.kill();
-                                    currentNotif.getBuilder().getOnKillAction().run();
-                                }
-                                // smoothly animate notification away
-                                else {
-                                    currentNotif.vanish(currentNotif.getBuilder().getNotificationDirection(),
-                                            getContentPane(), 0);
-                                }
-                            }
-
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                textContainerLabel.setForeground(
-                                        CyderColors.notificationForegroundColor.darker());
-                                currentNotif.setHovered(true);
-                                currentNotif.repaint();
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                textContainerLabel.setForeground(CyderColors.notificationForegroundColor);
-                                currentNotif.setHovered(false);
-                                currentNotif.repaint();
-                            }
-                        });
-
-                        textContainerLabel.add(interactionLabel);
-
-                        currentNotif.removeCurrentRefContainer();
-
-                        currentNotif.getBuilder().setContainer(textContainerLabel);
-                        currentNotif.repaint();
-                        getContentPane().repaint();
-                    }
-
                     currentNotif.setLocation(getWidth() / 2 - currentNotif.getWidth() / 2,
                         currentNotif.getY());
                     break;
