@@ -60,15 +60,9 @@ import java.util.LinkedList;
 // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
 //  after conversion finished, should be seamless audio transition
 
-// todo consolidate no minimize and close animations to reduce motion preference which will not use threads in
-//  a lot of places for animations, stuff will be a lot snappier
-
 // todo look into redrawing a notifcation on frame resize
 //  events if it will "crush" the notification, at a certain point it might be too small
 //  so have a cut off that you'll resize versus let it be crushed
-
-// todo stuff taht returns "null" as a string and must be checked need to used optionals
-//  getter util for example for a string
 
 /**
  * An audio player widget that supports mp3 and wav files.

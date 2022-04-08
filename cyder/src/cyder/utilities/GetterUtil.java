@@ -514,7 +514,7 @@ public class GetterUtil {
      * @return whether the user confirmed the operation
      */
     public boolean getConfirmation(GetterBuilder builder) {
-        AtomicReference<String> ret = new AtomicReference<>();
+        AtomicReference<Boolean> ret = new AtomicReference<>();
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
@@ -531,7 +531,11 @@ public class GetterUtil {
                 frameReference.set(frame);
                 frame.setFrameType(CyderFrame.FrameType.INPUT_GETTER);
                 frame.setTitle(builder.getTitle());
-                frame.addPreCloseAction(() -> ret.set("false"));
+                frame.addPreCloseAction(() -> {
+                    if (ret.get() != Boolean.TRUE) {
+                        ret.set(Boolean.FALSE);
+                    }
+                });
 
                 textLabel.setBounds(10,35, w, h);
                 frame.getContentPane().add(textLabel);
@@ -541,13 +545,13 @@ public class GetterUtil {
 
                 CyderButton yes = new CyderButton(builder.getYesButtonText());
                 yes.setColors(builder.getSubmitButtonColor());
-                yes.addActionListener(e -> ret.set("true"));
+                yes.addActionListener(e -> ret.set(Boolean.TRUE));
                 yes.setBounds(20,35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(yes);
 
                 CyderButton no = new CyderButton(builder.getNoButtonText());
                 no.setColors(builder.getSubmitButtonColor());
-                no.addActionListener(e -> ret.set("false"));
+                no.addActionListener(e -> ret.set(Boolean.FALSE));
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(no);
 
@@ -569,6 +573,6 @@ public class GetterUtil {
             ExceptionHandler.handle(ex);
         }
 
-        return ret.get().equals("true");
+        return ret.get();
     }
 }
