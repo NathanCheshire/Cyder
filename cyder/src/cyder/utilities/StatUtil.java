@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -98,12 +99,10 @@ public class StatUtil {
     }
 
     public static void debugMenu() {
+        Preconditions.checkArgument(!NetworkUtil.isHighLatency());
+
         CyderThreadRunner.submit(() -> {
             try {
-                if (NetworkUtil.isHighLatency()) {
-                    throw new RuntimeException("Stable connection not established");
-                }
-
                 DecimalFormat gFormater = new DecimalFormat("##.###");
                 double gBytes = Double.parseDouble(gFormater.format((((double) Runtime.getRuntime().freeMemory()) / 1024 / 1024 / 1024)));
                 InetAddress address = InetAddress.getLocalHost();
@@ -114,8 +113,10 @@ public class StatUtil {
                 double x = flag.getWidth();
                 double y = flag.getHeight();
 
-                ConsoleFrame.INSTANCE.getInputHandler().println("Country: " + IPUtil.getIpdata().getCountry_name() + "\nCountry Flag: ");
-                ConsoleFrame.INSTANCE.getInputHandler().printlnImage(new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
+                ConsoleFrame.INSTANCE.getInputHandler().println("Country: "
+                        + IPUtil.getIpdata().getCountry_name() + "\nCountry Flag: ");
+                ConsoleFrame.INSTANCE.getInputHandler().println(
+                        new ImageIcon(ImageUtil.resizeImage(flag, 1, (int) (2 * x), (int) (2 * y))));
 
                 String[] lines = {"Time requested: " + TimeUtil.weatherTime(),
                         "ISP: " + IPUtil.getIpdata().getAsn().getName(),

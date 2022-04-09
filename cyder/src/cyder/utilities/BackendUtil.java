@@ -89,23 +89,6 @@ public class BackendUtil {
         return false;
     }
 
-    /**
-     * Downloads ffmpeg.exe and ffprobe.exe to the exes/ directory.
-     *
-     * @return whether the download could be completed.
-     */
-    public static boolean downloadFFmpegAndFFprobe() {
-        // get url
-
-        // attempt to download both exes
-
-        // ensure downloaded successfully
-
-        // need another method to set paths if user asks
-
-        return false;
-    }
-
     // testing method
     private static void postHelper() {
         try {

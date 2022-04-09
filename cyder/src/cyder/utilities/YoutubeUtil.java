@@ -51,7 +51,7 @@ public class YoutubeUtil {
      * @param url the url of the video to download
      */
     public static void downloadVideo(String url) {
-        if (AudioUtil.ffmpegInstalled() && youtubedlInstalled()) {
+        if (AudioUtil.ffmpegInstalled() && OSUtil.isBinaryInstalled("youtube-dl")) {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
             String extension = "." + AUDIO_FORMAT;
@@ -114,9 +114,9 @@ public class YoutubeUtil {
                     printLabel.setFont(ConsoleFrame.INSTANCE.getInputField().getFont());
 
                     ConsoleFrame.INSTANCE.getInputHandler()
-                            .printlnComponent(audioProgress);
+                            .println(audioProgress);
                     ConsoleFrame.INSTANCE.getInputHandler()
-                            .printlnComponent(printLabel);
+                            .println(printLabel);
 
                     String fileSize = null;
 
@@ -170,7 +170,7 @@ public class YoutubeUtil {
      * @param playlist the url of the playlist to download
      */
     public static void downloadPlaylist(String playlist) {
-        if (AudioUtil.ffmpegInstalled() && youtubedlInstalled()) {
+        if (AudioUtil.ffmpegInstalled() && OSUtil.isBinaryInstalled("youtube-dl")) {
             String playlistID = extractPlaylistId(playlist);
 
             if (StringUtil.isNull(UserUtil.getCyderUser().getYouTubeAPI3Key())) {
@@ -243,8 +243,8 @@ public class YoutubeUtil {
 
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
-                        .replace("- YouTube","")
-                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim();
+                        .replace("- YouTube", "")
+                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars, "").trim();
 
         // remove trailing periods
         while (parsedAsciiSaveName.endsWith("."))
@@ -280,26 +280,6 @@ public class YoutubeUtil {
     }
 
     /**
-     * Returns whether youtube-dl is installed.
-     *
-     * @return whether youtube-dl is installed
-     */
-    public static boolean youtubedlInstalled() {
-        boolean ret = true;
-
-        try {
-            Runtime rt = Runtime.getRuntime();
-            String command = "youtube-dl";
-            Process proc = rt.exec(command);
-        } catch (Exception e) {
-            ret = false;
-            ExceptionHandler.silentHandle(e);
-        }
-
-        return ret;
-    }
-
-    /**
      * Retreives the first valid UUID for the provided query (if one exists)
      *
      * @param youtubeQuery the user friendly query on youtube. Example: "Gryffin Digital Mirage"
@@ -325,24 +305,20 @@ public class YoutubeUtil {
     private static void noFfmpegOrYoutubedl() {
         ConsoleFrame.INSTANCE.getInputHandler().println("Sorry, but ffmpeg and/or youtube-dl " +
                 "couldn't be located. Please make sure they are both installed and added to your PATH Windows" +
-                " variable");
-        ConsoleFrame.INSTANCE.getInputHandler().println(
-                "Remember to also set the path to your youtube-dl executable in the user editor");
+                " variable. Remember to also set the path to your youtube-dl executable in the user editor");
 
         CyderButton environmentVariableHelp = new CyderButton("Learn how to add environment variables");
-        environmentVariableHelp.addActionListener(e ->
-                NetworkUtil.openUrl(CyderUrls.environmentVariables));
-        ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(environmentVariableHelp);
+        environmentVariableHelp.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.environmentVariables));
+        ConsoleFrame.INSTANCE.getInputHandler().println(environmentVariableHelp);
 
         CyderButton downloadFFMPEG = new CyderButton("Learn how to download ffmpeg");
-        downloadFFMPEG.addActionListener(e ->
-                NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
-        ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(downloadFFMPEG);
+        downloadFFMPEG.addActionListener(e -> NetworkUtil.openUrl(CyderUrls.FFMPEG_INSTALLATION));
+        ConsoleFrame.INSTANCE.getInputHandler().println(downloadFFMPEG);
 
         CyderButton downloadYoutubeDL = new CyderButton("Learn how to download youtube-dl");
         downloadYoutubeDL.addActionListener(e ->
                 NetworkUtil.openUrl(CyderUrls.YOUTUBE_DL_INSTALLATION));
-        ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(downloadYoutubeDL);
+        ConsoleFrame.INSTANCE.getInputHandler().println(downloadYoutubeDL);
     }
 
     /**
@@ -350,8 +326,6 @@ public class YoutubeUtil {
      */
     @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
     public static void showGUI() {
-        
-
         CyderFrame uuidFrame = new CyderFrame(400,240, CyderIcons.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");
         uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);

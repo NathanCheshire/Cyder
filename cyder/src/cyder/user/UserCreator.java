@@ -6,6 +6,7 @@ import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
@@ -237,7 +238,7 @@ public class UserCreator {
                                     DynamicDirectory.USERS.getDirectoryName(), lastGeneratedUUID);
 
                             if (deleteMe.exists() && !deleteMe.delete()) {
-                                throw new RuntimeException("Failed to delete failed user creation folder");
+                                throw new FatalException("Failed to delete failed user creation folder");
                             }
                         }
                     } else {

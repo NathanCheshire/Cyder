@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.LoggerTag;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -1005,7 +1006,7 @@ public class UserUtil {
             if (ret.mkdir()) {
                 return ret;
             } else {
-                throw new RuntimeException("Failed to create: " + fileName);
+                throw new FatalException("Failed to create: " + fileName);
             }
         }
 

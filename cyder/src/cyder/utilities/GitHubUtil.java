@@ -203,18 +203,8 @@ public class GitHubUtil {
             }
 
             ConsoleFrame.INSTANCE.getInputHandler().println("Checking for git");
-            boolean git = true;
 
-            try {
-                Runtime rt = Runtime.getRuntime();
-                String command = "git";
-                Process proc = rt.exec(command);
-            } catch (Exception e) {
-                git = false;
-                ExceptionHandler.silentHandle(e);
-            }
-
-            if (!git) {
+            if (!OSUtil.isBinaryInstalled("git")) {
                 ConsoleFrame.INSTANCE.getInputHandler()
                         .println("Git not installed. Please install it at: " + CyderUrls.GIT_DOWNLOAD);
                 return Optional.of(Boolean.FALSE);

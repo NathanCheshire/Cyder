@@ -209,7 +209,7 @@ public class AudioUtil {
                 new CyderThreadFactory("Audio Length Finder: "
                         + FileUtil.getFilename(audioFile))).submit(() -> {
             try {
-                ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
+                ProcessBuilder pb = new ProcessBuilder(getFfprobeCommand(), INPUT_FLAG,
                         "\"" + audioFile.getAbsolutePath() + "\"", "-show_format");
                 Process p = pb.start();
 
@@ -282,7 +282,6 @@ public class AudioUtil {
                          DynamicDirectory.EXES.getDirectoryName(), "ffmpeg.exe");
     }
 
-    // todo use me for all ffprobe invokes
     /**
      * Returns the base ffprobe command.
      *
@@ -309,6 +308,14 @@ public class AudioUtil {
      */
     public static boolean downloadFfmpegStack() {
         // todo
+
+        // get url from backend
+
+        // download zip
+
+        // extract zip into exes inside of exes/
+
+        // delete old zip
 
         return false;
     }

@@ -6,6 +6,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.LoggerTag;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
 import cyder.handlers.internal.ExceptionHandler;
@@ -273,7 +274,7 @@ public class OSUtil {
                     Process proc = new ProcessBuilder(args).start();
                     break;
                 case UNKNOWN:
-                    throw new RuntimeException("UNKNOWN OPERATING SYSTEM");
+                    throw new FatalException("UNKNOWN OPERATING SYSTEM");
                 default:
                     throw new IllegalStateException("Unknown operating system type: " + OPERATING_SYSTEM);
             }

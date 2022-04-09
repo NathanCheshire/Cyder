@@ -7,6 +7,7 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
@@ -386,8 +387,9 @@ public class UserEditor {
                                         //rename file to new name
                                         boolean albumRenSuccess = refFile.renameTo(artRename);
 
-                                        if (!albumRenSuccess)
-                                            throw new RuntimeException("Could not rename music's corresponding album art");
+                                        if (!albumRenSuccess) {
+                                            throw new FatalException("Could not rename music's corresponding album art");
+                                        }
                                     }
                                 }
                             }

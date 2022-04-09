@@ -418,14 +418,14 @@ public class IOUtil {
      * Executes the USBq.py script to find the devices connected to the PC via a USB protocol.
      */
     public static Future<ArrayList<String>> getUsbDevices() {
-        if (!pythonInstalled()) {
+        if (!OSUtil.isBinaryInstalled("python")) {
             ConsoleFrame.INSTANCE.getInputHandler()
                     .println("Python was not found; please install Python and add it" +
                             " to the windows PATH environment variable");
 
             CyderButton installPython = new CyderButton("Downlaod Python");
             installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
-            ConsoleFrame.INSTANCE.getInputHandler().printlnComponent(installPython);
+            ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
 
             return null;
         }
@@ -462,25 +462,5 @@ public class IOUtil {
 
             return ret;
         });
-    }
-
-    /**
-     * Returns whether python is installed.
-     *
-     * @return whether python is installed
-     */
-    public static boolean pythonInstalled() {
-        boolean ret = true;
-
-        try {
-            Runtime rt = Runtime.getRuntime();
-            String command = "python";
-            Process proc = rt.exec(command);
-        } catch (Exception e) {
-            ret = false;
-            ExceptionHandler.silentHandle(e);
-        }
-
-        return ret;
     }
 }

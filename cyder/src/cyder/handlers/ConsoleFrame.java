@@ -223,13 +223,13 @@ public enum ConsoleFrame {
      * the frame and setting its visibility, location, and size.
      *
      * @param entryPoint where the launch call originated from
-     * @throws RuntimeException if the ConsoleFrame was left open
+     * @throws cyder.exceptions.FatalException if the ConsoleFrame was left open
      */
     public void launch(CyderEntry entryPoint) {
         try {
             //the ConsoleFrame should always be closed properly before start is invoked again
             if (!isClosed())
-                throw new RuntimeException("ConsoleFrame was left open: old uuid: " + previousUuid);
+                throw new FatalException("ConsoleFrame was left open: old uuid: " + previousUuid);
 
             setLoadingMessage("Building Console");
 
@@ -628,7 +628,7 @@ public enum ConsoleFrame {
                     }
                 }, "Suggestion Getter Waiter Thread"));
 
-                inputHandler.printlnComponent(suggestionButton);
+                inputHandler.println(suggestionButton);
             },"Suggestion Getter Waiter Thread"));
             helpButton.setBounds(32, 4, 22, 22);
             consoleCyderFrame.getTopDragLabel().add(helpButton);

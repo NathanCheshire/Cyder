@@ -40,23 +40,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-// todo need a failsafe so the audio controls on console are revalidated
-//  and never displayed if the audio player frame isn't visible
-
 // todo audio player menu options: export as wav,
 //  export as mp3, export waveform, download audio (can
 //  search for music on youtube and refresh with top 10 queries,
 //  click one and confirm to download, this implies there will be levels of pages to the mp3
 //  player and I kind of want them to slide in and out like StraightShot)
 
-// todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
-//  OR set path via user editor, place in dynamic/exes
-
-// todo refer to ffmpeg/youtube dl by the path if set, if not we can try just regular but no guarantee
-//  if the exe isn't set in the Windows path environment variable
+// todo youtube-dl should be downloaded with Cyder too and always pointed to locally
 
 // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
 //  after conversion finished, should be seamless audio transition
+
+// todo before starting audio player we need to ensure ffmpeg stack is downloaded.
 
 /**
  * An audio player widget that supports mp3 and wav files.
