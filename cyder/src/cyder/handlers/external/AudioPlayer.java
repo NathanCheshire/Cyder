@@ -49,8 +49,6 @@ import java.util.LinkedList;
 //  click one and confirm to download, this implies there will be levels of pages to the mp3
 //  player and I kind of want them to slide in and out like StraightShot)
 
-// todo backup restoration algorithm is broken
-
 // todo be able to download ffmpeg.exe and ffprobe.exe, prompt user to download and setpaths automatically
 //  OR set path via user editor, place in dynamic/exes
 
@@ -59,10 +57,6 @@ import java.util.LinkedList;
 
 // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
 //  after conversion finished, should be seamless audio transition
-
-// todo look into redrawing a notifcation on frame resize
-//  events if it will "crush" the notification, at a certain point it might be too small
-//  so have a cut off that you'll resize versus let it be crushed
 
 /**
  * An audio player widget that supports mp3 and wav files.

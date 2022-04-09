@@ -351,9 +351,10 @@ public class UserUtil {
             if (mostRecentTimestamp != 0) {
                 File mostRecentBackup = OSUtil.buildFile(
                         DynamicDirectory.DYNAMIC_PATH,
-                        DynamicDirectory.USERS.getDirectoryName(),
+                        DynamicDirectory.BACKUP.getDirectoryName(),
                         uuid + "_" + mostRecentTimestamp + ".json");
 
+                // should always be true...
                 if (mostRecentBackup.exists()) {
                     ret = Optional.of(mostRecentBackup);
                 }
@@ -568,8 +569,9 @@ public class UserUtil {
 
             if (json.exists()) {
                 // ensure parsable and with all data before pref injection
-                if (!getterSetterValidator(json))
+                if (!getterSetterValidator(json)) {
                     userJsonCorruption(userFile.getName());
+                }
             }
         }
     }
