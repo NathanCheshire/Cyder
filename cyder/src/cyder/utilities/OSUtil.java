@@ -752,4 +752,43 @@ public class OSUtil {
             create(currentDynamic);
         }
     }
+
+    /**
+     * Returns whether the provided binary could be found by invoking
+     * the base command in the native shell.
+     *
+     * @param invokeCommand the invoke command such as "ffmpeg" for ffmpeg.
+     * @return whether the binary could be located
+     */
+    public static boolean isBinaryInstalled(String invokeCommand) {
+        try {
+            Runtime rt = Runtime.getRuntime();
+            Process proc = rt.exec(invokeCommand);
+        } catch (Exception e) {
+           return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns whether the provided exe exist in the dynamic/exes directory.
+     *
+     * @param filename the filename of the exe such as ffmpeg.exe
+     * @return whether the file could be located
+     */
+    public static boolean isBinaryInExes(String filename) {
+        File exes = buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.EXES.getDirectoryName());
+
+        if (exes.exists()) {
+            for (File exe : exes.listFiles()) {
+                if (exe.getName().equalsIgnoreCase(filename)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

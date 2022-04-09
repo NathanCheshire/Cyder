@@ -19,16 +19,6 @@ import java.util.concurrent.Future;
  */
 public class AudioUtil {
     /**
-     * The ffmpeg command.
-     */
-    public static final String FFMPEG = "ffmpeg";
-    // todo these should be defaults but we should prefer the directly set path to ffmpeg and ffmprobe.exe
-    /**
-     * The ffprobe command.
-     */
-    public static final String FFPROBE = "ffprobe";
-
-    /**
      * The ffmpeg input flag.
      */
     public static final String INPUT_FLAG = "-i";
@@ -45,7 +35,6 @@ public class AudioUtil {
      * Note the file is creatd in the Cyder temporary directory which is
      * removed upon proper Cyder shutdown/startup.
      *
-     *
      * @param mp3File the mp3 file to convert to wav
      * @return the mp3 file converted to wav
      */
@@ -61,7 +50,7 @@ public class AudioUtil {
             String safePath = "\"" + builtPath + "\"";
 
             File outputFile = new File(builtPath);
-            ProcessBuilder pb = new ProcessBuilder(FFMPEG, INPUT_FLAG,
+            ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
                     "\"" + mp3File.getAbsolutePath() + "\"", safePath);
             pb.redirectErrorStream();
             Process p = pb.start();
@@ -101,7 +90,7 @@ public class AudioUtil {
             String safePath = "\"" + builtPath + "\"";
 
             File outputFile = new File(builtPath);
-            ProcessBuilder pb = new ProcessBuilder(FFMPEG, INPUT_FLAG,
+            ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
                     "\"" + wavFile.getAbsolutePath() + "\"", safePath);
             pb.redirectErrorStream();
             Process p = pb.start();
@@ -164,7 +153,7 @@ public class AudioUtil {
                     "tmp", FileUtil.getFilename(usageFile) + "_Dreamy.wav");
 
             ProcessBuilder pb = new ProcessBuilder(
-                    FFMPEG,
+                    getFfmpegCommand(),
                     INPUT_FLAG,
                     safeFilename,
                     "-filter:a",
@@ -220,7 +209,7 @@ public class AudioUtil {
                 new CyderThreadFactory("Audio Length Finder: "
                         + FileUtil.getFilename(audioFile))).submit(() -> {
             try {
-                ProcessBuilder pb = new ProcessBuilder(FFPROBE, INPUT_FLAG,
+                ProcessBuilder pb = new ProcessBuilder(getFfmpegCommand(), INPUT_FLAG,
                         "\"" + audioFile.getAbsolutePath() + "\"", "-show_format");
                 Process p = pb.start();
 
@@ -241,5 +230,86 @@ public class AudioUtil {
             // return values are auto boxed.
             return -1;
         });
+    }
+
+    /**
+     * Returns whether ffmpeg is installed by attempting
+     * validation on the set path to the exe and attempting
+     * to invoke "ffmpeg" in the console.
+     *
+     * @return whether ffmpeg is installed
+     */
+    public static boolean ffmpegInstalled() {
+        // check for the binary first being set in the Windows PATH
+        if (OSUtil.isBinaryInstalled("ffmpeg")) {
+            return true;
+        }
+
+        // next try to grab the user set path
+        String userSetPath = UserUtil.getCyderUser().getFfmpegpath();
+        if (!StringUtil.isNull(userSetPath) && OSUtil.isBinaryInExes(userSetPath)) {
+            return true;
+        }
+
+        // finally check dynamic/exes to see if an ffmpeg binary exists there
+        return OSUtil.isBinaryInExes("ffmpeg.exe");
+    }
+
+    /**
+     * Returns whether ffprobe is installed.
+     *
+     * @return whether ffprobe is installed
+     */
+    public static boolean ffprobeInstalled() {
+        return OSUtil.isBinaryInstalled("ffprobe")
+                || OSUtil.isBinaryInExes("ffprobe.exe") ;
+    }
+
+    // todo use me for all ffmpeg invokes
+    /**
+     * Returns the command to invoke ffmpeg provided the
+     * binary exists and can be found.
+     *
+     * @return the ffmpeg command
+     */
+    public static String getFfmpegCommand() {
+        Preconditions.checkArgument(ffmpegInstalled());
+
+        String userPath = UserUtil.getCyderUser().getFfmpegpath();
+        return !StringUtil.isNull(userPath) ? userPath
+                : OSUtil.isBinaryInstalled("ffmpeg") ? "ffmpeg"
+                : OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
+                         DynamicDirectory.EXES.getDirectoryName(), "ffmpeg.exe");
+    }
+
+    // todo use me for all ffprobe invokes
+    /**
+     * Returns the base ffprobe command.
+     *
+     * @return the base ffprobe command
+     */
+    public static String getFfprobeCommand() {
+        Preconditions.checkArgument(ffprobeInstalled());
+
+        if (OSUtil.isBinaryInstalled("ffprobe")) {
+            return "ffprobe";
+        } else {
+            return OSUtil.buildPath(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(),
+                    "ffprobe.exe");
+        }
+    }
+
+    /**
+     * Downlaods ffmpeg, ffplay, and ffprobe to the exes dynamic
+     * directory and sets the user path for ffmpeg to the one in dynamic.
+     *
+     * @return whether the download was successful
+     */
+    public static boolean downloadFfmpegStack() {
+        // todo
+
+        return false;
     }
 }

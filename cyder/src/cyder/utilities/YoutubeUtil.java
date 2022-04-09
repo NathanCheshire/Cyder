@@ -51,7 +51,7 @@ public class YoutubeUtil {
      * @param url the url of the video to download
      */
     public static void downloadVideo(String url) {
-        if (ffmpegInstalled() && youtubedlInstalled()) {
+        if (AudioUtil.ffmpegInstalled() && youtubedlInstalled()) {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
             String extension = "." + AUDIO_FORMAT;
@@ -170,7 +170,7 @@ public class YoutubeUtil {
      * @param playlist the url of the playlist to download
      */
     public static void downloadPlaylist(String playlist) {
-        if (ffmpegInstalled() && youtubedlInstalled()) {
+        if (AudioUtil.ffmpegInstalled() && youtubedlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
             if (StringUtil.isNull(UserUtil.getCyderUser().getYouTubeAPI3Key())) {
@@ -277,26 +277,6 @@ public class YoutubeUtil {
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
-    }
-
-    /**
-     * Returns whether ffmpeg is installed.
-     *
-     * @return whether ffmpeg is installed
-     */
-    public static boolean ffmpegInstalled() {
-        boolean ret = true;
-
-        try {
-            Runtime rt = Runtime.getRuntime();
-            String command = "ffmpeg";
-            Process proc = rt.exec(command);
-        } catch (Exception e) {
-            ret = false;
-            ExceptionHandler.silentHandle(e);
-        }
-
-        return ret;
     }
 
     /**
