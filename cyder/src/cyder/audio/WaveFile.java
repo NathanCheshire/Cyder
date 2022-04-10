@@ -155,30 +155,61 @@ public class WaveFile {
         return ByteBuffer.wrap(sampleBytes).order(ByteOrder.LITTLE_ENDIAN).getInt();
     }
 
+    /**
+     * Returns whether this wav file is playable.
+     *
+     * @return whether this wav file is playable
+     */
     public boolean isPlayable() {
         return isPlayable;
     }
 
+    /**
+     * Play the clip of this wav file.
+     */
     public void play() {
         clip.start();
     }
 
+    /**
+     * Stops the clip of this wav file.
+     */
     public void stop() {
         clip.stop();
     }
 
+    /**
+     * Returns the format of this wav file.
+     *
+     * @return the format of this wav file
+     */
     public AudioFormat getAudioFormat() {
         return audioFormat;
     }
 
+    /**
+     * Returns the sample rate of this wav file.
+     *
+     * @return the sample rate of this wav file
+     */
     public int getSampleSize() {
         return sampleSize;
     }
 
+    /**
+     * Returns the duration in seconds.
+     *
+     * @return the duration in seconds.
+     */
     public double getDurationTime() {
         return getNumFrames() / getAudioFormat().getFrameRate();
     }
 
+    /**
+     * Returns the number of frames of the wav file.
+     *
+     * @return the number of frames of the wav file
+     */
     public long getNumFrames() {
         return numFrames;
     }

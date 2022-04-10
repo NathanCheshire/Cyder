@@ -2,6 +2,7 @@ package cyder.test;
 
 import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
+import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -20,9 +21,11 @@ import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
+import cyder.utilities.OSUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -44,7 +47,17 @@ public class ManualTests {
     @SuppressCyderInspections(values = "TestInspection")
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
+            try {
+                File wavFile = OSUtil.buildFile(OSUtil.C_COLON_SLASH,
+                        "users", "nathan", "Downloads", "Figure8.wav");
 
+                WaveFile wav = new WaveFile(wavFile);
+                System.out.println(wav.getNumFrames());
+                System.out.println(wav.getDurationTime());
+
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         }, "Manual Tester");
     }
 
