@@ -14,6 +14,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
+import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
@@ -55,60 +56,9 @@ public class ManualTests {
 
                 WaveFile wav = new WaveFile(wavFile);
 
-                int samplePosInc = wav.getSampleRate();
-                int samplePosAcc = 0;
-
-                int imageWidth = 120;
-                int imageHeight = 30;
-
-                for (int from = 0 ; from < wav.getNumFrames() - samplePosInc ; from += samplePosInc) {
-                    int to = from + samplePosInc;
-
-                    int index = 0;
-                    int[] samples = new int[imageWidth];
-
-                    for (int j = from ; j < to && index < samples.length ; j += Math.floor((to - from) / (float) imageWidth)) {
-                        samples[index] = wav.getSampleInt(j);
-                        index++;
-                    }
-
-                    // find local max
-                    int localMax = 0;
-                    for (int i = 0 ; i < samples.length ; i++) {
-                        localMax = Math.max(localMax, samples[i]);
-                    }
-
-                    // now normalilze
-                    float[] normalized = new float[imageWidth];
-
-                    for (int i = 0 ; i < normalized.length ; i++) {
-                        normalized[i] = samples[i] / (float) localMax;
-                    }
-
-                    BufferedImage bi = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
-                    Graphics2D g2d = bi.createGraphics();
-
-                    g2d.setColor(CyderColors.vanila);
-                    g2d.fillRect(0,0,imageWidth,imageHeight);
-
-                    g2d.setColor(CyderColors.navy);
-
-                    for (int i = 0 ; i < imageWidth ; i++) {
-                        int computedLen = (int) (normalized[i] * imageHeight);
-
-                        if (computedLen >= imageHeight * 0.9) {
-                            computedLen = 1;
-                        }
-
-                        g2d.drawLine(i, imageHeight, i, imageHeight - computedLen);
-                    }
-
-                    ImageIO.write(bi, "png", new File(
-                            "C:/users/nathan/downloads/" + from + ".png"));
-
-                    //timeout
-                    Thread.sleep(4000);
-                }
+                BufferedImage savebi = MessagingUtils.generateWaveform(wavFile,
+                        (int) wav.getNumFrames(), 200, CyderColors.vanila, CyderColors.navy);
+                ImageIO.write(savebi, "png", new File("c:/users/nathan/downloads/out.png"));
 
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

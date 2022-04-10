@@ -121,6 +121,24 @@ public class MessagingUtils {
     }
 
     /**
+     * Generates a buffered image depicting the local waveform of the provided wav file.
+     *
+     * @param wavFile the wav file to sample
+     * @param startFrame the starting frame of the wav file
+     * @param numSamples the number of samples to take/the resulting width of the image
+     * @param height the height of the image
+     * @param backgroundColor the background color of the image
+     * @param waveColor the wave color to draw
+     * @return a buffered image depicting the local waveform of the provided wav file
+     */
+    public static BufferedImage generate1DWaveformInRange(File wavFile, int startFrame,
+                          int numSamples, int height, Color backgroundColor, Color waveColor) {
+
+
+        return null;
+    }
+
+    /**
      * Generates a png depicting the waveform of the provided wav file.
      *
      * @param wavFile the wav file
@@ -162,7 +180,7 @@ public class MessagingUtils {
 
         int maxAmp = 0;
 
-        // find the max and add to the samples
+        // find the max and add to the samples at the same time
         for (int i = 0; i < wav.getNumFrames(); i++) {
             maxAmp = Math.max(maxAmp, wav.getSampleInt(i));
 
