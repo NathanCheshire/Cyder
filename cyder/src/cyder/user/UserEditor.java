@@ -493,6 +493,9 @@ public class UserEditor {
 
         filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(20, 60, 680, 360);
+        filesLabel.setBorder(new CompoundBorder(
+                new LineBorder(CyderColors.navy, 3),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         switchingLabel.add(filesLabel);
 
         switchingLabel.revalidate();

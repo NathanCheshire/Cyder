@@ -3,6 +3,7 @@ package cyder.handlers;
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
 import cyder.enums.*;
+import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
 import cyder.genesis.CyderToggles;

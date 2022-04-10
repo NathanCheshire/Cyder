@@ -265,7 +265,6 @@ public class AudioUtil {
                 || OSUtil.isBinaryInExes("ffprobe.exe") ;
     }
 
-    // todo use me for all ffmpeg invokes
     /**
      * Returns the command to invoke ffmpeg provided the
      * binary exists and can be found.

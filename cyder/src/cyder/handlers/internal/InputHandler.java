@@ -1922,7 +1922,9 @@ public class InputHandler {
                             } else if (line instanceof ImageIcon) {
                                 outputArea.getJTextPane().insertIcon((ImageIcon) line);
                             } else {
-                                println("[UNKNOWN OBJECT]: " + line);
+                                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+                                document.insertString(document.getLength(), String.valueOf(line), null);
+                                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                             }
                         }
                     }
@@ -1967,7 +1969,9 @@ public class InputHandler {
                             } else if (line instanceof ImageIcon) {
                                 outputArea.getJTextPane().insertIcon((ImageIcon) line);
                             } else {
-                                println("[UNKNOWN OBJECT]: " + line);
+                                StyledDocument document = (StyledDocument) outputArea.getJTextPane().getDocument();
+                                document.insertString(document.getLength(), String.valueOf(line), null);
+                                outputArea.getJTextPane().setCaretPosition(outputArea.getJTextPane().getDocument().getLength());
                             }
                         }
                     }
