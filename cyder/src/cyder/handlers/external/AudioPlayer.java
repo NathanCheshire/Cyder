@@ -303,48 +303,12 @@ public class AudioPlayer {
         return null;
     }
 
-    /**
-     * Formats the provided number of seconds into an a String representation
-     * in the format: 3h 2m 14s (thge final second value is rounded up).
-     *
-     * @param seconds the amount of seconds to convert to String
-     * @return the provided seconds amount formatted to String
-     */
-    public static String formatSeconds(double seconds) {
-        StringBuilder sb = new StringBuilder();
-
-        int minutes = 0;
-        int hours = 0;
-
-        while (seconds >= 60) {
-            minutes++;
-            seconds -= 60.0;
-        }
-
-        while (minutes >= 60) {
-            hours++;
-            minutes -= 60.0;
-        }
-
-        if (hours > 0) {
-            sb.append(hours).append("h ");
-        }
-
-        if (minutes > 0) {
-            sb.append(minutes).append("m ");
-        }
-
-        sb.append((int) Math.ceil(seconds)).append("s");
-
-        return sb.toString();
-    }
-
     public static boolean refreshAlbumArt() {
        return false;
     }
 
     public static void refreshFrameTitle() {
-
+        // refresh the title of the frame
 
         ConsoleFrame.INSTANCE.revalidateMenu();
     }

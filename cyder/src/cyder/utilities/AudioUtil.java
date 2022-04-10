@@ -318,4 +318,40 @@ public class AudioUtil {
 
         return false;
     }
+
+    /**
+     * Returns a pretty representation of the provided number of seconds
+     * using hours, minutes, and seconds.
+     *
+     * Example: 3661 would return "1h 1m 1s".
+     *
+     * @param seconds the amount of seconds
+     * @return the pretty representation
+     */
+    public static String formatSeconds(int seconds) {
+        StringBuilder sb = new StringBuilder();
+
+        int minutes = 0;
+        int hours = 0;
+
+        minutes = seconds / 60;
+        seconds -= minutes * 60;
+
+        hours = minutes / 60;
+        minutes -= hours * 60;
+
+        if (hours > 0) {
+            sb.append(hours).append("h ");
+        }
+
+        if (minutes > 0) {
+            sb.append(minutes).append("m ");
+        }
+
+        if (sb.toString().isEmpty() || seconds != 0) {
+            sb.append(seconds).append("s ");
+        }
+
+        return StringUtil.getTrimmedText(sb.toString());
+    }
 }

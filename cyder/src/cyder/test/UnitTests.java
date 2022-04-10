@@ -203,4 +203,19 @@ public class UnitTests {
         assertEquals(Logger.lengthCheck("[22-05-04] [EOL]: Log completed, exiting Cyder with exit " +
                 "code: -13 [Watchdog Timeout], exceptions thrown: 0").size(), 1);
     }
+
+    @Test
+    public void testFormatSeconds() {
+        assertEquals(AudioUtil.formatSeconds(0), "0s");
+        assertEquals(AudioUtil.formatSeconds(30), "30s");
+        assertEquals(AudioUtil.formatSeconds(59), "59s");
+        assertEquals(AudioUtil.formatSeconds(60), "1m");
+        assertEquals(AudioUtil.formatSeconds(61), "1m 1s");
+        assertEquals(AudioUtil.formatSeconds(120), "2m");
+        assertEquals(AudioUtil.formatSeconds(121), "2m 1s");
+        assertEquals(AudioUtil.formatSeconds(3599), "59m 59s");
+        assertEquals(AudioUtil.formatSeconds(3600), "1h");
+        assertEquals(AudioUtil.formatSeconds(3601), "1h 1s");
+        assertEquals(AudioUtil.formatSeconds(3661), "1h 1m 1s");
+    }
 }
