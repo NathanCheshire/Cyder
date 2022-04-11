@@ -3119,6 +3119,14 @@ public class CyderFrame extends JFrame {
     };
 
     /**
+     * Clears all menu items from the frame menu.
+     */
+    public void clearMenuItems() {
+        menuItems.clear();
+        titleLabel.removeMouseListener(titleLabelListener);
+    }
+
+    /**
      * The maximum text length allowable for menu items.
      */
     private static final int maxTextLength = 13;

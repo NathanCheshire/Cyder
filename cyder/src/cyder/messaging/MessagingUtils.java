@@ -120,7 +120,6 @@ public class MessagingUtils {
         });
     }
 
-    // todo test how long it takes if numSamples == numFrames
     /**
      * Generates a buffered image depicting the local waveform of the provided wav file.
      *
@@ -278,11 +277,11 @@ public class MessagingUtils {
         }
 
         // paint background of image
-        g2d.setPaint(Color.WHITE);
+        g2d.setPaint(backgroundColor);
         g2d.fillRect(0,0, width, height);
 
         // set to line color
-        g2d.setColor(CyderColors.navy);
+        g2d.setColor(waveColor);
 
         // actual y values for painting
         int[] normalizedSamples = new int[width];

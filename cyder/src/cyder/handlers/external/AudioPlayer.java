@@ -215,22 +215,10 @@ public class AudioPlayer {
     private static File currentAudioFile;
     private static final ArrayList<File> validAudioFiles = new ArrayList<>();
 
-    private static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
+    public static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
             "static","audio","Kendrick Lamar - All The Stars.mp3");
 
     private static Player player;
-
-    /**
-     * Suppress default constructor.
-     */
-    private AudioPlayer() {
-        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-    }
-
-    @Widget(triggers = {"mp3", "music", "audio"}, description = "An audio playing widget")
-    public static void showGUI() {
-        showGUI(DEFAULT_AUDIO_FILE);
-    }
 
     private static final int DEFAULT_FRAME_WIDTH = 600;
     private static final int DEFAULT_FRAME_HEIGHT = 600;
@@ -270,6 +258,18 @@ public class AudioPlayer {
         }
     });
 
+    /**
+     * Suppress default constructor.
+     */
+    private AudioPlayer() {
+        throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
+    }
+
+    @Widget(triggers = {"mp3", "music", "audio"}, description = "An audio playing widget")
+    public static void showGUI() {
+        showGUI(DEFAULT_AUDIO_FILE);
+    }
+
     public static void showGUI(File startPlaying) {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
@@ -282,9 +282,35 @@ public class AudioPlayer {
 
         // need to add all components ever needed for primary view to frame
 
+
+
         refreshFrameTitle();
         setUiComponentsVisible(false);
         setupAndShowFrameView(FrameView.FULL);
+
+        audioFrame.setMenuEnabled(true);
+        audioFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
+        installMenuItems();
+    }
+
+    private static void installMenuItems() {
+        // just to be safe
+        audioFrame.clearMenuItems();
+        audioFrame.addMenuItem("Export wav", () -> {
+
+        });
+        audioFrame.addMenuItem("Export mp3", () -> {
+
+        });
+        audioFrame.addMenuItem("Waveform", () -> {
+
+        });
+        audioFrame.addMenuItem("Search", () -> {
+
+        });
+        audioFrame.addMenuItem("Choose File", () -> {
+
+        });
     }
 
     private static void setupAndShowFrameView(FrameView view) {
@@ -314,8 +340,22 @@ public class AudioPlayer {
         }
     }
 
+    public static final String DEFAULT_FRAME_TITLE = "Audio Player";
+    public static final int MAX_TITLE_LENGTH = 15;
+
     private static void refreshFrameTitle() {
-        // todo
+        String title = DEFAULT_FRAME_TITLE;
+
+        // should always be true unless in debug mode
+        if (currentAudioFile != null) {
+            title = StringUtil.capsFirst(StringUtil.getTrimmedText(title));
+
+            if (title.length() > MAX_TITLE_LENGTH) {
+                title = title.substring(0, MAX_TITLE_LENGTH - 4) + "...";
+            }
+        }
+
+        audioFrame.setTitle(title);
     }
 
     private static final void refreshAudioFiles() {
@@ -500,7 +540,7 @@ public class AudioPlayer {
     private static class ScrollingTitleLabel {
         boolean scroll;
 
-        ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
+        public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
             scroll = true;
 
             try {

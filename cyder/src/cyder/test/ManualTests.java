@@ -2,7 +2,6 @@ package cyder.test;
 
 import cyder.annotations.ManualTest;
 import cyder.annotations.SuppressCyderInspections;
-import cyder.audio.WaveFile;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -10,11 +9,11 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
-import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
@@ -25,8 +24,6 @@ import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -50,41 +47,7 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                File rawFile = new File("C:/Users/Nathan/Downloads/Figure8.wav");
-                WaveFile file = new WaveFile(rawFile);
-
-                int width = 300;
-                int height = 50;
-
-                int fps = 5;
-
-                JFrame frame = new JFrame();
-                frame.setSize(width, height);
-                frame.setUndecorated(true);
-                frame.setAlwaysOnTop(true);
-                frame.setTitle("Preview");
-
-                JLabel label = new JLabel();
-                label.setBounds(0,0,width,height);
-                frame.setContentPane(label);
-                frame.setVisible(true);
-                frame.setLocationRelativeTo(null);
-
-                int numImages = fps * file.getDurationTime();
-
-                int incrementer = (int) (file.getNumFrames() / numImages);
-
-                // increment needs to allow us to reach the end by fps * number of seconds audio is
-                for (int i = 0 ; i < file.getNumFrames() - width ; i += incrementer) {
-                    BufferedImage bi = MessagingUtils.generate1DWaveformInRange(file,i, width, height,
-                            CyderColors.vanila, CyderColors.navy);
-                    label.setIcon(new ImageIcon(bi));
-                    label.repaint();
-                    frame.repaint();
-                    bi = null;
-
-                    Thread.sleep(1000 / fps);
-                }
+                AudioPlayer.showGUI(AudioPlayer.DEFAULT_AUDIO_FILE);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
