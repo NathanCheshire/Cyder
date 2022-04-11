@@ -3,14 +3,16 @@ package cyder.handlers.external;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
+import cyder.ui.CyderIconButton;
 import cyder.ui.CyderProgressBar;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DecimalFormat;
 
@@ -39,10 +41,133 @@ import java.text.DecimalFormat;
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
 public class AudioPlayer {
-    /**
-     * The background color of the audio frame.
-     */
     public static final Color backgroundColor = new Color(8,23,52);
+    public static final JLabel albumArtLabel = new JLabel();
+
+    private static final ImageIcon playIcon = new ImageIcon(
+            "static/pictures/music/Play.png");
+    private static final ImageIcon playIconHover = new ImageIcon(
+            "static/pictures/music/PlayHover.png");
+
+    private static final ImageIcon pauseIcon = new ImageIcon(
+            "static/pictures/music/Pause.png");
+    private static final ImageIcon pauseIconHover = new ImageIcon(
+            "static/pictures/music/PauseHover.png");
+
+    private static final ImageIcon nextIcon = new ImageIcon(
+            "static/pictures/music/Skip.png");
+    private static final ImageIcon nextIconHover = new ImageIcon(
+            "static/pictures/music/SkipHover.png");
+
+    private static final ImageIcon lastIcon = new ImageIcon(
+            "static/pictures/music/SkipBack.png");
+    private static final ImageIcon lastIconHover = new ImageIcon(
+            "static/pictures/music/SkipBackHover.png");
+
+    private static final ImageIcon repeatIcon = new ImageIcon(
+            "static/pictures/music/Repeat.png");
+    private static final ImageIcon repeatIconHover = new ImageIcon(
+            "static/pictures/music/RepeatHover.png");
+
+    private static final ImageIcon shuffleIcon = new ImageIcon(
+            "static/pictures/music/Shuffle.png");
+    private static final ImageIcon shuffleIconHover = new ImageIcon(
+            "static/pictures/music/ShuffleHover.png");
+
+    private static final CyderIconButton playPauseButton =
+            new CyderIconButton("Play", playIcon, playIconHover,
+            new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            handlePlayPauseButtonClick();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            playPauseButton.setIcon(audioPlaying() ? pauseIconHover : playIconHover);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            playPauseButton.setIcon(audioPlaying() ? pauseIcon : playIcon);
+        }
+    });
+
+    private static final CyderIconButton lastAudioButton =
+            new CyderIconButton("Last", lastIcon, lastIconHover,
+            new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            handleLastAudioButtonClick();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            lastAudioButton.setIcon(lastIconHover);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            lastAudioButton.setIcon(lastIcon);
+        }
+    });
+
+    private static final CyderIconButton nextAudioButton =
+            new CyderIconButton("Next", nextIcon, nextIconHover,
+            new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            handleNextAudioButtonClick();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            nextAudioButton.setIcon(nextIconHover);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            nextAudioButton.setIcon(nextIcon);
+        }
+    });
+
+    private static final CyderIconButton repeatAudioButton =
+            new CyderIconButton("Repeat", repeatIcon, repeatIconHover,
+            new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            handleRepeatButtonClick();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            repeatAudioButton.setIcon(repeatIconHover);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            repeatAudioButton.setIcon(repeatIcon);
+        }
+    });
+
+    private static final CyderIconButton shuffleAudioButton =
+            new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
+            new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleShuffleButtonClick();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                shuffleAudioButton.setIcon(shuffleIconHover);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                shuffleAudioButton.setIcon(shuffleIcon);
+            }
+        });
 
     /**
      * Suppress default constructor.
@@ -60,7 +185,11 @@ public class AudioPlayer {
 
     }
 
-    public static synchronized void addAudioToQueue(File audioFile) {
+    public static void playAudioNext(File audioFile) {
+
+    }
+
+    public static void playAudioLast(File audioFile) {
 
     }
 
@@ -69,17 +198,13 @@ public class AudioPlayer {
         return false;
     }
 
-    public static boolean isPaused() {
-        //return pauseLocation != 0;
-        return false;
-    }
 
     public static boolean windowOpen() {
         //return audioFrame != null;
         return false;
     }
 
-    public static void refreshAudio() {
+    public static void refreshAudioLine() {
 //        try {
 //            if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
 //                Port outline = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
@@ -99,11 +224,11 @@ public class AudioPlayer {
 //        }
     }
 
-    public static void refreshAudioFiles(File refreshOnFile) {
+    public static void handlePlayPauseButtonClick() {
 
     }
 
-    public static void pauseAudio() {
+    public static void handleStopAudioButtonClick() {
 
     }
 
@@ -111,27 +236,19 @@ public class AudioPlayer {
 
     }
 
-    public static void previousAudio() {
+    public static void handleLastAudioButtonClick() {
 
     }
 
-    public static void nextAudio() {
+    public static void handleNextAudioButtonClick() {
 
     }
 
-    public static void killWidget() {
+    public static void handleRepeatButtonClick() {
 
     }
 
-    public static void startAudio() {
-
-    }
-
-    public static void resumeAudio() {
-
-    }
-
-    public static void resumeAudio(long startPosition) {
+    public static void handleShuffleButtonClick() {
 
     }
 
@@ -282,36 +399,8 @@ public class AudioPlayer {
         }
     }
 
-    /**
-     * Increments to the next window state.
-     */
-    public static void incrementWindowState() {
-
-    }
-
-    public static void enterMiniPlayer() {
-
-    }
-
-    public static void enterDefaultPlayer() {
-
-    }
-
-    public static void enterAlbumArtPlayer() {
-
-    }
-
+    // used to ensure deleting audio isn't playing currently
     public static File getCurrentAudio() {
         return null;
-    }
-
-    public static boolean refreshAlbumArt() {
-       return false;
-    }
-
-    public static void refreshFrameTitle() {
-        // refresh the title of the frame
-
-        ConsoleFrame.INSTANCE.revalidateMenu();
     }
 }

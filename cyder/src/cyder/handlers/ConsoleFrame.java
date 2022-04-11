@@ -2725,15 +2725,7 @@ public enum ConsoleFrame {
         playPauseAudioLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (IOUtil.generalAudioPlaying()) {
-                    IOUtil.stopAudio();
-                } else if (AudioPlayer.audioPlaying()) {
-                    IOUtil.pauseAudio();
-                } else if (AudioPlayer.isPaused()) {
-                    AudioPlayer.resumeAudio();
-                } else if (AudioPlayer.windowOpen()) {
-                    AudioPlayer.startAudio();
-                }
+               AudioPlayer.handlePlayPauseButtonClick();
             }
 
             @Override
@@ -2772,7 +2764,7 @@ public enum ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (AudioPlayer.windowOpen()) {
-                    AudioPlayer.nextAudio();
+                    AudioPlayer.handleNextAudioButtonClick();
                 }
             }
 
@@ -2799,7 +2791,7 @@ public enum ConsoleFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (AudioPlayer.windowOpen()) {
-                    AudioPlayer.previousAudio();
+                    AudioPlayer.handleLastAudioButtonClick();
                 }
             }
 

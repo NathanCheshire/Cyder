@@ -82,6 +82,7 @@ public class ManualTests {
                     label.repaint();
                     frame.repaint();
                     bi = null;
+
                     Thread.sleep(1000 / fps);
                 }
             } catch (Exception e) {
