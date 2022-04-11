@@ -159,14 +159,14 @@ public class MessagingUtils {
         }
 
         int[] normalizedSamples = new int[nonNormalizedSamples.length];
-        int interpolationValue = -69;
+        int interpolationNeededValue = -69;
 
         // normalize values and skip ones which exceeding tol
         for (int i = 0; i < normalizedSamples.length ; i++) {
             int normalizedValue = (int) ((nonNormalizedSamples[i] / (float) localMax) * height);
 
-            if (normalizedValue >= height) {
-                normalizedValue = interpolationValue;
+            if (normalizedValue >= height * 0.9) {
+                normalizedValue = interpolationNeededValue;
             }
 
             normalizedSamples[i] = normalizedValue;
@@ -180,11 +180,11 @@ public class MessagingUtils {
                 continue;
             }
             // at a value that needs interpolation
-            else if (normalizedSamples[i] == interpolationValue) {
+            else if (normalizedSamples[i] == interpolationNeededValue) {
                 // find the next value that isn't a 0 or an amp that has yet to be interpolated
                 int nextNonZeroIndex = 0;
                 for (int j = i ; j < normalizedSamples.length ; j++) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationValue) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         nextNonZeroIndex = j;
                         break;
                     }
@@ -192,7 +192,7 @@ public class MessagingUtils {
                 // find the previous value that isn't 0 or an amp that has yet to be interpolated
                 int lastNonZeroIndex = 0;
                 for (int j = i ; j >= 0 ; j--) {
-                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationValue) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         lastNonZeroIndex = j;
                         break;
                     }
@@ -217,8 +217,8 @@ public class MessagingUtils {
 
         // draw samples
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
-            g2d.drawLine(i, 0, i, normalizedSamples[i]);
-            g2d.drawLine(i, 0, i, 1);
+            g2d.drawLine(i, height, i, height - normalizedSamples[i]);
+            g2d.drawLine(i, height, i, height - 1);
         }
 
         return ret;

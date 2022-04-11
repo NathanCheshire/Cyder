@@ -56,27 +56,33 @@ public class ManualTests {
                 int width = 300;
                 int height = 50;
 
-                int fps = 30;
+                int fps = 5;
 
                 JFrame frame = new JFrame();
                 frame.setSize(width, height);
                 frame.setUndecorated(true);
                 frame.setAlwaysOnTop(true);
                 frame.setTitle("Preview");
+
                 JLabel label = new JLabel();
                 label.setBounds(0,0,width,height);
                 frame.setContentPane(label);
                 frame.setVisible(true);
                 frame.setLocationRelativeTo(null);
 
-                for (int i = (int) (file.getNumFrames() / 2); i < file.getNumFrames() - width ; i += 1) {
+                int numImages = fps * file.getDurationTime();
+
+                int incrementer = (int) (file.getNumFrames() / numImages);
+
+                // increment needs to allow us to reach the end by fps * number of seconds audio is
+                for (int i = 0 ; i < file.getNumFrames() - width ; i += incrementer) {
                     BufferedImage bi = MessagingUtils.generate1DWaveformInRange(file,i, width, height,
                             CyderColors.vanila, CyderColors.navy);
                     label.setIcon(new ImageIcon(bi));
                     label.repaint();
                     frame.repaint();
                     bi = null;
-                    //Thread.sleep(1000 / fps);
+                    Thread.sleep(1000 / fps);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
