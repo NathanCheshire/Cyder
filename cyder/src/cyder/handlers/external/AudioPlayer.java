@@ -341,16 +341,28 @@ public class AudioPlayer {
     }
 
     public static final String DEFAULT_FRAME_TITLE = "Audio Player";
-    public static final int MAX_TITLE_LENGTH = 15;
+    public static final int MAX_TITLE_LENGTH = 40;
 
     private static void refreshFrameTitle() {
         String title = DEFAULT_FRAME_TITLE;
 
-        // should always be true unless in debug mode
         if (currentAudioFile != null) {
             title = StringUtil.capsFirst(StringUtil.getTrimmedText(title));
 
-            if (title.length() > MAX_TITLE_LENGTH) {
+            if (title.length() > MAX_TITLE_LENGTH - 3) {
+                String[] parts = title.split("\\s+");
+
+                StringBuilder builder = new StringBuilder();
+
+                for (String part : parts) {
+                    if (builder.length() + part.length() <= MAX_TITLE_LENGTH) {
+                        builder.append(part).append(" ");
+                    } else {
+                        builder.append("...");
+                        break;
+                    }
+                }
+
                 title = title.substring(0, MAX_TITLE_LENGTH - 4) + "...";
             }
         }
