@@ -1,5 +1,6 @@
 package cyder.handlers.external;
 
+import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
@@ -7,6 +8,7 @@ import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.CyderIconButton;
 import cyder.ui.CyderProgressBar;
+import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
@@ -15,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 // todo audio player menu options: export as wav,
 //  export as mp3, export waveform, download audio (can
@@ -153,21 +156,26 @@ public class AudioPlayer {
     private static final CyderIconButton shuffleAudioButton =
             new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
             new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                handleShuffleButtonClick();
-            }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            handleShuffleButtonClick();
+        }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                shuffleAudioButton.setIcon(shuffleIconHover);
-            }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            shuffleAudioButton.setIcon(shuffleIconHover);
+        }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                shuffleAudioButton.setIcon(shuffleIcon);
-            }
-        });
+        @Override
+        public void mouseExited(MouseEvent e) {
+            shuffleAudioButton.setIcon(shuffleIcon);
+        }
+    });
+
+    private static final ArrayList<File> audioFileQueue = new ArrayList<>();
+    private static File currentAudioFile;
+    private static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
+            "static","audio","Kendrick Lamar - All The Stars.mp3");
 
     /**
      * Suppress default constructor.
@@ -176,21 +184,22 @@ public class AudioPlayer {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
+    private static final void refreshAudioFiles() {
+        Preconditions.checkNotNull(currentAudioFile);
+    }
+
     @Widget(triggers = {"mp3", "music", "audio"}, description = "An audio playing widget")
     public static void showGUI() {
-        showGUI(null);
+        showGUI(DEFAULT_AUDIO_FILE);
     }
 
     public static void showGUI(File startPlaying) {
+        Preconditions.checkNotNull(startPlaying);
+        Preconditions.checkArgument(startPlaying.exists());
 
-    }
+        currentAudioFile = startPlaying;
 
-    public static void playAudioNext(File audioFile) {
-
-    }
-
-    public static void playAudioLast(File audioFile) {
-
+        // mainly frame setup, then call setup to set bounds and visibilities for the opening type
     }
 
     public static boolean audioPlaying() {
@@ -201,6 +210,7 @@ public class AudioPlayer {
 
     public static boolean windowOpen() {
         //return audioFrame != null;
+        // impliesa need to set audioframe to null when widget is disposed.
         return false;
     }
 
@@ -252,6 +262,28 @@ public class AudioPlayer {
 
     }
 
+    public static void playAudioNext(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+
+        if (!windowOpen()) {
+            showGUI(audioFile);
+        } else {
+            audioFileQueue.add(0, audioFile);
+        }
+    }
+
+    public static void playAudioLast(File audioFile) {
+        Preconditions.checkNotNull(audioFile);
+        Preconditions.checkArgument(audioFile.exists());
+
+        if (!windowOpen()) {
+            showGUI(audioFile);
+        } else {
+            audioFileQueue.add(audioFile);
+        }
+    }
+
     /**
      * The formatter used for the audio location label text.
      */
@@ -262,11 +294,17 @@ public class AudioPlayer {
      */
     private static final int audioLocationTextUpdateDelay = 250;
 
+
+    // used to ensure deleting audio isn't playing currently
+    public static File getCurrentAudio() {
+        return null;
+    }
+
     /**
      * The class to update the audio location label which is layered over the progress bar.
      */
     private static class AudioLocationLabelUpdater {
-        private boolean update;
+        private boolean killed;
 
         /**
          * Constructs a new audio location label to update for the provided progress bar.
@@ -274,11 +312,9 @@ public class AudioPlayer {
          * @param effectBar the CyderProgressBar to place a label on and update
          */
         public AudioLocationLabelUpdater(CyderProgressBar effectBar) {
-            update = true;
-
             try {
                 CyderThreadRunner.submit( () -> {
-                    while (update) {
+                    while (!killed) {
                         try {
                             // todo
                             Thread.sleep(audioLocationTextUpdateDelay);
@@ -294,9 +330,13 @@ public class AudioPlayer {
          * Ends the updation of the label text.
          */
         public void kill() {
-            update = false;
+            killed = true;
         }
     }
+
+    // ---------------------------
+    // Scrolling Title Label class
+    // ---------------------------
 
     /**
      * Private inner class for the scrolling audio label.
@@ -370,7 +410,10 @@ public class AudioPlayer {
             }
         }
 
-        private static final int TIMEOUT = 50;
+        /**
+         * The timeout to sleep for before checking for title scroll label being terminated.
+         */
+        private static final int SLEEP_WITH_CHECKS_TIMEOUT = 50;
 
         /**
          * Sleeps for the designated amount of time, breaking every TIMEOUT ms to check for a stop call.
@@ -382,8 +425,8 @@ public class AudioPlayer {
                 long acc = 0;
 
                 while (acc < sleepTime) {
-                    Thread.sleep(TIMEOUT);
-                    acc += TIMEOUT;
+                    Thread.sleep(SLEEP_WITH_CHECKS_TIMEOUT);
+                    acc += SLEEP_WITH_CHECKS_TIMEOUT;
 
                     if (!scroll) {
                         break;
@@ -397,10 +440,5 @@ public class AudioPlayer {
         public void kill() {
             scroll = false;
         }
-    }
-
-    // used to ensure deleting audio isn't playing currently
-    public static File getCurrentAudio() {
-        return null;
     }
 }
