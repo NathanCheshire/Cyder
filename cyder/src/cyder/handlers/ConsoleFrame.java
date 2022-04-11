@@ -2647,7 +2647,7 @@ public enum ConsoleFrame {
      * Revalidates the visibility audio menu based on if audio is playing.
      */
     public void revalidateAudioMenuVisibility() {
-        if (!AudioPlayer.windowOpen() && !IOUtil.generalAudioPlaying()) {
+        if (!AudioPlayer.isWidgetOpen() && !IOUtil.generalAudioPlaying()) {
             if (audioControlsLabel.isVisible()) {
                 animateOutAndRemoveAudioControls();
             } else {
@@ -2659,7 +2659,7 @@ public enum ConsoleFrame {
                 toggleAudioControls.setVisible(true);
             }
 
-            if (IOUtil.generalAudioPlaying() || AudioPlayer.audioPlaying()) {
+            if (IOUtil.generalAudioPlaying() || AudioPlayer.isAudioPlaying()) {
                 playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
             } else {
                 playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
@@ -2730,7 +2730,7 @@ public enum ConsoleFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/PlayHover.png"));
                 } else {
                     playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/PauseHover.png"));
@@ -2739,7 +2739,7 @@ public enum ConsoleFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+                if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
                     playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
                 } else {
                     playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
@@ -2749,7 +2749,7 @@ public enum ConsoleFrame {
         playPauseAudioLabel.setVisible(true);
         playPauseAudioLabel.setOpaque(false);
         audioControlsLabel.add(playPauseAudioLabel);
-        if (!IOUtil.generalAudioPlaying() && !AudioPlayer.audioPlaying()) {
+        if (!IOUtil.generalAudioPlaying() && !AudioPlayer.isAudioPlaying()) {
             playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Play.png"));
         } else {
             playPauseAudioLabel.setIcon(new ImageIcon("static/pictures/music/Pause.png"));
@@ -2763,7 +2763,7 @@ public enum ConsoleFrame {
         nextMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (AudioPlayer.windowOpen()) {
+                if (AudioPlayer.isWidgetOpen()) {
                     AudioPlayer.handleNextAudioButtonClick();
                 }
             }
@@ -2790,7 +2790,7 @@ public enum ConsoleFrame {
         lastMusicLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (AudioPlayer.windowOpen()) {
+                if (AudioPlayer.isWidgetOpen()) {
                     AudioPlayer.handleLastAudioButtonClick();
                 }
             }

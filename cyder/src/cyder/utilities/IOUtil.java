@@ -279,7 +279,7 @@ public class IOUtil {
      * Pause audio if playing via AudioPlayer.
      */
     public static void pauseAudio() {
-        if (AudioPlayer.audioPlaying()) {
+        if (AudioPlayer.isAudioPlaying()) {
             AudioPlayer.handlePlayPauseButtonClick();
         } else if (generalAudioPlaying()) {
             stopAudio();
