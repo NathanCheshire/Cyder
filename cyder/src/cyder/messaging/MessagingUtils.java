@@ -124,7 +124,7 @@ public class MessagingUtils {
     /**
      * Generates a buffered image depicting the local waveform of the provided wav file.
      *
-     * @param wavFile the wav file to sample
+     * @param wav the wav file to sample
      * @param startFrame the starting frame of the wav file
      * @param numSamples the number of samples to take/the resulting width of the image
      * @param height the height of the image
@@ -132,18 +132,13 @@ public class MessagingUtils {
      * @param waveColor the wave color to draw
      * @return a buffered image depicting the local waveform of the provided wav file
      */
-    public static BufferedImage generate1DWaveformInRange(File wavFile, int startFrame,
+    public static BufferedImage generate1DWaveformInRange(WaveFile wav, int startFrame,
                           int numSamples, int height, Color backgroundColor, Color waveColor) {
-        Preconditions.checkNotNull(wavFile);
-        Preconditions.checkArgument(wavFile.exists());
-
-        WaveFile wav = new WaveFile(wavFile);
-        long numFrames = wav.getNumFrames();
-
+        Preconditions.checkNotNull(wav);
         Preconditions.checkArgument(startFrame >= 0);
-        Preconditions.checkArgument(startFrame < numFrames);
-        Preconditions.checkArgument(numSamples < numFrames);
-        Preconditions.checkArgument(startFrame + numSamples < numFrames);
+        Preconditions.checkArgument(startFrame < wav.getNumFrames());
+        Preconditions.checkArgument(numSamples < wav.getNumFrames());
+        Preconditions.checkArgument(startFrame + numSamples < wav.getNumFrames());
 
         Preconditions.checkNotNull(backgroundColor);
         Preconditions.checkNotNull(waveColor);
@@ -156,6 +151,7 @@ public class MessagingUtils {
         int index = 0;
         for (int i = startFrame ; i < startFrame + numSamples ; i++) {
             int sample = wav.getSample(i);
+
             localMax = Math.max(sample, localMax);
 
             nonNormalizedSamples[index] = sample;
@@ -217,9 +213,12 @@ public class MessagingUtils {
         g2d.setColor(backgroundColor);
         g2d.fillRect(0, 0, numSamples, height);
 
+        g2d.setColor(waveColor);
+
         // draw samples
         for (int i = 0 ; i < normalizedSamples.length ; i++) {
             g2d.drawLine(i, 0, i, normalizedSamples[i]);
+            g2d.drawLine(i, 0, i, 1);
         }
 
         return ret;

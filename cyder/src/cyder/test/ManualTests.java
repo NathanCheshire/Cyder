@@ -53,7 +53,7 @@ public class ManualTests {
                 File rawFile = new File("C:/Users/Nathan/Downloads/Figure8.wav");
                 WaveFile file = new WaveFile(rawFile);
 
-                int width = 200;
+                int width = 300;
                 int height = 50;
 
                 int fps = 30;
@@ -69,15 +69,14 @@ public class ManualTests {
                 frame.setVisible(true);
                 frame.setLocationRelativeTo(null);
 
-                File wavFile = new File("C:/users/nathan/downloads/Figure8.png");
-
-                for (int i = 0 ; i < file.getNumFrames() - width ; i += 1) {
-                    BufferedImage bi = MessagingUtils.generate1DWaveformInRange(rawFile,i, width, height,
+                for (int i = (int) (file.getNumFrames() / 2); i < file.getNumFrames() - width ; i += 1) {
+                    BufferedImage bi = MessagingUtils.generate1DWaveformInRange(file,i, width, height,
                             CyderColors.vanila, CyderColors.navy);
                     label.setIcon(new ImageIcon(bi));
                     label.repaint();
                     frame.repaint();
-                    Thread.sleep(1000 / fps);
+                    bi = null;
+                    //Thread.sleep(1000 / fps);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

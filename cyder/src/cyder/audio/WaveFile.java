@@ -123,6 +123,7 @@ public class WaveFile {
             clip.open(AudioSystem.getAudioInputStream(wavFile));
             clip.setFramePosition(0);
             isPlayable = true;
+            clip = null;
         } catch (Exception e) {
             // non 16-bit or 8-bit audio file
             isPlayable = false;
