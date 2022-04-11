@@ -22,9 +22,7 @@ import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
 import cyder.utilities.ImageUtil;
-import cyder.utilities.OSUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -48,18 +46,39 @@ public class ManualTests {
      */
     @ManualTest(trigger = "test")
     @SuppressCyderInspections(values = "TestInspection")
+    @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"})
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                File wavFile = OSUtil.buildFile(OSUtil.C_COLON_SLASH,
-                        "users", "nathan", "Downloads", "Figure8.wav");
+                File rawFile = new File("C:/Users/Nathan/Downloads/Figure8.wav");
+                WaveFile file = new WaveFile(rawFile);
 
-                WaveFile wav = new WaveFile(wavFile);
+                int width = 200;
+                int height = 50;
 
-                BufferedImage savebi = MessagingUtils.generateWaveform(wavFile,
-                        (int) wav.getNumFrames(), 200, CyderColors.vanila, CyderColors.navy);
-                ImageIO.write(savebi, "png", new File("c:/users/nathan/downloads/out.png"));
+                int fps = 30;
 
+                JFrame frame = new JFrame();
+                frame.setSize(width, height);
+                frame.setUndecorated(true);
+                frame.setAlwaysOnTop(true);
+                frame.setTitle("Preview");
+                JLabel label = new JLabel();
+                label.setBounds(0,0,width,height);
+                frame.setContentPane(label);
+                frame.setVisible(true);
+                frame.setLocationRelativeTo(null);
+
+                File wavFile = new File("C:/users/nathan/downloads/Figure8.png");
+
+                for (int i = 0 ; i < file.getNumFrames() - width ; i += 1) {
+                    BufferedImage bi = MessagingUtils.generate1DWaveformInRange(rawFile,i, width, height,
+                            CyderColors.vanila, CyderColors.navy);
+                    label.setIcon(new ImageIcon(bi));
+                    label.repaint();
+                    frame.repaint();
+                    Thread.sleep(1000 / fps);
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

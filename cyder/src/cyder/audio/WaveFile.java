@@ -139,7 +139,7 @@ public class WaveFile {
      * @param samplePoint the point to sample the wav at
      * @return the amplitude at the sample point.
      */
-    public int getSampleInt(int samplePoint) {
+    public int getSample(int samplePoint) {
         Preconditions.checkArgument(samplePoint >= 0,
                 "Invalid negative sample point: " + samplePoint);
         Preconditions.checkArgument(samplePoint <= data.length / sampleSize,
@@ -201,8 +201,8 @@ public class WaveFile {
      *
      * @return the duration in seconds.
      */
-    public double getDurationTime() {
-        return getNumFrames() / getAudioFormat().getFrameRate();
+    public int getDurationTime() {
+        return (int) (getNumFrames() / getAudioFormat().getFrameRate());
     }
 
     /**

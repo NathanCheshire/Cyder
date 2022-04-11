@@ -120,6 +120,7 @@ public class MessagingUtils {
         });
     }
 
+    // todo test how long it takes if numSamples == numFrames
     /**
      * Generates a buffered image depicting the local waveform of the provided wav file.
      *
@@ -133,9 +134,95 @@ public class MessagingUtils {
      */
     public static BufferedImage generate1DWaveformInRange(File wavFile, int startFrame,
                           int numSamples, int height, Color backgroundColor, Color waveColor) {
+        Preconditions.checkNotNull(wavFile);
+        Preconditions.checkArgument(wavFile.exists());
 
+        WaveFile wav = new WaveFile(wavFile);
+        long numFrames = wav.getNumFrames();
 
-        return null;
+        Preconditions.checkArgument(startFrame >= 0);
+        Preconditions.checkArgument(startFrame < numFrames);
+        Preconditions.checkArgument(numSamples < numFrames);
+        Preconditions.checkArgument(startFrame + numSamples < numFrames);
+
+        Preconditions.checkNotNull(backgroundColor);
+        Preconditions.checkNotNull(waveColor);
+
+        // now standard algorithm
+        int[] nonNormalizedSamples = new int[numSamples];
+        int localMax = 0;
+
+        // get local non-normalized samples and find local max
+        int index = 0;
+        for (int i = startFrame ; i < startFrame + numSamples ; i++) {
+            int sample = wav.getSample(i);
+            localMax = Math.max(sample, localMax);
+
+            nonNormalizedSamples[index] = sample;
+            index++;
+        }
+
+        int[] normalizedSamples = new int[nonNormalizedSamples.length];
+        int interpolationValue = -69;
+
+        // normalize values and skip ones which exceeding tol
+        for (int i = 0; i < normalizedSamples.length ; i++) {
+            int normalizedValue = (int) ((nonNormalizedSamples[i] / (float) localMax) * height);
+
+            if (normalizedValue >= height) {
+                normalizedValue = interpolationValue;
+            }
+
+            normalizedSamples[i] = normalizedValue;
+        }
+
+        // interpolate between surrounding values where
+        // the amplitude was set to the interpolation value
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+            // if a true zero amplitude don't interpolate
+            if (normalizedSamples[i] == 0) {
+                continue;
+            }
+            // at a value that needs interpolation
+            else if (normalizedSamples[i] == interpolationValue) {
+                // find the next value that isn't a 0 or an amp that has yet to be interpolated
+                int nextNonZeroIndex = 0;
+                for (int j = i ; j < normalizedSamples.length ; j++) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationValue) {
+                        nextNonZeroIndex = j;
+                        break;
+                    }
+                }
+                // find the previous value that isn't 0 or an amp that has yet to be interpolated
+                int lastNonZeroIndex = 0;
+                for (int j = i ; j >= 0 ; j--) {
+                    if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationValue) {
+                        lastNonZeroIndex = j;
+                        break;
+                    }
+                }
+
+                // average the surrounding values for the interpolated value
+                int avg = (normalizedSamples[nextNonZeroIndex] + normalizedSamples[lastNonZeroIndex]) / 2;
+
+                // update current value
+                normalizedSamples[i] = avg;
+            }
+        }
+
+        BufferedImage ret = new BufferedImage(numSamples, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = ret.createGraphics();
+
+        // draw background
+        g2d.setColor(backgroundColor);
+        g2d.fillRect(0, 0, numSamples, height);
+
+        // draw samples
+        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+            g2d.drawLine(i, 0, i, normalizedSamples[i]);
+        }
+
+        return ret;
     }
 
     /**
@@ -168,11 +255,10 @@ public class MessagingUtils {
         int numFrames = (int) wav.getNumFrames();
         int[] nonNormalizedSamples = new int[width];
 
-        if (width > numFrames) {
-            throw new IllegalStateException("Samples to take is greater than num frames: "
-                    + "samples = " + width + ", frames = " + numFrames
-                    + "\n" + CyderStrings.europeanToymaker);
-        }
+        Preconditions.checkArgument(width <= numFrames,
+                "Samples to take is greater than num frames: "
+                + "samples = " + width + ", frames = " + numFrames
+                + "\n" + CyderStrings.europeanToymaker);
 
         int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) width);
         int currentSampleLoc = 0;
@@ -182,10 +268,10 @@ public class MessagingUtils {
 
         // find the max and add to the samples at the same time
         for (int i = 0; i < wav.getNumFrames(); i++) {
-            maxAmp = Math.max(maxAmp, wav.getSampleInt(i));
+            maxAmp = Math.max(maxAmp, wav.getSample(i));
 
             if (i == currentSampleLoc) {
-                nonNormalizedSamples[currentSampleIndex] = wav.getSampleInt(i);
+                nonNormalizedSamples[currentSampleIndex] = wav.getSample(i);
 
                 currentSampleLoc += sampleLocIncrementer;
                 currentSampleIndex++;
@@ -202,7 +288,7 @@ public class MessagingUtils {
         // actual y values for painting
         int[] normalizedSamples = new int[width];
 
-        // get raw samples from file
+        // normalize raw samples and mark values to interpolate
         for (int i = 0; i < width; i++) {
             int normalizedValue = (int) ((nonNormalizedSamples[i] / (double) maxAmp) * height);
 

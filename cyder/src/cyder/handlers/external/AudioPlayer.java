@@ -33,6 +33,8 @@ import java.text.DecimalFormat;
 
 // todo play next and play last methods
 
+// todo should select dir be a menu option? menu should be vertical shouuldn't it?
+
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
