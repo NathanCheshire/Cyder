@@ -2,19 +2,22 @@ package cyder.handlers.external;
 
 import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
+import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
-import cyder.ui.CyderFrame;
-import cyder.ui.CyderIconButton;
-import cyder.ui.CyderProgressBar;
+import cyder.ui.*;
+import cyder.ui.enums.AnimationDirection;
+import cyder.ui.enums.SliderShape;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 import javazoom.jl.player.Player;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -52,8 +55,16 @@ public class AudioPlayer {
     // UI element members
     // ------------------
 
-    public static final JLabel albumArtLabel = new JLabel();
     private static CyderFrame audioFrame;
+    private static final JLabel albumArtLabel = new JLabel();
+    private static final JLabel audioTitleLabel = new JLabel();
+    private static final JLabel audioTitleLabelContainer = new JLabel();
+    private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, 100);
+    private static final CyderProgressUI audioProgressBarUi = new CyderProgressUI();
+    private static final JLabel audioProgressLabel = new JLabel();
+
+    private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
+    private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
 
     private static final ImageIcon playIcon = new ImageIcon(
             "static/pictures/music/Play.png");
@@ -223,6 +234,8 @@ public class AudioPlayer {
     private static final int DEFAULT_FRAME_WIDTH = 600;
     private static final int DEFAULT_FRAME_HEIGHT = 600;
 
+    public static final int ALBUM_ART_LEN = 400;
+
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
 
@@ -265,11 +278,23 @@ public class AudioPlayer {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
+    /**
+     * Allow widget to be found via reflection.
+     */
     @Widget(triggers = {"mp3", "music", "audio"}, description = "An audio playing widget")
     public static void showGUI() {
         showGUI(DEFAULT_AUDIO_FILE);
     }
 
+    // todo eventaully if already open, start playing new
+    //  audio but don't close frame or change frame state
+    /**
+     * Starts playing the provided audio file.
+     * The file must be mp3 or wav.
+     *
+     * @param startPlaying the audio file to start playing.
+     *                     If null, {@link AudioPlayer#DEFAULT_AUDIO_FILE} is played.
+     */
     public static void showGUI(File startPlaying) {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
@@ -277,20 +302,80 @@ public class AudioPlayer {
         currentAudioFile = startPlaying;
 
         audioFrame = new CyderFrame(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT, backgroundColor);
-        audioFrame.getTopDragLabel().addButton(switchFrameView, 0);
-        audioFrame.finalizeAndShow();
-
-        // need to add all components ever needed for primary view to frame
-
-
-
         refreshFrameTitle();
+
+        audioFrame.getTopDragLabel().addButton(switchFrameView, 0);
+        audioFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
+        audioFrame.setMenuEnabled(true);
+        installMenuItems();
+
+        // todo set size of all components ever needed on frame and add to frame
+        albumArtLabel.setSize(ALBUM_ART_LEN, ALBUM_ART_LEN);
+        audioFrame.getContentPane().add(albumArtLabel);
+
+        audioTitleLabelContainer.setSize(ALBUM_ART_LEN, 40);
+        audioFrame.getContentPane().add(audioTitleLabelContainer);
+
+        // todo will be updated and centered in parent
+        audioTitleLabel.setSize(ALBUM_ART_LEN, 40);
+        audioTitleLabelContainer.add(audioTitleLabel);
+
+        audioProgressBar.setSize(ALBUM_ART_LEN, 40);
+        audioFrame.getContentPane().add(audioProgressBar);
+        audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
+        audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
+        audioProgressBarUi.setShape(CyderProgressUI.Shape.SQUARE);
+        audioProgressBar.setUI(audioProgressBarUi);
+        audioProgressBar.setMinimum(0);
+        audioProgressBar.setMaximum(10000);
+        audioProgressBar.setBorder(new LineBorder(Color.black, 2));
+        audioProgressBar.setOpaque(false);
+        audioProgressBar.setFocusable(false);
+
+        audioProgressLabel.setSize(ALBUM_ART_LEN, 40);
+        audioFrame.getContentPane().add(audioProgressLabel);
+        audioProgressLabel.setFont(CyderFonts.defaultFontSmall);
+        audioProgressLabel.setForeground(CyderColors.vanila);
+        audioProgressLabel.setFocusable(false);
+        audioProgressLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // todo change audio location
+            }
+        });
+
+        audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
+        audioVolumeSliderUi.setSliderShape(SliderShape.CIRCLE);
+        audioVolumeSliderUi.setThumbDiameter(25);
+        audioVolumeSliderUi.setFillColor(CyderColors.vanila);
+        audioVolumeSliderUi.setOutlineColor(CyderColors.vanila);
+        audioVolumeSliderUi.setNewValColor(CyderColors.vanila);
+        audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
+        audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
+
+        audioVolumeSlider.setSize(ALBUM_ART_LEN, 40);
+        audioFrame.getContentPane().add(audioVolumeSlider);
+        audioVolumeSlider.setUI(audioVolumeSliderUi);
+        audioVolumeSlider.setMinimum(0);
+        audioVolumeSlider.setMaximum(100);
+        audioVolumeSlider.setPaintTicks(false);
+        audioVolumeSlider.setPaintLabels(false);
+        audioVolumeSlider.setVisible(true);
+        audioVolumeSlider.setValue(50);
+        audioVolumeSlider.addChangeListener(e ->{
+            // todo call method
+        });
+        audioVolumeSlider.setOpaque(false);
+        audioVolumeSlider.setToolTipText("Volume");
+        audioVolumeSlider.setFocusable(false);
+        audioVolumeSlider.repaint();
+        audioFrame.getContentPane().add(audioVolumeSlider);
+
         setUiComponentsVisible(false);
+
         setupAndShowFrameView(FrameView.FULL);
 
-        audioFrame.setMenuEnabled(true);
-        audioFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
-        installMenuItems();
+        audioFrame.finalizeAndShow();
     }
 
     private static void installMenuItems() {
@@ -318,19 +403,19 @@ public class AudioPlayer {
 
         switch (view) {
             case FULL:
-                // set bounds of all components needed
+                // set location of all components needed
 
                 setUiComponentsVisible(true);
                 currentFrameView = FrameView.FULL;
                 break;
             case HIDDEN_ART:
-                // set bounds of all components needed
+                // set location of all components needed
 
                 // only set elements to show to visible
                 currentFrameView = FrameView.HIDDEN_ART;
                 break;
             case MINI:
-                // set bounds of all components needed
+                // set location of all components needed
 
                 // only set elements to show to visible, (buttons)
                 currentFrameView = FrameView.MINI;
@@ -489,6 +574,7 @@ public class AudioPlayer {
 
     public static void setUiComponentsVisible(boolean visible) {
         // todo shouldn't depened on mode
+        albumArtLabel.setVisible(visible);
     }
 
     // -----------------------------------------------------
