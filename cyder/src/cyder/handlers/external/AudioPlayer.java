@@ -35,25 +35,18 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
-// todo audio player menu options: export as wav,
-//  export as mp3, export waveform, download audio (can
-//  search for music on youtube and refresh with top 10 queries,
-//  click one and confirm to download, this implies there will be levels of pages to the mp3
-//  player and I kind of want them to slide in and out like StraightShot)
-//  and choose audio button for file chooser
+//  todo views should slide in and out like StraightShot
 
-// todo youtube-dl should be downloaded with Cyder too and always pointed to locally if command doesn't work
+// todo remove ffmpeg and youtube-dl setting paths, either it's already a windows level var or we donwload
+// our own and check for it in the exes dir which is already done for us if we use the appropriate method
+// it will tell us which of the possibilities exists
 
 // todo dreamify checkbox for audio player, will need to generate wav first time in tmp and play from that
 //  after conversion finished, should be seamless audio transition
 
 // todo before starting audio player we need to ensure ffmpeg stack is downloaded.
 
-// todo static icons declared class level public final
-
 // todo still need to prevent spamming of skip actions
-
-// todo play next and play last methods
 
 // todo should select dir be a menu option? menu should be vertical shouuldn't it?
 
@@ -244,7 +237,7 @@ public class AudioPlayer {
     private static final int DEFAULT_FRAME_WIDTH = 600;
     private static final int DEFAULT_FRAME_HEIGHT = 600;
 
-    public static final int ALBUM_ART_LEN = 400;
+    public static final int ALBUM_ART_LABEL_SIZE = 300;
 
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
@@ -309,6 +302,8 @@ public class AudioPlayer {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
 
+        handlePreliminaries();
+
         currentAudioFile = startPlaying;
 
         audioFrame = new CyderFrame(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT, backgroundColor);
@@ -320,17 +315,17 @@ public class AudioPlayer {
         installMenuItems();
 
         // todo set size of all components ever needed on frame and add to frame
-        albumArtLabel.setSize(ALBUM_ART_LEN, ALBUM_ART_LEN);
+        albumArtLabel.setSize(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
         audioFrame.getContentPane().add(albumArtLabel);
 
-        audioTitleLabelContainer.setSize(ALBUM_ART_LEN, 40);
+        audioTitleLabelContainer.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioFrame.getContentPane().add(audioTitleLabelContainer);
 
         // todo will be updated and centered in parent
-        audioTitleLabel.setSize(ALBUM_ART_LEN, 40);
+        audioTitleLabel.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioTitleLabelContainer.add(audioTitleLabel);
 
-        audioProgressBar.setSize(ALBUM_ART_LEN, 40);
+        audioProgressBar.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioFrame.getContentPane().add(audioProgressBar);
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
@@ -338,11 +333,10 @@ public class AudioPlayer {
         audioProgressBar.setUI(audioProgressBarUi);
         audioProgressBar.setMinimum(0);
         audioProgressBar.setMaximum(10000);
-        audioProgressBar.setBorder(new LineBorder(Color.black, 2));
         audioProgressBar.setOpaque(false);
         audioProgressBar.setFocusable(false);
 
-        audioProgressLabel.setSize(ALBUM_ART_LEN, 40);
+        audioProgressLabel.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioFrame.getContentPane().add(audioProgressLabel);
         audioProgressLabel.setFont(CyderFonts.defaultFontSmall);
         audioProgressLabel.setForeground(CyderColors.vanila);
@@ -363,7 +357,7 @@ public class AudioPlayer {
         audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
-        audioVolumeSlider.setSize(ALBUM_ART_LEN, 40);
+        audioVolumeSlider.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioFrame.getContentPane().add(audioVolumeSlider);
         audioVolumeSlider.setUI(audioVolumeSliderUi);
         audioVolumeSlider.setMinimum(0);
@@ -376,16 +370,39 @@ public class AudioPlayer {
             refreshAudioLine();
         });
         audioVolumeSlider.setOpaque(false);
-        audioVolumeSlider.setToolTipText("Volume");
+        audioVolumeSlider.setToolTipText("Volume"); // todo tooltip would be cool for the percentage
         audioVolumeSlider.setFocusable(false);
         audioVolumeSlider.repaint();
-        audioFrame.getContentPane().add(audioVolumeSlider);
 
         setUiComponentsVisible(false);
 
-        setupAndShowFrameView(FrameView.FULL);
+        // todo this sets to visiblesetupAndShowFrameView(FrameView.FULL);
 
         audioFrame.finalizeAndShow();
+    }
+
+    public static void setUiComponentsVisible(boolean visible) {
+        // todo shouldn't depened on mode, simply set all components in phase 1 to "visible"
+        albumArtLabel.setVisible(visible);
+
+        audioTitleLabel.setVisible(visible);
+        audioTitleLabelContainer.setVisible(visible);
+
+        audioProgressBar.setVisible(visible);
+        if (visible) {
+            audioProgressBar.setBorder(new LineBorder(Color.black, 2));
+        } else {
+            audioProgressBar.setBorder(null);
+        }
+
+        audioProgressLabel.setVisible(visible);
+        audioVolumeSlider.setVisible(visible);
+    }
+
+    private static void handlePreliminaries() {
+        // todo ensure ffmpeg and youtube-dl downloaded, if not, download
+
+        // only proceed if downloaded, inform user of every step along the way
     }
 
     private static void installMenuItems() {
@@ -502,11 +519,27 @@ public class AudioPlayer {
                 File chosenFile = GetterUtil.getInstance().getFile(builder);
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
-                    // todo end stuff, set as current file, find siblings to play, start playing it
+                    // todo end stuff (method which calls smalelr methods for this),
+
+                    // set file and find audio fields in same directory
+                    currentAudioFile = chosenFile;
+                    refreshAudioFiles();
+
+                    // todo start playing
                 } else {
                     audioFrame.notify("Invalid file chosen");
                 }
             }, "AudioPlayer File Chooser");
+        });
+        audioFrame.addMenuItem("Dreamify", () -> {
+            // continue playing audio if an mp3 while converting to wav
+
+            // export as wav to tmp directory
+
+            // reference the wav and play at the last frame the current audio was at
+            // should be a seemless transition
+
+            // how to handle pausing and resuming?
         });
     }
 
@@ -599,7 +632,7 @@ public class AudioPlayer {
          if (audioFrame != null) {
              audioFrame.dispose(true);
 
-             // todo other actions
+             // todo other actions to end worker threads
 
              audioFrame = null;
          }
@@ -628,12 +661,16 @@ public class AudioPlayer {
     public static void handlePlayPauseButtonClick() {
         // if we're playing, pause the audio
         if (isAudioPlaying()) {
-
+            stopAudio();
         }
         // otherwise start playing, this should always play something
         else {
-
+            playAudio();
         }
+    }
+
+    public static void playAudio() {
+
     }
 
     public static void stopAudio() {
@@ -651,13 +688,13 @@ public class AudioPlayer {
     private static boolean repeatAudio;
 
     public static void handleRepeatButtonClick() {
-
+        repeatAudio = !repeatAudio;
     }
 
     private static boolean shuffleAudio;
 
     public static void handleShuffleButtonClick() {
-
+        shuffleAudio = !shuffleAudio;
     }
 
     public static void playAudioNext(File audioFile) {
@@ -687,10 +724,9 @@ public class AudioPlayer {
         return null;
     }
 
-    public static void setUiComponentsVisible(boolean visible) {
-        // todo shouldn't depened on mode
-        albumArtLabel.setVisible(visible);
-    }
+    /*
+    Inner class thread workers
+     */
 
     // -----------------------------------------------------
     // Audio Location Text class (layered over progress bar)
@@ -747,6 +783,7 @@ public class AudioPlayer {
     // Scrolling Title Label class
     // ---------------------------
 
+    // todo is it added to parent or does it need to be added, make this handled better and simpler
     /**
      * Private inner class for the scrolling audio label.
      */
