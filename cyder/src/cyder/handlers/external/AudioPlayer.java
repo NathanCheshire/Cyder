@@ -8,17 +8,17 @@ import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
 import cyder.user.UserFile;
-import cyder.utilities.AudioUtil;
-import cyder.utilities.FileUtil;
-import cyder.utilities.OSUtil;
-import cyder.utilities.StringUtil;
+import cyder.utilities.*;
+import cyder.utilities.objects.GetterBuilder;
 import javazoom.jl.player.Player;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
@@ -27,6 +27,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
@@ -407,11 +408,13 @@ public class AudioPlayer {
                             File destination = OSUtil.buildFile(
                                     DynamicDirectory.DYNAMIC_PATH,
                                     DynamicDirectory.USERS.getDirectoryName(),
-                                    UserFile.MUSIC.getName(), FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
+                                    UserFile.MUSIC.getName(),
+                                    FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
+
                             Files.copy(wavConvertedFile.get().get().toPath(), destination.toPath());
                         } else {
                             audioFrame.notify("Could not convert \""
-                                    + currentAudioFile.getName() + "\" to a wav at this time.");
+                                    + currentAudioFile.getName() + "\" to a wav at this time");
                         }
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
@@ -422,16 +425,88 @@ public class AudioPlayer {
             }
         });
         audioFrame.addMenuItem("Export mp3", () -> {
+            if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
+                audioFrame.notify("This file is already an mp3");
+                return;
+            } else if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
+                CyderThreadRunner.submit(() -> {
+                    Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile);
 
+                    while (!mp3ConvertedFile.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    try {
+                        if (mp3ConvertedFile.get().isPresent()) {
+                            File destination = OSUtil.buildFile(
+                                    DynamicDirectory.DYNAMIC_PATH,
+                                    DynamicDirectory.USERS.getDirectoryName(),
+                                    UserFile.MUSIC.getName(),
+                                    FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
+
+                            Files.copy(mp3ConvertedFile.get().get().toPath(), destination.toPath());
+                        } else {
+                            audioFrame.notify("Could not convert \""
+                                    + currentAudioFile.getName() + "\" to an mp3 at this time");
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }, "Mp3 exporter");
+            } else {
+                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.getName());
+            }
         });
         audioFrame.addMenuItem("Waveform", () -> {
+            CyderThreadRunner.submit(() -> {
+                GetterBuilder builder = new GetterBuilder("Export name");
+                builder.setLabelText("Enter a name to export the waveform as");
+                builder.setSubmitButtonText("Save to files");
 
+                String saveName = GetterUtil.getInstance().getString(builder);
+
+                if (!StringUtil.isNull(saveName)) {
+                    if (OSUtil.isValidFilename(saveName)) {
+                        File saveFile = OSUtil.buildFile(
+                                DynamicDirectory.DYNAMIC_PATH,
+                                DynamicDirectory.USERS.getDirectoryName(),
+                                UserFile.FILES.getName(),
+                                saveName + ".png");
+
+                        Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile);
+
+                        while (!waveform.isDone()) {
+                            Thread.onSpinWait();
+                        }
+
+                        try {
+                            ImageIO.write(waveform.get(), "png", saveFile);
+                            audioFrame.notify("Saved waveform to your files directory");
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                            audioFrame.notify("Could not save waveform at this time");
+                        }
+                    } else {
+                        audioFrame.notify("Invalid filename for " + OSUtil.OPERATING_SYSTEM_NAME);
+                    }
+                }
+            }, "AudioPlayer Waveform Exporter");
         });
         audioFrame.addMenuItem("Search", () -> {
-
+            // phase 2
         });
         audioFrame.addMenuItem("Choose File", () -> {
+            CyderThreadRunner.submit(() -> {
+                GetterBuilder builder = new GetterBuilder("Choose an mp3 or wav file");
+                builder.setRelativeTo(audioFrame);
+                File chosenFile = GetterUtil.getInstance().getFile(builder);
 
+                if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
+                    // todo end stuff, set as current file, find siblings to play, start playing it
+                } else {
+                    audioFrame.notify("Invalid file chosen");
+                }
+            }, "AudioPlayer File Chooser");
         });
     }
 
