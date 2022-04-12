@@ -339,18 +339,30 @@ public class AudioUtil {
      *
      * @return whether the download was successful
      */
-    public static boolean downloadFfmpegStack() {
-        // todo
+    public static Future<Boolean> downloadFfmpegStack() {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Ffmpeg Downloader")).submit(() -> {
+            // todo
 
-        // get url from backend
+            // get url from backend
 
-        // download zip
+            // download zip
 
-        // extract zip into exes inside of exes/
+            // extract zip into exes inside of exes/
 
-        // delete old zip
+            // delete old zip
 
-        return false;
+            return false;
+        });
+    }
+
+    public static Future<Boolean> downloadYoutubeDl() {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Ffmpeg Downloader")).submit(() -> {
+            // todo
+
+            return false;
+        });
     }
 
     /**

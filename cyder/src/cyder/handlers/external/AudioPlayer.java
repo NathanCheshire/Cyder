@@ -9,6 +9,7 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.messaging.MessagingUtils;
+import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
@@ -33,6 +34,7 @@ import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 //  todo views should slide in and out like StraightShot
@@ -302,7 +304,18 @@ public class AudioPlayer {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
 
-        handlePreliminaries();
+        // todo future and wit for but inform user of actions
+        Future<Boolean> passedPreliminaries = handlePreliminaries();
+
+        while (!passedPreliminaries.isDone()) {
+            Thread.onSpinWait();
+        }
+
+        // todo show the frame but disable ui elements and exit if it can't download
+//        if (!passedPreliminaries.get()) {
+//            InformHandler.inform("Could not download necessary binaries. " +
+//                    "Try to install both ffmpeg and youtube-dl and try again");
+//        }
 
         currentAudioFile = startPlaying;
 
@@ -399,10 +412,38 @@ public class AudioPlayer {
         audioVolumeSlider.setVisible(visible);
     }
 
-    private static void handlePreliminaries() {
-        // todo ensure ffmpeg and youtube-dl downloaded, if not, download
+    private static Future<Boolean> handlePreliminaries() {
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("AudioPlayer Preliminary Handler")).submit(() -> {
+            boolean binariesInstalled = true;
 
-        // only proceed if downloaded, inform user of every step along the way
+            if (!AudioUtil.youtubeDlInstalled()) {
+                Future<Boolean> downloadedYoutubeDl = AudioUtil.downloadYoutubeDl();
+
+                while (!downloadedYoutubeDl.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                binariesInstalled = downloadedYoutubeDl.get();
+
+                // if failed, immediately return false
+                if (!binariesInstalled) {
+                    return false;
+                }
+            }
+
+            if (!AudioUtil.ffmpegInstalled()) {
+                Future<Boolean> ffmpegDownloaded = AudioUtil.downloadFfmpegStack();
+
+                while (!ffmpegDownloaded.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                binariesInstalled = ffmpegDownloaded.get();
+            }
+
+            return binariesInstalled;
+        });
     }
 
     private static void installMenuItems() {
