@@ -5,25 +5,34 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderStrings;
+import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
+import cyder.user.UserFile;
+import cyder.utilities.AudioUtil;
 import cyder.utilities.FileUtil;
 import cyder.utilities.OSUtil;
 import cyder.utilities.StringUtil;
 import javazoom.jl.player.Player;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.concurrent.Future;
 
 // todo audio player menu options: export as wav,
 //  export as mp3, export waveform, download audio (can
@@ -362,8 +371,8 @@ public class AudioPlayer {
         audioVolumeSlider.setPaintLabels(false);
         audioVolumeSlider.setVisible(true);
         audioVolumeSlider.setValue(50);
-        audioVolumeSlider.addChangeListener(e ->{
-            // todo call method
+        audioVolumeSlider.addChangeListener(e -> {
+            refreshAudioLine();
         });
         audioVolumeSlider.setOpaque(false);
         audioVolumeSlider.setToolTipText("Volume");
@@ -382,7 +391,35 @@ public class AudioPlayer {
         // just to be safe
         audioFrame.clearMenuItems();
         audioFrame.addMenuItem("Export wav", () -> {
+            if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
+                audioFrame.notify("This file is already a wav");
+                return;
+            } else if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
+                CyderThreadRunner.submit(() -> {
+                    Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile);
 
+                    while (!wavConvertedFile.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    try {
+                        if (wavConvertedFile.get().isPresent()) {
+                            File destination = OSUtil.buildFile(
+                                    DynamicDirectory.DYNAMIC_PATH,
+                                    DynamicDirectory.USERS.getDirectoryName(),
+                                    UserFile.MUSIC.getName(), FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
+                            Files.copy(wavConvertedFile.get().get().toPath(), destination.toPath());
+                        } else {
+                            audioFrame.notify("Could not convert \""
+                                    + currentAudioFile.getName() + "\" to a wav at this time.");
+                        }
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                }, "Wav exporter");
+            } else {
+                throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.getName());
+            }
         });
         audioFrame.addMenuItem("Export mp3", () -> {
 
@@ -494,31 +531,34 @@ public class AudioPlayer {
     }
 
     public static void refreshAudioLine() {
-//        try {
-//            if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
-//                Port outline = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
-//                outline.open();
-//                FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-//                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
-//            }
-//
-//            if (AudioSystem.isLineSupported(Port.Info.HEADPHONE)) {
-//                Port outline = (Port) AudioSystem.getLine(Port.Info.HEADPHONE);
-//                outline.open();
-//                FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
-//                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
-//            }
-//        } catch (Exception ex) {
-//            ExceptionHandler.handle(ex);
-//        }
+        try {
+            if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
+                Port outline = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
+                outline.open();
+                FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
+            }
+
+            if (AudioSystem.isLineSupported(Port.Info.HEADPHONE)) {
+                Port outline = (Port) AudioSystem.getLine(Port.Info.HEADPHONE);
+                outline.open();
+                FloatControl volumeControl = (FloatControl) outline.getControl(FloatControl.Type.VOLUME);
+                volumeControl.setValue((float) (audioVolumeSlider.getValue() * 0.001));
+            }
+        } catch (Exception ex) {
+            ExceptionHandler.handle(ex);
+        }
     }
 
     public static void handlePlayPauseButtonClick() {
+        // if we're playing, pause the audio
+        if (isAudioPlaying()) {
 
-    }
+        }
+        // otherwise start playing, this should always play something
+        else {
 
-    public static void handleStopAudioButtonClick() {
-
+        }
     }
 
     public static void stopAudio() {

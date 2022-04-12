@@ -229,41 +229,42 @@ public class UserEditor {
         editUserFrame.getContentPane().add(filesLabel);
         switchingLabel.add(filesLabel);
 
-        CyderButton addFile1 = new CyderButton("Add");
-        addFile1.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        addFile1.setFocusPainted(false);
-        addFile1.setBackground(CyderColors.regularRed);
-        addFile1.addActionListener(e -> {
+        CyderButton addFileButton = new CyderButton("Add");
+        addFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
+        addFileButton.setFocusPainted(false);
+        addFileButton.setBackground(CyderColors.regularRed);
+        addFileButton.addActionListener(e -> {
             try {
                 CyderThreadRunner.submit(() -> {
                     try {
                         GetterBuilder builder = new GetterBuilder("Add File");
                         builder.setRelativeTo(editUserFrame);
-                        File addFile = GetterUtil.getInstance().getFile(builder);
+                        File fileToAdd = GetterUtil.getInstance().getFile(builder);
 
-                        if (addFile == null || addFile.getName().equals("NULL"))
+                        if (StringUtil.isNull(fileToAdd.getName())) {
                             return;
+                        }
 
                         for (CyderBackground background : ConsoleFrame.INSTANCE.getBackgrounds()) {
-                            if (addFile.getName().equals(background.getReferenceFile().getName())) {
+                            if (fileToAdd.getName().equals(background.getReferenceFile().getName())) {
                                 editUserFrame.notify("Cannot add a background with the same name as a current one");
                                 return;
                             }
                         }
 
-                        Path copyPath = new File(addFile.getAbsolutePath()).toPath();
+                        Path copyPath = new File(fileToAdd.getAbsolutePath()).toPath();
                         String folderName;
 
-                        if (FileUtil.isSupportedImageExtension(addFile)) {
+                        if (FileUtil.isSupportedImageExtension(fileToAdd)) {
                             folderName = UserFile.BACKGROUNDS.getName();
-                        } else if (FileUtil.isSupportedAudioExtension(addFile)) {
+                        } else if (FileUtil.isSupportedAudioExtension(fileToAdd)) {
                             folderName = UserFile.MUSIC.getName();
                         } else {
                             folderName = UserFile.FILES.getName();
                         }
 
                         File destination = new File(UserUtil.getUserFile(
-                                folderName).getAbsolutePath() + OSUtil.FILE_SEP + addFile.getName());
+                                folderName).getAbsolutePath() + OSUtil.FILE_SEP + fileToAdd.getName());
                         Files.copy(copyPath, destination.toPath());
 
                         revalidateFilesScroll(filesScroll, filesLabelRef.get());
@@ -279,9 +280,9 @@ public class UserEditor {
                 ExceptionHandler.handle(exc);
             }
         });
-        addFile1.setFont(CyderFonts.segoe20);
-        addFile1.setBounds(20, 440, 155, 40);
-        switchingLabel.add(addFile1);
+        addFileButton.setFont(CyderFonts.segoe20);
+        addFileButton.setBounds(20, 440, 155, 40);
+        switchingLabel.add(addFileButton);
 
         CyderButton openFile = new CyderButton("Open");
         openFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
