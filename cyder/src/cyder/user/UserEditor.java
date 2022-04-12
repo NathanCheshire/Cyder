@@ -1138,62 +1138,6 @@ public class UserEditor {
 
         printingUtil.print("\n\n");
 
-        CyderLabel ffmpegLabel = new CyderLabel("FFMPEG Path");
-        printingUtil.printlnComponent(ffmpegLabel);
-
-        printingUtil.print("\n");
-
-        CyderButton validateFfmpegButton = new CyderButton("    Validate Path   ");
-        JTextField ffmpegField = new JTextField(0);
-        ffmpegField.setHorizontalAlignment(JTextField.CENTER);
-        ffmpegField.addActionListener(e -> validateFfmpeg(ffmpegField));
-        ffmpegField.setToolTipText("Path to ffmpeg.exe");
-        ffmpegField.setBackground(CyderColors.vanila);
-        ffmpegField.setSelectionColor(CyderColors.selectionColor);
-        ffmpegField.setFont(CyderFonts.segoe20);
-        ffmpegField.setForeground(CyderColors.navy);
-        ffmpegField.setCaretColor(CyderColors.navy);
-        ffmpegField.setCaret(new CyderCaret(CyderColors.navy));
-        ffmpegField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        ffmpegField.setOpaque(true);
-        printingUtil.printlnComponent(ffmpegField);
-        ffmpegField.setText(UserUtil.getCyderUser().getFfmpegpath());
-
-        printingUtil.print("\n");
-
-        validateFfmpegButton.addActionListener(e -> validateFfmpeg(ffmpegField));
-        printingUtil.printlnComponent(validateFfmpegButton);
-
-        printingUtil.print("\n\n");
-
-        CyderLabel youtubeDLLabel = new CyderLabel("YouTubeDL Path");
-        printingUtil.printlnComponent(youtubeDLLabel);
-
-        printingUtil.print("\n");
-
-        CyderButton validateYouTubeDL = new CyderButton("   Validate Path  ");
-        JTextField youtubedlField = new JTextField(0);
-        youtubedlField.setHorizontalAlignment(JTextField.CENTER);
-        youtubedlField.addActionListener(e -> validateYoutubeDl(youtubedlField));
-        youtubedlField.setToolTipText("Path to youtubedl.exe");
-        youtubedlField.setBackground(CyderColors.vanila);
-        youtubedlField.setSelectionColor(CyderColors.selectionColor);
-        youtubedlField.setFont(CyderFonts.segoe20);
-        youtubedlField.setForeground(CyderColors.navy);
-        youtubedlField.setCaretColor(CyderColors.navy);
-        youtubedlField.setCaret(new CyderCaret(CyderColors.navy));
-        youtubedlField.setBorder(new LineBorder(CyderColors.navy, 5, false));
-        youtubedlField.setOpaque(true);
-        printingUtil.printlnComponent(youtubedlField);
-        youtubedlField.setText(UserUtil.getCyderUser().getYoutubedlpath());
-
-        printingUtil.print("\n");
-
-        validateYouTubeDL.addActionListener(e -> validateYoutubeDl(youtubedlField));
-        printingUtil.printlnComponent(validateYouTubeDL);
-
-        printingUtil.print("\n\n");
-
         CyderLabel deleteUserLabel = new CyderLabel("Delete User");
         printingUtil.printlnComponent(deleteUserLabel);
 
@@ -1676,38 +1620,6 @@ public class UserEditor {
             }
 
             removeMapField.setText("");
-        }
-    }
-
-    private static void validateFfmpeg(JTextField ffmpegField) {
-        String text = ffmpegField.getText().trim();
-
-        if (!text.isEmpty()) {
-            File ffmpegMaybe = new File(text);
-            if (ffmpegMaybe.exists() && ffmpegMaybe.isFile() &&
-                    FileUtil.getExtension(ffmpegMaybe).equals(".exe")) {
-                UserUtil.getCyderUser().setFfmpegpath(text);
-                editUserFrame.notify("ffmpeg path successfully set");
-            } else {
-                editUserFrame.notify("ffmpeg does not exist at the provided path");
-                ffmpegField.setText(UserUtil.getCyderUser().getFfmpegpath());
-            }
-        }
-    }
-
-    private static void validateYoutubeDl(JTextField youtubedlField) {
-        String text = youtubedlField.getText().trim();
-
-        if (!text.isEmpty()) {
-            File youtubeDLMaybe = new File(text);
-            if (youtubeDLMaybe.exists() && youtubeDLMaybe.isFile() &&
-                    FileUtil.getExtension(youtubeDLMaybe).equals(".exe")) {
-                UserUtil.getCyderUser().setYoutubedlpath(text);
-                editUserFrame.notify("youtube-dl path successfully set");
-            } else {
-                editUserFrame.notify("youtube-dl does not exist at the provided path");
-                youtubedlField.setText(UserUtil.getCyderUser().getYoutubedlpath());
-            }
         }
     }
 }

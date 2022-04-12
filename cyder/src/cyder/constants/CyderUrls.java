@@ -59,12 +59,12 @@ public class CyderUrls {
     public static final String WIKIPEDIA_FILE_SIGNATURES = "https://en.wikipedia.org/wiki/List_of_file_signatures";
 
     /**
-     * A link to install youtube-dl
+     * A link for how to install youtube-dl.
      */
     public static final String YOUTUBE_DL_INSTALLATION = "https://github.com/ytdl-org/youtube-dl#installation";
 
     /**
-     * A link to install ffmpeg.
+     * A link for how to install ffmpeg.
      */
     public static final String FFMPEG_INSTALLATION = "https://www.wikihow.com/Install-FFmpeg-on-Windows";
 

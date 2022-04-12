@@ -24,6 +24,16 @@ public class AudioUtil {
     public static final String INPUT_FLAG = "-i";
 
     /**
+     * The primary name for the youtube-dl binary.
+     */
+    public static final String YOUTUBE_DL = "youtube-dl";
+
+    /**
+     * The primary name for the ffmpeg binary.
+     */
+    public static final String FFMPEG = "ffmpeg";
+
+    /**
      * Suppress default constructor.
      */
     private AudioUtil() {
@@ -235,24 +245,35 @@ public class AudioUtil {
     /**
      * Returns whether ffmpeg is installed by attempting
      * validation on the set path to the exe and attempting
-     * to invoke "ffmpeg" in the console.
+     * to invoke ffmpeg in the console.
      *
      * @return whether ffmpeg is installed
      */
     public static boolean ffmpegInstalled() {
         // check for the binary first being set in the Windows PATH
-        if (OSUtil.isBinaryInstalled("ffmpeg")) {
-            return true;
-        }
-
-        // next try to grab the user set path
-        String userSetPath = UserUtil.getCyderUser().getFfmpegpath();
-        if (!StringUtil.isNull(userSetPath) && OSUtil.isBinaryInExes(userSetPath)) {
+        if (OSUtil.isBinaryInstalled(FFMPEG)) {
             return true;
         }
 
         // finally check dynamic/exes to see if an ffmpeg binary exists there
-        return OSUtil.isBinaryInExes("ffmpeg.exe");
+        return OSUtil.isBinaryInExes(FFMPEG + ".exe");
+    }
+
+    /**
+     * Returns whether youtube-dl is installed by attempting
+     * validation on the set path to the exe and attempting
+     * to invoke youtube-dl in the console.
+     *
+     * @return whether youtube-dl is installed
+     */
+    public static boolean youtubeDlInstalled() {
+        // check for the binary first being set in the Windows PATH
+        if (OSUtil.isBinaryInstalled(YOUTUBE_DL)) {
+            return true;
+        }
+
+        // finally check dynamic/exes to see if a youtube-dl binary exists there
+        return OSUtil.isBinaryInExes(YOUTUBE_DL + ".exe");
     }
 
     /**
@@ -274,12 +295,25 @@ public class AudioUtil {
     public static String getFfmpegCommand() {
         Preconditions.checkArgument(ffmpegInstalled());
 
-        String userPath = UserUtil.getCyderUser().getFfmpegpath();
-        return !StringUtil.isNull(userPath) ? userPath
-                : OSUtil.isBinaryInstalled("ffmpeg") ? "ffmpeg"
+        return OSUtil.isBinaryInstalled(FFMPEG) ? FFMPEG
                 : OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
-                         DynamicDirectory.EXES.getDirectoryName(), "ffmpeg.exe");
+                         DynamicDirectory.EXES.getDirectoryName(), FFMPEG + ".exe");
     }
+
+    /**
+     * Returns the command to invoke youtube-dl provided the
+     * binary exists and can be found.
+     *
+     * @return the youtube-dl command
+     */
+    public static String getYoutubeDlCommand() {
+        Preconditions.checkArgument(youtubeDlInstalled());
+
+        return OSUtil.isBinaryInstalled(YOUTUBE_DL) ? YOUTUBE_DL
+                : OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.EXES.getDirectoryName(), YOUTUBE_DL + ".exe");
+    }
+
 
     /**
      * Returns the base ffprobe command.

@@ -758,7 +758,7 @@ public class OSUtil {
      * Returns whether the provided binary could be found by invoking
      * the base command in the native shell.
      *
-     * @param invokeCommand the invoke command such as "ffmpeg" for ffmpeg.
+     * @param invokeCommand the invoke command such as ffmpeg for ffmpeg.
      * @return whether the binary could be located
      */
     public static boolean isBinaryInstalled(String invokeCommand) {

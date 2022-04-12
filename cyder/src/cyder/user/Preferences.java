@@ -219,16 +219,6 @@ public class Preferences {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = showbusyicon");
             //no action required, busy thread will figure it out
             }));
-        ret.add(new Preference("ffmpegpath","IGNORE",
-                "","",() -> {
-            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = ffmpegpath");
-            //no update required
-            }));
-        ret.add(new Preference("youtubedlpath","IGNORE",
-                "","",() -> {
-            Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = youtubedlpath");
-            //no update required
-            }));
         ret.add(new Preference("roundedwindows","Rounded Windows",
                 "Make certain windows rounded","0",() -> {
             Logger.log(LoggerTag.PREFERENCE_REFRESH, "key = roundedwindows");

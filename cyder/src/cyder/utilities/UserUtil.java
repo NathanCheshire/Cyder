@@ -141,7 +141,7 @@ public class UserUtil {
      * Common usages of this, such as setting an object such
      * as the screen stat would look like the following:
      *
-     * <pre>{@code UserUtil.getCyderUser().setFfmpegpath(text);}</pre>
+     * <pre>{@code UserUtil.getCyderUser().setScreenStat(myScreenStat);}</pre>
      * @param jsonFile the use's json file to set as the userJson and extract
      *        and serialize as the current user object
      */

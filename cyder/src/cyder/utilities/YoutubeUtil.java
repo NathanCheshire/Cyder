@@ -51,7 +51,7 @@ public class YoutubeUtil {
      * @param url the url of the video to download
      */
     public static void downloadVideo(String url) {
-        if (AudioUtil.ffmpegInstalled() && OSUtil.isBinaryInstalled("youtube-dl")) {
+        if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String saveDir = OSUtil.buildPath(DynamicDirectory.DYNAMIC_PATH,
                     "users", ConsoleFrame.INSTANCE.getUUID(), "Music");
             String extension = "." + AUDIO_FORMAT;
@@ -77,7 +77,7 @@ public class YoutubeUtil {
             String finalParsedAsciiSaveName = parsedAsciiSaveName;
 
             String[] commands = {
-                    "youtube-dl",
+                    AudioUtil.getYoutubeDlCommand(),
                     url,
                     "--extract-audio",
                     "--audio-format", AUDIO_FORMAT,
@@ -170,7 +170,7 @@ public class YoutubeUtil {
      * @param playlist the url of the playlist to download
      */
     public static void downloadPlaylist(String playlist) {
-        if (AudioUtil.ffmpegInstalled() && OSUtil.isBinaryInstalled("youtube-dl")) {
+        if (AudioUtil.ffmpegInstalled() && AudioUtil.youtubeDlInstalled()) {
             String playlistID = extractPlaylistId(playlist);
 
             if (StringUtil.isNull(UserUtil.getCyderUser().getYouTubeAPI3Key())) {

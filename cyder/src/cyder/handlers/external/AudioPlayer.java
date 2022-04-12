@@ -223,7 +223,7 @@ public class AudioPlayer {
     // Non-ui widget members
     // ----------------------
 
-    public static final Color backgroundColor = new Color(8,23,52);
+    public static final Color BACKGROUND_COLOR = new Color(8,23,52);
 
     private static final ArrayList<File> audioFileQueue = new ArrayList<>();
     private static File currentAudioFile;
@@ -242,8 +242,8 @@ public class AudioPlayer {
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
 
-    private static final CyderIconButton switchFrameView = new CyderIconButton(
-            "Switch View", alternateView, alternateViewHover,
+    private static final CyderIconButton switchFrameAudioView = new CyderIconButton(
+            "Switch Mode", alternateView, alternateViewHover,
             new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -265,12 +265,12 @@ public class AudioPlayer {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            switchFrameView.setIcon(alternateViewHover);
+            switchFrameAudioView.setIcon(alternateViewHover);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            switchFrameView.setIcon(alternateView);
+            switchFrameAudioView.setIcon(alternateView);
         }
     });
 
@@ -306,10 +306,10 @@ public class AudioPlayer {
 
         currentAudioFile = startPlaying;
 
-        audioFrame = new CyderFrame(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT, backgroundColor);
+        audioFrame = new CyderFrame(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT, BACKGROUND_COLOR);
         refreshFrameTitle();
 
-        audioFrame.getTopDragLabel().addButton(switchFrameView, 0);
+        audioFrame.getTopDragLabel().addButton(switchFrameAudioView, 0);
         audioFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
         audioFrame.setMenuEnabled(true);
         installMenuItems();

@@ -147,16 +147,6 @@ public class User {
     private String showbusyicon;
 
     /**
-     * The path to ffmpeg.exe.
-     */
-    private String ffmpegpath;
-
-    /**
-     * The path to youtube-dl.exe.
-     */
-    private String youtubedlpath;
-
-    /**
      * Whether to round CyderFrames.
      */
     private String roundedwindows;
@@ -474,24 +464,6 @@ public class User {
      */
     public String getShowbusyicon() {
         return showbusyicon;
-    }
-
-    /**
-     * Returns the path to ffmpeg.exe.
-     *
-     * @return the path to ffmpeg.exe
-     */
-    public String getFfmpegpath() {
-        return ffmpegpath;
-    }
-
-    /**
-     * Returns the path to youtube-dl.exe.
-     *
-     * @return the path to youtube-dl.exe
-     */
-    public String getYoutubedlpath() {
-        return youtubedlpath;
     }
 
     /**
@@ -874,24 +846,6 @@ public class User {
      */
     public void setShowbusyicon(String showbusyicon) {
         this.showbusyicon = showbusyicon;
-    }
-
-    /**
-     * Sets the path to ffmpeg.exe.
-     *
-     * @param ffmpegpath the path to ffmpeg.exe
-     */
-    public void setFfmpegpath(String ffmpegpath) {
-        this.ffmpegpath = ffmpegpath;
-    }
-
-    /**
-     * Sets the path to youtube-dl.exe.
-     *
-     * @param youtubedlpath the path to youtube-dl.exe
-     */
-    public void setYoutubedlpath(String youtubedlpath) {
-        this.youtubedlpath = youtubedlpath;
     }
 
     /**
