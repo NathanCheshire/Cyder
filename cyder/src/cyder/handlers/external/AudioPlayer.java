@@ -56,17 +56,18 @@ import java.util.concurrent.Future;
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
 public class AudioPlayer {
-    // ------------------
-    // UI element members
-    // ------------------
-
     private static CyderFrame audioFrame;
     private static final JLabel albumArtLabel = new JLabel();
+
+    public static final String DEFAULT_AUDIO_TITLE = "No Audio Playing";
     private static final JLabel audioTitleLabel = new JLabel();
     private static final JLabel audioTitleLabelContainer = new JLabel();
+    private static final int AUDIO_TITLE_LABEL_HEIGHT =
+            StringUtil.getMinHeight("YATTA", CyderFonts.defaultFontSmall);
+
     private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, 100);
     private static final CyderProgressUI audioProgressBarUi = new CyderProgressUI();
-    private static final JLabel audioProgressLabel = new JLabel();
+    private static final CyderLabel audioProgressLabel = new CyderLabel();
 
     private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
     private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
@@ -329,14 +330,18 @@ public class AudioPlayer {
 
         // todo set size of all components ever needed on frame and add to frame
         albumArtLabel.setSize(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
+        albumArtLabel.setOpaque(true);
+        albumArtLabel.setBackground(BACKGROUND_COLOR);
+        albumArtLabel.setBorder(new LineBorder(Color.BLACK, 3));
         audioFrame.getContentPane().add(albumArtLabel);
 
         audioTitleLabelContainer.setSize(ALBUM_ART_LABEL_SIZE, 40);
-        audioFrame.getContentPane().add(audioTitleLabelContainer);
-
-        // todo will be updated and centered in parent
         audioTitleLabel.setSize(ALBUM_ART_LABEL_SIZE, 40);
+        audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
+        audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
+        audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabelContainer.add(audioTitleLabel);
+        audioFrame.getContentPane().add(audioTitleLabelContainer);
 
         audioProgressBar.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioFrame.getContentPane().add(audioProgressBar);
@@ -350,9 +355,9 @@ public class AudioPlayer {
         audioProgressBar.setFocusable(false);
 
         audioProgressLabel.setSize(ALBUM_ART_LABEL_SIZE, 40);
-        audioFrame.getContentPane().add(audioProgressLabel);
-        audioProgressLabel.setFont(CyderFonts.defaultFontSmall);
+        audioProgressLabel.setText("1m 12s played, 3m remaining");
         audioProgressLabel.setForeground(CyderColors.vanila);
+        audioProgressBar.add(audioProgressLabel); //todo frame or bar?
         audioProgressLabel.setFocusable(false);
         audioProgressLabel.addMouseListener(new MouseAdapter() {
             @Override
@@ -389,7 +394,8 @@ public class AudioPlayer {
 
         setUiComponentsVisible(false);
 
-        // todo this sets to visiblesetupAndShowFrameView(FrameView.FULL);
+        // todo this sets to visible, only call after component positions have been set
+        setupAndShowFrameView(FrameView.FULL);
 
         audioFrame.finalizeAndShow();
     }
@@ -410,6 +416,10 @@ public class AudioPlayer {
 
         audioProgressLabel.setVisible(visible);
         audioVolumeSlider.setVisible(visible);
+    }
+
+    public static void setUiComponentsEnabled() {
+        // todo disable/enable ui elements while we're possibly downloading ffmpeg and youtubedl
     }
 
     private static Future<Boolean> handlePreliminaries() {
@@ -590,20 +600,46 @@ public class AudioPlayer {
         switch (view) {
             case FULL:
                 // set location of all components needed
+                int xOff = DEFAULT_FRAME_WIDTH / 2 - ALBUM_ART_LABEL_SIZE / 2;
+                int yOff = CyderDragLabel.DEFAULT_HEIGHT;
+                yOff += 20;
+
+                albumArtLabel.setLocation(xOff, yOff);
+                yOff += ALBUM_ART_LABEL_SIZE + 10;
+
+                audioTitleLabel.setSize(StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
+                        audioTitleLabel.getFont()), AUDIO_TITLE_LABEL_HEIGHT);
+                audioTitleLabel.setLocation(audioTitleLabelContainer.getWidth() / 2
+                        - audioTitleLabel.getWidth() / 2, audioTitleLabelContainer.getHeight() / 2
+                        - audioTitleLabel.getHeight() / 2);
+
+                audioTitleLabelContainer.setLocation(xOff, yOff);
+                yOff += 40 + 10;
+
+                audioProgressBar.setLocation(xOff, yOff);
+                audioProgressBar.setValue(audioProgressBar.getMaximum());
+
+                audioProgressLabel.setLocation(0, 0);
+
+                yOff += 40 + 10;
 
                 setUiComponentsVisible(true);
                 currentFrameView = FrameView.FULL;
                 break;
             case HIDDEN_ART:
-                // set location of all components needed
+                setUiComponentsVisible(false);
 
+                // set location of all components needed
                 // only set elements to show to visible
+
                 currentFrameView = FrameView.HIDDEN_ART;
                 break;
             case MINI:
-                // set location of all components needed
+                setUiComponentsVisible(false);
 
+                // set location of all components needed
                 // only set elements to show to visible, (buttons)
+
                 currentFrameView = FrameView.MINI;
                 break;
             default:
