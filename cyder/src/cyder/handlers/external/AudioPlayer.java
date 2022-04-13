@@ -8,6 +8,8 @@ import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.messaging.MessagingUtils;
 import cyder.threads.CyderThreadFactory;
 import cyder.threads.CyderThreadRunner;
@@ -56,7 +58,7 @@ import java.util.concurrent.Future;
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
 public class AudioPlayer {
-    private static CyderFrame audioFrame;
+    private static CyderFrame audioPlayerFrame;
     private static final JLabel albumArtLabel = new JLabel();
     private static final int BORDER_WIDTH = 3;
 
@@ -238,8 +240,7 @@ public class AudioPlayer {
 
     private static Player player;
 
-    private static final int DEFAULT_FRAME_WIDTH = 600;
-    private static final int DEFAULT_FRAME_HEIGHT = 600;
+    private static final int DEFAULT_FRAME_LEN = 600;
 
     public static final int ALBUM_ART_LABEL_SIZE = 300;
 
@@ -295,46 +296,82 @@ public class AudioPlayer {
 
     // todo eventaully if already open, start playing new
     //  audio but don't close frame or change frame state
+    // some how we shoudl bypass construction stuff and directly act as if a file was selected to play from
     /**
      * Starts playing the provided audio file.
      * The file must be mp3 or wav.
      *
      * @param startPlaying the audio file to start playing.
      *                     If null, {@link AudioPlayer#DEFAULT_AUDIO_FILE} is played.
+     * @throws IllegalArgumentException if startPlaying is null or or doesn't exist
      */
     public static void showGUI(File startPlaying) {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
 
         // todo wait for but inform user of actions
-        Future<Boolean> passedPreliminaries = handlePreliminaries();
 
-        while (!passedPreliminaries.isDone()) {
-            Thread.onSpinWait();
+        // if ffmpeg or youtube-dl needs to be downloaded...
+        if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
+           CyderThreadRunner.submit(() -> {
+              try {
+                  // todo lock UI, this shouldn't be affected by the other setup
+                  //  methods here so maybe do this at the end of this method.
+                  CyderFrame ret = InformHandler.inform(
+                          "Attempting to download ffmpeg or youtube-dl from source");
+                  // todo relative to audio frame
+
+                  Future<Boolean> passedPreliminaries = handlePreliminaries();
+
+                  while (!passedPreliminaries.isDone()) {
+                      Thread.onSpinWait();
+                  }
+
+                  // todo show the frame but disable ui elements and exit if it can't download
+                  // wait to start playing if downloading
+                  if (!passedPreliminaries.get()) {
+                      ret.dispose(true);
+
+                      InformBuilder builder = new InformBuilder("Could not download necessary " +
+                              "binaries. Try to install both ffmpeg and youtube-dl and try again");
+                      builder.setTitle("Network Error");
+                      builder.setRelativeTo(audioPlayerFrame);
+                      builder.setPostCloseAction(() -> {
+                          // todo kill widget
+                      });
+
+                      InformHandler.inform(builder);
+                  } else {
+                      ret.dispose(true);
+                      // todo unlock ui
+                      InformHandler.inform("Successfully downloaded necessary binaries");
+                  }
+              } catch (Exception e) {
+                  ExceptionHandler.handle(e);
+              }
+           }, "AudioPlayer Preliminary Handler");
         }
-
-        // todo show the frame but disable ui elements and exit if it can't download
-//        if (!passedPreliminaries.get()) {
-//            InformHandler.inform("Could not download necessary binaries. " +
-//                    "Try to install both ffmpeg and youtube-dl and try again");
-//        }
 
         currentAudioFile = startPlaying;
 
-        audioFrame = new CyderFrame(DEFAULT_FRAME_WIDTH, DEFAULT_FRAME_HEIGHT, BACKGROUND_COLOR);
+        audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
+        audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 0);
+        audioPlayerFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
+        audioPlayerFrame.setMenuEnabled(true);
+        installFrameMenuItems();
 
-        audioFrame.getTopDragLabel().addButton(switchFrameAudioView, 0);
-        audioFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
-        audioFrame.setMenuEnabled(true);
-        installMenuItems();
+        /*
+         All components which will ever be on the frame for phase 1 are added now and their sizes set.
+         The bounds are set in the view switcher.
+         The sizes are almost never set outside of the construction below.
+         */
 
-        // todo set size of all components ever needed on frame and add to frame
         albumArtLabel.setSize(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
         albumArtLabel.setOpaque(true);
         albumArtLabel.setBackground(BACKGROUND_COLOR);
         albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
-        audioFrame.getContentPane().add(albumArtLabel);
+        audioPlayerFrame.getContentPane().add(albumArtLabel);
 
         int width = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
 
@@ -344,27 +381,27 @@ public class AudioPlayer {
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
         audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabelContainer.add(audioTitleLabel);
-        audioFrame.getContentPane().add(audioTitleLabelContainer);
+        audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
 
         Dimension buttonSize = new Dimension(30, 30);
 
         shuffleAudioButton.setSize(buttonSize);
-        audioFrame.getContentPane().add(shuffleAudioButton);
+        audioPlayerFrame.getContentPane().add(shuffleAudioButton);
 
         lastAudioButton.setSize(buttonSize);
-        audioFrame.getContentPane().add(lastAudioButton);
+        audioPlayerFrame.getContentPane().add(lastAudioButton);
 
         playPauseButton.setSize(buttonSize);
-        audioFrame.getContentPane().add(playPauseButton);
+        audioPlayerFrame.getContentPane().add(playPauseButton);
 
         nextAudioButton.setSize(buttonSize);
-        audioFrame.getContentPane().add(nextAudioButton);
+        audioPlayerFrame.getContentPane().add(nextAudioButton);
 
         repeatAudioButton.setSize(buttonSize);
-        audioFrame.getContentPane().add(repeatAudioButton);
+        audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
         audioProgressBar.setSize(width, 40);
-        audioFrame.getContentPane().add(audioProgressBar);
+        audioPlayerFrame.getContentPane().add(audioProgressBar);
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
         audioProgressBarUi.setShape(CyderProgressUI.Shape.SQUARE);
@@ -396,7 +433,7 @@ public class AudioPlayer {
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
         audioVolumeSlider.setSize(width, 40);
-        audioFrame.getContentPane().add(audioVolumeSlider);
+        audioPlayerFrame.getContentPane().add(audioVolumeSlider);
         audioVolumeSlider.setUI(audioVolumeSliderUi);
         audioVolumeSlider.setMinimum(0);
         audioVolumeSlider.setMaximum(100);
@@ -419,7 +456,7 @@ public class AudioPlayer {
         // todo this sets to visible, only call after component positions have been set
         setupAndShowFrameView(FrameView.FULL);
 
-        audioFrame.finalizeAndShow();
+        audioPlayerFrame.finalizeAndShow();
     }
 
     public static void setUiComponentsVisible(boolean visible) {
@@ -447,8 +484,13 @@ public class AudioPlayer {
         audioVolumeSlider.setVisible(visible);
     }
 
-    public static void setUiComponentsEnabled() {
-        // todo disable/enable ui elements while we're possibly downloading ffmpeg and youtubedl
+    public static void lockUi() {
+       // todo
+    }
+
+    public static void unlockUi() {
+        // todo
+        // 5 buttons, progress listener, volume slider, menu button temporarily
     }
 
     private static Future<Boolean> handlePreliminaries() {
@@ -485,12 +527,12 @@ public class AudioPlayer {
         });
     }
 
-    private static void installMenuItems() {
+    private static void installFrameMenuItems() {
         // just to be safe
-        audioFrame.clearMenuItems();
-        audioFrame.addMenuItem("Export wav", () -> {
+        audioPlayerFrame.clearMenuItems();
+        audioPlayerFrame.addMenuItem("Export wav", () -> {
             if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
-                audioFrame.notify("This file is already a wav");
+                audioPlayerFrame.notify("This file is already a wav");
                 return;
             } else if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
                 CyderThreadRunner.submit(() -> {
@@ -510,7 +552,7 @@ public class AudioPlayer {
 
                             Files.copy(wavConvertedFile.get().get().toPath(), destination.toPath());
                         } else {
-                            audioFrame.notify("Could not convert \""
+                            audioPlayerFrame.notify("Could not convert \""
                                     + currentAudioFile.getName() + "\" to a wav at this time");
                         }
                     } catch (Exception e) {
@@ -521,9 +563,9 @@ public class AudioPlayer {
                 throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.getName());
             }
         });
-        audioFrame.addMenuItem("Export mp3", () -> {
+        audioPlayerFrame.addMenuItem("Export mp3", () -> {
             if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
-                audioFrame.notify("This file is already an mp3");
+                audioPlayerFrame.notify("This file is already an mp3");
                 return;
             } else if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
                 CyderThreadRunner.submit(() -> {
@@ -543,7 +585,7 @@ public class AudioPlayer {
 
                             Files.copy(mp3ConvertedFile.get().get().toPath(), destination.toPath());
                         } else {
-                            audioFrame.notify("Could not convert \""
+                            audioPlayerFrame.notify("Could not convert \""
                                     + currentAudioFile.getName() + "\" to an mp3 at this time");
                         }
                     } catch (Exception e) {
@@ -554,7 +596,7 @@ public class AudioPlayer {
                 throw new IllegalArgumentException("Unsupported audio format: " + currentAudioFile.getName());
             }
         });
-        audioFrame.addMenuItem("Waveform", () -> {
+        audioPlayerFrame.addMenuItem("Waveform", () -> {
             CyderThreadRunner.submit(() -> {
                 GetterBuilder builder = new GetterBuilder("Export name");
                 builder.setLabelText("Enter a name to export the waveform as");
@@ -578,24 +620,24 @@ public class AudioPlayer {
 
                         try {
                             ImageIO.write(waveform.get(), "png", saveFile);
-                            audioFrame.notify("Saved waveform to your files directory");
+                            audioPlayerFrame.notify("Saved waveform to your files directory");
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
-                            audioFrame.notify("Could not save waveform at this time");
+                            audioPlayerFrame.notify("Could not save waveform at this time");
                         }
                     } else {
-                        audioFrame.notify("Invalid filename for " + OSUtil.OPERATING_SYSTEM_NAME);
+                        audioPlayerFrame.notify("Invalid filename for " + OSUtil.OPERATING_SYSTEM_NAME);
                     }
                 }
             }, "AudioPlayer Waveform Exporter");
         });
-        audioFrame.addMenuItem("Search", () -> {
+        audioPlayerFrame.addMenuItem("Search", () -> {
             // phase 2
         });
-        audioFrame.addMenuItem("Choose File", () -> {
+        audioPlayerFrame.addMenuItem("Choose File", () -> {
             CyderThreadRunner.submit(() -> {
                 GetterBuilder builder = new GetterBuilder("Choose an mp3 or wav file");
-                builder.setRelativeTo(audioFrame);
+                builder.setRelativeTo(audioPlayerFrame);
                 File chosenFile = GetterUtil.getInstance().getFile(builder);
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
@@ -607,11 +649,11 @@ public class AudioPlayer {
 
                     // todo start playing
                 } else {
-                    audioFrame.notify("Invalid file chosen");
+                    audioPlayerFrame.notify("Invalid file chosen");
                 }
             }, "AudioPlayer File Chooser");
         });
-        audioFrame.addMenuItem("Dreamify", () -> {
+        audioPlayerFrame.addMenuItem("Dreamify", () -> {
             // continue playing audio if an mp3 while converting to wav
 
             // export as wav to tmp directory
@@ -629,7 +671,7 @@ public class AudioPlayer {
         switch (view) {
             case FULL:
                 // set location of all components needed
-                int xOff = DEFAULT_FRAME_WIDTH / 2 - ALBUM_ART_LABEL_SIZE / 2;
+                int xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT;
                 yOff += 20;
 
@@ -639,7 +681,7 @@ public class AudioPlayer {
                 yOff += ALBUM_ART_LABEL_SIZE + yPadding;
 
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
-                xOff = (int) (DEFAULT_FRAME_WIDTH / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+                xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
 
                 audioTitleLabel.setSize(StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
                         audioTitleLabel.getFont()), AUDIO_TITLE_LABEL_HEIGHT);
@@ -724,7 +766,17 @@ public class AudioPlayer {
             }
         }
 
-        audioFrame.setTitle(title);
+        audioPlayerFrame.setTitle(title);
+    }
+
+    private static void refreshAlbumArt() {
+        // todo repull album art if available,
+
+        // default ot default album art
+
+        // use for windows icon and cyder taskbar icon
+
+        // revalidate console taskbar menu
     }
 
     private static final void refreshAudioFiles() {
@@ -752,16 +804,16 @@ public class AudioPlayer {
     }
 
     public static boolean isWidgetOpen() {
-        return audioFrame != null;
+        return audioPlayerFrame != null;
     }
 
     public static void closeWidget() {
-         if (audioFrame != null) {
-             audioFrame.dispose(true);
+         if (audioPlayerFrame != null) {
+             audioPlayerFrame.dispose(true);
 
              // todo other actions to end worker threads
 
-             audioFrame = null;
+             audioPlayerFrame = null;
          }
     }
 

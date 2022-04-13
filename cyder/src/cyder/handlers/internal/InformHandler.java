@@ -1,6 +1,7 @@
 package cyder.handlers.internal;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
@@ -30,11 +31,16 @@ public class InformHandler {
      * A quick information pane.
      *
      * @param text the possibly html styled text to display.
+     * @throws IllegalArgumentException if the provided text is null
+     * @return a reference to the shown inform frame
      */
-    public static void inform(String text) {
+    @CanIgnoreReturnValue /* calls don't always need the reference */
+    public static CyderFrame inform(String text) {
+        Preconditions.checkNotNull(text);
+
         InformBuilder builder = new InformBuilder(text);
         builder.setTitle(InformBuilder.DEFAULT_TITLE);
-        inform(builder);
+        return inform(builder);
     }
 
     /**
@@ -62,9 +68,13 @@ public class InformHandler {
      *
      * @param builder the InformBuilder to use for the construction of the information pane
      * @throws IllegalArgumentException if the provided builder is null
+     * @return a reference to the shown inform frame
      */
-    public static void inform(InformBuilder builder) {
+    @CanIgnoreReturnValue /* calls don't always need the reference  */
+    public static CyderFrame inform(InformBuilder builder) {
         Preconditions.checkNotNull(builder);
+
+        CyderFrame informFrame = null;
 
         // custom container
         if (builder.getContainer() != null) {
@@ -75,7 +85,7 @@ public class InformHandler {
             int yTopPadding = CyderDragLabel.DEFAULT_HEIGHT - 4;
             int yBottomPadding = 2;
 
-            CyderFrame informFrame = new CyderFrame(containerWidth + 2 * xPadding,
+            informFrame = new CyderFrame(containerWidth + 2 * xPadding,
                     containerHeight + yTopPadding + yBottomPadding);
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
             informFrame.setTitle(builder.getTitle());
@@ -92,10 +102,6 @@ public class InformHandler {
             if (builder.getPostCloseAction() != null) {
                 informFrame.addPostCloseAction(builder.getPostCloseAction());
             }
-
-            informFrame.setVisible(true);
-            informFrame.setAlwaysOnTop(true);
-            informFrame.setLocationRelativeTo(builder.getRelativeTo());
         }
         // intended to genreate a text inform pane
         else {
@@ -115,7 +121,7 @@ public class InformHandler {
 
             builder.setContainer(textLabel);
 
-            CyderFrame informFrame = new CyderFrame(containerWidth + xPadding * 2,
+            informFrame = new CyderFrame(containerWidth + xPadding * 2,
                     containerHeight + yOffset + 2 * yPadding,
                     (darkMode ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
             informFrame.setFrameType(CyderFrame.FrameType.POPUP);
@@ -135,14 +141,15 @@ public class InformHandler {
             if (builder.getPostCloseAction() != null) {
                 informFrame.addPostCloseAction(builder.getPostCloseAction());
             }
-
-            informFrame.setVisible(true);
-            informFrame.setAlwaysOnTop(true);
-            informFrame.setLocationRelativeTo(builder.getRelativeTo());
         }
 
-        // log inform call
+        informFrame.setVisible(true);
+        informFrame.setAlwaysOnTop(true);
+        informFrame.setLocationRelativeTo(builder.getRelativeTo());
+
         Logger.log(LoggerTag.UI_ACTION, "[INFORMATION PANE] text = \""
                 + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
+
+        return informFrame;
     }
 }
