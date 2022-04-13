@@ -403,7 +403,13 @@ public class InputHandler {
             println(new ImageIcon("static/pictures/print/html5.png"));
         } else if (commandIs("css")) {
             println(new ImageIcon("static/pictures/print/css.png"));
+        } else if (commandIs("docker")) {
+            println(new ImageIcon("static/pictures/print/Docker.png"));
+        } else if (commandIs("redis")) {
+            println(new ImageIcon("static/pictures/print/Redis.png"));
         }
+
+        // todo these don't even belong here but we're redoing this soon anyway
         //calls that will result in threads being spun off or thread operations
         else if (commandIs("randomyoutube")) {
             MasterYoutubeThread.start(1);
