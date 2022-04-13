@@ -652,7 +652,12 @@ public class AudioPlayer {
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
 
+                // 0,0 since it is layered perfectly over audioProgressBar
                 audioProgressLabel.setLocation(0, 0);
+
+                yOff += 40 + 10;
+
+                audioVolumeSlider.setLocation(xOff, yOff);
 
                 yOff += 40 + 10;
 
