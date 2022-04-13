@@ -336,8 +336,10 @@ public class AudioPlayer {
         albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
         audioFrame.getContentPane().add(albumArtLabel);
 
-        audioTitleLabelContainer.setSize(ALBUM_ART_LABEL_SIZE, 40);
-        audioTitleLabel.setSize(ALBUM_ART_LABEL_SIZE, 40);
+        int width = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+
+        audioTitleLabelContainer.setSize(width, 40);
+        audioTitleLabel.setSize(width, 40);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
         audioTitleLabel.setForeground(CyderColors.vanila);
@@ -361,7 +363,7 @@ public class AudioPlayer {
         repeatAudioButton.setSize(buttonSize);
         audioFrame.getContentPane().add(repeatAudioButton);
 
-        audioProgressBar.setSize(ALBUM_ART_LABEL_SIZE, 40);
+        audioProgressBar.setSize(width, 40);
         audioFrame.getContentPane().add(audioProgressBar);
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
@@ -372,7 +374,7 @@ public class AudioPlayer {
         audioProgressBar.setOpaque(false);
         audioProgressBar.setFocusable(false);
 
-        audioProgressLabel.setSize(ALBUM_ART_LABEL_SIZE, 40);
+        audioProgressLabel.setSize(width, 40);
         audioProgressLabel.setText("1m 12s played, 3m remaining");
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressBar.add(audioProgressLabel); //todo frame or bar?
@@ -393,7 +395,7 @@ public class AudioPlayer {
         audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
-        audioVolumeSlider.setSize(ALBUM_ART_LABEL_SIZE, 40);
+        audioVolumeSlider.setSize(width, 40);
         audioFrame.getContentPane().add(audioVolumeSlider);
         audioVolumeSlider.setUI(audioVolumeSliderUi);
         audioVolumeSlider.setMinimum(0);
@@ -406,7 +408,9 @@ public class AudioPlayer {
             refreshAudioLine();
         });
         audioVolumeSlider.setOpaque(false);
-        audioVolumeSlider.setToolTipText("Volume"); // todo tooltip would be cool for the percentage
+        audioVolumeSlider.setToolTipText("Volume");
+        // todo tooltip would be cool for the percentage
+        // todo or a label fade in and out of opacity somewhere convienient
         audioVolumeSlider.setFocusable(false);
         audioVolumeSlider.repaint();
 
@@ -634,6 +638,9 @@ public class AudioPlayer {
                 albumArtLabel.setLocation(xOff, yOff);
                 yOff += ALBUM_ART_LABEL_SIZE + yPadding;
 
+                // xOff of rest of components is s.t. the total width is 1.5x width of album art label
+                xOff = (int) (DEFAULT_FRAME_WIDTH / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+
                 audioTitleLabel.setSize(StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
                         audioTitleLabel.getFont()), AUDIO_TITLE_LABEL_HEIGHT);
                 audioTitleLabel.setLocation(audioTitleLabelContainer.getWidth() / 2
@@ -643,11 +650,14 @@ public class AudioPlayer {
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + yPadding;
 
-                shuffleAudioButton.setLocation(xOff + 15, yOff);
-                lastAudioButton.setLocation(xOff + 15 + 30 * 2, yOff);
-                playPauseButton.setLocation(xOff + 15 + 30 * 4, yOff);
-                nextAudioButton.setLocation(xOff + 15 + 30 * 6, yOff);
-                repeatAudioButton.setLocation(xOff + 15 + 30 * 8, yOff);
+                int buttonWidth = 30;
+                int spacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+
+                shuffleAudioButton.setLocation(xOff + spacing, yOff);
+                lastAudioButton.setLocation(xOff + spacing * 2 + buttonWidth, yOff);
+                playPauseButton.setLocation(xOff + spacing * 3 + buttonWidth * 2, yOff);
+                nextAudioButton.setLocation(xOff + spacing * 4 + buttonWidth * 3, yOff);
+                repeatAudioButton.setLocation(xOff + spacing * 5 + buttonWidth * 4, yOff);
 
                 yOff += 30 + yPadding;
 
