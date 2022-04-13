@@ -58,6 +58,7 @@ import java.util.concurrent.Future;
 public class AudioPlayer {
     private static CyderFrame audioFrame;
     private static final JLabel albumArtLabel = new JLabel();
+    private static final int BORDER_WIDTH = 3;
 
     public static final String DEFAULT_AUDIO_TITLE = "No Audio Playing";
     private static final JLabel audioTitleLabel = new JLabel();
@@ -305,7 +306,7 @@ public class AudioPlayer {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
 
-        // todo future and wit for but inform user of actions
+        // todo wait for but inform user of actions
         Future<Boolean> passedPreliminaries = handlePreliminaries();
 
         while (!passedPreliminaries.isDone()) {
@@ -332,7 +333,7 @@ public class AudioPlayer {
         albumArtLabel.setSize(ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
         albumArtLabel.setOpaque(true);
         albumArtLabel.setBackground(BACKGROUND_COLOR);
-        albumArtLabel.setBorder(new LineBorder(Color.BLACK, 3));
+        albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
         audioFrame.getContentPane().add(albumArtLabel);
 
         audioTitleLabelContainer.setSize(ALBUM_ART_LABEL_SIZE, 40);
@@ -342,6 +343,23 @@ public class AudioPlayer {
         audioTitleLabel.setForeground(CyderColors.vanila);
         audioTitleLabelContainer.add(audioTitleLabel);
         audioFrame.getContentPane().add(audioTitleLabelContainer);
+
+        Dimension buttonSize = new Dimension(30, 30);
+
+        shuffleAudioButton.setSize(buttonSize);
+        audioFrame.getContentPane().add(shuffleAudioButton);
+
+        lastAudioButton.setSize(buttonSize);
+        audioFrame.getContentPane().add(lastAudioButton);
+
+        playPauseButton.setSize(buttonSize);
+        audioFrame.getContentPane().add(playPauseButton);
+
+        nextAudioButton.setSize(buttonSize);
+        audioFrame.getContentPane().add(nextAudioButton);
+
+        repeatAudioButton.setSize(buttonSize);
+        audioFrame.getContentPane().add(repeatAudioButton);
 
         audioProgressBar.setSize(ALBUM_ART_LABEL_SIZE, 40);
         audioFrame.getContentPane().add(audioProgressBar);
@@ -407,14 +425,21 @@ public class AudioPlayer {
         audioTitleLabel.setVisible(visible);
         audioTitleLabelContainer.setVisible(visible);
 
+        shuffleAudioButton.setVisible(visible);
+        lastAudioButton.setVisible(visible);
+        playPauseButton.setVisible(visible);
+        nextAudioButton.setVisible(visible);
+        repeatAudioButton.setVisible(visible);
+
         audioProgressBar.setVisible(visible);
         if (visible) {
-            audioProgressBar.setBorder(new LineBorder(Color.black, 2));
+            audioProgressBar.setBorder(new LineBorder(Color.black, BORDER_WIDTH));
         } else {
             audioProgressBar.setBorder(null);
         }
 
         audioProgressLabel.setVisible(visible);
+
         audioVolumeSlider.setVisible(visible);
     }
 
@@ -615,6 +640,14 @@ public class AudioPlayer {
 
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + 10;
+
+                shuffleAudioButton.setLocation(xOff + 15, yOff);
+                lastAudioButton.setLocation(xOff + 15 + 30 * 2, yOff);
+                playPauseButton.setLocation(xOff + 15 + 30 * 4, yOff);
+                nextAudioButton.setLocation(xOff + 15 + 30 * 6, yOff);
+                repeatAudioButton.setLocation(xOff + 15 + 30 * 8, yOff);
+
+                yOff += 30 + 10;
 
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
