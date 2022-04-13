@@ -170,12 +170,12 @@ public class AudioPlayer {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            repeatAudioButton.setIcon(repeatIconHover);
+            repeatAudioButton.setIcon(repeatAudio ? repeatIcon : repeatIconHover);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            repeatAudioButton.setIcon(repeatIcon);
+            repeatAudioButton.setIcon(repeatAudio ? repeatIconHover : repeatIcon);
         }
     });
 
@@ -189,12 +189,12 @@ public class AudioPlayer {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            shuffleAudioButton.setIcon(shuffleIconHover);
+            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIcon : shuffleIconHover);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            shuffleAudioButton.setIcon(shuffleIcon);
+            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIconHover : shuffleIcon);
         }
     });
 
@@ -629,8 +629,10 @@ public class AudioPlayer {
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT;
                 yOff += 20;
 
+                int yPadding = 20;
+
                 albumArtLabel.setLocation(xOff, yOff);
-                yOff += ALBUM_ART_LABEL_SIZE + 10;
+                yOff += ALBUM_ART_LABEL_SIZE + yPadding;
 
                 audioTitleLabel.setSize(StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
                         audioTitleLabel.getFont()), AUDIO_TITLE_LABEL_HEIGHT);
@@ -639,7 +641,7 @@ public class AudioPlayer {
                         - audioTitleLabel.getHeight() / 2);
 
                 audioTitleLabelContainer.setLocation(xOff, yOff);
-                yOff += 40 + 10;
+                yOff += 40 + yPadding;
 
                 shuffleAudioButton.setLocation(xOff + 15, yOff);
                 lastAudioButton.setLocation(xOff + 15 + 30 * 2, yOff);
@@ -647,7 +649,7 @@ public class AudioPlayer {
                 nextAudioButton.setLocation(xOff + 15 + 30 * 6, yOff);
                 repeatAudioButton.setLocation(xOff + 15 + 30 * 8, yOff);
 
-                yOff += 30 + 10;
+                yOff += 30 + yPadding;
 
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
@@ -655,11 +657,11 @@ public class AudioPlayer {
                 // 0,0 since it is layered perfectly over audioProgressBar
                 audioProgressLabel.setLocation(0, 0);
 
-                yOff += 40 + 10;
+                yOff += 40 + yPadding;
 
                 audioVolumeSlider.setLocation(xOff, yOff);
 
-                yOff += 40 + 10;
+                yOff += 40 + yPadding;
 
                 setUiComponentsVisible(true);
                 currentFrameView = FrameView.FULL;
