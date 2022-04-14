@@ -148,7 +148,7 @@ public class YoutubeUtil {
                     ConsoleFrame.INSTANCE.getInputHandler()
                             .println("Download complete: saved as " + finalParsedAsciiSaveName + extension
                             + " and added to audio queue");
-                    AudioPlayer.playAudioNext(new File(OSUtil.buildPath(
+                    AudioPlayer.addAudioNext(new File(OSUtil.buildPath(
                             saveDir, finalParsedAsciiSaveName + extension)));
 
                     ui.stopAnimationTimer();

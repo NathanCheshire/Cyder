@@ -2946,7 +2946,7 @@ public enum ConsoleFrame {
         IOUtil.stopAudio();
 
         //close the input handler
-        inputHandler.killThreads();
+        Objects.requireNonNull(inputHandler).killThreads();
         inputHandler = null;
 
         if (logoutUser) {

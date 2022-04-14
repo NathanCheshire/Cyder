@@ -31,8 +31,12 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -67,6 +71,8 @@ public class AudioPlayer {
 
     private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
     private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
+
+    private static final CyderLabel audioPercentLabel = new CyderLabel();
 
     private static final ImageIcon playIcon = new ImageIcon(
             "static/pictures/music/Play.png");
@@ -233,8 +239,6 @@ public class AudioPlayer {
     public static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
             "static","audio","Kendrick Lamar - All The Stars.mp3");
 
-    private static Player player;
-
     private static final int DEFAULT_FRAME_LEN = 600;
 
     public static final int ALBUM_ART_LABEL_SIZE = 300;
@@ -311,6 +315,13 @@ public class AudioPlayer {
         audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 0);
         audioPlayerFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
+        audioPlayerFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                // no other pre/post close window Runnables should be added or window listeners
+                killWidget();
+            }
+        });
         installFrameMenuItems();
 
         /*
@@ -325,10 +336,11 @@ public class AudioPlayer {
         albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
         audioPlayerFrame.getContentPane().add(albumArtLabel);
 
-        int width = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+        int mainRowWidth = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+        int mainRowHeight = 40;
 
-        audioTitleLabelContainer.setSize(width, 40);
-        audioTitleLabel.setSize(width, 40);
+        audioTitleLabelContainer.setSize(mainRowWidth, mainRowHeight);
+        audioTitleLabel.setSize(mainRowWidth, mainRowHeight);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
         audioTitleLabel.setForeground(CyderColors.vanila);
@@ -350,7 +362,7 @@ public class AudioPlayer {
         repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
-        audioProgressBar.setSize(width, 40);
+        audioProgressBar.setSize(mainRowWidth, mainRowHeight);
         audioPlayerFrame.getContentPane().add(audioProgressBar);
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
@@ -361,16 +373,23 @@ public class AudioPlayer {
         audioProgressBar.setOpaque(false);
         audioProgressBar.setFocusable(false);
 
-        audioProgressLabel.setSize(width, 40);
-        audioProgressLabel.setText("1m 12s played, 3m remaining");
+        audioProgressLabel.setSize(mainRowWidth, mainRowHeight);
+        audioProgressLabel.setText("1m 12s played, 3m remaining"); // todo update thread
         audioProgressLabel.setForeground(CyderColors.vanila);
-        audioProgressBar.add(audioProgressLabel); //todo frame or bar?
+        audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
         audioProgressLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // todo change audio play location
-                System.out.println("Percent: " + e.getX() / (float) audioProgressLabel.getWidth());
+                // todo if not playing don't start playing again just move to that location
+                // and update needed ui elements
+
+                float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
+                long skipLocation = (long) (((double) e.getX() / (double)
+                        audioProgressLabel.getWidth()) * totalAudioLength);
+                stopAudio();
+                pauseLocation = skipLocation;
+                playAudio();
             }
         });
 
@@ -383,7 +402,12 @@ public class AudioPlayer {
         audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
-        audioVolumeSlider.setSize(width, 40);
+        audioPercentLabel.setText("50%");
+        audioPercentLabel.setForeground(CyderColors.vanila);
+        audioPercentLabel.setSize(100, 40);
+        audioPlayerFrame.getContentPane().add(audioPercentLabel);
+
+        audioVolumeSlider.setSize(mainRowWidth, mainRowHeight);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
         audioVolumeSlider.setUI(audioVolumeSliderUi);
         audioVolumeSlider.setMinimum(0);
@@ -394,6 +418,9 @@ public class AudioPlayer {
         audioVolumeSlider.setValue(50);
         audioVolumeSlider.addChangeListener(e -> {
             refreshAudioLine();
+            audioPercentLabel.setText(audioVolumeSlider.getValue() + "%");
+
+            // todo opacity animation
         });
         audioVolumeSlider.setOpaque(false);
         audioVolumeSlider.setToolTipText("Volume");
@@ -401,17 +428,15 @@ public class AudioPlayer {
         // todo or a label fade in and out of opacity somewhere convienient
         audioVolumeSlider.setFocusable(false);
         audioVolumeSlider.repaint();
+        refreshAudioLine();
 
         setUiComponentsVisible(false);
 
-        // todo this sets to visible, only call after component positions have been set
         setupAndShowFrameView(FrameView.FULL);
 
         audioPlayerFrame.finalizeAndShow();
 
         // now that frame is shown, ensure binaries installed and restrict UI until proven
-
-        // if ffmpeg or youtube-dl needs to be downloaded
         if (!AudioUtil.ffmpegInstalled() || !AudioUtil.youtubeDlInstalled()) {
             CyderThreadRunner.submit(() -> {
                 try {
@@ -435,7 +460,7 @@ public class AudioPlayer {
                         builder.setTitle("Network Error");
                         builder.setRelativeTo(audioPlayerFrame);
                         builder.setPostCloseAction(() -> {
-                            // todo kill widget
+                            killWidget();
                         });
 
                         InformHandler.inform(builder);
@@ -474,6 +499,8 @@ public class AudioPlayer {
         }
 
         audioProgressLabel.setVisible(visible);
+
+        audioPercentLabel.setVisible(visible);
 
         audioVolumeSlider.setVisible(visible);
     }
@@ -709,6 +736,9 @@ public class AudioPlayer {
                 // 0,0 since it is layered perfectly over audioProgressBar
                 audioProgressLabel.setLocation(0, 0);
 
+                audioPercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioPercentLabel.getWidth() / 2,
+                        yOff + 35);
+
                 yOff += 40 + yPadding;
 
                 audioVolumeSlider.setLocation(xOff, yOff);
@@ -815,7 +845,7 @@ public class AudioPlayer {
     }
 
     public static boolean isAudioPlaying() {
-        return player != null && !player.isComplete();
+        return audioPlayer != null && !audioPlayer.isComplete();
     }
 
     public static boolean isWidgetOpen() {
@@ -853,45 +883,106 @@ public class AudioPlayer {
     }
 
     public static void handlePlayPauseButtonClick() {
+        // always before handle button methods
+        Preconditions.checkNotNull(currentAudioFile);
+
         // if we're playing, pause the audio
         if (isAudioPlaying()) {
             stopAudio();
+            playPauseButton.setIcon(playIcon);
         }
         // otherwise start playing, this should always play something
         else {
             playAudio();
+            playPauseButton.setIcon(pauseIcon);
         }
     }
 
-    public static void playAudio() {
+    private static FileInputStream fis;
+    private static BufferedInputStream bis;
+    private static Player audioPlayer;
 
+    private static long pauseLocation;
+    private static long totalAudioLength;
+
+    private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
+
+    // todo play pause button can't be a cyder icon button
+
+    public static void playAudio() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                fis = new FileInputStream(currentAudioFile);
+                bis = new BufferedInputStream(fis);
+
+                totalAudioLength = fis.available();
+
+                // just to be safe
+                fis.skip(Math.max(0, pauseLocation));
+
+                audioPlayer = new Player(bis);
+                audioPlayer.play();
+
+                // todo handle next audio method? pass in optional skip direction enum?
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, "AudioPlayer [" + FileUtil.getFilename(currentAudioFile) + "]");
     }
 
     public static void stopAudio() {
+        try {
+            if (fis != null) {
+                pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
+                fis = null;
+            }
 
+            if (bis != null) {
+                bis = null;
+            }
+
+            if (audioPlayer != null) {
+                audioPlayer.close();
+                audioPlayer = null;
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     public static void handleLastAudioButtonClick() {
+        // always before handle button methods
+        Preconditions.checkNotNull(currentAudioFile);
+
 
     }
 
     public static void handleNextAudioButtonClick() {
+        // always before handle button methods
+        Preconditions.checkNotNull(currentAudioFile);
+
 
     }
 
     private static boolean repeatAudio;
 
     public static void handleRepeatButtonClick() {
+        // always before handle button methods
+        Preconditions.checkNotNull(currentAudioFile);
+
         repeatAudio = !repeatAudio;
     }
 
     private static boolean shuffleAudio;
 
     public static void handleShuffleButtonClick() {
+        // always before handle button methods
+        Preconditions.checkNotNull(currentAudioFile);
+
         shuffleAudio = !shuffleAudio;
     }
 
-    public static void playAudioNext(File audioFile) {
+    public static void addAudioNext(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
 
@@ -902,7 +993,7 @@ public class AudioPlayer {
         }
     }
 
-    public static void playAudioLast(File audioFile) {
+    public static void addAudioLast(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
 
@@ -914,8 +1005,29 @@ public class AudioPlayer {
     }
 
     // used to ensure deleting audio isn't playing currently
+    // whenever this is open this is never null, if null the player is killed and not open
     public static File getCurrentAudio() {
-        return null;
+        return currentAudioFile;
+    }
+
+    private static void killWidget() {
+        if (audioPlayerFrame != null) {
+            audioPlayerFrame.dispose();
+        } else {
+            audioPlayerFrame = null;
+
+            // never null so save
+            audioProgressBarUi.stopAnimationTimer();
+
+            currentAudioFile = null;
+
+            stopAudio();
+
+            pauseLocation = 0;
+            totalAudioLength = 0;
+
+            // todo end all executors and reset to initial state
+        }
     }
 
     /*
