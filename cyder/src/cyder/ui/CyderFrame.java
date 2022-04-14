@@ -3022,8 +3022,7 @@ public class CyderFrame extends JFrame {
     public void lockMenuOut() {
         generateMenu();
         showMenu();
-        menuEnabled = false;
-        titleLabel.removeMouseListener(titleLabelListener);
+        setMenuEnabled(false);
     }
 
     /**
@@ -3031,8 +3030,7 @@ public class CyderFrame extends JFrame {
      */
     public void lockMenuIn() {
         hideMenu();
-        menuEnabled = false;
-        titleLabel.removeMouseListener(titleLabelListener);
+        setMenuEnabled(false);
     }
 
     private final MouseListener titleLabelListener = new MouseAdapter() {
@@ -3199,14 +3197,22 @@ public class CyderFrame extends JFrame {
      */
     public void setMenuEnabled(boolean menuEnabled) {
         this.menuEnabled = menuEnabled;
+
+        if (menuEnabled) {
+            titleLabel.addMouseListener(titleLabelListener);
+        } else {
+            titleLabel.removeMouseListener(titleLabelListener);
+        }
     }
 
     /**
      * Shows the menu label in the proper spot.
      */
     private void showMenu() {
-        if (menuLabel == null)
+        if (menuLabel == null) {
             generateMenu();
+        }
+
         menuLabel.setLocation(animateMenuToPoint);
         menuLabel.setVisible(true);
     }
@@ -3215,8 +3221,9 @@ public class CyderFrame extends JFrame {
      * Hides the menu label.
      */
     private void hideMenu() {
-        if (menuLabel != null && menuLabel.isVisible())
+        if (menuLabel != null && menuLabel.isVisible()) {
             menuLabel.setVisible(false);
+        }
     }
 
     /**
