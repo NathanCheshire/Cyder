@@ -3328,8 +3328,6 @@ public class CyderFrame extends JFrame {
                 menuHeight = getHeight() - topDrag.getHeight() - sub;
             }
 
-            System.out.println(menuHeight);
-            System.out.println(getHeight());
             menuLabel.setSize(menuWidth, menuHeight);
             menuLabel.setBorder(new LineBorder(Color.black, 4));
         } else {

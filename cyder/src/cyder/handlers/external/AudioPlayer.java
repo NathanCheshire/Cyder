@@ -44,6 +44,7 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 // todo views should slide in and out like StraightShot
 
@@ -71,6 +72,7 @@ public class AudioPlayer {
 
     private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
     private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
+    private static final int DEFAULT_AUDIO_SLIDER_VALUE = 50;
 
     private static final CyderLabel audioPercentLabel = new CyderLabel();
 
@@ -293,8 +295,6 @@ public class AudioPlayer {
         showGUI(DEFAULT_AUDIO_FILE);
     }
 
-    // todo eventaully if already open, start playing new
-    //  audio but don't close frame or change frame state
     // some how we shoudl bypass construction stuff and directly act as if a file was selected to play from
     /**
      * Starts playing the provided audio file.
@@ -309,6 +309,20 @@ public class AudioPlayer {
         Preconditions.checkArgument(startPlaying.exists());
 
         currentAudioFile = startPlaying;
+        refreshAudioFiles();
+
+        // if frame is open, stop whatever audio is playing or
+        // paused and begin playing the requested audio
+        if (isWidgetOpen()) {
+            if (isAudioPlaying()) {
+                stopAudio();
+                pauseLocation = 0;
+            }
+
+            playAudio();
+
+            return;
+        }
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
@@ -318,7 +332,8 @@ public class AudioPlayer {
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                // no other pre/post close window Runnables should be added or window listeners
+                // no other pre/post close window Runnables
+                // should be added or window listeners
                 killWidget();
             }
         });
@@ -374,22 +389,31 @@ public class AudioPlayer {
         audioProgressBar.setFocusable(false);
 
         audioProgressLabel.setSize(mainRowWidth, mainRowHeight);
-        audioProgressLabel.setText("1m 12s played, 3m remaining"); // todo update thread
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
         audioProgressLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // todo if not playing don't start playing again just move to that location
-                // and update needed ui elements
+                if (uiLocked) {
+                    return;
+                }
 
                 float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
                 long skipLocation = (long) (((double) e.getX() / (double)
                         audioProgressLabel.getWidth()) * totalAudioLength);
-                stopAudio();
-                pauseLocation = skipLocation;
-                playAudio();
+
+                if (isAudioPlaying()) {
+                    stopAudio();
+                    pauseLocation = skipLocation;
+                    playAudio();
+                } else {
+                    stopAudio();
+                    pauseLocation = skipLocation;
+                }
+
+                // todo update progress bar and progress label
+                // todo use methods for this
             }
         });
 
@@ -402,10 +426,10 @@ public class AudioPlayer {
         audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
-        audioPercentLabel.setText("50%");
         audioPercentLabel.setForeground(CyderColors.vanila);
         audioPercentLabel.setSize(100, 40);
         audioPlayerFrame.getContentPane().add(audioPercentLabel);
+        startAudioVolumeLabelThread();
 
         audioVolumeSlider.setSize(mainRowWidth, mainRowHeight);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
@@ -415,17 +439,20 @@ public class AudioPlayer {
         audioVolumeSlider.setPaintTicks(false);
         audioVolumeSlider.setPaintLabels(false);
         audioVolumeSlider.setVisible(true);
-        audioVolumeSlider.setValue(50);
+        audioVolumeSlider.setValue(DEFAULT_AUDIO_SLIDER_VALUE);
         audioVolumeSlider.addChangeListener(e -> {
-            refreshAudioLine();
-            audioPercentLabel.setText(audioVolumeSlider.getValue() + "%");
+            if (uiLocked) {
+                return;
+            }
 
-            // todo opacity animation
+            refreshAudioLine();
+            audioPercentLabel.setVisible(true);
+            audioPercentLabel.setText(audioVolumeSlider.getValue() + "%");
+            audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE
+                    + AUDIO_VOLUME_LABEL_SLEEP_TIME);
         });
         audioVolumeSlider.setOpaque(false);
         audioVolumeSlider.setToolTipText("Volume");
-        // todo tooltip would be cool for the percentage
-        // todo or a label fade in and out of opacity somewhere convienient
         audioVolumeSlider.setFocusable(false);
         audioVolumeSlider.repaint();
         refreshAudioLine();
@@ -474,8 +501,29 @@ public class AudioPlayer {
                 }
             }, "AudioPlayer Preliminary Handler");
         }
+    }
 
-        lockUi();
+    private static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
+    private static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
+    private static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
+
+    // todo how to end?
+    private static void startAudioVolumeLabelThread() {
+        CyderThreadRunner.submit(() -> {
+            try {
+                while (true) {
+                    while (audioVolumeLabelTimeout.get() > 0) {
+                        audioPercentLabel.setVisible(true);
+                        Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
+                        audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
+                    }
+
+                    audioPercentLabel.setVisible(false);
+                }
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
+            }
+        }, "Audio Progress Label Animator");
     }
 
     public static void setUiComponentsVisible(boolean visible) {
@@ -885,6 +933,7 @@ public class AudioPlayer {
     public static void handlePlayPauseButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
+        Preconditions.checkArgument(!uiLocked);
 
         // if we're playing, pause the audio
         if (isAudioPlaying()) {
@@ -953,14 +1002,14 @@ public class AudioPlayer {
     public static void handleLastAudioButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
-
+        Preconditions.checkArgument(!uiLocked);
 
     }
 
     public static void handleNextAudioButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
-
+        Preconditions.checkArgument(!uiLocked);
 
     }
 
@@ -969,6 +1018,7 @@ public class AudioPlayer {
     public static void handleRepeatButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
+        Preconditions.checkArgument(!uiLocked);
 
         repeatAudio = !repeatAudio;
     }
@@ -978,6 +1028,7 @@ public class AudioPlayer {
     public static void handleShuffleButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
+        Preconditions.checkArgument(!uiLocked);
 
         shuffleAudio = !shuffleAudio;
     }
