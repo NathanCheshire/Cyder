@@ -59,6 +59,8 @@ public class AudioPlayer {
     private static CyderFrame audioPlayerFrame;
     private static final JLabel albumArtLabel = new JLabel();
     private static final int BORDER_WIDTH = 3;
+    private static final File DEFAULT_ALBUM_ART = OSUtil.buildFile(
+            "static","pictures","music","Default.png");
 
     public static final String DEFAULT_AUDIO_TITLE = "No Audio Playing";
     private static final JLabel audioTitleLabel = new JLabel();
@@ -73,6 +75,8 @@ public class AudioPlayer {
     private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
     private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
     private static final int DEFAULT_AUDIO_SLIDER_VALUE = 50;
+
+    private static File currentUserAlbumArtDir;
 
     private static final CyderLabel audioPercentLabel = new CyderLabel();
 
@@ -324,6 +328,10 @@ public class AudioPlayer {
             return;
         }
 
+        currentUserAlbumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                DynamicDirectory.USERS.getDirectoryName(),
+                ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(), "AlbumArt");
+
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
         audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 0);
@@ -477,7 +485,6 @@ public class AudioPlayer {
                         Thread.onSpinWait();
                     }
 
-                    // todo show the frame but disable ui elements and exit if it can't download
                     // wait to start playing if downloading
                     if (!passedPreliminaries.get()) {
                         audioPlayerFrame.revokeAllNotifications();
@@ -503,15 +510,26 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * The time remaining before setting the visibility of the audio volume label to false.
+     */
     private static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
+
+    /**
+     * The time in between checks when sleeping before the audio volume label is set to invisible.
+     */
     private static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
+
+    /**
+     * The total sleep time before setting the audio volume label to invisible.
+     */
     private static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
 
-    // todo how to end?
+    // todo is this a proper exit condition? maybe use a class
     private static void startAudioVolumeLabelThread() {
         CyderThreadRunner.submit(() -> {
             try {
-                while (true) {
+                while (isWidgetOpen()) {
                     while (audioVolumeLabelTimeout.get() > 0) {
                         audioPercentLabel.setVisible(true);
                         Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
@@ -526,8 +544,12 @@ public class AudioPlayer {
         }, "Audio Progress Label Animator");
     }
 
+    /**
+     * Sets the visibility of all phase 1 components to the value of visible.
+     *
+     * @param visible whether to set phase 1 components to visible
+     */
     public static void setUiComponentsVisible(boolean visible) {
-        // todo shouldn't depened on mode, simply set all components in phase 1 to "visible"
         albumArtLabel.setVisible(visible);
 
         audioTitleLabel.setVisible(visible);
@@ -716,7 +738,7 @@ public class AudioPlayer {
                 File chosenFile = GetterUtil.getInstance().getFile(builder);
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
-                    // todo end stuff (method which calls smalelr methods for this),
+                    // todo end stuff (method which calls smaller methods for this),
 
                     // set file and find audio fields in same directory
                     currentAudioFile = chosenFile;
@@ -729,6 +751,8 @@ public class AudioPlayer {
             }, "AudioPlayer File Chooser");
         });
         audioPlayerFrame.addMenuItem("Dreamify", () -> {
+            // todo will need to determine if current audio has already been dreamified
+
             // continue playing audio if an mp3 while converting to wav
 
             // export as wav to tmp directory
@@ -754,6 +778,8 @@ public class AudioPlayer {
 
                 albumArtLabel.setLocation(xOff, yOff);
                 yOff += ALBUM_ART_LABEL_SIZE + yPadding;
+
+                refreshAlbumArt();
 
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
                 xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
@@ -824,7 +850,7 @@ public class AudioPlayer {
         String title = DEFAULT_FRAME_TITLE;
 
         if (currentAudioFile != null) {
-            title = StringUtil.capsFirst(StringUtil.getTrimmedText(title));
+            title = StringUtil.capsFirst(StringUtil.getTrimmedText(FileUtil.getFilename(currentAudioFile)));
 
             if (title.length() > MAX_TITLE_LENGTH - 3) {
                 String[] parts = title.split("\\s+");
@@ -849,24 +875,27 @@ public class AudioPlayer {
 
     // todo should only call this if necessary
     private static void refreshAlbumArt() {
-        // todo set on showGui call
-        File albumArtDir = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                DynamicDirectory.USERS.getDirectoryName(),
-                ConsoleFrame.INSTANCE.getUUID(), UserFile.MUSIC.getName(), "AlbumArt");
-
-        File albumArtFile = OSUtil.buildFile(albumArtDir.getAbsolutePath(),
+        File albumArtFile = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
                 FileUtil.getFilename(currentAudioFile) + ".png");
 
         ImageIcon customAlbumArt = null;
 
-        if (albumArtDir.exists()) {
+        if (albumArtFile.exists()) {
             try {
                 customAlbumArt = new ImageIcon(ImageIO.read(albumArtFile));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
+        } else {
+            try {
+                customAlbumArt = new ImageIcon(ImageIO.read(DEFAULT_ALBUM_ART));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
         }
 
+        albumArtLabel.setIcon(customAlbumArt);
+        albumArtLabel.repaint();
         audioPlayerFrame.setCustomTaskbarIcon(customAlbumArt);
         audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
         ConsoleFrame.INSTANCE.revalidateMenu();
