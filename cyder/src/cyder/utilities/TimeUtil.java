@@ -1,8 +1,10 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
+import cyder.handlers.internal.ExceptionHandler;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Static utility class for things related to time/date queries and conversions.
@@ -611,5 +614,35 @@ public class TimeUtil {
             return;
 
         TimeUtil.consoleStartTime = consoleStartTime;
+    }
+
+    /**
+     * Sleeps on the current thread for the specified amount of time,
+     * checking the escapeCondition for truth every checkConditionFrequency ms.
+     *
+     * @param sleepTime the total time to sleep for
+     * @param checkConditionFrequency the frequency to check the escapeCondition
+     * @param escapeCondition the condition to stop sleeping if true
+     */
+    public static void sleepWithChecks(long sleepTime, long checkConditionFrequency, AtomicBoolean escapeCondition) {
+        Preconditions.checkNotNull(escapeCondition);
+        Preconditions.checkArgument(sleepTime > 0);
+        Preconditions.checkArgument(checkConditionFrequency > 0);
+        Preconditions.checkArgument(sleepTime > checkConditionFrequency);
+
+        try {
+            long acc = 0;
+
+            while (acc < sleepTime) {
+                Thread.sleep(checkConditionFrequency);
+                acc += checkConditionFrequency;
+
+                if (escapeCondition.get()) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 }

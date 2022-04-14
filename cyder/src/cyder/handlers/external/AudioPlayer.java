@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 // todo views should slide in and out like StraightShot
 
@@ -976,16 +977,36 @@ public class AudioPlayer {
     // Scrolling Title Label class
     // ---------------------------
 
-    // todo is it added to parent or does it need to be added, make this handled better and simpler
     /**
      * Private inner class for the scrolling audio label.
      */
     private static class ScrollingTitleLabel {
-        boolean scroll;
+        /**
+         * Whether this scrolling title label object has been killed.
+         */
+        private final AtomicBoolean killed = new AtomicBoolean();
+
+        /**
+         * The timeout to sleep for before checking for title scroll label being terminated.
+         */
+        private static final int SLEEP_WITH_CHECKS_TIMEOUT = 50;
+
+        /**
+         * The timeout between moving the label from one side to the opposite side.
+         */
+        private static final int SIDE_TO_SIDE_TIMEOUT = 5000;
+
+        /**
+         * The timeout between starting the initial timeout.
+         */
+        private static final int INITIAL_TIMEOUT = 3000;
+
+        /**
+         * The timeout between movement increments of the title label.
+         */
+        private static final int MOVEMENT_TIMEOUT = 25;
 
         public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
-            scroll = true;
-
             try {
                 effectLabel.setText(localTitle);
 
@@ -1001,41 +1022,36 @@ public class AudioPlayer {
                 if (minWidth - 12 > parentWidth) {
                     effectLabel.setLocation(0,0);
 
-                    scroll = true;
-                    int miliTimeout = 24;
-                    int milipause = 5000;
-                    int initialMiliPause = 3000;
-
                     CyderThreadRunner.submit(() -> {
                         try {
-                            sleepWithChecks(initialMiliPause);
+                            TimeUtil.sleepWithChecks(INITIAL_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
-                            while (scroll) {
+                            while (!killed.get()) {
                                 int goBack = 0;
 
                                 while (goBack < minWidth - parentWidth) {
-                                    if (!scroll) {
+                                    if (killed.get()) {
                                         break;
                                     }
 
                                     effectLabel.setLocation(effectLabel.getX() - 1, effectLabel.getY());
-                                    Thread.sleep(miliTimeout);
+                                    Thread.sleep(MOVEMENT_TIMEOUT);
                                     goBack++;
                                 }
 
-                                sleepWithChecks(milipause);
+                                TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
 
                                 while (goBack > 0) {
-                                    if (!scroll) {
+                                    if (killed.get()) {
                                         break;
                                     }
 
                                     effectLabel.setLocation(effectLabel.getX() + 1, effectLabel.getY());
-                                    Thread.sleep(miliTimeout);
+                                    Thread.sleep(MOVEMENT_TIMEOUT);
                                     goBack--;
                                 }
 
-                                sleepWithChecks(milipause);
+                                TimeUtil.sleepWithChecks(SIDE_TO_SIDE_TIMEOUT, SLEEP_WITH_CHECKS_TIMEOUT, killed);
                             }
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
@@ -1050,34 +1066,10 @@ public class AudioPlayer {
         }
 
         /**
-         * The timeout to sleep for before checking for title scroll label being terminated.
+         * Kills the current scrolling title label.
          */
-        private static final int SLEEP_WITH_CHECKS_TIMEOUT = 50;
-
-        /**
-         * Sleeps for the designated amount of time, breaking every TIMEOUT ms to check for a stop call.
-         *
-         * @param sleepTime the total length to sleep for
-         */
-        public void sleepWithChecks(long sleepTime) {
-            try {
-                long acc = 0;
-
-                while (acc < sleepTime) {
-                    Thread.sleep(SLEEP_WITH_CHECKS_TIMEOUT);
-                    acc += SLEEP_WITH_CHECKS_TIMEOUT;
-
-                    if (!scroll) {
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }
-
         public void kill() {
-            scroll = false;
+           killed.set(false);
         }
     }
 
