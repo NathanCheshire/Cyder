@@ -252,6 +252,8 @@ public class AudioPlayer {
     private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
     private static final int UI_ROW_HEIGHT = 40;
 
+    private static AudioVolumeLabelAnimator audioVolumeLabelAnimator;
+
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
 
@@ -437,7 +439,12 @@ public class AudioPlayer {
         audioPercentLabel.setForeground(CyderColors.vanila);
         audioPercentLabel.setSize(100, 40);
         audioPlayerFrame.getContentPane().add(audioPercentLabel);
-        startAudioVolumeLabelThread();
+
+        if (audioVolumeLabelAnimator != null) {
+            audioVolumeLabelAnimator.kill();
+        }
+
+        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioPercentLabel);
 
         audioVolumeSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
@@ -456,8 +463,7 @@ public class AudioPlayer {
             refreshAudioLine();
             audioPercentLabel.setVisible(true);
             audioPercentLabel.setText(audioVolumeSlider.getValue() + "%");
-            audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE
-                    + AUDIO_VOLUME_LABEL_SLEEP_TIME);
+            audioVolumeLabelAnimator.resetTimeout();
         });
         audioVolumeSlider.setOpaque(false);
         audioVolumeSlider.setToolTipText("Volume");
@@ -508,40 +514,6 @@ public class AudioPlayer {
                 }
             }, "AudioPlayer Preliminary Handler");
         }
-    }
-
-    /**
-     * The time remaining before setting the visibility of the audio volume label to false.
-     */
-    private static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
-
-    /**
-     * The time in between checks when sleeping before the audio volume label is set to invisible.
-     */
-    private static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
-
-    /**
-     * The total sleep time before setting the audio volume label to invisible.
-     */
-    private static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
-
-    // todo is this a proper exit condition? maybe use a class
-    private static void startAudioVolumeLabelThread() {
-        CyderThreadRunner.submit(() -> {
-            try {
-                while (isWidgetOpen()) {
-                    while (audioVolumeLabelTimeout.get() > 0) {
-                        audioPercentLabel.setVisible(true);
-                        Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
-                        audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
-                    }
-
-                    audioPercentLabel.setVisible(false);
-                }
-            } catch (Exception ex) {
-                ExceptionHandler.handle(ex);
-            }
-        }, "Audio Progress Label Animator");
     }
 
     /**
@@ -1276,6 +1248,74 @@ public class AudioPlayer {
          */
         public void kill() {
            killed.set(false);
+        }
+    }
+
+    /**
+     * A class to control the visibility of the audio volume level label.
+     */
+    private static class AudioVolumeLabelAnimator {
+        /**
+         * Whether this object has been killed.
+         */
+        private boolean killed;
+
+        /**
+         * The label to set to visible/non-visible
+         */
+        private JLabel referenceLabel;
+
+        /**
+         * The time remaining before setting the visibility of the audio volume label to false.
+         */
+        public static final AtomicInteger audioVolumeLabelTimeout = new AtomicInteger();
+
+        /**
+         * The time in between checks when sleeping before the audio volume label is set to invisible.
+         */
+        public static final int AUDIO_VOLUME_LABEL_SLEEP_TIME = 50;
+
+        /**
+         * The total sleep time before setting the audio volume label to invisible.
+         */
+        public static final int MAX_AUDIO_VOLUME_LABEL_VISIBLE = 3000;
+
+        /**
+         * Constructs a new AudioVolumeLabelAnimator.
+         *
+         * @param referenceLabel the label to set to visible/non-visible
+         */
+        AudioVolumeLabelAnimator(JLabel referenceLabel) {
+            CyderThreadRunner.submit(() -> {
+                try {
+                    while (!killed) {
+                        while (audioVolumeLabelTimeout.get() > 0) {
+                            audioPercentLabel.setVisible(true);
+                            Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
+                            audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
+                        }
+
+                        audioPercentLabel.setVisible(false);
+                    }
+                } catch (Exception ex) {
+                    ExceptionHandler.handle(ex);
+                }
+            }, "Audio Progress Label Animator");
+        }
+
+        /**
+         * Resets the timeout before the lable is set to be invisible.
+         */
+        public void resetTimeout() {
+            audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE
+                    + AUDIO_VOLUME_LABEL_SLEEP_TIME);
+        }
+
+        /**
+         * Kills this object.
+         */
+        public void kill() {
+            killed = true;
         }
     }
 
