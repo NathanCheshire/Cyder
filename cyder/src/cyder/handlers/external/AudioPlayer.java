@@ -1174,7 +1174,7 @@ public class AudioPlayer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "AudioPlayer [" + FileUtil.getFilename(currentAudioFile) + "]");
+        }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
     }
 
     private static void stopAudio() {
@@ -1323,11 +1323,51 @@ public class AudioPlayer {
          * @param effectBar the CyderProgressBar to place a label on and update
          */
         public AudioLocationLabelUpdater(CyderProgressBar effectBar) {
+            Preconditions.checkNotNull(effectBar);
+
             try {
                 CyderThreadRunner.submit( () -> {
+                    Future<Integer> millis = AudioUtil.getMillis(currentAudioFile);
+
+                    while (!millis.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    int totalMillis = 0;
+
+                    try {
+                        totalMillis = millis.get();
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+
+                    if (totalMillis == 0) {
+                        return;
+                    }
+
+                    int totalSeconds = Math.round(totalMillis / 1000.0f);
+
+                    String formattedTotal = AudioUtil.formatSeconds(totalSeconds);
+
                     while (!killed) {
                         try {
-                            // todo simply setting text based on pref
+                            float percentIn = (((float) audioProgressBar.getValue()
+                                    / (float) audioProgressBar.getMaximum()));
+                            float percentRemaining = 1.0f - percentIn;
+
+                            int secondsIn = Math.round(percentIn * totalSeconds);
+                            int audioProgressBar = totalSeconds - secondsIn;
+
+                            if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
+                                audioProgressLabel.setText(
+                                        AudioUtil.formatSeconds(secondsIn) + " played, "
+                                        + formattedTotal + " total");
+                            } else {
+                                audioProgressLabel.setText(
+                                        AudioUtil.formatSeconds(secondsIn) + " played, "
+                                        + AudioUtil.formatSeconds(audioProgressBar) + " left");
+                            }
+
                             Thread.sleep(audioLocationTextUpdateDelay);
                         } catch (Exception ignored) {}
                     }
