@@ -272,7 +272,9 @@ public class IOUtil {
             stopAudio();
         }
 
-        AudioPlayer.stopAudio();
+        if (AudioPlayer.isAudioPlaying()) {
+            AudioPlayer.handlePlayPauseButtonClick();
+        }
     }
 
     /**

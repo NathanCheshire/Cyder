@@ -46,6 +46,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// todo get file navigation is broken
+
 // todo views should slide in and out like StraightShot
 // maybe whole content pane should have elements placed, sliding should be from the right and then back to left
 
@@ -72,78 +74,162 @@ public class AudioPlayer {
      * The border width of black borders placed on some ui components.
      */
     private static final int BORDER_WIDTH = 3;
+
+    /**
+     * The file representing the default album art to use if the frame is
+     * in the standard audio view and the current audio file has no linked album art.
+     */
     private static final File DEFAULT_ALBUM_ART = OSUtil.buildFile(
             "static","pictures","music","Default.png");
 
+    /**
+     * The default text to display for the audio title label.
+     */
     public static final String DEFAULT_AUDIO_TITLE = "No Audio Playing";
+
+    /**
+     * The label to display the current audio title.
+     */
     private static final JLabel audioTitleLabel = new JLabel();
+
+    /**
+     * The container to hold the audioTitleLabel used for animations like Spotify if the text overflows.
+     */
     private static final JLabel audioTitleLabelContainer = new JLabel();
+
+    /**
+     * The height of the audioTitleLabel.
+     */
     private static final int AUDIO_TITLE_LABEL_HEIGHT =
             StringUtil.getMinHeight("YATTA", CyderFonts.defaultFontSmall);
 
+    /**
+     * The audio progress bar with animated colors.
+     */
     private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, 100);
-    private static final CyderProgressUI audioProgressBarUi = new CyderProgressUI();
+
+    /**
+     * The progress bar ui for the audio progress bar.
+     */
+    private static CyderProgressUI audioProgressBarUi;
+
+    /**
+     * The label placed over the audio progress bar displaying how many seconds into the current audio
+     * we are and how many seconds are remaining/how long the audio is in total.
+     */
     private static final CyderLabel audioProgressLabel = new CyderLabel();
 
-    private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
-    private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
+    /**
+     * The default value for the audio volume slider.
+     */
     private static final int DEFAULT_AUDIO_SLIDER_VALUE = 50;
 
+    /**
+     * The audio volume slider.
+     */
+    private static final JSlider audioVolumeSlider = new JSlider(JSlider.HORIZONTAL, 0,
+            100, DEFAULT_AUDIO_SLIDER_VALUE);
+
+    /**
+     * The Ui for the audio volume slider.
+     */
+    private static final CyderSliderUI audioVolumeSliderUi = new CyderSliderUI(audioVolumeSlider);
+
+    /**
+     * The album art directory for the current Cyder user.
+     */
     private static File currentUserAlbumArtDir;
 
-    private static final CyderLabel audioPercentLabel = new CyderLabel();
+    /**
+     * The audio volume percent label which appears on change of the audio volume.
+     */
+    private static final CyderLabel audioVolumePercentLabel = new CyderLabel();
 
+    /**
+     * The play icon.
+     */
     private static final ImageIcon playIcon = new ImageIcon(
             "static/pictures/music/Play.png");
+
+    /**
+     * The play icon for hover events.
+     */
     private static final ImageIcon playIconHover = new ImageIcon(
             "static/pictures/music/PlayHover.png");
 
+    /**
+     * The pause icon.
+     */
     private static final ImageIcon pauseIcon = new ImageIcon(
             "static/pictures/music/Pause.png");
+
+    /**
+     * The pause icon for hover events.
+     */
     private static final ImageIcon pauseIconHover = new ImageIcon(
             "static/pictures/music/PauseHover.png");
 
+    /**
+     * The next icon.
+     */
     private static final ImageIcon nextIcon = new ImageIcon(
             "static/pictures/music/Skip.png");
+
+    /**
+     * The next icon for hover events.
+     */
     private static final ImageIcon nextIconHover = new ImageIcon(
             "static/pictures/music/SkipHover.png");
 
+    /**
+     * The last icon.
+     */
     private static final ImageIcon lastIcon = new ImageIcon(
             "static/pictures/music/SkipBack.png");
+
+    /**
+     * The last icon for hover events.
+     */
     private static final ImageIcon lastIconHover = new ImageIcon(
             "static/pictures/music/SkipBackHover.png");
 
+    /**
+     * The repeat icon.
+     */
     private static final ImageIcon repeatIcon = new ImageIcon(
             "static/pictures/music/Repeat.png");
+
+    /**
+     * The repeat icon for hover events.
+     */
     private static final ImageIcon repeatIconHover = new ImageIcon(
             "static/pictures/music/RepeatHover.png");
 
+    /**
+     * The shuffle icon.
+     */
     private static final ImageIcon shuffleIcon = new ImageIcon(
             "static/pictures/music/Shuffle.png");
+
+    /**
+     * The shuffle icon for hover events.
+     */
     private static final ImageIcon shuffleIconHover = new ImageIcon(
             "static/pictures/music/ShuffleHover.png");
 
+    /**
+     * The size of the primary audio control buttons.
+     */
     private static final Dimension CONTROL_BUTTON_SIZE = new Dimension(30, 30);
 
-    private static final CyderIconButton playPauseButton =
-            new CyderIconButton("Play", playIcon, playIconHover,
-            new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            handlePlayPauseButtonClick();
-        }
+    /**
+     * The play pause icon button.
+     */
+    private static JButton playPauseButton;
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
-        }
-    });
-
+    /**
+     * The play last audio icon button.
+     */
     private static final CyderIconButton lastAudioButton =
             new CyderIconButton("Last", lastIcon, lastIconHover,
             new MouseAdapter() {
@@ -163,6 +249,9 @@ public class AudioPlayer {
         }
     });
 
+    /**
+     * The play next audio icon button.
+     */
     private static final CyderIconButton nextAudioButton =
             new CyderIconButton("Next", nextIcon, nextIconHover,
             new MouseAdapter() {
@@ -182,6 +271,9 @@ public class AudioPlayer {
         }
     });
 
+    /**
+     * The repeat audio icon button.
+     */
     private static final CyderIconButton repeatAudioButton =
             new CyderIconButton("Repeat", repeatIcon, repeatIconHover,
             new MouseAdapter() {
@@ -201,6 +293,9 @@ public class AudioPlayer {
         }
     });
 
+    /**
+     * The shuffle audio icon button.
+     */
     private static final CyderIconButton shuffleAudioButton =
             new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
             new MouseAdapter() {
@@ -220,6 +315,9 @@ public class AudioPlayer {
         }
     });
 
+    /**
+     * The available frame views for both the audio player and YouTube downloader.
+     */
     private enum FrameView {
         /**
          * All ui elements visible.
@@ -243,28 +341,61 @@ public class AudioPlayer {
         DOWNLOAD,
     }
 
+    /**
+     * The current frame view the audio player is in.
+     */
     private static FrameView currentFrameView;
 
-    // ----------------------
-    // Non-ui widget members
-    // ----------------------
-
+    /**
+     * The frame background color.
+     */
     public static final Color BACKGROUND_COLOR = new Color(8,23,52);
 
+    /**
+     * The list of songs to play next before sequentially proceeding to the next valid audio file.
+     */
     private static final ArrayList<File> audioFileQueue = new ArrayList<>();
+
+    /**
+     * The current audio file we are at.
+     */
     private static File currentAudioFile;
+
+    /**
+     * The list of valid audio files within the current directory that the audio player may play.
+     */
     private static final ArrayList<File> validAudioFiles = new ArrayList<>();
 
+    /**
+     * The default audio file to play if no starting file was provided.
+     */
     public static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
             "static","audio","Kendrick Lamar - All The Stars.mp3");
 
+    /**
+     * The width and height of the audio frame.
+     */
     private static final int DEFAULT_FRAME_LEN = 600;
 
+    /**
+     * The width and height of the album art label.
+     */
     private static final int ALBUM_ART_LABEL_SIZE = 300;
 
+    /**
+     * The width of a primary ui control row.
+     */
     private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+
+    /**
+     * The height of a primary ui control row.
+     */
     private static final int UI_ROW_HEIGHT = 40;
 
+    /**
+     * The animator object for the audio volume percent.
+     * This is set upon the frame appearing and is only killed when the widget is killed.
+     */
     private static AudioVolumeLabelAnimator audioVolumeLabelAnimator;
 
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
@@ -357,10 +488,17 @@ public class AudioPlayer {
         audioPlayerFrame.setMenuEnabled(true);
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override
+            public void windowClosing(WindowEvent e) {
+                // no other pre/post close window Runnables
+                // should be added or window listeners
+                killAndCloseWidget();
+            }
+
+            @Override
             public void windowClosed(WindowEvent e) {
                 // no other pre/post close window Runnables
                 // should be added or window listeners
-                killWidget();
+                killAndCloseWidget();
             }
         });
         installFrameMenuItems();
@@ -391,6 +529,30 @@ public class AudioPlayer {
         lastAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(lastAudioButton);
 
+        playPauseButton = new JButton();
+        playPauseButton.setIcon(playIcon);
+        playPauseButton.setToolTipText("Play"); // todo update
+        playPauseButton.setFocusPainted(false);
+        playPauseButton.setOpaque(false);
+        playPauseButton.setContentAreaFilled(false);
+        playPauseButton.setBorderPainted(false);
+        playPauseButton.setVisible(true);
+        playPauseButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handlePlayPauseButtonClick();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                playPauseButton.setIcon(isAudioPlaying() ? pauseIconHover : playIconHover);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                playPauseButton.setIcon(isAudioPlaying() ? pauseIcon : playIcon);
+            }
+        });
         playPauseButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(playPauseButton);
 
@@ -402,10 +564,13 @@ public class AudioPlayer {
 
         audioProgressBar.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioProgressBar);
+
+        audioProgressBarUi = new CyderProgressUI();
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
         audioProgressBarUi.setShape(CyderProgressUI.Shape.SQUARE);
         audioProgressBar.setUI(audioProgressBarUi);
+
         audioProgressBar.setMinimum(0);
         audioProgressBar.setMaximum(10000);
         audioProgressBar.setOpaque(false);
@@ -449,15 +614,15 @@ public class AudioPlayer {
         audioVolumeSliderUi.setOldValColor(CyderColors.regularRed);
         audioVolumeSliderUi.setTrackStroke(new BasicStroke(2.0f));
 
-        audioPercentLabel.setForeground(CyderColors.vanila);
-        audioPercentLabel.setSize(100, 40);
-        audioPlayerFrame.getContentPane().add(audioPercentLabel);
+        audioVolumePercentLabel.setForeground(CyderColors.vanila);
+        audioVolumePercentLabel.setSize(100, 40);
+        audioPlayerFrame.getContentPane().add(audioVolumePercentLabel);
 
         if (audioVolumeLabelAnimator != null) {
             audioVolumeLabelAnimator.kill();
         }
 
-        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioPercentLabel);
+        audioVolumeLabelAnimator = new AudioVolumeLabelAnimator(audioVolumePercentLabel);
 
         audioVolumeSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
@@ -474,8 +639,8 @@ public class AudioPlayer {
             }
 
             refreshAudioLine();
-            audioPercentLabel.setVisible(true);
-            audioPercentLabel.setText(audioVolumeSlider.getValue() + "%");
+            audioVolumePercentLabel.setVisible(true);
+            audioVolumePercentLabel.setText(audioVolumeSlider.getValue() + "%");
             audioVolumeLabelAnimator.resetTimeout();
         });
         audioVolumeSlider.setOpaque(false);
@@ -513,7 +678,7 @@ public class AudioPlayer {
                         builder.setTitle("Network Error");
                         builder.setRelativeTo(audioPlayerFrame);
                         builder.setPostCloseAction(() -> {
-                            killWidget();
+                            killAndCloseWidget();
                         });
 
                         InformHandler.inform(builder);
@@ -555,7 +720,7 @@ public class AudioPlayer {
 
         audioProgressLabel.setVisible(visible);
 
-        audioPercentLabel.setVisible(visible);
+        audioVolumePercentLabel.setVisible(visible);
 
         audioVolumeSlider.setVisible(visible);
     }
@@ -728,6 +893,7 @@ public class AudioPlayer {
                     // set file and find audio fields in same directory
                     currentAudioFile = chosenFile;
                     refreshAudioFiles();
+                    refreshAlbumArt();
 
                     // todo start playing
                 } else {
@@ -795,7 +961,7 @@ public class AudioPlayer {
                 // 0,0 since it is layered perfectly over audioProgressBar
                 audioProgressLabel.setLocation(0, 0);
 
-                audioPercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioPercentLabel.getWidth() / 2,
+                audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
 
                 yOff += 40 + yPadding;
@@ -879,7 +1045,7 @@ public class AudioPlayer {
             }
         }
 
-        albumArtLabel.setIcon(customAlbumArt);
+        albumArtLabel.setIcon(ImageUtil.resizeImage(customAlbumArt, ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
         albumArtLabel.repaint();
         audioPlayerFrame.setCustomTaskbarIcon(customAlbumArt);
         audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
@@ -918,17 +1084,6 @@ public class AudioPlayer {
         return audioPlayerFrame != null;
     }
 
-    // todo consolidate with kill widget?
-    public static void closeWidget() {
-         if (audioPlayerFrame != null) {
-             audioPlayerFrame.dispose(true);
-
-             // todo other actions to end worker threads
-
-             audioPlayerFrame = null;
-         }
-    }
-
     public static void refreshAudioLine() {
         try {
             if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
@@ -956,13 +1111,13 @@ public class AudioPlayer {
 
         // if we're playing, pause the audio
         if (isAudioPlaying()) {
+            playPauseButton.setIcon(playIconHover);
             stopAudio();
-            playPauseButton.setIcon(playIcon);
         }
         // otherwise start playing, this should always play something
         else {
+            playPauseButton.setIcon(pauseIconHover);
             playAudio();
-            playPauseButton.setIcon(pauseIcon);
         }
     }
 
@@ -975,7 +1130,9 @@ public class AudioPlayer {
 
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
-    public static void playAudio() {
+    private static void playAudio() {
+        // todo what if for some reason already playing audio?
+
         CyderThreadRunner.submit(() -> {
             try {
                 fis = new FileInputStream(currentAudioFile);
@@ -998,7 +1155,7 @@ public class AudioPlayer {
         }, "AudioPlayer [" + FileUtil.getFilename(currentAudioFile) + "]");
     }
 
-    public static void stopAudio() {
+    private static void stopAudio() {
         try {
             if (fis != null) {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
@@ -1080,24 +1237,35 @@ public class AudioPlayer {
         return currentAudioFile;
     }
 
-    private static void killWidget() {
+    private static void killAndCloseWidget() {
         if (audioPlayerFrame != null) {
             audioPlayerFrame.dispose();
-        } else {
             audioPlayerFrame = null;
-
-            // never null so save
-            audioProgressBarUi.stopAnimationTimer();
-
-            currentAudioFile = null;
-
-            stopAudio();
-
-            pauseLocation = 0;
-            totalAudioLength = 0;
-
-            // todo end all executors and reset to initial state
         }
+
+        if (audioProgressBarUi != null) {
+            audioProgressBarUi.stopAnimationTimer();
+            audioProgressBarUi = null;
+        }
+
+        currentAudioFile = null;
+
+        stopAudio();
+
+        pauseLocation = 0;
+        totalAudioLength = 0;
+
+        if (audioVolumeLabelAnimator != null) {
+            audioVolumeLabelAnimator.kill();
+            audioVolumeLabelAnimator = null;
+        }
+
+        // todo proress bar animator
+        // todo progress bar label updator
+
+        // todo title label animator
+
+        // todo end all executors and reset to initial state
     }
 
     /*
@@ -1304,12 +1472,12 @@ public class AudioPlayer {
                 try {
                     while (!killed) {
                         while (audioVolumeLabelTimeout.get() > 0) {
-                            audioPercentLabel.setVisible(true);
+                            audioVolumePercentLabel.setVisible(true);
                             Thread.sleep(AUDIO_VOLUME_LABEL_SLEEP_TIME);
                             audioVolumeLabelTimeout.getAndAdd(-AUDIO_VOLUME_LABEL_SLEEP_TIME);
                         }
 
-                        audioPercentLabel.setVisible(false);
+                        audioVolumePercentLabel.setVisible(false);
                     }
                 } catch (Exception ex) {
                     ExceptionHandler.handle(ex);
