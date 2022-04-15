@@ -38,8 +38,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -107,6 +107,7 @@ public class AudioPlayer {
      * The audio progress bar with animated colors.
      */
     private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, 100);
+    // todo should this have finer resolution?
 
     /**
      * The progress bar ui for the audio progress bar.
@@ -398,6 +399,12 @@ public class AudioPlayer {
      */
     private static AudioVolumeLabelAnimator audioVolumeLabelAnimator;
 
+    /**
+     * The animator object for the audio location label.
+     * This is set and the previous object killed whenever a new audio file is initiated.
+     */
+    private static AudioLocationUpdator audioLocationUpdator;
+
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
 
@@ -600,10 +607,14 @@ public class AudioPlayer {
                     pauseLocation = skipLocation;
                 }
 
-                // todo update progress bar and progress label
-                // todo use methods for this
+                // todo update progress bar, label will update based on progress bar
             }
         });
+
+        if (audioLocationUpdator != null) {
+            audioLocationUpdator.kill();
+        }
+        audioLocationUpdator = new AudioLocationUpdator(audioProgressLabel, audioProgressBar);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
         audioVolumeSliderUi.setSliderShape(SliderShape.CIRCLE);
@@ -1260,15 +1271,11 @@ public class AudioPlayer {
     }
 
     private static void killAndCloseWidget() {
-        if (audioPlayerFrame != null) {
-            audioPlayerFrame.dispose();
-            audioPlayerFrame = null;
-        }
+        Objects.requireNonNull(audioPlayerFrame).dispose();
+        audioPlayerFrame = null;
 
-        if (audioProgressBarUi != null) {
-            audioProgressBarUi.stopAnimationTimer();
-            audioProgressBarUi = null;
-        }
+        Objects.requireNonNull(audioProgressBarUi).stopAnimationTimer();
+        audioProgressBarUi = null;
 
         currentAudioFile = null;
 
@@ -1277,13 +1284,11 @@ public class AudioPlayer {
         pauseLocation = 0;
         totalAudioLength = 0;
 
-        if (audioVolumeLabelAnimator != null) {
-            audioVolumeLabelAnimator.kill();
-            audioVolumeLabelAnimator = null;
-        }
+        Objects.requireNonNull(audioVolumeLabelAnimator).kill();
+        audioVolumeLabelAnimator = null;
 
-        // todo proress bar animator
-        // todo progress bar label updator
+        Objects.requireNonNull(audioLocationUpdator).kill();
+        audioLocationUpdator = null;
 
         // todo title label animator
 
@@ -1299,14 +1304,9 @@ public class AudioPlayer {
     // -----------------------------------------------------
 
     /**
-     * The class to update the audio location label which is layered over the progress bar.
+     * The class to update the audio location label and progress bar.
      */
-    private static class AudioLocationLabelUpdater {
-        /**
-         * The formatter used for the audio location label text.
-         */
-        private static final DecimalFormat locationLabelFormat = new DecimalFormat("##.#");
-
+    private static class AudioLocationUpdator {
         /**
          * The delay between update cycles for the audio lcoation text.
          */
@@ -1318,12 +1318,27 @@ public class AudioPlayer {
         private boolean killed;
 
         /**
+         * The label to update displaying the audio time and length.
+         */
+        private final JLabel effectLabel;
+
+        /**
+         * The progress bar to update.
+         */
+        private final CyderProgressBar progressBar;
+
+        /**
          * Constructs a new audio location label to update for the provided progress bar.
          *
-         * @param effectBar the CyderProgressBar to place a label on and update
+         * @param effectLabel the label to update update
+         * @param progressBar the progress bar to update
          */
-        public AudioLocationLabelUpdater(CyderProgressBar effectBar) {
-            Preconditions.checkNotNull(effectBar);
+        public AudioLocationUpdator(JLabel effectLabel, CyderProgressBar progressBar) {
+            Preconditions.checkNotNull(effectLabel);
+            Preconditions.checkNotNull(progressBar);
+
+            this.effectLabel = effectLabel;
+            this.progressBar = progressBar;
 
             try {
                 CyderThreadRunner.submit( () -> {
@@ -1350,24 +1365,33 @@ public class AudioPlayer {
                     String formattedTotal = AudioUtil.formatSeconds(totalSeconds);
 
                     while (!killed) {
+                        float place = 0;
+
                         try {
-                            float percentIn = (((float) audioProgressBar.getValue()
-                                    / (float) audioProgressBar.getMaximum()));
-                            float percentRemaining = 1.0f - percentIn;
+                            place = ((float) (totalAudioLength - fis.available()) /
+                                    (float) totalAudioLength) * progressBar.getMaximum();
+                        } catch (Exception ignored) {}
 
-                            int secondsIn = Math.round(percentIn * totalSeconds);
-                            int audioProgressBar = totalSeconds - secondsIn;
+                        progressBar.setValue((int) place);
 
-                            if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-                                audioProgressLabel.setText(
-                                        AudioUtil.formatSeconds(secondsIn) + " played, "
-                                        + formattedTotal + " total");
-                            } else {
-                                audioProgressLabel.setText(
-                                        AudioUtil.formatSeconds(secondsIn) + " played, "
-                                        + AudioUtil.formatSeconds(audioProgressBar) + " left");
-                            }
+                        float percentIn = (((float) audioProgressBar.getValue()
+                                / (float) audioProgressBar.getMaximum()));
+                        float percentRemaining = 1.0f - percentIn;
 
+                        int secondsIn = Math.round(percentIn * totalSeconds);
+                        int audioProgressBar = totalSeconds - secondsIn;
+
+                        if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
+                            effectLabel.setText(
+                                    AudioUtil.formatSeconds(secondsIn) + " played, "
+                                    + formattedTotal + " remaining");
+                        } else {
+                            effectLabel.setText(
+                                    AudioUtil.formatSeconds(secondsIn) + " played, "
+                                    + AudioUtil.formatSeconds(audioProgressBar) + " remaining");
+                        }
+
+                        try {
                             Thread.sleep(audioLocationTextUpdateDelay);
                         } catch (Exception ignored) {}
                     }
