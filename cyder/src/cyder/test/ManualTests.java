@@ -42,8 +42,8 @@ public class ManualTests {
      * This method is used purely for testing purposes.
      */
     @ManualTest(trigger = "test")
-    @SuppressCyderInspections(values = "TestInspection")
-    @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"})
+    @SuppressCyderInspections(values = "TestInspection") /* not ending in test */
+    @SuppressWarnings({"EmptyTryBlock", "RedundantSuppression"}) /* for when try is empty and not empty */
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -51,7 +51,7 @@ public class ManualTests {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Manual Tester");
+        }, "Manual Tests Thread");
     }
 
     /**

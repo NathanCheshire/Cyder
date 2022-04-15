@@ -47,17 +47,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // todo views should slide in and out like StraightShot
+// maybe whole content pane should have elements placed, sliding should be from the right and then back to left
 
-// todo dreamify should be seamless audio transition
+// todo dreamify should be seamless audio transition, wait and get location then switch
 
-// todo still need to prevent spamming of skip actions
+// todo still need to prevent spamming of skip actions, method which buttons first check for
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
 public class AudioPlayer {
+    /**
+     * The audio player frame.
+     */
     private static CyderFrame audioPlayerFrame;
+
+    /**
+     * The label used to hold the album art or default album art if no album
+     * art exists if the audio player is in the standard audio view.
+     */
     private static final JLabel albumArtLabel = new JLabel();
+
+    /**
+     * The border width of black borders placed on some ui components.
+     */
     private static final int BORDER_WIDTH = 3;
     private static final File DEFAULT_ALBUM_ART = OSUtil.buildFile(
             "static","pictures","music","Default.png");
@@ -905,6 +918,7 @@ public class AudioPlayer {
         return audioPlayerFrame != null;
     }
 
+    // todo consolidate with kill widget?
     public static void closeWidget() {
          if (audioPlayerFrame != null) {
              audioPlayerFrame.dispose(true);

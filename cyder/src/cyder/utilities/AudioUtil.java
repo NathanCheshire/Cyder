@@ -172,8 +172,8 @@ public class AudioUtil {
             Process p = pb.start();
 
             // get original time of wav (after process started to save time)
-            Future<Integer> startingMilis = getMillis(usageFile);
-            while (!startingMilis.isDone()) {
+            Future<Integer> startingMillis = getMillis(usageFile);
+            while (!startingMillis.isDone()) {
                 Thread.onSpinWait();
             }
 
@@ -190,7 +190,7 @@ public class AudioUtil {
                     Thread.onSpinWait();
                 }
 
-                if (updatedLen.get().equals(startingMilis.get())) {
+                if (updatedLen.get().equals(startingMillis.get())) {
                     break;
                 }
 
@@ -204,8 +204,11 @@ public class AudioUtil {
 
     /**
      * Uses ffprobe to get the length of the audio file in milliseconds.
+     * Note this method takes a second or two to finish so it should not be used
+     * repeatedly. You should not even need to, however, since unless you're some
+     * kind of European toy maker, the length of an audio file doesn't change during playback.
      *
-     * @param audioFile the audio file to get the length of
+     * @param audioFile the audio file to find the length of in milliseconds
      * @return the length of the audio file in milliseconds
      */
     public static Future<Integer> getMillis(File audioFile) {

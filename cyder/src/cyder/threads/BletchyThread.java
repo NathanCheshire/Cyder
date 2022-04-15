@@ -6,16 +6,18 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderOutputPane;
 import cyder.utilities.NumberUtil;
-import cyder.utilities.ReflectionUtil;
 import cyder.utilities.StringUtil;
 
 import javax.swing.*;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 
+/**
+ * A class used to perform bletchy animations on a specific JTextPane.
+ */
 public class BletchyThread {
     /**
-     * Restrict default instantiation.
+     * Suppress default instantiation.
      */
     private BletchyThread() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -56,12 +58,15 @@ public class BletchyThread {
     /**
      * Invoke the bletchy decode animtion with the following parameters on the linked JTextPane.
      *
-     * @param decodeString the final string to decode and display after the bletchy animation has finished
-     * @param useNumbers a boolean depicting whether or not to use numbers in the alphabetic characters for the animation
-     * @param miliDelay the millisecond delay in between animation frames
-     * @param useUnicode a boolean depicting whether or not to use more than just latin letters and possibly numbers
+     * @param decodeString the final string to decode and display after
+     *                     the bletchy animation has finished
+     * @param useNumbers a boolean depicting whether or not to use
+     *                  numbers in the alphabetic characters for the animation
+     * @param milliDelay the millisecond delay in between animation frames
+     * @param useUnicode a boolean depicting whether or not to use
+     *                   more than just latin letters and possibly numbers
      */
-    public static void bletchy(String decodeString, boolean useNumbers, int miliDelay, boolean useUnicode) {
+    public static void bletchy(String decodeString, boolean useNumbers, int milliDelay, boolean useUnicode) {
         //starting not permitting if bletchy or this is already underway
         if (isActive() || MasterYoutubeThread.isActive()) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
@@ -70,34 +75,37 @@ public class BletchyThread {
         }
 
         //invoke the thread with passed params
-        bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), miliDelay);
+        bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), milliDelay);
     }
 
     /**
      * Inner class used to invoke the bletchy animation.
      */
     private static class BletchyAnimator {
-        BletchyAnimator(String[] print, int miliDelay) {
+        /**
+         * Constructs and starts a new BletchyAnimator thread.
+         *
+         * @param print the string array to print and remove the last
+         *              line of until the final index is printed
+         * @param milliDelay the delay in ms between prints
+         */
+        BletchyAnimator(String[] print, int milliDelay) {
             CyderThreadRunner.submit(() -> {
                 try {
                     isActive = true;
-
                     printingSemaphore.acquire();
 
                     for (int i = 1 ; i < print.length ; i++) {
-                        //check exit condition
                         if (!isActive) {
                             printingSemaphore.release();
                             return;
                         }
 
-
                         //print iteration
-
                         stringUtil.println(print[i]);
 
                         //timeout
-                        Thread.sleep(miliDelay);
+                        Thread.sleep(milliDelay);
 
                         //remove iteration
                         stringUtil.removeLastLine();
@@ -112,7 +120,7 @@ public class BletchyThread {
                     ExceptionHandler.handle(e);
                     kill();
                 }
-            },"bletchy printing thread: finalString = " + print[print.length - 1]);
+            },"Bletchy printing thread, finalString = " + print[print.length - 1]);
         }
 
         /**
@@ -140,17 +148,16 @@ public class BletchyThread {
             bletchyAnimator.kill();
     }
 
-
     /**
-     * Character array of all lowercase latin chars.
+     * Character array of all lowercase latin characters.
      */
-    private static Character[] alphas =
+    private static Character[] lowercaseAlphabet =
             {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
     /**
-     * Character array of all lowercase latin chars and the base 10 numbers.
+     * Character array of all lowercase latin characters and the base 10 numbers.
      */
-    private static final Character[] alphaNumeric =
+    private static final Character[] lowercaseAlphabetAndBase10 =
             {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
             '0','1','2','3','4','5','6','7','8','9'};
 
@@ -170,7 +177,7 @@ public class BletchyThread {
         int len = decodeUsage.length();
 
         if (useNumbers)
-            alphas = alphaNumeric;
+            lowercaseAlphabet = lowercaseAlphabetAndBase10;
 
         if (useUnicode) {
             LinkedList<Character> chars = new LinkedList<>();
@@ -183,7 +190,7 @@ public class BletchyThread {
             for (int index = 880; index <= 1023; index++)
                 chars.add((char) index);
 
-            alphas = chars.toArray(new Character[chars.size()]);
+            lowercaseAlphabet = chars.toArray(new Character[chars.size()]);
         }
 
         int iterationsPerChar = 7;
@@ -194,7 +201,7 @@ public class BletchyThread {
                 String current = "";
 
                 for (int k = 0 ; k <= len ; k++)
-                    current += alphas[NumberUtil.randInt(0,alphas.length - 1)];
+                    current += lowercaseAlphabet[NumberUtil.randInt(0, lowercaseAlphabet.length - 1)];
 
                 retList.add((decodeUsage.substring(0,i) + current.substring(i, len)).toUpperCase());
             }
@@ -203,10 +210,5 @@ public class BletchyThread {
         retList.add(decodeUsage);
 
         return retList.toArray(new String[0]);
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 }
