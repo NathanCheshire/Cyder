@@ -1121,13 +1121,35 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * The file input stream to grab the audio data.
+     */
     private static FileInputStream fis;
+
+    /**
+     * The buffered input stream for the file input stream.
+     */
     private static BufferedInputStream bis;
+
+    /**
+     * The JLayer player used to play the audio.
+     */
     private static Player audioPlayer;
 
+    /**
+     * The location the current audio file was paused/stopped at.
+     */
     private static long pauseLocation;
+
+    /**
+     * The total audio length of the current audio file.
+     */
     private static long totalAudioLength;
 
+    /**
+     * The amount to offset a pause request by so that a sequential play
+     * request sounds like it was paused at that instant.
+     */
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
     private static void playAudio() {
