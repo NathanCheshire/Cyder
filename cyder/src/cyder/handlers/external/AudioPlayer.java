@@ -247,7 +247,10 @@ public class AudioPlayer {
 
     private static final int DEFAULT_FRAME_LEN = 600;
 
-    public static final int ALBUM_ART_LABEL_SIZE = 300;
+    private static final int ALBUM_ART_LABEL_SIZE = 300;
+
+    private static final int UI_ROW_WIDTH = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
+    private static final int UI_ROW_HEIGHT = 40;
 
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
@@ -359,11 +362,8 @@ public class AudioPlayer {
         albumArtLabel.setBorder(new LineBorder(Color.BLACK, BORDER_WIDTH));
         audioPlayerFrame.getContentPane().add(albumArtLabel);
 
-        int mainRowWidth = (int) (ALBUM_ART_LABEL_SIZE * 1.5);
-        int mainRowHeight = 40;
-
-        audioTitleLabelContainer.setSize(mainRowWidth, mainRowHeight);
-        audioTitleLabel.setSize(mainRowWidth, mainRowHeight);
+        audioTitleLabelContainer.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
         audioTitleLabel.setForeground(CyderColors.vanila);
@@ -385,7 +385,7 @@ public class AudioPlayer {
         repeatAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(repeatAudioButton);
 
-        audioProgressBar.setSize(mainRowWidth, mainRowHeight);
+        audioProgressBar.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioProgressBar);
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
         audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
@@ -396,7 +396,7 @@ public class AudioPlayer {
         audioProgressBar.setOpaque(false);
         audioProgressBar.setFocusable(false);
 
-        audioProgressLabel.setSize(mainRowWidth, mainRowHeight);
+        audioProgressLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
@@ -439,7 +439,7 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(audioPercentLabel);
         startAudioVolumeLabelThread();
 
-        audioVolumeSlider.setSize(mainRowWidth, mainRowHeight);
+        audioVolumeSlider.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioPlayerFrame.getContentPane().add(audioVolumeSlider);
         audioVolumeSlider.setUI(audioVolumeSliderUi);
         audioVolumeSlider.setMinimum(0);
@@ -843,8 +843,8 @@ public class AudioPlayer {
         }
     }
 
-    public static final String DEFAULT_FRAME_TITLE = "Audio Player";
-    public static final int MAX_TITLE_LENGTH = 40;
+    private static final String DEFAULT_FRAME_TITLE = "Audio Player";
+    private static final int MAX_TITLE_LENGTH = 40;
 
     private static void refreshFrameTitle() {
         String title = DEFAULT_FRAME_TITLE;
@@ -873,7 +873,7 @@ public class AudioPlayer {
         audioPlayerFrame.setTitle(title);
     }
 
-    // todo should only call this if necessary
+    // todo should only call this if necessary, where?
     private static void refreshAlbumArt() {
         File albumArtFile = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
                 FileUtil.getFilename(currentAudioFile) + ".png");
@@ -899,6 +899,10 @@ public class AudioPlayer {
         audioPlayerFrame.setCustomTaskbarIcon(customAlbumArt);
         audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
         ConsoleFrame.INSTANCE.revalidateMenu();
+    }
+
+    private static final void refreshAudioTitleLabel() {
+        // todo
     }
 
     private static final void refreshAudioFiles() {
@@ -985,8 +989,6 @@ public class AudioPlayer {
 
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
-    // todo play pause button can't be a cyder icon button
-
     public static void playAudio() {
         CyderThreadRunner.submit(() -> {
             try {
@@ -1002,6 +1004,8 @@ public class AudioPlayer {
                 audioPlayer.play();
 
                 // todo handle next audio method? pass in optional skip direction enum?
+                // todo how to handle pause location, can't just override here
+                // if wasn't stopped, then play next audio basically
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1147,11 +1151,11 @@ public class AudioPlayer {
                 CyderThreadRunner.submit( () -> {
                     while (!killed) {
                         try {
-                            // todo simply setting text
+                            // todo simply setting text based on pref
                             Thread.sleep(audioLocationTextUpdateDelay);
                         } catch (Exception ignored) {}
                     }
-                },"SONG NAME HERE Progress Label Thread");
+                },FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1198,6 +1202,13 @@ public class AudioPlayer {
          */
         private static final int MOVEMENT_TIMEOUT = 25;
 
+        /**
+         * Constructs and begins the scrolling title label animation using the
+         * provided label, its parent, and the provided text as the title.
+         *
+         * @param effectLabel the label to move in it's parent container.
+         * @param localTitle the title of the label
+         */
         public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
             try {
                 effectLabel.setText(localTitle);
@@ -1209,6 +1220,7 @@ public class AudioPlayer {
                 int parentHeight = effectLabel.getParent().getHeight();
 
                 int minWidth = StringUtil.getMinWidth(localTitle, effectLabel.getFont());
+                int minHeight = StringUtil.getMinHeight(localTitle, effectLabel.getFont());
                 effectLabel.setSize(minWidth, parentHeight);
 
                 if (minWidth - 12 > parentWidth) {
@@ -1250,7 +1262,9 @@ public class AudioPlayer {
                         }
                     },"AUDIO TITLE HERE");
                 } else {
-                   // this would set the label to the full title and center it in the parent container
+                    effectLabel.setLocation(
+                            parentWidth / 2 - minWidth / 2,
+                            parentHeight / 2 - minHeight / 2);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
