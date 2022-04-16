@@ -405,6 +405,12 @@ public class AudioPlayer {
      */
     private static AudioLocationUpdator audioLocationUpdator;
 
+    /**
+     * The scrolling title label to display and scroll the current
+     * audio title if it exceeds the parent container's bounds.
+     */
+    private static ScrollingTitleLabel scrollingTitleLabel;
+
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
 
@@ -527,8 +533,11 @@ public class AudioPlayer {
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
         audioTitleLabel.setForeground(CyderColors.vanila);
+
         audioTitleLabelContainer.add(audioTitleLabel);
         audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
+        // simply moves the label which is set to the full size of the text in its parent
+        scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel, DEFAULT_AUDIO_TITLE);
 
         shuffleAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(shuffleAudioButton);
@@ -538,7 +547,7 @@ public class AudioPlayer {
 
         playPauseButton = new JButton();
         playPauseButton.setIcon(playIcon);
-        playPauseButton.setToolTipText("Play"); // todo update
+        playPauseButton.setToolTipText("Play"); // todo update the tooltip
         playPauseButton.setFocusPainted(false);
         playPauseButton.setOpaque(false);
         playPauseButton.setContentAreaFilled(false);
@@ -1168,6 +1177,9 @@ public class AudioPlayer {
 
         CyderThreadRunner.submit(() -> {
             try {
+                scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel,
+                        StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile)));
+
                 fis = new FileInputStream(currentAudioFile);
                 bis = new BufferedInputStream(fis);
 
@@ -1192,6 +1204,7 @@ public class AudioPlayer {
         try {
             if (fis != null) {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
+                fis.close();
                 fis = null;
             }
 
@@ -1202,6 +1215,11 @@ public class AudioPlayer {
             if (audioPlayer != null) {
                 audioPlayer.close();
                 audioPlayer = null;
+            }
+
+            if (scrollingTitleLabel != null) {
+                scrollingTitleLabel.kill();
+                scrollingTitleLabel = null;
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
