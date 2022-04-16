@@ -4,10 +4,14 @@ import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -236,5 +240,112 @@ public class FileUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Zips the provided file/folder and deletes the original if successful and requested.
+     *
+     * @param source the file/dir to zip
+     * @param destination the destination of the zip archive
+     */
+    public static void zip(String source, String destination)  {
+        checkNotNull(source);
+        checkNotNull(destination);
+
+        String usedFileName;
+
+        try {
+
+            if (new File(destination).exists()) {
+                int incrementer = 1;
+                usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
+
+                while (new File(usedFileName).exists()) {
+                    incrementer++;
+                    usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
+                }
+            } else {
+                usedFileName = destination;
+            }
+
+            Path zipFile = Files.createFile(Paths.get(usedFileName));
+            Path sourceDirPath = Paths.get(source);
+
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
+                 Stream<Path> paths = Files.walk(sourceDirPath)) {
+                paths.filter(path -> !Files.isDirectory(path)).forEach(path -> {
+                    ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
+                    try {
+                        zipOutputStream.putNextEntry(zipEntry);
+                        Files.copy(path, zipOutputStream);
+                        zipOutputStream.closeEntry();
+                    } catch (Exception e) {
+                        ExceptionHandler.handle(e);
+                    }
+                });
+            }
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * The buffer sized used for zip file extraction.
+     */
+    public static final int BUFFER_SIZE = 1024;
+
+    /**
+     * Unzips the provided zip directory to the provided directory.
+     *
+     * @param sourceZip the source zip file
+     * @param destinationFolder the folder to save the contents of the zip to
+     * @return whether the unzipping process was successful
+     */
+    public static boolean unzip(File sourceZip, File destinationFolder) {
+        checkNotNull(sourceZip);
+        checkNotNull(destinationFolder);
+        checkArgument(sourceZip.exists());
+        checkArgument(destinationFolder.exists());
+
+        byte[] buffer = new byte[BUFFER_SIZE];
+
+        try {
+            FileInputStream fis = new FileInputStream(sourceZip);
+            ZipInputStream zis = new ZipInputStream(fis);
+            ZipEntry zentry = zis.getNextEntry();
+
+            // for all zip entries
+            while (zentry != null) {
+                File zippedFile = OSUtil.buildFile(destinationFolder.getAbsolutePath(), zentry.getName());
+
+                // ensure parents of zentry exist
+                File zentryParent = new File(zippedFile.getParent());
+                zentryParent.mkdirs();
+
+                FileOutputStream fos = new FileOutputStream(zippedFile);
+
+                int len;
+
+                while ((len = zis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, len);
+                }
+
+                // clean up
+                fos.close();
+                zis.closeEntry();
+
+                zentry = zis.getNextEntry();
+            }
+
+            // clean up
+            zis.closeEntry();
+            zis.close();
+            fis.close();
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
+            return false;
+        }
+
+        return true;
     }
 }

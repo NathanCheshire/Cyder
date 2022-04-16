@@ -21,18 +21,10 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -566,57 +558,6 @@ public class OSUtil {
         }
 
         return ret;
-    }
-
-    /**
-     * Zips the provided file/folder and deletes the original if successful and requested.
-     *
-     * @param source the file/dir to zip
-     * @param destination the destination of the zip archive
-     */
-    public static void zip(String source, String destination)  {
-        AtomicBoolean ret = new AtomicBoolean(true);
-
-        String usedFileName;
-
-        try {
-
-            if (new File(destination).exists()) {
-                int incrementer = 1;
-                usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
-
-                while (new File(usedFileName).exists()) {
-                    incrementer++;
-                    usedFileName = destination.replace(".zip","") + "_" + incrementer + ".zip";
-                }
-            } else {
-                usedFileName = destination;
-            }
-
-            Path zipFile = Files.createFile(Paths.get(usedFileName));
-            Path sourceDirPath = Paths.get(source);
-
-            try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-                 Stream<Path> paths = Files.walk(sourceDirPath)) {
-                paths.filter(path -> !Files.isDirectory(path)).forEach(path -> {
-                    ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
-                    try {
-                        zipOutputStream.putNextEntry(zipEntry);
-                        Files.copy(path, zipOutputStream);
-                        zipOutputStream.closeEntry();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
-                });
-            }
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-
-            if (!(e instanceof NoSuchFileException))
-                ret.set(false);
-        }
-
-        ret.get();
     }
 
     /**

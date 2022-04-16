@@ -27,10 +27,10 @@ public class CalculatorWidget {
     /**
      * The text to display to user if an expression could not be parsed.
      */
-    private static final String ERROR = "Could not parse expression";
+    private static final String ERROR_TEXT = "Could not parse expression";
 
     /**
-     * Prevent illegal class instantiation.
+     * Suppress default constructor.
      */
     private CalculatorWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -299,7 +299,7 @@ public class CalculatorWidget {
             resultField.setText(resultString);
         } catch (Exception exc) {
             if (exc instanceof IllegalArgumentException) {
-                resultField.setText(ERROR);
+                resultField.setText(ERROR_TEXT);
             } else {
                 ExceptionHandler.silentHandle(exc);
             }

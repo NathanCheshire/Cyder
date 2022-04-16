@@ -9,7 +9,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -21,11 +20,13 @@ import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
 import cyder.ui.objects.NotificationBuilder;
 import cyder.ui.objects.SwitcherState;
+import cyder.utilities.AudioUtil;
 import cyder.utilities.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.Future;
 
 /**
  * Tests which must be performed manually and cannot be unit tested.
@@ -48,7 +49,15 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                AudioPlayer.showGUI(AudioPlayer.DEFAULT_AUDIO_FILE);
+                // AudioPlayer.showGUI(AudioPlayer.DEFAULT_AUDIO_FILE);
+
+                Future<Boolean> downloaded = AudioUtil.downloadYoutubeDl();
+
+                while (!downloaded.isDone()) {
+                    Thread.onSpinWait();
+                }
+
+                System.out.println(downloaded.get());
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

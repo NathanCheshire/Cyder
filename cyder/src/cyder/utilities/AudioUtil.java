@@ -2,6 +2,7 @@ package cyder.utilities;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -345,26 +346,48 @@ public class AudioUtil {
     public static Future<Boolean> downloadFfmpegStack() {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Ffmpeg Downloader")).submit(() -> {
-            // todo
+            // download zips
 
-            // get url from backend
+            // extract zips
 
-            // download zip
+            // delete old zips
 
-            // extract zip into exes inside of exes/
-
-            // delete old zip
+            // ensure all binaries present
 
             return false;
         });
     }
 
+    /**
+     * Downloads the youtube-dl binary from the remote resources.
+     * Returns whether the download was successful.
+     *
+     * @return whether youtube-dl could be downloaded from the remote resources.
+     */
     public static Future<Boolean> downloadYoutubeDl() {
         return Executors.newSingleThreadExecutor(
-                new CyderThreadFactory("Ffmpeg Downloader")).submit(() -> {
-            // todo
+                new CyderThreadFactory("YouTubeDl Downloader")).submit(() -> {
+            File downloadZip =  OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(),
+                    YOUTUBE_DL + ".zip");
 
-            return false;
+            NetworkUtil.downloadResource(CyderUrls.DOWNLOAD_RESOURCE_YOUTUBE_DL, downloadZip);
+
+            while (!downloadZip.exists()) {
+                Thread.onSpinWait();
+            }
+
+            File extractFolder =  OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName());
+
+            FileUtil.unzip(downloadZip, extractFolder);
+            OSUtil.delete(downloadZip);
+
+            return OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(), YOUTUBE_DL + ".exe").exists();
         });
     }
 
