@@ -1368,8 +1368,13 @@ public class AudioPlayer {
                         float place = 0;
 
                         try {
-                            place = ((float) (totalAudioLength - fis.available()) /
-                                    (float) totalAudioLength) * progressBar.getMaximum();
+                            if (fis == null) {
+                                place = ((float) pauseLocation /
+                                        (float) totalAudioLength) * progressBar.getMaximum();
+                            } else {
+                                place = ((float) (totalAudioLength - fis.available()) /
+                                        (float) totalAudioLength) * progressBar.getMaximum();
+                            }
                         } catch (Exception ignored) {}
 
                         progressBar.setValue((int) place);
