@@ -150,7 +150,7 @@ public class CyderColors {
     /**
      * The primary badge svg color.
      */
-    public static final Color svgPrimary = Color.decode("#A7BFC1");
+    public static final Color svgPrimary = Color.decode("#055383");
 
     /**
      * The secondary badge svg color.
