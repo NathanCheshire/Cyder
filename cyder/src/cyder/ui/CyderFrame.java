@@ -1434,18 +1434,20 @@ public class CyderFrame extends JFrame {
         // thread since possible confirmation
         CyderThreadRunner.submit(() -> {
             try {
-                if (disposed)
+                if (disposed) {
                     return;
+                }
 
-                //if closing confirmation exists and the user decides they do not want to exit the frame
                 if (closingConfirmationMessage != null) {
                     GetterBuilder builder = new GetterBuilder("Confirmation");
                     builder.setInitialString(closingConfirmationMessage);
                     builder.setRelativeTo(this);
+                    builder.setDisableRelativeTo(true);
                     boolean exit = GetterUtil.getInstance().getConfirmation(builder);
 
-                    if (!exit)
+                    if (!exit) {
                         return;
+                    }
                 }
 
                 disposed = true;

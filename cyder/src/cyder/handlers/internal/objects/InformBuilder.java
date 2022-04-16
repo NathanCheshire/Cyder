@@ -62,6 +62,11 @@ public final class InformBuilder {
     private JLabel container;
 
     /**
+     * Whether to disable the relative to component.
+     */
+    private boolean disableRelativeTo;
+
+    /**
      * Default constructor for an inform pane with the required parameters.
      *
      * @param htmlText the html styled text to display on the inform pane
@@ -171,5 +176,23 @@ public final class InformBuilder {
      */
     public void setContainer(JLabel container) {
         this.container = container;
+    }
+
+    /**
+     * Returns whether to disable the relative to component upon showing this dialog.
+     *
+     * @return whether to disable the relative to component upon showing this dialog
+     */
+    public boolean isDisableRelativeTo() {
+        return disableRelativeTo;
+    }
+
+    /**
+     * Sets whether to disable the relative to component upon showing this dialog.
+     *
+     * @param disableRelativeTo to disable the relative to component upon showing this dialog
+     */
+    public void setDisableRelativeTo(boolean disableRelativeTo) {
+        this.disableRelativeTo = disableRelativeTo;
     }
 }

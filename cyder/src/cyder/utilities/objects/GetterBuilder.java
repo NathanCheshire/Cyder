@@ -30,6 +30,8 @@ public class GetterBuilder {
     private String yesButtonText = "Yes";
     private String noButtonText = "No";
 
+    private boolean disableRelativeTo;
+
     public static final int MINIMUM_TITLE_LENGTH = 3;
 
     /**
@@ -121,5 +123,13 @@ public class GetterBuilder {
 
     public void setLabelText(String labelText) {
         this.labelText = labelText;
+    }
+
+    public boolean isDisableRelativeTo() {
+        return disableRelativeTo;
+    }
+
+    public void setDisableRelativeTo(boolean disableRelativeTo) {
+        this.disableRelativeTo = disableRelativeTo;
     }
 }

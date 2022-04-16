@@ -12,6 +12,7 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.objects.InformBuilder;
 import cyder.layouts.CyderFlowLayout;
 import cyder.layouts.CyderGridLayout;
 import cyder.threads.CyderThreadRunner;
@@ -792,5 +793,22 @@ public class ManualTests {
         testFrame.setLayoutPanel(panel);
 
         testFrame.finalizeAndShow();
+    }
+
+    /**
+     * Tests for the notify and possibly overflow
+     * onto an inform pane custom container test.
+     */
+    @ManualTest(trigger = "disable relative to test")
+    public static void testInformDisableRelativeTo() {
+        CyderFrame testFrame = new CyderFrame(400,400);
+        testFrame.setTitle("Disable RelativeTo test");
+
+        testFrame.finalizeAndShow();
+
+        InformBuilder builder = new InformBuilder("Hello");
+        builder.setDisableRelativeTo(true);
+        builder.setRelativeTo(testFrame);
+        InformHandler.inform(builder);
     }
 }

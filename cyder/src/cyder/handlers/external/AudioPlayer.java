@@ -47,6 +47,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // todo get file navigation is broken
+// todo do we check for @test collisions?
 
 // todo views should slide in and out like StraightShot
 // maybe whole content pane should have elements placed, sliding should be from the right and then back to left
@@ -529,6 +530,7 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(albumArtLabel);
 
         audioTitleLabelContainer.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioTitleLabelContainer.setBorder(new LineBorder(CyderColors.vanila, 3)); // todo remove me
         audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
@@ -1044,16 +1046,28 @@ public class AudioPlayer {
         audioPlayerFrame.setTitle(title);
     }
 
-    // todo should only call this if necessary, where?
+    /**
+     * Attempts to find and set the album art label to the current audio file's album art if it originates
+     * from a user's audio files with a linked audio file album art. Otherwise the label is set to the
+     * default album art.
+     */
     private static void refreshAlbumArt() {
-        File albumArtFile = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
+        File albumArtFilePng = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
                 FileUtil.getFilename(currentAudioFile) + ".png");
+        File albumArtFileJpg = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
+                FileUtil.getFilename(currentAudioFile) + ".jpg");
 
         ImageIcon customAlbumArt = null;
 
-        if (albumArtFile.exists()) {
+        if (albumArtFilePng.exists()) {
             try {
-                customAlbumArt = new ImageIcon(ImageIO.read(albumArtFile));
+                customAlbumArt = new ImageIcon(ImageIO.read(albumArtFilePng));
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        } else if (albumArtFileJpg.exists()) {
+            try {
+                customAlbumArt = new ImageIcon(ImageIO.read(albumArtFileJpg));
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1072,8 +1086,18 @@ public class AudioPlayer {
         ConsoleFrame.INSTANCE.revalidateMenu();
     }
 
+    /**
+     * Termiantes the current ScrollingTitleLabel object controlling the title label
+     * in the title label container and creates a new instance based on the current audio file's title.
+     */
     private static final void refreshAudioTitleLabel() {
-        // todo
+        if (scrollingTitleLabel != null) {
+            scrollingTitleLabel.kill();
+            scrollingTitleLabel = null;
+        }
+
+        scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel,
+                StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile)));
     }
 
     private static final void refreshAudioFiles() {
@@ -1104,6 +1128,9 @@ public class AudioPlayer {
         return audioPlayerFrame != null;
     }
 
+    /**
+     * Refreshes the audio volume based on the audio volume slider.
+     */
     public static void refreshAudioLine() {
         try {
             if (AudioSystem.isLineSupported(Port.Info.SPEAKER)) {
@@ -1173,12 +1200,12 @@ public class AudioPlayer {
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
     private static void playAudio() {
-        // todo what if for some reason already playing audio?
+        // audio should never be playing when this method is invoked
+        Preconditions.checkArgument(!isAudioPlaying());
 
         CyderThreadRunner.submit(() -> {
             try {
-                scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel,
-                        StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile)));
+                refreshAudioTitleLabel();
 
                 fis = new FileInputStream(currentAudioFile);
                 bis = new BufferedInputStream(fis);
@@ -1308,9 +1335,10 @@ public class AudioPlayer {
         Objects.requireNonNull(audioLocationUpdator).kill();
         audioLocationUpdator = null;
 
-        // todo title label animator
-
-        // todo end all executors and reset to initial state
+        if (scrollingTitleLabel != null) {
+            scrollingTitleLabel.kill();
+            scrollingTitleLabel = null;
+        }
     }
 
     /*
@@ -1482,11 +1510,11 @@ public class AudioPlayer {
                 int parentWidth = effectLabel.getParent().getWidth();
                 int parentHeight = effectLabel.getParent().getHeight();
 
-                int minWidth = StringUtil.getMinWidth(localTitle, effectLabel.getFont());
-                int minHeight = StringUtil.getMinHeight(localTitle, effectLabel.getFont());
-                effectLabel.setSize(minWidth, parentHeight);
+                int textWidth = StringUtil.getMinWidth(localTitle, effectLabel.getFont());
+                int textHeight = StringUtil.getMinHeight(localTitle, effectLabel.getFont());
+                effectLabel.setSize(textWidth, parentHeight);
 
-                if (minWidth - 12 > parentWidth) {
+                if (textWidth > parentWidth) {
                     effectLabel.setLocation(0,0);
 
                     CyderThreadRunner.submit(() -> {
@@ -1496,7 +1524,7 @@ public class AudioPlayer {
                             while (!killed.get()) {
                                 int goBack = 0;
 
-                                while (goBack < minWidth - parentWidth) {
+                                while (goBack < textWidth - parentWidth) {
                                     if (killed.get()) {
                                         break;
                                     }
@@ -1526,8 +1554,8 @@ public class AudioPlayer {
                     },"AUDIO TITLE HERE");
                 } else {
                     effectLabel.setLocation(
-                            parentWidth / 2 - minWidth / 2,
-                            parentHeight / 2 - minHeight / 2);
+                            parentWidth / 2 - textWidth / 2,
+                            parentHeight / 2 - textHeight / 2);
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

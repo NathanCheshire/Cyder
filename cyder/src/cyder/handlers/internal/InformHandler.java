@@ -15,6 +15,9 @@ import cyder.utilities.UserUtil;
 import cyder.utilities.objects.BoundsString;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Information frames throughout Cyder.
@@ -143,9 +146,22 @@ public class InformHandler {
             }
         }
 
+        Component relativeTo = builder.getRelativeTo();
+
+        // if intended to disable relative to
+        if (relativeTo != null && builder.isDisableRelativeTo()) {
+            relativeTo.setEnabled(false);
+            informFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    relativeTo.setEnabled(true);
+                }
+            });
+        }
+
         informFrame.setVisible(true);
         informFrame.setAlwaysOnTop(true);
-        informFrame.setLocationRelativeTo(builder.getRelativeTo());
+        informFrame.setLocationRelativeTo(relativeTo);
 
         Logger.log(LoggerTag.UI_ACTION, "[INFORMATION PANE] text = \""
                 + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
