@@ -14,6 +14,8 @@ import cyder.utilities.objects.GetterBuilder;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -159,8 +161,20 @@ public class GetterUtil {
                             "NULL" : inputField.getText()));
                 });
 
+                Component relativeTo = builder.getRelativeTo();
+
+                if (relativeTo != null && builder.isDisableRelativeTo()) {
+                    relativeTo.setEnabled(false);
+                    inputFrame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            relativeTo.setEnabled(true);
+                        }
+                    });
+                }
+
                 inputFrame.setAlwaysOnTop(true);
-                inputFrame.setLocationRelativeTo(builder.getRelativeTo());
+                inputFrame.setLocationRelativeTo(relativeTo);
                 inputFrame.setVisible(true);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -353,7 +367,19 @@ public class GetterUtil {
                 tempLabel.setBounds(10,90,600, 400);
                 refFrame.getContentPane().add(tempLabel);
 
-                refFrame.setLocationRelativeTo(builder.getRelativeTo());
+                Component relativeTo = builder.getRelativeTo();
+
+                if (relativeTo != null && builder.isDisableRelativeTo()) {
+                    relativeTo.setEnabled(false);
+                    refFrame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            relativeTo.setEnabled(true);
+                        }
+                    });
+                }
+
+                refFrame.setLocationRelativeTo(relativeTo);
                 refFrame.setVisible(true);
 
                 refFrame.notify("Loading files...");
@@ -411,8 +437,9 @@ public class GetterUtil {
         }, " getFile() thread, title = [" + builder.getTitle() + "]");
 
         try {
-            while (setOnFileChosen.get() == null)
+            while (setOnFileChosen.get() == null) {
                 Thread.onSpinWait();
+            }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         } finally {
@@ -515,6 +542,7 @@ public class GetterUtil {
      */
     public boolean getConfirmation(GetterBuilder builder) {
         AtomicReference<Boolean> ret = new AtomicReference<>();
+        ret.set(null);
         AtomicReference<CyderFrame> frameReference = new AtomicReference<>();
 
         CyderThreadRunner.submit(() -> {
@@ -555,7 +583,19 @@ public class GetterUtil {
                 no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(no);
 
-                frame.setLocationRelativeTo(builder.getRelativeTo());
+                Component relativeTo = builder.getRelativeTo();
+
+                if (relativeTo != null && builder.isDisableRelativeTo()) {
+                    relativeTo.setEnabled(false);
+                    frame.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            relativeTo.setEnabled(true);
+                        }
+                    });
+                }
+
+                frame.setLocationRelativeTo(relativeTo);
                 frame.setVisible(true);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);

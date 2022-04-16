@@ -50,7 +50,8 @@ public class NotesWidget {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     } //no objects
 
-    @Widget(triggers = {"note", "notes"}, description = "A note taking widget that can save and display multiple notes")
+    @Widget(triggers = {"note", "notes"}, description
+            = "A note taking widget that can save and display multiple notes")
     public static void showGUI() {
         
 
@@ -303,7 +304,8 @@ public class NotesWidget {
 
                     //add closing confirmation if changes are not saved
                     if (!noteEditArea.getText().contentEquals(contents))
-                        noteEditorFrame.setClosingConfirmation("Are you sure you wish to exit? Any unsaved work will be lost.");
+                        noteEditorFrame.setClosingConfirmation("Are you sure you wish to exit?" +
+                                " Any unsaved work will be lost.");
                     else
                         noteEditorFrame.removeClosingConfirmation();
                 } catch (Exception ex) {
@@ -371,7 +373,8 @@ public class NotesWidget {
                 //saved so remove closing confirmation
                 noteEditorFrame.removeClosingConfirmation();
 
-                if (!noteEditField.getText().isEmpty() && !FileUtil.getFilename(currentUserNote).equals(noteEditField.getText().trim())) {
+                if (!noteEditField.getText().isEmpty() && !FileUtil.getFilename(currentUserNote)
+                        .equals(noteEditField.getText().trim())) {
                     File newName = new File(currentUserNote.getAbsolutePath().replace(
                             currentUserNote.getName(),noteEditField.getText().trim() + ".txt"));
                     boolean updated = File.renameTo(newName);
