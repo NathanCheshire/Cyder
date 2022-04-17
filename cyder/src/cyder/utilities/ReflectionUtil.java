@@ -3,9 +3,7 @@ package cyder.utilities;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
-import cyder.annotations.ManualTest;
-import cyder.annotations.SuppressCyderInspections;
-import cyder.annotations.Widget;
+import cyder.annotations.*;
 import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
@@ -344,6 +342,45 @@ public class ReflectionUtil {
                     }
 
                     foundTriggers.add(trigger);
+                }
+            }
+        }
+    }
+
+    /**
+     * Validates all widgets annotated with with {@link cyder.annotations.Vanilla} annotation.
+     */
+    public static void validateVanilla() {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> classer = classInfo.load();
+
+            for (Method m : classer.getMethods()) {
+                if (m.isAnnotationPresent(Vanilla.class)) {
+                    if (m.isAnnotationPresent(SuppressCyderInspections.class)) {
+                        String[] values = m.getAnnotation(SuppressCyderInspections.class).values();
+
+                        // if set to ignore, go to next method.
+                        if (StringUtil.in("VanillaInspection", true, values)) {
+                            continue;
+                        }
+                    }
+
+                    if (!m.getName().toLowerCase().endsWith("Widget")) {
+                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not end" +
+                                " with Widget; name: " + m.getName());
+                    }
+
+                    if (!m.isAnnotationPresent(CyderAuthor.class)) {
+                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
+                                " a corresponding @CyderAuthor author");
+                    } else {
+                        String author = m.getAnnotation(CyderAuthor.class).author();
+
+                        if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
+                            Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
+                                    " Nathan Cheshire as an author");
+                        }
+                    }
                 }
             }
         }

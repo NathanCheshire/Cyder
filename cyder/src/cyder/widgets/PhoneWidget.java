@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -13,6 +14,7 @@ import cyder.utilities.IOUtil;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+@Vanilla
 public class PhoneWidget {
     private static JLabel numberLabel;
     private static String phoneNum;

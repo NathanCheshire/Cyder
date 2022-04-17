@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.*;
 import cyder.exceptions.IllegalMethodException;
@@ -20,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+@Vanilla
 public class FileSignatureWidget {
     private static File currentFile;
     private static CyderFrame signatureFrame;

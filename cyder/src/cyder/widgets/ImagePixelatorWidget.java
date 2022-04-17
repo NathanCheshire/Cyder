@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -27,6 +28,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+@Vanilla
 public class ImagePixelatorWidget {
     private static ImageIcon displayIcon;
     private static ImageIcon originalIcon;

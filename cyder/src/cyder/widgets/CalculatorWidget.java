@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -20,6 +21,7 @@ import java.awt.*;
 /**
  * A calculator widget to parse mathematical expressions.
  */
+@Vanilla
 public class CalculatorWidget {
     private static CyderTextField resultField;
     private static CyderTextField calculatorField;

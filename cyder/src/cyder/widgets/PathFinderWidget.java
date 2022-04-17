@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
@@ -23,6 +24,7 @@ import java.util.concurrent.Semaphore;
  * A pathfinding widget to visualize Dijkstras path finding algorithm and the A* algorithm
  * with Euclidean distance and Manhattan distance as valid A* heuristics.
  */
+@Vanilla
 public class PathFinderWidget {
     /**
      * Whether the animation is currently running.

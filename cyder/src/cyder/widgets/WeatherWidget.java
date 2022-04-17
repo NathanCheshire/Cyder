@@ -2,6 +2,7 @@ package cyder.widgets;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -30,6 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+@Vanilla
 public class WeatherWidget {
     private JLabel locationLabel;
     private JLabel currentWeatherLabel;

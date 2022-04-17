@@ -3,6 +3,7 @@ package cyder.widgets;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import cyder.annotations.SuppressCyderInspections;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
@@ -31,6 +32,7 @@ import java.util.LinkedList;
 /**
  * Conway's game of life visualizer.
  */
+@Vanilla
 public class GameOfLifeWidget {
     /**
      * The game of life frame.

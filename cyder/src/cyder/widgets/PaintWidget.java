@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
@@ -33,6 +34,7 @@ import java.util.LinkedList;
 /**
  * A painting widget, not currently intended to be able to edit/markup images.
  */
+@Vanilla
 public class PaintWidget {
     /**
      * The length of the frame.

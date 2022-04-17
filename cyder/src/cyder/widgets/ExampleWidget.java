@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.annotations.SuppressCyderInspections;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
@@ -8,6 +9,7 @@ import cyder.ui.CyderButton;
 import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 
+@Vanilla
 public class ExampleWidget {
     private ExampleWidget() {
         Logger.log(LoggerTag.OBJECT_CREATION, this);

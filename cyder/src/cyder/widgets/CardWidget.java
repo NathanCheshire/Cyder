@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import cyder.annotations.SuppressCyderInspections;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -26,6 +27,7 @@ import java.awt.*;
  * Additionally, make sure to tag your card with an @Widget annotation as well as a
  * {@code @SuppressCyderInspections} annotation to avoid false warnings.
  */
+@Vanilla
 public class CardWidget {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame christmas2021Frame;

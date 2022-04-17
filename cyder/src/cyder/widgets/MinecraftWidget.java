@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
@@ -15,6 +16,7 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+@Vanilla
 public class MinecraftWidget {
     private static CyderFrame minecraftFrame;
     private static JLabel realmsLabel;

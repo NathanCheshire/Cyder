@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
@@ -22,6 +23,7 @@ import static cyder.constants.CyderColors.navy;
 /**
  * A widget for converting between rgb and hex colors.
  */
+@Vanilla
 public class ColorConverterWidget {
     public static ColorConverterWidget getInstance() {
         return new ColorConverterWidget();

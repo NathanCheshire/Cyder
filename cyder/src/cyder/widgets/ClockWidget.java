@@ -1,6 +1,7 @@
 package cyder.widgets;
 
 import com.google.gson.Gson;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -33,6 +34,7 @@ import java.util.TimeZone;
 /**
  * A clock widget for displaying the current time in a fancy and minimalistic format.
  */
+@Vanilla
 public class ClockWidget {
     /**
      * Suppress default constructor.
