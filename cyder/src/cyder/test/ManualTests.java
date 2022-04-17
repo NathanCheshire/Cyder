@@ -800,7 +800,7 @@ public class ManualTests {
      * onto an inform pane custom container test.
      */
     @ManualTest(trigger = "disable relative to test")
-    public static void testInformDisableRelativeTo() {
+    public static void informDisableRelativeToTest() {
         CyderFrame testFrame = new CyderFrame(400,400);
         testFrame.setTitle("Disable RelativeTo test");
 

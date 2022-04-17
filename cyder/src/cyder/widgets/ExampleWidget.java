@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -10,6 +11,7 @@ import cyder.ui.CyderDragLabel;
 import cyder.ui.CyderFrame;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class ExampleWidget {
     private ExampleWidget() {
         Logger.log(LoggerTag.OBJECT_CREATION, this);

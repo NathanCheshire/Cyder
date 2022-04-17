@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
  * A widget for computing the hash of strings.
  */
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class HashingWidget {
     /**
      * The hash frame.

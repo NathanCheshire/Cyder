@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -24,6 +25,7 @@ import java.util.Random;
  * A visualizer for two dimensional perlin-noise and three-dimensional open simplex noise.
  */
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class PerlinWidget {
     /**
      * Prevent illegal class instantiation.

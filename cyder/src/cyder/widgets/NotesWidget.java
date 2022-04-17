@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -29,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class NotesWidget {
     //main frame
     private static CyderFrame noteFrame;

@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -15,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class PhoneWidget {
     private static JLabel numberLabel;
     private static String phoneNum;

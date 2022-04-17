@@ -352,34 +352,32 @@ public class ReflectionUtil {
      */
     public static void validateVanilla() {
         for (ClassPath.ClassInfo classInfo : cyderClasses) {
-            Class<?> classer = classInfo.load();
+            Class<?> clazz = classInfo.load();
+            
+            if (clazz.isAnnotationPresent(Vanilla.class)) {
+                if (clazz.isAnnotationPresent(SuppressCyderInspections.class)) {
+                    String[] values = clazz.getAnnotation(SuppressCyderInspections.class).values();
 
-            for (Method m : classer.getMethods()) {
-                if (m.isAnnotationPresent(Vanilla.class)) {
-                    if (m.isAnnotationPresent(SuppressCyderInspections.class)) {
-                        String[] values = m.getAnnotation(SuppressCyderInspections.class).values();
-
-                        // if set to ignore, go to next method.
-                        if (StringUtil.in("VanillaInspection", true, values)) {
-                            continue;
-                        }
+                    // if set to ignore, go to next class
+                    if (StringUtil.in("VanillaInspection", true, values)) {
+                        continue;
                     }
+                }
 
-                    if (!m.getName().toLowerCase().endsWith("Widget")) {
-                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not end" +
-                                " with Widget; name: " + m.getName());
-                    }
+                if (!clazz.getName().toLowerCase().endsWith("widget")) {
+                    Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not end" +
+                            " with Widget; name: " + clazz.getName());
+                }
 
-                    if (!m.isAnnotationPresent(CyderAuthor.class)) {
+                if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
+                    Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
+                            " a @CyderAuthor annotation");
+                } else {
+                    String author = clazz.getAnnotation(CyderAuthor.class).author();
+
+                    if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
                         Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
-                                " a corresponding @CyderAuthor author");
-                    } else {
-                        String author = m.getAnnotation(CyderAuthor.class).author();
-
-                        if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
-                            Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
-                                    " Nathan Cheshire as an author");
-                        }
+                                " Nathan Cheshire as an author");
                     }
                 }
             }

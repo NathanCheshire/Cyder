@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -18,6 +19,7 @@ import java.util.*;
  * Convexhull widget that solve a convexhull problem using a CyderGrid as the drawing label.
  */
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class ConvexHullWidget {
     /**
      * The CyderFrame to use for the convex hull widget.

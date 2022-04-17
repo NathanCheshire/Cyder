@@ -1548,7 +1548,7 @@ public class AudioPlayer {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    },"AUDIO TITLE HERE");
+                    },"Scrolling title label animator [" + audioTitleLabel.getText() + "]");
                 } else {
                     effectLabel.setLocation(
                             parentWidth / 2 - textWidth / 2,

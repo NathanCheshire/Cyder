@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class PizzaWidget {
     private static CyderFrame pizzaFrame;
     private static CyderTextField nameField;

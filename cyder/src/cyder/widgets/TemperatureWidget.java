@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -17,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class TemperatureWidget {
     private CyderFrame temperatureFrame;
     private CyderTextField startingValue;

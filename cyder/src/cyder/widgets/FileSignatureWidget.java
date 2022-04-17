@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.*;
@@ -22,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class FileSignatureWidget {
     private static File currentFile;
     private static CyderFrame signatureFrame;

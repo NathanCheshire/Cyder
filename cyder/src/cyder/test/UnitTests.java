@@ -250,7 +250,6 @@ public class UnitTests {
                 "&maxResults=20&q=helloworld&type=video&key=AI"));
 
         query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello ''\\() world");
-        System.out.println(query);
         assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
                 "&maxResults=20&q=hello%20world&type=video&key=AI"));
 

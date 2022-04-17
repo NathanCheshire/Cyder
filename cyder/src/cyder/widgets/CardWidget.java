@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
@@ -28,6 +29,7 @@ import java.awt.*;
  * {@code @SuppressCyderInspections} annotation to avoid false warnings.
  */
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class CardWidget {
     private static CyderFrame christmas2020Frame;
     private static CyderFrame christmas2021Frame;

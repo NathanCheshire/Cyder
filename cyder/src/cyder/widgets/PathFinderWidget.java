@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -25,6 +26,7 @@ import java.util.concurrent.Semaphore;
  * with Euclidean distance and Manhattan distance as valid A* heuristics.
  */
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class PathFinderWidget {
     /**
      * Whether the animation is currently running.

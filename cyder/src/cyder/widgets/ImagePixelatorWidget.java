@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -29,6 +30,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class ImagePixelatorWidget {
     private static ImageIcon displayIcon;
     private static ImageIcon originalIcon;

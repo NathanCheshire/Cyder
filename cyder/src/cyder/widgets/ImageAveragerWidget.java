@@ -1,5 +1,6 @@
 package cyder.widgets;
 
+import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -35,6 +36,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
  * A widget to average images together.
  */
 @Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class ImageAveragerWidget {
     /**
      * The list of selected files to average together.
