@@ -51,7 +51,7 @@ public class ManualTests {
             try {
                 // AudioPlayer.showGUI(AudioPlayer.DEFAULT_AUDIO_FILE);
 
-                Future<Boolean> downloaded = AudioUtil.downloadYoutubeDl();
+                Future<Boolean> downloaded = AudioUtil.downloadFfmpegStack();
 
                 while (!downloaded.isDone()) {
                     Thread.onSpinWait();

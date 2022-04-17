@@ -11,6 +11,7 @@ import cyder.threads.CyderThreadFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -33,6 +34,16 @@ public class AudioUtil {
      * The primary name for the ffmpeg binary.
      */
     public static final String FFMPEG = "ffmpeg";
+
+    /**
+     * The primary name for the ffprobe binary.
+     */
+    public static final String FFPROBE = "ffprobe";
+
+    /**
+     * The primary name for the ffplay binary.
+     */
+    public static final String FFPLAY = "ffplay";
 
     /**
      * Suppress default constructor.
@@ -346,15 +357,64 @@ public class AudioUtil {
     public static Future<Boolean> downloadFfmpegStack() {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Ffmpeg Downloader")).submit(() -> {
-            // download zips
+            // an anonymous inner class to quickly link a file with a url
+            class PairedFile {
+                public final File file;
+                public final String url;
 
-            // extract zips
+                public PairedFile(File file, String url) {
+                    this.file = file;
+                    this.url = url;
+                }
+            }
 
-            // delete old zips
+            ArrayList<PairedFile> downloadZips = new ArrayList<>();
+            downloadZips.add(new PairedFile(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(),
+                    FFMPEG + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFMPEG));
+            downloadZips.add(new PairedFile(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(),
+                    FFPROBE + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFPROBE));
+            downloadZips.add(new PairedFile(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(),
+                    FFPLAY + ".zip"), CyderUrls.DOWNLOAD_RESOURCE_FFPLAY));
 
-            // ensure all binaries present
+            for (PairedFile pairedZipFile : downloadZips) {
+                NetworkUtil.downloadResource(pairedZipFile.url, pairedZipFile.file);
 
-            return false;
+                while (!pairedZipFile.file.exists()) {
+                    Thread.onSpinWait();
+                }
+
+                File extractFolder =  OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.EXES.getDirectoryName());
+
+                FileUtil.unzip(zipFile, extractFolder);
+                //OSUtil.delete(zipFile);
+            }
+
+            ArrayList<File> resultingFiles = new ArrayList<>();
+            resultingFiles.add(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(), FFMPEG + ".exe"));
+            resultingFiles.add(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(), FFPROBE + ".exe"));
+            resultingFiles.add(OSUtil.buildFile(
+                    DynamicDirectory.DYNAMIC_PATH,
+                    DynamicDirectory.EXES.getDirectoryName(), FFPLAY + ".exe"));
+
+            boolean ret = true;
+
+            for (File file : resultingFiles) {
+                ret = ret && file.exists();
+            }
+
+            return ret;
         });
     }
 
