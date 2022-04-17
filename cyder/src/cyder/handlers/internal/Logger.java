@@ -590,7 +590,7 @@ public class Logger {
                 if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
                     OSUtil.delete(subLogDir);
                 } else {
-                    OSUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip");
+                    FileUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip");
                 }
             }
         }

@@ -268,4 +268,32 @@ public class CyderUrls {
      * The header used for obtaining a youtube video's highest resolution thumbanil.
      */
     public static final String YOUTUBE_THUMBNAIL_BASE = "https://img.youtube.com/vi/";
+
+    /*
+    Binary and resource Url links.
+     */
+
+    /**
+     * The resource link to download the ffmpeg binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_FFMPEG
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffmpeg.zip";
+
+    /**
+     * The resource link to download the ffplay binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_FFPLAY
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffplay.zip";
+
+    /**
+     * The resource link to download the ffprobe binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_FFPROBE
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/ffprobe.zip";
+
+    /**
+     * The resource link to download the youtube-dl binary.
+     */
+    public static final String DOWNLOAD_RESOURCE_YOUTUBE_DL
+            = "https://github.com/NathanCheshire/Cyder/raw/main/resources/youtube-dl.zip";
 }

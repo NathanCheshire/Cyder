@@ -170,7 +170,7 @@ public class NetworkUtil {
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             sb = new StringBuilder();
             int read;
-            char[] chars = new char[1024];
+            char[] chars = new char[BUFFER_SIZE];
 
             while ((read = reader.read(chars)) != -1)
                 sb.append(chars, 0, read);
@@ -215,6 +215,11 @@ public class NetworkUtil {
     }
 
     /**
+     * The size of the buffer when downloading resources from a Url or reading a Url.
+     */
+    public static final int BUFFER_SIZE = 1024;
+
+    /**
      * Downloads the resource at the provided link and save it to the provided file.
      *
      * @param urlResource the link to download the file from
@@ -239,10 +244,10 @@ public class NetworkUtil {
         try (BufferedInputStream in = new BufferedInputStream(new URL(urlResource).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream(referenceFile)) {
 
-            byte[] dataBuffer = new byte[1024];
+            byte[] dataBuffer = new byte[BUFFER_SIZE];
             int bytesRead;
 
-            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+            while ((bytesRead = in.read(dataBuffer, 0, BUFFER_SIZE)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
             }
         } catch (IOException e) {
