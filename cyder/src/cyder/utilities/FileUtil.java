@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -301,6 +302,7 @@ public class FileUtil {
      * @param destinationFolder the folder to save the contents of the zip to
      * @return whether the unzipping process was successful
      */
+    @CanIgnoreReturnValue /* some callers don't care */
     public static boolean unzip(File sourceZip, File destinationFolder) {
         checkNotNull(sourceZip);
         checkNotNull(destinationFolder);

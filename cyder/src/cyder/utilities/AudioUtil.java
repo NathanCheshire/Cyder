@@ -393,8 +393,8 @@ public class AudioUtil {
                         DynamicDirectory.DYNAMIC_PATH,
                         DynamicDirectory.EXES.getDirectoryName());
 
-                FileUtil.unzip(zipFile, extractFolder);
-                //OSUtil.delete(zipFile);
+                FileUtil.unzip(pairedZipFile.file, extractFolder);
+                OSUtil.delete(pairedZipFile.file);
             }
 
             ArrayList<File> resultingFiles = new ArrayList<>();
