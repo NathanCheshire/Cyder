@@ -321,7 +321,7 @@ public class GetterUtil {
                 last.setBorder(new LineBorder(CyderColors.navy,5,false));
                 last.addActionListener(e -> {
                     //we may only go back if there's something in the back and it's different from where we are now
-                    if (backward != null && !backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
+                    if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
                         //traversing so push where we are to forward
                         forward.push(currentDirectory);
 
@@ -344,7 +344,7 @@ public class GetterUtil {
                 next.setBorder(new LineBorder(CyderColors.navy,5,false));
                 next.addActionListener(e -> {
                     //only traverse forward if the stack is not empty and forward is different from where we are
-                    if (forward != null && !forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
+                    if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
                         //push where we are
                         backward.push(currentDirectory);
 
@@ -430,6 +430,8 @@ public class GetterUtil {
                     dirFieldRef.get().requestFocus();
 
                     refFrame.revokeAllNotifications();
+
+                    backward.push(currentDirectory);
                 }, "File Getter Loader");
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
