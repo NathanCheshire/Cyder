@@ -46,8 +46,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-// todo get file navigation is broken
-
 // todo views should slide in and out like StraightShot
 // maybe whole content pane should have elements placed, sliding should be from the right and then back to left
 
