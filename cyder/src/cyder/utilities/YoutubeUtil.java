@@ -556,4 +556,39 @@ public class YoutubeUtil {
             return matcher.group();
         } else throw new IllegalArgumentException("No UUID found in provided string: " + youtubeURL);
     }
+
+    /**
+     * Constructs the url to query YouTube with a specific string for video results.
+     *
+     * @param numResults the number of results to return (max 20 results per page)
+     * @param rawQuery the raw search query such as "blade parade"
+     * @return the constructed url to match the provided parameters
+     */
+    public static String buildYouTubeApiV3SearchQuery(int numResults, String rawQuery) {
+        Preconditions.checkArgument(numResults > 0 && numResults < 21);
+        Preconditions.checkNotNull(rawQuery);
+        Preconditions.checkArgument(!rawQuery.isEmpty());
+
+        String key = "AIzaSyBCMS61VbAx0PJUKwLsbtL3pcWGFu50ROc";
+
+        Preconditions.checkArgument(!StringUtil.isNull(key));
+
+        String base = "https://www.googleapis.com/youtube/v3/search?part=snippet";
+
+        String[] parts = rawQuery.split("\\s+");
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0 ; i < parts.length ; i++) {
+            String append = parts[i].replaceAll("[^0-9A-Za-z\\-._~%]+", "");
+            builder.append(append.trim());
+
+            if (i != parts.length - 1 && !append.isEmpty()) {
+                builder.append("%20");
+            }
+        }
+
+        return base + "&maxResults=" + numResults + "&q="
+                + builder + "&type=video" + "&key=" + key;
+    }
 }

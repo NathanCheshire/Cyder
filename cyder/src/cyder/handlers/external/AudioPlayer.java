@@ -46,8 +46,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=NUM_RESULTS&q=QUERY&type=video&key=APIKEY
-
 // todo get file navigation is broken
 // todo do we check for @ManualTest trigger collisions?
 

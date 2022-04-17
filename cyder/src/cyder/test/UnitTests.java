@@ -218,4 +218,51 @@ public class UnitTests {
         assertEquals(AudioUtil.formatSeconds(3601), "1h 1s");
         assertEquals(AudioUtil.formatSeconds(3661), "1h 1m 1s");
     }
+
+    @Test
+    public void testYouTubeVideoQueryConstruction() {
+        String query = YoutubeUtil.buildYouTubeApiV3SearchQuery(1, "hello world");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                                "&maxResults=1&q=hello%20world&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(15, "hello world");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=15&q=hello%20world&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello world");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=20&q=hello%20world&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello worldly");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=20&q=hello%20worldly&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=20&q=hello&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello      world");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=20&q=hello%20world&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "helloworld");
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=20&q=helloworld&type=video&key=AI"));
+
+        query = YoutubeUtil.buildYouTubeApiV3SearchQuery(20, "hello ''\\() world");
+        System.out.println(query);
+        assertTrue(query.startsWith("https://www.googleapis.com/youtube/v3/search?part=snippet" +
+                "&maxResults=20&q=hello%20world&type=video&key=AI"));
+
+        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
+                .buildYouTubeApiV3SearchQuery(0, "hello world"));
+        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
+                .buildYouTubeApiV3SearchQuery(-1, "hello world"));
+        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
+                .buildYouTubeApiV3SearchQuery(21, "hello world"));
+        assertThrows(IllegalArgumentException.class, () -> YoutubeUtil
+                .buildYouTubeApiV3SearchQuery(10, ""));
+        assertThrows(NullPointerException.class, () -> YoutubeUtil
+                .buildYouTubeApiV3SearchQuery(10, null));
+    }
 }
