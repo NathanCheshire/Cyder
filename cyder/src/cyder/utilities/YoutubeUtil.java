@@ -43,7 +43,7 @@ public class YoutubeUtil {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    public static final String AUDIO_FORMAT = "mp3"; // todo preference
+    public static final String AUDIO_FORMAT = "mp3"; // todo preference switcher for wav vs mp3?
 
     /**
      * Downloads the youtube video with the provided url.
@@ -569,7 +569,7 @@ public class YoutubeUtil {
         Preconditions.checkNotNull(rawQuery);
         Preconditions.checkArgument(!rawQuery.isEmpty());
 
-        String key = "AIzaSyBCMS61VbAx0PJUKwLsbtL3pcWGFu50ROc";
+        String key = UserUtil.getCyderUser().getYouTubeAPI3Key();
 
         Preconditions.checkArgument(!StringUtil.isNull(key));
 

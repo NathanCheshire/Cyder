@@ -124,7 +124,7 @@ public class DirectoryViewer {
                 currentDirectory = backward.pop();
 
                 //now simply refresh based on currentDir
-                refreshBasedOnDir(null, false);
+                refreshBasedOnDir(currentDirectory, false);
             }
         });
         last.setBounds(10,40,40,40);
@@ -146,7 +146,7 @@ public class DirectoryViewer {
                 currentDirectory = forward.pop();
 
                 //refresh based on where we should go
-                refreshBasedOnDir(null, false);
+                refreshBasedOnDir(currentDirectory, false);
             }
         });
         next.setBounds(620 - 50,40,40, 40);
