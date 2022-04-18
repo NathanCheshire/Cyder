@@ -45,6 +45,8 @@ public class ReflectionUtil {
      * @return the string representation of the object
      */
     private static String buildGetterString(Object obj) {
+        Preconditions.checkNotNull(obj);
+
         StringBuilder ret = new StringBuilder();
 
         ret.append("class = ");
@@ -104,8 +106,9 @@ public class ReflectionUtil {
     public static String commonCyderToString(Object obj) {
         String reflectedFields = buildGetterString(obj);
 
-        if (reflectedFields == null || reflectedFields.isEmpty())
+        if (reflectedFields == null || reflectedFields.isEmpty()) {
             reflectedFields = "No reflection data acquired";
+        }
 
         return getBottomLevelClass(obj.getClass()) + ", hash = " + obj.hashCode()
                 + ", reflection data = " + reflectedFields;
@@ -135,44 +138,44 @@ public class ReflectionUtil {
         String getTooltipResult = null;
 
         try {
-           for (Method method : obj.getClass().getMethods()) {
-               if (method.getName().startsWith("getText") && method.getParameterCount() == 0) {
-                   Object locGetText = method.invoke(obj);
+            for (Method method : obj.getClass().getMethods()) {
+                if (method.getName().startsWith("getText") && method.getParameterCount() == 0) {
+                    Object locGetText = method.invoke(obj);
 
-                   if (locGetText instanceof String) {
-                       String locGetTextString = (String) locGetText;
+                    if (locGetText instanceof String) {
+                        String locGetTextString = (String) locGetText;
 
-                       if (locGetTextString != null && !locGetTextString.isEmpty()
-                               && !locGetTextString.equalsIgnoreCase("null")) {
-                           getTextResult = locGetTextString;
-                       }
-                   }
-               } else if (method.getName().startsWith("getTooltipText") && method.getParameterCount() == 0) {
-                   Object locGetTooltipText = method.invoke(obj);
+                        if (locGetTextString != null && !locGetTextString.isEmpty()
+                                && !locGetTextString.equalsIgnoreCase("null")) {
+                            getTextResult = locGetTextString;
+                        }
+                    }
+                } else if (method.getName().startsWith("getTooltipText") && method.getParameterCount() == 0) {
+                    Object locGetTooltipText = method.invoke(obj);
 
-                   if (locGetTooltipText instanceof String) {
-                       String locGetTooltipTextString = (String) locGetTooltipText;
+                    if (locGetTooltipText instanceof String) {
+                        String locGetTooltipTextString = (String) locGetTooltipText;
 
-                       if (locGetTooltipTextString != null && !locGetTooltipTextString.isEmpty()
-                               && !locGetTooltipTextString.equalsIgnoreCase("null")) {
-                           getTooltipResult = locGetTooltipTextString;
-                       }
-                   }
-               } else if (method.getName().startsWith("getTitle") && method.getParameterCount() == 0) {
-                   Object locGetTitle = method.invoke(obj);
+                        if (locGetTooltipTextString != null && !locGetTooltipTextString.isEmpty()
+                                && !locGetTooltipTextString.equalsIgnoreCase("null")) {
+                            getTooltipResult = locGetTooltipTextString;
+                        }
+                    }
+                } else if (method.getName().startsWith("getTitle") && method.getParameterCount() == 0) {
+                    Object locGetTitle = method.invoke(obj);
 
-                   if (locGetTitle instanceof String) {
-                       String locGetTitleString = (String) locGetTitle;
+                    if (locGetTitle instanceof String) {
+                        String locGetTitleString = (String) locGetTitle;
 
-                       if (locGetTitleString != null && !locGetTitleString.isEmpty()
-                               && !locGetTitleString.equalsIgnoreCase("null")) {
-                           getTitleResult = locGetTitleString;
-                       }
-                   }
-               }
-           }
+                        if (locGetTitleString != null && !locGetTitleString.isEmpty()
+                                && !locGetTitleString.equalsIgnoreCase("null")) {
+                            getTitleResult = locGetTitleString;
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
-           ExceptionHandler.handle(e);
+            ExceptionHandler.handle(e);
         }
 
         StringBuilder ret = new StringBuilder();
@@ -247,6 +250,11 @@ public class ReflectionUtil {
     }
 
     /**
+     * The standard primary method name for widget's @Widget annotated method.
+     */
+    public static final String STANDARD_WIDGET_SHOW_METHOD_NAME = "showGui";
+
+    /**
      * Finds all widgets within Cyder by looking for methods annotated with {@link Widget}.
      * The annotated method MUST take no parameters, be named "showGUI()",
      * contain a valid description, and contain at least one trigger.
@@ -267,16 +275,18 @@ public class ReflectionUtil {
                     if (m.isAnnotationPresent(SuppressCyderInspections.class))
                         suppressionValues = m.getAnnotation(SuppressCyderInspections.class).values();
 
-                    if (!m.getName().equals("showGUI")) {
-                        if (suppressionValues != null && StringUtil.in("WidgetInspection", false, suppressionValues))
+                    if (!m.getName().equals(STANDARD_WIDGET_SHOW_METHOD_NAME)) {
+                        if (suppressionValues != null && StringUtil.in("WidgetInspection",
+                                false, suppressionValues))
                             continue;
 
-                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Widget is not named" +
-                                " showGUI(); name: " + m.getName());
+                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Widget is not named " +
+                                STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
                     }
 
                     if (StringUtil.isNull(description)) {
-                        if (suppressionValues != null && StringUtil.in("WidgetInspection", false, suppressionValues))
+                        if (suppressionValues != null && StringUtil.in("WidgetInspection",
+                                false, suppressionValues))
                             continue;
 
                         throw new IllegalMethodException("Method annotated with @Widget has empty description");
@@ -290,7 +300,8 @@ public class ReflectionUtil {
                         if (StringUtil.isNull(trigger)) {
                             throw new IllegalMethodException("Method annotated with @Widget has an empty trigger");
                         } else if (trigger.contains(" ")) {
-                            if (suppressionValues != null && StringUtil.in("WidgetInspection", false, suppressionValues))
+                            if (suppressionValues != null && StringUtil.in("WidgetInspection",
+                                    false, suppressionValues))
                                 continue;
 
                             throw new IllegalMethodException("Method annotated with " +
@@ -328,7 +339,7 @@ public class ReflectionUtil {
                             continue;
 
                         Logger.log(LoggerTag.DEBUG, "Method annotated with @ManualTest does not end" +
-                                " with test; name: " + m.getName());
+                                " with \"test\"; name: " + m.getName());
                     }
 
                     if (StringUtil.isNull(trigger)) {
@@ -353,7 +364,7 @@ public class ReflectionUtil {
     public static void validateVanilla() {
         for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> clazz = classInfo.load();
-            
+
             if (clazz.isAnnotationPresent(Vanilla.class)) {
                 if (clazz.isAnnotationPresent(SuppressCyderInspections.class)) {
                     String[] values = clazz.getAnnotation(SuppressCyderInspections.class).values();
@@ -416,27 +427,30 @@ public class ReflectionUtil {
      * @return whether a widget was opened
      */
     public static boolean openWidget(String trigger) {
-        for (ClassPath.ClassInfo classInfo : cyderClasses) {
-            Class<?> classer = classInfo.load();
+        Preconditions.checkNotNull(trigger);
+        Preconditions.checkArgument(!trigger.isEmpty());
 
-            for (Method m : classer.getMethods()) {
+        for (ClassPath.ClassInfo classInfo : cyderClasses) {
+            Class<?> clazz = classInfo.load();
+
+            for (Method m : clazz.getMethods()) {
                 if (m.isAnnotationPresent(Widget.class)) {
                     String[] widgetTriggers = m.getAnnotation(Widget.class).triggers();
 
                     for (String widgetTrigger : widgetTriggers) {
                         if (widgetTrigger.equalsIgnoreCase(trigger)) {
-                            String shortWidgetName = getBottomLevelClass(classer);
+                            String shortWidgetName = getBottomLevelClass(clazz);
                             ConsoleFrame.INSTANCE.getInputHandler().println("Opening widget: " + shortWidgetName);
                             try {
                                 if (m.getParameterCount() == 0) {
-                                    m.invoke(classer);
+                                    m.invoke(clazz);
 
                                     Logger.log(LoggerTag.WIDGET_OPENED,
                                             shortWidgetName + ", trigger = " + trigger);
 
                                     return true;
-                                } else throw new IllegalStateException("Found widget showGUI()" +
-                                        " method with parameters: " + m.getName() + ", class: " + classer);
+                                } else throw new IllegalStateException("Found widget showGui()" +
+                                        " annotated method with parameters: " + m.getName() + ", class: " + clazz);
                             } catch (Exception e) {
                                 ExceptionHandler.handle(e);
                             }
@@ -454,6 +468,7 @@ public class ReflectionUtil {
      */
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Similar Command Finder"));
+    // todo will be removed after new ContextEngine and InputHandler implementation
 
     /**
      * Finds the most similar command to the unrecognized one the user provided.
@@ -468,7 +483,7 @@ public class ReflectionUtil {
             try {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
-                        OSUtil.buildPath("static","python","commandFinder.py"),
+                        OSUtil.buildPath("static", "python", "commandFinder.py"),
                         command, String.valueOf(OSUtil.JAR_MODE)};
                 Process proc = rt.exec(commands);
 
