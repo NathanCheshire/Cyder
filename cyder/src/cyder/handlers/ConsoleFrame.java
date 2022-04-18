@@ -856,35 +856,6 @@ public enum ConsoleFrame {
     private void startExecutors() {
         CyderThreadRunner.submit(() -> {
             try {
-                OUTER:
-                while (true) {
-                    if (!isClosed() && !NetworkUtil.decentPing()) {
-                        consoleCyderFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() +
-                                ", but I had trouble connecting to the internet.\n" +
-                                "As a result, some features have been restricted until a " +
-                                "stable connection can be established.");
-                        NetworkUtil.setHighLatency(true);
-                    } else {
-                        NetworkUtil.setHighLatency(false);
-                    }
-
-                    //sleep 2 minutes
-                    int i = 0;
-                    while (i < 2 * 60 * 1000) {
-                        Thread.sleep(50);
-                        if (consoleFrameClosed) {
-                            break OUTER;
-                        }
-                        i += 50;
-                    }
-                }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "High Ping Checker");
-
-        CyderThreadRunner.submit(() -> {
-            try {
                 int lastChimeHour = -1;
 
                 while (true) {

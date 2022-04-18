@@ -366,7 +366,7 @@ public class WeatherWidget {
         CyderThreadRunner.submit(() -> {
             try {
                 EXIT:
-                    for(;;) {
+                    for (;;) {
                         for (int i = 0 ; i < 60 * 5 ; i++) {
                             if (!update)
                                 break EXIT;

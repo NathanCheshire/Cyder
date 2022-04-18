@@ -1,11 +1,15 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
+import cyder.constants.CyderUrls;
+import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
+import cyder.threads.CyderThreadRunner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -48,11 +52,39 @@ public class NetworkUtil {
         NetworkUtil.highLatency = highLatency;
     }
 
-    public static void openUrl(String URL) {
+    static {
+        CyderThreadRunner.submit(() -> {
+            try {
+                for (;;) {
+                    if (!decentPing()) {
+                        setHighLatency(true);
+                    } else {
+                        setHighLatency(false);
+                    }
+
+                    // sleep 2 minutes
+                    Thread.sleep(1000 * 60 * 2);
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }, IgnoreThread.HighPingChecker.getName());
+    }
+
+    /**
+     * Opens the provided url using the native browser.
+     *
+     * @param url the url to open
+     */
+    public static void openUrl(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
         Desktop Internet = Desktop.getDesktop();
+
         try {
-            Internet.browse(new URI(URL));
-            Logger.log(LoggerTag.LINK, URL);
+            Internet.browse(new URI(url));
+            Logger.log(LoggerTag.LINK, url);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
@@ -61,14 +93,17 @@ public class NetworkUtil {
     /**
      * Attempts to ping the provided url until it responds.
      *
-     * @param URL the url to ping
+     * @param url the url to ping
      * @return whether the url responded
      */
-    public static boolean siteReachable(String URL) {
+    public static boolean siteReachable(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
         Process Ping;
 
         try {
-            Ping = java.lang.Runtime.getRuntime().exec("ping -n 1 " + URL);
+            Ping = java.lang.Runtime.getRuntime().exec("ping -n 1 " + url);
             int ReturnValue = Ping.waitFor();
             if (ReturnValue == 0) {
                 return false;
@@ -88,7 +123,7 @@ public class NetworkUtil {
      */
     public static int latency(int timeout) {
         Socket Sock = new Socket();
-        SocketAddress Address = new InetSocketAddress("www.google.com", 80);
+        SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, 80);
         long start = System.currentTimeMillis();
 
         try {
@@ -109,9 +144,14 @@ public class NetworkUtil {
         return Latency;
     }
 
+    /**
+     * Pings google to find the latency.
+     *
+     * @return the latency of the local internet connection to google.com
+     */
     public int latency() {
         Socket Sock = new Socket();
-        SocketAddress Address = new InetSocketAddress("www.google.com", 80);
+        SocketAddress Address = new InetSocketAddress(CyderUrls.GOOGLE, 80);
         int Timeout = 2000;
         long start = System.currentTimeMillis();
 
@@ -161,6 +201,9 @@ public class NetworkUtil {
      * @return the resulting url response
      */
     public static String readUrl(String urlString) {
+        Preconditions.checkNotNull(urlString);
+        Preconditions.checkArgument(!urlString.isEmpty());
+
         String ret = null;
         BufferedReader reader;
         StringBuilder sb = null;
@@ -187,14 +230,17 @@ public class NetworkUtil {
     /**
      * Returns the title of the provided url.
      *
-     * @param URL the url to get the title of.
+     * @param url the url to get the title of.
      * @return the title of the provided url
      */
-    public static String getURLTitle(String URL) {
+    public static String getURLTitle(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
         String ret = null;
 
         try {
-            Document document = Jsoup.connect(URL).get();
+            Document document = Jsoup.connect(url).get();
             ret = document.title();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -206,11 +252,14 @@ public class NetworkUtil {
     /**
      * Returns whether the provided url is constructed properly
      *
-     * @param URL the url to check for proper form
+     * @param url the url to check for proper form
      * @return whether the provided url is of a valid form
      */
-    public static boolean isURL(String URL) {
-        Matcher regexMatcher = CyderRegexPatterns.urlFormationPattern.matcher(URL);
+    public static boolean isURL(String url) {
+        Preconditions.checkNotNull(url);
+        Preconditions.checkArgument(!url.isEmpty());
+
+        Matcher regexMatcher = CyderRegexPatterns.urlFormationPattern.matcher(url);
         return regexMatcher.matches();
     }
 
@@ -222,11 +271,16 @@ public class NetworkUtil {
     /**
      * Downloads the resource at the provided link and save it to the provided file.
      *
-     * @param urlResource the link to download the file from
+     * @param urlResource   the link to download the file from
      * @param referenceFile the file to save the resource to
      * @return whether the downloading concluded without errors
      */
     public static boolean downloadResource(String urlResource, File referenceFile) {
+        Preconditions.checkNotNull(urlResource);
+        Preconditions.checkArgument(!urlResource.isEmpty());
+        Preconditions.checkNotNull(referenceFile);
+        Preconditions.checkArgument(!referenceFile.exists());
+
         if (referenceFile == null)
             throw new IllegalArgumentException("The provided reference file is null");
         if (urlResource == null || !isURL(urlResource))
@@ -257,4 +311,4 @@ public class NetworkUtil {
 
         return true;
     }
- }
+}
