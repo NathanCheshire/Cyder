@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -33,6 +34,9 @@ public class SecurityUtil {
      * @return the byte array representing the given char array
      */
     private static byte[] toBytes(char[] chars) {
+        Preconditions.checkNotNull(chars);
+        Preconditions.checkArgument(chars.length > 0);
+
         CharBuffer charBuffer = CharBuffer.wrap(chars);
         ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(charBuffer);
         byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
@@ -42,33 +46,56 @@ public class SecurityUtil {
         return bytes;
     }
 
+    /**
+     * Returns a byte array of the provided char array after hasing via the SHA256 algorithm.
+     *
+     * @param input the input char array
+     * @return the hashed character array converted to bytes
+     */
     public static byte[] getSHA256(char[] input) {
+        Preconditions.checkNotNull(input);
+        Preconditions.checkArgument(input.length > 0);
+
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             return md.digest(toBytes(input));
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
 
         return null;
     }
 
+    /**
+     * Returns a byte array of the provided char array after hasing via the SHA1 algorithm.
+     *
+     * @param input the input char array
+     * @return the hashed character array converted to bytes
+     */
     public static byte[] getSHA1(char[] input) {
+        Preconditions.checkNotNull(input);
+        Preconditions.checkArgument(input.length > 0);
+
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             return md.digest(toBytes(input));
-        }
-
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }
 
         return null;
     }
 
+    /**
+     * Returns a byte array of the provided char array after hasing via the MD5 algorithm.
+     *
+     * @param input the input char array
+     * @return the hashed character array converted to bytes
+     */
     public static byte[] getMD5(char[] input) {
+        Preconditions.checkNotNull(input);
+        Preconditions.checkArgument(input.length > 0);
+
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             return md.digest(toBytes(input));
@@ -79,7 +106,16 @@ public class SecurityUtil {
         return null;
     }
 
+    /**
+     * Returns a byte array of the provided byte array after hasing via the SHA256 algorithm.
+     *
+     * @param input the input char array
+     * @return the hashed character array converted to bytes
+     */
     public static byte[] getSHA256(byte[] input) {
+        Preconditions.checkNotNull(input);
+        Preconditions.checkArgument(input.length > 0);
+
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             return md.digest(input);
@@ -90,7 +126,16 @@ public class SecurityUtil {
         return null;
     }
 
+    /**
+     * Returns a string representing the byte array.
+     *
+     * @param hash the array of bytes
+     * @return a string representing the byte array
+     */
     public static String toHexString(byte[] hash) {
+        Preconditions.checkNotNull(hash);
+        Preconditions.checkArgument(hash.length > 0);
+
         BigInteger number = new BigInteger(1, hash);
         StringBuilder hexString = new StringBuilder(number.toString(16));
 
@@ -101,6 +146,12 @@ public class SecurityUtil {
         return hexString.toString();
     }
 
+    /**
+     * Returns a unique uuid using the sha256 algorithm and the
+     * standard {@link UUID#nameUUIDFromBytes(byte[])} method.
+     *
+     * @return a unique uuid
+     */
     public static String generateUUID() {
         try {
             MessageDigest salt = MessageDigest.getInstance("SHA-256");
