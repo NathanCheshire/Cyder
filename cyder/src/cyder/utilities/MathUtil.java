@@ -56,9 +56,9 @@ public class MathUtil {
     /**
      * Helper method for finding the lcm of an Array
      *
-     * @param arr the array to find the lcm of
+     * @param arr   the array to find the lcm of
      * @param start the starting index for the array
-     * @param end the ending index for the array
+     * @param end   the ending index for the array
      * @return the lcm of the provided array
      */
     private static int lcmArrayInner(int[] arr, int start, int end) {
@@ -77,7 +77,7 @@ public class MathUtil {
      *
      * @param v0 the first value
      * @param v1 the second value
-     * @param t the t value in the range [0,1]
+     * @param t  the t value in the range [0,1]
      * @return the linearly interpolated value
      */
     public static float lerp(float v0, float v1, float t) {
@@ -88,13 +88,13 @@ public class MathUtil {
      * Rotates the provided point by deg degrees in euclidean space.
      *
      * @param point the point to ratate
-     * @param deg the degrees to rotate the point by, counter-clockwise
+     * @param deg   the degrees to rotate the point by, counter-clockwise
      * @return the new point
      */
     public static Point rotatePoint(Point point, double deg) {
         double rad = Math.toRadians(deg);
         return new Point((int) (point.x * Math.cos(rad) - point.y * Math.sin(rad)),
-                         (int) (point.x * Math.sin(rad) + point.y * Math.cos(rad)));
+                (int) (point.x * Math.sin(rad) + point.y * Math.cos(rad)));
     }
 
     /**
@@ -105,7 +105,10 @@ public class MathUtil {
      * @return whether or not the rectangles intersect each other
      */
     public static boolean overlaps(Rectangle r1, Rectangle r2) {
-        return r2.x < r1.x + r1.width && r2.x + r2.width > r1.x && r2.y < r1.y + r1.height && r2.y + r2.height > r1.y;
+        return r2.x < r1.x + r1.width
+                && r2.x + r2.width > r1.x
+                && r2.y < r1.y + r1.height
+                && r2.y + r2.height > r1.y;
     }
 
     /**
@@ -114,7 +117,7 @@ public class MathUtil {
      * @param ints the array of ints
      * @return the minimum integer value found
      */
-    public static int min(int ... ints) {
+    public static int min(int... ints) {
         int min = Integer.MAX_VALUE;
 
         for (int i : ints)
@@ -123,5 +126,38 @@ public class MathUtil {
             }
 
         return min;
+    }
+
+    /**
+     * The number of degrees in a circle.
+     */
+    public static final int DEGREES_IN_CIRCLE = 360;
+
+    /**
+     * Converts the angle in degrees to standard form of being in the range [0, 360).
+     *
+     * @param angle the angle in degrees
+     * @return the angle in standrad form with rotations removed
+     */
+    public static int convertAngleToStdForm(int angle) {
+        angle += 360;
+
+        if (angle < 0) {
+            return angle + Math.abs((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+        } else {
+            return angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+        }
+    }
+
+    /**
+     * Converts the angle in degrees to standard form of being in the range [0, 360).
+     *
+     * @param angle the angle in degrees
+     * @return the angle in standrad form with rotations removed
+     */
+    public static double convertAngleToStdForm(double angle) {
+
+
+        return 0;
     }
 }

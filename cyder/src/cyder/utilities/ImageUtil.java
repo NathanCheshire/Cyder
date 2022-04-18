@@ -1,11 +1,13 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 
+import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +21,6 @@ import java.io.File;
  * Static utility methods revolving around Image manipulation.
  */
 public class ImageUtil {
-
     /**
      * Prevent class instantiation.
      */
@@ -31,7 +32,7 @@ public class ImageUtil {
      * Pixelates the provided bufferedImage.
      *
      * @param imageToPixelate the image to pixelate
-     * @param pixelSize the number of old pixels to represent a single new "pixel"
+     * @param pixelSize       the number of old pixels to represent a single new "pixel"
      * @return a buffered image in the same size as the original with new, bigger pixel blocks
      */
     public static BufferedImage pixelate(BufferedImage imageToPixelate, int pixelSize) {
@@ -45,9 +46,11 @@ public class ImageUtil {
                 BufferedImage croppedImage = getCroppedImage(imageToPixelate, x, y, pixelSize, pixelSize);
                 Color dominantColor = ColorUtil.getDominantColor(croppedImage);
 
-                for (int yd = y; (yd < y + pixelSize) && (yd < pixelateImage.getHeight()); yd++)
-                    for (int xd = x; (xd < x + pixelSize) && (xd < pixelateImage.getWidth()); xd++)
+                for (int yd = y; (yd < y + pixelSize) && (yd < pixelateImage.getHeight()); yd++) {
+                    for (int xd = x; (xd < x + pixelSize) && (xd < pixelateImage.getWidth()); xd++) {
                         pixelateImage.setRGB(xd, yd, dominantColor.getRGB());
+                    }
+                }
 
             }
         }
@@ -58,49 +61,40 @@ public class ImageUtil {
     /**
      * Crops the specified bufferedImage to the new bounds and returns a new buffered image.
      *
-     * @param image the buffered image to crop
-     * @param startx the starting x pixel within the image
-     * @param starty the starting y pixel within the image
-     * @param width the width of the new image
+     * @param image  the buffered image to crop
+     * @param x      the starting x pixel within the image
+     * @param y      the starting y pixel within the image
+     * @param width  the width of the new image
      * @param height the height of the new image
      * @return the requested cropped image
      */
-    public static BufferedImage getCroppedImage(BufferedImage image, int startx, int starty, int width, int height) {
-        if (startx < 0)
-            startx = 0;
+    public static BufferedImage getCroppedImage(BufferedImage image,
+                                                int x, int y, int width, int height) {
+        Preconditions.checkNotNull(image);
+        Preconditions.checkArgument(x >= 0);
+        Preconditions.checkArgument(y >= 0);
+        Preconditions.checkArgument(width <= image.getWidth());
+        Preconditions.checkArgument(height <= image.getHeight());
+        Preconditions.checkArgument(x + width <= image.getWidth());
+        Preconditions.checkArgument(y + height <= image.getHeight());
 
-        if (starty < 0)
-            starty = 0;
-
-        if (startx > image.getWidth())
-            startx = image.getWidth();
-
-        if (starty > image.getHeight())
-            starty = image.getHeight();
-
-        if (startx + width > image.getWidth())
-            width = image.getWidth() - startx;
-
-        if (starty + height > image.getHeight())
-            height = image.getHeight() - starty;
-
-        return image.getSubimage(startx, starty, width, height);
+        return image.getSubimage(x, y, width, height);
     }
 
     /**
      * Returns a buffered image of the specified color.
      *
-     * @param width the width of the requested image
+     * @param width  the width of the requested image
      * @param height the height of the requested image
-     * @param c the color of the requested image
+     * @param c      the color of the requested image
      * @return the buffered image of the provided color and dimensions
      */
     public static BufferedImage bufferedImageFromColor(int width, int height, Color c) {
-        BufferedImage bi = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+        BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
 
         graphics.setPaint(c);
-        graphics.fillRect ( 0, 0, width, height);
+        graphics.fillRect(0, 0, width, height);
 
         return bi;
     }
@@ -108,8 +102,8 @@ public class ImageUtil {
     /**
      * Returns an ImageIcon of the requested color.
      *
-     * @param c the color of the requested image
-     * @param width the width of the requested image
+     * @param c      the color of the requested image
+     * @param width  the width of the requested image
      * @param height the height of the requested image
      * @return the image of the requested color and dimensions
      */
@@ -124,9 +118,9 @@ public class ImageUtil {
     /**
      * Resizes the provided ImageIcon to the requested dimensions.
      *
-     * @param width the width of the reqested image
+     * @param width  the width of the reqested image
      * @param height the height of the requested image
-     * @param icon the ImageIcon to resize
+     * @param icon   the ImageIcon to resize
      * @return the resized image
      */
     public static BufferedImage resizeImage(int width, int height, ImageIcon icon) {
@@ -135,15 +129,14 @@ public class ImageUtil {
         try {
             Image ConsoleImage = icon.getImage();
             Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            ReturnImage = new BufferedImage(TransferImage.getWidth(null),
+                    TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             Graphics2D bGr = ReturnImage.createGraphics();
 
             bGr.drawImage(TransferImage, 0, 0, null);
             bGr.dispose();
             return ReturnImage;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
@@ -153,8 +146,8 @@ public class ImageUtil {
     /**
      * Returns the image at the provided location resized.
      *
-     * @param width the width to resize to
-     * @param height the height to resize to
+     * @param width     the width to resize to
+     * @param height    the height to resize to
      * @param imageFile the File representing an image
      * @return the resized image
      */
@@ -164,15 +157,14 @@ public class ImageUtil {
         try {
             Image ConsoleImage = ImageIO.read(imageFile);
             Image TransferImage = ConsoleImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-            ReturnImage = new BufferedImage(TransferImage.getWidth(null), TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            ReturnImage = new BufferedImage(TransferImage.getWidth(null),
+                    TransferImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
             Graphics2D bGr = ReturnImage.createGraphics();
 
             bGr.drawImage(TransferImage, 0, 0, null);
             bGr.dispose();
             return ReturnImage;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
@@ -185,7 +177,11 @@ public class ImageUtil {
      * @param imageFile the file to convert to a buffered image
      * @return the buffered image
      */
+    @Nullable
     public static BufferedImage getBi(File imageFile) {
+        Preconditions.checkNotNull(imageFile);
+        Preconditions.checkArgument(imageFile.exists());
+
         try {
             return ImageIO.read(imageFile);
         } catch (Exception e) {
@@ -204,7 +200,7 @@ public class ImageUtil {
     public static BufferedImage getBi(ImageIcon im) {
         BufferedImage bi = new BufferedImage(im.getIconWidth(), im.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = bi.createGraphics();
-        im.paintIcon(null, g, 0,0);
+        im.paintIcon(null, g, 0, 0);
         return bi;
     }
 
@@ -231,7 +227,7 @@ public class ImageUtil {
     /**
      * Returns the rotated background file.
      *
-     * @param filepath the path to the file
+     * @param filepath  the path to the file
      * @param direction the direction of rotation
      * @return the rotated image
      */
@@ -253,16 +249,16 @@ public class ImageUtil {
     /**
      * Rotates the provided buffered image by the requested angle in degrees.
      *
-     * @param img the buffered image to rotate
-     * @param angle the angle to rotate by
+     * @param img   the buffered image to rotate
+     * @param degrees the angle to rotate by in degrees
      * @return the rotated image
      */
-    public static BufferedImage rotateImageByDegrees(BufferedImage img, double angle) {
-        double rads = Math.toRadians(angle);
+    public static BufferedImage rotateImageByDegrees(BufferedImage img, double degrees) {
+        Preconditions.checkNotNull(img);
 
-        // technically you could pass in Double.MAX_VALUE and this would take a while
-        while (angle >= 360.0)
-            angle -= 360.0;
+        // todo
+
+        double rads = Math.toRadians(degrees);
 
         double sin = Math.abs(Math.sin(rads));
         double cos = Math.abs(Math.cos(rads));
@@ -290,7 +286,7 @@ public class ImageUtil {
      * Rotates the provided ImageIcon by the requested angle in degrees
      *
      * @param imageIcon the image icon to rotate
-     * @param angle the angle to rotate by
+     * @param angle     the angle to rotate by
      * @return the rotated image
      */
     public static ImageIcon rotateImageByDegrees(ImageIcon imageIcon, double angle) {
@@ -336,7 +332,7 @@ public class ImageUtil {
     /**
      * Draws the provided buffered image to a CyderFrame and displays it.
      *
-     * @param bi the buffered image to display
+     * @param bi         the buffered image to display
      * @param frameTitle the title of the frame
      */
     public static void drawBufferedImage(BufferedImage bi, String frameTitle) {
@@ -355,7 +351,7 @@ public class ImageUtil {
     /**
      * Draws the provided image icon to a CyderFrame and displays it.
      *
-     * @param icon the icon to display
+     * @param icon       the icon to display
      * @param frameTitle the title of the frame
      */
     public static void drawImageIcon(ImageIcon icon, String frameTitle) {
@@ -375,9 +371,9 @@ public class ImageUtil {
      * Resizes the provided buffered image.
      *
      * @param originalImage the original buffered image to resize
-     * @param type the image type
-     * @param img_width the width of the new image
-     * @param img_height the height of the new image
+     * @param type          the image type
+     * @param img_width     the width of the new image
+     * @param img_height    the height of the new image
      * @return the resized buffered image
      */
     public static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
@@ -394,8 +390,8 @@ public class ImageUtil {
      * dimensions using bilinear interpolation.
      *
      * @param srcImg the image to resize
-     * @param w the width of the new image
-     * @param h the height of the new image
+     * @param w      the width of the new image
+     * @param h      the height of the new image
      * @return the resized image
      */
     public static ImageIcon resizeImage(ImageIcon srcImg, int w, int h) {
@@ -412,12 +408,12 @@ public class ImageUtil {
     /**
      * Combines the provided ImageIcons into one image by placing one relative to the other and taking into account
      * the possible rotation direction provided.
-     *
+     * <p>
      * The two images must be of the same size in order to merge them into one image.
      *
      * @param newImage the new image (image to be placed to the dir[ection] of the old image)
      * @param oldImage the old image (image to be placed center)
-     * @param dir the direction to place the newImage relative to the oldImage
+     * @param dir      the direction to place the newImage relative to the oldImage
      * @return the combined image
      */
     public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
@@ -491,9 +487,7 @@ public class ImageUtil {
 
             ret = new ImageIcon(combined);
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
 
@@ -509,7 +503,7 @@ public class ImageUtil {
     public static BufferedImage toBufferedImage(ImageIcon icon) {
         BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = bi.createGraphics();
-        icon.paintIcon(null, g, 0,0);
+        icon.paintIcon(null, g, 0, 0);
         g.dispose();
         return bi;
     }
@@ -517,11 +511,11 @@ public class ImageUtil {
     /**
      * Returns an image gradient following the provided parameters.
      *
-     * @param width the width of the resulting image
-     * @param height the height of the resulting image
-     * @param shadeColor the color to mix/shade in when merging the left and right colors
+     * @param width        the width of the resulting image
+     * @param height       the height of the resulting image
+     * @param shadeColor   the color to mix/shade in when merging the left and right colors
      * @param primaryRight the primary color for the left
-     * @param primaryLeft the primary color for the left
+     * @param primaryLeft  the primary color for the left
      * @return an image gradient
      */
     public static BufferedImage getImageGradient(int width, int height, Color shadeColor,
@@ -591,7 +585,7 @@ public class ImageUtil {
             PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
             pg.grabPixels();
             Color firstColor = new Color(pixels[0]);
-            for (int i = 1 ; i < pixels.length ; i++) {
+            for (int i = 1; i < pixels.length; i++) {
                 if (!new Color(pixels[i]).equals(firstColor)) {
                     ret = false;
                     break;
@@ -607,7 +601,7 @@ public class ImageUtil {
     /**
      * Returns whether the provided ImageIcons are equal.
      *
-     * @param first the first image icon
+     * @param first  the first image icon
      * @param second the second image icon
      * @return whether the provided ImageIcons are equal
      */
@@ -618,7 +612,7 @@ public class ImageUtil {
     /**
      * Returns whether the two images represent the same pixel data.
      *
-     * @param firstImage the first image
+     * @param firstImage  the first image
      * @param secondImage the second image
      * @return whether the two images represent the same pixel data
      */
@@ -647,7 +641,7 @@ public class ImageUtil {
                 if (pixels1.length != pixels2.length) {
                     ret = false;
                 } else {
-                    for (int i = 1 ; i < pixels1.length ; i++) {
+                    for (int i = 1; i < pixels1.length; i++) {
                         if (pixels1[i] != pixels2[i]) {
                             ret = false;
                             break;
@@ -754,7 +748,7 @@ public class ImageUtil {
             int size2 = db2.getSize();
 
             if (size == size2) {
-                for (int i = 0 ; i < size ; i++) {
+                for (int i = 0; i < size; i++) {
                     if (db1.getElem(i) != db2.getElem(i)) {
                         return false;
                     }
@@ -763,7 +757,7 @@ public class ImageUtil {
                 return true;
             } else return false;
         } catch (Exception ignored) {
-            return  false;
+            return false;
         }
     }
 

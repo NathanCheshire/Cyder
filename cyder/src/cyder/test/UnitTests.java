@@ -264,4 +264,30 @@ public class UnitTests {
         assertThrows(NullPointerException.class, () -> YoutubeUtil
                 .buildYouTubeApiV3SearchQuery(10, null));
     }
+
+    @Test
+    public void testUnderAndOverDegreeAngleConversions() {
+        // integer values
+        assertEquals(MathUtil.convertAngleToStdForm(-360), 0);
+        assertEquals(MathUtil.convertAngleToStdForm(-720), 0);
+        assertEquals(MathUtil.convertAngleToStdForm(-180), 180);
+        assertEquals(MathUtil.convertAngleToStdForm(-1), 359);
+
+        assertEquals(MathUtil.convertAngleToStdForm(0), 0);
+        assertEquals(MathUtil.convertAngleToStdForm(90), 90);
+        assertEquals(MathUtil.convertAngleToStdForm(180), 180);
+        assertEquals(MathUtil.convertAngleToStdForm(359), 359);
+        assertEquals(MathUtil.convertAngleToStdForm(360), 0);
+
+
+        assertEquals(MathUtil.convertAngleToStdForm(361), 1);
+        assertEquals(MathUtil.convertAngleToStdForm(370), 10);
+        assertEquals(MathUtil.convertAngleToStdForm(400), 40);
+
+        assertEquals(MathUtil.convertAngleToStdForm(720), 0);
+        assertEquals(MathUtil.convertAngleToStdForm(721), 1);
+
+        // double values
+
+    }
 }
