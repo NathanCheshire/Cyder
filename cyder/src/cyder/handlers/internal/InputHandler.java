@@ -639,7 +639,7 @@ public class InputHandler {
                     }
 
                     BufferedImage saveImage = ImageUtil.bufferedImageFromColor(
-                            w, h, Color.decode("#" + getArg(0).replace("#","")));
+                            Color.decode("#" + getArg(0).replace("#","")), w, h);
 
                     String saveName = "Solid_" + getArg(0) + "Generated_Background.png";
 

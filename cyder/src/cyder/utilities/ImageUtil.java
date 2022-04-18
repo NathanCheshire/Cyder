@@ -84,12 +84,16 @@ public class ImageUtil {
     /**
      * Returns a buffered image of the specified color.
      *
+     * @param c      the color of the requested image
      * @param width  the width of the requested image
      * @param height the height of the requested image
-     * @param c      the color of the requested image
      * @return the buffered image of the provided color and dimensions
      */
-    public static BufferedImage bufferedImageFromColor(int width, int height, Color c) {
+    public static BufferedImage bufferedImageFromColor(Color c, int width, int height) {
+        Preconditions.checkNotNull(c);
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
+
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = bi.createGraphics();
 
@@ -108,6 +112,10 @@ public class ImageUtil {
      * @return the image of the requested color and dimensions
      */
     public static ImageIcon imageIconFromColor(Color c, int width, int height) {
+        Preconditions.checkNotNull(c);
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
+
         BufferedImage im = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = im.createGraphics();
         g.setPaint(c);
@@ -124,6 +132,10 @@ public class ImageUtil {
      * @return the resized image
      */
     public static BufferedImage resizeImage(int width, int height, ImageIcon icon) {
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
+        Preconditions.checkNotNull(icon);
+
         BufferedImage ReturnImage = null;
 
         try {
@@ -152,6 +164,10 @@ public class ImageUtil {
      * @return the resized image
      */
     public static BufferedImage resizeImage(int width, int height, File imageFile) {
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
+        Preconditions.checkNotNull(imageFile);
+
         BufferedImage ReturnImage = null;
 
         try {
@@ -198,6 +214,8 @@ public class ImageUtil {
      * @return the buffered image drawn from the provided image icon
      */
     public static BufferedImage getBi(ImageIcon im) {
+        Preconditions.checkNotNull(im);
+
         BufferedImage bi = new BufferedImage(im.getIconWidth(), im.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = bi.createGraphics();
         im.paintIcon(null, g, 0, 0);
@@ -211,6 +229,8 @@ public class ImageUtil {
      * @return the image icon after conversion
      */
     public static ImageIcon toImageIcon(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+
         return new ImageIcon(image);
     }
 
@@ -221,6 +241,9 @@ public class ImageUtil {
      * @return the buffered image
      */
     public static BufferedImage getBi(String filename) {
+        Preconditions.checkNotNull(filename);
+        Preconditions.checkArgument(!filename.isEmpty());
+
         return getBi(new File(filename));
     }
 
@@ -232,6 +255,10 @@ public class ImageUtil {
      * @return the rotated image
      */
     public static BufferedImage getRotatedImage(String filepath, Direction direction) {
+        Preconditions.checkNotNull(filepath);
+        Preconditions.checkArgument(!filepath.isEmpty());
+        Preconditions.checkNotNull(direction);
+
         switch (direction) {
             case TOP:
                 return getBi(filepath);
@@ -286,17 +313,15 @@ public class ImageUtil {
      * Rotates the provided ImageIcon by the requested angle in degrees
      *
      * @param imageIcon the image icon to rotate
-     * @param angle     the angle to rotate by
+     * @param degrees   the angle to rotate by in degrees
      * @return the rotated image
      */
-    public static ImageIcon rotateImageByDegrees(ImageIcon imageIcon, double angle) {
+    public static ImageIcon rotateImageByDegrees(ImageIcon imageIcon, double degrees) {
         BufferedImage img = getBi(imageIcon);
 
-        // technically you could pass in Double.MAX_VALUE and this would take a while
-        while (angle >= 360.0)
-            angle -= 360.0;
+        degrees = MathUtil.convertAngleToStdForm(degrees);
 
-        double rads = Math.toRadians(angle);
+        double rads = Math.toRadians(degrees);
 
         double sin = Math.abs(Math.sin(rads));
         double cos = Math.abs(Math.cos(rads));
@@ -326,6 +351,8 @@ public class ImageUtil {
      * @param bi the buffered image to display
      */
     public static void drawBufferedImage(BufferedImage bi) {
+        Preconditions.checkNotNull(bi);
+
         drawImageIcon(new ImageIcon(bi), "");
     }
 
@@ -336,6 +363,10 @@ public class ImageUtil {
      * @param frameTitle the title of the frame
      */
     public static void drawBufferedImage(BufferedImage bi, String frameTitle) {
+        Preconditions.checkNotNull(bi);
+        Preconditions.checkNotNull(frameTitle);
+        Preconditions.checkArgument(!frameTitle.isEmpty());
+
         drawImageIcon(new ImageIcon(bi), frameTitle);
     }
 
@@ -345,6 +376,8 @@ public class ImageUtil {
      * @param icon the icon to display
      */
     public static void drawImageIcon(ImageIcon icon) {
+        Preconditions.checkNotNull(icon);
+
         drawImageIcon(icon, "");
     }
 
@@ -355,6 +388,10 @@ public class ImageUtil {
      * @param frameTitle the title of the frame
      */
     public static void drawImageIcon(ImageIcon icon, String frameTitle) {
+        Preconditions.checkNotNull(icon);
+        Preconditions.checkNotNull(frameTitle);
+        Preconditions.checkArgument(!frameTitle.isEmpty());
+
         CyderFrame frame = new CyderFrame(icon.getIconWidth(), icon.getIconHeight());
 
         if (frameTitle != null && !frameTitle.isEmpty())
@@ -370,16 +407,21 @@ public class ImageUtil {
     /**
      * Resizes the provided buffered image.
      *
-     * @param originalImage the original buffered image to resize
-     * @param type          the image type
-     * @param img_width     the width of the new image
-     * @param img_height    the height of the new image
+     * @param image  the original buffered image to resize
+     * @param type   the image type
+     * @param width  the width of the new image
+     * @param height the height of the new image
      * @return the resized buffered image
      */
-    public static BufferedImage resizeImage(BufferedImage originalImage, int type, int img_width, int img_height) {
-        BufferedImage resizedImage = new BufferedImage(img_width, img_height, type);
+    public static BufferedImage resizeImage(BufferedImage image,
+                                            int type, int width, int height) {
+        Preconditions.checkNotNull(image);
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
+
+        BufferedImage resizedImage = new BufferedImage(width, height, type);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, img_width, img_height, null);
+        g.drawImage(image, 0, 0, width, height, null);
         g.dispose();
 
         return resizedImage;
@@ -389,24 +431,29 @@ public class ImageUtil {
      * Resizes the provided ImageIcon to have the requested
      * dimensions using bilinear interpolation.
      *
-     * @param srcImg the image to resize
-     * @param w      the width of the new image
-     * @param h      the height of the new image
+     * @param image the image to resize
+     * @param w     the width of the new image
+     * @param h     the height of the new image
      * @return the resized image
      */
-    public static ImageIcon resizeImage(ImageIcon srcImg, int w, int h) {
+    public static ImageIcon resizeImage(ImageIcon image, int w, int h) {
+        Preconditions.checkNotNull(image);
+        Preconditions.checkArgument(w > 0);
+        Preconditions.checkArgument(h > 0);
+
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
 
         g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(srcImg.getImage(), 0, 0, w, h, null);
+        g2.drawImage(image.getImage(), 0, 0, w, h, null);
         g2.dispose();
 
         return new ImageIcon(resizedImg);
     }
 
     /**
-     * Combines the provided ImageIcons into one image by placing one relative to the other and taking into account
+     * Combines the provided ImageIcons into one image by placing
+     * one relative to the other and taking into account
      * the possible rotation direction provided.
      * <p>
      * The two images must be of the same size in order to merge them into one image.
@@ -417,11 +464,13 @@ public class ImageUtil {
      * @return the combined image
      */
     public static ImageIcon combineImages(ImageIcon oldImage, ImageIcon newImage, Direction dir) {
-        ImageIcon ret = null;
+        Preconditions.checkNotNull(oldImage);
+        Preconditions.checkNotNull(newImage);
+        Preconditions.checkNotNull(dir);
+        Preconditions.checkArgument(oldImage.getIconWidth() == newImage.getIconWidth());
+        Preconditions.checkArgument(oldImage.getIconHeight() == newImage.getIconHeight());
 
-        if (oldImage.getIconWidth() != newImage.getIconWidth()
-                || oldImage.getIconHeight() != newImage.getIconHeight())
-            return ret;
+        ImageIcon ret = null;
 
         try {
             BufferedImage bi1 = toBufferedImage(oldImage);
@@ -501,6 +550,8 @@ public class ImageUtil {
      * @return the buffered image after converting
      */
     public static BufferedImage toBufferedImage(ImageIcon icon) {
+        Preconditions.checkNotNull(icon);
+
         BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = bi.createGraphics();
         icon.paintIcon(null, g, 0, 0);
@@ -520,6 +571,12 @@ public class ImageUtil {
      */
     public static BufferedImage getImageGradient(int width, int height, Color shadeColor,
                                                  Color primaryRight, Color primaryLeft) {
+        Preconditions.checkArgument(width > 0);
+        Preconditions.checkArgument(height > 0);
+        Preconditions.checkNotNull(shadeColor);
+        Preconditions.checkNotNull(primaryLeft);
+        Preconditions.checkNotNull(primaryRight);
+
         BufferedImage ret = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = ret.createGraphics();
 
@@ -540,12 +597,15 @@ public class ImageUtil {
      * Returns whether the image at the provided path is a gray scale image.
      * This is determined if the for all pixels, the red, green, and blue bits are equal.
      *
-     * @param pathToFile the path to the image file
+     * @param file the path to the image file
      * @return whether the image is gray scale
      */
-    public static boolean grayScaleImage(File pathToFile) {
+    public static boolean grayScaleImage(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         try {
-            Image icon = new ImageIcon(ImageIO.read(pathToFile)).getImage();
+            Image icon = new ImageIcon(ImageIO.read(file)).getImage();
             int w = icon.getWidth(null);
             int h = icon.getHeight(null);
             int[] pixels = new int[w * h];
@@ -571,14 +631,17 @@ public class ImageUtil {
     /**
      * Returns whether the image represented by the provided path is a solid color.
      *
-     * @param pathToFile the path to the file
+     * @param file the path to the file
      * @return whether the image represented by the provided path is a solid color
      */
-    public static boolean solidColor(File pathToFile) {
+    public static boolean solidColor(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         boolean ret = true;
 
         try {
-            Image icon = new ImageIcon(ImageIO.read(pathToFile)).getImage();
+            Image icon = new ImageIcon(ImageIO.read(file)).getImage();
             int w = icon.getWidth(null);
             int h = icon.getHeight(null);
             int[] pixels = new int[w * h];
@@ -617,6 +680,10 @@ public class ImageUtil {
      * @return whether the two images represent the same pixel data
      */
     public static boolean imagesEqual(Image firstImage, Image secondImage) {
+        if (firstImage == null && secondImage == null) {
+            return true;
+        }
+
         boolean ret = true;
 
         try {
@@ -665,6 +732,15 @@ public class ImageUtil {
      */
     public static Dimension getImageResizeDimensions(int minWidth, int minHeight,
                                                      int maxWidth, int maxHeight, BufferedImage image) {
+        Preconditions.checkArgument(minWidth > 0);
+        Preconditions.checkArgument(minHeight > 0);
+        Preconditions.checkArgument(maxWidth > 0);
+        Preconditions.checkArgument(maxHeight > 0);
+        Preconditions.checkArgument(maxWidth > minWidth);
+        Preconditions.checkArgument(maxHeight > minHeight);
+
+        Preconditions.checkNotNull(image);
+
         int backgroundWidth = image.getWidth();
         int backgroundHeight = image.getHeight();
         int imageType = image.getType();
@@ -719,6 +795,8 @@ public class ImageUtil {
      * @return the buffered image representing the provided component
      */
     public static BufferedImage getScreenShot(Component component) {
+        Preconditions.checkNotNull(component);
+
         BufferedImage image = new BufferedImage(
                 component.getWidth(),
                 component.getHeight(),
@@ -738,6 +816,11 @@ public class ImageUtil {
      * @return whether the two images from the provided file are equal
      */
     public static boolean compareImage(File file1, File file2) {
+        Preconditions.checkNotNull(file1);
+        Preconditions.checkNotNull(file2);
+        Preconditions.checkArgument(file1.exists());
+        Preconditions.checkArgument(file2.exists());
+
         try {
             BufferedImage bi1 = ImageIO.read(file1);
             DataBuffer db1 = bi1.getData().getDataBuffer();
@@ -768,6 +851,9 @@ public class ImageUtil {
      * @return whether the provided file is a valid image file
      */
     public static boolean isValidImage(File file) {
+        Preconditions.checkNotNull(file);
+        Preconditions.checkArgument(file.exists());
+
         if (!file.exists())
             return false;
 
