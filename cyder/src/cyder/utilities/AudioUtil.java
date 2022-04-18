@@ -132,6 +132,11 @@ public class AudioUtil {
     }
 
     /**
+     * The dreamified file suffix to append to music files after dreamifying them.
+     */
+    public static final String DREAMY_SUFFIX = "_Dreamy";
+
+    /**
      * Dreamifies the provided wav or mp3 audio file.
      * The optional may be empty if the file could not
      * be converted if required and processed.
@@ -172,7 +177,7 @@ public class AudioUtil {
             String safeFilename = "\"" + usageFile.getAbsolutePath() + "\"";
 
             File outputFile =  OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    "tmp", FileUtil.getFilename(usageFile) + "_Dreamy.wav");
+                    "tmp", FileUtil.getFilename(usageFile) + DREAMY_SUFFIX + ".wav");
 
             ProcessBuilder pb = new ProcessBuilder(
                     getFfmpegCommand(),

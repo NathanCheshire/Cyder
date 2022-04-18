@@ -38,6 +38,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
@@ -921,16 +922,60 @@ public class AudioPlayer {
             }, "AudioPlayer File Chooser");
         });
         audioPlayerFrame.addMenuItem("Dreamify", () -> {
-            // todo will need to determine if current audio has already been dreamified
+            if (currentAudioFile != null) {
+                if (FileUtil.getFilename(currentAudioFile).endsWith(AudioUtil.DREAMY_SUFFIX)) {
+                    audioPlayerFrame.notify("Current audio has already been dreamified");
+                    return;
+                }
 
-            // continue playing audio if an mp3 while converting to wav
+                CyderThreadRunner.submit(() -> {
+                    // todo need to suppress dreamifying and skipping and other problematic sources with this
 
-            // export as wav to tmp directory
+                    audioPlayerFrame.notify("Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"");
 
-            // reference the wav and play at the last frame the current audio was at
-            // should be a seemless transition
+                    Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile);
+                    // todo this is exported as a _Dreamy.wav in tmp
 
-            // how to handle pausing and resuming?
+                    while (!dreamifiedAudio.isDone()) {
+                       Thread.onSpinWait();
+                    }
+
+                    Optional<File> present = Optional.empty();
+
+                    try {
+                       present = dreamifiedAudio.get();
+                    } catch (Exception e) {
+                       ExceptionHandler.handle(e);
+                    }
+
+                    if (present.isPresent()) {
+                       try {
+                           File destinationFile = OSUtil.buildFile(
+                                   DynamicDirectory.DYNAMIC_PATH,
+                                   DynamicDirectory.USERS.getDirectoryName(),
+                                   ConsoleFrame.INSTANCE.getUUID(),
+                                   UserFile.MUSIC.getName(),
+                                   present.get().getName());
+
+                           Files.copy(Paths.get(present.get().getAbsolutePath()),
+                                   Paths.get(destinationFile.getAbsolutePath()));
+
+                           if (isAudioPlaying()) {
+                               stopAudio();
+                           }
+
+                           currentAudioFile = destinationFile;
+                           refreshAudioFiles();
+                           playAudio();
+                       } catch (Exception e) {
+                           ExceptionHandler.handle(e);
+                       }
+                      // todo copy file to music and play it
+                    } else {
+                       audioPlayerFrame.notify("Could not dreamify audio at this time");
+                    }
+                    }, "Audio Dreamifier");
+            }
         });
     }
 
