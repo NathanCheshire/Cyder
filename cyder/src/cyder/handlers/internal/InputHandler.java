@@ -430,8 +430,10 @@ public class InputHandler {
 
         else ret = false;
 
-        if (ret)
+        if (ret) {
             Logger.log(LoggerTag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
+        }
+
         return ret;
     }
 
@@ -522,8 +524,10 @@ public class InputHandler {
 
         else ret = false;
 
-        if (ret)
+        if (ret) {
             Logger.log(LoggerTag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
+        }
+
         return ret;
     }
 
@@ -587,8 +591,10 @@ public class InputHandler {
 
         else ret = false;
 
-        if (ret)
+        if (ret) {
             Logger.log(LoggerTag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
+        }
+
         return ret;
     }
 

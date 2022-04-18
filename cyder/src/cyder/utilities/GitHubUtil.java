@@ -20,11 +20,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Utililties involving Rest APIs for GitHub.
+ */
 public class GitHubUtil {
+    /**
+     * Suppress default constructor.
+     */
     private GitHubUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
+    /**
+     * Returns a list of issues for Cyder.
+     *
+     * @return the list of currently open issues for Cyder.
+     */
     public static Issue[] getIssues() {
         Issue[] ret = null;
 
@@ -51,6 +62,9 @@ public class GitHubUtil {
         return ret;
     }
 
+    /**
+     * A json object class for a GitHub Issue object.
+     */
     public static class Issue {
         public String url;
         public String repository_url;
@@ -168,10 +182,17 @@ public class GitHubUtil {
      * Clones the provided github repo to the provided directory.
      *
      * @param githubRepo the URL of the github repository to clone
-     * @param directory the directory to save the repo to
-     * @return whether or not the repo was successfully cloned and saved
+     * @param directory the directory to save the repo to.
+     *                  Note this directory must exist prior to method invocation
+     * @return whether the repo was successfully cloned and saved
      */
     public static Future<Optional<Boolean>> cloneRepoToDirectory(String githubRepo, File directory) {
+        Preconditions.checkNotNull(githubRepo);
+        Preconditions.checkArgument(!githubRepo.isEmpty());
+        Preconditions.checkNotNull(directory);
+        Preconditions.checkArgument(directory.exists());
+        Preconditions.checkArgument(directory.isDirectory());
+
         return cloningExecutor.submit(() -> {
             ConsoleFrame.INSTANCE.getInputHandler().println("Validating github link: " + githubRepo);
 
