@@ -1,5 +1,6 @@
 package cyder.utilities;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 
@@ -9,6 +10,9 @@ import java.awt.*;
  * Static util class for utilities revolving around the possibility of multiple monitors/displays.
  */
 public class ScreenUtil {
+    /**
+     * Suppress default constructor.
+     */
     private ScreenUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
@@ -38,6 +42,8 @@ public class ScreenUtil {
      * @return the device that the provided frame is on
      */
     public static GraphicsDevice getDevice(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return frame.getGraphicsConfiguration().getDevice();
     }
 
@@ -48,8 +54,10 @@ public class ScreenUtil {
      * @return the number associated with the monitor the provided frame is on
      */
     public static int getMonitorNumber(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return Integer.parseInt(frame.getGraphicsConfiguration().getDevice()
-                .getIDstring().replaceAll("[^0-9]",""));
+                .getIDstring().replaceAll("[^0-9]", ""));
     }
 
     /**
@@ -59,6 +67,8 @@ public class ScreenUtil {
      * @return the width of the monitor the frame is currently on
      */
     public static double getMonitorWidth(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return frame.getGraphicsConfiguration().getDevice().getDefaultConfiguration().getBounds().getWidth();
     }
 
@@ -69,6 +79,8 @@ public class ScreenUtil {
      * @return the height of the monitor the frame is currently on
      */
     public static double getMonitorHeight(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return frame.getGraphicsConfiguration().getDevice().getDefaultConfiguration().getBounds().getHeight();
     }
 
@@ -79,6 +91,8 @@ public class ScreenUtil {
      * @return the bounds and offsets of the monitor that the provided Frame is on
      */
     public static Rectangle getMonitorBounds(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return frame.getGraphicsConfiguration().getDevice().getDefaultConfiguration().getBounds();
     }
 
@@ -105,6 +119,8 @@ public class ScreenUtil {
      * @return the x offset of the monitor that the provided frame is on.
      */
     public static double getMonitorXOffset(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return getMonitorBounds(frame).getX();
     }
 
@@ -115,6 +131,8 @@ public class ScreenUtil {
      * @return the y offset of the monitor that the provided frame is on.
      */
     public static double getMonitorYOffset(Frame frame) {
+        Preconditions.checkNotNull(frame);
+
         return getMonitorBounds(frame).getY();
     }
 }
