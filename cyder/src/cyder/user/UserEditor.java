@@ -1454,7 +1454,7 @@ public class UserEditor {
                     FrameUtil.closeAllFrames(true);
 
                     // attempt to delete directory
-                    OSUtil.delete(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+                    OSUtil.deleteFile(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                             DynamicDirectory.USERS.getDirectoryName(), ConsoleFrame.INSTANCE.getUUID()));
 
                     // exit with proper condition

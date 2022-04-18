@@ -944,7 +944,7 @@ public class InputHandler {
         } else if (commandIs("help")) {
             help();
         } else if (commandIs("wipelogs")) {
-            OSUtil.delete(OSUtil.buildFile(
+            OSUtil.deleteFile(OSUtil.buildFile(
                     DynamicDirectory.DYNAMIC_PATH, DynamicDirectory.LOGS.getDirectoryName()));
             println("Logs wiped");
         } else if (commandIs("countlogs")) {
@@ -1207,7 +1207,7 @@ public class InputHandler {
                         ConsoleFrame.INSTANCE.getUUID(), getArg(0)));
                 if (requestedDeleteFile.exists()) {
                     if (requestedDeleteFile.isDirectory()) {
-                        if (OSUtil.delete(requestedDeleteFile)) {
+                        if (OSUtil.deleteFile(requestedDeleteFile)) {
                             println("Successfully deleted: " + requestedDeleteFile.getAbsolutePath());
                         } else {
                             println("Could not delete folder at this time");

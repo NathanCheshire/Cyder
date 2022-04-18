@@ -17,7 +17,7 @@ import static cyder.constants.CyderNumbers.NEG_INFINITY;
  */
 public class NumberUtil {
     /**
-     * Instantiation of NumberUtil is not allowed
+     * Suppress default constructor.
      */
     private NumberUtil() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -26,7 +26,7 @@ public class NumberUtil {
     /**
      * Returns a random integer in the range [min, upperBound].
      *
-     * @param min the minimum possible value to return (must be at least 0)
+     * @param min        the minimum possible value to return (must be at least 0)
      * @param upperBound the upper bound of random range (included in the possible return values)
      * @return a random integer in the provided range [0, upperBound]
      */
@@ -91,8 +91,8 @@ public class NumberUtil {
     /**
      * Calculates the fibonacci sequence given the initial values.
      *
-     * @param a the first fibonacci number to use
-     * @param b the second fibonacci number to use
+     * @param a       the first fibonacci number to use
+     * @param b       the second fibonacci number to use
      * @param numFibs the number of fibonacci numbers to return
      * @return the requested number of fibonacci numbers
      */
@@ -171,8 +171,9 @@ public class NumberUtil {
         trioStrings.clear();
 
         //for all trios get the prefix and add and to the last prefix (first since reversed)
-        for (int i = 0 ; i < reversed.size() ; i++) {
-             trioStrings.add((i == 0  && reversed.size() > 1 ? " and " : "") + reversed.get(i) + getThousandsPrefix(i));
+        for (int i = 0; i < reversed.size(); i++) {
+            trioStrings.add((i == 0 && reversed.size() > 1 ? " and " : "")
+                    + reversed.get(i) + getThousandsPrefix(i));
         }
 
         StringBuilder ret = new StringBuilder();
@@ -180,7 +181,7 @@ public class NumberUtil {
         if (negative)
             ret.append("Negative ");
 
-        for (int i = trioStrings.size() - 1 ; i > -1 ; i--) {
+        for (int i = trioStrings.size() - 1; i > -1; i--) {
             ret.append(trioStrings.get(i).trim());
 
             if (i != 0)
@@ -272,9 +273,9 @@ public class NumberUtil {
     /**
      * String prefixes for digit trios in base 10
      */
-    private static final String[] thousandPrefixes = {"", "-thousand", "-million", "-billion", "-trillion", "-quadrillion",
-            "-quintillion", "-sextillion", "-septillion", "-octillion", "-nonillion",
-            "-decillion", "-undecillion", "-duodecillion", "-tredecillion",
+    private static final String[] thousandPrefixes = {"", "-thousand", "-million", "-billion",
+            "-trillion", "-quadrillion", "-quintillion", "-sextillion", "-septillion", "-octillion",
+            "-nonillion", "-decillion", "-undecillion", "-duodecillion", "-tredecillion",
             "-quattuordecillion", "-quindecillion", "-sexdexillion", "-septendecillion",
             "-octodecillion", "-novemdecillion", "-vigintillion", "-centillion"};
 
@@ -292,9 +293,9 @@ public class NumberUtil {
     /**
      * Returns the requested amount of random numbers within the provided range.
      *
-     * @param min the minimum random number possible
-     * @param max the maximum random number possible
-     * @param number the number of random elements desired
+     * @param min             the minimum random number possible
+     * @param max             the maximum random number possible
+     * @param number          the number of random elements desired
      * @param allowDuplicates allow duplicate random values for a pure random experience vs unique random elements
      * @return an array of ints of the desired size of random elements from min to max
      */
@@ -313,12 +314,12 @@ public class NumberUtil {
                 }
             }
 
-            for (int i = 0 ; i < uniqueInts.size() ; i++) {
+            for (int i = 0; i < uniqueInts.size(); i++) {
                 ret[i] = uniqueInts.get(i);
             }
         } else {
-            for (int i = 0 ; i < number ; i++) {
-                ret[i] = randInt(min,max);
+            for (int i = 0; i < number; i++) {
+                ret[i] = randInt(min, max);
             }
         }
 
@@ -351,7 +352,7 @@ public class NumberUtil {
      */
     public static int subtractWithoutUnderflow(int a, int b) {
         //convert to longs so that subtraction is guaranteed to work for integers
-        long difference  = (long) a - (long) b;
+        long difference = (long) a - (long) b;
 
         //check bounds of difference and return correct result
         return (difference < NEG_INFINITY ? NEG_INFINITY : a - b);

@@ -160,7 +160,7 @@ public class Cyder {
 
             File deleteDirectory = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.TEMPORARY.getDirectoryName());
-            OSUtil.delete(deleteDirectory, false);
+            OSUtil.deleteFile(deleteDirectory, false);
 
             if (deleteDirectory.exists()) {
                 try {
@@ -168,7 +168,7 @@ public class Cyder {
                 } catch (Exception ignored) {}
             }
 
-            OSUtil.delete(deleteDirectory, false);
+            OSUtil.deleteFile(deleteDirectory, false);
         }, "common-exit-hook"));
     }
 

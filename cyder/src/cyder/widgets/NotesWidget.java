@@ -141,7 +141,7 @@ public class NotesWidget {
                         }
                     }
 
-                    OSUtil.delete(noteList.get(i));
+                    OSUtil.deleteFile(noteList.get(i));
                     initializeNotesList();
 
                     cyderScrollList.removeAllElements();

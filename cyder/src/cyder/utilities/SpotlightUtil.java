@@ -67,7 +67,7 @@ public class SpotlightUtil {
                         + spotlightDirectory.listFiles().length);
 
                 for (File spotlight : spotlightDirectory.listFiles()) {
-                    OSUtil.delete(spotlight);
+                    OSUtil.deleteFile(spotlight);
                 }
 
                 ConsoleFrame.INSTANCE.getInputHandler().println("Spotights left: "

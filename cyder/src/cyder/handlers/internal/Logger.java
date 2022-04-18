@@ -263,7 +263,7 @@ public class Logger {
      */
     public static void initialize() {
         if (CyderToggles.WIPE_LOGS_ON_START) {
-            OSUtil.delete(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
+            OSUtil.deleteFile(OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.LOGS.getDirectoryName()), false);
         }
 
@@ -588,7 +588,7 @@ public class Logger {
                     && !FileUtil.getExtension(subLogDir).equalsIgnoreCase(".zip")) {
                 // if a zip file for the directory exists, delete the dir
                 if (new File(subLogDir.getAbsolutePath() + ".zip").exists()) {
-                    OSUtil.delete(subLogDir);
+                    OSUtil.deleteFile(subLogDir);
                 } else {
                     FileUtil.zip(subLogDir.getAbsolutePath(), subLogDir.getAbsolutePath() + ".zip");
                 }

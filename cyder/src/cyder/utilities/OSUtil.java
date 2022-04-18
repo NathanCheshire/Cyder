@@ -276,56 +276,6 @@ public class OSUtil {
     }
 
     /**
-     * The temporary directory file path.
-     */
-    public static final String TMP_DIR_PATH = buildPath(DynamicDirectory.DYNAMIC_PATH, "tmp");
-
-    /**
-     * Creates the provided file in the tmp/ directory.
-     *
-     * @param name the filename to create
-     * @return a File object representing the file that was created
-     * @throws IllegalStateException if the file could not be created
-     */
-    public static File createTemporaryFile(String name) {
-        ensureDynamicsCreated();
-
-        File createFile = new File(TMP_DIR_PATH + FILE_SEP + name);
-
-        if (createFile.exists()) {
-            Logger.log(LoggerTag.SYSTEM_IO, "File already existed in userspace: " + name);
-            return createFile;
-        }
-
-        try {
-            createFile.createNewFile();
-            Logger.log(LoggerTag.SYSTEM_IO, "Created temperatory file: " + name);
-            return createFile;
-        } catch (Exception e) {
-            //this shouldn't happen typically
-            ExceptionHandler.handle(e);
-        }
-
-        throw new IllegalStateException("File could not be created at this time: " + name);
-    }
-
-    /**
-     * Deletes the temperary directory if it exists.
-     */
-    public static void deleteTempDir() {
-        try {
-            delete(new File(TMP_DIR_PATH));
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
-        }
-    }
-
-    /**
-     * The Temporary directory file object.
-     */
-    private static final File TMP_DIR = new File(TMP_DIR_PATH);
-
-    /**
      * Builds the provided strings into a filepath by inserting the OS' path separators.
      * Example: ["alpha","beta","gamma","delta.txt"] on Windows would return
      * alpha\beta\gamma\delta.txt
@@ -334,10 +284,8 @@ public class OSUtil {
      * @return the formatted path
      */
     public static String buildPath(String... directories) {
-        if (directories == null)
-            throw new IllegalArgumentException("Directories is null");
-        if (directories.length == 0)
-            throw new IllegalArgumentException("Directories length is null");
+        checkNotNull(directories);
+        checkArgument(directories.length > 0);
 
         StringBuilder ret = new StringBuilder();
 
@@ -361,21 +309,7 @@ public class OSUtil {
      * @return a reference to a file which may or may not exist
      */
     public static File buildFile(String... directories) {
-        if (directories == null)
-            throw new IllegalArgumentException("Directories is null");
-        if (directories.length == 0)
-            throw new IllegalArgumentException("Directories length is null");
-
-        StringBuilder ret = new StringBuilder();
-
-        for (int i = 0; i < directories.length; i++) {
-            ret.append(directories[i]);
-
-            if (i != directories.length - 1)
-                ret.append(FILE_SEP);
-        }
-
-        return new File(ret.toString());
+        return new File(buildPath(directories));
     }
 
     /**
@@ -447,8 +381,10 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
-    public static boolean delete(File folder) {
-        return delete(folder, true);
+    public static boolean deleteFile(File folder) {
+        checkNotNull(folder);
+
+        return deleteFile(folder, true);
     }
 
     /**
@@ -460,7 +396,9 @@ public class OSUtil {
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
-    public static boolean delete(File folder, boolean log) {
+    public static boolean deleteFile(File folder, boolean log) {
+        checkNotNull(folder);
+
         if (log) {
             Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
         }
@@ -471,7 +409,7 @@ public class OSUtil {
 
             if (files.length != 0) {
                 for (File file : files) {
-                    delete(file, log);
+                    deleteFile(file, log);
                 }
             }
         }
@@ -500,7 +438,9 @@ public class OSUtil {
      * @param file the file/folder to attempt to create
      * @return whether the file/fodler could be created
      */
-    public static boolean create(File file) {
+    public static boolean createFile(File file) {
+        checkNotNull(file);
+
         try {
             int inc = 0;
             while (inc < MAX_CREATION_ATTEMPTS) {
@@ -535,6 +475,11 @@ public class OSUtil {
      * subdirectories
      */
     public static ArrayList<File> getFiles(File startDir, String extension) {
+        checkNotNull(startDir);
+        checkArgument(startDir.exists());
+        checkNotNull(extension);
+        checkArgument(!extension.isEmpty());
+
         if (startDir == null)
             throw new IllegalArgumentException("Start directory is null");
 
@@ -566,7 +511,7 @@ public class OSUtil {
      * @return the UI scaling factor for the primary monitor
      */
     public static double getUIScale() {
-        return 1.0;
+        return 1.0; // todo make dynamic and configurable
     }
 
     /**
@@ -625,6 +570,8 @@ public class OSUtil {
      * @param clipboardContents the String to set the operating system's clipboard to
      */
     public static void setClipboard(String clipboardContents) {
+        checkNotNull(clipboardContents);
+
         StringSelection selection = new StringSelection(clipboardContents);
         java.awt.datatransfer.Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(selection, selection);
@@ -640,6 +587,9 @@ public class OSUtil {
      * @param builder the process builder to run
      */
     public static void runAndPrintProcess(InputHandler pipeTo, ProcessBuilder builder) {
+        checkNotNull(pipeTo);
+        checkNotNull(builder);
+
         try {
             builder.redirectErrorStream(true);
             Process process = builder.start();
@@ -688,10 +638,10 @@ public class OSUtil {
                     dynamicDirectory.getDirectoryName());
 
             if (dynamicDirectory == DynamicDirectory.TEMPORARY) {
-                delete(currentDynamic);
+                deleteFile(currentDynamic);
             }
 
-            create(currentDynamic);
+            createFile(currentDynamic);
         }
     }
 
@@ -703,6 +653,9 @@ public class OSUtil {
      * @return whether the binary could be located
      */
     public static boolean isBinaryInstalled(String invokeCommand) {
+        checkNotNull(invokeCommand);
+        checkArgument(!invokeCommand.isEmpty());
+
         try {
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(invokeCommand);
@@ -720,6 +673,9 @@ public class OSUtil {
      * @return whether the file could be located
      */
     public static boolean isBinaryInExes(String filename) {
+        checkNotNull(filename);
+        checkArgument(!filename.isEmpty());
+
         File exes = buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.EXES.getDirectoryName());
 

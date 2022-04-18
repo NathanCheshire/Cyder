@@ -298,7 +298,7 @@ public class UserUtil {
                             // backed up and not the file we just made
                             if (parts[0].equals(uuid) && !FileUtil.getFilename(backup)
                                     .equals(FileUtil.getFilename(newBackup))) {
-                                OSUtil.delete(backup);
+                                OSUtil.deleteFile(backup);
                             }
                         }
                     }
@@ -607,7 +607,7 @@ public class UserUtil {
                 }
 
                 if (!valid) {
-                    OSUtil.delete(f);
+                    OSUtil.deleteFile(f);
                 }
             }
 
@@ -782,7 +782,7 @@ public class UserUtil {
                     continue;
                 // take care of void users
                 if (user.isDirectory() && user.getName().contains("VoidUser")) {
-                    OSUtil.delete(user);
+                    OSUtil.deleteFile(user);
                 } else {
                     File musicDir = new File(OSUtil.buildPath(user.getAbsolutePath(),"Music"));
 
@@ -796,7 +796,7 @@ public class UserUtil {
                     // delete all non audio files
                     for (File musicFile : files) {
                         if (!FileUtil.isSupportedAudioExtension(musicFile) && !musicFile.isDirectory()) {
-                            OSUtil.delete(musicFile);
+                            OSUtil.deleteFile(musicFile);
                         } else {
                             validMusicFileNames.add(FileUtil.getFilename(musicFile));
                         }
@@ -920,13 +920,13 @@ public class UserUtil {
                 BufferedReader reader = new BufferedReader(new FileReader(json));
                 if (StringUtil.isNull(reader.readLine())) {
                     reader.close();
-                    OSUtil.delete(json);
+                    OSUtil.deleteFile(json);
                 }
             }
 
             //if there's nothing left in the user dir for some reason, delete the whole folder
             if (userDir.listFiles().length == 0) {
-                OSUtil.delete(userDir);
+                OSUtil.deleteFile(userDir);
             } else {
                 //otherwise, we need to figure out all the file names in each sub-dir, not recursive, and inform the user
                 // that a json was deleted and tell them which files are remaining
@@ -1157,7 +1157,7 @@ public class UserUtil {
                     saveDir.mkdir();
                 }
 
-                boolean created = OSUtil.create(createFile);
+                boolean created = OSUtil.createFile(createFile);
 
                 if (created) {
                     Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
