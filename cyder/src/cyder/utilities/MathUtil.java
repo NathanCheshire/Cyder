@@ -156,8 +156,12 @@ public class MathUtil {
      * @return the angle in standrad form with rotations removed
      */
     public static double convertAngleToStdForm(double angle) {
+        angle += 360.0;
 
-
-        return 0;
+        if (angle < 0) {
+            return angle + Math.abs((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+        } else {
+            return angle - ((int) Math.floor(angle / DEGREES_IN_CIRCLE)) * DEGREES_IN_CIRCLE;
+        }
     }
 }

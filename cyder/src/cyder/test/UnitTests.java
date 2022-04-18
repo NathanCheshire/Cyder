@@ -288,6 +288,22 @@ public class UnitTests {
         assertEquals(MathUtil.convertAngleToStdForm(721), 1);
 
         // double values
+        assertEquals(MathUtil.convertAngleToStdForm(-360.5), 359.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(-720.5), 359.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(-180.5), 179.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(-1.5), 358.5, 0.0);
 
+        assertEquals(MathUtil.convertAngleToStdForm(0.5), 0.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(90.5), 90.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(180.5), 180.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(359.5), 359.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(360.5), 0.5, 0.0);
+
+        assertEquals(MathUtil.convertAngleToStdForm(361.5), 1.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(370.5), 10.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(400.5), 40.5, 0.0);
+
+        assertEquals(MathUtil.convertAngleToStdForm(720.5), 0.5, 0.0);
+        assertEquals(MathUtil.convertAngleToStdForm(721.5), 1.5, 0.0);
     }
 }

@@ -249,14 +249,14 @@ public class ImageUtil {
     /**
      * Rotates the provided buffered image by the requested angle in degrees.
      *
-     * @param img   the buffered image to rotate
+     * @param img     the buffered image to rotate
      * @param degrees the angle to rotate by in degrees
      * @return the rotated image
      */
     public static BufferedImage rotateImageByDegrees(BufferedImage img, double degrees) {
         Preconditions.checkNotNull(img);
 
-        // todo
+        degrees = MathUtil.convertAngleToStdForm(degrees);
 
         double rads = Math.toRadians(degrees);
 
