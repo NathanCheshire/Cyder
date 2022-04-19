@@ -115,9 +115,9 @@ public class GetterUtil {
                     CyderLabel textLabel = new CyderLabel(builder.getLabelText());
                     textLabel.setBounds(getStringXPadding, yOff, bounds.getWidth(), bounds.getHeight());
                     inputFrame.getContentPane().add(textLabel);
-                }
 
-                yOff += getStringYPadding + bounds.getHeight();
+                    yOff += getStringYPadding + bounds.getHeight();
+                }
 
                 CyderTextField inputField = new CyderTextField(0);
                 inputField.setHorizontalAlignment(JTextField.CENTER);

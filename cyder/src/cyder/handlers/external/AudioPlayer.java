@@ -17,6 +17,7 @@ import cyder.threads.CyderThreadRunner;
 import cyder.ui.*;
 import cyder.ui.enums.AnimationDirection;
 import cyder.ui.enums.SliderShape;
+import cyder.ui.objects.NotificationBuilder;
 import cyder.user.UserFile;
 import cyder.utilities.*;
 import cyder.utilities.objects.GetterBuilder;
@@ -89,7 +90,7 @@ public class AudioPlayer {
     /**
      * The label to display the current audio title.
      */
-    private static final JLabel audioTitleLabel = new JLabel();
+    private static final JLabel audioTitleLabel = new JLabel("", SwingConstants.CENTER);
 
     /**
      * The container to hold the audioTitleLabel used for animations like Spotify if the text overflows.
@@ -528,16 +529,14 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(albumArtLabel);
 
         audioTitleLabelContainer.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
-        audioTitleLabelContainer.setBorder(new LineBorder(CyderColors.vanila, 3)); // todo remove me
         audioTitleLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
         audioTitleLabel.setText(DEFAULT_AUDIO_TITLE);
         audioTitleLabel.setFont(CyderFonts.defaultFontSmall);
         audioTitleLabel.setForeground(CyderColors.vanila);
 
-        audioTitleLabelContainer.add(audioTitleLabel);
+        audioTitleLabelContainer.add(audioTitleLabel, SwingConstants.CENTER);
         audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
-        // simply moves the label which is set to the full size of the text in its parent
-        scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel, DEFAULT_AUDIO_TITLE);
+        refreshAudioTitleLabel();
 
         shuffleAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(shuffleAudioButton);
@@ -876,6 +875,7 @@ public class AudioPlayer {
                         File saveFile = OSUtil.buildFile(
                                 DynamicDirectory.DYNAMIC_PATH,
                                 DynamicDirectory.USERS.getDirectoryName(),
+                                ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(),
                                 saveName + ".png");
 
@@ -886,8 +886,13 @@ public class AudioPlayer {
                         }
 
                         try {
-                            ImageIO.write(waveform.get(), "png", saveFile);
-                            audioPlayerFrame.notify("Saved waveform to your files directory");
+                            ImageIO.write(waveform.get(), "png", saveFile.getAbsoluteFile());
+                            NotificationBuilder notifyBuilder = new NotificationBuilder
+                                    ("Saved waveform to your files directory");
+                            notifyBuilder.setOnKillAction(() -> {
+                                PhotoViewer.getInstance(saveFile).showGUI();
+                            });
+                            audioPlayerFrame.notify(notifyBuilder);
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                             audioPlayerFrame.notify("Could not save waveform at this time");
@@ -999,11 +1004,7 @@ public class AudioPlayer {
                 // xOff of rest of components is s.t. the total width is 1.5x width of album art label
                 xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
 
-                audioTitleLabel.setSize(StringUtil.getAbsoluteMinWidth(audioTitleLabel.getText(),
-                        audioTitleLabel.getFont()), AUDIO_TITLE_LABEL_HEIGHT);
-                audioTitleLabel.setLocation(audioTitleLabelContainer.getWidth() / 2
-                        - audioTitleLabel.getWidth() / 2, audioTitleLabelContainer.getHeight() / 2
-                        - audioTitleLabel.getHeight() / 2);
+                refreshAudioTitleLabel();
 
                 audioTitleLabelContainer.setLocation(xOff, yOff);
                 yOff += 40 + yPadding;
@@ -1138,8 +1139,21 @@ public class AudioPlayer {
             scrollingTitleLabel = null;
         }
 
-        scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel,
-                StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile)));
+        String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.getName()));
+
+        int textWidth = StringUtil.getAbsoluteMinWidth(text, audioTitleLabel.getFont());
+        int textHeight = StringUtil.getMinHeight(text, audioTitleLabel.getFont());
+        int parentWidth = audioTitleLabel.getParent().getWidth();
+        int parentHeight = audioTitleLabel.getParent().getHeight();
+
+        if (textWidth > parentWidth) {
+            audioTitleLabel.setText(text);
+            System.out.println("need to use scrolling label object");
+        } else {
+            audioTitleLabel.setBounds(parentWidth / 2 - textWidth / 2,
+                    parentHeight / 2 - textHeight / 2, textWidth, textHeight);
+            audioTitleLabel.setText(text);
+        }
     }
 
     private static final void refreshAudioFiles() {
