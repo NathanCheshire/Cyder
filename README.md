@@ -2,8 +2,6 @@
 
 ![](./static/svgs/Secondary.svg)
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
-
 ## Description
 
 Cyder is a multipurpose, desktop manager, GUI tool written using a custom UI library which on top of Swing/AWT. No
