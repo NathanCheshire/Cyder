@@ -83,6 +83,11 @@ public class AudioPlayer {
             "static","pictures","music","Default.png");
 
     /**
+     * The format of the waveform image to export.
+     */
+    private static final String WAVEFORM_EXPORT_FORMAT = "png";
+
+    /**
      * The default text to display for the audio title label.
      */
     public static final String DEFAULT_AUDIO_TITLE = "No Audio Playing";
@@ -614,8 +619,6 @@ public class AudioPlayer {
                     stopAudio();
                     pauseLocation = skipLocation;
                 }
-
-                // todo update progress bar, label will update based on progress bar
             }
         });
 
@@ -877,7 +880,7 @@ public class AudioPlayer {
                                 DynamicDirectory.USERS.getDirectoryName(),
                                 ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(),
-                                saveName + ".png");
+                                saveName + "." + WAVEFORM_EXPORT_FORMAT);
 
                         Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile);
 
@@ -886,7 +889,7 @@ public class AudioPlayer {
                         }
 
                         try {
-                            ImageIO.write(waveform.get(), "png", saveFile.getAbsoluteFile());
+                            ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
                             NotificationBuilder notifyBuilder = new NotificationBuilder
                                     ("Saved waveform to your files directory");
                             notifyBuilder.setOnKillAction(() -> {
@@ -928,18 +931,46 @@ public class AudioPlayer {
         });
         audioPlayerFrame.addMenuItem("Dreamify", () -> {
             if (currentAudioFile != null) {
-                if (FileUtil.getFilename(currentAudioFile).endsWith(AudioUtil.DREAMY_SUFFIX)) {
+                String currentAudioFilename = FileUtil.getFilename(currentAudioFile);
+
+                if (currentAudioFilename.endsWith(AudioUtil.DREAMY_SUFFIX)) {
                     audioPlayerFrame.notify("Current audio has already been dreamified");
                     return;
                 }
 
-                CyderThreadRunner.submit(() -> {
-                    // todo need to suppress dreamifying and skipping and other problematic sources with this
+                File userMusicDir = OSUtil.buildFile(
+                        DynamicDirectory.DYNAMIC_PATH,
+                        DynamicDirectory.USERS.getDirectoryName(),
+                        ConsoleFrame.INSTANCE.getUUID(),
+                        UserFile.MUSIC.getName());
 
-                    audioPlayerFrame.notify("Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"");
+                if (userMusicDir.exists()) {
+                    File[] audioFiles = userMusicDir.listFiles();
+
+                    for (File audioFile : audioFiles) {
+                        String currentDreamyFilename = FileUtil.getFilename(audioFile)
+                                + AudioUtil.DREAMY_SUFFIX;
+
+                        if (currentAudioFilename.equalsIgnoreCase(currentDreamyFilename)) {
+                            audioPlayerFrame.notify("Current audio has already been dreamified");
+
+                            // todo should we just play it instead?
+
+                            return;
+                        }
+                    }
+                }
+
+                CyderThreadRunner.submit(() -> {
+                    // todo need to lock dreamifying audio until this one finishes
+
+                    NotificationBuilder dreamifyBuilder = new NotificationBuilder(
+                            "Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"");
+                    dreamifyBuilder.setViewDuration(0);
+
+                    audioPlayerFrame.notify(dreamifyBuilder);
 
                     Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile);
-                    // todo this is exported as a _Dreamy.wav in tmp
 
                     while (!dreamifiedAudio.isDone()) {
                        Thread.onSpinWait();
@@ -962,6 +993,7 @@ public class AudioPlayer {
                                    UserFile.MUSIC.getName(),
                                    present.get().getName());
 
+                           // copy dreamified audio to user's music dir
                            Files.copy(Paths.get(present.get().getAbsolutePath()),
                                    Paths.get(destinationFile.getAbsolutePath()));
 
@@ -970,16 +1002,19 @@ public class AudioPlayer {
                            }
 
                            currentAudioFile = destinationFile;
+
+                           refreshAudioTitleLabel();
                            refreshAudioFiles();
+                           audioProgressBar.setValue(0);
                            playAudio();
+
                        } catch (Exception e) {
                            ExceptionHandler.handle(e);
                        }
-                      // todo copy file to music and play it
                     } else {
                        audioPlayerFrame.notify("Could not dreamify audio at this time");
                     }
-                    }, "Audio Dreamifier");
+                }, "Audio Dreamifier");
             }
         });
     }
