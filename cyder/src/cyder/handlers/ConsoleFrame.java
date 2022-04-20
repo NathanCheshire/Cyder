@@ -829,6 +829,9 @@ public enum ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
+            consoleDir = requestedConsoleStats.getConsoleFrameDirection();
+            revalidate(true, false, true);
+
             // push into bounds
             FrameUtil.requestFramePosition(requestedConsoleStats.getMonitor(),
                     requestedConsoleStats.getConsoleX(), requestedConsoleStats.getConsoleY(), consoleCyderFrame);
@@ -2962,6 +2965,7 @@ public enum ConsoleFrame {
                     .getDevice().getIDstring().replaceAll("[^0-9]", "")));
             screenStat.setConsoleX(consoleCyderFrame.getX());
             screenStat.setConsoleY(consoleCyderFrame.getY());
+            screenStat.setConsoleFrameDirection(consoleDir);
 
             // just to be safe
             if (!isClosed()) {

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
+import cyder.enums.Direction;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.FatalException;
@@ -537,7 +538,7 @@ public class UserUtil {
                 if (user.getScreenStat() == null) {
                     // screen stat restoration
                     user.setScreenStat(new ScreenStat(0, 0,
-                            0, 0, 0, false));
+                            0, 0, 0, false, Direction.TOP));
                 }
 
                 // success in parsing so break out of loop

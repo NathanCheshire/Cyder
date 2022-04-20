@@ -1,5 +1,6 @@
 package cyder.user.objects;
 
+import cyder.enums.Direction;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
@@ -41,23 +42,31 @@ public class ScreenStat {
     private boolean consoleOnTop;
 
     /**
+     * The direction the console frame is currently oriented in.
+     */
+    private Direction consoleFrameDirection;
+
+    /**
      * Constructs a new ScreenStat object.
      *
-     * @param consoleX      the x location of the console frame
-     * @param consoleY      the y location of the console frame
-     * @param consoleWidth  the width of the console frame
-     * @param consoleHeight the height of the console frame
-     * @param monitor       the monitor id the console frame is on
-     * @param consoleOnTop  whether the console frame is in always on top mode
+     * @param consoleX              the x location of the console frame
+     * @param consoleY              the y location of the console frame
+     * @param consoleWidth          the width of the console frame
+     * @param consoleHeight         the height of the console frame
+     * @param monitor               the monitor id the console frame is on
+     * @param consoleOnTop          whether the console frame is in always on top mode
+     * @param consoleFrameDirection the direction the console frame is oriented in
      */
     public ScreenStat(int consoleX, int consoleY, int consoleWidth,
-                      int consoleHeight, int monitor, boolean consoleOnTop) {
+                      int consoleHeight, int monitor,
+                      boolean consoleOnTop, Direction consoleFrameDirection) {
         this.consoleX = consoleX;
         this.consoleY = consoleY;
         this.consoleWidth = consoleWidth;
         this.consoleHeight = consoleHeight;
         this.monitor = monitor;
         this.consoleOnTop = consoleOnTop;
+        this.consoleFrameDirection = consoleFrameDirection;
 
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
@@ -168,6 +177,24 @@ public class ScreenStat {
      */
     public void setConsoleOnTop(boolean consoleOnTop) {
         this.consoleOnTop = consoleOnTop;
+    }
+
+    /**
+     * Returns the direction the console frame is oriented in.
+     *
+     * @return the direction the console frame is oriented in
+     */
+    public Direction getConsoleFrameDirection() {
+        return consoleFrameDirection;
+    }
+
+    /**
+     * Sets the direction the console frame is oriented in.
+     *
+     * @param consoleFrameDirection the direction the console frame is oriented in
+     */
+    public void setConsoleFrameDirection(Direction consoleFrameDirection) {
+        this.consoleFrameDirection = consoleFrameDirection;
     }
 
     /**

@@ -7,6 +7,7 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderStrings;
+import cyder.enums.Direction;
 import cyder.enums.DynamicDirectory;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -530,7 +531,7 @@ public class UserCreator {
         }
 
         user.setScreenStat(new ScreenStat(x, y, background.getWidth(),
-                background.getHeight(), monitorNum, false));
+                background.getHeight(), monitorNum, false, Direction.TOP));
 
         // executables
         user.setExecutables(new LinkedList<>());
