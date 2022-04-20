@@ -1,5 +1,7 @@
 package cyder.user;
 
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -32,6 +34,11 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+/**
+ * A widget to create a Cyder user.
+ */
+@Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class UserCreator {
     /**
      * The user creator frame.
@@ -79,7 +86,7 @@ public class UserCreator {
         nameLabel.setBounds(120, 30, 121, 30);
         createUserFrame.getContentPane().add(nameLabel);
 
-        //initialize here since we need to update its tooltip
+        // initialize here since we need to update its tooltip
         CyderButton createNewUser = new CyderButton("Create User");
 
         newUserName = new CyderTextField(0);
@@ -130,7 +137,7 @@ public class UserCreator {
         passwordLabel.setBounds(60, 120, 240, 30);
         createUserFrame.getContentPane().add(passwordLabel);
 
-        //initialize here since we need to update it for both fields
+        // initialize here since we need to update it for both fields
         JLabel matchPasswords = new JLabel("Passwords match", SwingConstants.CENTER);
 
         newUserPassword = new CyderPasswordField();
@@ -250,7 +257,7 @@ public class UserCreator {
                         builder.setRelativeTo(CyderFrame.getDominantFrame());
                         InformHandler.inform(builder);
 
-                        //attempt to log in new user if it's the only user
+                        // attempt to log in new user if it's the only user
                         if (OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                                 DynamicDirectory.USERS.getDirectoryName()).listFiles().length == 1) {
                             LoginHandler.getLoginFrame().dispose();
@@ -322,7 +329,7 @@ public class UserCreator {
      * @return whether the user was created
      */
     public static boolean createUser(String name, char[] password, char[] passwordConf) {
-        //validate data for basic correctness
+        // validate data for basic correctness
         if (StringUtil.isNull(name) ) {
             return false;
         }
@@ -366,7 +373,7 @@ public class UserCreator {
             return false;
         }
 
-        //generate the user uuid and ensure it is unique
+        // generate the user uuid and ensure it is unique
         String uuid = SecurityUtil.generateUUID();
         File folder = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName(), uuid);
@@ -377,10 +384,10 @@ public class UserCreator {
                     DynamicDirectory.USERS.getDirectoryName(), uuid);
         }
 
-        //set the uuid so that we can delete the folder if something fails later
+        // set the uuid so that we can delete the folder if something fails later
         lastGeneratedUUID = uuid;
 
-        //ensure that the username doesn't already exist
+        // ensure that the username doesn't already exist
         boolean userNameExists = false;
 
         for (File f : folder.getParentFile().listFiles()) {
@@ -408,7 +415,7 @@ public class UserCreator {
             return false;
         }
 
-        //create the user folder
+        // create the user folder
         File userFolder = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                 DynamicDirectory.USERS.getDirectoryName(), uuid);
 
@@ -416,7 +423,7 @@ public class UserCreator {
             return false;
         }
 
-        //create the default user files
+        // create the default user files
         for (UserFile f : UserFile.values()) {
             File makeMe = OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
                     DynamicDirectory.USERS.getDirectoryName(), uuid, f.getName());
@@ -461,7 +468,7 @@ public class UserCreator {
 
         // default preferences
         for (Preference pref : Preferences.getPreferences()) {
-            //as per convention, IGNORE for tooltip means ignore when creating user
+            // as per convention, IGNORE for tooltip means ignore when creating user
             // whilst IGNORE for default value means ignore for edit user
             if (!pref.getTooltip().equals("IGNORE")) {
                 for (Method m : user.getClass().getMethods()) {
@@ -482,7 +489,7 @@ public class UserCreator {
 
         BufferedImage background;
 
-        //screen stat initializing
+        // screen stat initializing
         try {
             background = ImageIO.read(createUserBackground);
         } catch (Exception e) {
@@ -511,7 +518,7 @@ public class UserCreator {
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
 
-                //error so default the screen stats
+                // error so default the screen stats
                 x = (ScreenUtil.getScreenWidth() - background.getWidth()) / 2;
                 y = (ScreenUtil.getScreenHeight() - background.getHeight()) / 2;
             }
@@ -535,7 +542,7 @@ public class UserCreator {
                 uuid, UserFile.USERDATA.getName()
         ), user);
 
-        //password security
+        // password security
         Arrays.fill(password, '\0');
         Arrays.fill(passwordConf, '\0');
 

@@ -1,45 +1,48 @@
 package cyder.user.objects;
 
+import com.google.errorprone.annotations.Immutable;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
 /**
  * Preference class used to hold user data in the form of strings.
+ * Instances of this class are immutable and thus thread safe.
  */
+@Immutable
 public class Preference {
     /**
      * The id of the preference.
      */
-    private String id;
+    private final String id;
 
     /**
      * The name to display for the preference when allowing the user to make changes.
      */
-    private String displayName;
+    private final String displayName;
 
     /**
      * The tooltip for the toggle button.
      */
-    private String tooltip;
+    private final String tooltip;
 
     /**
      * The default value for the preference.
      */
-    private String defaultValue;
+    private final String defaultValue;
 
     /**
      * The method to run when a change of the preference occurs.
      */
-    private Runnable onChangeFunction;
+    private final Runnable onChangeFunction;
 
     /**
      * Constructs a preference object.
      *
-     * @param id the id of the preference
-     * @param displayName the display name
-     * @param tooltip the tooltip text for the toggle button
-     * @param defaultValue the default value
+     * @param id               the id of the preference
+     * @param displayName      the display name
+     * @param tooltip          the tooltip text for the toggle button
+     * @param defaultValue     the default value
      * @param onChangeFunction the method to run when a change of the preference occurs.
      */
     public Preference(String id, String displayName,
@@ -91,57 +94,12 @@ public class Preference {
     }
 
     /**
-     * Returns the preference id.
-     *
-     * @param id the preference id
-     */
-    public void setID(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Sets the display name for the preference.
-     *
-     * @param displayName the display name for the preference
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    /**
-     * Sets the tooltip text for the preference toggler.
-     *
-     * @param tooltip the tooltip text for the preference toggler
-     */
-    public void setTooltip(String tooltip) {
-        this.tooltip = tooltip;
-    }
-
-    /**
-     * Sets the default value.
-     *
-     * @param defaultValue the default value
-     */
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    /**
      * Returns the function to invoke upon a change of the preference.
      *
      * @return the function to invoke upon a change of the preference
      */
     public Runnable getOnChangeFunction() {
         return onChangeFunction;
-    }
-
-    /**
-     * Sets the function to invoke upon a change of the preference.
-     *
-     * @param onChangeFunction the function to invoke upon a change of the preference
-     */
-    public void setOnChangeFunction(Runnable onChangeFunction) {
-        this.onChangeFunction = onChangeFunction;
     }
 
     /**

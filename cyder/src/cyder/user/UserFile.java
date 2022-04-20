@@ -1,7 +1,7 @@
 package cyder.user;
 
 /**
- * Class representing the different files which should exists with a user's directory.
+ * Enum representing the different directories/files which should always exist within a user's directory.
  */
 public enum UserFile {
     /**

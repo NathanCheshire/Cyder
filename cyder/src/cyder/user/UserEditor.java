@@ -7,7 +7,6 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
-import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
@@ -389,7 +388,8 @@ public class UserEditor {
                                         boolean albumRenSuccess = refFile.renameTo(artRename);
 
                                         if (!albumRenSuccess) {
-                                            throw new FatalException("Could not rename music's corresponding album art");
+                                            throw new IllegalStateException(
+                                                    "Could not rename music's corresponding album art");
                                         }
                                     }
                                 }
@@ -427,7 +427,8 @@ public class UserEditor {
                         .getCurrentBackground().getReferenceFile().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the background you are currently using");
                 } else if (AudioPlayer.getCurrentAudio() != null &&
-                        selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer.getCurrentAudio().getAbsolutePath())) {
+                        selectedFile.getAbsolutePath().equalsIgnoreCase(AudioPlayer
+                                .getCurrentAudio().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the audio you are currently playing");
                 } else {
                     boolean deleted = selectedFile.delete();
@@ -437,13 +438,16 @@ public class UserEditor {
 
                         if (FileUtil.isSupportedAudioExtension(selectedFile))
                             ConsoleFrame.INSTANCE.getInputHandler()
-                                    .println("Music: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
+                                    .println("Music: " + FileUtil.getFilename(selectedFile)
+                                            + " successfully deleted.");
                         else if (FileUtil.isSupportedImageExtension(selectedFile)) {
                             ConsoleFrame.INSTANCE.getInputHandler()
-                                    .println("Background: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
+                                    .println("Background: " + FileUtil.getFilename(selectedFile)
+                                            + " successfully deleted.");
                         } else {
                             ConsoleFrame.INSTANCE.getInputHandler()
-                                    .println("File: " + FileUtil.getFilename(selectedFile) + " successfully deleted.");
+                                    .println("File: " + FileUtil.getFilename(selectedFile)
+                                            + " successfully deleted.");
                         }
 
                         if (FileUtil.isSupportedAudioExtension(selectedFile)) {
@@ -1203,7 +1207,8 @@ public class UserEditor {
                 boolean valid = false;
 
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(OpenString).openStream()));
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(new URL(OpenString).openStream()));
                     reader.read();
                     valid = true;
                     reader.close();
@@ -1273,7 +1278,8 @@ public class UserEditor {
                 boolean valid = false;
 
                 try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(new URL(url).openStream()));
                     valid = true;
                     reader.close();
                 } catch (Exception ex) {
