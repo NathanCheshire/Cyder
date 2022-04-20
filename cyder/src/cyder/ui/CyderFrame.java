@@ -2158,7 +2158,7 @@ public class CyderFrame extends JFrame {
      *
      * @return whether dragging is permitted for this frame
      */
-    public boolean draggingEnabled() {
+    public boolean isDraggingEnabled() {
         if (getTopDragLabel() == null)
             return false;
 

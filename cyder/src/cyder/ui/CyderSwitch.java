@@ -152,14 +152,14 @@ public class CyderSwitch extends JLabel {
             case ON:
                 switchButton.setText(onText);
                 if (shouldAniamte)
-                    AnimationUtil.componentRight(switchButton.getX(), width - switchButton.getWidth() - 10,
+                    AnimationUtil.componentRightSepThread(switchButton.getX(), width - switchButton.getWidth() - 10,
                             animationDelay, 8, switchButton);
                 switchButton.setLocation(width - switchButton.getWidth() - 10, switchButton.getY());
                 break;
             case OFF:
                 switchButton.setText(offText);
                 if (shouldAniamte)
-                    AnimationUtil.componentLeft(switchButton.getX(), 10, animationDelay, 8, switchButton);
+                    AnimationUtil.componentLeftSepThread(switchButton.getX(), 10, animationDelay, 8, switchButton);
                 switchButton.setLocation(10, switchButton.getY());
                 break;
             case INDETERMINITE:
@@ -167,14 +167,14 @@ public class CyderSwitch extends JLabel {
                 if (switchButton.getX() > 10) {
                     if (shouldAniamte) {
                         switchButton.setLocation(width - switchButton.getWidth() - 10, 10);
-                        AnimationUtil.componentLeft(switchButton.getX(),
+                        AnimationUtil.componentLeftSepThread(switchButton.getX(),
                                 width / 2 - switchButton.getWidth() / 2, animationDelay, 8, switchButton);
                     }
                     switchButton.setLocation(width / 2 - switchButton.getWidth() / 2,10);
                 } else {
                     if (shouldAniamte) {
                         switchButton.setLocation(10,10);
-                        AnimationUtil.componentRight(10, width / 2 - switchButton.getWidth() / 2,
+                        AnimationUtil.componentRightSepThread(10, width / 2 - switchButton.getWidth() / 2,
                                 animationDelay, 8, switchButton);
                     }
                     switchButton.setLocation(10,10);

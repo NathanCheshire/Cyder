@@ -766,7 +766,7 @@ public enum ConsoleFrame {
                 @Override
                 public void mouseDragged(MouseEvent e) {
                     if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
-                            && consoleCyderFrame.draggingEnabled()) {
+                            && consoleCyderFrame.isDraggingEnabled()) {
                         for (Frame f : Frame.getFrames()) {
                             if (f instanceof CyderFrame && ((CyderFrame) f).isConsolePinned() &&
                                     !f.getTitle().equals(consoleCyderFrame.getTitle()) &&
@@ -785,7 +785,7 @@ public enum ConsoleFrame {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     if (consoleCyderFrame != null && consoleCyderFrame.isFocused()
-                            && consoleCyderFrame.draggingEnabled()) {
+                            && consoleCyderFrame.isDraggingEnabled()) {
 
                         Rectangle consoleRect = new Rectangle(consoleCyderFrame.getX(), consoleCyderFrame.getY(),
                                 consoleCyderFrame.getWidth(), consoleCyderFrame.getHeight());
@@ -3018,7 +3018,7 @@ public enum ConsoleFrame {
         for (Frame f : Frame.getFrames()) {
             if (f instanceof CyderFrame) {
                 restoreFrames.add(new RestoreFrame((CyderFrame) f,
-                        f.getX(), f.getY(), ((CyderFrame) f).draggingEnabled()));
+                        f.getX(), f.getY(), ((CyderFrame) f).isDraggingEnabled()));
                 ((CyderFrame) f).disableDragging();
             }
         }
