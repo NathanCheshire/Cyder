@@ -256,7 +256,8 @@ public class ReflectionUtil {
 
     /**
      * Finds all widgets within Cyder by looking for methods annotated with {@link Widget}.
-     * The annotated method MUST take no parameters, be named "showGUI()",
+     * The annotated method MUST take no parameters, be named
+     * {@link ReflectionUtil#STANDARD_WIDGET_SHOW_METHOD_NAME},
      * contain a valid description, and contain at least one trigger.
      *
      * @throws IllegalMethodException if an invalid {@link Widget} annotation is located

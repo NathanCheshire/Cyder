@@ -23,11 +23,11 @@ public class ExampleWidget {
 
     @SuppressCyderInspections(values = "WidgetInspection")
     @Widget(triggers = "example widget", description = "An example base widget for new Cyder developers")
-    public static void showGUI() {
-        getInstance().innerShowGUI();
+    public static void showGui() {
+        getInstance().innerShowGui();
     }
 
-    public void innerShowGUI() {
+    public void innerShowGui() {
         CyderFrame cyderFrame = new CyderFrame(600,600);
         cyderFrame.setTitle("My Title");
         cyderFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);

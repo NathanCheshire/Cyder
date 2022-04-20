@@ -25,20 +25,36 @@ import java.io.InputStream;
 @Vanilla
 @CyderAuthor(author = "Nathan Cheshire")
 public class FileSignatureWidget {
+    /**
+     * The file to validate.
+     */
     private static File currentFile;
+
+    /**
+     * The frame.
+     */
     private static CyderFrame signatureFrame;
+
+    /**
+     * The expected byte signature input field.
+     */
     private static CyderTextField signatureField;
+
+    /**
+     * The label to which the results are displayed on.
+     */
     private static CyderLabel resultLabel;
 
+    /**
+     * Suppress default constructor.
+     */
     private FileSignatureWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "filesignature", description = "A widget to read the raw file " +
             "hex data and determine if the file signature matches the provided extension")
-    public static void showGUI() {
-        
-
+    public static void showGui() {
         signatureFrame = new CyderFrame(400,420, CyderIcons.defaultBackground);
         signatureFrame.setTitle("File Signature Checker");
 

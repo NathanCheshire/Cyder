@@ -632,7 +632,7 @@ public class InputHandler {
         boolean ret = true;
 
         if (commandIs("createuser")) {
-            UserCreator.showGUI();
+            UserCreator.showGui();
         } else if (commandIs("backgroundcolor")) {
             if (checkArgsLength(1)) {
                 try {

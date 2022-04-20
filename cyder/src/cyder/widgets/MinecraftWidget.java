@@ -31,7 +31,7 @@ public class MinecraftWidget {
     }
 
     @Widget(triggers = "minecraft", description = "A minecraft widget that copies from the Mojang home page")
-    public static void showGUI() {
+    public static void showGui() {
         if (minecraftFrame != null)
             minecraftFrame.dispose();
 

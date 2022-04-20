@@ -161,26 +161,33 @@ public class IOUtil {
      * @param filePath the path to the file to open
      */
     public static void openFile(String filePath) {
+        // create file object
         File file = new File(filePath);
 
+        // check for Cyder support
         if (filePath.endsWith(".txt")) {
-            TextViewer.getInstance(file).showGUI();
+            TextViewer.getInstance(file).showGui();
+            return;
         } else if (FileUtil.isSupportedImageExtension(new File(filePath))) {
-            PhotoViewer.getInstance(file).showGUI();
+            PhotoViewer.getInstance(file).showGui();
+            return;
         } else if (FileUtil.isSupportedAudioExtension(new File(filePath))) {
-            AudioPlayer.showGUI(file);
-        } else {
-            Desktop OpenFile = Desktop.getDesktop();
+            AudioPlayer.showGui(file);
+            return;
+        }
 
+        // in the end, just open it on the host OS
+
+        Desktop OpenFile = Desktop.getDesktop();
+
+        try {
+            OpenFile.browse(file.toURI());
+            Logger.log(LoggerTag.LINK, file.getAbsoluteFile());
+        } catch (Exception e) {
             try {
-                OpenFile.browse(file.toURI());
-                Logger.log(LoggerTag.LINK, file.getAbsoluteFile());
-            } catch (Exception e) {
-                try {
-                    Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-                } catch (Exception ex) {
-                    ExceptionHandler.handle(ex);
-                }
+                Runtime.getRuntime().exec("explorer.exe /select," + filePath);
+            } catch (Exception ex) {
+                ExceptionHandler.handle(ex);
             }
         }
     }

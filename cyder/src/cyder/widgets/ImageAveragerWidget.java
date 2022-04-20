@@ -75,9 +75,7 @@ public class ImageAveragerWidget {
      */
     @Widget(triggers = {"averageimages", "averagepictures"}, description = "A widget that adds multiple images " +
             "together and divides by the total to obtain an average base image")
-    public static void showGUI() {
-        
-
+    public static void showGui() {
         files = new ArrayList<>();
 
         if (averagerFrame != null)

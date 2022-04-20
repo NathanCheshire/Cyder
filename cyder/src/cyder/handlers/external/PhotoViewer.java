@@ -76,7 +76,7 @@ public class PhotoViewer {
     /**
      * Opens the instance of photo viewer.
      */
-    public void showGUI() {
+    public void showGui() {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
 
         refreshValidFiles();

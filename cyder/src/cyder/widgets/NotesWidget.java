@@ -50,15 +50,16 @@ public class NotesWidget {
 
     private static LinkedList<CyderFrame> noteFrames;
 
+    /**
+     * Suppress default constructor.
+     */
     private NotesWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
-    } //no objects
+    }
 
     @Widget(triggers = {"note", "notes"}, description
             = "A note taking widget that can save and display multiple notes")
-    public static void showGUI() {
-        
-
+    public static void showGui() {
         if (ConsoleFrame.INSTANCE.getUUID() == null)
             return;
 

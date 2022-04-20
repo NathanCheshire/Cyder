@@ -43,7 +43,7 @@ public class ConvexHullWidget {
      */
     @SuppressCyderInspections(values = "WidgetInspection")
     @Widget(triggers = {"convex", "convex hull"}, description = "A convex hull algorithm visualizer")
-    public static void showGUI() {
+    public static void showGui() {
         if (hullFrame != null) {
             hullFrame.dispose();
         }

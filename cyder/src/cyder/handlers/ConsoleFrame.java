@@ -722,7 +722,7 @@ public enum ConsoleFrame {
                                 "You only have one background image. "
                                         + "Try adding more via the user editor");
                         builder.setViewDuration(5000);
-                        builder.setOnKillAction(() -> UserEditor.showGUI(0));
+                        builder.setOnKillAction(() -> UserEditor.showGui(0));
                         consoleCyderFrame.notify(builder);
                     }
                 } catch (Exception ex) {
@@ -1287,13 +1287,13 @@ public enum ConsoleFrame {
         //default menu items
         if (compactMode) {
             printingUtil.printlnComponent(
-                    CyderFrame.generateDefaultCompactTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
+                    CyderFrame.generateDefaultCompactTaskbarComponent("Prefs", () -> UserEditor.showGui(0)));
 
             printingUtil.printlnComponent(
                     CyderFrame.generateDefaultCompactTaskbarComponent("Logout", this::logout));
         } else {
             printingUtil.printlnComponent(
-                    CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGUI(0)));
+                    CyderFrame.generateDefaultTaskbarComponent("Prefs", () -> UserEditor.showGui(0)));
             printingUtil.println("");
 
             printingUtil.printlnComponent(
@@ -2985,9 +2985,8 @@ public enum ConsoleFrame {
         closeConsoleFrame(false, true);
         FrameUtil.closeAllFrames(true);
 
-        LoginHandler.showGUI();
+        LoginHandler.showGui();
     }
-
 
     // ---------------------------
     // dancing stuff

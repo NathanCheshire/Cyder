@@ -64,7 +64,7 @@ public class UserCreator {
     }
 
     @Widget(triggers = {"createuser", "create"}, description = "A user creating widget")
-    public static void showGUI() {
+    public static void showGui() {
         if (createUserFrame != null)
             createUserFrame.dispose();
         createUserBackground = null;

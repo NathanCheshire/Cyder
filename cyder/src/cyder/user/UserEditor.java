@@ -83,11 +83,11 @@ public class UserEditor {
     }
 
     @Widget(triggers = {"prefs", "edituser"}, description = "A widget to edit your user preferences and files")
-    public static void showGUI() {
-        showGUI(0);
+    public static void showGui() {
+        showGui(0);
     }
 
-    public static void showGUI(int startingIndex) {
+    public static void showGui(int startingIndex) {
         if (editUserFrame != null)
             editUserFrame.dispose();
 
@@ -212,7 +212,7 @@ public class UserEditor {
                 if (FileUtil.isSupportedImageExtension(filesList.get(finalI))) {
                     PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
                     pv.setRenameCallback(() -> revalidateFilesScroll(filesScroll, filesLabelRef.get()));
-                    pv.showGUI();
+                    pv.showGui();
                 } else {
                     IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
                 }
@@ -530,7 +530,7 @@ public class UserEditor {
         hexLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGUI();
+                ColorConverterWidget.getInstance().innerShowGui();
             }
 
             @Override
@@ -594,7 +594,7 @@ public class UserEditor {
         hexWindowLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGUI();
+                ColorConverterWidget.getInstance().innerShowGui();
             }
 
             @Override
@@ -656,7 +656,7 @@ public class UserEditor {
         hexLabelFill.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ColorConverterWidget.getInstance().innerShowGUI();
+                ColorConverterWidget.getInstance().innerShowGui();
             }
 
             @Override

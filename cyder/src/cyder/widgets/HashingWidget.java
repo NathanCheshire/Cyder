@@ -6,7 +6,9 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
+import cyder.enums.LoggerTag;
 import cyder.handlers.internal.InformHandler;
+import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
@@ -58,19 +60,19 @@ public class HashingWidget {
      * Constructs a new hashing widget.
      */
     private HashingWidget() {
-        // to be called by method above
+        Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
     @Widget(triggers = {"hash", "hasher"}, description =
             "A hashing widget to hash any string using multiple algorithms such as MD5, SHA256, and SHA1")
-    public static void showGUI() {
-        getInstance().innerShowGUI();
+    public static void showGui() {
+        getInstance().innerShowGui();
     }
 
     /**
      * Shows the gui for this instance of the hashing widget.
      */
-    public void innerShowGUI() {
+    public void innerShowGui() {
         hashFrame = new CyderFrame(500,200, CyderIcons.defaultBackgroundLarge);
         hashFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
         hashFrame.setTitle("Hasher");

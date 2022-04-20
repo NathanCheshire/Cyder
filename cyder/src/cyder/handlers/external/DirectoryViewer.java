@@ -79,7 +79,7 @@ public class DirectoryViewer {
     }
 
     @Widget(triggers = "dir", description = "A directory navigator widget")
-    public static void showGUI() {
+    public static void showGui() {
         // kill frame if active
         if (dirFrame != null)
             dirFrame.dispose();

@@ -325,7 +325,7 @@ public class YoutubeUtil {
      * A widget for downloading a youtube video's thumbnail.
      */
     @Widget(triggers = {"youtube", "thumbnail"}, description = "A widget to steal youtube thumbnails")
-    public static void showGUI() {
+    public static void showGui() {
         CyderFrame uuidFrame = new CyderFrame(400,240, CyderIcons.defaultBackground);
         uuidFrame.setTitle("Thumbnail Stealer");
         uuidFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT);

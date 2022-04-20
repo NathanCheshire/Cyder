@@ -180,7 +180,7 @@ public class PerlinWidget {
      * Shows the perlin noise widget.
      */
     @Widget(triggers = "perlin", description = "Perlin noise visualizer/open simplex noise visualizer")
-    public static void showGUI() {
+    public static void showGui() {
         if (perlinFrame != null)
             perlinFrame.dispose(true);
 

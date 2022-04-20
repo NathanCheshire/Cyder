@@ -202,7 +202,7 @@ public class LoginHandler {
      * Shows the login frame.
      */
     @Widget(triggers = {"login","pin"}, description = "A widget to switch between Cyder users")
-    public static void showGUI() {
+    public static void showGui() {
         //clear lists
         priorityPrintingList.clear();
         printingList.clear();
@@ -335,7 +335,7 @@ public class LoginHandler {
                     case 0:
                         try {
                             if (inputString.equalsIgnoreCase("create")) {
-                                UserCreator.showGUI();
+                                UserCreator.showGui();
                                 loginField.setText(currentBashString);
                                 loginMode = 0;
                             } else if (inputString.equalsIgnoreCase("login")) {
@@ -448,7 +448,7 @@ public class LoginHandler {
             //if AutoCyphering fails, show the login gui
             if (!autoCypher()) {
                 Logger.log(LoggerTag.LOGIN, "AUTOCYPHER FAIL");
-                showGUI();
+                showGui();
             }
         }
         // otherwise, unreleased exit
@@ -475,7 +475,7 @@ public class LoginHandler {
 
                 ConsoleFrame.INSTANCE.launch(CyderEntry.PreviouslyLoggedIn);
             } else {
-                showGUI();
+                showGui();
             }
         }
     }

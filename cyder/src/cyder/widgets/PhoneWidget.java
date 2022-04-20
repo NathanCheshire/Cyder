@@ -18,48 +18,56 @@ import javax.swing.border.LineBorder;
 @Vanilla
 @CyderAuthor(author = "Nathan Cheshire")
 public class PhoneWidget {
+    /**
+     * The label numbers are appended to.
+     */
     private static JLabel numberLabel;
+
+    /**
+     * The current number.
+     */
     private static String phoneNum;
 
+    /**
+     * Suppress default constructor.
+     */
     private PhoneWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     @Widget(triggers = "phone", description = "A phone emulating widget")
-    public static void showGUI() {
-        
-
-        CyderFrame phoneFrame = new CyderFrame(320,500, CyderIcons.defaultBackground);
+    public static void showGui() {
+        CyderFrame phoneFrame = new CyderFrame(320, 500, CyderIcons.defaultBackground);
         phoneFrame.setTitle("Phone");
 
         numberLabel = new JLabel("#");
         numberLabel.setFont(CyderFonts.segoe20);
-        numberLabel.setBorder(new LineBorder(CyderColors.navy,5,false));
+        numberLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
         CyderButton zero = new CyderButton("0");
-        zero.setBorder(new LineBorder(CyderColors.navy,5,false));
+        zero.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton one = new CyderButton("1");
-        one.setBorder(new LineBorder(CyderColors.navy,5,false));
+        one.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton two = new CyderButton("2");
-        two.setBorder(new LineBorder(CyderColors.navy,5,false));
+        two.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton three = new CyderButton("3");
-        three.setBorder(new LineBorder(CyderColors.navy,5,false));
+        three.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton four = new CyderButton("4");
-        four.setBorder(new LineBorder(CyderColors.navy,5,false));
+        four.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton five = new CyderButton("5");
-        five.setBorder(new LineBorder(CyderColors.navy,5,false));
+        five.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton six = new CyderButton("6");
-        six.setBorder(new LineBorder(CyderColors.navy,5,false));
+        six.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton seven = new CyderButton("7");
-        seven.setBorder(new LineBorder(CyderColors.navy,5,false));
+        seven.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton eight = new CyderButton("8");
-        eight.setBorder(new LineBorder(CyderColors.navy,5,false));
+        eight.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton nine = new CyderButton("9");
-        nine.setBorder(new LineBorder(CyderColors.navy,5,false));
+        nine.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton back = new CyderButton("<X");
-        back.setBorder(new LineBorder(CyderColors.navy,5,false));
+        back.setBorder(new LineBorder(CyderColors.navy, 5, false));
         CyderButton dialNumber = new CyderButton("Call");
-        dialNumber.setBorder(new LineBorder(CyderColors.navy,5,false));
+        dialNumber.setBorder(new LineBorder(CyderColors.navy, 5, false));
 
         numberLabel.setBounds(20, 40, 320 - 40, 40);
         phoneFrame.getContentPane().add(numberLabel);
@@ -221,27 +229,32 @@ public class PhoneWidget {
         dialNumber.setFont(CyderFonts.segoe30);
         dialNumber.addActionListener(e -> {
             if (!phoneNum.isEmpty()) {
-                checkFor223();
-                checkForSuicideHotline();
-
+                // check for easter egg numbers
                 if (checkForSuicideHotline()) {
                     IOUtil.playAudio("static/audio/1800.mp3");
-                }
-
-                else if (checkFor223()) {
+                    return;
+                } else if (checkForNumber("223")) {
                     IOUtil.playAudio("static/audio/223.mp3");
+                    return;
                 }
 
-                else {
-                    phoneFrame.notify("Dialing: " + numberLabel.getText());
-                    phoneNum = "";
-                }
+                // finally just dial current number
+
+                phoneFrame.notify("Dialing: " + numberLabel.getText());
+                phoneNum = "";
             }
         });
 
         phoneFrame.finalizeAndShow();
     }
 
+    /**
+     * Returns the number formatted based on the current number
+     * of digits contained in the phone number.
+     *
+     * @param num the current phone number
+     * @return the phone number formatted
+     */
     private static String phoneNumFormat(String num) {
         num = num.replaceAll("[^\\d.]", "");
         int len = num.length();
@@ -253,15 +266,15 @@ public class PhoneWidget {
         } else if (len == 5) {
             return (num.charAt(0) + "-" + num.substring(1, 5));
         } else if (len == 6) {
-            return (num.substring(0,2) + "-" + num.substring(2, 6));
+            return (num.substring(0, 2) + "-" + num.substring(2, 6));
         } else if (len == 7) {
-            return (num.substring(0,3) + "-" + num.substring(3, 7));
+            return (num.substring(0, 3) + "-" + num.substring(3, 7));
         } else if (len == 8) {
-            return ("(" + num.charAt(0) + ") " + num.substring(1,4) + " " + num.substring(4, 8));
+            return ("(" + num.charAt(0) + ") " + num.substring(1, 4) + " " + num.substring(4, 8));
         } else if (len == 9) {
-            return ("(" + num.substring(0,2) + ") " + num.substring(2,5) + " " + num.substring(5, 9));
+            return ("(" + num.substring(0, 2) + ") " + num.substring(2, 5) + " " + num.substring(5, 9));
         } else if (len == 10) {
-            return ("(" + num.substring(0,3) + ") " + num.substring(3,6) + " " + num.substring(6, 10));
+            return ("(" + num.substring(0, 3) + ") " + num.substring(3, 6) + " " + num.substring(6, 10));
         } else if (len > 10) {
             if (len > 15) {
                 phoneNum = numberLabel.getText();
@@ -271,19 +284,33 @@ public class PhoneWidget {
             String leadingDigits = num.substring(0, len - 10);
             int offset = leadingDigits.length();
 
-            return (leadingDigits + " (" + num.substring(offset,3 + offset) + ") " + num.substring(3 + offset,6 + offset) + " " + num.substring(6 + offset,len));
+            return (leadingDigits + " (" + num.substring(offset, 3 + offset) + ") "
+                    + num.substring(3 + offset, 6 + offset) + " " + num.substring(6 + offset, len));
         } else {
             return null;
         }
     }
 
-    private static boolean checkForSuicideHotline() {
-        String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
-        return num.equals("18002738255");
+    /**
+     * Checks for the current number equaling the provided raw number string.
+     * The number passed in should only contain digits.
+     *
+     * @param numberString the digit string of the expected field text
+     * @return whether the field is currently a form of the provided number string
+     */
+    private static boolean checkForNumber(String numberString) {
+        String num = numberLabel.getText().replace("-", "")
+                .replace("(", "").replace(")", "")
+                .replace(" ", "").trim();
+        return num.equals(numberString);
     }
 
-    private static boolean checkFor223() {
-        String num = numberLabel.getText().replace("-","").replace("(","").replace(")","").replace(" ","").trim();
-        return num.equals("223");
+    /**
+     * Returns whether the current number is the USA's suicide hotline.
+     *
+     * @return whether the current number is the USA's suicide hotline
+     */
+    private static boolean checkForSuicideHotline() {
+        return checkForNumber("18002738255");
     }
 }

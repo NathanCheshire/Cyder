@@ -106,15 +106,15 @@ public class WeatherWidget {
     //show gui method as per standard
     @Widget(triggers = "weather", description = "A widget that displays weather data for the current " +
             "city you are in. The location is also changeable")
-    public static void showGUI() {
-        getInstance().innerShowGUI();
+    public static void showGui() {
+        getInstance().innerShowGui();
     }
 
     /**
      * Shows the UI since we need to allow multiple instances of weather widget
-     * while still having the public static showGUI() method with the @Widget annotation.
+     * while still having the public static showGui() method with the @Widget annotation.
      */
-    private void innerShowGUI() {
+    private void innerShowGui() {
         if (NetworkUtil.isHighLatency()) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Sorry, "
                     + UserUtil.getCyderUser().getName() + ", but"

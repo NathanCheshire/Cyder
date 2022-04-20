@@ -48,7 +48,7 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                AudioPlayer.showGUI(AudioPlayer.DEFAULT_AUDIO_FILE);
+                AudioPlayer.showGui(AudioPlayer.DEFAULT_AUDIO_FILE);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }

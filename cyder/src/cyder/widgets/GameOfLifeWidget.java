@@ -205,7 +205,7 @@ public class GameOfLifeWidget {
 
     @SuppressCyderInspections(values = "WidgetInspection")
     @Widget(triggers = {"conway","conways","game of life"}, description = "Conway's game of life visualizer")
-    public static void showGUI() {
+    public static void showGui() {
         if (conwayFrame != null)
             conwayFrame.disposeIfActive();
 

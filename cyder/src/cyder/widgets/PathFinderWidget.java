@@ -263,8 +263,9 @@ public class PathFinderWidget {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Widget(triggers = {"path","pathfinder", "A*"}, description = "A pathfinding visualizer for A* and Dijkstras algorithms")
-    public static void showGUI() {
+    @Widget(triggers = {"path","pathfinder", "A*"},
+            description = "A pathfinding visualizer for A* and Dijkstras algorithms")
+    public static void showGui() {
         if (pathFindingFrame != null)
             pathFindingFrame.dispose();
 

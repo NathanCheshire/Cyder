@@ -38,20 +38,22 @@ public class ImagePixelatorWidget {
     private static JLabel previewLabel;
     private static CyderTextField integerField;
 
+    /**
+     * Suppress default constructor.
+     */
     private ImagePixelatorWidget() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
-    @Widget(triggers = {"pixelatepicture", "pixelateimage", "pixelator"}, description = "A simple image pixelator widget that transforms" +
+    @Widget(triggers = {"pixelatepicture", "pixelateimage", "pixelator"},
+            description = "A simple image pixelator widget that transforms" +
             " the image into an image depicted of the specified number of pixels")
-    public static void showGUI() {
-        showGUI(null);
+    public static void showGui() {
+        showGui(null);
     }
 
-    public static void showGUI(File startPNG) {
-        
-
-        CyderFrame pixelFrame = new CyderFrame(800,800, CyderIcons.defaultBackground);
+    public static void showGui(File startPNG) {
+        CyderFrame pixelFrame = new CyderFrame(800, 800, CyderIcons.defaultBackground);
         pixelFrame.setTitle("Image Pixelator");
 
         CyderLabel pixelSize = new CyderLabel("Pixel Size");
@@ -63,7 +65,7 @@ public class ImagePixelatorWidget {
 
         CyderButton chooseImage = new CyderButton("Choose Image");
         chooseImage.setToolTipText("PNGs");
-        chooseImage.setBounds(50,100,200,40);
+        chooseImage.setBounds(50, 100, 200, 40);
         pixelFrame.getContentPane().add(chooseImage);
         chooseImage.addActionListener(e -> {
             try {
@@ -92,16 +94,14 @@ public class ImagePixelatorWidget {
                         ExceptionHandler.handle(ex);
                     }
                 }, "wait thread for GetterUtil().getFile()");
-            }
-
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
         });
 
         integerField = new CyderTextField(0);
         integerField.setKeyEventRegexMatcher("[0-9]*");
-        integerField.setBounds(300,100,200,40);
+        integerField.setBounds(300, 100, 200, 40);
         integerField.setToolTipText("How many old pixels should be combined into a new pixel?");
         pixelFrame.getContentPane().add(integerField);
         integerField.addKeyListener(new KeyAdapter() {
@@ -118,7 +118,7 @@ public class ImagePixelatorWidget {
                         }
                     }
 
-                    displayIcon = new ImageIcon(ImageUtil.pixelate(checkImageBi(currentFile),pixelSize));
+                    displayIcon = new ImageIcon(ImageUtil.pixelate(checkImageBi(currentFile), pixelSize));
                     previewLabel.setIcon(displayIcon);
                     previewLabel.revalidate();
                     pixelFrame.revalidate();
@@ -130,7 +130,7 @@ public class ImagePixelatorWidget {
 
         CyderButton approveImage = new CyderButton("Approve Image");
         approveImage.setToolTipText("Saves to downloads folder");
-        approveImage.setBounds(800 - 50 - 200,100,200,40);
+        approveImage.setBounds(800 - 50 - 200, 100, 200, 40);
         pixelFrame.getContentPane().add(approveImage);
         approveImage.addActionListener(e -> {
             if (integerField.getText() != null && !integerField.getText().isEmpty()) {
@@ -140,7 +140,7 @@ public class ImagePixelatorWidget {
                     try {
                         BufferedImage saveImage = ImageUtil.pixelate(ImageIO.read(currentFile), pixel);
                         File saveFile = new File(OSUtil.buildPath(
-                                DynamicDirectory.DYNAMIC_PATH,"users", ConsoleFrame.INSTANCE.getUUID(),
+                                DynamicDirectory.DYNAMIC_PATH, "users", ConsoleFrame.INSTANCE.getUUID(),
                                 UserFile.FILES.getName(), FileUtil.getFilename(currentFile)
                                         + "_Pixelated_Pixel_Size_" + pixel + ".png"));
 
@@ -163,7 +163,7 @@ public class ImagePixelatorWidget {
         });
 
         previewLabel = new JLabel();
-        previewLabel.setBounds(50,170, 800 - 100, 610);
+        previewLabel.setBounds(50, 170, 800 - 100, 610);
         previewLabel.setBorder(new LineBorder(CyderColors.navy, 5, false));
         pixelFrame.getContentPane().add(previewLabel);
 

@@ -75,7 +75,7 @@ public class PaintWidget {
      */
     @Widget(triggers = {"paint", "draw"}, description =
             "A painting widget")
-    public static void showGUI() {
+    public static void showGui() {
         if (paintFrame != null)
             paintFrame.dispose(true);
 

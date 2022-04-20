@@ -56,7 +56,7 @@ class MyWidget {
     }
 
     /**
-    * showGUI standard.
+    * showGui standard.
     */
     @Widget(triggers = "my trigger", description = "My widget description")
     public static void showGui() {
@@ -101,7 +101,7 @@ class MyWidget {
     * The only way this widget can be invoked is via the trigger(s).
     */
     @Widget(triggers = "my trigger", description = "My widget description")
-    public static void showGUI() {
+    public static void showGui() {
         // building the widget
     }
 }

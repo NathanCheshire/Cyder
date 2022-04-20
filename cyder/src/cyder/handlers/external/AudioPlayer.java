@@ -25,7 +25,6 @@ import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
@@ -463,8 +462,8 @@ public class AudioPlayer {
      * Allow widget to be found via reflection.
      */
     @Widget(triggers = {"mp3", "wav", "music", "audio"}, description = "An advanced audio playing widget")
-    public static void showGUI() {
-        showGUI(DEFAULT_AUDIO_FILE);
+    public static void showGui() {
+        showGui(DEFAULT_AUDIO_FILE);
     }
 
     // some how we shoudl bypass construction stuff and directly act as if a file was selected to play from
@@ -476,7 +475,7 @@ public class AudioPlayer {
      *                     If null, {@link AudioPlayer#DEFAULT_AUDIO_FILE} is played.
      * @throws IllegalArgumentException if startPlaying is null or or doesn't exist
      */
-    public static void showGUI(File startPlaying) {
+    public static void showGui(File startPlaying) {
         Preconditions.checkNotNull(startPlaying);
         Preconditions.checkArgument(startPlaying.exists());
 
@@ -894,7 +893,7 @@ public class AudioPlayer {
                             NotificationBuilder notifyBuilder = new NotificationBuilder
                                     ("Saved waveform to your files directory");
                             notifyBuilder.setOnKillAction(() -> {
-                                PhotoViewer.getInstance(saveFile).showGUI();
+                                PhotoViewer.getInstance(saveFile).showGui();
                             });
                             audioPlayerFrame.notify(notifyBuilder);
                         } catch (Exception e) {
@@ -951,20 +950,12 @@ public class AudioPlayer {
                     for (File audioFile : audioFiles) {
                         if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                                 .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
-                            audioPlayerFrame.notify("Current audio has already been dreamified");
 
-                            // todo should we just play it instead?
+                            // todo play the dreamified audio
 
-                           try {
-                               // todo so this works for wavs, not sure if this is a good solution
+                            // stop audio
 
-                               Clip clip = AudioSystem.getClip();
-                               clip.open(AudioSystem.getAudioInputStream(audioFile));
-                               clip.setMicrosecondPosition(100 * 1000 * 1000);
-                               clip.start();
-                           } catch (Exception e) {
-                               ExceptionHandler.handle(e);
-                           }
+                            // use pause position to play dreamified wav
 
                             return;
                         }
@@ -1393,7 +1384,7 @@ public class AudioPlayer {
         Preconditions.checkArgument(audioFile.exists());
 
         if (!isWidgetOpen()) {
-            showGUI(audioFile);
+            showGui(audioFile);
         } else {
             audioFileQueue.add(0, audioFile);
         }
@@ -1404,7 +1395,7 @@ public class AudioPlayer {
         Preconditions.checkArgument(audioFile.exists());
 
         if (!isWidgetOpen()) {
-            showGUI(audioFile);
+            showGui(audioFile);
         } else {
             audioFileQueue.add(audioFile);
         }

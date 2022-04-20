@@ -64,7 +64,7 @@ public class TTTGame {
     }
 
     @Widget(triggers = {"ttt", "tictactoe"}, description = "A TicTacToe widget")
-    public static void showGUI() {
+    public static void showGui() {
         if (tttFrame != null)
             tttFrame.dispose();
 

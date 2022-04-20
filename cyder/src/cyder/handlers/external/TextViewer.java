@@ -43,7 +43,7 @@ public class TextViewer {
     /**
      * Opens the text viewer gui.
      */
-    public void showGUI() {
+    public void showGui() {
         textEditorFrame = new CyderFrame(600,625, CyderIcons.defaultBackground);
         textEditorFrame.setTitle("Editing: " + file.getName().replace(".txt", ""));
 

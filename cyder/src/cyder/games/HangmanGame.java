@@ -41,7 +41,7 @@ public class HangmanGame {
     }
 
     @Widget(triggers = "hangman", description = "A hangman game")
-    public static void showGUI() {
+    public static void showGui() {
         if (HangmanFrame != null)
             HangmanFrame.dispose();
 

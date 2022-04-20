@@ -27,7 +27,7 @@ public class ClickWidget {
     }
 
     @Widget(triggers = "clickme", description = "A troll widget that pops open a new window every time it is clicked")
-    public static void showGUI() {
+    public static void showGui() {
         try {
             CyderFrame clickMeFrame = new CyderFrame(220,100) {
                 @Override
@@ -50,7 +50,7 @@ public class ClickWidget {
                 @Override
                 public void mouseReleased(MouseEvent e) {
                     clickMeFrame.dispose(true);
-                    showGUI();
+                    showGui();
                 }
 
                 @Override

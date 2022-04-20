@@ -44,11 +44,11 @@ public class ColorConverterWidget {
      */
     @Widget(triggers = {"colorconverter", "color"},
             description = "A color converter widget to convert from rgb to hex and vice versa")
-    public static void showGUI() {
-        getInstance().innerShowGUI();
+    public static void showGui() {
+        getInstance().innerShowGui();
     }
 
-    public void innerShowGUI() {
+    public void innerShowGui() {
         CyderFrame colorFrame = new CyderFrame(300,400, CyderIcons.defaultBackground);
         colorFrame.setTitle("Color Converter");
         colorFrame.initializeResizing();

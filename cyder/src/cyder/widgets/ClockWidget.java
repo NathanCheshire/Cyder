@@ -96,7 +96,7 @@ public class ClockWidget {
 
     // it's ya boi, Greenwich
     @Widget(triggers = "clock", description = "A clock widget capable of spawning mini widgets and changing the time zone")
-    public static void showGUI() {
+    public static void showGui() {
         CyderThreadRunner.submit(() -> {
             if (clockFrame != null)
                 clockFrame.dispose();
@@ -389,7 +389,7 @@ public class ClockWidget {
             hexLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    ColorConverterWidget.getInstance().innerShowGUI();
+                    ColorConverterWidget.getInstance().innerShowGui();
                 }
 
                 @Override
