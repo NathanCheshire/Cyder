@@ -25,6 +25,7 @@ import javazoom.jl.player.Player;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Port;
 import javax.swing.*;
@@ -948,13 +949,22 @@ public class AudioPlayer {
                     File[] audioFiles = userMusicDir.listFiles();
 
                     for (File audioFile : audioFiles) {
-                        String currentDreamyFilename = FileUtil.getFilename(audioFile)
-                                + AudioUtil.DREAMY_SUFFIX;
-
-                        if (currentAudioFilename.equalsIgnoreCase(currentDreamyFilename)) {
+                        if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
+                                .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
                             audioPlayerFrame.notify("Current audio has already been dreamified");
 
                             // todo should we just play it instead?
+
+                           try {
+                               // todo so this works for wavs, not sure if this is a good solution
+
+                               Clip clip = AudioSystem.getClip();
+                               clip.open(AudioSystem.getAudioInputStream(audioFile));
+                               clip.setMicrosecondPosition(100 * 1000 * 1000);
+                               clip.start();
+                           } catch (Exception e) {
+                               ExceptionHandler.handle(e);
+                           }
 
                             return;
                         }
