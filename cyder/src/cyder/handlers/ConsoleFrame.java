@@ -844,7 +844,7 @@ public enum ConsoleFrame {
             String logString = "Console loaded in " +
                     (TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime()) + "ms";
             Logger.log(LoggerTag.UI_ACTION, logString);
-            consoleCyderFrame.toast(logString);
+            consoleCyderFrame.notify(logString);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }

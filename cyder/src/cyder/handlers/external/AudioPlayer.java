@@ -795,10 +795,42 @@ public class AudioPlayer {
         });
     }
 
+    /**
+     * Whether the wav exporter menu option is locked.
+     */
+    private static final AtomicBoolean wavExporterLocked = new AtomicBoolean();
+
+    /**
+     * Whether the mp3 exporter menu option is locked.
+     */
+    private static final AtomicBoolean mp3ExporterLocked = new AtomicBoolean();
+
+    /**
+     * Whether the waveform exporter menu option is locked.
+     */
+    private static final AtomicBoolean waveformExporterLocked = new AtomicBoolean();
+
+    /**
+     * Whether the audio file chooser menu option is locked.
+     */
+    private static final AtomicBoolean chooseFileLocked = new AtomicBoolean();
+
+    /**
+     * Whether the dreamify menu option is locked.
+     */
+    private static final AtomicBoolean dreamifierLocked = new AtomicBoolean();
+
+    /**
+     * Installs all the menu options on the AudioPlayer frame.
+     */
     private static void installFrameMenuItems() {
-        // just to be safe
         audioPlayerFrame.clearMenuItems();
+
         audioPlayerFrame.addMenuItem("Export wav", () -> {
+            if (wavExporterLocked.get()) {
+                return;
+            }
+
             if (FileUtil.validateExtension(currentAudioFile, ".wav")) {
                 audioPlayerFrame.notify("This file is already a wav");
                 return;
@@ -806,19 +838,28 @@ public class AudioPlayer {
                 CyderThreadRunner.submit(() -> {
                     Future<Optional<File>> wavConvertedFile = AudioUtil.mp3ToWav(currentAudioFile);
 
+                    wavExporterLocked.set(true);
+
                     while (!wavConvertedFile.isDone()) {
                         Thread.onSpinWait();
                     }
 
+                    wavExporterLocked.set(false);
+
                     try {
                         if (wavConvertedFile.get().isPresent()) {
-                            File destination = OSUtil.buildFile(
+                            File moveTo = OSUtil.buildFile(
                                     DynamicDirectory.DYNAMIC_PATH,
                                     DynamicDirectory.USERS.getDirectoryName(),
+                                    ConsoleFrame.INSTANCE.getUUID(),
                                     UserFile.MUSIC.getName(),
                                     FileUtil.getFilename(wavConvertedFile.get().get()) + ".wav");
 
-                            Files.copy(wavConvertedFile.get().get().toPath(), destination.toPath());
+                            Files.copy(Paths.get(wavConvertedFile.get().get().getAbsolutePath()),
+                                    Paths.get(moveTo.getAbsolutePath()));
+
+                            audioPlayerFrame.notify("Saved \""
+                                    + moveTo.getName() + "\" to your music directory");
                         } else {
                             audioPlayerFrame.notify("Could not convert \""
                                     + currentAudioFile.getName() + "\" to a wav at this time");
@@ -832,6 +873,10 @@ public class AudioPlayer {
             }
         });
         audioPlayerFrame.addMenuItem("Export mp3", () -> {
+            if (mp3ExporterLocked.get()) {
+                return;
+            }
+
             if (FileUtil.validateExtension(currentAudioFile, ".mp3")) {
                 audioPlayerFrame.notify("This file is already an mp3");
                 return;
@@ -839,19 +884,28 @@ public class AudioPlayer {
                 CyderThreadRunner.submit(() -> {
                     Future<Optional<File>> mp3ConvertedFile = AudioUtil.wavToMp3(currentAudioFile);
 
+                    mp3ExporterLocked.set(true);
+
                     while (!mp3ConvertedFile.isDone()) {
                         Thread.onSpinWait();
                     }
 
+                    mp3ExporterLocked.set(false);
+
                     try {
                         if (mp3ConvertedFile.get().isPresent()) {
-                            File destination = OSUtil.buildFile(
+                            File moveTo = OSUtil.buildFile(
                                     DynamicDirectory.DYNAMIC_PATH,
                                     DynamicDirectory.USERS.getDirectoryName(),
+                                    ConsoleFrame.INSTANCE.getUUID(),
                                     UserFile.MUSIC.getName(),
                                     FileUtil.getFilename(mp3ConvertedFile.get().get()) + ".mp3");
 
-                            Files.copy(mp3ConvertedFile.get().get().toPath(), destination.toPath());
+                            Files.copy(Paths.get(mp3ConvertedFile.get().get().getAbsolutePath()),
+                                    Paths.get(moveTo.getAbsolutePath()));
+
+                            audioPlayerFrame.notify("Saved \""
+                                    + moveTo.getName() + "\" to your music directory");
                         } else {
                             audioPlayerFrame.notify("Could not convert \""
                                     + currentAudioFile.getName() + "\" to an mp3 at this time");
@@ -865,6 +919,10 @@ public class AudioPlayer {
             }
         });
         audioPlayerFrame.addMenuItem("Waveform", () -> {
+            if (waveformExporterLocked.get()) {
+                return;
+            }
+
             CyderThreadRunner.submit(() -> {
                 GetterBuilder builder = new GetterBuilder("Export waveform");
                 builder.setRelativeTo(audioPlayerFrame);
@@ -884,9 +942,13 @@ public class AudioPlayer {
 
                         Future<BufferedImage> waveform = MessagingUtils.generateLargeWaveform(currentAudioFile);
 
+                        waveformExporterLocked.set(true);
+
                         while (!waveform.isDone()) {
                             Thread.onSpinWait();
                         }
+
+                        waveformExporterLocked.set(false);
 
                         try {
                             ImageIO.write(waveform.get(), WAVEFORM_EXPORT_FORMAT, saveFile.getAbsoluteFile());
@@ -910,10 +972,19 @@ public class AudioPlayer {
             // phase 2
         });
         audioPlayerFrame.addMenuItem("Choose File", () -> {
+            if (chooseFileLocked.get()) {
+                return;
+            }
+
             CyderThreadRunner.submit(() -> {
                 GetterBuilder builder = new GetterBuilder("Choose an mp3 or wav file");
                 builder.setRelativeTo(audioPlayerFrame);
+
+                chooseFileLocked.set(true);
+
                 File chosenFile = GetterUtil.getInstance().getFile(builder);
+
+                chooseFileLocked.set(false);
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
                     // todo end stuff (method which calls smaller methods for this),
@@ -923,13 +994,17 @@ public class AudioPlayer {
                     refreshAudioFiles();
                     refreshAlbumArt();
 
-                    // todo start playing
+                    // todo start playing from beginning, need to stop audio if playing and reset stuffs
                 } else {
                     audioPlayerFrame.notify("Invalid file chosen");
                 }
             }, "AudioPlayer File Chooser");
         });
         audioPlayerFrame.addMenuItem("Dreamify", () -> {
+            if (dreamifierLocked.get()) {
+                return;
+            }
+
             if (currentAudioFile != null) {
                 String currentAudioFilename = FileUtil.getFilename(currentAudioFile);
 
@@ -951,12 +1026,15 @@ public class AudioPlayer {
                         if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                                 .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
 
+                            dreamifierLocked.set(true);
+
                             // todo play the dreamified audio
 
                             // stop audio
 
                             // use pause position to play dreamified wav
 
+                            dreamifierLocked.set(false);
                             return;
                         }
                     }
@@ -1009,6 +1087,7 @@ public class AudioPlayer {
                            audioProgressBar.setValue(0);
                            playAudio();
 
+                           audioPlayerFrame.notify("Successfully dreamified audio");
                        } catch (Exception e) {
                            ExceptionHandler.handle(e);
                        }
