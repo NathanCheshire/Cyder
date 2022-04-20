@@ -40,7 +40,7 @@ custom
 
 Since this is a Gradle project, you can simply clone this project via http or ssh, run the gradle setup task using your
 favorite IDE
-(Eclipse, IntelliJ, NetBeans, etc.), and then execute the main function inside of `src/cyder/genesis/Cyder.java`. Keep
+(Eclipse, IntelliJ, NetBeans, etc.), and then execute the main method inside of `src/cyder/genesis/Cyder.java`. Keep
 in mind that the minimum SDK is Java 9.0.4.
 
 Soon the first build of Cyder will be released and will be downloadable as a stand-alone JAR file. When compiled, Cyder
@@ -54,7 +54,7 @@ university did not teach Java at all. As I learned about better programming prac
 API documentation, and so many more topics, Cyder continued to grow and improve to the point it is at today which I am
 quite proud of. I know ideally Cyder should be converted to an electron-js project but I doubt that will ever happen as
 I've enjoyed the process of creating the custom GUI library. At some point I'll move on to other projects but until I'm
-happy with the software maturity and API doumentation of Cyder, I shall continuet to work on it.
+happy with the software maturity, API doumentation, and todos left in the source, I shall continue to work on it.
 
 ## Disclaimers
 
