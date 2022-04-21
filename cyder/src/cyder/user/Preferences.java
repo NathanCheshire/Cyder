@@ -323,19 +323,16 @@ public class Preferences {
 
             }));
 
-        // IGNORE for display name means ignore for UserEditor checkboxes,
-        // IGNORE for tooltip means don't write when creating user since it was already set
-        // such as the case for name and password
+        // display name IGNORE -> ignore for UserEditor switches
+        // tooltip IGNORE -> don't write default value when creating a user (username, password)
 
-        // Adding future prefs:
-        // you'll need to add the preference here and also the data in user.java
-        // since gson parses the userdata file into a user object.
+        // to add: create object in User.java with getter/setter and add new Preference here
 
         // EVERYTHING that is in userdata must be in this list
 
-        // Some rare cases might require deeper manipulation such as the case for executables
-        // where we don't add it here but add it for the user object and for user creation
-        // this also requires more handling where we want to use the non-string data
+        // non primitive types/Strings need to be set via their own object via
+        // UserUtil.getCyderUser().getMyObject().setMyMember(myValue);
+        // this works because objects are references
 
         return ret;
     }

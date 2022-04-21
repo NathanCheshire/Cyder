@@ -360,9 +360,9 @@ public class ReflectionUtil {
     }
 
     /**
-     * Validates all widgets annotated with with {@link cyder.annotations.Vanilla} annotation.
+     * Validates all widget classes annotated with with {@link cyder.annotations.Vanilla} annotation.
      */
-    public static void validateVanilla() {
+    public static void validateVanillaWidgets() {
         for (ClassPath.ClassInfo classInfo : cyderClasses) {
             Class<?> clazz = classInfo.load();
 
@@ -377,7 +377,8 @@ public class ReflectionUtil {
                 }
 
                 if (!clazz.getName().toLowerCase().endsWith("widget")) {
-                    Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not end" +
+                    Logger.log(LoggerTag.DEBUG,
+                            "Class annotated with @Vanilla does not end" +
                             " with Widget; name: " + clazz.getName());
                 }
 

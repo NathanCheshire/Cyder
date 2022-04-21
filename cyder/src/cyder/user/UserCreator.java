@@ -1,6 +1,7 @@
 package cyder.user;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -40,6 +41,7 @@ import java.util.LinkedList;
  */
 @Vanilla
 @CyderAuthor(author = "Nathan Cheshire")
+@SuppressCyderInspections(values = "VanillaInspection")
 public class UserCreator {
     /**
      * The user creator frame.

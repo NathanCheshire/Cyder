@@ -109,7 +109,7 @@ public class Cyder {
             setLoadingMessage("Validating annotations");
             ReflectionUtil.validateWidgets();
             ReflectionUtil.validateTests();
-            ReflectionUtil.validateVanilla();
+            ReflectionUtil.validateVanillaWidgets();
             // todo ReflectionUtil.validateHandles();
         } catch (Exception e) {
             ExceptionHandler.exceptionExit("Exception thrown from subroutine. "

@@ -52,7 +52,7 @@ import static cyder.genesis.CyderSplash.setLoadingMessage;
 
 /**
  * Singleton of components that represent the GUI way a user
- * interacts with Cyder and its copious functions.
+ * interacts with Cyder and its functions.
  */
 public enum ConsoleFrame {
     /**
@@ -184,6 +184,9 @@ public enum ConsoleFrame {
      */
     private Direction consoleDir = Direction.TOP;
 
+    /**
+     * The last direction the console frame was oriented in.
+     */
     private Direction lastConsoleDir = consoleDir;
 
     /**
@@ -210,12 +213,12 @@ public enum ConsoleFrame {
      * The possible audio files to play if the starting user background is grayscale.
      */
     private static final ArrayList<String> grayscaleAudioPaths = new ArrayList<>(Arrays.asList(
-            "static/audio/BadApple.mp3",
-            "static/audio/BadApple.mp3",
-            "static/audio/BlackOrWhite.mp3"));
+            OSUtil.buildPath("static","audio","BadApple.mp3"),
+            OSUtil.buildPath("static","audio","BadApple.mp3"),
+            OSUtil.buildPath("static","audio","BlackOrWhite.mp3")));
 
     /**
-     * Whether dancing is currently active
+     * Whether dancing is currently active.
      */
     private boolean currentlyDancing;
 
@@ -829,6 +832,7 @@ public enum ConsoleFrame {
                 consoleCyderFrame.refreshBackground();
             }
 
+            // set console direction to previous state
             consoleDir = requestedConsoleStats.getConsoleFrameDirection();
             revalidate(true, false, true);
 

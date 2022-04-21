@@ -207,7 +207,13 @@ public class Logger {
                 logBuilder.append(representation);
                 break;
             case OBJECT_CREATION:
-                objectCreationCounter.incrementAndGet();
+                if (!(representation instanceof String)) {
+                    objectCreationCounter.incrementAndGet();
+                    return;
+                } else {
+                    logBuilder.append("[UNIQUE OBJECT CREATED]: " + representation);
+                }
+
                 break;
             case AUDIO:
                 logBuilder.append("[AUDIO]: ").append(representation);
@@ -242,11 +248,6 @@ public class Logger {
                 // a log tag was added but not implemented
                 throw new IllegalArgumentException("Handle case not found; you're probably an " +
                         "idiot and added an enum to LoggerTag but forgot to handle it Logger.log, Tag = " + tag);
-        }
-
-        // if tag shouldn't be logged when it's called
-        if (tag == LoggerTag.OBJECT_CREATION) {
-            return;
         }
 
         // check for nothing being written except the time tag
