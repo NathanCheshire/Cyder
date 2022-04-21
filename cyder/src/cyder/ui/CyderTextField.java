@@ -14,8 +14,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A Cyder implementation of a text field.
@@ -37,6 +39,11 @@ public class CyderTextField extends JTextField {
     private String keyEventRegexMatcher;
 
     /**
+     * The pattern to use for matching against keyEventRegexMatcher.
+     */
+    private Pattern keyEventRegexPattern;
+
+    /**
      * Constructs a new Cyder TextField object with no character limit.
      */
     public CyderTextField() {
@@ -51,8 +58,9 @@ public class CyderTextField extends JTextField {
     public CyderTextField(int charLimit) {
         super(charLimit == 0 ? Integer.MAX_VALUE : charLimit);
 
-        if (charLimit == 0)
+        if (charLimit == 0) {
             charLimit = Integer.MAX_VALUE;
+        }
 
         limit = charLimit;
         keyEventRegexMatcher = null;
@@ -62,8 +70,9 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty() && getText() != null && !getText().isEmpty()) {
-                    if (!getText().matches(keyEventRegexMatcher)) {
+                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
+                        && getText() != null && !getText().isEmpty()) {
+                    if (!currentTextMatchesPattern()) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
@@ -74,8 +83,9 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty() && getText() != null && !getText().isEmpty()) {
-                    if (!getText().matches(keyEventRegexMatcher)) {
+                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
+                        && getText() != null && !getText().isEmpty()) {
+                    if (!currentTextMatchesPattern()) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
@@ -86,8 +96,9 @@ public class CyderTextField extends JTextField {
                 if (getText().length() > limit) {
                     setText(getText().substring(0,getText().length() - 1));
                     Toolkit.getDefaultToolkit().beep();
-                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty() && getText() != null && !getText().isEmpty()) {
-                    if (!getText().matches(keyEventRegexMatcher)) {
+                } else if (keyEventRegexMatcher != null && !keyEventRegexMatcher.isEmpty()
+                        && getText() != null && !getText().isEmpty()) {
+                    if (!currentTextMatchesPattern()) {
                         setText(getText().substring(0,getText().length() - 1));
                         Toolkit.getDefaultToolkit().beep();
                     }
@@ -112,6 +123,19 @@ public class CyderTextField extends JTextField {
         setOpaque(true);
 
         Logger.log(LoggerTag.OBJECT_CREATION, this);
+    }
+
+    /**
+     * Returns whether the current text matches the currently set pattern.
+     *
+     * @return whether the current text matches the currently set pattern
+     */
+    private boolean currentTextMatchesPattern() {
+        checkNotNull(getText());
+        checkNotNull(keyEventRegexMatcher);
+        checkNotNull(keyEventRegexPattern);
+
+        return keyEventRegexPattern.matcher(getText()).matches();
     }
 
     /**
@@ -144,6 +168,7 @@ public class CyderTextField extends JTextField {
      */
     public void setKeyEventRegexMatcher(String regex) {
         keyEventRegexMatcher = regex;
+        keyEventRegexPattern = Pattern.compile(keyEventRegexMatcher);
     }
 
     /**
@@ -151,6 +176,7 @@ public class CyderTextField extends JTextField {
      */
     public void removeKeyEventRegexMatcher() {
         keyEventRegexMatcher = null;
+        keyEventRegexPattern = null;
     }
 
     /**
@@ -160,6 +186,15 @@ public class CyderTextField extends JTextField {
      */
     public String getKeyEventRegexMatcher() {
         return keyEventRegexMatcher;
+    }
+
+    /**
+     * Returns the compiled pattern for the text field based on the keyEventRegexMatcher.
+     *
+     * @return the compiled pattern for the text field based on the keyEventRegexMatcher
+     */
+    public Pattern getKeyEventRegexPattern() {
+        return keyEventRegexPattern;
     }
 
     /**
@@ -185,7 +220,7 @@ public class CyderTextField extends JTextField {
     }
 
     /**
-     * The text field's border.
+     * The text field's LineBorder if applicable.
      */
     private LineBorder lineBorder;
 
