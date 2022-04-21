@@ -3,8 +3,8 @@ package cyder.ui;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
+import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
-import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -13,15 +13,25 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * A Cyder password field.
+ */
 public class CyderPasswordField extends JPasswordField {
+    /**
+     * Construts a new CyderPasswordField.
+     */
     public CyderPasswordField() {
-        setFont(new Font("Agency FB",Font.BOLD, 20));
         setEchoChar(CyderStrings.ECHO_CHAR);
-        setSelectionColor(CyderColors.selectionColor);
-        setBorder(new LineBorder(CyderColors.navy, 5, false));
+
         setForeground(CyderColors.navy);
-        setCaretColor(CyderColors.navy);
+        setSelectionColor(CyderColors.selectionColor);
+
+        setFont(new Font("Agency FB",Font.BOLD, 20));
+
+        setBorder(new LineBorder(CyderColors.navy, 5, false));
+
         setCaret(new CyderCaret(CyderColors.navy));
+        setCaretColor(CyderColors.navy);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -33,14 +43,19 @@ public class CyderPasswordField extends JPasswordField {
         Logger.log(LoggerTag.OBJECT_CREATION, this);
     }
 
-    // suppress other default constructors of JPasswordField
-    private CyderPasswordField(int col) {}
-    private CyderPasswordField(String text) {}
-    private CyderPasswordField(String text, int col) {}
-    private CyderPasswordField(Document doc, String text, int col) {}
+    private CyderPasswordField(int col) {
+        throw new IllegalMethodException("Illegal constructor");
+    }
 
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderUIReflection(this);
+    private CyderPasswordField(String text) {
+        throw new IllegalMethodException("Illegal constructor");
+    }
+
+    private CyderPasswordField(String text, int col) {
+        throw new IllegalMethodException("Illegal constructor");
+    }
+
+    private CyderPasswordField(Document doc, String text, int col) {
+        throw new IllegalMethodException("Illegal constructor");
     }
 }
