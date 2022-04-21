@@ -7,7 +7,7 @@ def main():
     args = sys.argv
 
     if (len(args) != 3):
-        print('Script usage: commandFinder.py COMMAND_TO_FIND_A_SIMILAR_ONE JAR_MODE')
+        print('Script usage: python command_finder.py COMMAND_TO_FIND_A_SIMILAR_ONE JAR_MODE')
     else:
         similarCommand = ''
         correspondingRatio = 0.0

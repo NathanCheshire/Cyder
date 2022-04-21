@@ -424,7 +424,7 @@ public class IOUtil {
     }
 
     /**
-     * Executes the USBq.py script to find the devices connected to the PC via a USB protocol.
+     * Executes the usb_q.py script to find the devices connected to the PC via a USB protocol.
      */
     public static Future<ArrayList<String>> getUsbDevices() {
         if (!OSUtil.isBinaryInstalled("python")) {
@@ -444,7 +444,7 @@ public class IOUtil {
             ArrayList<String> ret = new ArrayList<>();
 
             try {
-                String[] commands = {"python", OSUtil.buildPath("static","python","USBq.py")};
+                String[] commands = {"python", OSUtil.buildPath("static","python","usb_q.py")};
                 Process proc = Runtime.getRuntime().exec(commands);
 
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));

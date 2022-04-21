@@ -466,7 +466,7 @@ public class ReflectionUtil {
     }
 
     /**
-     * Executor service used to find a similar command utilizing commandFinder.py.
+     * Executor service used to find a similar command utilizing command_finder.py.
      */
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(
             new CyderThreadFactory("Similar Command Finder"));
@@ -485,7 +485,7 @@ public class ReflectionUtil {
             try {
                 Runtime rt = Runtime.getRuntime();
                 String[] commands = {"python",
-                        OSUtil.buildPath("static", "python", "commandFinder.py"),
+                        OSUtil.buildPath("static", "python", "command_finder.py"),
                         command, String.valueOf(OSUtil.JAR_MODE)};
                 Process proc = rt.exec(commands);
 
