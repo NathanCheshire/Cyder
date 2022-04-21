@@ -94,6 +94,6 @@ if __name__ == '__main__':
     parser.add_argument('--image', type=str, help='The absolute path to the image file')
     args = parser.parse_args()
 
-    bestColor = SpotifyBackgroundColor(np.array(Image.open('Chill.png'))).best_color()
+    bestColor = SpotifyBackgroundColor(np.array(Image.open(args.image))).best_color()
 
-    print(int(bestColor[0]),',',int(bestColor[1]),',',int(bestColor[2],sep=''))
+    print(int(bestColor[0]),',',int(bestColor[1]),',',int(bestColor[2]),sep='')

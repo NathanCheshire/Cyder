@@ -158,7 +158,7 @@ public class PaintWidget {
                     NotificationBuilder notifBuilder = new NotificationBuilder(
                             "Successfully saved grid as \"" + filename
                             + "\" to your Files/ directory. Click me to open it");
-                    notifBuilder.setOnKillAction(() -> ImageUtil.drawBufferedImage(image, filename));
+                    notifBuilder.setOnKillAction(() -> ImageUtil.drawImage(image, filename));
                     paintFrame.notify(notifBuilder);
                 } catch (Exception exception) {
                     ExceptionHandler.handle(exception);

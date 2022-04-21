@@ -4,7 +4,10 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
+import cyder.threads.CyderThreadFactory;
+import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 
 import javax.annotation.Nullable;
@@ -15,7 +18,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.PixelGrabber;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.util.Optional;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Static utility methods revolving around Image manipulation.
@@ -350,10 +358,10 @@ public class ImageUtil {
      *
      * @param bi the buffered image to display
      */
-    public static void drawBufferedImage(BufferedImage bi) {
+    public static void drawImage(BufferedImage bi) {
         Preconditions.checkNotNull(bi);
 
-        drawImageIcon(new ImageIcon(bi), "");
+        drawImage(new ImageIcon(bi), "BufferedImage");
     }
 
     /**
@@ -362,12 +370,12 @@ public class ImageUtil {
      * @param bi         the buffered image to display
      * @param frameTitle the title of the frame
      */
-    public static void drawBufferedImage(BufferedImage bi, String frameTitle) {
+    public static void drawImage(BufferedImage bi, String frameTitle) {
         Preconditions.checkNotNull(bi);
         Preconditions.checkNotNull(frameTitle);
         Preconditions.checkArgument(!frameTitle.isEmpty());
 
-        drawImageIcon(new ImageIcon(bi), frameTitle);
+        drawImage(new ImageIcon(bi), frameTitle);
     }
 
     /**
@@ -375,10 +383,10 @@ public class ImageUtil {
      *
      * @param icon the icon to display
      */
-    public static void drawImageIcon(ImageIcon icon) {
+    public static void drawImage(ImageIcon icon) {
         Preconditions.checkNotNull(icon);
 
-        drawImageIcon(icon, "");
+        drawImage(icon, "ImageIcon");
     }
 
     /**
@@ -387,7 +395,7 @@ public class ImageUtil {
      * @param icon       the icon to display
      * @param frameTitle the title of the frame
      */
-    public static void drawImageIcon(ImageIcon icon, String frameTitle) {
+    public static void drawImage(ImageIcon icon, String frameTitle) {
         Preconditions.checkNotNull(icon);
         Preconditions.checkNotNull(frameTitle);
         Preconditions.checkArgument(!frameTitle.isEmpty());
@@ -867,5 +875,66 @@ public class ImageUtil {
         }
 
         return ret;
+    }
+
+    /**
+     * Returns a good background color for the provided image file.
+     *
+     * @param imagePath the path to the iamge file
+     * @return a good background color for the provided image file
+     */
+    public static Future<Optional<Color>> getComplementaryBackgroundColor(String imagePath) {
+        Preconditions.checkNotNull(imagePath);
+        Preconditions.checkArgument(!imagePath.isEmpty());
+        Preconditions.checkArgument(new File(imagePath).exists());
+
+        return Executors.newSingleThreadExecutor(
+                new CyderThreadFactory("Python Script Executor")).submit(() -> {
+            if (!OSUtil.isBinaryInstalled("python")) {
+                ConsoleFrame.INSTANCE.getInputHandler()
+                        .println("Python was not found; please install Python and add it" +
+                                " to the windows PATH environment variable");
+
+                CyderButton installPython = new CyderButton("Downlaod Python");
+                installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
+                ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
+
+                return Optional.empty();
+            }
+
+            try {
+                String[] commands = {"python",
+                        OSUtil.buildFile("static", "python", "k_means_color.py").getAbsolutePath(),
+                        "--image", imagePath};
+                Process proc = Runtime.getRuntime().exec(commands);
+
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String line;
+                String lastLine = "";
+
+                proc.waitFor();
+
+                while ((line = stdInput.readLine()) != null) {
+                    lastLine = line;
+                }
+
+                if (lastLine.contains(",")) {
+                    String[] parts = lastLine.split(",");
+
+                    if (parts.length == 3) {
+                        Color color = new Color(
+                                Integer.parseInt(parts[0]),
+                                Integer.parseInt(parts[1]),
+                                Integer.parseInt(parts[2]));
+
+                        return Optional.of(color);
+                    }
+                }
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+
+            return Optional.empty();
+        });
     }
 }

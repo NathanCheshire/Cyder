@@ -9,7 +9,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
-import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -48,7 +47,7 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                AudioPlayer.showGui(AudioPlayer.DEFAULT_AUDIO_FILE);
+                // AudioPlayer.showGui(AudioPlayer.DEFAULT_AUDIO_FILE);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -60,7 +59,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "switcher test")
     public static void cyderSwitcherTest() {
-        CyderFrame testFrame = new CyderFrame(280,120);
+        CyderFrame testFrame = new CyderFrame(280, 120);
         testFrame.setTitle("Switcher test");
 
         ArrayList<SwitcherState> states = new ArrayList<>();
@@ -71,8 +70,8 @@ public class ManualTests {
 
         SwitcherState startingState = states.get(0);
 
-        CyderSwitcher switcher = new CyderSwitcher(200,40, states, startingState);
-        switcher.setBounds(40,40,200,40);
+        CyderSwitcher switcher = new CyderSwitcher(200, 40, states, startingState);
+        switcher.setBounds(40, 40, 200, 40);
         testFrame.getContentPane().add(switcher);
         switcher.addOnChangeListener((param) -> {
             testFrame.notify(switcher.getNextState().getMappedValue());
@@ -88,11 +87,11 @@ public class ManualTests {
      */
     @ManualTest(trigger = "grid test")
     public static void cyderGridTest() {
-        CyderFrame cf = new CyderFrame(1000,1000);
+        CyderFrame cf = new CyderFrame(1000, 1000);
         cf.setTitle("Cyder Grid");
 
-        CyderGrid cg = new CyderGrid(200,800);
-        cg.setBounds(100,100,800,800);
+        CyderGrid cg = new CyderGrid(200, 800);
+        cg.setBounds(100, 100, 800, 800);
         cf.getContentPane().add(cg);
         cg.setResizable(true);
         cg.setDrawGridLines(false);
@@ -107,7 +106,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "drag label button test")
     public static void dragLabelButtonTest() {
-        CyderFrame testFrame = new CyderFrame(600,600, CyderIcons.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
         testFrame.setTitle("Test Frame");
         testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
 
@@ -147,27 +146,27 @@ public class ManualTests {
         testFrame.setTitle("Testing Title");
 
         CyderButton setLeftTitle = new CyderButton("Left title");
-        setLeftTitle.setBounds(100,100,140,40);
+        setLeftTitle.setBounds(100, 100, 140, 40);
         setLeftTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.LEFT));
         testFrame.getContentPane().add(setLeftTitle);
 
         CyderButton setCenterTitle = new CyderButton("Center title");
-        setCenterTitle.setBounds(100,160,140,40);
+        setCenterTitle.setBounds(100, 160, 140, 40);
         setCenterTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER));
         testFrame.getContentPane().add(setCenterTitle);
 
         CyderButton setRightTitle = new CyderButton("Right title");
-        setRightTitle.setBounds(100,220,140,40);
+        setRightTitle.setBounds(100, 220, 140, 40);
         setRightTitle.addActionListener(e -> testFrame.setTitlePosition(CyderFrame.TitlePosition.RIGHT));
         testFrame.getContentPane().add(setRightTitle);
 
         CyderButton setLeftButton = new CyderButton("Left button");
-        setLeftButton.setBounds(300,100,150,40);
+        setLeftButton.setBounds(300, 100, 150, 40);
         setLeftButton.addActionListener(e -> testFrame.setButtonPosition(CyderFrame.ButtonPosition.LEFT));
         testFrame.getContentPane().add(setLeftButton);
 
         CyderButton setRightButton = new CyderButton("Right button");
-        setRightButton.setBounds(300,160,150,40);
+        setRightButton.setBounds(300, 160, 150, 40);
         setRightButton.addActionListener(e -> testFrame.setButtonPosition(CyderFrame.ButtonPosition.RIGHT));
         testFrame.getContentPane().add(setRightButton);
 
@@ -181,18 +180,18 @@ public class ManualTests {
      */
     @ManualTest(trigger = "notification test")
     public static void notificationTest() {
-        CyderFrame testFrame = new CyderFrame(600,600, CyderIcons.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(600, 600, CyderIcons.defaultBackground);
         testFrame.setTitle("Notification Test");
 
         int milliDelay = 3000;
 
-        CyderGridLayout layout = new CyderGridLayout(3,3);
+        CyderGridLayout layout = new CyderGridLayout(3, 3);
 
         CyderTextField ctf = new CyderTextField(0);
-        ctf.setSize(150,40);
+        ctf.setSize(150, 40);
 
         CyderButton topNotify = new CyderButton("Top");
-        topNotify.setSize(150,40);
+        topNotify.setSize(150, 40);
         topNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -202,7 +201,7 @@ public class ManualTests {
         });
 
         CyderButton rightNotify = new CyderButton("Top Right");
-        rightNotify.setSize(150,40);
+        rightNotify.setSize(150, 40);
         rightNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -212,7 +211,7 @@ public class ManualTests {
         });
 
         CyderButton bottomNotify = new CyderButton("Bottom");
-        bottomNotify.setSize(150,40);
+        bottomNotify.setSize(150, 40);
         bottomNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -222,7 +221,7 @@ public class ManualTests {
         });
 
         CyderButton leftNotify = new CyderButton("Top Left");
-        leftNotify.setSize(150,40);
+        leftNotify.setSize(150, 40);
         leftNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -232,7 +231,7 @@ public class ManualTests {
         });
 
         CyderButton centerLeftNotify = new CyderButton("Center Left");
-        centerLeftNotify.setSize(150,40);
+        centerLeftNotify.setSize(150, 40);
         centerLeftNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -242,7 +241,7 @@ public class ManualTests {
         });
 
         CyderButton centerRightNotify = new CyderButton("Center Right");
-        centerRightNotify.setSize(150,40);
+        centerRightNotify.setSize(150, 40);
         centerRightNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -252,7 +251,7 @@ public class ManualTests {
         });
 
         CyderButton bottomLeftNotify = new CyderButton("Bottom Left");
-        bottomLeftNotify.setSize(150,40);
+        bottomLeftNotify.setSize(150, 40);
         bottomLeftNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -262,7 +261,7 @@ public class ManualTests {
         });
 
         CyderButton bottomRightNotify = new CyderButton("Bottom Right");
-        bottomRightNotify.setSize(170,40);
+        bottomRightNotify.setSize(170, 40);
         bottomRightNotify.addActionListener(e -> {
             NotificationBuilder notificationBuilder = new NotificationBuilder(ctf.getText());
             notificationBuilder.setViewDuration(milliDelay);
@@ -279,8 +278,8 @@ public class ManualTests {
         layout.addComponent(ctf, 1, 1);
         layout.addComponent(centerRightNotify, 2, 1);
 
-        layout.addComponent(bottomLeftNotify, 0 , 2);
-        layout.addComponent(bottomNotify, 1 ,2);
+        layout.addComponent(bottomLeftNotify, 0, 2);
+        layout.addComponent(bottomNotify, 1, 2);
         layout.addComponent(bottomRightNotify, 2, 2);
 
         CyderPanel panel = new CyderPanel(layout);
@@ -293,15 +292,15 @@ public class ManualTests {
 
     @ManualTest(trigger = "askew test")
     public static void askewTest() {
-        CyderFrame testFrame = new CyderFrame(350,300, CyderIcons.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(350, 300, CyderIcons.defaultBackground);
         testFrame.setTitle("Askew Test");
 
         CyderTextField ctf = new CyderTextField(0);
-        ctf.setBounds(100,100,150,40);
+        ctf.setBounds(100, 100, 150, 40);
         testFrame.getContentPane().add(ctf);
 
         CyderButton cb = new CyderButton("Askew");
-        cb.setBounds(100,200,150,40);
+        cb.setBounds(100, 200, 150, 40);
         testFrame.getContentPane().add(cb);
         cb.addActionListener(e -> testFrame.rotateBackground(Integer.parseInt(ctf.getText())));
 
@@ -313,87 +312,87 @@ public class ManualTests {
      */
     @ManualTest(trigger = "sliding icon label test")
     public static void iconLabelSlidingTest() {
-        ImageIcon theImage =  new ImageIcon(ImageUtil.getImageGradient(600,1200,
+        ImageIcon theImage = new ImageIcon(ImageUtil.getImageGradient(600, 1200,
                 CyderColors.regularPink, CyderColors.regularBlue, CyderColors.regularBlue));
 
-        CyderFrame testFrame = new CyderFrame(600,600, theImage);
+        CyderFrame testFrame = new CyderFrame(600, 600, theImage);
         testFrame.setTitle("Sliding test");
         testFrame.initializeResizing();
         testFrame.setResizable(true);
 
         CyderButton slideUp = new CyderButton("UP");
-        slideUp.setBounds(225,150,150,40);
+        slideUp.setBounds(225, 150, 150, 40);
         slideUp.addActionListener(e -> CyderThreadRunner.submit(() -> {
             testFrame.getContentPane().setSize(600, 1200);
             ((JLabel) testFrame.getContentPane()).setIcon(theImage);
 
             try {
                 int x = testFrame.getContentPane().getX();
-                for (int i = testFrame.getContentPane().getY() ; i > -testFrame.getHeight() ; i--) {
-                    testFrame.getContentPane().setLocation(x,i);
+                for (int i = testFrame.getContentPane().getY(); i > -testFrame.getHeight(); i--) {
+                    testFrame.getContentPane().setLocation(x, i);
                     Thread.sleep(1);
                 }
-                testFrame.getContentPane().setLocation(0,0);
+                testFrame.getContentPane().setLocation(0, 0);
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        },""));
+        }, ""));
         testFrame.getContentPane().add(slideUp);
 
         CyderButton slideLeft = new CyderButton("LEFT");
-        slideLeft.setBounds(225,200,150,40);
+        slideLeft.setBounds(225, 200, 150, 40);
         slideLeft.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int y = testFrame.getContentPane().getY();
-                for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
-                    testFrame.getContentPane().setLocation(i,y);
+                for (int i = 0; i > -testFrame.getWidth(); i--) {
+                    testFrame.getContentPane().setLocation(i, y);
                     Thread.sleep(1);
                 }
-                testFrame.getContentPane().setLocation(0,0);
+                testFrame.getContentPane().setLocation(0, 0);
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        },""));
+        }, ""));
         testFrame.getContentPane().add(slideLeft);
 
         CyderButton slideDown = new CyderButton("DOWN");
-        slideDown.setBounds(225,250,150,40);
-        slideDown.addActionListener(e ->CyderThreadRunner.submit(() -> {
+        slideDown.setBounds(225, 250, 150, 40);
+        slideDown.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int x = testFrame.getContentPane().getX();
-                for (int i = 0 ; i < testFrame.getHeight() ; i++) {
-                    testFrame.getContentPane().setLocation(x,i);
+                for (int i = 0; i < testFrame.getHeight(); i++) {
+                    testFrame.getContentPane().setLocation(x, i);
                     Thread.sleep(1);
                 }
-                testFrame.getContentPane().setLocation(0,0);
+                testFrame.getContentPane().setLocation(0, 0);
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        },""));
+        }, ""));
         testFrame.getContentPane().add(slideDown);
 
         CyderButton slideRight = new CyderButton("RIGHT");
-        slideRight.setBounds(225,300,150,40);
+        slideRight.setBounds(225, 300, 150, 40);
         slideRight.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int y = testFrame.getContentPane().getY();
-                for (int i = 0 ; i < testFrame.getWidth() ; i++) {
-                    testFrame.getContentPane().setLocation(i,y);
+                for (int i = 0; i < testFrame.getWidth(); i++) {
+                    testFrame.getContentPane().setLocation(i, y);
                     Thread.sleep(1);
                 }
-                testFrame.getContentPane().setLocation(0,0);
+                testFrame.getContentPane().setLocation(0, 0);
                 testFrame.refreshBackground();
                 testFrame.getContentPane().revalidate();
             } catch (InterruptedException interruptedException) {
                 ExceptionHandler.handle(interruptedException);
             }
-        },""));
+        }, ""));
         testFrame.getContentPane().add(slideRight);
 
         testFrame.finalizeAndShow();
@@ -404,16 +403,16 @@ public class ManualTests {
      */
     @ManualTest(trigger = "checkbox test")
     public static void checkboxTest() {
-        CyderFrame testFrame = new CyderFrame(400,400, CyderIcons.defaultBackground);
+        CyderFrame testFrame = new CyderFrame(400, 400, CyderIcons.defaultBackground);
         testFrame.setTitle("Checkbox Test");
 
         CyderCheckbox cb = new CyderCheckbox();
-        cb.setBounds(175,150,50, 50);
+        cb.setBounds(175, 150, 50, 50);
         cb.setRoundedCorners(true);
         testFrame.getContentPane().add(cb);
 
         CyderCheckbox cb1 = new CyderCheckbox();
-        cb1.setBounds(175,225,50, 50);
+        cb1.setBounds(175, 225, 50, 50);
         cb1.setRoundedCorners(false);
         testFrame.getContentPane().add(cb1);
 
@@ -425,11 +424,11 @@ public class ManualTests {
      */
     @ManualTest(trigger = "progress bar test")
     public static void progressBarTest() {
-        CyderFrame cf = new CyderFrame(400,100);
+        CyderFrame cf = new CyderFrame(400, 100);
         cf.setTitle("ProgressBar Test");
 
-        JProgressBar jpb = new JProgressBar(0,500);
-        jpb.setBounds(40,40,320,20);
+        JProgressBar jpb = new JProgressBar(0, 500);
+        jpb.setBounds(40, 40, 320, 20);
         jpb.setOrientation(SwingConstants.HORIZONTAL);
         CyderProgressUI ui = new CyderProgressUI();
         ui.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
@@ -441,7 +440,7 @@ public class ManualTests {
         cf.finalizeAndShow();
 
         CyderThreadRunner.submit(() -> {
-            for (int i = 0 ; i <= jpb.getMaximum() / 2; i++) {
+            for (int i = 0; i <= jpb.getMaximum() / 2; i++) {
                 jpb.setValue(i);
                 try {
                     Thread.sleep(2000 / jpb.getMaximum());
@@ -450,7 +449,7 @@ public class ManualTests {
                 }
             }
 
-            for (int i = jpb.getMaximum() / 2 ; i <= jpb.getMaximum(); i++) {
+            for (int i = jpb.getMaximum() / 2; i <= jpb.getMaximum(); i++) {
                 jpb.setValue(i);
                 try {
                     Thread.sleep(500 / jpb.getMaximum());
@@ -466,7 +465,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "slider test")
     public static void cyderSliderTest() {
-        CyderFrame testFrame = new CyderFrame(400,400);
+        CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Cyder Slider Test");
 
         JSlider audioVolumeSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 100, 50);
@@ -500,17 +499,17 @@ public class ManualTests {
      */
     @ManualTest(trigger = "frame length test")
     public static void frameTitleLengthTest() {
-        CyderFrame cf = new CyderFrame( 600, 200);
+        CyderFrame cf = new CyderFrame(600, 200);
         cf.setTitle("Title Length Test");
         cf.setTitlePosition(CyderFrame.TitlePosition.LEFT);
 
         CyderTextField ctf = new CyderTextField(0);
-        ctf.setBounds(40,40, 600 - 80, 40);
+        ctf.setBounds(40, 40, 600 - 80, 40);
         cf.getContentPane().add(ctf);
         ctf.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
         CyderButton cb = new CyderButton("Set Title");
-        cb.setBounds(40,100, 600 - 80, 40);
+        cb.setBounds(40, 100, 600 - 80, 40);
         cf.getContentPane().add(cb);
         cb.addActionListener(e -> cf.setTitle(ctf.getText().trim()));
 
@@ -522,11 +521,11 @@ public class ManualTests {
      */
     @ManualTest(trigger = "switch test")
     public static void switchTest() {
-        CyderFrame testFrame = new CyderFrame(500,500);
+        CyderFrame testFrame = new CyderFrame(500, 500);
         testFrame.setTitle("CyderSwitch test");
 
-        CyderSwitch cs = new CyderSwitch(300,100);
-        cs.setBounds(100,100,300,100);
+        CyderSwitch cs = new CyderSwitch(300, 100);
+        cs.setBounds(100, 100, 300, 100);
         cs.setState(CyderSwitch.State.OFF);
         testFrame.getContentPane().add(cs);
 
@@ -538,7 +537,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "ripple label test")
     public static void rippleLabelTest() {
-        CyderFrame rippleTestFrame = new CyderFrame(600,600);
+        CyderFrame rippleTestFrame = new CyderFrame(600, 600);
         rippleTestFrame.setTitle("Ripple Test");
 
         CyderLabel ripplingLabel = new CyderLabel("<html>" + CyderStrings.QUICK_BROWN_FOX + "<br/>" +
@@ -548,7 +547,7 @@ public class ManualTests {
         ripplingLabel.setFont(CyderFonts.segoe20);
 
         //fill content area with label
-        ripplingLabel.setBounds(40,40,
+        ripplingLabel.setBounds(40, 40,
                 rippleTestFrame.getWidth() - 40 * 2, rippleTestFrame.getHeight() - 40 * 2);
         rippleTestFrame.getContentPane().add(ripplingLabel);
 
@@ -567,16 +566,16 @@ public class ManualTests {
      */
     @ManualTest(trigger = "checkbox group test")
     public static void checkboxGroupTest() {
-        CyderFrame testFrame = new CyderFrame(400,110);
+        CyderFrame testFrame = new CyderFrame(400, 110);
         testFrame.setTitle("Checkbox group test");
 
         CyderCheckboxGroup cbg = new CyderCheckboxGroup();
 
         int startX = 50;
 
-        for (int i = 0 ; i < 5 ; i++) {
+        for (int i = 0; i < 5; i++) {
             CyderCheckbox cb = new CyderCheckbox();
-            cb.setBounds(startX + (60) * i,40,50,50);
+            cb.setBounds(startX + (60) * i, 40, 50, 50);
             testFrame.getContentPane().add(cb);
 
             if (i != 4)
@@ -592,35 +591,35 @@ public class ManualTests {
     @ManualTest(trigger = "grid layout test")
     public static void cyderGridLayoutTest() {
         //regular frame calls
-        CyderFrame gridTestFrame = new CyderFrame(800,800);
+        CyderFrame gridTestFrame = new CyderFrame(800, 800);
         gridTestFrame.setTitle("Grid Layout Test");
 
         //init the main panel layout
-        CyderGridLayout layout = new CyderGridLayout(2,2);
+        CyderGridLayout layout = new CyderGridLayout(2, 2);
 
         //add components to the layout at specified position
         CyderButton testButton = new CyderButton("This");
-        testButton.setSize(100,100);
+        testButton.setSize(100, 100);
         testButton.addActionListener(e -> gridTestFrame.notify(new NotificationBuilder("Notified button clicked")));
         layout.addComponent(testButton, 0, 0, CyderGridLayout.Position.MIDDLE_RIGHT);
 
         CyderLabel testLabel2 = new CyderLabel("A");
-        testLabel2.setSize(50,50);
+        testLabel2.setSize(50, 50);
         layout.addComponent(testLabel2, 0, 1);
 
         CyderLabel testLabel3 = new CyderLabel("IS");
-        testLabel3.setSize(50,50);
+        testLabel3.setSize(50, 50);
         layout.addComponent(testLabel3, 1, 0);
 
         CyderLabel testLabel4 = new CyderLabel("Test");
-        testLabel4.setSize(50,50);
+        testLabel4.setSize(50, 50);
         CyderButton testButton1 = new CyderButton("Click");
-        testButton1.setSize(150,40);
+        testButton1.setSize(150, 40);
 
         //sub grid
-        CyderGridLayout cyderGridLayout2 = new CyderGridLayout(2,1);
-        cyderGridLayout2.addComponent(testLabel4,0,0);
-        cyderGridLayout2.addComponent(testButton1,1,0);
+        CyderGridLayout cyderGridLayout2 = new CyderGridLayout(2, 1);
+        cyderGridLayout2.addComponent(testLabel4, 0, 0);
+        cyderGridLayout2.addComponent(testButton1, 1, 0);
 
         //make sub panel and set layout as sub grid
         CyderPanel subPanel = new CyderPanel(cyderGridLayout2);
@@ -634,7 +633,7 @@ public class ManualTests {
         //resizing on
         gridTestFrame.initializeResizing();
         gridTestFrame.setResizable(true);
-        gridTestFrame.setMaximumSize(new Dimension(1200,1200));
+        gridTestFrame.setMaximumSize(new Dimension(1200, 1200));
         gridTestFrame.setBackgroundResizing(true);
 
         //regular final frame calls
@@ -646,15 +645,15 @@ public class ManualTests {
      */
     @ManualTest(trigger = "flow layout test")
     public static void flowLayoutTest() {
-        CyderFrame testFrame = new CyderFrame(600,600);
+        CyderFrame testFrame = new CyderFrame(600, 600);
         testFrame.setTitle("Flow Layout Test");
 
         // make layout
         CyderFlowLayout layout = new CyderFlowLayout(CyderFlowLayout.HorizontalAlignment.CENTER,
-                CyderFlowLayout.VerticalAlignment.CENTER, 25,15);
+                CyderFlowLayout.VerticalAlignment.CENTER, 25, 15);
 
         //add 10 buttons to layout
-        for (int i = 1 ; i < 11 ; i++) {
+        for (int i = 1; i < 11; i++) {
             CyderButton cb = new CyderButton("Test Button " + i);
             cb.setSize(200, 50);
             int finalI = i;
@@ -669,8 +668,8 @@ public class ManualTests {
         //resizing on
         testFrame.initializeResizing();
         testFrame.setResizable(true);
-        testFrame.setMaximumSize(new Dimension(2000,2000));
-        testFrame.setMinimumSize(new Dimension(300,300));
+        testFrame.setMaximumSize(new Dimension(2000, 2000));
+        testFrame.setMinimumSize(new Dimension(300, 300));
         testFrame.setBackgroundResizing(true);
 
         testFrame.finalizeAndShow();
@@ -681,11 +680,11 @@ public class ManualTests {
      */
     @ManualTest(trigger = "inform test")
     public static void popupTest() {
-        CyderFrame testFrame = new CyderFrame(400,120);
+        CyderFrame testFrame = new CyderFrame(400, 120);
         testFrame.setTitle("Inform Test");
 
         CyderTextField ctf = new CyderTextField(0);
-        ctf.setBounds( 40,40, 320, 40);
+        ctf.setBounds(40, 40, 320, 40);
         ctf.addActionListener(e -> {
             String text = ctf.getText();
 
@@ -703,7 +702,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "menu test")
     public static void frameMenuTest() {
-        CyderFrame testFrame = new CyderFrame(400,400);
+        CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Menu Test");
 
         testFrame.setMenuEnabled(true);
@@ -711,7 +710,7 @@ public class ManualTests {
 
         testFrame.initializeResizing();
         testFrame.setResizable(true);
-        testFrame.setMaximumSize(new Dimension(1000,1000));
+        testFrame.setMaximumSize(new Dimension(1000, 1000));
 
         testFrame.addMenuItem("hello", () -> testFrame.notify("hello"));
         testFrame.addMenuItem("darkness", () -> testFrame.notify("darkness"));
@@ -763,12 +762,12 @@ public class ManualTests {
      */
     @ManualTest(trigger = "notify container test")
     public static void notifyAndInformCustomContainerTest() {
-        CyderFrame testFrame = new CyderFrame(400,400);
+        CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Notify Container Test");
 
         JLabel container = new JLabel("<html><div>Creatine water weight, yeah boi</div></html>",
                 SwingConstants.CENTER);
-        container.setSize(500,500);
+        container.setSize(500, 500);
         container.setFont(CyderFonts.defaultFont);
 
         // needs to be opaque to fill background
@@ -801,7 +800,7 @@ public class ManualTests {
      */
     @ManualTest(trigger = "disable relative to test")
     public static void informDisableRelativeToTest() {
-        CyderFrame testFrame = new CyderFrame(400,400);
+        CyderFrame testFrame = new CyderFrame(400, 400);
         testFrame.setTitle("Disable RelativeTo test");
 
         testFrame.finalizeAndShow();
