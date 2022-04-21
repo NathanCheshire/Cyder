@@ -3,6 +3,7 @@ package cyder.widgets;
 import cyder.annotations.CyderAuthor;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
+import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderRegexPatterns;
@@ -19,14 +20,17 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 
-import static cyder.constants.CyderColors.navy;
-
 /**
  * A widget for converting between rgb and hex colors.
  */
 @Vanilla
 @CyderAuthor(author = "Nathan Cheshire")
 public class ColorConverterWidget {
+    /**
+     * Returns a new instance of ColorConverterWidget.
+     *
+     * @return a new instance of ColorConverterWidget
+     */
     public static ColorConverterWidget getInstance() {
         return new ColorConverterWidget();
     }
@@ -61,34 +65,36 @@ public class ColorConverterWidget {
 
         JLabel hexLabel = new JLabel("Hex Value");
         hexLabel.setFont(CyderFonts.segoe20);
-        hexLabel.setForeground(navy);
+        hexLabel.setForeground(CyderColors.navy);
         hexLabel.setSize(120, 30);
         layout.addComponent(hexLabel, 0, 0, CyderGridLayout.Position.MIDDLE_CENTER);
 
         JLabel rgbLabel = new JLabel("RGB Value");
         rgbLabel.setFont(CyderFonts.segoe20);
-        rgbLabel.setForeground(navy);
+        rgbLabel.setForeground(CyderColors.navy);
         rgbLabel.setSize(120,30);
         layout.addComponent(rgbLabel, 0, 3, CyderGridLayout.Position.MIDDLE_CENTER);
 
         JTextField colorBlock = new JTextField();
-        colorBlock.setBackground(navy);
+        colorBlock.setBackground(CyderColors.navy);
         colorBlock.setFocusable(false);
         colorBlock.setCursor(null);
         colorBlock.setToolTipText("Color Preview");
-        colorBlock.setBorder(new LineBorder(navy, 5, false));
+        colorBlock.setBorder(new LineBorder(CyderColors.navy, 5, false));
         colorBlock.setSize(220, 50);
         layout.addComponent(colorBlock, 0, 2, CyderGridLayout.Position.MIDDLE_CENTER);
 
         CyderTextField rgbField = new CyderTextField(11);
         rgbField.setHorizontalAlignment(JTextField.CENTER);
-        rgbField.setText(navy.getRed() + "," + navy.getGreen() + "," + navy.getBlue());
+        rgbField.setText(CyderColors.navy.getRed() + ","
+                + CyderColors.navy.getGreen() + "," + CyderColors.navy.getBlue());
 
         CyderTextField hexField = new CyderTextField(6);
         hexField.setKeyEventRegexMatcher(CyderRegexPatterns.hexPattern);
         hexField.setHorizontalAlignment(JTextField.CENTER);
-        hexField.setText(String.format("#%02X%02X%02X", navy.getRed(), navy.getGreen(),
-                navy.getBlue()).replace("#",""));
+        hexField.setText(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
+                CyderColors.navy.getGreen(),
+                CyderColors.navy.getBlue()).replace("#",""));
         hexField.setBackground(new Color(0,0,0,0));
         hexField.setToolTipText("Hex Value");
         hexField.setFont(hexField.getFont().deriveFont(26f));

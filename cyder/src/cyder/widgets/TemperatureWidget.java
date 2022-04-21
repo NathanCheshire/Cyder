@@ -55,8 +55,9 @@ public class TemperatureWidget {
     }
 
     public void innerShowGUI() {
-        if (temperatureFrame != null)
+        if (temperatureFrame != null) {
             temperatureFrame.dispose();
+        }
 
         temperatureFrame = new CyderFrame(600, 340, CyderIcons.defaultBackground);
         temperatureFrame.setTitle("Temperature Converter");
@@ -66,7 +67,11 @@ public class TemperatureWidget {
 
         startingValue = new CyderTextField(0);
         startingValue.setHorizontalAlignment(JTextField.CENTER);
-        startingValue.setKeyEventRegexMatcher("[0-9.\\-]+");
+        startingValue.setKeyEventRegexMatcher(
+                "(\\-?)" +
+                "|(\\-?[0-9]+)" +
+                "|(\\-?[0-9]+.)" +
+                "|(\\-?[0-9]+.[0-9]+)");
 
         ValueLabel.setBounds(60, 40, 200, 30);
 
