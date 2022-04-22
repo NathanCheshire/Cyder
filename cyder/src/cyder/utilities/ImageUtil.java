@@ -1,6 +1,7 @@
 package cyder.utilities;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.Futures;
 import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.exceptions.IllegalMethodException;
@@ -888,20 +889,20 @@ public class ImageUtil {
         Preconditions.checkArgument(!imagePath.isEmpty());
         Preconditions.checkArgument(new File(imagePath).exists());
 
+        if (!OSUtil.isBinaryInstalled("python")) {
+            ConsoleFrame.INSTANCE.getInputHandler()
+                    .println("Python was not found; please install Python and add it" +
+                            " to the windows PATH environment variable");
+
+            CyderButton installPython = new CyderButton("Downlaod Python");
+            installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
+            ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
+
+            return Futures.immediateFuture(Optional.empty());
+        }
+
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Python Script Executor")).submit(() -> {
-            if (!OSUtil.isBinaryInstalled("python")) {
-                ConsoleFrame.INSTANCE.getInputHandler()
-                        .println("Python was not found; please install Python and add it" +
-                                " to the windows PATH environment variable");
-
-                CyderButton installPython = new CyderButton("Downlaod Python");
-                installPython.addActionListener(e -> NetworkUtil.openUrl("https://www.python.org/downloads/"));
-                ConsoleFrame.INSTANCE.getInputHandler().println(installPython);
-
-                return Optional.empty();
-            }
-
             try {
                 String[] commands = {"python",
                         OSUtil.buildFile("static", "python", "k_means_color.py").getAbsolutePath(),

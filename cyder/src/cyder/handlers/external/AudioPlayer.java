@@ -1216,16 +1216,19 @@ public class AudioPlayer {
                 FileUtil.getFilename(currentAudioFile) + ".jpg");
 
         ImageIcon customAlbumArt = null;
+        String customAlbumArtPath = null;
 
         if (albumArtFilePng.exists()) {
             try {
                 customAlbumArt = new ImageIcon(ImageIO.read(albumArtFilePng));
+                customAlbumArtPath = albumArtFilePng.getAbsolutePath();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         } else if (albumArtFileJpg.exists()) {
             try {
                 customAlbumArt = new ImageIcon(ImageIO.read(albumArtFileJpg));
+                customAlbumArtPath = albumArtFileJpg.getAbsolutePath();
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
@@ -1235,6 +1238,28 @@ public class AudioPlayer {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
+        }
+
+        if (customAlbumArtPath != null) {
+            String finalCustomAlbumArtPath = customAlbumArtPath;
+            CyderThreadRunner.submit(() -> {
+                try {
+                    Future<Optional<Color>> optionalColor = ImageUtil
+                            .getComplementaryBackgroundColor(finalCustomAlbumArtPath);
+
+                    while (!optionalColor.isDone()) {
+                        Thread.onSpinWait();
+                    }
+
+                    if (optionalColor.get().isPresent()) {
+                        System.out.println(optionalColor.get().get());
+                        audioPlayerFrame.setBackground(ImageUtil.imageIconFromColor(
+                                optionalColor.get().get(), DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN));
+                    }
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+            }, "Audio Player Background Color K-means Finder");
         }
 
         albumArtLabel.setIcon(ImageUtil.resizeImage(customAlbumArt, ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));

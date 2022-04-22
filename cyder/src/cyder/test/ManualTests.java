@@ -9,6 +9,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.Direction;
 import cyder.enums.NotificationDirection;
 import cyder.exceptions.IllegalMethodException;
+import cyder.handlers.external.AudioPlayer;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -47,7 +48,7 @@ public class ManualTests {
     public static void launchTests() {
         CyderThreadRunner.submit(() -> {
             try {
-                // AudioPlayer.showGui(AudioPlayer.DEFAULT_AUDIO_FILE);
+                AudioPlayer.showGui(AudioPlayer.DEFAULT_AUDIO_FILE);
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
