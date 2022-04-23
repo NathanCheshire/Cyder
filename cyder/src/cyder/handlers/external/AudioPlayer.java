@@ -519,7 +519,6 @@ public class AudioPlayer {
             if (isAudioPlaying()) {
                 pauseAudio();
                 pauseLocation = 0;
-                System.out.println("Pause location set to 0");
             }
 
             playAudio();
@@ -582,8 +581,7 @@ public class AudioPlayer {
         audioPlayerFrame.getContentPane().add(lastAudioButton);
 
         playPauseButton = new JButton();
-        playPauseButton.setIcon(playIcon);
-        playPauseButton.setToolTipText("Play"); // todo update the tooltip
+        refreshPlayPauseButton();
         playPauseButton.setFocusPainted(false);
         playPauseButton.setOpaque(false);
         playPauseButton.setContentAreaFilled(false);
@@ -629,6 +627,7 @@ public class AudioPlayer {
         audioProgressBar.setFocusable(false);
 
         audioProgressLabel.setSize(UI_ROW_WIDTH, UI_ROW_HEIGHT);
+        audioProgressLabel.setText("");
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
@@ -640,26 +639,23 @@ public class AudioPlayer {
                 }
 
                 float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
-                long skipLocation = (long) (((double) e.getX() / (double)
-                        audioProgressLabel.getWidth()) * totalAudioLength);
 
-                if (isAudioPlaying()) {
-                    pauseAudio();
-
-                    pauseLocation = skipLocation;
-                    System.out.println("Pause location set to " + pauseLocation);
-
-                    lastAction = LastAction.Scrub;
-
-                    playAudio();
-                } else {
-                    pauseAudio();
-
-                    pauseLocation = skipLocation;
-                    System.out.println("Pause location set to " + pauseLocation);
-
-                    lastAction = LastAction.Scrub;
+                if (totalAudioLength == 0) {
+                    refreshAudioTotalLength();
                 }
+
+                long skipLocation = (long) (totalAudioLength * audioPercent);
+                System.out.println("Skip location: " + skipLocation);
+
+                boolean shouldPlay = isAudioPlaying();
+                pauseAudio();
+                pauseLocation = skipLocation;
+                lastAction = LastAction.Scrub;
+
+                // todo the bug originates from playing somehow
+                // turn this into a label you can drag and will audo matically go to the cursor when mouse pressed
+                // and until mouse released or not on component
+                System.out.println("Resume at: " + pauseLocation);
             }
         });
 
@@ -1013,8 +1009,6 @@ public class AudioPlayer {
             // phase 2
         });
         audioPlayerFrame.addMenuItem("Choose File", () -> {
-            System.out.println("Locked: " + chooseFileLocked.get());
-
             if (chooseFileLocked.get()) {
                 return;
             }
@@ -1024,12 +1018,9 @@ public class AudioPlayer {
                 builder.setRelativeTo(audioPlayerFrame);
 
                 chooseFileLocked.set(true);
-                System.out.println("Locked");
-
                 File chosenFile = GetterUtil.getInstance().getFile(builder);
 
                 chooseFileLocked.set(false);
-                System.out.println("Unlocked");
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
                     pauseAudio();
@@ -1041,8 +1032,6 @@ public class AudioPlayer {
 
                     totalAudioLength = 0;
                     pauseLocation = 0;
-                    System.out.println("Pause location set to " + pauseLocation);
-
                     playAudio();
                 } else {
                     audioPlayerFrame.notify("Invalid file chosen");
@@ -1303,7 +1292,6 @@ public class AudioPlayer {
 
         if (textWidth > parentWidth) {
             audioTitleLabel.setText(text);
-            System.out.println("need to use scrolling label object");
         } else {
             audioTitleLabel.setBounds(parentWidth / 2 - textWidth / 2,
                     parentHeight / 2 - textHeight / 2, textWidth, textHeight);
@@ -1311,7 +1299,7 @@ public class AudioPlayer {
         }
     }
 
-    private static final void refreshAudioFiles() {
+    private static void refreshAudioFiles() {
         Preconditions.checkNotNull(currentAudioFile);
 
         validAudioFiles.clear();
@@ -1328,6 +1316,16 @@ public class AudioPlayer {
                     }
                 }
             }
+        }
+    }
+
+    private static void refreshPlayPauseButton() {
+        if (isAudioPlaying()) {
+            playPauseButton.setIcon(pauseIcon);
+            playPauseButton.setToolTipText("Pause");
+        } else {
+            playPauseButton.setIcon(playIcon);
+            playPauseButton.setToolTipText("Play");
         }
     }
 
@@ -1359,6 +1357,18 @@ public class AudioPlayer {
             }
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
+        }
+    }
+
+    /**
+     * Refreshes the totalAudioLength based on the curent audio file.
+     */
+    public static void refreshAudioTotalLength() {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(currentAudioFile);
+            totalAudioLength = fileInputStream.available();
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
         }
     }
 
@@ -1421,6 +1431,7 @@ public class AudioPlayer {
         CyderThreadRunner.submit(() -> {
             try {
                 refreshAudioTitleLabel();
+                refreshPlayPauseButton();
 
                 fis = new FileInputStream(currentAudioFile);
                 bis = new BufferedInputStream(fis);
@@ -1428,7 +1439,6 @@ public class AudioPlayer {
                 totalAudioLength = fis.available();
 
                 fis.skip(Math.max(0, pauseLocation));
-                System.out.println("Skipping to : " + Math.max(0, pauseLocation));
 
                 audioPlayer = new Player(bis);
 
@@ -1441,7 +1451,6 @@ public class AudioPlayer {
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
                     pauseLocation = 0;
-                    System.out.println("last action was play so pause location set to 0");
                     totalAudioLength = 0;
 
                     // audio concluded so reset in preparation for a new audio file
@@ -1469,7 +1478,6 @@ public class AudioPlayer {
         try {
             if (fis != null) {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
-                System.out.println("Pause location set to " + pauseLocation);
                 fis.close();
                 fis = null;
             }
@@ -1487,6 +1495,8 @@ public class AudioPlayer {
                 scrollingTitleLabel.kill();
                 scrollingTitleLabel = null;
             }
+
+            refreshPlayPauseButton();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1566,7 +1576,6 @@ public class AudioPlayer {
         pauseAudio();
 
         pauseLocation = 0;
-        System.out.println("Pause location set to 0");
         totalAudioLength = 0;
 
         Objects.requireNonNull(audioVolumeLabelAnimator).kill();
