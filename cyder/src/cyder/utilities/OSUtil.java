@@ -266,9 +266,8 @@ public class OSUtil {
                     Process proc = new ProcessBuilder(args).start();
                     break;
                 case UNKNOWN:
-                    throw new FatalException("UNKNOWN OPERATING SYSTEM");
                 default:
-                    throw new IllegalStateException("Unknown operating system type: " + OPERATING_SYSTEM);
+                    throw new FatalException("Unknown operating system type: " + OPERATING_SYSTEM);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);

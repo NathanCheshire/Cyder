@@ -231,9 +231,10 @@ public enum ConsoleFrame {
      */
     public void launch(CyderEntry entryPoint) {
         try {
-            //the ConsoleFrame should always be closed properly before start is invoked again
-            if (!isClosed())
-                throw new FatalException("ConsoleFrame was left open: old uuid: " + previousUuid);
+            // the ConsoleFrame should always be closed properly before start is invoked again
+            if (!isClosed()) {
+                throw new FatalException("ConsoleFrame lauch() invoked when not closed. Old uuid = " + previousUuid);
+            }
 
             setLoadingMessage("Building Console");
 

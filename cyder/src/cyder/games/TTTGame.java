@@ -9,7 +9,6 @@ import cyder.exceptions.IllegalMethodException;
 import cyder.ui.CyderButton;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderLabel;
-import cyder.utilities.ReflectionUtil;
 
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -415,13 +414,5 @@ public class TTTGame {
                 !ttt3.getText().isEmpty() && !ttt4.getText().isEmpty() &&
                 !ttt5.getText().isEmpty() && !ttt6.getText().isEmpty() &&
                 !ttt7.getText().isEmpty() && !ttt8.getText().isEmpty() && !ttt9.getText().isEmpty();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 }

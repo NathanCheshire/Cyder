@@ -1007,7 +1007,7 @@ public class UserUtil {
             if (ret.mkdir()) {
                 return ret;
             } else {
-                throw new FatalException("Failed to create: " + fileName);
+                throw new FatalException("Failed to create user file: " + fileName);
             }
         }
 
