@@ -102,7 +102,7 @@ public class MathUtil {
      *
      * @param r1 the first rectangle
      * @param r2 the second rectangle
-     * @return whether or not the rectangles intersect each other
+     * @return whether the rectangles intersect each other
      */
     public static boolean overlaps(Rectangle r1, Rectangle r2) {
         return r2.x < r1.x + r1.width

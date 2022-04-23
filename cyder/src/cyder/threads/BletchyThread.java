@@ -1,5 +1,6 @@
 package cyder.threads;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -17,7 +18,7 @@ import java.util.concurrent.Semaphore;
  */
 public class BletchyThread {
     /**
-     * Suppress default instantiation.
+     * Suppress default constructor..
      */
     private BletchyThread() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
@@ -29,7 +30,7 @@ public class BletchyThread {
     private static BletchyAnimator bletchyAnimator;
 
     /**
-     * Whether or not bletchyAnimator is active.
+     * Whether bletchyAnimator is active.
      */
     private static boolean isActive;
 
@@ -48,9 +49,12 @@ public class BletchyThread {
      * other print calls while underway.
      *
      * @param outputArea the JTextPane belonging to a ConsoleFrame to print to
-     * @param semaphore the semaphore to use to block other text being added to the linked JTextPane
+     * @param semaphore  the semaphore to use to block other text being added to the linked JTextPane
      */
     public static void initialize(JTextPane outputArea, Semaphore semaphore) {
+        Preconditions.checkNotNull(outputArea);
+        Preconditions.checkNotNull(semaphore);
+
         stringUtil = new StringUtil(new CyderOutputPane(outputArea));
         printingSemaphore = semaphore;
     }
@@ -60,21 +64,24 @@ public class BletchyThread {
      *
      * @param decodeString the final string to decode and display after
      *                     the bletchy animation has finished
-     * @param useNumbers a boolean depicting whether or not to use
-     *                  numbers in the alphabetic characters for the animation
-     * @param milliDelay the millisecond delay in between animation frames
-     * @param useUnicode a boolean depicting whether or not to use
-     *                   more than just latin letters and possibly numbers
+     * @param useNumbers   a boolean depicting whether to use
+     *                     numbers in the alphabetic characters for the animation
+     * @param milliDelay   the millisecond delay in between animation frames
+     * @param useUnicode   a boolean depicting whether to use
+     *                     more than just latin letters and possibly numbers
      */
     public static void bletchy(String decodeString, boolean useNumbers, int milliDelay, boolean useUnicode) {
-        //starting not permitting if bletchy or this is already underway
+        Preconditions.checkNotNull(decodeString);
+        Preconditions.checkArgument(!decodeString.isEmpty());
+        Preconditions.checkArgument(milliDelay > 0);
+
         if (isActive() || MasterYoutubeThread.isActive()) {
-            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
-                    " at the same time as another instance.");
+            ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify(
+                    "Cannot start bletchy/youtube thread" +
+                            " at the same time as another instance.");
             return;
         }
 
-        //invoke the thread with passed params
         bletchyAnimator = new BletchyAnimator(getBletchyArray(decodeString, useNumbers, useUnicode), milliDelay);
     }
 
@@ -85,46 +92,41 @@ public class BletchyThread {
         /**
          * Constructs and starts a new BletchyAnimator thread.
          *
-         * @param print the string array to print and remove the last
-         *              line of until the final index is printed
+         * @param print      the string array to print and remove the last
+         *                   line of until the final index is printed
          * @param milliDelay the delay in ms between prints
          */
         BletchyAnimator(String[] print, int milliDelay) {
             CyderThreadRunner.submit(() -> {
                 try {
                     isActive = true;
+
                     printingSemaphore.acquire();
 
-                    for (int i = 1 ; i < print.length ; i++) {
+                    for (int i = 1; i < print.length; i++) {
                         if (!isActive) {
                             printingSemaphore.release();
                             return;
                         }
 
-                        //print iteration
                         stringUtil.println(print[i]);
-
-                        //timeout
                         Thread.sleep(milliDelay);
-
-                        //remove iteration
                         stringUtil.removeLastLine();
                     }
 
-                    //since we removed the last line, add the final value back
+                    // print final string
                     stringUtil.println(print[print.length - 1]);
                     printingSemaphore.release();
-
                     kill();
                 } catch (Exception e) {
                     ExceptionHandler.handle(e);
                     kill();
                 }
-            },"Bletchy printing thread, finalString = " + print[print.length - 1]);
+            }, "Bletchy printing thread, finalString = " + print[print.length - 1]);
         }
 
         /**
-         * Kills this bletchy threaad
+         * Kills this bletchy thread.
          */
         public void kill() {
             isActive = false;
@@ -132,9 +134,9 @@ public class BletchyThread {
     }
 
     /**
-     * Returns whether or not this BletchyThread has a BletchyAnimation thread underway.
+     * Returns whether this BletchyThread has a BletchyAnimation thread underway.
      *
-     * @return whether or not this BletchyThread has a BletchyAnimation thread underway
+     * @return whether this BletchyThread has a BletchyAnimation thread underway
      */
     public static boolean isActive() {
         return isActive;
@@ -152,58 +154,68 @@ public class BletchyThread {
      * Character array of all lowercase latin characters.
      */
     private static Character[] lowercaseAlphabet =
-            {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+            {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+                    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
     /**
      * Character array of all lowercase latin characters and the base 10 numbers.
      */
     private static final Character[] lowercaseAlphabetAndBase10 =
-            {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
-            '0','1','2','3','4','5','6','7','8','9'};
+            {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+                    'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     /**
      * Returns an array of Strings abiding by the parameters for a bletchy thread to print.
      *
      * @param decodeString the string to decode
-     * @param useNumbers a boolean turning on number usage
-     * @param useUnicode a boolean turning on random unicode chars
+     * @param useNumbers   a boolean turning on number usage
+     * @param useUnicode   a boolean turning on random unicode chars
      * @return the string array to be used by a bletchy thread
      */
     private static String[] getBletchyArray(String decodeString, boolean useNumbers, boolean useUnicode) {
+        Preconditions.checkNotNull(decodeString);
+        Preconditions.checkNotNull(!decodeString.isEmpty());
+
         LinkedList<String> retList = new LinkedList<>();
 
         String decodeUsage = decodeString.toLowerCase().trim();
 
         int len = decodeUsage.length();
 
-        if (useNumbers)
+        if (useNumbers) {
             lowercaseAlphabet = lowercaseAlphabetAndBase10;
+        }
 
         if (useUnicode) {
             LinkedList<Character> chars = new LinkedList<>();
 
-            //card suites
-            for (int index = 9824; index <= 9835; index++)
+            // card suites
+            for (int index = 9824; index <= 9835; index++) {
                 chars.add((char) index);
+            }
 
             //cool looking unicode chars
-            for (int index = 880; index <= 1023; index++)
+            for (int index = 880; index <= 1023; index++) {
                 chars.add((char) index);
+            }
 
             lowercaseAlphabet = chars.toArray(new Character[chars.size()]);
         }
 
         int iterationsPerChar = 7;
 
-        for (int i = 1 ; i < len ; i++) {
-            for (int j = 0 ; j < iterationsPerChar ; j++) {
+        for (int i = 1; i < len; i++) {
+            for (int j = 0; j < iterationsPerChar; j++) {
 
                 String current = "";
 
-                for (int k = 0 ; k <= len ; k++)
-                    current += lowercaseAlphabet[NumberUtil.randInt(0, lowercaseAlphabet.length - 1)];
+                for (int k = 0; k <= len; k++) {
+                    current += lowercaseAlphabet[NumberUtil.randInt(0,
+                            lowercaseAlphabet.length - 1)];
+                }
 
-                retList.add((decodeUsage.substring(0,i) + current.substring(i, len)).toUpperCase());
+                retList.add((decodeUsage.substring(0, i) + current.substring(i, len)).toUpperCase());
             }
         }
 

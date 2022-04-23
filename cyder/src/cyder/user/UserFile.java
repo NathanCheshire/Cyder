@@ -49,9 +49,9 @@ public enum UserFile {
     }
 
     /**
-     * Returns whether or not the object represented by this enum is a File type or directory.
+     * Returns whether the object represented by this enum is a File type or directory.
      *
-     * @return whether or not the object represented by this enum is a File type or directory
+     * @return whether the object represented by this enum is a File type or directory
      */
     public boolean isFile() {
         return isFile;
@@ -61,7 +61,7 @@ public enum UserFile {
      * Enum type representing a file that should exist within the user's directory
      *
      * @param name the name of the file/directory
-     * @param isFile whether or not it is a file
+     * @param isFile whether it is a file
      */
     UserFile(String name, boolean isFile) {
         this.name = name;

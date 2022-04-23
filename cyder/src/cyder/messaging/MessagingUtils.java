@@ -76,7 +76,7 @@ public class MessagingUtils {
         Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".mp3")
                 || FileUtil.validateExtension(wavOrMp3File, ".wav"));
 
-       return generateWaveform(wavOrMp3File, DEFAULT_LARGE_WAVEFORM_WIDTH, DEFAULT_LARGE_WAVEFORM_HEIGHT);
+        return generateWaveform(wavOrMp3File, DEFAULT_LARGE_WAVEFORM_WIDTH, DEFAULT_LARGE_WAVEFORM_HEIGHT);
     }
 
     /**
@@ -123,16 +123,17 @@ public class MessagingUtils {
     /**
      * Generates a buffered image depicting the local waveform of the provided wav file.
      *
-     * @param wav the wav file to sample
-     * @param startFrame the starting frame of the wav file
-     * @param numSamples the number of samples to take/the resulting width of the image
-     * @param height the height of the image
+     * @param wav             the wav file to sample
+     * @param startFrame      the starting frame of the wav file
+     * @param numSamples      the number of samples to take/the resulting width of the image
+     * @param height          the height of the image
      * @param backgroundColor the background color of the image
-     * @param waveColor the wave color to draw
+     * @param waveColor       the wave color to draw
      * @return a buffered image depicting the local waveform of the provided wav file
      */
     public static BufferedImage generate1DWaveformInRange(WaveFile wav, int startFrame,
-                          int numSamples, int height, Color backgroundColor, Color waveColor) {
+                                                          int numSamples, int height,
+                                                          Color backgroundColor, Color waveColor) {
         Preconditions.checkNotNull(wav);
         Preconditions.checkArgument(startFrame >= 0);
         Preconditions.checkArgument(startFrame < wav.getNumFrames());
@@ -148,7 +149,7 @@ public class MessagingUtils {
 
         // get local non-normalized samples and find local max
         int index = 0;
-        for (int i = startFrame ; i < startFrame + numSamples ; i++) {
+        for (int i = startFrame; i < startFrame + numSamples; i++) {
             int sample = wav.getSample(i);
 
             localMax = Math.max(sample, localMax);
@@ -161,7 +162,7 @@ public class MessagingUtils {
         int interpolationNeededValue = -69;
 
         // normalize values and skip ones which exceeding tol
-        for (int i = 0; i < normalizedSamples.length ; i++) {
+        for (int i = 0; i < normalizedSamples.length; i++) {
             int normalizedValue = (int) ((nonNormalizedSamples[i] / (float) localMax) * height);
 
             if (normalizedValue >= height * 0.9) {
@@ -173,7 +174,7 @@ public class MessagingUtils {
 
         // interpolate between surrounding values where
         // the amplitude was set to the interpolation value
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+        for (int i = 0; i < normalizedSamples.length; i++) {
             // if a true zero amplitude don't interpolate
             if (normalizedSamples[i] == 0) {
                 continue;
@@ -182,7 +183,7 @@ public class MessagingUtils {
             else if (normalizedSamples[i] == interpolationNeededValue) {
                 // find the next value that isn't a 0 or an amp that has yet to be interpolated
                 int nextNonZeroIndex = 0;
-                for (int j = i ; j < normalizedSamples.length ; j++) {
+                for (int j = i; j < normalizedSamples.length; j++) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         nextNonZeroIndex = j;
                         break;
@@ -190,7 +191,7 @@ public class MessagingUtils {
                 }
                 // find the previous value that isn't 0 or an amp that has yet to be interpolated
                 int lastNonZeroIndex = 0;
-                for (int j = i ; j >= 0 ; j--) {
+                for (int j = i; j >= 0; j--) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != interpolationNeededValue) {
                         lastNonZeroIndex = j;
                         break;
@@ -215,7 +216,7 @@ public class MessagingUtils {
         g2d.setColor(waveColor);
 
         // draw samples
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+        for (int i = 0; i < normalizedSamples.length; i++) {
             g2d.drawLine(i, height, i, height - normalizedSamples[i]);
             g2d.drawLine(i, height, i, height - 1);
         }
@@ -226,11 +227,11 @@ public class MessagingUtils {
     /**
      * Generates a png depicting the waveform of the provided wav file.
      *
-     * @param wavFile the wav file
-     * @param width the width of the requested image
-     * @param height the height of the requested image
+     * @param wavFile         the wav file
+     * @param width           the width of the requested image
+     * @param height          the height of the requested image
      * @param backgroundColor the background color of the image
-     * @param waveColor the color of the waveform
+     * @param waveColor       the color of the waveform
      * @return the generated image
      */
     public static BufferedImage generateWaveform(File wavFile, int width, int height,
@@ -255,8 +256,8 @@ public class MessagingUtils {
 
         Preconditions.checkArgument(width <= numFrames,
                 "Samples to take is greater than num frames: "
-                + "samples = " + width + ", frames = " + numFrames
-                + "\n" + CyderStrings.europeanToymaker);
+                        + "samples = " + width + ", frames = " + numFrames
+                        + "\n" + CyderStrings.europeanToymaker);
 
         int sampleLocIncrementer = (int) Math.ceil(numFrames / (double) width);
         int currentSampleLoc = 0;
@@ -278,7 +279,7 @@ public class MessagingUtils {
 
         // paint background of image
         g2d.setPaint(backgroundColor);
-        g2d.fillRect(0,0, width, height);
+        g2d.fillRect(0, 0, width, height);
 
         // set to line color
         g2d.setColor(waveColor);
@@ -298,16 +299,16 @@ public class MessagingUtils {
         }
 
         // interpolate between surrounding values where the amplitude is 0
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+        for (int i = 0; i < normalizedSamples.length; i++) {
             // if a true zero amplitude don't paint it
             if (normalizedSamples[i] == 0)
                 continue;
 
-            // at a value that needs interpolation
+                // at a value that needs interpolation
             else if (normalizedSamples[i] == -69) {
                 // find the next value that isn't a 0 or an amp that has yet to be interpolated
                 int nextNonZeroIndex = 0;
-                for (int j = i ; j < normalizedSamples.length ; j++) {
+                for (int j = i; j < normalizedSamples.length; j++) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
                         nextNonZeroIndex = j;
                         break;
@@ -316,7 +317,7 @@ public class MessagingUtils {
 
                 // find the previous value that isn't 0 or an amp that has yet to be interpolated
                 int lastNonZeroIndex = 0;
-                for (int j = i ; j >= 0 ; j--) {
+                for (int j = i; j >= 0; j--) {
                     if (normalizedSamples[j] != 0 && normalizedSamples[j] != -69) {
                         lastNonZeroIndex = j;
                         break;
@@ -333,13 +334,13 @@ public class MessagingUtils {
 
         // draw center line to ensure every y value on
         // the image contains at least one pixel
-        for (int i = 0 ; i < width ; i++) {
+        for (int i = 0; i < width; i++) {
             // from the center line extending downwards
             g2d.drawLine(i, height / 2, i, height / 2);
         }
 
         // paint the amplitude wave
-        for (int i = 0 ; i < normalizedSamples.length ; i++) {
+        for (int i = 0; i < normalizedSamples.length; i++) {
             // from the center line extending downwards
             g2d.drawLine(i, height / 2, i,
                     height / 2 + normalizedSamples[i]);
@@ -355,7 +356,7 @@ public class MessagingUtils {
     /**
      * Generates and returns a file preview for the provided audio file.
      *
-     * @param mp3OrWavFile the wav or mp3 file
+     * @param mp3OrWavFile   the wav or mp3 file
      * @param onSaveRunnable the runnable to invoke when the save button is pressed
      * @return the label with the waveform preview and save button
      */
@@ -386,14 +387,14 @@ public class MessagingUtils {
                     @Override
                     protected void paintComponent(Graphics g) {
                         g.setColor(CyderColors.nullus);
-                        g.fillRect(0,0, containerWidth, containerHeight);
+                        g.fillRect(0, 0, containerWidth, containerHeight);
                         super.paintComponent(g);
                     }
                 };
                 containerLabel.setSize(containerWidth, containerHeight);
 
                 JLabel imageLabel = new JLabel();
-                imageLabel.setBounds(borderLen,borderLen, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
+                imageLabel.setBounds(borderLen, borderLen, 140, DEFAULT_SMALL_WAVEFORM_HEIGHT);
                 imageLabel.setIcon(ImageUtil.toImageIcon(image.get()));
 
                 JLabel imageContainerLabel = new JLabel();
@@ -435,7 +436,7 @@ public class MessagingUtils {
     /**
      * Generates and returns a file preview for the provided image file.
      *
-     * @param imageFile the image file
+     * @param imageFile      the image file
      * @param onSaveRunnable the runnable to invoke when the save button is pressed.
      * @return the label with the image preview and save button.
      */
@@ -463,7 +464,7 @@ public class MessagingUtils {
             saveButton.setForeground(CyderColors.defaultDarkModeTextColor);
 
             ret = new JLabel(StringUtil.generateTextForCustomComponent(12));
-            imagePreviewLabel.setLocation(0,0);
+            imagePreviewLabel.setLocation(0, 0);
             ret.add(imagePreviewLabel);
 
             saveButton.setLocation(0, IMAGE_PREVIEW_LEN - 5);

@@ -308,7 +308,7 @@ public class StatUtil {
     /**
      * Determines if the provided line is a comment line
      * @param line the string in question to possibly be a comment
-     * @return whether or not the line is a comment
+     * @return whether the line is a comment
      */
     public static boolean isComment(String line) {
         return line.matches(CyderRegexPatterns.commentPattern);

@@ -11,7 +11,6 @@ import java.util.concurrent.ThreadFactory;
  * A custom thread factory for Cyder.
  */
 public class CyderThreadFactory implements ThreadFactory {
-
     /**
      * Constructs a new thread factory using the provided name
      *

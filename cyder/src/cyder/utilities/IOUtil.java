@@ -48,7 +48,7 @@ public class IOUtil {
     private static Player player;
 
     /**
-     * Opens the provided file outside of the program regardless of whether or not a
+     * Opens the provided file outside of the program regardless of whether a
      * handler exists for the file (e.g.: TextHandler, AudioPlayer, etc.).
      *
      * @param filePath the path to the file to open
@@ -71,7 +71,7 @@ public class IOUtil {
     }
 
     /**
-     * Determines whether or not the provided string is a link or a file/directory path and then opens it.
+     * Determines whether the provided string is a link or a file/directory path and then opens it.
      *
      * @param fileOrLink the link/file to open
      */
@@ -221,9 +221,9 @@ public class IOUtil {
     }
 
     /**
-     * Returns whether or not general audio is playing.
+     * Returns whether general audio is playing.
      *
-     * @return whether or not general audio is playing
+     * @return whether general audio is playing
      */
     public static boolean generalAudioPlaying() {
         return player != null && !player.isComplete();

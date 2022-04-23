@@ -139,7 +139,7 @@ public class GitHubUtil {
      * Example: https://github.com/NathanCheshire/Cyder.git returns true
      *
      * @param url the url to clone locally
-     * @return whether or not the url is a valid, public, and cloneable repository
+     * @return whether the url is a valid, public, and cloneable repository
      */
     public static boolean validateGitHubRepoCloneUrl(String url) {
         Preconditions.checkNotNull(url, "Url is null");

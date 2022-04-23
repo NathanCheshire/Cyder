@@ -48,7 +48,7 @@ public class NumberUtil {
      * Determines if the provided number if a prime.
      *
      * @param num the possibly prime number to validate
-     * @return whether or not the provided number was a prime
+     * @return whether the provided number was a prime
      */
     public static boolean isPrime(int num) {
         boolean ret = true;

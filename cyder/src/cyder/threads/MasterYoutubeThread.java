@@ -1,9 +1,9 @@
 package cyder.threads;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
-import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ public class MasterYoutubeThread {
     private static Semaphore semaphore;
 
     /**
-     * Restrict default instantiation.
+     * Suppress default constructor.
      */
     private MasterYoutubeThread() {
         throw new IllegalMethodException(CyderStrings.attemptedInstantiation);
     }
 
     /**
-     * Protected getter for semaphore so helper threads may acquire when needed.
+     * Returns the semaphore used for the youtube thread started (this class).
      *
      * @return the semaphore associated with the linked JTextPane object
      */
@@ -49,20 +49,21 @@ public class MasterYoutubeThread {
     /**
      * Sets the master YouTube JTextPane, and its linked semaphore.
      *
-     * @param _outputArea the JTextPane to use for appending text to
-     * @param _semaphore the semaphore to use to block other text from being appended while thread is underway
+     * @param outputArea the JTextPane to use for appending text to
+     * @param semaphore the semaphore to use to block other text from being appended while thread is underway
      */
-    public static void initialize(JTextPane _outputArea, Semaphore _semaphore) {
-        outputArea = _outputArea;
-        semaphore = _semaphore;
+    public static void initialize(JTextPane outputArea, Semaphore semaphore) {
+        MasterYoutubeThread.outputArea = outputArea;
+        MasterYoutubeThread.semaphore = semaphore;
     }
 
     /**
      * Kills any instances of helper YouTube threads that are currently running.
      */
     public static void killAll() {
-        for (YoutubeThread ytt : youtubeThreads)
+        for (YoutubeThread ytt : youtubeThreads) {
             ytt.kill();
+        }
 
         isActive = false;
     }
@@ -73,28 +74,23 @@ public class MasterYoutubeThread {
      * @param number the number of threads to start
      */
     public static void start(int number) {
-        if (number < 0)
-            throw new IllegalArgumentException("Provided number of threads to start is invalid: " + number);
-        if (outputArea == null)
-            throw new IllegalStateException("OutputArea not yet linked");
-        if (semaphore == null)
-            throw new IllegalStateException("Semaphore is not yet linked");
+        Preconditions.checkArgument(number > 0);
+        Preconditions.checkNotNull(outputArea);
+        Preconditions.checkNotNull(semaphore);
 
-        //if this is running or a bletchy
         if (BletchyThread.isActive() || isActive()) {
             ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Cannot start bletchy/youtube thread" +
                     " at the same time as another instance.");
             return;
         }
 
-        //initialize and add threads to list
         for (int i = 0; i < number; i++) {
             YoutubeThread current = new YoutubeThread(outputArea, i);
             youtubeThreads.add(current);
         }
 
-        // say how to stop scripts
-        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify("Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
+        ConsoleFrame.INSTANCE.getConsoleCyderFrame().notify(
+                "Type \"stopscript\" or press ctrl + c to stop the YouTube thread.");
         isActive = true;
     }
 
@@ -105,10 +101,5 @@ public class MasterYoutubeThread {
      */
     public static boolean isActive() {
         return isActive;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
     }
 }

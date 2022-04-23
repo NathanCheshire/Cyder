@@ -1,5 +1,6 @@
 package cyder.threads;
 
+import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.exceptions.IllegalMethodException;
@@ -7,7 +8,10 @@ import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.ui.CyderFrame;
 import cyder.ui.CyderOutputPane;
-import cyder.utilities.*;
+import cyder.utilities.NetworkUtil;
+import cyder.utilities.StringUtil;
+import cyder.utilities.TimeUtil;
+import cyder.utilities.UserUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,7 +34,7 @@ public class YoutubeThread {
     /**
      * The uuid we are currently on
      */
-    private String uuid;
+    private String youtubeUuid;
 
     /**
      * YouTube's base 64 system used for UUID construction.
@@ -52,56 +56,49 @@ public class YoutubeThread {
      * Starts generating UUIDs and checking them against YouTube for a valid uuid.
      * Text is appended to the provided JTextPane.
      *
-     * @param jTextPane the JTextPane to print to
+     * @param jTextPane    the JTextPane to print to
      * @param threadNumber the number this thread is in the YouTube thread list
      */
     public YoutubeThread(JTextPane jTextPane, int threadNumber) {
+        Preconditions.checkNotNull(jTextPane);
+        Preconditions.checkArgument(threadNumber > 0);
+
         stringUtil = new StringUtil(new CyderOutputPane(jTextPane));
 
         CyderThreadRunner.submit(() -> {
-            //init as user's stored value
-            uuid = UserUtil.getCyderUser().getYoutubeuuid();
+            youtubeUuid = UserUtil.getCyderUser().getYoutubeuuid();
 
-            try {
-                if (uuid.length() != 11)
-                    throw new IllegalArgumentException("Youtube Thread UUID not length 11");
-                else if (uuid.isEmpty() || uuid == null)
-                    throw new IllegalArgumentException("Youtube Thread UUID length 0 or null");
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
+            Preconditions.checkNotNull(youtubeUuid);
+            Preconditions.checkArgument(youtubeUuid.length() == 11);
 
-            int runs = 0;
-            long start = System.currentTimeMillis();
+            int numRuns = 0;
+            long startTime = System.currentTimeMillis();
 
             while (!exit) {
                 try {
-                    if (uuid == null)
-                        throw new Exception("UUID is null");
-                    else if (uuid.length() != 11)
-                        throw new Exception("UUID length is not 11");
-
                     MasterYoutubeThread.getSemaphore().acquire();
-                    stringUtil.println("Checked UUID: " + uuid);
+                    stringUtil.println("Checked UUID: " + youtubeUuid);
                     MasterYoutubeThread.getSemaphore().release();
-                    String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + uuid;
+                    String baseURL = CyderUrls.YOUTUBE_VIDEO_HEADER + youtubeUuid;
 
-                    BufferedImage Thumbnail = ImageIO.read(new URL(CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", uuid)));
+                    BufferedImage Thumbnail = ImageIO.read(new URL(
+                            CyderUrls.THUMBNAIL_BASE_URL.replace("REPLACE", youtubeUuid)));
 
                     //end all scripts since this one was found
                     MasterYoutubeThread.killAll();
 
                     MasterYoutubeThread.getSemaphore().acquire();
-                    stringUtil.println("YouTube script found valid video with UUID: " + uuid);
+                    stringUtil.println("YouTube script found valid video with UUID: " + youtubeUuid);
                     MasterYoutubeThread.getSemaphore().release();
 
-                    CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(), Thumbnail.getHeight(), new ImageIcon(Thumbnail));
+                    CyderFrame thumbnailFrame = new CyderFrame(Thumbnail.getWidth(),
+                            Thumbnail.getHeight(), new ImageIcon(Thumbnail));
                     thumbnailFrame.setTitlePosition(CyderFrame.TitlePosition.CENTER);
-                    thumbnailFrame.setTitle(uuid);
+                    thumbnailFrame.setTitle(youtubeUuid);
 
                     JLabel pictureLabel = new JLabel();
-                    pictureLabel.setToolTipText("Open video " + uuid);
-                    String video = baseURL + uuid;
+                    pictureLabel.setToolTipText("Open video " + youtubeUuid);
+                    String video = baseURL + youtubeUuid;
                     pictureLabel.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -116,28 +113,29 @@ public class YoutubeThread {
                 } catch (Exception ignored) {
                     //invalid UUID, so we ignore the exception and increment the UUID here to ensure we checked it
                     try {
-                        uuid = String.valueOf(incrementUUID(uuid.toCharArray(), 10));
+                        youtubeUuid = String.valueOf(incrementUUID(youtubeUuid.toCharArray(), 10));
                     } catch (Exception e) {
                         ExceptionHandler.handle(e);
                     }
                 }
 
-                if (runs <= 10) {
-                    runs++;
-                    if (runs == 10) {
+                if (numRuns <= 10) {
+                    numRuns++;
+
+                    if (numRuns == 10) {
                         //accTime is avg time, this is what we will divide the remaining UUIDs by
                         //array to work backwards through
-                        char[] uuidArr = uuid.toCharArray();
+                        char[] uuidArr = youtubeUuid.toCharArray();
 
                         //subtract completed UUIDS from this
-                        double totalUUIDs = Math.pow(64,11);
+                        double totalUUIDs = Math.pow(64, 11);
                         double completedUUIDs = 0;
 
-                        for (int i = 10 ; i >= 0 ; i--) {
+                        for (int i = 10; i >= 0; i--) {
                             int weight = Math.abs(i - 10);
                             char currentDigit = uuidArr[i];
 
-                            for (int j = 0 ; j < 64 ; j++) {
+                            for (int j = 0; j < 64; j++) {
                                 if (validChars[j] == currentDigit) {
                                     completedUUIDs += j * Math.pow(64, weight);
                                     break;
@@ -145,7 +143,7 @@ public class YoutubeThread {
                             }
                         }
 
-                        long time = System.currentTimeMillis() - start;
+                        long time = System.currentTimeMillis() - startTime;
                         double avgMsPerCheck = time / 10.0;
                         long msTimeLeft = (long) ((totalUUIDs - completedUUIDs) / avgMsPerCheck);
 
@@ -154,18 +152,18 @@ public class YoutubeThread {
                     }
                 }
             }
-        },"Random youtube thread #" + threadNumber);
+        }, "Random youtube thread #" + threadNumber);
     }
 
     /**
      * Complex logic to increment the provided UUID based on YouTube's base 64 character set.
      *
      * @param uuid the uuid to increment in char array form
-     * @param pos the position to add to (needed since this method is recursive)
+     * @param pos  the position to add to (needed since this method is recursive)
      * @return the provided uuid incremented starting at the provided position
-     *          (ripples down the array if overflow)
+     * (ripples down the array if overflow)
      */
-    private char[] incrementUUID(char[] uuid, int pos)  {
+    private char[] incrementUUID(char[] uuid, int pos) {
         //init ret array
         char[] ret;
 
@@ -191,8 +189,9 @@ public class YoutubeThread {
             cp[pos] = charizard;
 
             //if rolling to new column, reset this column
-            if (pos + 1 <= 10)
+            if (pos + 1 <= 10) {
                 cp[pos + 1] = validChars[0];
+            }
 
             ret = cp;
         }
@@ -207,8 +206,9 @@ public class YoutubeThread {
      * @return the index of the provided char in the provided array
      */
     private int findIndex(char c) {
-        if (validChars == null)
+        if (validChars == null) {
             return -1;
+        }
 
         int i = 0;
 
@@ -224,17 +224,9 @@ public class YoutubeThread {
 
     /**
      * Kills this YouTube thread and writes the last checked UUID to system data.
-     * In the future if more threads are ever allowed to execute concurrently,
-     * there will need to be more logic here to figure out which uuid was actually
-     * last checked.
      */
     public void kill() {
         exit = true;
-        UserUtil.getCyderUser().setYoutubeuuid(uuid);
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionUtil.commonCyderToString(this);
+        UserUtil.getCyderUser().setYoutubeuuid(youtubeUuid);
     }
 }

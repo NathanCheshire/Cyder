@@ -1216,7 +1216,7 @@ public class CyderFrame extends JFrame {
     /**
      * Revokes the current notification on screen.
      *
-     * @param animate whether or not to kill the notification
+     * @param animate whether to kill the notification
      *                immediately or to smoothly animate it away first
      */
     public void revokeCurrentNotification(boolean animate) {
@@ -2843,9 +2843,9 @@ public class CyderFrame extends JFrame {
     private JLabel debugImageLabel;
 
     /**
-     * Sets whether or not debug lines should be drawn for this frame.
+     * Sets whether debug lines should be drawn for this frame.
      *
-     * @param b whether or not debug lines should be drawn for this frame
+     * @param b whether debug lines should be drawn for this frame
      */
     public void drawDebugLines(boolean b) {
         drawDebugLines = b;
@@ -2888,9 +2888,9 @@ public class CyderFrame extends JFrame {
     }
 
     /**
-     * Returns whether or not debug lines should be drawn for this frame.
+     * Returns whether debug lines should be drawn for this frame.
      *
-     * @return whether or not debug lines should be drawn for this frame
+     * @return whether debug lines should be drawn for this frame
      */
     public boolean isDrawDebugLines() {
         return drawDebugLines;

@@ -181,10 +181,10 @@ public class CyderGrid extends JLabel {
     }
 
     /**
-     * Finds whether or not the grid contains the specified node.
+     * Finds whether the grid contains the specified node.
      *
      * @param node the node to search for
-     * @return whether or not the provided node was found on the grid
+     * @return whether the provided node was found on the grid
      */
     public boolean contains(GridNode node) {
         return grid.contains(node);

@@ -233,7 +233,7 @@ public class CyderGridLayout extends CyderLayout {
      * @param component the component to add to the grid if possible
      * @param sectionPosition the position to set the component to if it fits
      * in the partitioned space or how to position the component should it overflow the partitioned space
-     * @return whether or not the component was added successfully
+     * @return whether the component was added successfully
      */
     public boolean addComponent(Component component, Position sectionPosition) {
         for (int x = 0 ; x < horizontalCells ; x++) {
@@ -322,7 +322,7 @@ public class CyderGridLayout extends CyderLayout {
      *
      * @param x the x value of the component to remove
      * @param y the y value of the component to remove
-     * @return whether or not the component was successfully removed
+     * @return whether the component was successfully removed
      */
     public boolean removeComponent(int x, int y) {
         if (components == null)
