@@ -6,7 +6,7 @@ import cyder.utilities.ReflectionUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class CyderGridLayout extends CyderBaseLayout {
+public class CyderGridLayout extends CyderLayout {
     /**
      * The default amount of cells to use for each axis.
      */

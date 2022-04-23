@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * A simple flow layout to quickly add components and ensure their
  * visibility on the frame provided the frame is big enough.
  */
-public class CyderFlowLayout extends CyderBaseLayout {
+public class CyderFlowLayout extends CyderLayout {
     /**
      * The default horizontal alignment.
      */
@@ -52,8 +52,6 @@ public class CyderFlowLayout extends CyderBaseLayout {
      * The vertical gap of this layout between components.
      */
     private int vgap;
-
-    //padding is the spacing between components the frame bounds
 
     /**
      * The default horizontal padding between the frame left and right.

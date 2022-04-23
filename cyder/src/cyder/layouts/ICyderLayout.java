@@ -6,48 +6,63 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * This interface shouldn't be directly used. For custom CyderLayouts simply extend the CyderBaseLayout
- * which also forces the class to implement this interface
+ * An interface for Cyder layouts to implement.
  */
 public interface ICyderLayout {
     /**
-     * Adds the specified component to the linked CyderPanel.
+     * Adds the specified component to the layout.
      * The layout will figure out how add the component to the panel successfully.
-     * You should typically add more addComponent() methods but this is the simple base one
-     * that should always be implemented.
+     * You should typically implement additional addComponent() methods.
      *
-     * @param component the component to add to the panel
+     * @param component the component to add to the layout
      */
-    void addComponent(Component component);
+    default void addComponent(Component component) {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
 
     /**
      * Removes the specified component from the linked CyderPanel.
      * The layout will figure out how to remove and revalidate the panel successfully.
-     * You should typically add more removeComponent() methods but this is the simple base one
-     * that should always be implmeneted.
+     * You should typically implement additional removeComponent() methods.
      *
      * @param component the component to remove from the panel
      */
-    void removeComponent(Component component);
+    default void removeComponent(Component component) {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
 
     /**
-     * Recalculates the bounds of all components currently added the CyderPanel.
+     * Recalculates the bounds of all components currently managed by the layout.
      */
-    void revalidateComponents();
-
-    //so that the layout can manage components directly on the panel and not itself
+    default void revalidateComponents() {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
 
     /**
-     * Sets the CyderPanel for the LayoutManager to manage the components of.
+     * Sets the CyderPanel for the LayoutManager to add to and manage the components of.
      *
      * @param panel the panel for the LayoutManager to manaqge the components of
      */
-    void setAssociatedPanel(CyderPanel panel);
+    default void setAssociatedPanel(CyderPanel panel) {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
 
     /**
-     * Returns all components managed by the layout.
+     * Returns all components managed by this layout.
      *
-     * @return all components managed by the layout
+     * @return all components managed by this layout
      */
-    ArrayList<Component> getLayoutComponents();
+    default ArrayList<Component> getLayoutComponents() {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
+
+    /**
+     * Calculates and returns the minimum necessary size to fit all components
+     * on its panel.
+     *
+     * @return the minimum size necessary to allow all components to be visible
+     */
+    default Dimension calculateMinSize() {
+        throw new UnsupportedOperationException("Method not implemented");
+    }
 }

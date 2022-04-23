@@ -4,7 +4,7 @@ import cyder.constants.CyderStrings;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
-import cyder.layouts.CyderBaseLayout;
+import cyder.layouts.CyderLayout;
 import cyder.utilities.ReflectionUtil;
 
 import javax.swing.*;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 /**
  * CyderPanels are what hold and manage where components go on them.
- * They basically are a wrapper for layouts that extends {@link CyderBaseLayout}.
+ * They basically are a wrapper for layouts that extends {@link CyderLayout}.
  */
 public class CyderPanel extends JLabel {
-    // extends JLabel so that we can use as the CyderFrame's actual content pane
-    // so it will always appear the same as manually adding components via the
-    // old absolute layout design.
+    /*
+     * This class extends JLabel to allow it to be a content pane for a CyderFrame.
+     */
 
     /**
      * Restict class instnatiation without a valid cyder layout.
@@ -32,7 +32,7 @@ public class CyderPanel extends JLabel {
      *
      * @param cyderLayout the layout that manages components
      */
-    public CyderPanel(CyderBaseLayout cyderLayout) {
+    public CyderPanel(CyderLayout cyderLayout) {
         this.cyderLayout = cyderLayout;
         cyderLayout.setAssociatedPanel(this);
         revalidateComponents();
@@ -43,11 +43,11 @@ public class CyderPanel extends JLabel {
     /**
      * The layout which we are wrapping with this panel.
      */
-    private final CyderBaseLayout cyderLayout;
+    private final CyderLayout cyderLayout;
 
     /**
      * Sets the layout manager to null due to this being a CyderPanel.
-     * Use a custom {@link CyderBaseLayout} class, add that to a CyderPanel,
+     * Use a custom {@link CyderLayout} class, add that to a CyderPanel,
      * and then set the panel to a {@link CyderFrame}'s content pane to use layouts with Cyder.
      */
     @Override
@@ -94,8 +94,9 @@ public class CyderPanel extends JLabel {
      * Revalidates the components managed by the linked layout.
      */
     public void revalidateComponents() {
-        if (cyderLayout != null)
+        if (cyderLayout != null) {
             cyderLayout.revalidateComponents();
+        }
     }
 
     /**
