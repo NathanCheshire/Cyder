@@ -7,6 +7,7 @@ import cyder.annotations.ManualTest;
 import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -1999,7 +2000,7 @@ public class InputHandler {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Console Printing Animation");
+        }, IgnoreThread.ConsolePrintingAnimation.getName());
     }
 
     /**

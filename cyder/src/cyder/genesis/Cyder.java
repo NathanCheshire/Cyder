@@ -6,6 +6,7 @@ import cyder.constants.CyderNumbers;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -230,7 +231,7 @@ public class Cyder {
             } catch (Exception e) {
                 ret.set(false);
             }
-        }, "Singular Cyder Instance Ensurer");
+        }, IgnoreThread.SingularInstanceEnsurer.getName());
 
         try {
             // started blocking method in above thread but need to wait

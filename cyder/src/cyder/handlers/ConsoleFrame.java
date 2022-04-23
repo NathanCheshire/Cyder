@@ -536,7 +536,7 @@ public enum ConsoleFrame {
                 catch (Exception e) {
                     ExceptionHandler.handle(e);
                 }
-            },"Console Input Caret Position Updater");
+            }, IgnoreThread.ConsoleInputCaret.getName());
 
             inputField.setToolTipText("Input Field");
             inputField.setSelectionColor(CyderColors.selectionColor);
@@ -882,7 +882,7 @@ public enum ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Hourly Chime Checker");
+        }, IgnoreThread.HourlyChimeChecker.getName());
 
         CyderThreadRunner.submit(() -> {
             OUTER:
@@ -906,7 +906,7 @@ public enum ConsoleFrame {
                         }
                     }
                 }
-        }, "Console Clock Updater");
+        }, IgnoreThread.ConsoleClockUpdator.getName());
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -962,7 +962,7 @@ public enum ConsoleFrame {
                 CyderIcons.setCurrentCyderIcon(CyderIcons.CYDER_ICON);
                 consoleCyderFrame.setIconImage(CyderIcons.getCurrentCyderIcon().getImage());
             }
-        }, "Cyder Busy Checker");
+        }, IgnoreThread.CyderBusyChecker.getName());
 
         CyderThreadRunner.submit(() -> {
             int setDelay = 3000;
@@ -987,7 +987,7 @@ public enum ConsoleFrame {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "ConsoleFrame Stat Saver");
+        }, IgnoreThread.ConsoleDataSaver.getName());
     }
 
     //one time run things such as notifying due to special days, debug properties,

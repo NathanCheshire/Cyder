@@ -1,5 +1,8 @@
 package cyder.enums;
 
+/**
+ * Thread names to ignore when determining if Cyder should be classified as busy.
+ */
 public enum IgnoreThread {
     CyderBusyChecker("Cyder Busy Checker"),
     AwtEventQueue0("AWT-EventQueue-0"),
@@ -12,8 +15,6 @@ public enum IgnoreThread {
     ConsoleDataSaver("ConsoleFrame Stat Saver"),
     SingularInstanceEnsurer("Singular Cyder Instance Ensurer"),
     SimilarCommandFinder("Similar Command Finder"),
-    GitRepoCloner("Git Repo Cloner"),
-    YoutubeAudioExtractor("Youtube Audio Extractor"),
     ObjectCreationLogger("Object Creation Logger"),
     CyderWatchdog("Cyder Watchdog"),
     WatchdogInitializer("Watchdog Initializer");

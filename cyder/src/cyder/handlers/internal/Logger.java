@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
@@ -830,7 +831,7 @@ public class Logger {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
-        }, "Object Creation Logger");
+        }, IgnoreThread.ObjectCreationLogger.getName());
     }
 
     /**

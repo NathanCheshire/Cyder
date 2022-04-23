@@ -3,6 +3,7 @@ package cyder.genesis;
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
@@ -79,7 +80,7 @@ public class CyderWatchdog {
                         Logger.Debug(ExceptionHandler.getPrintableException(e));
                     }
             }
-        }, "Watchdog Initializer");
+        }, IgnoreThread.WatchdogInitializer.getName());
     }
 
     /**
@@ -137,7 +138,7 @@ public class CyderWatchdog {
                     watchdogCounter.set(0);
                 }
             }
-        }, "Cyder Watchdog");
+        }, IgnoreThread.CyderWatchdog.getName());
     }
 
     /**

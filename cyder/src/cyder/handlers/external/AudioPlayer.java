@@ -1026,28 +1026,23 @@ public class AudioPlayer {
                         if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                                 .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
 
-                            dreamifierLocked.set(true);
-
-                            // todo play the dreamified audio
-
                             // stop audio
 
                             // use pause position to play dreamified wav
 
-                            dreamifierLocked.set(false);
                             return;
                         }
                     }
                 }
 
                 CyderThreadRunner.submit(() -> {
-                    // todo need to lock dreamifying audio until this one finishes
-
                     NotificationBuilder dreamifyBuilder = new NotificationBuilder(
                             "Dreamifying \"" + FileUtil.getFilename(currentAudioFile) + "\"");
                     dreamifyBuilder.setViewDuration(0);
 
                     audioPlayerFrame.notify(dreamifyBuilder);
+
+                    dreamifierLocked.set(true);
 
                     Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile);
 
@@ -1056,6 +1051,8 @@ public class AudioPlayer {
                     }
 
                     Optional<File> present = Optional.empty();
+
+                    dreamifierLocked.set(false);
 
                     try {
                        present = dreamifiedAudio.get();

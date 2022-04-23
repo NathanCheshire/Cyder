@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.constants.CyderStrings;
+import cyder.enums.IgnoreThread;
 import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -469,7 +470,7 @@ public class ReflectionUtil {
      * Executor service used to find a similar command utilizing command_finder.py.
      */
     private static final ExecutorService executor = Executors.newSingleThreadExecutor(
-            new CyderThreadFactory("Similar Command Finder"));
+            new CyderThreadFactory(IgnoreThread.SimilarCommandFinder.getName()));
     // todo will be removed after new ContextEngine and InputHandler implementation
 
     /**
