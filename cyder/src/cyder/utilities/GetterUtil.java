@@ -276,8 +276,17 @@ public class GetterUtil {
      */
     public File getFile(GetterBuilder builder) {
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
-        dirFrameAtomicRef.set(new CyderFrame(630,510, darkMode
-                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor));
+
+        CyderFrame referenceInitFrame = new CyderFrame(630,510, darkMode
+                ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
+        referenceInitFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                setOnFileChosen.set(new File("NULL"));
+            }
+        });
+
+        dirFrameAtomicRef.set(referenceInitFrame);
 
         CyderThreadRunner.submit(() -> {
             try {

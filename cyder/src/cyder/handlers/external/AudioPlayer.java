@@ -972,6 +972,8 @@ public class AudioPlayer {
             // phase 2
         });
         audioPlayerFrame.addMenuItem("Choose File", () -> {
+            System.out.println("Locked: " + chooseFileLocked.get());
+
             if (chooseFileLocked.get()) {
                 return;
             }
@@ -981,10 +983,12 @@ public class AudioPlayer {
                 builder.setRelativeTo(audioPlayerFrame);
 
                 chooseFileLocked.set(true);
+                System.out.println("Locked");
 
                 File chosenFile = GetterUtil.getInstance().getFile(builder);
 
                 chooseFileLocked.set(false);
+                System.out.println("Unlocked");
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
                     // todo end stuff (method which calls smaller methods for this),
@@ -1213,56 +1217,25 @@ public class AudioPlayer {
                 FileUtil.getFilename(currentAudioFile) + ".jpg");
 
         ImageIcon customAlbumArt = null;
-        String customAlbumArtPath = null;
 
-        if (albumArtFilePng.exists()) {
-            try {
+        try {
+            if (albumArtFilePng.exists()) {
                 customAlbumArt = new ImageIcon(ImageIO.read(albumArtFilePng));
-                customAlbumArtPath = albumArtFilePng.getAbsolutePath();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        } else if (albumArtFileJpg.exists()) {
-            try {
+            } else if (albumArtFileJpg.exists()) {
                 customAlbumArt = new ImageIcon(ImageIO.read(albumArtFileJpg));
-                customAlbumArtPath = albumArtFileJpg.getAbsolutePath();
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        } else {
-            try {
+            } else {
                 customAlbumArt = new ImageIcon(ImageIO.read(DEFAULT_ALBUM_ART));
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
             }
-        }
-
-        if (customAlbumArtPath != null) {
-            String finalCustomAlbumArtPath = customAlbumArtPath;
-            CyderThreadRunner.submit(() -> {
-                try {
-                    Future<Optional<Color>> optionalColor = ImageUtil
-                            .getComplementaryBackgroundColor(finalCustomAlbumArtPath);
-
-                    while (!optionalColor.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    if (optionalColor.get().isPresent()) {
-                        System.out.println(optionalColor.get().get());
-                        audioPlayerFrame.setBackground(ImageUtil.imageIconFromColor(
-                                optionalColor.get().get(), DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN));
-                    }
-                } catch (Exception e) {
-                    ExceptionHandler.handle(e);
-                }
-            }, "Audio Player Background Color K-means Finder");
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
         }
 
         albumArtLabel.setIcon(ImageUtil.resizeImage(customAlbumArt, ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
         albumArtLabel.repaint();
+
         audioPlayerFrame.setCustomTaskbarIcon(customAlbumArt);
         audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
+
         ConsoleFrame.INSTANCE.revalidateMenu();
     }
 
@@ -1356,8 +1329,8 @@ public class AudioPlayer {
         }
         // otherwise start playing, this should always play something
         else {
-            playPauseButton.setIcon(pauseIconHover);
             playAudio();
+            playPauseButton.setIcon(pauseIconHover);
         }
     }
 
