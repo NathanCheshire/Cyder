@@ -64,10 +64,10 @@ public class GetterUtil {
 
     /**
      * Custom getString() method, see usage below for how to
-     *  setup so that the calling thread is not blocked.
-     *
+     * setup so that the calling thread is not blocked.
+     * <p>
      * USAGE:
-     *  <pre>
+     * <pre>
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
@@ -132,7 +132,7 @@ public class GetterUtil {
                 }
 
                 inputField.setBounds(getStringXPadding, yOff,
-                        width - 2 * getStringXPadding,40);
+                        width - 2 * getStringXPadding, 40);
                 inputFrame.getContentPane().add(inputField);
 
                 yOff += getStringYPadding + 40;
@@ -144,7 +144,7 @@ public class GetterUtil {
                             "NULL" : inputField.getText()));
                     inputFrame.dispose();
                 });
-                submit.setBorder(new LineBorder(CyderColors.navy,5,false));
+                submit.setBorder(new LineBorder(CyderColors.navy, 5, false));
                 submit.setFont(CyderFonts.segoe20);
                 submit.setForeground(CyderColors.navy);
                 submit.addActionListener(e12 -> {
@@ -153,7 +153,7 @@ public class GetterUtil {
                     inputFrame.dispose();
                 });
                 submit.setBounds(getStringXPadding, yOff,
-                        width - 2 * getStringXPadding,40);
+                        width - 2 * getStringXPadding, 40);
                 inputFrame.getContentPane().add(submit);
 
                 inputFrame.addPreCloseAction(() -> {
@@ -257,7 +257,7 @@ public class GetterUtil {
      * Custom getFile method, see usage below for how to setup so that the program doesn't
      * spin wait on the main GUI thread forever. Ignoring the below setup
      * instructions will make the application spin wait possibly forever.
-     *
+     * <p>
      * USAGE:
      * <pre>
      * {@code
@@ -271,18 +271,23 @@ public class GetterUtil {
      *  }, THREAD_NAME).start();
      * }
      * </pre>
+     *
      * @param builder the builder to use for the required params
      * @return the user-chosen file
      */
     public File getFile(GetterBuilder builder) {
         boolean darkMode = UserUtil.getCyderUser().getDarkmode().equals("1");
 
-        CyderFrame referenceInitFrame = new CyderFrame(630,510, darkMode
+        CyderFrame referenceInitFrame = new CyderFrame(630, 510, darkMode
                 ? CyderColors.darkModeBackgroundColor : CyderColors.regularBackgroundColor);
         referenceInitFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                setOnFileChosen.set(new File("NULL"));
+                File ref = setOnFileChosen.get();
+
+                if (ref == null || StringUtil.isNull(ref.getName())) {
+                    setOnFileChosen.set(new File("NULL"));
+                }
             }
         });
 
@@ -318,7 +323,7 @@ public class GetterUtil {
                         setOnFileChosen.set(ChosenDir);
                     }
                 });
-                dirFieldRef.get().setBounds(60,40,500,40);
+                dirFieldRef.get().setBounds(60, 40, 500, 40);
                 refFrame.getContentPane().add(dirFieldRef.get());
                 dirFieldRef.get().setEnabled(false);
 
@@ -327,7 +332,7 @@ public class GetterUtil {
                 last.setForeground(CyderColors.navy);
                 last.setBackground(CyderColors.regularRed);
                 last.setFont(CyderFonts.segoe20);
-                last.setBorder(new LineBorder(CyderColors.navy,5,false));
+                last.setBorder(new LineBorder(CyderColors.navy, 5, false));
                 last.addActionListener(e -> {
                     //we may only go back if there's something in the back and it's different from where we are now
                     if (!backward.isEmpty() && !backward.peek().equals(currentDirectory)) {
@@ -341,7 +346,7 @@ public class GetterUtil {
                         refreshBasedOnDir(currentDirectory, false);
                     }
                 });
-                last.setBounds(10,40,40,40);
+                last.setBounds(10, 40, 40, 40);
                 refFrame.getContentPane().add(last);
                 last.setEnabled(false);
 
@@ -350,7 +355,7 @@ public class GetterUtil {
                 next.setForeground(CyderColors.navy);
                 next.setBackground(CyderColors.regularRed);
                 next.setFont(CyderFonts.segoe20);
-                next.setBorder(new LineBorder(CyderColors.navy,5,false));
+                next.setBorder(new LineBorder(CyderColors.navy, 5, false));
                 next.addActionListener(e -> {
                     //only traverse forward if the stack is not empty and forward is different from where we are
                     if (!forward.isEmpty() && !forward.peek().equals(currentDirectory)) {
@@ -364,7 +369,7 @@ public class GetterUtil {
                         refreshBasedOnDir(currentDirectory, false);
                     }
                 });
-                next.setBounds(620 - 50,40,40, 40);
+                next.setBounds(620 - 50, 40, 40, 40);
                 refFrame.getContentPane().add(next);
                 next.setEnabled(false);
 
@@ -373,7 +378,7 @@ public class GetterUtil {
                 tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
                         : CyderColors.navy, 5, false));
                 tempLabel.setOpaque(false);
-                tempLabel.setBounds(10,90,600, 400);
+                tempLabel.setBounds(10, 90, 600, 400);
                 refFrame.getContentPane().add(tempLabel);
 
                 Component relativeTo = builder.getRelativeTo();
@@ -416,7 +421,7 @@ public class GetterUtil {
                     cyderScrollListRef.get().setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
                     //adding things to the list and setting up actions for what to do when an element is clicked
-                    for (int i = 0 ; i < directoryNameList.size() ; i++) {
+                    for (int i = 0; i < directoryNameList.size(); i++) {
                         int finalI = i;
                         cyderScrollListRef.get().addElement(directoryNameList.get(i), () -> {
                             if (directoryFileList.get(finalI).isDirectory()) {
@@ -428,7 +433,7 @@ public class GetterUtil {
                     }
 
                     dirScrollLabel = cyderScrollListRef.get().generateScrollList();
-                    dirScrollLabel.setBounds(10,90,600, 400);
+                    dirScrollLabel.setBounds(10, 90, 600, 400);
                     refFrame.getContentPane().add(dirScrollLabel);
 
                     next.setEnabled(true);
@@ -463,7 +468,7 @@ public class GetterUtil {
     /**
      * Refreshes the current file list based on the provided file.
      *
-     * @param directory the directory/file to refresh on
+     * @param directory   the directory/file to refresh on
      * @param wipeForward whether to clear the forward traversal stack
      */
     private void refreshBasedOnDir(File directory, boolean wipeForward) {
@@ -507,7 +512,7 @@ public class GetterUtil {
         cyderScrollListRef.get().setScrollFont(CyderFonts.segoe20.deriveFont(16f));
 
         // generate clickable components to add to the list
-        for (int i = 0; i < directoryNameList.size() ; i++) {
+        for (int i = 0; i < directoryNameList.size(); i++) {
             int eye = i;
 
             cyderScrollListRef.get().addElement(directoryNameList.get(i), () -> {
@@ -519,7 +524,7 @@ public class GetterUtil {
             });
         }
         dirScrollLabel = cyderScrollListRef.get().generateScrollList();
-        dirScrollLabel.setBounds(10,90,600, 400);
+        dirScrollLabel.setBounds(10, 90, 600, 400);
         dirFrameAtomicRef.get().getContentPane().add(dirScrollLabel);
 
         // revalidate, set title, set pwd text
@@ -532,10 +537,10 @@ public class GetterUtil {
 
     /**
      * Custom getInput() method, see usage below for how to
-     *  setup so that the calling thread is not blocked.
-     *
+     * setup so that the calling thread is not blocked.
+     * <p>
      * USAGE:
-     *  <pre>
+     * <pre>
      *  {@code
      *  CyderThreadRunner.submit(() -> {
      *      try {
@@ -576,7 +581,7 @@ public class GetterUtil {
                     }
                 });
 
-                textLabel.setBounds(10,35, w, h);
+                textLabel.setBounds(10, 35, w, h);
                 frame.getContentPane().add(textLabel);
 
                 //accounting for offset above
@@ -585,13 +590,13 @@ public class GetterUtil {
                 CyderButton yes = new CyderButton(builder.getYesButtonText());
                 yes.setColors(builder.getSubmitButtonColor());
                 yes.addActionListener(e -> ret.set(Boolean.TRUE));
-                yes.setBounds(20,35 + h + 20, (w - 60) / 2, 40);
+                yes.setBounds(20, 35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(yes);
 
                 CyderButton no = new CyderButton(builder.getNoButtonText());
                 no.setColors(builder.getSubmitButtonColor());
                 no.addActionListener(e -> ret.set(Boolean.FALSE));
-                no.setBounds(20 + 20 + ((w - 60) / 2),35 + h + 20, (w - 60) / 2, 40);
+                no.setBounds(20 + 20 + ((w - 60) / 2), 35 + h + 20, (w - 60) / 2, 40);
                 frame.getContentPane().add(no);
 
                 Component relativeTo = builder.getRelativeTo();

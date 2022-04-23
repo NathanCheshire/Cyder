@@ -452,6 +452,37 @@ public class AudioPlayer {
     });
 
     /**
+     * Possible ways a user can interact with the audio player.
+     */
+    private enum LastAction {
+        /**
+         * The user pressed play.
+         */
+        Play,
+        /**
+         * The user pressed pause.
+         */
+        Pause,
+        /**
+         * The user pressed skip back or skip forward.
+         */
+        Skip,
+        /**
+         * The user changed the audio location.
+         */
+        Scrub,
+        /**
+         * Something else not yet handled.
+         */
+        Unknown,
+    }
+
+    /**
+     * The last action invoked by the user.
+     */
+    private static LastAction lastAction = LastAction.Unknown;
+
+    /**
      * Suppress default constructor.
      */
     private AudioPlayer() {
@@ -486,8 +517,9 @@ public class AudioPlayer {
         // paused and begin playing the requested audio
         if (isWidgetOpen()) {
             if (isAudioPlaying()) {
-                stopAudio();
+                pauseAudio();
                 pauseLocation = 0;
+                System.out.println("Pause location set to 0");
             }
 
             playAudio();
@@ -612,12 +644,21 @@ public class AudioPlayer {
                         audioProgressLabel.getWidth()) * totalAudioLength);
 
                 if (isAudioPlaying()) {
-                    stopAudio();
+                    pauseAudio();
+
                     pauseLocation = skipLocation;
+                    System.out.println("Pause location set to " + pauseLocation);
+
+                    lastAction = LastAction.Scrub;
+
                     playAudio();
                 } else {
-                    stopAudio();
+                    pauseAudio();
+
                     pauseLocation = skipLocation;
+                    System.out.println("Pause location set to " + pauseLocation);
+
+                    lastAction = LastAction.Scrub;
                 }
             }
         });
@@ -991,14 +1032,18 @@ public class AudioPlayer {
                 System.out.println("Unlocked");
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
-                    // todo end stuff (method which calls smaller methods for this),
+                    pauseAudio();
 
-                    // set file and find audio fields in same directory
                     currentAudioFile = chosenFile;
+
                     refreshAudioFiles();
                     refreshAlbumArt();
 
-                    // todo start playing from beginning, need to stop audio if playing and reset stuffs
+                    totalAudioLength = 0;
+                    pauseLocation = 0;
+                    System.out.println("Pause location set to " + pauseLocation);
+
+                    playAudio();
                 } else {
                     audioPlayerFrame.notify("Invalid file chosen");
                 }
@@ -1078,7 +1123,7 @@ public class AudioPlayer {
                                    Paths.get(destinationFile.getAbsolutePath()));
 
                            if (isAudioPlaying()) {
-                               stopAudio();
+                               pauseAudio();
                            }
 
                            currentAudioFile = destinationFile;
@@ -1324,13 +1369,11 @@ public class AudioPlayer {
 
         // if we're playing, pause the audio
         if (isAudioPlaying()) {
-            playPauseButton.setIcon(playIconHover);
-            stopAudio();
+            pauseAudio();
         }
         // otherwise start playing, this should always play something
         else {
             playAudio();
-            playPauseButton.setIcon(pauseIconHover);
         }
     }
 
@@ -1365,9 +1408,15 @@ public class AudioPlayer {
      */
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
+    /**
+     * Starts playing the current audio file.
+     */
     private static void playAudio() {
-        // audio should never be playing when this method is invoked
-        Preconditions.checkArgument(!isAudioPlaying());
+        if (isAudioPlaying()) {
+            pauseAudio();
+        }
+
+        lastAction = LastAction.Play;
 
         CyderThreadRunner.submit(() -> {
             try {
@@ -1378,25 +1427,49 @@ public class AudioPlayer {
 
                 totalAudioLength = fis.available();
 
-                // just to be safe
                 fis.skip(Math.max(0, pauseLocation));
+                System.out.println("Skipping to : " + Math.max(0, pauseLocation));
 
                 audioPlayer = new Player(bis);
-                audioPlayer.play();
 
-                // todo handle next audio method? pass in optional skip direction enum?
-                // todo how to handle pause location, can't just override here
-                // if wasn't stopped, then play next audio basically
+                try {
+                    audioPlayer.play();
+                } catch (Exception ignored) {
+                    playAudio();
+                }
+
+                // no user interaction so proceed naturally
+                if (lastAction == LastAction.Play) {
+                    pauseLocation = 0;
+                    System.out.println("last action was play so pause location set to 0");
+                    totalAudioLength = 0;
+
+                    // audio concluded so reset in preparation for a new audio file
+                    // todo last action not skip
+
+
+                    // todo handle next audio method? pass in optional skip direction enum?
+                    // todo how to handle pause location, can't just override here
+
+                    // if wasn't stopped, then play next audio, multiple ways to proceed to next audio
+                    // such as repeat, shuffle, queue, etc.
+                }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
             }
         }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
     }
 
-    private static void stopAudio() {
+    /**
+     * Pauses playback of the current audio file.
+     */
+    private static void pauseAudio() {
+        lastAction = LastAction.Pause;
+
         try {
             if (fis != null) {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
+                System.out.println("Pause location set to " + pauseLocation);
                 fis.close();
                 fis = null;
             }
@@ -1490,9 +1563,10 @@ public class AudioPlayer {
 
         currentAudioFile = null;
 
-        stopAudio();
+        pauseAudio();
 
         pauseLocation = 0;
+        System.out.println("Pause location set to 0");
         totalAudioLength = 0;
 
         Objects.requireNonNull(audioVolumeLabelAnimator).kill();
