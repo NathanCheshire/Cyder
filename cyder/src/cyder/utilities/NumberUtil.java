@@ -26,12 +26,12 @@ public class NumberUtil {
     /**
      * Returns a random integer in the range [min, upperBound].
      *
-     * @param min        the minimum possible value to return (must be at least 0)
+     * @param lowerBound        the minimum possible value to return (must be at least 0)
      * @param upperBound the upper bound of random range (included in the possible return values)
      * @return a random integer in the provided range [0, upperBound]
      */
-    public static int randInt(int min, int upperBound) {
-        return new Random().nextInt((upperBound - min) + 1) + min;
+    public static int randInt(int lowerBound, int upperBound) {
+        return new Random().nextInt((upperBound - lowerBound) + 1) + lowerBound;
     }
 
     /**

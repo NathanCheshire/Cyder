@@ -1549,7 +1549,6 @@ public class AudioPlayer {
                     if (!audioFileQueue.isEmpty()) {
                         currentAudioFile = audioFileQueue.remove(0);
 
-                        // todo method for these?
                         refreshFrameTitle();
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
@@ -1557,13 +1556,42 @@ public class AudioPlayer {
 
                         playAudio();
                     }
-                    // shuffle audio next
+                    // shuffle audio takes next priority
                     else if (shuffleAudio) {
+                        currentAudioFile = audioFileQueue.get(
+                                NumberUtil.randInt(0, audioFileQueue.size() - 1));
 
+                        refreshFrameTitle();
+                        refreshAudioTitleLabel();
+                        refreshAlbumArt();
+                        refreshAudioFiles();
+
+                        playAudio();
                     }
-                    // finally next file in valid files
+                    // last of priorities is so choose the next audio file
                     else {
+                        int currentIndex = 0;
 
+                        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+                            if (validAudioFiles.get(i).getAbsolutePath()
+                                    .equals(currentAudioFile.getAbsolutePath())) {
+                                currentIndex = i;
+                                break;
+                            }
+                        }
+
+                        // loop back around if exceeds bounds
+                        int nextIndex = currentIndex + 1 == validAudioFiles.size()
+                                ? 0 : currentIndex + 1;
+
+                        currentAudioFile = validAudioFiles.get(nextIndex);
+
+                        refreshFrameTitle();
+                        refreshAudioTitleLabel();
+                        refreshAlbumArt();
+                        refreshAudioFiles();
+
+                        playAudio();
                     }
                 }
             }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
