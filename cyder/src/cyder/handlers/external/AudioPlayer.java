@@ -547,6 +547,7 @@ public class AudioPlayer {
             // todo use method here
             refreshFrameTitle();
             refreshAudioTitleLabel();
+            refreshAudioProgressLabel();
             refreshAlbumArt();
             refreshAudioFiles();
             playAudio();
@@ -1075,14 +1076,14 @@ public class AudioPlayer {
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
                     pauseAudio();
-
                     currentAudioFile = chosenFile;
-
-                    refreshAudioFiles();
-                    refreshAlbumArt();
-
-                    totalAudioLength = 0;
                     pauseLocation = 0;
+
+                    refreshFrameTitle();
+                    refreshAudioTitleLabel();
+                    refreshAudioProgressLabel();
+                    refreshAlbumArt();
+                    refreshAudioFiles();
                     playAudio();
                 } else {
                     audioPlayerFrame.notify("Invalid file chosen");
@@ -1880,6 +1881,11 @@ public class AudioPlayer {
                 CyderThreadRunner.submit(() -> {
                     Future<Integer> millis = AudioUtil.getMillis(currentAudioFile);
 
+                    // while waiting set label to blank and progress bar to 0
+                    System.out.println("Setting to 0");
+                    progressBar.setValue(0);
+                    audioProgressLabel.setText("");
+
                     while (!millis.isDone()) {
                         Thread.onSpinWait();
                     }
@@ -1935,8 +1941,7 @@ public class AudioPlayer {
 
                         try {
                             Thread.sleep(audioLocationTextUpdateDelay);
-                        } catch (Exception ignored) {
-                        }
+                        } catch (Exception ignored) {}
                     }
                 }, FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
             } catch (Exception e) {
