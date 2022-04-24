@@ -1553,7 +1553,6 @@ public class AudioPlayer {
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
                         refreshAudioFiles();
-
                         playAudio();
                     }
                     // shuffle audio takes next priority
@@ -1565,7 +1564,6 @@ public class AudioPlayer {
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
                         refreshAudioFiles();
-
                         playAudio();
                     }
                     // last of priorities is so choose the next audio file
@@ -1590,7 +1588,6 @@ public class AudioPlayer {
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
                         refreshAudioFiles();
-
                         playAudio();
                     }
                 }
@@ -1650,7 +1647,22 @@ public class AudioPlayer {
         Preconditions.checkNotNull(currentAudioFile);
         Preconditions.checkArgument(!uiLocked);
 
-        // todo
+        int currentIndex = 0;
+
+        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
+
+        refreshFrameTitle();
+        refreshAudioTitleLabel();
+        refreshAlbumArt();
+        refreshAudioFiles();
+        playAudio();
     }
 
     /**
@@ -1661,7 +1673,22 @@ public class AudioPlayer {
         Preconditions.checkNotNull(currentAudioFile);
         Preconditions.checkArgument(!uiLocked);
 
-        // todo
+        int currentIndex = 0;
+
+        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
+
+        refreshFrameTitle();
+        refreshAudioTitleLabel();
+        refreshAlbumArt();
+        refreshAudioFiles();
+        playAudio();
     }
 
     /**
