@@ -83,15 +83,16 @@ public class Logger {
 
     /**
      * The main log method to log an action associated with a type tag.
+     *
      * @param tag the type of data we are logging
      * @param representation the representation of the object
      * @param <T> the object instance of representation
      */
     public static <T> void log(LoggerTag tag, T representation) {
-        // ignore weird calls to here even after an EXIT tag was provided
-        // don't throw since that would cause an exception and a log call
-        if (logConcluded)
+        if (logConcluded) {
+            System.out.println(getLogTime() + "[LOG CONCLUDED LOG CALL]: " + representation);
             return;
+        }
 
         StringBuilder logBuilder = new StringBuilder(getLogTime());
 
@@ -171,7 +172,8 @@ public class Logger {
                 logBuilder.append(getRuntime()).append("\n");
 
                 //end log
-                logBuilder.append("[").append(TimeUtil.logTime()).append("] [EOL]: Log completed, exiting Cyder with exit code: ");
+                logBuilder.append("[").append(TimeUtil.logTime())
+                        .append("] [EOL]: Log completed, exiting Cyder with exit code: ");
 
                 ExitCondition condition = (ExitCondition) representation;
                 logBuilder.append(condition.getCode())

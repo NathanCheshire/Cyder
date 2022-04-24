@@ -53,6 +53,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 // todo dancing triggers watchdog timer, need to rethink system
 
+// todo choosing a file doesn't update the title label properly need method for the stuff we do a lot
+
+// todo audio progress label updates at a weird interval
+
+// todo audio title length still doesn't work for the label
+
+// todo audio length needs to be set to 0 on audio natural
+//  conclusion while figuring out next length
+
+// todo it needs to be IMPOSIBLE for multiple audio files to be playing at once
+
+// todo logger tags need to be done better
+
+// todo count exceptions should be counted during runtime
+
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
@@ -420,12 +435,12 @@ public class AudioPlayer {
     /**
      * The alternate view icon.
      */
-    private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
+    private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1.png");
 
     /**
      * The alternate view hover icon.
      */
-    private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
+    private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2.png");
 
     /**
      * The button to be placed in the audio player drag label button list to switch frame views.
@@ -526,17 +541,16 @@ public class AudioPlayer {
         // if frame is open, stop whatever audio is playing or
         // paused and begin playing the requested audio
         if (isWidgetOpen()) {
-            if (isAudioPlaying()) {
-                pauseAudio();
-                pauseLocation = 0;
-            }
+            pauseAudio();
+            pauseLocation = 0;
 
+            // todo use method here
             refreshFrameTitle();
             refreshAudioTitleLabel();
             refreshAlbumArt();
             refreshAudioFiles();
-
             playAudio();
+
             return;
         }
 
@@ -546,7 +560,7 @@ public class AudioPlayer {
 
         audioPlayerFrame = new CyderFrame(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN, BACKGROUND_COLOR);
         refreshFrameTitle();
-        audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 0);
+        audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 1);
         audioPlayerFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
         audioPlayerFrame.addWindowListener(new WindowAdapter() {
@@ -1155,7 +1169,9 @@ public class AudioPlayer {
                             currentAudioFile = destinationFile;
 
                             refreshAudioFiles();
-                            audioProgressBar.setValue(0);
+                            audioProgressBar.setValue(0); // todo this here should be done in the method
+
+                            // todo call the method you'll make
                             playAudio();
 
                             audioPlayerFrame.notify("Successfully dreamified audio");
@@ -1515,7 +1531,7 @@ public class AudioPlayer {
     private static void playAudio() {
         try {
             if (isAudioPlaying()) {
-                pauseAudio();
+                throw new IllegalStateException("Previous audio not ended");
             }
 
             lastAction = LastAction.Play;
@@ -1583,7 +1599,7 @@ public class AudioPlayer {
                     else {
                         int currentIndex = 0;
 
-                        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+                        for (int i = 0; i < validAudioFiles.size(); i++) {
                             if (validAudioFiles.get(i).getAbsolutePath()
                                     .equals(currentAudioFile.getAbsolutePath())) {
                                 currentIndex = i;
@@ -1610,19 +1626,6 @@ public class AudioPlayer {
             ExceptionHandler.handle(e);
         }
     }
-
-    // todo choosing a file doesn't update the title label properly need method for the stuff we do a lot
-
-    // todo audio progress label updates at a weird interval
-
-    // todo audio title length still doesn't work for the label
-
-    // todo audio length needs to be set to 0 on audio natural
-    //  conclusion while figuring out next length
-
-    // todo it needs to be IMPOSIBLE for multiple audio files to be playing at once
-
-    // todo are we logging new line prints? what the fuck happened there?
 
     /**
      * Pauses playback of the current audio file.

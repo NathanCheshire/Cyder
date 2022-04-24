@@ -1,5 +1,6 @@
 package cyder.user;
 
+import com.google.common.base.Objects;
 import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.user.objects.MappedExecutable;
@@ -1019,13 +1020,7 @@ public class User {
      */
     @Override
     public int hashCode() {
-        int ret = 0;
-
-        for (String field : ReflectionUtil.getGetters(User.class)) {
-            ret = 31 * ret + field.hashCode();
-        }
-
-        return ret;
+        return Objects.hashCode(name, pass);
     }
 
     @Override
