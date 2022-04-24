@@ -174,7 +174,7 @@ public class CyderSplash {
                             Thread.sleep(5);
                         }
 
-                        Font nathanFont = new Font("Darling In Paris", Font.BOLD, 40);
+                        Font nathanFont = new Font("Condiment", Font.BOLD, 50);
 
                         CyderLabel creatorLabel = new CyderLabel("By Nathan Cheshire");
                         creatorLabel.setFont(nathanFont);
