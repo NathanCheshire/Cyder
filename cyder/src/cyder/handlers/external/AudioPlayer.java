@@ -1359,6 +1359,17 @@ public class AudioPlayer {
     }
 
     /**
+     * Refreshes the audio progres label and total length.
+     */
+    private static void refreshAudioProgressLabel() {
+        if (audioLocationUpdator != null) {
+            audioLocationUpdator.kill();
+        }
+
+        audioLocationUpdator = new AudioLocationUpdator(audioProgressLabel, audioProgressBar);
+    }
+
+    /**
      * Refreshes the list of valid audio files based on the files
      * within the same directory as the current audio file
      */
@@ -1553,6 +1564,7 @@ public class AudioPlayer {
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
                         refreshAudioFiles();
+                        refreshAudioProgressLabel();
                         playAudio();
                     }
                     // shuffle audio takes next priority
@@ -1564,6 +1576,7 @@ public class AudioPlayer {
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
                         refreshAudioFiles();
+                        refreshAudioProgressLabel();
                         playAudio();
                     }
                     // last of priorities is so choose the next audio file
@@ -1588,6 +1601,7 @@ public class AudioPlayer {
                         refreshAudioTitleLabel();
                         refreshAlbumArt();
                         refreshAudioFiles();
+                        refreshAudioProgressLabel();
                         playAudio();
                     }
                 }
@@ -1596,6 +1610,19 @@ public class AudioPlayer {
             ExceptionHandler.handle(e);
         }
     }
+
+    // todo choosing a file doesn't update the title label properly need method for the stuff we do a lot
+
+    // todo audio progress label updates at a weird interval
+
+    // todo audio title length still doesn't work for the label
+
+    // todo audio length needs to be set to 0 on audio natural
+    //  conclusion while figuring out next length
+
+    // todo it needs to be IMPOSIBLE for multiple audio files to be playing at once
+
+    // todo are we logging new line prints? what the fuck happened there?
 
     /**
      * Pauses playback of the current audio file.
@@ -1643,52 +1670,55 @@ public class AudioPlayer {
      * Handles a click from the last button.
      */
     public static void handleLastAudioButtonClick() {
-        // always before handle button methods
-        Preconditions.checkNotNull(currentAudioFile);
-        Preconditions.checkArgument(!uiLocked);
-
-        int currentIndex = 0;
-
-        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
-                currentIndex = i;
-                break;
-            }
-        }
-
-        int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
-
-        refreshFrameTitle();
-        refreshAudioTitleLabel();
-        refreshAlbumArt();
-        refreshAudioFiles();
-        playAudio();
+//        // always before handle button methods
+//        Preconditions.checkNotNull(currentAudioFile);
+//        Preconditions.checkArgument(!uiLocked);
+//
+//        int currentIndex = 0;
+//
+//        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+//            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+//                currentIndex = i;
+//                break;
+//            }
+//        }
+//
+//        int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
+//
+//        refreshFrameTitle();
+//        refreshAudioTitleLabel();
+//        refreshAlbumArt();
+//        refreshAudioFiles();
+//        refreshAudioProgressLabel();
+//        playAudio();
     }
 
     /**
      * Handles a click from the next audio button.
      */
     public static void handleNextAudioButtonClick() {
-        // always before handle button methods
-        Preconditions.checkNotNull(currentAudioFile);
-        Preconditions.checkArgument(!uiLocked);
-
-        int currentIndex = 0;
-
-        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
-                currentIndex = i;
-                break;
-            }
-        }
-
-        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
-
-        refreshFrameTitle();
-        refreshAudioTitleLabel();
-        refreshAlbumArt();
-        refreshAudioFiles();
-        playAudio();
+//        // always before handle button methods
+//        Preconditions.checkNotNull(currentAudioFile);
+//        Preconditions.checkArgument(!uiLocked);
+//
+//        int currentIndex = 0;
+//
+//        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+//            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+//                currentIndex = i;
+//                break;
+//            }
+//        }
+//
+//        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
+//
+//        // todo method for these
+//        refreshFrameTitle();
+//        refreshAudioTitleLabel();
+//        refreshAlbumArt();
+//        refreshAudioFiles();
+//        refreshAudioProgressLabel();
+//        playAudio();
     }
 
     /**
@@ -1928,6 +1958,11 @@ public class AudioPlayer {
      */
     private static class ScrollingTitleLabel {
         /**
+         * The minimum width of the titel label.
+         */
+        public static final int MIN_WIDTH = 100;
+
+        /**
          * Whether this scrolling title label object has been killed.
          */
         private final AtomicBoolean killed = new AtomicBoolean();
@@ -1972,6 +2007,12 @@ public class AudioPlayer {
             start(localTitle);
         }
 
+        /**
+         * Starts the scrolling animation if necessary.
+         * Otherwise the label is centered in the parent container.
+         *
+         * @param localTitle the title to display
+         */
         private void start(String localTitle) {
             try {
                 int parentX = effectLabel.getParent().getX();
@@ -1982,7 +2023,8 @@ public class AudioPlayer {
 
                 int textWidth = StringUtil.getMinWidth(localTitle, effectLabel.getFont());
                 int textHeight = StringUtil.getMinHeight(localTitle, effectLabel.getFont());
-                effectLabel.setSize(textWidth, parentHeight);
+
+                effectLabel.setSize(Math.max(textWidth, MIN_WIDTH), parentHeight);
 
                 if (textWidth > parentWidth) {
                     effectLabel.setLocation(0, 0);
@@ -2024,7 +2066,7 @@ public class AudioPlayer {
                     }, "Scrolling title label animator [" + audioTitleLabel.getText() + "]");
                 } else {
                     effectLabel.setLocation(
-                            parentWidth / 2 - textWidth / 2,
+                            parentWidth / 2 - Math.max(textWidth, MIN_WIDTH) / 2,
                             parentHeight / 2 - textHeight / 2);
                 }
             } catch (Exception e) {
