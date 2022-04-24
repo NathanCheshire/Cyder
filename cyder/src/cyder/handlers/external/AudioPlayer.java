@@ -30,10 +30,7 @@ import javax.sound.sampled.Port;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -652,10 +649,31 @@ public class AudioPlayer {
                 pauseLocation = skipLocation;
                 lastAction = LastAction.Scrub;
 
-                // todo the bug originates from playing somehow
-                // turn this into a label you can drag and will audo matically go to the cursor when mouse pressed
-                // and until mouse released or not on component
-                System.out.println("Resume at: " + pauseLocation);
+                // todo resume if shouldPlay
+            }
+        });
+        audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (uiLocked) {
+                    return;
+                }
+
+                float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
+
+                if (totalAudioLength == 0) {
+                    refreshAudioTotalLength();
+                }
+
+                long skipLocation = (long) (totalAudioLength * audioPercent);
+                System.out.println("Skip location: " + skipLocation);
+
+                boolean shouldPlay = isAudioPlaying();
+                pauseAudio();
+                pauseLocation = skipLocation;
+                lastAction = LastAction.Scrub;
+
+                // todo resume if shouldPlay
             }
         });
 
@@ -1422,26 +1440,26 @@ public class AudioPlayer {
      * Starts playing the current audio file.
      */
     private static void playAudio() {
-        if (isAudioPlaying()) {
-            pauseAudio();
-        }
+        try {
+            if (isAudioPlaying()) {
+                pauseAudio();
+            }
 
-        lastAction = LastAction.Play;
+            lastAction = LastAction.Play;
 
-        CyderThreadRunner.submit(() -> {
-            try {
-                refreshAudioTitleLabel();
-                refreshPlayPauseButton();
+            refreshAudioTitleLabel();
+            refreshPlayPauseButton();
 
-                fis = new FileInputStream(currentAudioFile);
-                bis = new BufferedInputStream(fis);
+            fis = new FileInputStream(currentAudioFile);
+            bis = new BufferedInputStream(fis);
 
-                totalAudioLength = fis.available();
+            totalAudioLength = fis.available();
 
-                fis.skip(Math.max(0, pauseLocation));
+            fis.skip(Math.max(0, pauseLocation));
 
-                audioPlayer = new Player(bis);
+            audioPlayer = new Player(bis);
 
+            CyderThreadRunner.submit(() -> {
                 try {
                     audioPlayer.play();
                 } catch (Exception ignored) {
@@ -1463,10 +1481,10 @@ public class AudioPlayer {
                     // if wasn't stopped, then play next audio, multiple ways to proceed to next audio
                     // such as repeat, shuffle, queue, etc.
                 }
-            } catch (Exception e) {
-                ExceptionHandler.handle(e);
-            }
-        }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
+            }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
     }
 
     /**
