@@ -35,10 +35,10 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -77,7 +77,7 @@ public class AudioPlayer {
      * in the standard audio view and the current audio file has no linked album art.
      */
     private static final File DEFAULT_ALBUM_ART = OSUtil.buildFile(
-            "static","pictures","music","Default.png");
+            "static", "pictures", "music", "Default.png");
 
     /**
      * The format of the waveform image to export.
@@ -235,88 +235,88 @@ public class AudioPlayer {
      */
     private static final CyderIconButton lastAudioButton =
             new CyderIconButton("Last", lastIcon, lastIconHover,
-            new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            handleLastAudioButtonClick();
-        }
+                    new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            handleLastAudioButtonClick();
+                        }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            lastAudioButton.setIcon(lastIconHover);
-        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            lastAudioButton.setIcon(lastIconHover);
+                        }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            lastAudioButton.setIcon(lastIcon);
-        }
-    });
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            lastAudioButton.setIcon(lastIcon);
+                        }
+                    });
 
     /**
      * The play next audio icon button.
      */
     private static final CyderIconButton nextAudioButton =
             new CyderIconButton("Next", nextIcon, nextIconHover,
-            new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            handleNextAudioButtonClick();
-        }
+                    new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            handleNextAudioButtonClick();
+                        }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            nextAudioButton.setIcon(nextIconHover);
-        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            nextAudioButton.setIcon(nextIconHover);
+                        }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            nextAudioButton.setIcon(nextIcon);
-        }
-    });
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            nextAudioButton.setIcon(nextIcon);
+                        }
+                    });
 
     /**
      * The repeat audio icon button.
      */
     private static final CyderIconButton repeatAudioButton =
             new CyderIconButton("Repeat", repeatIcon, repeatIconHover,
-            new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            handleRepeatButtonClick();
-        }
+                    new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            handleRepeatButtonClick();
+                        }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            repeatAudioButton.setIcon(repeatAudio ? repeatIcon : repeatIconHover);
-        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            repeatAudioButton.setIcon(repeatAudio ? repeatIcon : repeatIconHover);
+                        }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            repeatAudioButton.setIcon(repeatAudio ? repeatIconHover : repeatIcon);
-        }
-    });
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            repeatAudioButton.setIcon(repeatAudio ? repeatIconHover : repeatIcon);
+                        }
+                    });
 
     /**
      * The shuffle audio icon button.
      */
     private static final CyderIconButton shuffleAudioButton =
             new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
-            new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            handleShuffleButtonClick();
-        }
+                    new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            handleShuffleButtonClick();
+                        }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIcon : shuffleIconHover);
-        }
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIcon : shuffleIconHover);
+                        }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIconHover : shuffleIcon);
-        }
-    });
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            shuffleAudioButton.setIcon(shuffleAudio ? shuffleIconHover : shuffleIcon);
+                        }
+                    });
 
     /**
      * The available frame views for both the audio player and YouTube downloader.
@@ -352,7 +352,7 @@ public class AudioPlayer {
     /**
      * The frame background color.
      */
-    public static final Color BACKGROUND_COLOR = new Color(8,23,52);
+    public static final Color BACKGROUND_COLOR = new Color(8, 23, 52);
 
     /**
      * The list of songs to play next before sequentially proceeding to the next valid audio file.
@@ -373,7 +373,7 @@ public class AudioPlayer {
      * The default audio file to play if no starting file was provided.
      */
     public static final File DEFAULT_AUDIO_FILE = OSUtil.buildFile(
-            "static","audio","Kendrick Lamar - All The Stars.mp3");
+            "static", "audio", "Kendrick Lamar - All The Stars.mp3");
 
     /**
      * The width and height of the audio frame.
@@ -413,40 +413,50 @@ public class AudioPlayer {
      */
     private static ScrollingTitleLabel scrollingTitleLabel;
 
+    /**
+     * The alternate view icon.
+     */
     private static final ImageIcon alternateView = new ImageIcon("static/pictures/icons/ChangeSize1");
+
+    /**
+     * The alternate view hover icon.
+     */
     private static final ImageIcon alternateViewHover = new ImageIcon("static/pictures/icons/ChangeSize2");
 
+    /**
+     * The button to be placed in the audio player drag label button list to switch frame views.
+     */
     private static final CyderIconButton switchFrameAudioView = new CyderIconButton(
             "Switch Mode", alternateView, alternateViewHover,
             new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-           switch (currentFrameView) {
-               case FULL:
-                   setupAndShowFrameView(FrameView.HIDDEN_ART);
-                   break;
-               case HIDDEN_ART:
-                   setupAndShowFrameView(FrameView.MINI);
-                   break;
-               case MINI:
-                   setupAndShowFrameView(FrameView.FULL);
-                   break;
-               default:
-                   throw new IllegalArgumentException(
-                           "Illegal requested view to switch to via view switch frame button");
-           }
-        }
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    switch (currentFrameView) {
+                        case FULL:
+                            setupAndShowFrameView(FrameView.HIDDEN_ART);
+                            break;
+                        case HIDDEN_ART:
+                            setupAndShowFrameView(FrameView.MINI);
+                            break;
+                        case MINI:
+                            setupAndShowFrameView(FrameView.FULL);
+                            break;
+                        default:
+                            throw new IllegalArgumentException(
+                                    "Illegal requested view to switch to via view switch frame button");
+                    }
+                }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            switchFrameAudioView.setIcon(alternateViewHover);
-        }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    switchFrameAudioView.setIcon(alternateViewHover);
+                }
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-            switchFrameAudioView.setIcon(alternateView);
-        }
-    });
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    switchFrameAudioView.setIcon(alternateView);
+                }
+            });
 
     /**
      * Possible ways a user can interact with the audio player.
@@ -494,7 +504,8 @@ public class AudioPlayer {
         showGui(DEFAULT_AUDIO_FILE);
     }
 
-    // some how we shoudl bypass construction stuff and directly act as if a file was selected to play from
+    // todo if already open and new file selected, how to handle case
+
     /**
      * Starts playing the provided audio file.
      * The file must be mp3 or wav.
@@ -519,7 +530,6 @@ public class AudioPlayer {
             }
 
             playAudio();
-
             return;
         }
 
@@ -613,7 +623,7 @@ public class AudioPlayer {
 
         audioProgressBarUi = new CyderProgressUI();
         audioProgressBarUi.setAnimationDirection(AnimationDirection.LEFT_TO_RIGHT);
-        audioProgressBarUi.setColors(new Color[] {CyderColors.regularPink, CyderColors.notificationForegroundColor});
+        audioProgressBarUi.setColors(new Color[]{CyderColors.regularPink, CyderColors.notificationForegroundColor});
         audioProgressBarUi.setShape(CyderProgressUI.Shape.SQUARE);
         audioProgressBar.setUI(audioProgressBarUi);
 
@@ -795,14 +805,23 @@ public class AudioPlayer {
         audioVolumeSlider.setVisible(visible);
     }
 
+    /**
+     * Whether the UI is locked.
+     */
     private static boolean uiLocked;
 
+    /**
+     * Locks the UI components of the audio player.
+     */
     public static void lockUi() {
         uiLocked = true;
 
         audioPlayerFrame.setMenuEnabled(false);
     }
 
+    /**
+     * Unlocks the UI components of the audio player.
+     */
     public static void unlockUi() {
         uiLocked = false;
 
@@ -1096,7 +1115,7 @@ public class AudioPlayer {
                     Future<Optional<File>> dreamifiedAudio = AudioUtil.dreamifyAudio(currentAudioFile);
 
                     while (!dreamifiedAudio.isDone()) {
-                       Thread.onSpinWait();
+                        Thread.onSpinWait();
                     }
 
                     Optional<File> present = Optional.empty();
@@ -1104,46 +1123,51 @@ public class AudioPlayer {
                     dreamifierLocked.set(false);
 
                     try {
-                       present = dreamifiedAudio.get();
+                        present = dreamifiedAudio.get();
                     } catch (Exception e) {
-                       ExceptionHandler.handle(e);
+                        ExceptionHandler.handle(e);
                     }
 
                     if (present.isPresent()) {
-                       try {
-                           File destinationFile = OSUtil.buildFile(
-                                   DynamicDirectory.DYNAMIC_PATH,
-                                   DynamicDirectory.USERS.getDirectoryName(),
-                                   ConsoleFrame.INSTANCE.getUUID(),
-                                   UserFile.MUSIC.getName(),
-                                   present.get().getName());
+                        try {
+                            File destinationFile = OSUtil.buildFile(
+                                    DynamicDirectory.DYNAMIC_PATH,
+                                    DynamicDirectory.USERS.getDirectoryName(),
+                                    ConsoleFrame.INSTANCE.getUUID(),
+                                    UserFile.MUSIC.getName(),
+                                    present.get().getName());
 
-                           // copy dreamified audio to user's music dir
-                           Files.copy(Paths.get(present.get().getAbsolutePath()),
-                                   Paths.get(destinationFile.getAbsolutePath()));
+                            // copy dreamified audio to user's music dir
+                            Files.copy(Paths.get(present.get().getAbsolutePath()),
+                                    Paths.get(destinationFile.getAbsolutePath()));
 
-                           if (isAudioPlaying()) {
-                               pauseAudio();
-                           }
+                            if (isAudioPlaying()) {
+                                pauseAudio();
+                            }
 
-                           currentAudioFile = destinationFile;
+                            currentAudioFile = destinationFile;
 
-                           refreshAudioFiles();
-                           audioProgressBar.setValue(0);
-                           playAudio();
+                            refreshAudioFiles();
+                            audioProgressBar.setValue(0);
+                            playAudio();
 
-                           audioPlayerFrame.notify("Successfully dreamified audio");
-                       } catch (Exception e) {
-                           ExceptionHandler.handle(e);
-                       }
+                            audioPlayerFrame.notify("Successfully dreamified audio");
+                        } catch (Exception e) {
+                            ExceptionHandler.handle(e);
+                        }
                     } else {
-                       audioPlayerFrame.notify("Could not dreamify audio at this time");
+                        audioPlayerFrame.notify("Could not dreamify audio at this time");
                     }
                 }, "Audio Dreamifier");
             }
         });
     }
 
+    /**
+     * Sets component visibilities and locations based on the provided frame view.
+     *
+     * @param view the requested frame view
+     */
     private static void setupAndShowFrameView(FrameView view) {
         setUiComponentsVisible(false);
 
@@ -1219,9 +1243,19 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * The default frame title.
+     */
     private static final String DEFAULT_FRAME_TITLE = "Audio Player";
+
+    /**
+     * The maximum allowable characters on the title label.
+     */
     private static final int MAX_TITLE_LENGTH = 40;
 
+    /**
+     * Refreshes the audio frame title.
+     */
     private static void refreshFrameTitle() {
         String title = DEFAULT_FRAME_TITLE;
 
@@ -1317,6 +1351,10 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * Refreshes the list of valid audio files based on the files
+     * within the same directory as the current audio file
+     */
     private static void refreshAudioFiles() {
         Preconditions.checkNotNull(currentAudioFile);
 
@@ -1337,6 +1375,9 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * Refreshes the icon of the play/pause button.
+     */
     private static void refreshPlayPauseButton() {
         if (isAudioPlaying()) {
             playPauseButton.setIcon(pauseIcon);
@@ -1347,10 +1388,20 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * Returns whether audio is playing.
+     *
+     * @return whether audio is playing
+     */
     public static boolean isAudioPlaying() {
         return audioPlayer != null && !audioPlayer.isComplete();
     }
 
+    /**
+     * Returns whether the widget is open.
+     *
+     * @return whether the widget is open
+     */
     public static boolean isWidgetOpen() {
         return audioPlayerFrame != null;
     }
@@ -1385,11 +1436,15 @@ public class AudioPlayer {
         try {
             FileInputStream fileInputStream = new FileInputStream(currentAudioFile);
             totalAudioLength = fileInputStream.available();
+            fileInputStream.close();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
     }
 
+    /**
+     * Handles a click from the play/pause button.
+     */
     public static void handlePlayPauseButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
@@ -1467,14 +1522,17 @@ public class AudioPlayer {
                     playAudio();
                 }
 
+                try {
+                    closeIfNotNull(fis);
+                    closeIfNotNull(bis);
+                } catch (Exception e) {
+                    ExceptionHandler.handle(e);
+                }
+
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
                     pauseLocation = 0;
                     totalAudioLength = 0;
-
-                    // audio concluded so reset in preparation for a new audio file
-                    // todo last action not skip
-
 
                     // todo handle next audio method? pass in optional skip direction enum?
                     // todo how to handle pause location, can't just override here
@@ -1501,9 +1559,7 @@ public class AudioPlayer {
                 fis = null;
             }
 
-            if (bis != null) {
-                bis = null;
-            }
+            closeIfNotNull(bis);
 
             if (audioPlayer != null) {
                 audioPlayer.close();
@@ -1516,22 +1572,52 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * Closes the provided input stream if not null and assigns the refernce to null;
+     *
+     * @param is the input stream to close and assign to null
+     */
+    public static void closeIfNotNull(InputStream is) {
+        if (is != null) {
+            try {
+                is.close();
+                is = null;
+            } catch (Exception e) {
+                ExceptionHandler.handle(e);
+            }
+        }
+    }
+
+    /**
+     * Handles a click from the last button.
+     */
     public static void handleLastAudioButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
         Preconditions.checkArgument(!uiLocked);
 
+        // todo
     }
 
+    /**
+     * Handles a click from the next audio button.
+     */
     public static void handleNextAudioButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
         Preconditions.checkArgument(!uiLocked);
 
+        // todo
     }
 
+    /**
+     * Whether the current audio should be repeated on conclusion.
+     */
     private static boolean repeatAudio;
 
+    /**
+     * Handles a click from the repeat button.
+     */
     public static void handleRepeatButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
@@ -1540,8 +1626,14 @@ public class AudioPlayer {
         repeatAudio = !repeatAudio;
     }
 
+    /**
+     * Whether the next audio file should be chosen at random upon completion of the current audio file.
+     */
     private static boolean shuffleAudio;
 
+    /**
+     * Hanldes a click of the shuffle button.
+     */
     public static void handleShuffleButtonClick() {
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
@@ -1550,6 +1642,11 @@ public class AudioPlayer {
         shuffleAudio = !shuffleAudio;
     }
 
+    /**
+     * Adds the audio to the beginning of the audio file queue.
+     *
+     * @param audioFile the audio file to add to the beginning of the queue
+     */
     public static void addAudioNext(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
@@ -1561,6 +1658,11 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * Adds the audio to the end of the audio file queue.
+     *
+     * @param audioFile the audio file to add to the end of the queue
+     */
     public static void addAudioLast(File audioFile) {
         Preconditions.checkNotNull(audioFile);
         Preconditions.checkArgument(audioFile.exists());
@@ -1572,18 +1674,25 @@ public class AudioPlayer {
         }
     }
 
-    // used to ensure deleting audio isn't playing currently
-    // whenever this is open this is never null, if null the player is killed and not open
+    /**
+     * Returns the current audio file open by the AudioPlayer.
+     *
+     * @return the current audio file open by the AudioPlayer
+     */
     public static File getCurrentAudio() {
         return currentAudioFile;
     }
 
     private static void killAndCloseWidget() {
-        Objects.requireNonNull(audioPlayerFrame).dispose();
-        audioPlayerFrame = null;
+        if (audioPlayerFrame != null) {
+            audioPlayerFrame.dispose(true);
+            audioPlayerFrame = null;
+        }
 
-        Objects.requireNonNull(audioProgressBarUi).stopAnimationTimer();
-        audioProgressBarUi = null;
+        if (audioProgressBarUi != null) {
+            audioProgressBarUi.stopAnimationTimer();
+            audioProgressBarUi = null;
+        }
 
         currentAudioFile = null;
 
@@ -1592,11 +1701,15 @@ public class AudioPlayer {
         pauseLocation = 0;
         totalAudioLength = 0;
 
-        Objects.requireNonNull(audioVolumeLabelAnimator).kill();
-        audioVolumeLabelAnimator = null;
+        if (audioVolumeLabelAnimator != null) {
+            audioVolumeLabelAnimator.kill();
+            audioVolumeLabelAnimator = null;
+        }
 
-        Objects.requireNonNull(audioLocationUpdator).kill();
-        audioLocationUpdator = null;
+        if (audioLocationUpdator != null) {
+            audioLocationUpdator.kill();
+            audioLocationUpdator = null;
+        }
 
         if (scrollingTitleLabel != null) {
             scrollingTitleLabel.kill();
@@ -1650,7 +1763,7 @@ public class AudioPlayer {
             this.progressBar = progressBar;
 
             try {
-                CyderThreadRunner.submit( () -> {
+                CyderThreadRunner.submit(() -> {
                     Future<Integer> millis = AudioUtil.getMillis(currentAudioFile);
 
                     while (!millis.isDone()) {
@@ -1684,7 +1797,8 @@ public class AudioPlayer {
                                 place = ((float) (totalAudioLength - fis.available()) /
                                         (float) totalAudioLength) * progressBar.getMaximum();
                             }
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
 
                         progressBar.setValue((int) place);
 
@@ -1698,18 +1812,19 @@ public class AudioPlayer {
                         if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
                             effectLabel.setText(
                                     AudioUtil.formatSeconds(secondsIn) + " played, "
-                                    + formattedTotal + " remaining");
+                                            + formattedTotal + " remaining");
                         } else {
                             effectLabel.setText(
                                     AudioUtil.formatSeconds(secondsIn) + " played, "
-                                    + AudioUtil.formatSeconds(audioProgressBar) + " remaining");
+                                            + AudioUtil.formatSeconds(audioProgressBar) + " remaining");
                         }
 
                         try {
                             Thread.sleep(audioLocationTextUpdateDelay);
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
-                },FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
+                }, FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
             } catch (Exception e) {
                 ExceptionHandler.silentHandle(e);
             }
@@ -1766,7 +1881,7 @@ public class AudioPlayer {
          * provided label, its parent, and the provided text as the title.
          *
          * @param effectLabel the label to move in its parent container.
-         * @param localTitle the title of the label
+         * @param localTitle  the title of the label
          */
         public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
             this.effectLabel = effectLabel;
@@ -1789,7 +1904,7 @@ public class AudioPlayer {
                 effectLabel.setSize(textWidth, parentHeight);
 
                 if (textWidth > parentWidth) {
-                    effectLabel.setLocation(0,0);
+                    effectLabel.setLocation(0, 0);
 
                     CyderThreadRunner.submit(() -> {
                         try {
@@ -1825,7 +1940,7 @@ public class AudioPlayer {
                         } catch (Exception e) {
                             ExceptionHandler.handle(e);
                         }
-                    },"Scrolling title label animator [" + audioTitleLabel.getText() + "]");
+                    }, "Scrolling title label animator [" + audioTitleLabel.getText() + "]");
                 } else {
                     effectLabel.setLocation(
                             parentWidth / 2 - textWidth / 2,
@@ -1849,7 +1964,7 @@ public class AudioPlayer {
          * Kills the current scrolling title label.
          */
         public void kill() {
-           killed.set(true);
+            killed.set(true);
         }
     }
 
