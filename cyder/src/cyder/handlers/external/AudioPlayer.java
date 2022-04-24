@@ -46,11 +46,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // todo views should slide in and out like StraightShot
-// maybe whole content pane should have elements placed, sliding should be from the right and then back to left
 
 // todo dreamify should be seamless audio transition, wait and get location then switch
 
-// todo still need to prevent spamming of skip actions, method which buttons first check for
+// todo need to prevent spamming of skip actions, method which buttons first check for
+
+// todo dancing triggers watchdog timer, need to rethink system
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -106,11 +107,14 @@ public class AudioPlayer {
             StringUtil.getMinHeight("YATTA", CyderFonts.defaultFontSmall);
 
     /**
+     * The maximum value of the audio progress bar.
+     */
+    private static final int PROGRESS_BAR_MAX = 10000;
+
+    /**
      * The audio progress bar with animated colors.
      */
-    private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, 100);
-    // todo should this have finer resolution?
-
+    private static final CyderProgressBar audioProgressBar = new CyderProgressBar(0, PROGRESS_BAR_MAX);
     /**
      * The progress bar ui for the audio progress bar.
      */
@@ -504,8 +508,6 @@ public class AudioPlayer {
         showGui(DEFAULT_AUDIO_FILE);
     }
 
-    // todo if already open and new file selected, how to handle case
-
     /**
      * Starts playing the provided audio file.
      * The file must be mp3 or wav.
@@ -528,6 +530,11 @@ public class AudioPlayer {
                 pauseAudio();
                 pauseLocation = 0;
             }
+
+            refreshFrameTitle();
+            refreshAudioTitleLabel();
+            refreshAlbumArt();
+            refreshAudioFiles();
 
             playAudio();
             return;
@@ -628,7 +635,7 @@ public class AudioPlayer {
         audioProgressBar.setUI(audioProgressBarUi);
 
         audioProgressBar.setMinimum(0);
-        audioProgressBar.setMaximum(10000);
+        audioProgressBar.setMaximum(PROGRESS_BAR_MAX);
         audioProgressBar.setOpaque(false);
         audioProgressBar.setFocusable(false);
 
@@ -1534,11 +1541,30 @@ public class AudioPlayer {
                     pauseLocation = 0;
                     totalAudioLength = 0;
 
-                    // todo handle next audio method? pass in optional skip direction enum?
-                    // todo how to handle pause location, can't just override here
+                    // repeat audio is first priority
+                    if (repeatAudio) {
+                        playAudio();
+                    }
+                    // pull from queue next
+                    if (!audioFileQueue.isEmpty()) {
+                        currentAudioFile = audioFileQueue.remove(0);
 
-                    // if wasn't stopped, then play next audio, multiple ways to proceed to next audio
-                    // such as repeat, shuffle, queue, etc.
+                        // todo method for these?
+                        refreshFrameTitle();
+                        refreshAudioTitleLabel();
+                        refreshAlbumArt();
+                        refreshAudioFiles();
+
+                        playAudio();
+                    }
+                    // shuffle audio next
+                    else if (shuffleAudio) {
+
+                    }
+                    // finally next file in valid files
+                    else {
+
+                    }
                 }
             }, "AudioPlayer Play Audio Thread [" + FileUtil.getFilename(currentAudioFile) + "]");
         } catch (Exception e) {
