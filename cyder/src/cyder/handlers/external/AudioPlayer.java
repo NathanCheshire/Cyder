@@ -1359,13 +1359,13 @@ public class AudioPlayer {
         }
 
         int textWidth = StringUtil.getAbsoluteMinWidth(text, audioTitleLabel.getFont());
+        textWidth = Math.max(textWidth, ScrollingTitleLabel.MIN_WIDTH);
+
         int textHeight = StringUtil.getMinHeight(text, audioTitleLabel.getFont());
         int parentWidth = audioTitleLabel.getParent().getWidth();
         int parentHeight = audioTitleLabel.getParent().getHeight();
 
         if (textWidth > parentWidth) {
-            audioTitleLabel.setText(text);
-            audioTitleLabel.setSize(textWidth, textHeight);
             scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel, text);
         } else {
             audioTitleLabel.setBounds(parentWidth / 2 - textWidth / 2,
