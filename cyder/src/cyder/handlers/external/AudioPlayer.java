@@ -66,7 +66,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 // todo logger tags need to be done better
 
-// todo count exceptions should be counted during runtime
+// todo need to refresh audio files before going on to next one and before skip actions
+// in case a file was deleted, basically don't hold a list of valid ones
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -784,15 +785,18 @@ public class AudioPlayer {
         }
 
         long skipLocation = (long) (totalAudioLength * audioPercent);
-        System.out.println("Skip location: " + skipLocation);
 
         boolean shouldPlay = isAudioPlaying();
-        pauseAudio();
-        pauseLocation = skipLocation;
-        lastAction = LastAction.Scrub;
 
         if (shouldPlay) {
-            System.out.println("Resume");
+            pauseAudio();
+        }
+
+        pauseLocation = skipLocation;
+
+        if (shouldPlay) {
+            lastAction = LastAction.Scrub;
+            //playAudio();
         }
     }
 
@@ -1535,8 +1539,6 @@ public class AudioPlayer {
                 throw new IllegalStateException("Previous audio not ended");
             }
 
-            lastAction = LastAction.Play;
-
             refreshAudioTitleLabel();
 
             fis = new FileInputStream(currentAudioFile);
@@ -1551,6 +1553,7 @@ public class AudioPlayer {
             CyderThreadRunner.submit(() -> {
                 try {
                     refreshPlayPauseButton();
+                    lastAction = LastAction.Play;
                     audioPlayer.play();
                     refreshPlayPauseButton();
                 } catch (Exception ignored) {
@@ -1882,7 +1885,6 @@ public class AudioPlayer {
                     Future<Integer> millis = AudioUtil.getMillis(currentAudioFile);
 
                     // while waiting set label to blank and progress bar to 0
-                    System.out.println("Setting to 0");
                     progressBar.setValue(0);
                     audioProgressLabel.setText("");
 

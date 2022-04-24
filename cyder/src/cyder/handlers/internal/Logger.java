@@ -42,6 +42,12 @@ public class Logger {
     private static final AtomicInteger objectCreationCounter = new AtomicInteger();
 
     /**
+     * The counter used to log the number of exceptions thrown
+     * and handled during this session of Cyder.
+     */
+    private static final AtomicInteger exceptionsCounter = new AtomicInteger();
+
+    /**
      * The rate at which to log the amount of objects created since the last log.
      */
     public static final int deltaT = 5;
@@ -126,6 +132,7 @@ public class Logger {
                 //any exceptions thrown are passed from ExceptionHandler to here
                 logBuilder.append("[EXCEPTION]: ");
                 logBuilder.append(representation);
+                exceptionsCounter.getAndIncrement();
                 break;
             case LINK:
                 //files opened, links opened
@@ -178,7 +185,7 @@ public class Logger {
                 ExitCondition condition = (ExitCondition) representation;
                 logBuilder.append(condition.getCode())
                         .append(" [").append(condition.getDescription()).append("], exceptions thrown: ")
-                        .append(countExceptions());
+                        .append(exceptionsCounter.get());
 
                 formatAndWriteLine(logBuilder.toString(), tag);
                 logConcluded = true;
@@ -502,28 +509,6 @@ public class Logger {
         }
 
         ret.add(line.trim());
-
-        return ret;
-    }
-
-    /**
-     * Counts the exceptions in the current log folder. This is used when closing the log to provide
-     *  an exceptions summary.
-     *
-     * @return the int number of exceptions thrown in this Cyder session
-     */
-    private static int countExceptions() {
-        int ret = 0;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(currentLog))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.contains("[EXCEPTION]"))
-                    ret++;
-            }
-        } catch(Exception e) {
-            ExceptionHandler.handle(e);
-        }
 
         return ret;
     }
