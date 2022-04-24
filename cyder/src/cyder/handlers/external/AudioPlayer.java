@@ -569,7 +569,6 @@ public class AudioPlayer {
 
         audioTitleLabelContainer.add(audioTitleLabel, SwingConstants.CENTER);
         audioPlayerFrame.getContentPane().add(audioTitleLabelContainer);
-        refreshAudioTitleLabel();
 
         shuffleAudioButton.setSize(CONTROL_BUTTON_SIZE);
         audioPlayerFrame.getContentPane().add(shuffleAudioButton);
@@ -631,55 +630,20 @@ public class AudioPlayer {
         audioProgressLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (uiLocked) {
-                    return;
-                }
-
-                float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
-
-                if (totalAudioLength == 0) {
-                    refreshAudioTotalLength();
-                }
-
-                long skipLocation = (long) (totalAudioLength * audioPercent);
-                System.out.println("Skip location: " + skipLocation);
-
-                boolean shouldPlay = isAudioPlaying();
-                pauseAudio();
-                pauseLocation = skipLocation;
-                lastAction = LastAction.Scrub;
-
-                // todo resume if shouldPlay
+                handleAudioProgressLabelClick(e);
             }
         });
         audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                if (uiLocked) {
-                    return;
-                }
-
-                float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
-
-                if (totalAudioLength == 0) {
-                    refreshAudioTotalLength();
-                }
-
-                long skipLocation = (long) (totalAudioLength * audioPercent);
-                System.out.println("Skip location: " + skipLocation);
-
-                boolean shouldPlay = isAudioPlaying();
-                pauseAudio();
-                pauseLocation = skipLocation;
-                lastAction = LastAction.Scrub;
-
-                // todo resume if shouldPlay
+                handleAudioProgressLabelClick(e);
             }
         });
 
         if (audioLocationUpdator != null) {
             audioLocationUpdator.kill();
         }
+
         audioLocationUpdator = new AudioLocationUpdator(audioProgressLabel, audioProgressBar);
 
         audioVolumeSliderUi.setThumbStroke(new BasicStroke(2.0f));
@@ -768,6 +732,35 @@ public class AudioPlayer {
                     ExceptionHandler.handle(e);
                 }
             }, "AudioPlayer Preliminary Handler");
+        }
+    }
+
+    /**
+     * Handles a click from the audio progress label.
+     *
+     * @param e the mouse event
+     */
+    private static void handleAudioProgressLabelClick(MouseEvent e) {
+        if (uiLocked) {
+            return;
+        }
+
+        float audioPercent = e.getX() / (float) audioProgressLabel.getWidth();
+
+        if (totalAudioLength == 0) {
+            refreshAudioTotalLength();
+        }
+
+        long skipLocation = (long) (totalAudioLength * audioPercent);
+        System.out.println("Skip location: " + skipLocation);
+
+        boolean shouldPlay = isAudioPlaying();
+        pauseAudio();
+        pauseLocation = skipLocation;
+        lastAction = LastAction.Scrub;
+
+        if (shouldPlay) {
+            System.out.println("Resume");
         }
     }
 
@@ -1135,7 +1128,6 @@ public class AudioPlayer {
 
                            currentAudioFile = destinationFile;
 
-                           refreshAudioTitleLabel();
                            refreshAudioFiles();
                            audioProgressBar.setValue(0);
                            playAudio();
@@ -1296,12 +1288,18 @@ public class AudioPlayer {
      * in the title label container and creates a new instance based on the current audio file's title.
      */
     private static final void refreshAudioTitleLabel() {
+        String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.getName()));
+
+        // end old object
         if (scrollingTitleLabel != null) {
+            // if the same title then do not update
+            if (scrollingTitleLabel.localTitle().equals(text)) {
+                return;
+            }
+
             scrollingTitleLabel.kill();
             scrollingTitleLabel = null;
         }
-
-        String text = StringUtil.capsFirst(FileUtil.getFilename(currentAudioFile.getName()));
 
         int textWidth = StringUtil.getAbsoluteMinWidth(text, audioTitleLabel.getFont());
         int textHeight = StringUtil.getMinHeight(text, audioTitleLabel.getFont());
@@ -1310,6 +1308,8 @@ public class AudioPlayer {
 
         if (textWidth > parentWidth) {
             audioTitleLabel.setText(text);
+            audioTitleLabel.setSize(textWidth, textHeight);
+            scrollingTitleLabel = new ScrollingTitleLabel(audioTitleLabel, text);
         } else {
             audioTitleLabel.setBounds(parentWidth / 2 - textWidth / 2,
                     parentHeight / 2 - textHeight / 2, textWidth, textHeight);
@@ -1448,7 +1448,6 @@ public class AudioPlayer {
             lastAction = LastAction.Play;
 
             refreshAudioTitleLabel();
-            refreshPlayPauseButton();
 
             fis = new FileInputStream(currentAudioFile);
             bis = new BufferedInputStream(fis);
@@ -1461,7 +1460,9 @@ public class AudioPlayer {
 
             CyderThreadRunner.submit(() -> {
                 try {
+                    refreshPlayPauseButton();
                     audioPlayer.play();
+                    refreshPlayPauseButton();
                 } catch (Exception ignored) {
                     playAudio();
                 }
@@ -1507,11 +1508,6 @@ public class AudioPlayer {
             if (audioPlayer != null) {
                 audioPlayer.close();
                 audioPlayer = null;
-            }
-
-            if (scrollingTitleLabel != null) {
-                scrollingTitleLabel.kill();
-                scrollingTitleLabel = null;
             }
 
             refreshPlayPauseButton();
@@ -1761,16 +1757,27 @@ public class AudioPlayer {
         private static final int MOVEMENT_TIMEOUT = 25;
 
         /**
+         * The label this scrolling label is controlling.
+         */
+        private final JLabel effectLabel;
+
+        /**
          * Constructs and begins the scrolling title label animation using the
          * provided label, its parent, and the provided text as the title.
          *
-         * @param effectLabel the label to move in it's parent container.
+         * @param effectLabel the label to move in its parent container.
          * @param localTitle the title of the label
          */
         public ScrollingTitleLabel(JLabel effectLabel, String localTitle) {
-            try {
-                effectLabel.setText(localTitle);
+            this.effectLabel = effectLabel;
 
+            effectLabel.setText(localTitle);
+
+            start(localTitle);
+        }
+
+        private void start(String localTitle) {
+            try {
                 int parentX = effectLabel.getParent().getX();
                 int parentY = effectLabel.getParent().getY();
 
@@ -1830,10 +1837,19 @@ public class AudioPlayer {
         }
 
         /**
+         * Returns the text the label being controlled contains.
+         *
+         * @return the text the label being controlled contains
+         */
+        public String localTitle() {
+            return effectLabel.getText();
+        }
+
+        /**
          * Kills the current scrolling title label.
          */
         public void kill() {
-           killed.set(false);
+           killed.set(true);
         }
     }
 
