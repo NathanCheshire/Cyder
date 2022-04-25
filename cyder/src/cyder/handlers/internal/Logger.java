@@ -104,115 +104,104 @@ public class Logger {
         switch (tag) {
             case CLIENT:
                 //user inputs to the console
-                logBuilder.append("[CLIENT]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.CLIENT));
                 logBuilder.append(representation);
                 break;
             case CONSOLE_OUT:
-                logBuilder.append("[CONSOLE_OUT]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_OUT));
                 if (representation instanceof String) {
-                    logBuilder.append("[STRING] ");
+                    logBuilder.append(constructLogTagPrepend("STRING"));
                     logBuilder.append(representation);
                 } else if (representation instanceof ImageIcon) {
-                    logBuilder.append("[ICON] ");
+                    logBuilder.append(constructLogTagPrepend("IMAGE"));
                     logBuilder.append(representation);
-                }
-                // JComponent prints
-                else if (representation instanceof JComponent) {
-                    logBuilder.append("[JCOMPONENT] ");
+                } else if (representation instanceof JComponent) {
+                    logBuilder.append(constructLogTagPrepend("JCOMPONENT"));
                     logBuilder.append(representation);
-                }
-                //other console prints
-                else {
-                    logBuilder.append("[UNKNOWN CONSOLE_OUT TYPE] ");
+                } else {
+                    logBuilder.append(constructLogTagPrepend("UNKNOWN CONSOLE OUT "));
                     logBuilder.append(representation);
                 }
                 break;
             case EXCEPTION:
-                //any exceptions thrown are passed from ExceptionHandler to here
-                logBuilder.append("[EXCEPTION]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.EXCEPTION));
                 logBuilder.append(representation);
                 exceptionsCounter.getAndIncrement();
                 break;
             case LINK:
-                //files opened, links opened
-                logBuilder.append("[LINK]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.LINK));
                 if (representation instanceof File) {
                     logBuilder.append("[").append(FileUtil.getExtension((File) representation)).append("] ");
                 }
                 logBuilder.append(representation);
                 break;
             case SUGGESTION:
-                logBuilder.append("[SUGGESTION]: ").append(representation);
+                logBuilder.append(constructLogTagPrepend(Tag.SUGGESTION)).append(representation);
                 break;
             case SYSTEM_IO:
-                // General System IO
-                logBuilder.append("[SYSTEM_IO]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.SYSTEM_IO));
                 logBuilder.append(representation);
                 break;
             case LOGIN:
-                //user logged in using recognize method
-                //[LOGIN]: [NATHAN] AutoCyphered (STD Login)
-                logBuilder.append("[LOGIN]: [");
+                logBuilder.append(constructLogTagPrepend(Tag.LOGIN));
                 logBuilder.append(representation);
-                logBuilder.append("]");
                 break;
             case LOGOUT:
-                //[LOGOUT]: [NATHAN]
-                logBuilder.append("[LOGOUT]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.LOGOUT));
                 logBuilder.append(representation);
                 break;
             case JVM_ARGS:
-                //[JVM_ARGS]:
-                logBuilder.append("[JVM ARGS]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.JVM_ARGS));
                 logBuilder.append(representation);
                 break;
             case JVM_ENTRY:
-                logBuilder.append("[JVM_ENTRY]: [");
+                logBuilder.append(constructLogTagPrepend(Tag.JVM_ENTRY));
                 logBuilder.append(representation);
-                logBuilder.append("]");
                 break;
             case EXIT:
-                //right before CyderCommon exits
-                //[EXIT]: [RUNTIME] 1h 24m 31s
-                logBuilder.append("[EXIT]: [RUNTIME] ");
-                logBuilder.append(getRuntime()).append("\n");
-
-                //end log
-                logBuilder.append("[").append(TimeUtil.logTime())
-                        .append("] [EOL]: Log completed, exiting Cyder with exit code: ");
+                logBuilder.append(constructLogTagPrepend(Tag.EXIT));
+                logBuilder.append("[RUNTIME] ");
+                logBuilder.append(getRuntime());
+                logBuilder.append("\n");
+                logBuilder.append(constructLogTagPrepend(TimeUtil.logTime()));
+                logBuilder.append("[EOL]: Log completed, exiting Cyder with exit code: ");
 
                 ExitCondition condition = (ExitCondition) representation;
-                logBuilder.append(condition.getCode())
-                        .append(" [").append(condition.getDescription()).append("], exceptions thrown: ")
-                        .append(exceptionsCounter.get());
+                logBuilder.append(condition.getCode());
+
+                logBuilder.append("[");
+                logBuilder.append(condition.getDescription());
+                logBuilder.append("], exceptions thrown: ");
+
+                logBuilder.append(exceptionsCounter.get() == 0
+                        ? " no exceptions thrown, ggnore" : exceptionsCounter.get());
 
                 formatAndWriteLine(logBuilder.toString(), tag);
                 logConcluded = true;
-                //return to caller to exit immediately
 
                 return;
             case CORRUPTION:
-                //before user corruption method is called
-                logBuilder.append("[CORRUPTION]: ").append(representation);
+                logBuilder.append(constructLogTagPrepend(Tag.CORRUPTION));
+                logBuilder.append(representation);
                 break;
             case DEBUG:
-                logBuilder.append("[DEBUG]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.DEBUG));
                 logBuilder.append(representation);
                 break;
             case HANDLE_METHOD:
-                logBuilder.append("[HANDLE]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.HANDLE_METHOD));
                 logBuilder.append(representation);
                 break;
             case WIDGET_OPENED:
-                logBuilder.append("[WIDGET OPENED]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.WIDGET_OPENED));
                 logBuilder.append(representation);
                 break;
             case PREFERENCE_REFRESH:
-                logBuilder.append("[PREFERENCE REFRESH INVOKED]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.PREFERENCE_REFRESH));
                 logBuilder.append(representation);
                 break;
             case THREAD:
-                logBuilder.append("[THREAD STARTED]: ");
+                logBuilder.append(constructLogTagPrepend(Tag.THREAD));
                 logBuilder.append(representation);
                 break;
             case OBJECT_CREATION:
@@ -220,37 +209,49 @@ public class Logger {
                     objectCreationCounter.incrementAndGet();
                     return;
                 } else {
-                    logBuilder.append("[UNIQUE OBJECT CREATED]: " + representation);
+                    logBuilder.append(constructLogTagPrepend("UNIQUE OBJECT CREATED"));
+                    logBuilder.append(representation);
                 }
 
                 break;
             case AUDIO:
-                logBuilder.append("[AUDIO]: ").append(representation);
+                logBuilder.append(constructLogTagPrepend(Tag.AUDIO));
+                logBuilder.append(representation);
                 break;
             case UI_ACTION:
-                logBuilder.append("[UI ACTION]: ").append(representation);
+                logBuilder.append(constructLogTagPrepend(Tag.UI_ACTION));
+                logBuilder.append(representation);
                 break;
             case CONSOLE_LOAD:
-                logBuilder.append("[CONSOLE LOADED]: ").append(representation);
+                logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_LOAD));
+                logBuilder.append(representation);
                 break;
             case FONT_LOADED:
-                logBuilder.append("[FONT LOADED]: font name = ").append(representation);
+                logBuilder.append(constructLogTagPrepend(Tag.FONT_LOADED));
+                logBuilder.append(representation);
                 break;
             case THREAD_STATUS:
                 if (representation instanceof String) {
-                    logBuilder.append("[THREAD STATUS POLLED]: ").append(representation);
+                    logBuilder.append(constructLogTagPrepend("THREAD STATUS POLLED"));
+                    logBuilder.append(representation);
                 } else if (representation instanceof Thread) {
-                    logBuilder.append("[THREAD STATUS]: name = "
+                    logBuilder.append(Tag.THREAD_STATUS);
+                    logBuilder.append("name = "
                             + ((Thread) representation).getName() + ", state = "
                             + ((Thread) representation).getState());
+                } else {
+                    logBuilder.append(constructLogTagPrepend("THREAD"));
+                    logBuilder.append(representation);
                 }
 
                 break;
             case CONSOLE_REDIRECTION:
-                logBuilder.append("[CONSOLE OUTPUT REDIRECTION]: console output was redirected to files/" + representation);
+                logBuilder.append(constructLogTagPrepend(Tag.CONSOLE_REDIRECTION));
+                logBuilder.append("console output was redirected to files/" + representation);
                 break;
             case CRUD_OP:
-                logBuilder.append("[CRUD OPERATION]: " + representation);
+                logBuilder.append(constructLogTagPrepend(Tag.CRUD_OP));
+                logBuilder.append(representation);
                 break;
             default:
                 //this is here and not UNKNOWN as the default so that we can detect if
@@ -707,7 +708,7 @@ public class Logger {
      * @param logLine2 the second log line
      * @return whether the two log lines are equivalent
      */
-    public static boolean logLinesEquivalent(String logLine1, String logLine2) {
+    private static boolean logLinesEquivalent(String logLine1, String logLine2) {
         Preconditions.checkNotNull(logLine1);
         Preconditions.checkNotNull(logLine2);
 
@@ -837,110 +838,153 @@ public class Logger {
     }
 
     /**
+     * Constructs the string value prepended to the log line before the representation.
+     *
+     * @param logTag the log tag
+     * @return the string to prepend to the log line
+     */
+    private static String constructLogTagPrepend(Tag logTag) {
+        return "[" + logTag.logName + "]: ";
+    }
+
+    /**
+     * Constructs the string value prepended to the log line before the representation.
+     *
+     * @param tagString the string representation of an exclusive log tag
+     * @return the string to prepend to the log line
+     */
+    private static String constructLogTagPrepend(String tagString) {
+        return "[" + tagString + "]: ";
+    }
+
+    /**
      * Supported tags for log entries
      */
     public enum Tag {
         /**
          * The cyder user typed something through the console input field.
          */
-        CLIENT,
+        CLIENT("CLIENT"),
         /**
          * Whatever is printed/appended to the CyderTextPane from the console frame.
          */
-        CONSOLE_OUT,
+        CONSOLE_OUT("CONSOLE OUT"),
         /**
          * Something that would have been appended to the Cyder text pane was piped to a file.
          */
-        CONSOLE_REDIRECTION,
+        CONSOLE_REDIRECTION("CONSOLE PRINT REDIRECTION"),
         /**
          * An exception was thrown and handled by the ExceptionHandler.
          */
-        EXCEPTION,
+        EXCEPTION("EXCEPTION"),
         /**
          * Audio played/stoped/paused/etc.
          */
-        AUDIO,
+        AUDIO("AUDIO"),
         /**
          * Frame control actions.
          */
-        UI_ACTION,
+        UI_ACTION("UI"),
         /**
          * A link was printed or opened.
          */
-        LINK,
+        LINK("LINK"),
         /**
          * A user made a suggestion which will probably be ignored.
          */
-        SUGGESTION,
+        SUGGESTION("SUGGESTION"),
         /**
          * IO by Cyder typically to/from a json file but moreso to files within DynamicDirectory.DYNAMIC_PATH
          */
-        SYSTEM_IO,
+        SYSTEM_IO("SYSTEM IO"),
         /**
          * A user starts Cyder or enters the main program, that of the ConsoleFrame.
          */
-        LOGIN,
+        LOGIN("LOGIN"),
         /**
          * A user logs out of Cyder, not necessarily a program exit.
          */
-        LOGOUT,
+        LOGOUT("LOGOUT"),
         /**
          * When Cyder.java is first invoked by the JVM, we log certain properties about
          * the JVM/JRE and send them to the Cyder backend as well.
          */
-        JVM_ARGS,
+        JVM_ARGS("JVM"),
         /**
          * JVM program entry.
          */
-        JVM_ENTRY,
+        JVM_ENTRY("ENTRY"),
         /**
          * Program controlled exit, right before EOL tags.
          */
-        EXIT,
+        EXIT("EXIT"),
         /**
          * A user became corrupted invoking the userJsonCorrupted method.
          */
-        CORRUPTION,
+        CORRUPTION("CORRUPTION"),
         /**
          * A quick debug information statment.
          */
-        DEBUG,
+        DEBUG("DEBUG"),
         /**
          * A type of input was handled via the InputHandler.
          */
-        HANDLE_METHOD,
+        HANDLE_METHOD("HANDLE"),
         /**
          * A widget was opened via the reflection method.
          */
-        WIDGET_OPENED,
+        WIDGET_OPENED("WIDGET"),
         /**
          * A userdata which exists as a Preference object was toggled between states and refreshed.
          */
-        PREFERENCE_REFRESH,
+        PREFERENCE_REFRESH("PREFERENCE REFRESH"),
         /**
          * A thread was spun up and started by CyderThreadRunner.
          */
-        THREAD,
+        THREAD("THREAD STARTED"),
         /**
          * When an object's constructor is invoked.
          */
-        OBJECT_CREATION,
+        OBJECT_CREATION("OBJECT CREATION"),
         /**
          * The console was loaded.
          */
-        CONSOLE_LOAD,
+        CONSOLE_LOAD("CONSOLE LOADED"),
         /**
          * A font was loaded by the sub-routine from the fonts/ directory.
          */
-        FONT_LOADED,
+        FONT_LOADED("FONT LOADED"),
         /**
          * The status of a thread, typically AWT-EventQueue-0.
          */
-        THREAD_STATUS,
+        THREAD_STATUS("THREAD STATUS"),
         /**
          * A Create (PUT), Read (GET), Update (POST), or Delete (DELETE) operation was performed
          * on the Cyder backend.
          */
-        CRUD_OP
+        CRUD_OP("BACKEND CRUD");
+
+        /**
+         * The name to be written to the log file when this tag is logged
+         */
+        private final String logName;
+
+        /**
+         * Constructs a new Tag object.
+         * 
+         * @param logName the name to be written to the log file when this tag is logged
+         */
+        Tag(String logName) {
+            this.logName = logName;
+        }
+
+        /**
+         * Returns the log name of this log tag.
+         *
+         * @return the log name of this log tag
+         */
+        public String getLogName() {
+            return logName;
+        }
     }
 }
