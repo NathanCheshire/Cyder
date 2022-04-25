@@ -147,9 +147,7 @@ public class AudioUtil {
     public static Future<Optional<File>> dreamifyAudio(File wavOrMp3File) {
         Preconditions.checkNotNull(wavOrMp3File);
         Preconditions.checkArgument(wavOrMp3File.exists());
-
-        Preconditions.checkArgument(FileUtil.validateExtension(wavOrMp3File, ".wav")
-                || FileUtil.validateExtension(wavOrMp3File, ".mp3"));
+        Preconditions.checkArgument(FileUtil.isSupportedAudioExtension(wavOrMp3File));
 
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Audio Dreamifier: "

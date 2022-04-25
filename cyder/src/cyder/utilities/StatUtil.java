@@ -235,21 +235,6 @@ public class StatUtil {
         return ret;
     }
 
-    public static int totalJavaFiles(File startDir) {
-        int ret = 0;
-
-        if (startDir.isDirectory()) {
-            File[] files = startDir.listFiles();
-
-            for (File f : files)
-                ret += totalJavaFiles(f);
-        } else if (startDir.getName().endsWith(".java")) {
-            return 1;
-        }
-
-        return ret;
-    }
-
     /**
      * Finds the number of java comments associated with all .java files
      * within the directory and recurively located directories provided

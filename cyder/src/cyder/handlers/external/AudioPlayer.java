@@ -51,13 +51,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 // todo need to prevent spamming of skip actions, method which buttons first check for
 
-// todo dancing triggers watchdog timer, need to rethink system
+// todo dancing triggers watchdog timer, need to rethink watchdog system
 
-// todo choosing a file doesn't update the title label properly need method for the stuff we do a lot
-
-// todo audio progress label updates at a weird interval
-
-// todo audio title length still doesn't work for the label
+// todo some bugs exist when deleting files via the user editor and not refreshing
 
 // todo audio length needs to be set to 0 on audio natural
 //  conclusion while figuring out next length
@@ -1173,11 +1169,7 @@ public class AudioPlayer {
 
                             currentAudioFile = destinationFile;
 
-                            refreshAudioFiles();
-                            audioProgressBar.setValue(0); // todo this here should be done in the method
-
-                            // todo call the method you'll make
-                            playAudio();
+                            // todo refresh methods and play call here
 
                             audioPlayerFrame.notify("Successfully dreamified audio");
                         } catch (Exception e) {
@@ -1719,7 +1711,6 @@ public class AudioPlayer {
 //
 //        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
 //
-//        // todo method for these
 //        refreshFrameTitle();
 //        refreshAudioTitleLabel();
 //        refreshAlbumArt();
@@ -1801,7 +1792,18 @@ public class AudioPlayer {
         return currentAudioFile;
     }
 
+    /**
+     * Resets all objects and closes the audio player widget.
+     */
     private static void killAndCloseWidget() {
+        if (isAudioPlaying()) {
+            pauseAudio();
+        }
+
+        currentAudioFile = null;
+        pauseLocation = 0;
+        totalAudioLength = 0;
+
         if (audioPlayerFrame != null) {
             audioPlayerFrame.dispose(true);
             audioPlayerFrame = null;
@@ -1811,13 +1813,6 @@ public class AudioPlayer {
             audioProgressBarUi.stopAnimationTimer();
             audioProgressBarUi = null;
         }
-
-        currentAudioFile = null;
-
-        pauseAudio();
-
-        pauseLocation = 0;
-        totalAudioLength = 0;
 
         if (audioVolumeLabelAnimator != null) {
             audioVolumeLabelAnimator.kill();
@@ -1850,7 +1845,7 @@ public class AudioPlayer {
         /**
          * The delay between update cycles for the audio lcoation text.
          */
-        private static final int audioLocationTextUpdateDelay = 250;
+        private static final int audioLocationTextUpdateDelay = 1000;
 
         /**
          * Whether this AudioLocationlabelUpdater has been killed.
@@ -1926,19 +1921,16 @@ public class AudioPlayer {
 
                         float percentIn = (((float) audioProgressBar.getValue()
                                 / (float) audioProgressBar.getMaximum()));
-                        float percentRemaining = 1.0f - percentIn;
 
-                        int secondsIn = Math.round(percentIn * totalSeconds);
-                        int audioProgressBar = totalSeconds - secondsIn;
+                        int secondsIn = (int) Math.ceil(percentIn * totalSeconds);
+                        int secondsLeft = totalSeconds - secondsIn;
 
                         if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
-                            effectLabel.setText(
-                                    AudioUtil.formatSeconds(secondsIn) + " played, "
-                                            + formattedTotal + " remaining");
+                            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
+                                + " played, " + formattedTotal + " remaining");
                         } else {
-                            effectLabel.setText(
-                                    AudioUtil.formatSeconds(secondsIn) + " played, "
-                                            + AudioUtil.formatSeconds(audioProgressBar) + " remaining");
+                            effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
+                                + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
                         }
 
                         try {

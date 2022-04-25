@@ -776,13 +776,13 @@ public class InputHandler {
                            int codeLines = StatUtil.totalJavaLines(finalStartDir);
                            int blankLines = StatUtil.totalBlankLines(finalStartDir);
                            int commentLines = StatUtil.totalComments(finalStartDir);
-                           int javaFiles = StatUtil.totalJavaFiles(finalStartDir);
+                           int classes = ReflectionUtil.cyderClasses.size();
 
                            println("Total lines: " + totalLines);
                            println("Code lines: " + codeLines);
                            println("Blank lines: " + blankLines);
                            println("Comment lines: " + commentLines);
-                           println("Java Files: " + javaFiles);
+                           println("Classes: " + classes);
 
                            double ratio = ((double) codeLines / (double) commentLines);
                            println("Code to comment ratio: " + new DecimalFormat("#0.00").format(ratio));
