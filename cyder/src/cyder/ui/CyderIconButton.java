@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import com.google.common.base.Preconditions;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -126,7 +125,7 @@ public class CyderIconButton extends JButton {
         setBorderPainted(false);
         setVisible(true);
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

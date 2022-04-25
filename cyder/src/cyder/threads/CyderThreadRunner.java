@@ -1,7 +1,6 @@
 package cyder.threads;
 
 import cyder.constants.CyderStrings;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 
@@ -24,7 +23,7 @@ public final class CyderThreadRunner {
      * @param name the name of the created thread
      */
     public static void submit(Runnable runnable, String name) {
-        Logger.log(LoggerTag.THREAD, name);
+        Logger.log(Logger.Tag.THREAD, name);
         new Thread(runnable, name).start();
     }
 

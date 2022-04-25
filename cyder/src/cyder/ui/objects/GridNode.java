@@ -1,7 +1,6 @@
 package cyder.ui.objects;
 
 import cyder.constants.CyderColors;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 
 import java.awt.*;
@@ -52,7 +51,7 @@ public final class GridNode {
         this.x = x;
         this.y = y;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import cyder.constants.CyderColors;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -39,7 +38,7 @@ public class CyderCheckbox extends JLabel {
                     repaint();
                 }
 
-                Logger.log(LoggerTag.UI_ACTION, e.getComponent());
+                Logger.log(Logger.Tag.UI_ACTION, e.getComponent());
             }
         });
 
@@ -50,7 +49,7 @@ public class CyderCheckbox extends JLabel {
         repaint();
 
         addMouseMotionListener(new CyderDraggableComponent());
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     protected CyderCheckboxGroup getCyderCheckboxGroup() {

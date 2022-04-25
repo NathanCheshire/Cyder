@@ -5,7 +5,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
@@ -84,7 +83,7 @@ public class Logger {
      * @param representation the object to debug print
      */
     public static <T> void Debug(T representation) {
-        log(LoggerTag.DEBUG, String.valueOf(representation));
+        log(Tag.DEBUG, String.valueOf(representation));
     }
 
     /**
@@ -94,7 +93,7 @@ public class Logger {
      * @param representation the representation of the object
      * @param <T> the object instance of representation
      */
-    public static <T> void log(LoggerTag tag, T representation) {
+    public static <T> void log(Tag tag, T representation) {
         if (logConcluded) {
             System.out.println(getLogTime() + "[LOG CONCLUDED LOG CALL]: " + representation);
             return;
@@ -283,7 +282,7 @@ public class Logger {
         writeCyderAsciiArt();
 
         // first log tag call should always be a JVM_ENTRY tag
-        log(LoggerTag.JVM_ENTRY, OSUtil.getSystemUsername());
+        log(Tag.JVM_ENTRY, OSUtil.getSystemUsername());
 
         startObjectCreationLogger();
         concludeLogs();
@@ -371,7 +370,7 @@ public class Logger {
      * @param line the line to write to the current log file
      * @param tag the tag which was used to handle the constructed string to write
      */
-    private static synchronized void formatAndWriteLine(String line, LoggerTag tag) {
+    private static synchronized void formatAndWriteLine(String line, Tag tag) {
         // just to be safe, we'll add in the 11 spaces in this method
         line = line.trim();
 
@@ -383,7 +382,7 @@ public class Logger {
                     " recreating and restarting log at: " + TimeUtil.userTime() + "]"));
         } else {
             // if not an exception, break up line if too long
-            if (tag != LoggerTag.EXCEPTION) {
+            if (tag != Tag.EXCEPTION) {
                 writeLines(lengthCheck(line));
             } else {
                 try {
@@ -809,7 +808,7 @@ public class Logger {
                         // a less elegant solution but necessary
                         formatAndWriteLine("[" + TimeUtil.logTime() + "] [OBJECT CREATION]: "
                                 + "Objects created since last delta (" + deltaT + "s): "
-                                + objectCreationCounter.getAndSet(0), LoggerTag.OBJECT_CREATION);
+                                + objectCreationCounter.getAndSet(0), Tag.OBJECT_CREATION);
                     }
 
                     // no need to check in small increments here
@@ -834,6 +833,114 @@ public class Logger {
      * Logs a here string using the DEBUG tag.
      */
     public static void HERE() {
-        log(LoggerTag.DEBUG, "Here");
+        log(Tag.DEBUG, "Here");
+    }
+
+    /**
+     * Supported tags for log entries
+     */
+    public enum Tag {
+        /**
+         * The cyder user typed something through the console input field.
+         */
+        CLIENT,
+        /**
+         * Whatever is printed/appended to the CyderTextPane from the console frame.
+         */
+        CONSOLE_OUT,
+        /**
+         * Something that would have been appended to the Cyder text pane was piped to a file.
+         */
+        CONSOLE_REDIRECTION,
+        /**
+         * An exception was thrown and handled by the ExceptionHandler.
+         */
+        EXCEPTION,
+        /**
+         * Audio played/stoped/paused/etc.
+         */
+        AUDIO,
+        /**
+         * Frame control actions.
+         */
+        UI_ACTION,
+        /**
+         * A link was printed or opened.
+         */
+        LINK,
+        /**
+         * A user made a suggestion which will probably be ignored.
+         */
+        SUGGESTION,
+        /**
+         * IO by Cyder typically to/from a json file but moreso to files within DynamicDirectory.DYNAMIC_PATH
+         */
+        SYSTEM_IO,
+        /**
+         * A user starts Cyder or enters the main program, that of the ConsoleFrame.
+         */
+        LOGIN,
+        /**
+         * A user logs out of Cyder, not necessarily a program exit.
+         */
+        LOGOUT,
+        /**
+         * When Cyder.java is first invoked by the JVM, we log certain properties about
+         * the JVM/JRE and send them to the Cyder backend as well.
+         */
+        JVM_ARGS,
+        /**
+         * JVM program entry.
+         */
+        JVM_ENTRY,
+        /**
+         * Program controlled exit, right before EOL tags.
+         */
+        EXIT,
+        /**
+         * A user became corrupted invoking the userJsonCorrupted method.
+         */
+        CORRUPTION,
+        /**
+         * A quick debug information statment.
+         */
+        DEBUG,
+        /**
+         * A type of input was handled via the InputHandler.
+         */
+        HANDLE_METHOD,
+        /**
+         * A widget was opened via the reflection method.
+         */
+        WIDGET_OPENED,
+        /**
+         * A userdata which exists as a Preference object was toggled between states and refreshed.
+         */
+        PREFERENCE_REFRESH,
+        /**
+         * A thread was spun up and started by CyderThreadRunner.
+         */
+        THREAD,
+        /**
+         * When an object's constructor is invoked.
+         */
+        OBJECT_CREATION,
+        /**
+         * The console was loaded.
+         */
+        CONSOLE_LOAD,
+        /**
+         * A font was loaded by the sub-routine from the fonts/ directory.
+         */
+        FONT_LOADED,
+        /**
+         * The status of a thread, typically AWT-EventQueue-0.
+         */
+        THREAD_STATUS,
+        /**
+         * A Create (PUT), Read (GET), Update (POST), or Delete (DELETE) operation was performed
+         * on the Cyder backend.
+         */
+        CRUD_OP
     }
 }

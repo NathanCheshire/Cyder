@@ -7,7 +7,6 @@ import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
 import cyder.enums.DynamicDirectory;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
@@ -112,7 +111,7 @@ public class UserUtil {
            // don't bother with other actions if the written value was no different than the previous
            if (currentLevenshteinDistance > 0) {
                // log the write since we know the user is valid
-               Logger.log(LoggerTag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
+               Logger.log(Logger.Tag.SYSTEM_IO, "[JSON WRITE] [Levenshtein = "
                        + currentLevenshteinDistance + "] User was written to file: "
                        + OSUtil.buildPath(cyderUserFile.getParentFile().getName(), cyderUserFile.getName()));
 
@@ -414,7 +413,7 @@ public class UserUtil {
 
                 if (attempts == MAX_CREATION_ATTEMPTS) {
                     // log the failure
-                    Logger.log(LoggerTag.SYSTEM_IO,
+                    Logger.log(Logger.Tag.SYSTEM_IO,
                             "Unable to create all userfiles for user [" + uuid
                                     + "] after " + MAX_CREATION_ATTEMPTS + " attempts");
                 }
@@ -693,7 +692,7 @@ public class UserUtil {
         }
 
         if (!in) {
-            Logger.log(LoggerTag.SYSTEM_IO, "Userdata requested: " + id);
+            Logger.log(Logger.Tag.SYSTEM_IO, "Userdata requested: " + id);
         }
 
         try {
@@ -891,7 +890,7 @@ public class UserUtil {
                    writer.close();
 
                    // log success
-                   Logger.log(LoggerTag.CORRUPTION,
+                   Logger.log(Logger.Tag.CORRUPTION,
                            "[BACKUP SUCCESS] Successfully restored "
                                    + uuid + " from: " + FileUtil.getFilename(userJsonBackup.get().getName()));
 
@@ -901,7 +900,7 @@ public class UserUtil {
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
                 // exception above so proceed as normal
-                Logger.log(LoggerTag.CORRUPTION,
+                Logger.log(Logger.Tag.CORRUPTION,
                         "[BACKUP FAILURE] attempted restoration of " + uuid + " failed");
             }
 
@@ -969,7 +968,7 @@ public class UserUtil {
                 InformHandler.inform(builder);
 
                 //log the corruption
-                Logger.log(LoggerTag.CORRUPTION, "[Resulting Popup]\n" + informString);
+                Logger.log(Logger.Tag.CORRUPTION, "[Resulting Popup]\n" + informString);
             }
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -1149,7 +1148,7 @@ public class UserUtil {
             File createFile = new File(saveDir, name);
 
             if (createFile.exists()) {
-                Logger.log(LoggerTag.SYSTEM_IO, "File already existed in userspace: " + name);
+                Logger.log(Logger.Tag.SYSTEM_IO, "File already existed in userspace: " + name);
                 return createFile;
             }
 
@@ -1161,7 +1160,7 @@ public class UserUtil {
                 boolean created = OSUtil.createFile(createFile);
 
                 if (created) {
-                    Logger.log(LoggerTag.SYSTEM_IO, "Created file in userspace: " + name);
+                    Logger.log(Logger.Tag.SYSTEM_IO, "Created file in userspace: " + name);
                     return createFile;
                 }
             } catch (Exception ignored) {}

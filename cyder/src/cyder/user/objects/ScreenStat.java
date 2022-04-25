@@ -1,7 +1,6 @@
 package cyder.user.objects;
 
 import cyder.enums.Direction;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -68,7 +67,7 @@ public class ScreenStat {
         this.consoleOnTop = consoleOnTop;
         this.consoleFrameDirection = consoleFrameDirection;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

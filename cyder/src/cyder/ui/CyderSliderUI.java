@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.ui.enums.SliderShape;
 
@@ -69,7 +68,7 @@ public class CyderSliderUI extends BasicSliderUI {
         super(b);
         slider = b;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Override

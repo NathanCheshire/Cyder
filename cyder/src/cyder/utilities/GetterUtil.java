@@ -3,7 +3,6 @@ package cyder.utilities;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.threads.CyderThreadRunner;
@@ -30,7 +29,7 @@ public class GetterUtil {
      * To obtain an instance, use {@link GetterUtil#getInstance()}.
      */
     private GetterUtil() {
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

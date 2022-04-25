@@ -6,7 +6,6 @@ import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.InformHandler;
 import cyder.handlers.internal.Logger;
 import cyder.handlers.internal.objects.InformBuilder;
@@ -60,7 +59,7 @@ public class HashingWidget {
      * Constructs a new hashing widget.
      */
     private HashingWidget() {
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Widget(triggers = {"hash", "hasher"}, description =

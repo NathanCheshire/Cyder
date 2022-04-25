@@ -1,7 +1,6 @@
 package cyder.user.objects;
 
 import com.google.errorprone.annotations.Immutable;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -54,7 +53,7 @@ public class Preference {
         this.defaultValue = defaultValue;
         this.onChangeFunction = onChangeFunction;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

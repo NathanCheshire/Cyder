@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.ConsoleFrame;
@@ -63,7 +62,7 @@ public class IOUtil {
         } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
-                Logger.log(LoggerTag.LINK, filePath);
+                Logger.log(Logger.Tag.LINK, filePath);
             } catch (Exception ex) {
                 ExceptionHandler.handle(ex);
             }
@@ -141,13 +140,13 @@ public class IOUtil {
 
                 // only log if autoCypher, means either Nathan or an advanced developer
                 if (!CyderToggles.AUTO_CYPHER) {
-                    Logger.log(LoggerTag.JVM_ARGS, argBuilder);
+                    Logger.log(Logger.Tag.JVM_ARGS, argBuilder);
                 }
 
                 boolean success = BackendUtil.PUT(String.valueOf(argBuilder), BackendUtil.JVM_PATH);
 
                 if (!success) {
-                    Logger.log(LoggerTag.CRUD_OP, "[PUT] Put of JVM args failed");
+                    Logger.log(Logger.Tag.CRUD_OP, "[PUT] Put of JVM args failed");
                 }
             } catch (Exception e) {
                 ExceptionHandler.handle(e);
@@ -182,7 +181,7 @@ public class IOUtil {
 
         try {
             OpenFile.browse(file.toURI());
-            Logger.log(LoggerTag.LINK, file.getAbsoluteFile());
+            Logger.log(Logger.Tag.LINK, file.getAbsoluteFile());
         } catch (Exception e) {
             try {
                 Runtime.getRuntime().exec("explorer.exe /select," + filePath);
@@ -202,7 +201,7 @@ public class IOUtil {
             stopAudio();
             FileInputStream FileInputStream = new FileInputStream(FilePath);
             player = new Player(FileInputStream);
-            Logger.log(LoggerTag.AUDIO, FilePath);
+            Logger.log(Logger.Tag.AUDIO, FilePath);
 
             CyderThreadRunner.submit(() -> {
                 try {
@@ -241,7 +240,7 @@ public class IOUtil {
             Player systemPlayer = new Player(FileInputStream);
 
             if (!FilePath.equals("static/audio/Typing.mp3"))
-                Logger.log(LoggerTag.AUDIO,"[SYSTEM AUDIO] " + FilePath);
+                Logger.log(Logger.Tag.AUDIO,"[SYSTEM AUDIO] " + FilePath);
             CyderThreadRunner.submit(() -> {
                 try {
                     systemPlayer.play();

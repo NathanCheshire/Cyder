@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -116,20 +115,20 @@ public class CyderWatchdog {
 
                     // log if getting close to a timeout
                     if (get > MAX_WATCHDOG_COUNT / 2) {
-                        Logger.log(LoggerTag.DEBUG, "Watchdog timer over halfway "
+                        Logger.log(Logger.Tag.DEBUG, "Watchdog timer over halfway "
                                 + "to timeout, value = " + get);
                     }
 
                     if (watchdogCounter.get() == MAX_WATCHDOG_COUNT) {
-                        Logger.log(LoggerTag.DEBUG, "Hault detected by watchdog,");
+                        Logger.log(Logger.Tag.DEBUG, "Hault detected by watchdog,");
 
                         boolean tmpJarMode = true;
                         if (OSUtil.JAR_MODE) {
-                            Logger.log(LoggerTag.DEBUG, "JAR_MODE detected; attempting to " +
+                            Logger.log(Logger.Tag.DEBUG, "JAR_MODE detected; attempting to " +
                                     "locate jar to boostrap from");
                             bootstrap();
                         } else {
-                            Logger.log(LoggerTag.DEBUG, "JAR_MODE is not active thus " +
+                            Logger.log(Logger.Tag.DEBUG, "JAR_MODE is not active thus " +
                                     "no jar can be located to boostrap from; exiting Cyder");
                             OSUtil.exit(ExitCondition.WatchdogTimeout);
                         }

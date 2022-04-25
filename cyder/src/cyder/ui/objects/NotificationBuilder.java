@@ -3,7 +3,6 @@ package cyder.ui.objects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import cyder.enums.Direction;
-import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
@@ -54,7 +53,7 @@ public final class NotificationBuilder {
         notifyTime = System.currentTimeMillis();
 
         // log object creation
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

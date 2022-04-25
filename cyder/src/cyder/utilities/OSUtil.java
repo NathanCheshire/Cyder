@@ -5,7 +5,6 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.Cyder;
@@ -145,7 +144,7 @@ public class OSUtil {
             UserUtil.blockFutureIO();
 
             //log exit
-            Logger.log(LoggerTag.EXIT, exitCondition);
+            Logger.log(Logger.Tag.EXIT, exitCondition);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -399,7 +398,7 @@ public class OSUtil {
         checkNotNull(folder);
 
         if (log) {
-            Logger.log(LoggerTag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
+            Logger.log(Logger.Tag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
         }
 
         // directory means recursive case to delete contents
@@ -424,7 +423,7 @@ public class OSUtil {
         }
 
         if (folder.exists() && log) {
-            Logger.log(LoggerTag.SYSTEM_IO, "[DELETION FAILED] file: "
+            Logger.log(Logger.Tag.SYSTEM_IO, "[DELETION FAILED] file: "
                     + folder.getAbsolutePath());
         }
 

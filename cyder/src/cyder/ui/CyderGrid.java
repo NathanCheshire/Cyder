@@ -2,7 +2,6 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderColors;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.ui.objects.GridNode;
@@ -177,7 +176,7 @@ public class CyderGrid extends JLabel {
 
         increments = getNodesForMaxWidth(gridComponentLength);
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

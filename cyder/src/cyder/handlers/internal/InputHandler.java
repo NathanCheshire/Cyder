@@ -8,7 +8,6 @@ import cyder.constants.*;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.enums.ScreenPosition;
@@ -120,7 +119,7 @@ public class InputHandler {
         MasterYoutubeThread.initialize(outputArea, makePrintingThreadsafeAgain);
         BletchyThread.initialize(outputArea, makePrintingThreadsafeAgain);
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -167,9 +166,9 @@ public class InputHandler {
 
         //log input as user triggered or simulated client input
         if (userTriggered) {
-            Logger.log(LoggerTag.CLIENT, commandAndArgsToString());
+            Logger.log(Logger.Tag.CLIENT, commandAndArgsToString());
         } else {
-            Logger.log(LoggerTag.CLIENT, "[SIMULATED INPUT] " + this.command);
+            Logger.log(Logger.Tag.CLIENT, "[SIMULATED INPUT] " + this.command);
         }
 
         // check for requested redirection
@@ -230,21 +229,21 @@ public class InputHandler {
      */
     public final void handle(String op, boolean userTriggered) throws Exception {
         if (!handlePreliminaries(op, userTriggered)) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "FAILED PRELIMINARIES");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "FAILED PRELIMINARIES");
         }
         //primary checks
         else if (generalPrintsCheck() || printImageCheck() ||
                 ReflectionUtil.openWidget((commandAndArgsToString()).trim()) ||
                 cyderFrameMovementCheck() || externalOpenerCheck() ||
                 audioCommandCheck() || generalCommandCheck()) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "PRIMARY HANDLE");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "PRIMARY HANDLE");
         }
         //final checks
         else if (isURLCheck(command) || handleMath(commandAndArgsToString()) ||
                 evaluateExpression(commandAndArgsToString()) ||
                 preferenceCheck(commandAndArgsToString()) ||
                 manualTestCheck(commandAndArgsToString())) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "FINAL HANDLE");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "FINAL HANDLE");
         }
 
         else unknownInput();
@@ -387,7 +386,7 @@ public class InputHandler {
         else ret = false;
 
         if (ret)
-            Logger.log(LoggerTag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL PRINT COMMAND HANDLED");
         return ret;
     }
 
@@ -432,7 +431,7 @@ public class InputHandler {
         else ret = false;
 
         if (ret) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "PRINT IMAGE COMMAND HANDLED");
         }
 
         return ret;
@@ -526,7 +525,7 @@ public class InputHandler {
         else ret = false;
 
         if (ret) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CYDERFRAME MOVEMENT COMMAND HANDLED");
         }
 
         return ret;
@@ -593,7 +592,7 @@ public class InputHandler {
         else ret = false;
 
         if (ret) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "EXTERNAL OPENER COMMAND HANDLED");
         }
 
         return ret;
@@ -625,7 +624,7 @@ public class InputHandler {
         else ret = false;
 
         if (ret)
-            Logger.log(LoggerTag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "AUDIO COMMAND HANDLED");
         return ret;
     }
 
@@ -899,7 +898,7 @@ public class InputHandler {
                     "\"I chase your love around figure 8, I need you more than I can take\""));
         } else if (commandIs("clearops")) {
             ConsoleFrame.INSTANCE.clearCommandHistory();
-            Logger.log(LoggerTag.HANDLE_METHOD, "User cleared command history");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "User cleared command history");
             println("Command history reset");
         } else if (commandIs("stopscript")) {
             MasterYoutubeThread.killAll();
@@ -1365,7 +1364,7 @@ public class InputHandler {
         else ret = false;
 
          if (ret) {
-             Logger.log(LoggerTag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
+             Logger.log(Logger.Tag.HANDLE_METHOD, "GENERAL COMMAND HANDLED");
          }
 
          return ret;
@@ -1391,7 +1390,7 @@ public class InputHandler {
 
         // log before returning
         if (ret) {
-            Logger.log(LoggerTag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE URL FUNCTION HANDLED");
         }
 
         return ret;
@@ -1471,7 +1470,7 @@ public class InputHandler {
 
         //log before returning
         if (ret)
-            Logger.log(LoggerTag.HANDLE_METHOD, "CONSOLE MATH FUNCTION HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH FUNCTION HANDLED");
         return ret;
     }
 
@@ -1490,7 +1489,7 @@ public class InputHandler {
         } catch (Exception ignored) {}
 
         if (ret)
-            Logger.log(LoggerTag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE MATH HANDLED");
         return ret;
     }
 
@@ -1520,7 +1519,7 @@ public class InputHandler {
         }
 
         if (ret)
-            Logger.log(LoggerTag.HANDLE_METHOD, "CONSOLE PREFERENCE TOGGLE HANDLED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "CONSOLE PREFERENCE TOGGLE HANDLED");
         return ret;
     }
 
@@ -1554,7 +1553,7 @@ public class InputHandler {
         }
 
         if (ret)
-            Logger.log(LoggerTag.HANDLE_METHOD, "MANUAL TEST FIRED");
+            Logger.log(Logger.Tag.HANDLE_METHOD, "MANUAL TEST FIRED");
         return ret;
     }
 
@@ -1584,7 +1583,7 @@ public class InputHandler {
 
                         float tol = Float.parseFloat(parts[1]);
 
-                        Logger.log(LoggerTag.DEBUG, "Similar command to \""
+                        Logger.log(Logger.Tag.DEBUG, "Similar command to \""
                                 + command + "\" found with tol of " + tol + ", command = \"" + parts[0] + "\"");
 
                         if (tol >= CyderNumbers.SIMILAR_COMMAND_TOL) {
@@ -1917,7 +1916,7 @@ public class InputHandler {
 
                     if (!consolePriorityPrintingList.isEmpty()) {
                         Object line = consolePriorityPrintingList.removeFirst();
-                        Logger.log(LoggerTag.CONSOLE_OUT,line);
+                        Logger.log(Logger.Tag.CONSOLE_OUT,line);
 
                         if (redirection) {
                             redirectionWrite(line);
@@ -1946,7 +1945,7 @@ public class InputHandler {
                     // concurrency issues
                     else if (!consolePrintingList.isEmpty()) {
                         Object line = consolePrintingList.removeFirst();
-                        Logger.log(LoggerTag.CONSOLE_OUT,line);
+                        Logger.log(Logger.Tag.CONSOLE_OUT,line);
 
                         if (redirection) {
                             redirectionWrite(line);
@@ -2216,7 +2215,7 @@ public class InputHandler {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(redirectionFile, true))) {
             redirectionSem.acquire();
             writer.write(String.valueOf(object));
-            Logger.log(LoggerTag.CONSOLE_REDIRECTION, redirectionFile);
+            Logger.log(Logger.Tag.CONSOLE_REDIRECTION, redirectionFile);
             redirectionSem.release();
         } catch (Exception e) {
             ExceptionHandler.handle(e);

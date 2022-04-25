@@ -1,6 +1,5 @@
 package cyder.layouts;
 
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.ui.CyderPanel;
 import cyder.utilities.ReflectionUtil;
@@ -170,7 +169,7 @@ public class CyderFlowLayout extends CyderLayout {
         this.hgap = hgap;
         this.vgap = vgap;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

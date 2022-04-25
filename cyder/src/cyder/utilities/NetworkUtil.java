@@ -5,7 +5,6 @@ import cyder.constants.CyderRegexPatterns;
 import cyder.constants.CyderStrings;
 import cyder.constants.CyderUrls;
 import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -84,7 +83,7 @@ public class NetworkUtil {
 
         try {
             Internet.browse(new URI(url));
-            Logger.log(LoggerTag.LINK, url);
+            Logger.log(Logger.Tag.LINK, url);
         } catch (Exception ex) {
             ExceptionHandler.handle(ex);
         }

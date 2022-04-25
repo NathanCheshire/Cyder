@@ -9,7 +9,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderUrls;
 import cyder.enums.Direction;
-import cyder.enums.LoggerTag;
 import cyder.enums.NotificationDirection;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -100,7 +99,7 @@ public class WeatherWidget {
      * Creates a new weather widget initialized to the user's current location.
      */
     private WeatherWidget() {
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     //show gui method as per standard

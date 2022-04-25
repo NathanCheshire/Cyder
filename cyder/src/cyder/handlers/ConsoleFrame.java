@@ -2,7 +2,10 @@ package cyder.handlers;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.*;
-import cyder.enums.*;
+import cyder.enums.Direction;
+import cyder.enums.DynamicDirectory;
+import cyder.enums.ExitCondition;
+import cyder.enums.IgnoreThread;
 import cyder.exceptions.FatalException;
 import cyder.exceptions.IllegalMethodException;
 import cyder.genesis.CyderSplash;
@@ -65,7 +68,7 @@ public enum ConsoleFrame {
      * (enums are constructed when they are first referenced).
      */
     ConsoleFrame() {
-        Logger.log(LoggerTag.OBJECT_CREATION, "ConsoleFrame singleton constructed");
+        Logger.log(Logger.Tag.OBJECT_CREATION, "ConsoleFrame singleton constructed");
     }
 
     /**
@@ -628,7 +631,7 @@ public enum ConsoleFrame {
 
                     if (!StringUtil.isNull(suggestion)
                             && !suggestion.equalsIgnoreCase("Make Cyder Great Again")) {
-                        Logger.log(LoggerTag.SUGGESTION, suggestion.trim());
+                        Logger.log(Logger.Tag.SUGGESTION, suggestion.trim());
                         inputHandler.println("Suggestion logged");
                     }
                 }, "Suggestion Getter Waiter Thread"));
@@ -731,7 +734,7 @@ public enum ConsoleFrame {
                     }
                 } catch (Exception ex) {
                     consoleCyderFrame.notify("Error in parsing background; perhaps it was deleted.");
-                    Logger.log(LoggerTag.EXCEPTION, "Background DNE");
+                    Logger.log(Logger.Tag.EXCEPTION, "Background DNE");
                 }
             });
             consoleDragButtonList.add(alternateBackground);
@@ -851,7 +854,7 @@ public enum ConsoleFrame {
 
             String logString = "Console loaded in " +
                     (TimeUtil.getConsoleStartTime() - TimeUtil.getAbsoluteStartTime()) + "ms";
-            Logger.log(LoggerTag.UI_ACTION, logString);
+            Logger.log(Logger.Tag.UI_ACTION, logString);
             consoleCyderFrame.notify(logString);
         } catch (Exception e) {
             ExceptionHandler.handle(e);
@@ -1042,7 +1045,7 @@ public enum ConsoleFrame {
 
         //testing mode to auto execute Debug tests
         if (CyderToggles.TESTING_MODE) {
-            Logger.log(LoggerTag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
+            Logger.log(Logger.Tag.CONSOLE_LOAD, "[" + OSUtil.getSystemUsername() + "] [TESTING MODE]");
             ManualTests.launchTests();
         }
 
@@ -2929,7 +2932,7 @@ public enum ConsoleFrame {
         inputHandler = null;
 
         if (logoutUser) {
-            Logger.log(LoggerTag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
+            Logger.log(Logger.Tag.LOGOUT, "[CyderUser: " + UserUtil.getCyderUser().getName() + "]");
             UserUtil.getCyderUser().setLoggedin("0");
         }
 

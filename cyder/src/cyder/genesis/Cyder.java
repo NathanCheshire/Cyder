@@ -7,7 +7,6 @@ import cyder.constants.CyderStrings;
 import cyder.enums.DynamicDirectory;
 import cyder.enums.ExitCondition;
 import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
@@ -61,7 +60,7 @@ public class Cyder {
 
         // prevent multiple instances, fatal subroutine if failure
         if (!isSingularInstance()) {
-            Logger.log(LoggerTag.DEBUG, "ATTEMPTED MULTIPLE CYDER INSTANCES");
+            Logger.log(Logger.Tag.DEBUG, "ATTEMPTED MULTIPLE CYDER INSTANCES");
             ExceptionHandler.exceptionExit("Multiple instances of Cyder are not allowed. " +
                             "Terminate other instances before launching a new one.", "Instance Exception",
                     ExitCondition.MultipleInstancesExit);
@@ -70,7 +69,7 @@ public class Cyder {
 
         // make sure all fonts are loaded, fatal subroutine if failure
         if (!registerFonts()) {
-            Logger.log(LoggerTag.EXCEPTION, "SYSTEM FAILURE");
+            Logger.log(Logger.Tag.EXCEPTION, "SYSTEM FAILURE");
             ExceptionHandler.exceptionExit("Font required by system could not be loaded","Font failure",
                     ExitCondition.CorruptedSystemFiles);
             return;
@@ -78,7 +77,7 @@ public class Cyder {
 
         // not permitted on Mac OS X
         if (OSUtil.isOSX()) {
-            Logger.log(LoggerTag.EXCEPTION, "IMPROPER OS");
+            Logger.log(Logger.Tag.EXCEPTION, "IMPROPER OS");
             ExceptionHandler.exceptionExit("System OS not intended for Cyder use. You should" +
                     " install a dual boot or a VM or something :/","OS Exception",
                     ExitCondition.CorruptedSystemFiles);
@@ -203,7 +202,7 @@ public class Cyder {
                 try {
                     // register the font so we can use it throughout Cyder
                     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, f));
-                    Logger.log(LoggerTag.FONT_LOADED, FileUtil.getFilename(f));
+                    Logger.log(Logger.Tag.FONT_LOADED, FileUtil.getFilename(f));
                 } catch (Exception e) {
                     ExceptionHandler.silentHandle(e);
                     ret = false;

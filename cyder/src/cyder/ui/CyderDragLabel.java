@@ -2,7 +2,6 @@ package cyder.ui;
 
 import cyder.constants.CyderColors;
 import cyder.constants.CyderIcons;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.FrameUtil;
 import cyder.utilities.ReflectionUtil;
@@ -147,7 +146,7 @@ public class CyderDragLabel extends JLabel {
             }
         });
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
@@ -314,7 +313,7 @@ public class CyderDragLabel extends JLabel {
         CyderIconButton minimize = new CyderIconButton("Minimize",
                 CyderIcons.minimizeIcon, CyderIcons.minimizeIconHover, null);
         minimize.addActionListener(e -> {
-            Logger.log(LoggerTag.UI_ACTION, this);
+            Logger.log(Logger.Tag.UI_ACTION, this);
             effectFrame.minimizeAnimation();
         });
         ret.add(minimize);
@@ -345,7 +344,7 @@ public class CyderDragLabel extends JLabel {
                     }
                 });
         pinButton.addActionListener(e -> {
-            Logger.log(LoggerTag.UI_ACTION, this);
+            Logger.log(Logger.Tag.UI_ACTION, this);
 
             if (effectFrame.getPinned()) {
                 effectFrame.setPinned(false);
@@ -364,7 +363,7 @@ public class CyderDragLabel extends JLabel {
         CyderIconButton close = new CyderIconButton("Close", CyderIcons.closeIcon,
                 CyderIcons.closeIconHover, null);
         close.addActionListener(e -> {
-            Logger.log(LoggerTag.UI_ACTION, this);
+            Logger.log(Logger.Tag.UI_ACTION, this);
             effectFrame.dispose();
         });
         ret.add(close);

@@ -1,7 +1,6 @@
 package cyder.ui;
 
 import cyder.constants.CyderStrings;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.layouts.CyderLayout;
@@ -37,7 +36,7 @@ public class CyderPanel extends JLabel {
         cyderLayout.setAssociatedPanel(this);
         revalidateComponents();
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

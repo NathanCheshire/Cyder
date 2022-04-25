@@ -1,6 +1,5 @@
 package cyder.utilities;
 
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 
 /**
@@ -54,7 +53,7 @@ public class SimplexNoiseUtil {
 
     public SimplexNoiseUtil() {
         this(DEFAULT_SEED);
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public SimplexNoiseUtil(short[] perm) {
@@ -69,7 +68,7 @@ public class SimplexNoiseUtil {
             permGrad4[i] = GRADIENTS_4D[perm[i]];
         }
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public SimplexNoiseUtil(long seed) {
@@ -92,7 +91,7 @@ public class SimplexNoiseUtil {
             source[r] = source[i];
         }
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     // 2D OpenSimplex Noise.

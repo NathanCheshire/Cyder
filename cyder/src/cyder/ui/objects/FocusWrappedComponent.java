@@ -1,6 +1,5 @@
 package cyder.ui.objects;
 
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
 
@@ -28,7 +27,7 @@ public class FocusWrappedComponent {
     public FocusWrappedComponent(Component comp) {
         this.comp = comp;
         canFocus = comp.isFocusable();
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

@@ -1,7 +1,6 @@
 package cyder.utilities.objects;
 
 import cyder.constants.CyderStrings;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 
@@ -22,7 +21,7 @@ public class WidgetDescription {
         this.description = description;
         this.triggers = triggers;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public final String getName() {

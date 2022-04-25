@@ -1,7 +1,6 @@
 package cyder.handlers.internal.objects;
 
 import com.google.common.base.Preconditions;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.StringUtil;
 
@@ -76,7 +75,7 @@ public final class InformBuilder {
         Preconditions.checkArgument( StringUtil.getRawTextLength(htmlText) >= MINIMUM_TEXT_LENGTH);
 
         this.htmlText = htmlText;
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

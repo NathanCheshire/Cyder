@@ -5,7 +5,6 @@ import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
 import cyder.constants.CyderIcons;
 import cyder.constants.CyderNumbers;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -302,13 +301,13 @@ public class CyderFrame extends JFrame {
 
         // correct possibly too small width and heights
         if (width < MINIMUM_WIDTH) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame was"
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame was"
                     + " attempted to be set to invalid width: " + width);
             width = MINIMUM_WIDTH;
         }
 
         if (height < MINIMUM_HEIGHT) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame was"
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame was"
                     + " attempted to be set to invalid height: " + height);
             height = MINIMUM_HEIGHT;
         }
@@ -466,7 +465,7 @@ public class CyderFrame extends JFrame {
         threadsKilled = false;
         setFrameType(frameType);
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     // ------------------
@@ -568,7 +567,7 @@ public class CyderFrame extends JFrame {
         //default boolean values
         threadsKilled = false;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     // ----------------
@@ -1184,7 +1183,7 @@ public class CyderFrame extends JFrame {
             // failsafe to ensure notifications are at least four seconds
             duration = Math.max(duration, 4000);
 
-            Logger.log(LoggerTag.UI_ACTION, "[" +
+            Logger.log(Logger.Tag.UI_ACTION, "[" +
                     getTitle() + "] [NOTIFICATION] \"" + brokenText + "\"");
 
             // notification itself handles itself appearing, pausing, and vanishing
@@ -1453,7 +1452,7 @@ public class CyderFrame extends JFrame {
                 disposed = true;
 
                 // confirmation passed so log
-                Logger.log(LoggerTag.UI_ACTION, "CyderFrame disposed with fastclose: "
+                Logger.log(Logger.Tag.UI_ACTION, "CyderFrame disposed with fastclose: "
                         + fastClose + ", " + this);
 
                 //run all preCloseActions if any exists, this is performed after the confirmation check
@@ -1730,13 +1729,13 @@ public class CyderFrame extends JFrame {
     @Override
     public void setSize(int width, int height) {
         if (width < MINIMUM_WIDTH) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
                             + "\" was attempted to be set to invalid width: " + width);
             width = MINIMUM_WIDTH;
         }
 
         if (height < MINIMUM_HEIGHT) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
                     + "\" was attempted to be set to invalid height: " + height);
             height = MINIMUM_HEIGHT;
         }
@@ -1757,13 +1756,13 @@ public class CyderFrame extends JFrame {
     @Override
     public void setBounds(int x, int y, int width, int height) {
         if (width < MINIMUM_WIDTH) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
                     + "\" was attempted to be set to invalid width: " + width);
             width = MINIMUM_WIDTH;
         }
 
         if (height < MINIMUM_HEIGHT) {
-            Logger.log(LoggerTag.DEBUG, "CyderFrame \"" + getTitle()
+            Logger.log(Logger.Tag.DEBUG, "CyderFrame \"" + getTitle()
                     + "\" was attempted to be set to invalid height: " + height);
             height = MINIMUM_HEIGHT;
         }

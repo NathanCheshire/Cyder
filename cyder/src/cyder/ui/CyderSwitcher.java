@@ -2,7 +2,6 @@ package cyder.ui;
 
 import com.google.common.base.Preconditions;
 import cyder.constants.CyderStrings;
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.Logger;
 import cyder.ui.objects.SwitcherState;
 
@@ -94,7 +93,7 @@ public class CyderSwitcher extends JLabel {
 
         valueDisplayField.setText(startingState.getDisplayValue());
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**

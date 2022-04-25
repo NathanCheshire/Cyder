@@ -1,7 +1,6 @@
 package cyder.utilities.objects;
 
 import cyder.constants.CyderStrings;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
@@ -28,7 +27,7 @@ public class TaggedString {
         this.text = text;
         this.type = type;
 
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     public String getText() {

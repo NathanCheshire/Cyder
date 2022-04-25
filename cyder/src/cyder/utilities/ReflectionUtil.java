@@ -6,7 +6,6 @@ import com.google.common.reflect.ClassPath;
 import cyder.annotations.*;
 import cyder.constants.CyderStrings;
 import cyder.enums.IgnoreThread;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.ConsoleFrame;
 import cyder.handlers.internal.ExceptionHandler;
@@ -282,7 +281,7 @@ public class ReflectionUtil {
                                 false, suppressionValues))
                             continue;
 
-                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Widget is not named " +
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Widget is not named " +
                                 STANDARD_WIDGET_SHOW_METHOD_NAME + "(); name: " + m.getName());
                     }
 
@@ -340,7 +339,7 @@ public class ReflectionUtil {
                         if (values != null && StringUtil.in("TestInspection", false, values))
                             continue;
 
-                        Logger.log(LoggerTag.DEBUG, "Method annotated with @ManualTest does not end" +
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @ManualTest does not end" +
                                 " with \"test\"; name: " + m.getName());
                     }
 
@@ -378,19 +377,19 @@ public class ReflectionUtil {
                 }
 
                 if (!clazz.getName().toLowerCase().endsWith("widget")) {
-                    Logger.log(LoggerTag.DEBUG,
+                    Logger.log(Logger.Tag.DEBUG,
                             "Class annotated with @Vanilla does not end" +
                             " with Widget; name: " + clazz.getName());
                 }
 
                 if (!clazz.isAnnotationPresent(CyderAuthor.class)) {
-                    Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
+                    Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain" +
                             " a @CyderAuthor annotation");
                 } else {
                     String author = clazz.getAnnotation(CyderAuthor.class).author();
 
                     if (!StringUtil.in(author, true, "Nathan Cheshire", "Natche", "Cypher")) {
-                        Logger.log(LoggerTag.DEBUG, "Method annotated with @Vanilla does not contain" +
+                        Logger.log(Logger.Tag.DEBUG, "Method annotated with @Vanilla does not contain" +
                                 " Nathan Cheshire as an author");
                     }
                 }
@@ -448,7 +447,7 @@ public class ReflectionUtil {
                                 if (m.getParameterCount() == 0) {
                                     m.invoke(clazz);
 
-                                    Logger.log(LoggerTag.WIDGET_OPENED,
+                                    Logger.log(Logger.Tag.WIDGET_OPENED,
                                             shortWidgetName + ", trigger = " + trigger);
 
                                     return true;

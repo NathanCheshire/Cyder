@@ -1,6 +1,5 @@
 package cyder.ui;
 
-import cyder.enums.LoggerTag;
 import cyder.genesis.CyderToggles;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ReflectionUtil;
@@ -14,7 +13,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
     private int yMouse;
 
     public CyderDraggableComponent() {
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     @Override
@@ -26,7 +25,7 @@ public class CyderDraggableComponent implements MouseMotionListener {
 
             if (x >= 0 && y >= 0 && x < refFrame.getWidth() && y < refFrame.getHeight()) {
                 e.getComponent().setLocation(x,y);
-                Logger.log(LoggerTag.DEBUG, x + "," + y);
+                Logger.log(Logger.Tag.DEBUG, x + "," + y);
             }
         }
     }

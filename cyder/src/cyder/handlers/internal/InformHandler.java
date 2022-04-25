@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderStrings;
-import cyder.enums.LoggerTag;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.objects.InformBuilder;
 import cyder.ui.CyderDragLabel;
@@ -163,7 +162,7 @@ public class InformHandler {
         informFrame.setAlwaysOnTop(true);
         informFrame.setLocationRelativeTo(relativeTo);
 
-        Logger.log(LoggerTag.UI_ACTION, "[INFORMATION PANE] text = \""
+        Logger.log(Logger.Tag.UI_ACTION, "[INFORMATION PANE] text = \""
                 + builder.getHtmlText() + "\", relativeTo = " + builder.getRelativeTo());
 
         return informFrame;

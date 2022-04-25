@@ -1,6 +1,5 @@
 package cyder.ui.objects;
 
-import cyder.enums.LoggerTag;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.handlers.internal.Logger;
 import cyder.utilities.ImageUtil;
@@ -34,7 +33,7 @@ public class CyderBackground {
             throw new IllegalArgumentException("Provided file is not a valid image file");
 
         this.referenceFile = referenceFile;
-        Logger.log(LoggerTag.OBJECT_CREATION, this);
+        Logger.log(Logger.Tag.OBJECT_CREATION, this);
     }
 
     /**
