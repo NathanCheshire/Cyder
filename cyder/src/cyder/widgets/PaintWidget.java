@@ -449,7 +449,7 @@ public class PaintWidget {
         colorHexField.setHorizontalAlignment(JTextField.CENTER);
         colorHexField.setToolTipText("Format: 45FF00 for hex or 255,255,255 for rgb");
         colorHexField.setBounds(0, 40, 110, 40);
-        colorHexField.setKeyEventRegexMatcher(CyderRegexPatterns.rgbOrHex);
+        colorHexField.setKeyEventRegexMatcher(CyderRegexPatterns.rgbOrHex.pattern());
         colorHexField.addActionListener(e -> {
             String text = colorHexField.getText();
 

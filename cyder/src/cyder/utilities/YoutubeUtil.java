@@ -25,6 +25,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility methods related to youtube videos.
@@ -35,6 +36,11 @@ public class YoutubeUtil {
      * The maximum number of chars that can be used for a filename from a youtube video's title.
      */
     public static final int MAX_THUMBNAIL_CHARS = 20;
+
+    /**
+     * The pattern to identify a valid YouTube UUID.
+     */
+    public static final Pattern uuidPattern = Pattern.compile("[A-Za-z0-9_\\-]{0,11}");
 
     /**
      * Restrict instantiation of class.
@@ -61,7 +67,8 @@ public class YoutubeUtil {
             String parsedAsciiSaveName =
                     StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                             .replace("- YouTube","")
-                            .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars,"").trim();
+                            .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
+                                    "").trim();
 
             ConsoleFrame.INSTANCE.getInputHandler()
                     .println("Downloading audio as: " + parsedAsciiSaveName + extension);
@@ -244,7 +251,8 @@ public class YoutubeUtil {
         String parsedAsciiSaveName =
                 StringUtil.parseNonAscii(NetworkUtil.getURLTitle(url))
                         .replace("- YouTube", "")
-                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars, "").trim();
+                        .replaceAll(CyderRegexPatterns.windowsInvalidFilenameChars.pattern(),
+                                "").trim();
 
         // remove trailing periods
         while (parsedAsciiSaveName.endsWith("."))
@@ -350,7 +358,7 @@ public class YoutubeUtil {
             try {
                 String uuid = inputField.getText().trim();
 
-                if (!uuid.matches("[A-Za-z0-9_\\-]{0,11}")) {
+                if (!uuidPattern.matcher(uuid).matches()) {
                     uuidFrame.notify("Invalid UUID");
                     return;
                 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.regex.Pattern;
 
 /**
  * Utilities related to audio files, typically MP3 and wav files.
@@ -218,6 +219,11 @@ public class AudioUtil {
     }
 
     /**
+     * The pattern used to find the duration of an audio file from ffprobe.
+     */
+    private static final Pattern durationPattern = Pattern.compile("\\s*duration=.*\\s*");
+
+    /**
      * Uses ffprobe to get the length of the audio file in milliseconds.
      * Note this method takes a second or two to finish so it should not be used
      * repeatedly. You should not even need to, however, since unless you're some
@@ -246,7 +252,7 @@ public class AudioUtil {
 
                 String line = null;
                 while ((line = reader.readLine()) != null) {
-                    if (line.matches("\\s*duration=.*\\s*")) {
+                    if (durationPattern.matcher(line).matches()) {
                         return (int) (Double.parseDouble(
                                 line.replace("duration=", "").trim()) * 1000);
                     }

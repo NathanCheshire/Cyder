@@ -89,7 +89,7 @@ public class ColorConverterWidget {
                 + CyderColors.navy.getGreen() + "," + CyderColors.navy.getBlue());
 
         CyderTextField hexField = new CyderTextField(6);
-        hexField.setKeyEventRegexMatcher(CyderRegexPatterns.hexPattern);
+        hexField.setKeyEventRegexMatcher(CyderRegexPatterns.hexPattern.pattern());
         hexField.setHorizontalAlignment(JTextField.CENTER);
         hexField.setText(String.format("#%02X%02X%02X", CyderColors.navy.getRed(),
                 CyderColors.navy.getGreen(),
@@ -113,7 +113,7 @@ public class ColorConverterWidget {
         layout.addComponent(hexField, 0, 1, CyderGridLayout.Position.MIDDLE_CENTER);
 
         rgbField.setBackground(new Color(0,0,0,0));
-        rgbField.setKeyEventRegexMatcher(CyderRegexPatterns.rgbPattern);
+        rgbField.setKeyEventRegexMatcher(CyderRegexPatterns.rgbPattern.pattern());
         rgbField.setToolTipText("RGB Value");
         rgbField.setFont(hexField.getFont().deriveFont(26f));
         rgbField.addKeyListener(new KeyAdapter() {

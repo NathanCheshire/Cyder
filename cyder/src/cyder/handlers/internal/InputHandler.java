@@ -409,7 +409,6 @@ public class InputHandler {
             println(new ImageIcon("static/pictures/print/Redis.png"));
         }
 
-        // todo these don't even belong here but we're redoing this soon anyway
         //calls that will result in threads being spun off or thread operations
         else if (commandIs("randomyoutube")) {
             MasterYoutubeThread.start(1);
@@ -797,7 +796,8 @@ public class InputHandler {
         }  else if (commandIs("debugstats")) {
             StatUtil.allStats();
         } else if (commandIs("binary")) {
-            if (checkArgsLength(1) && getArg(0).matches("[0-9]+")) {
+            if (checkArgsLength(1)
+                    && CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
                  CyderThreadRunner.submit(() -> {
                      try {
                          println(getArg(0) + " converted to binary equals: "
@@ -1138,7 +1138,7 @@ public class InputHandler {
             }, "USB Device Finder");
         } else if (commandIs("number2string") || commandIs("number2word")) {
             if (checkArgsLength(1)) {
-                if (getArg(0).matches("[0-9]+")) {
+                if (CyderRegexPatterns.numberPattern.matcher(getArg(0)).matches()) {
                     println(NumberUtil.toWords(getArg(0)));
                 } else {
                     println("Could not parse input as number: " + getArg(0));

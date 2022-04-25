@@ -22,6 +22,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 /**
  * Logger class used to log useful information about any Cyder instance from beginning at
@@ -614,6 +615,9 @@ public class Logger {
         }
     }
 
+    private static final Pattern standardLogLine =
+            Pattern.compile("\\s+\\[(\\d+-\\d+-\\d+)|(\\d+-\\d+-\\d+-\\d+)]\\s+.*");
+
     /**
      * Consolidates duplicate lines next to each other of the provided file.
      *
@@ -639,7 +643,7 @@ public class Logger {
                     lines.add(line);
                 }
 
-                if (line.matches("\\s+\\[(\\d+-\\d+-\\d+)|(\\d+-\\d+-\\d+-\\d+)]\\s+.*")) {
+                if (standardLogLine.matcher(line).matches()) {
                     beforeFirstTimeTag = false;
                 }
             }

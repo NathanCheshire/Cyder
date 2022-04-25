@@ -90,7 +90,7 @@ public class OSUtil {
                 return filename.contains("/") || filename.contains("\0");
             case WINDOWS:
                 //invalid chars for Windows in a filename
-                if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars))
+                if (filename.matches(CyderRegexPatterns.windowsInvalidFilenameChars.pattern()))
                     return false;
 
                 //invalid filenames for windows, reserved names for backwards compatibility reasons
@@ -509,7 +509,8 @@ public class OSUtil {
      * @return the UI scaling factor for the primary monitor
      */
     public static double getUIScale() {
-        return 1.0; // todo make dynamic and configurable
+        return 1.0;
+        // todo make dynamic and configurable? requires bootstrapping and restart confirmation
     }
 
     /**

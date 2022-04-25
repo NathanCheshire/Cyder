@@ -296,7 +296,7 @@ public class StatUtil {
      * @return whether the line is a comment
      */
     public static boolean isComment(String line) {
-        return line.matches(CyderRegexPatterns.commentPattern);
+        return line.matches(CyderRegexPatterns.commentPattern.pattern());
     }
 
     /**

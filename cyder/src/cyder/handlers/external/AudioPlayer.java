@@ -63,8 +63,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 // todo need to refresh audio files before going on to next one and before skip actions
 // in case a file was deleted, basically don't hold a list of valid ones
 
-// todo all .matches need to be converted to pre-compiled patterns
-
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */

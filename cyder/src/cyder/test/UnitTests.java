@@ -100,7 +100,7 @@ public class UnitTests {
         ipv4Tests.add("045");
 
         for (String ipv4Address : ipv4Tests) {
-            assert ipv4Address.matches(CyderRegexPatterns.ipv4Pattern);
+            assert ipv4Address.matches(CyderRegexPatterns.ipv4Pattern.pattern());
         }
     }
 
@@ -134,7 +134,7 @@ public class UnitTests {
         phoneNumbers.add("48884560112");
 
         for (String phoneNumber : phoneNumbers) {
-            assert phoneNumber.matches(CyderRegexPatterns.phoneNumberPattern);
+            assert phoneNumber.matches(CyderRegexPatterns.phoneNumberPattern.pattern());
         }
     }
 
