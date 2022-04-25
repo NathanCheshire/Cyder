@@ -154,6 +154,10 @@ public class DirectoryViewer {
 
         // label to show where files will be
         JLabel tempLabel = new JLabel();
+        tempLabel.setText("<html><div align=\"center\">Loading files...</div></html>");
+        tempLabel.setHorizontalAlignment(JLabel.CENTER);
+        tempLabel.setVerticalAlignment(JLabel.CENTER);
+        tempLabel.setFont(CyderFonts.defaultFont);
         tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
                 : CyderColors.navy, 5, false));
         tempLabel.setOpaque(false);
@@ -162,8 +166,6 @@ public class DirectoryViewer {
 
         dirFrame.finalizeAndShow();
         dirField.requestFocus();
-
-        dirFrame.notify("Loading files...");
 
         CyderThreadRunner.submit(() -> {
             currentDirectory = new File(OSUtil.USER_DIR);

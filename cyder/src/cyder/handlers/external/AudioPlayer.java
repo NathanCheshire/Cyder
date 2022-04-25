@@ -51,8 +51,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 // todo need to prevent spamming of skip actions, method which buttons first check for
 
-// todo dancing triggers watchdog timer, need to rethink watchdog system
-
 // todo some bugs exist when deleting files via the user editor and not refreshing
 
 // todo audio length needs to be set to 0 on audio natural

@@ -374,6 +374,12 @@ public class GetterUtil {
 
                 // label to show where files will be
                 JLabel tempLabel = new JLabel();
+                tempLabel.setText("<html><div align=\"center\">Loading files...</div></html>");
+                tempLabel.setHorizontalAlignment(JLabel.CENTER);
+                tempLabel.setVerticalAlignment(JLabel.CENTER);
+                tempLabel.setFont(CyderFonts.defaultFont);
+                tempLabel.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor
+                        : CyderColors.navy);
                 tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
                         : CyderColors.navy, 5, false));
                 tempLabel.setOpaque(false);
@@ -394,8 +400,6 @@ public class GetterUtil {
 
                 refFrame.setLocationRelativeTo(relativeTo);
                 refFrame.setVisible(true);
-
-                refFrame.notify("Loading files...");
 
                 // load possibly intense stuff on separate thread
                 CyderThreadRunner.submit(() -> {
