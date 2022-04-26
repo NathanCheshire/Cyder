@@ -53,9 +53,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 // todo some bugs exist when deleting files via the user editor and not refreshing
 
-// todo audio length needs to be set to 0 on audio natural
-//  conclusion while figuring out next length
-
 // todo it needs to be IMPOSIBLE for multiple audio files to be playing at once
 
 // todo need to refresh audio files before going on to next one and before skip actions

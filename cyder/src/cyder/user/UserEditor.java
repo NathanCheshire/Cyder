@@ -431,9 +431,7 @@ public class UserEditor {
                                 .getCurrentAudio().getAbsolutePath())) {
                     editUserFrame.notify("Unable to delete the audio you are currently playing");
                 } else {
-                    boolean deleted = selectedFile.delete();
-
-                    if (deleted) {
+                    if (OSUtil.deleteFile(selectedFile)) {
                         revalidateFilesScroll(filesScroll, filesLabelRef.get());
 
                         if (FileUtil.isSupportedAudioExtension(selectedFile))
@@ -451,7 +449,7 @@ public class UserEditor {
                         }
 
                         if (FileUtil.isSupportedAudioExtension(selectedFile)) {
-                            //attempt to find album art
+                            //attempt to find album art to delete
                             String name = FileUtil.getFilename(selectedFile.getName());
 
                             //find corresponding album art and delete
@@ -460,11 +458,13 @@ public class UserEditor {
                                     ConsoleFrame.INSTANCE.getUUID(),
                                     UserFile.MUSIC.getName(), "AlbumArt").listFiles()) {
                                 if (FileUtil.getFilename(f).equals(name)) {
-                                    f.delete();
+                                    OSUtil.deleteFile(f);
                                     break;
                                 }
                             }
                         }
+                    } else {
+                        editUserFrame.notify("Could not delete at this time");
                     }
                 }
             }

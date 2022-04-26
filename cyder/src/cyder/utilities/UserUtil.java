@@ -814,7 +814,7 @@ public class UserUtil {
 
                         // if the albumart file name does not match to a music file name, delete it
                         if (!StringUtil.in(FileUtil.getFilename(albumArt), true, validMusicFileNames)) {
-                            albumArt.delete();
+                            OSUtil.deleteFile(albumArt);
                         }
                     }
                 }

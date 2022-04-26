@@ -388,22 +388,22 @@ public class OSUtil {
     /**
      * Deletes the provided file/folder recursively.
      *
-     * @param folder the folder/file to delete
+     * @param fileOrFolder the folder/file to delete
      * @param log whether to log the delete operation. Ideally this is
      *            always true but some rare cases require loggin to be skipped.
      * @return whether the folder/file was successfully deleted
      */
     @CanIgnoreReturnValue
-    public static boolean deleteFile(File folder, boolean log) {
-        checkNotNull(folder);
+    public static boolean deleteFile(File fileOrFolder, boolean log) {
+        checkNotNull(fileOrFolder);
 
         if (log) {
-            Logger.log(Logger.Tag.SYSTEM_IO, "Requested deletion of: " + folder.getAbsolutePath());
+            Logger.log(Logger.Tag.SYSTEM_IO, "Requested deletion of: " + fileOrFolder.getAbsolutePath());
         }
 
         // directory means recursive case to delete contents
-        if (folder.isDirectory()) {
-            File[] files = folder.listFiles();
+        if (fileOrFolder.isDirectory()) {
+            File[] files = fileOrFolder.listFiles();
 
             if (files.length != 0) {
                 for (File file : files) {
@@ -415,16 +415,16 @@ public class OSUtil {
         // contents deleted so now can delete as if it was a file if it isn't
         int inc = 0;
         while (inc < MAX_DELETION_ATTEMPTS) {
-            if (folder.delete()) {
+            if (fileOrFolder.delete()) {
                 return true;
             }
 
             inc++;
         }
 
-        if (folder.exists() && log) {
+        if (fileOrFolder.exists() && log) {
             Logger.log(Logger.Tag.SYSTEM_IO, "[DELETION FAILED] file: "
-                    + folder.getAbsolutePath());
+                    + fileOrFolder.getAbsolutePath());
         }
 
         return false;

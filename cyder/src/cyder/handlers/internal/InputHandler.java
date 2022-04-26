@@ -196,8 +196,9 @@ public class InputHandler {
 
                     //create file for current use
                     try {
-                        if (redirectionFile.exists())
-                            redirectionFile.delete();
+                        if (redirectionFile.exists()) {
+                            OSUtil.deleteFile(redirectionFile);
+                        }
                         redirectionFile.createNewFile();
                     } catch (Exception ignored) {
                         redirection = false;
@@ -1213,7 +1214,7 @@ public class InputHandler {
                             println("Could not delete folder at this time");
                         }
                     } else if (requestedDeleteFile.isFile()) {
-                        if (requestedDeleteFile.delete()) {
+                        if (OSUtil.deleteFile(requestedDeleteFile)) {
                             println("Successfully deleted " + requestedDeleteFile.getAbsolutePath());
                         } else {
                             println("Unable to delete file at this time");
