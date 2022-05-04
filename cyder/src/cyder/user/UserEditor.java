@@ -41,7 +41,6 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -57,12 +56,12 @@ public class UserEditor {
     /**
      * The names of the files for the files list.
      */
-    private static List<String> filesNameList;
+    private static final ArrayList<String> filesNameList = new ArrayList<>();
 
     /**
      * The user files list.
      */
-    private static List<File> filesList;
+    private static final ArrayList<File> filesList = new ArrayList<>();
 
     /**
      * The label on which components are added for a specific preference page.
@@ -156,8 +155,8 @@ public class UserEditor {
         File musicDir = UserUtil.getUserFile(UserFile.MUSIC.getName());
         File filesDir = UserUtil.getUserFile(UserFile.FILES.getName());
 
-        filesList = new LinkedList<>();
-        filesNameList = new LinkedList<>();
+        filesList.clear();
+        filesNameList.clear();
 
         for (File file : backgroundDir.listFiles()) {
             if (FileUtil.isSupportedImageExtension(file)) {
@@ -268,7 +267,7 @@ public class UserEditor {
         openFile.addActionListener(e -> {
             String element = filesScrollListRef.get().getSelectedElement();
 
-            for (int i = 0; i < filesNameList.size() ; i++) {
+            for (int i = 0; i < filesNameList.size(); i++) {
                 if (element.equalsIgnoreCase(filesNameList.get(i))) {
                     IOUtil.openFile(filesList.get(i).getAbsolutePath());
                     break;
@@ -295,10 +294,10 @@ public class UserEditor {
 
                     if ((AudioPlayer.getCurrentAudio() != null
                             && selectedFile.getAbsoluteFile().toString().equals(
-                               AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
+                            AudioPlayer.getCurrentAudio().getAbsoluteFile().toString()))
                             || selectedFile.getAbsoluteFile().toString().equals(
-                               ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile()
-                                       .getAbsoluteFile().toString())) {
+                            ConsoleFrame.INSTANCE.getCurrentBackground().getReferenceFile()
+                                    .getAbsoluteFile().toString())) {
                         editUserFrame.notify("Cannot rename a file that is in use");
                     } else {
                         String oldName = FileUtil.getFilename(selectedFile);
@@ -439,7 +438,7 @@ public class UserEditor {
                             }
                         }
 
-                        filesScrollListRef.get().refreshList();
+                        revalidateFilesScroll();
                     } else {
                         editUserFrame.notify("Could not delete at this time");
                     }
@@ -459,21 +458,24 @@ public class UserEditor {
      * Revalidates the user files scroll.
      */
     private static void revalidateFilesScroll() {
-        initFilesList();
-
         if (filesLabelRef.get() != null) {
-            editUserFrame.remove(filesLabelRef.get());
+            switchingLabel.remove(filesLabelRef.get());
+            filesLabelRef.set(null);
         }
+
+        if (filesScrollListRef.get() != null) {
+            filesScrollListRef.get().removeAllElements();
+            filesScrollListRef.set(null);
+        }
+
+        // ensure lists are updated
+        initFilesList();
 
         CyderScrollList filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
         filesScroll.setBorder(null);
         filesScrollListRef.set(filesScroll);
 
-        // forward reference
-        JLabel filesLabel = null;
-        filesLabelRef.set(filesLabel);
-
-        for (int i = 0; i < filesNameList.size() ; i++) {
+        for (int i = 0; i < filesNameList.size(); i++) {
             int finalI = i;
             filesScroll.addElement(filesNameList.get(i),
                     () -> {
@@ -486,15 +488,18 @@ public class UserEditor {
                             IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
                         }
                     });
+
+            System.out.println(filesNameList.get(i));
         }
 
+        JLabel filesLabel = null;
         filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(20, 60, 680, 360);
         filesLabel.setBackground(CyderColors.vanila);
         filesLabel.setBorder(new CompoundBorder(
                 new LineBorder(CyderColors.navy, 3),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        editUserFrame.getContentPane().add(filesLabel);
+        filesLabelRef.set(filesLabel);
         switchingLabel.add(filesLabel);
     }
 
@@ -568,7 +573,8 @@ public class UserEditor {
                     ConsoleFrame.INSTANCE.getInputField().setForeground(updateC);
                     ConsoleFrame.INSTANCE.getInputField().setCaretColor(updateC);
                     ConsoleFrame.INSTANCE.getInputField().setCaret(new CyderCaret(updateC));
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
         });
         foregroundField.setBounds(100 + colorOffsetX, 100 + colorOffsetY, 220, 50);
@@ -630,7 +636,8 @@ public class UserEditor {
                     CyderColors.setGuiThemeColor(c);
 
                     Preferences.invokeRefresh("windowcolor");
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
         });
         windowField.setBounds(100 + colorOffsetX, 240 + colorOffsetY, 220, 50);
@@ -704,7 +711,8 @@ public class UserEditor {
                         ConsoleFrame.INSTANCE.getInputField().repaint();
                         ConsoleFrame.INSTANCE.getInputField().revalidate();
                     }
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             }
         });
         fillField.setBounds(100 + colorOffsetX, 380 + colorOffsetY, 220, 50);
@@ -712,7 +720,7 @@ public class UserEditor {
         switchingLabel.add(fillField);
 
         JLabel FontLabel = new JLabel("FONTS", SwingConstants.CENTER);
-        FontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(),Font.BOLD, 30));
+        FontLabel.setFont(new Font(UserUtil.getCyderUser().getFont(), Font.BOLD, 30));
         FontLabel.setForeground(CyderColors.navy);
         FontLabel.setBounds(50, 60, 300, 30);
         switchingLabel.add(FontLabel);
@@ -727,7 +735,7 @@ public class UserEditor {
         tempLabel.setBackground(CyderColors.vanila);
         tempLabel.setBorder(new LineBorder(CyderColors.navy, 5));
         tempLabel.setOpaque(true);
-        tempLabel.setBounds(50,100,300, 300);
+        tempLabel.setBounds(50, 100, 300, 300);
         switchingLabel.add(tempLabel);
 
         CyderThreadRunner.submit(() -> {
@@ -735,12 +743,12 @@ public class UserEditor {
             Collections.addAll(fontList, GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getAvailableFontFamilyNames());
 
-            for (int i = 0 ; i < fontList.size() ; i++) {
+            for (int i = 0; i < fontList.size(); i++) {
                 int finalI = i;
                 fontScrollRef.get().addElementWithSingleCLickAction(fontList.get(i),
                         () -> FontLabel.setFont(new Font(fontList.get(finalI),
-                        Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
-                        Integer.parseInt(UserUtil.getCyderUser().getFontsize()))));
+                                Integer.parseInt(UserUtil.getCyderUser().getFontmetric()),
+                                Integer.parseInt(UserUtil.getCyderUser().getFontsize()))));
             }
 
             if (prefsPanelIndex == 1) {
@@ -752,7 +760,7 @@ public class UserEditor {
                     switchingLabel.add(fontLabel);
                 }
             }
-        },"Preference Font Loader");
+        }, "Preference Font Loader");
 
         CyderButton applyFont = new CyderButton("Apply Font");
         applyFont.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -887,7 +895,7 @@ public class UserEditor {
         printingUtil.printlnComponent(prefsTitle);
 
         // print boolean userdatas (preferences)
-        for (int i = 0; i < Preferences.getPreferences().size() ; i++) {
+        for (int i = 0; i < Preferences.getPreferences().size(); i++) {
             if (Preferences.getPreferences().get(i).getDisplayName().equals("IGNORE"))
                 continue;
 
@@ -921,7 +929,7 @@ public class UserEditor {
             curPrefSwitcher.setText(StringUtil.generateTextForCustomComponent(3));
 
             // actual pref toggling
-            curPrefSwitcher.getSwitchButton().addActionListener( e -> {
+            curPrefSwitcher.getSwitchButton().addActionListener(e -> {
                 UserUtil.setUserDataById(localPref.getID(), curPrefSwitcher.getNextState()
                         == CyderSwitch.State.ON ? "1" : "0");
 
@@ -984,7 +992,7 @@ public class UserEditor {
         changeUsernameField.setToolTipText("Change account username to a valid alternative");
         changeUsernameField.setBackground(CyderColors.vanila);
         changeUsernameField.setSelectionColor(CyderColors.selectionColor);
-        changeUsernameField.setFont(new Font("Agency FB",Font.BOLD, 26));
+        changeUsernameField.setFont(new Font("Agency FB", Font.BOLD, 26));
         changeUsernameField.setForeground(CyderColors.navy);
         changeUsernameField.setCaretColor(CyderColors.navy);
         changeUsernameField.setCaret(new CyderCaret(CyderColors.navy));
@@ -1317,7 +1325,7 @@ public class UserEditor {
         printingUtil.printlnComponent(fontMetricField);
         fontMetricField.setText(UserUtil.getCyderUser().getFontmetric());
         fontMetricField.addActionListener(e -> {
-            String numbers = fontMetricField.getText().replace("[^0-9]+","");
+            String numbers = fontMetricField.getText().replace("[^0-9]+", "");
 
             if (!numbers.isEmpty()) {
                 int number = Integer.parseInt(numbers);
@@ -1460,7 +1468,7 @@ public class UserEditor {
                     deletePasswordField.setText("");
                     editUserFrame.notify("Account not deleted");
                 }
-            },"Account deletion confirmation");
+            }, "Account deletion confirmation");
         }
     }
 
@@ -1487,7 +1495,7 @@ public class UserEditor {
                     + ", " + "but your password must contain at least"
                     + " one number, one letter, and be 5 characters long");
         } else {
-            if (!Arrays.equals(newPasswordConf,newPassword)) {
+            if (!Arrays.equals(newPasswordConf, newPassword)) {
                 editUserFrame.notify("Sorry, " + UserUtil.getCyderUser().getName() + ", " +
                         "but your provided passwords were not equal");
                 changePasswordField.setText("");
