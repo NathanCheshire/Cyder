@@ -70,6 +70,16 @@ public class UserEditor {
     private static JLabel switchingLabel;
 
     /**
+     * The reference used for the files scroll list label.
+     */
+    private static final AtomicReference<JLabel> filesLabelRef = new AtomicReference<>();
+
+    /**
+     * The reference used for the cyder scroll list.
+     */
+    private static final AtomicReference<CyderScrollList> filesScrollListRef = new AtomicReference<>();
+
+    /**
      * The index the user editor is at.
      */
     private static int prefsPanelIndex;
@@ -193,40 +203,7 @@ public class UserEditor {
         titleLabel.setForeground(CyderColors.navy);
         switchingLabel.add(titleLabel);
 
-        initFilesList();
-
-        CyderScrollList filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
-        filesScroll.setBorder(null);
-
-        // forward reference
-        AtomicReference<JLabel> filesLabelRef = new AtomicReference<>();
-        JLabel filesLabel = null;
-        filesLabelRef.set(filesLabel);
-
-        for (int i = 0; i < filesNameList.size() ; i++) {
-            int finalI = i;
-            filesScroll.addElement(filesNameList.get(i),
-            () -> {
-                // if photo viewer can handle
-                if (FileUtil.isSupportedImageExtension(filesList.get(finalI))) {
-                    PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
-                    pv.setRenameCallback(() -> revalidateFilesScroll(filesScroll, filesLabelRef.get()));
-                    pv.showGui();
-                } else {
-                    IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
-                }
-            });
-        }
-
-        filesLabel = filesScroll.generateScrollList();
-        filesLabelRef.set(filesLabel);
-        filesLabel.setBounds(20, 60, 680, 360);
-        filesLabel.setBackground(CyderColors.vanila);
-        filesLabel.setBorder(new CompoundBorder(
-                new LineBorder(CyderColors.navy, 3),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        editUserFrame.getContentPane().add(filesLabel);
-        switchingLabel.add(filesLabel);
+        revalidateFilesScroll();
 
         CyderButton addFileButton = new CyderButton("Add");
         addFileButton.setBorder(new LineBorder(CyderColors.navy, 5, false));
@@ -266,7 +243,7 @@ public class UserEditor {
                                 folderName).getAbsolutePath() + OSUtil.FILE_SEP + fileToAdd.getName());
                         Files.copy(copyPath, destination.toPath());
 
-                        revalidateFilesScroll(filesScroll, filesLabelRef.get());
+                        revalidateFilesScroll();
 
                         if (folderName.equalsIgnoreCase(UserFile.BACKGROUNDS.getName()))
                             ConsoleFrame.INSTANCE.resizeBackgrounds();
@@ -289,7 +266,7 @@ public class UserEditor {
         openFile.setBackground(CyderColors.regularRed);
         openFile.setFont(CyderFonts.segoe20);
         openFile.addActionListener(e -> {
-            String element = filesScroll.getSelectedElement();
+            String element = filesScrollListRef.get().getSelectedElement();
 
             for (int i = 0; i < filesNameList.size() ; i++) {
                 if (element.equalsIgnoreCase(filesNameList.get(i))) {
@@ -305,8 +282,8 @@ public class UserEditor {
         renameFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
         renameFile.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
-                if (!filesScroll.getSelectedElements().isEmpty()) {
-                    String clickedSelection = filesScroll.getSelectedElements().get(0);
+                if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
+                    String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
                     File selectedFile = null;
 
                     for (int i = 0; i < filesNameList.size(); i++) {
@@ -396,7 +373,7 @@ public class UserEditor {
                             }
                         }
 
-                        revalidateFilesScroll(filesScroll, filesLabelRef.get());
+                        revalidateFilesScroll();
                     }
                 }
             } catch (Exception ex) {
@@ -412,8 +389,8 @@ public class UserEditor {
         CyderButton deleteFile = new CyderButton("Delete");
         deleteFile.setBorder(new LineBorder(CyderColors.navy, 5, false));
         deleteFile.addActionListener(e -> {
-            if (!filesScroll.getSelectedElements().isEmpty()) {
-                String clickedSelection = filesScroll.getSelectedElements().get(0);
+            if (!filesScrollListRef.get().getSelectedElements().isEmpty()) {
+                String clickedSelection = filesScrollListRef.get().getSelectedElements().get(0);
                 File selectedFile = null;
 
                 for (int i = 0; i < filesNameList.size(); i++) {
@@ -432,13 +409,11 @@ public class UserEditor {
                     editUserFrame.notify("Unable to delete the audio you are currently playing");
                 } else {
                     if (OSUtil.deleteFile(selectedFile)) {
-                        revalidateFilesScroll(filesScroll, filesLabelRef.get());
-
-                        if (FileUtil.isSupportedAudioExtension(selectedFile))
+                        if (FileUtil.isSupportedAudioExtension(selectedFile)) {
                             ConsoleFrame.INSTANCE.getInputHandler()
                                     .println("Music: " + FileUtil.getFilename(selectedFile)
                                             + " successfully deleted.");
-                        else if (FileUtil.isSupportedImageExtension(selectedFile)) {
+                        } else if (FileUtil.isSupportedImageExtension(selectedFile)) {
                             ConsoleFrame.INSTANCE.getInputHandler()
                                     .println("Background: " + FileUtil.getFilename(selectedFile)
                                             + " successfully deleted.");
@@ -463,6 +438,8 @@ public class UserEditor {
                                 }
                             }
                         }
+
+                        filesScrollListRef.get().refreshList();
                     } else {
                         editUserFrame.notify("Could not delete at this time");
                     }
@@ -480,31 +457,45 @@ public class UserEditor {
 
     /**
      * Revalidates the user files scroll.
-     *
-     * @param filesScroll the scroll to revalidate
-     * @param filesLabel the label which the scroll generates
      */
-    private static void revalidateFilesScroll(CyderScrollList filesScroll, JLabel filesLabel) {
+    private static void revalidateFilesScroll() {
         initFilesList();
 
-        filesScroll.removeAllElements();
-        switchingLabel.remove(filesLabel);
+        if (filesLabelRef.get() != null) {
+            editUserFrame.remove(filesLabelRef.get());
+        }
 
-        for (int j = 0; j < filesNameList.size() ; j++) {
-            int finalJ = j;
-            filesScroll.addElement(filesNameList.get(j),
-                    () -> IOUtil.openFile(filesList.get(finalJ).getAbsolutePath()));
+        CyderScrollList filesScroll = new CyderScrollList(680, 360, CyderScrollList.SelectionPolicy.SINGLE);
+        filesScroll.setBorder(null);
+        filesScrollListRef.set(filesScroll);
+
+        // forward reference
+        JLabel filesLabel = null;
+        filesLabelRef.set(filesLabel);
+
+        for (int i = 0; i < filesNameList.size() ; i++) {
+            int finalI = i;
+            filesScroll.addElement(filesNameList.get(i),
+                    () -> {
+                        // if photo viewer can handle
+                        if (FileUtil.isSupportedImageExtension(filesList.get(finalI))) {
+                            PhotoViewer pv = PhotoViewer.getInstance(filesList.get(finalI));
+                            pv.setRenameCallback(() -> revalidateFilesScroll());
+                            pv.showGui();
+                        } else {
+                            IOUtil.openFile(filesList.get(finalI).getAbsolutePath());
+                        }
+                    });
         }
 
         filesLabel = filesScroll.generateScrollList();
         filesLabel.setBounds(20, 60, 680, 360);
+        filesLabel.setBackground(CyderColors.vanila);
         filesLabel.setBorder(new CompoundBorder(
                 new LineBorder(CyderColors.navy, 3),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        editUserFrame.getContentPane().add(filesLabel);
         switchingLabel.add(filesLabel);
-
-        switchingLabel.revalidate();
-        ConsoleFrame.INSTANCE.loadBackgrounds();
     }
 
     /**
