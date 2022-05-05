@@ -1521,7 +1521,7 @@ public class AudioPlayer {
     private static void playAudio() {
         try {
             if (isAudioPlaying()) {
-                throw new IllegalStateException("Previous audio not ended");
+                throw new IllegalStateException("Previous audio not yet concluded");
             }
 
             refreshAudioTitleLabel();
@@ -1552,6 +1552,11 @@ public class AudioPlayer {
                     ExceptionHandler.handle(e);
                 }
 
+                if (audioPlayer != null) {
+                    audioPlayer.close();
+                    audioPlayer = null;
+                }
+
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
                     pauseLocation = 0;
@@ -1562,7 +1567,7 @@ public class AudioPlayer {
                         playAudio();
                     }
                     // pull from queue next
-                    if (!audioFileQueue.isEmpty()) {
+                    else if (!audioFileQueue.isEmpty()) {
                         currentAudioFile = audioFileQueue.remove(0);
 
                         refreshFrameTitle();
