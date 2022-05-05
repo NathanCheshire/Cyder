@@ -45,15 +45,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// todo progress bar needs to move smoothly
+
+// todo progress bar should be smoothly draggable and not resume audio until mouse released, click actions should
+//  be delayed by delay function of a max click rate
+
 // todo views should slide in and out like StraightShot
 
 // todo dreamify should be seamless audio transition, wait and get location then switch
 
 // todo need to prevent spamming of skip actions, method which buttons first check for
-
-// todo some bugs exist when deleting files via the user editor and not refreshing
-
-// todo it needs to be IMPOSIBLE for multiple audio files to be playing at once
 
 // todo need to refresh audio files before going on to next one and before skip actions
 // in case a file was deleted, basically don't hold a list of valid ones
@@ -534,7 +535,7 @@ public class AudioPlayer {
             pauseAudio();
             pauseLocation = 0;
 
-            // todo use method here
+            // todo use method for duplicate calls like this when we want to refresh most things
             refreshFrameTitle();
             refreshAudioTitleLabel();
             refreshAudioProgressLabel();
@@ -1552,10 +1553,7 @@ public class AudioPlayer {
                     ExceptionHandler.handle(e);
                 }
 
-                if (audioPlayer != null) {
-                    audioPlayer.close();
-                    audioPlayer = null;
-                }
+                closeAudioPlayer();
 
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
@@ -1635,15 +1633,20 @@ public class AudioPlayer {
             }
 
             closeIfNotNull(bis);
-
-            if (audioPlayer != null) {
-                audioPlayer.close();
-                audioPlayer = null;
-            }
-
+            closeAudioPlayer();
             refreshPlayPauseButton();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
+        }
+    }
+
+    /**
+     * Ends and closes the audio player JLayer object if not null.
+     */
+    private static void closeAudioPlayer() {
+        if (audioPlayer != null) {
+            audioPlayer.close();
+            audioPlayer = null;
         }
     }
 
@@ -1925,15 +1928,16 @@ public class AudioPlayer {
 
                         if (UserUtil.getCyderUser().getAudiolength().equals("1")) {
                             effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                                + " played, " + formattedTotal + " remaining");
+                                    + " played, " + formattedTotal + " remaining");
                         } else {
                             effectLabel.setText(AudioUtil.formatSeconds(secondsIn)
-                                + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
+                                    + " played, " + AudioUtil.formatSeconds(secondsLeft) + " remaining");
                         }
 
                         try {
                             Thread.sleep(audioLocationTextUpdateDelay);
-                        } catch (Exception ignored) {}
+                        } catch (Exception ignored) {
+                        }
                     }
                 }, FileUtil.getFilename(currentAudioFile) + " Progress Label Thread");
             } catch (Exception e) {
@@ -2147,8 +2151,7 @@ public class AudioPlayer {
          * Resets the timeout before the lable is set to be invisible.
          */
         public void resetTimeout() {
-            audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE
-                    + AUDIO_VOLUME_LABEL_SLEEP_TIME);
+            audioVolumeLabelTimeout.set(MAX_AUDIO_VOLUME_LABEL_VISIBLE + AUDIO_VOLUME_LABEL_SLEEP_TIME);
         }
 
         /**
