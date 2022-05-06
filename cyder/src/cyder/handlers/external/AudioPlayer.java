@@ -62,7 +62,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
-public class AudioPlayer {
+public class AudioPlayer{
     /**
      * The audio player frame.
      */
@@ -245,7 +245,7 @@ public class AudioPlayer {
      */
     private static final CyderIconButton lastAudioButton =
             new CyderIconButton("Last", lastIcon, lastIconHover,
-                    new MouseAdapter() {
+                    new MouseAdapter(){
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleLastAudioButtonClick();
@@ -267,7 +267,7 @@ public class AudioPlayer {
      */
     private static final CyderIconButton nextAudioButton =
             new CyderIconButton("Next", nextIcon, nextIconHover,
-                    new MouseAdapter() {
+                    new MouseAdapter(){
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleNextAudioButtonClick();
@@ -289,7 +289,7 @@ public class AudioPlayer {
      */
     private static final CyderIconButton repeatAudioButton =
             new CyderIconButton("Repeat", repeatIcon, repeatIconHover,
-                    new MouseAdapter() {
+                    new MouseAdapter(){
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleRepeatButtonClick();
@@ -311,7 +311,7 @@ public class AudioPlayer {
      */
     private static final CyderIconButton shuffleAudioButton =
             new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
-                    new MouseAdapter() {
+                    new MouseAdapter(){
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleShuffleButtonClick();
@@ -331,7 +331,7 @@ public class AudioPlayer {
     /**
      * The available frame views for both the audio player and YouTube downloader.
      */
-    private enum FrameView {
+    private enum FrameView{
         /**
          * All ui elements visible.
          */
@@ -438,7 +438,7 @@ public class AudioPlayer {
      */
     private static final CyderIconButton switchFrameAudioView = new CyderIconButton(
             "Switch Mode", alternateView, alternateViewHover,
-            new MouseAdapter() {
+            new MouseAdapter(){
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     switch (currentFrameView) {
@@ -471,7 +471,7 @@ public class AudioPlayer {
     /**
      * Possible ways a user can interact with the audio player.
      */
-    private enum LastAction {
+    private enum LastAction{
         /**
          * The user pressed play.
          */
@@ -555,7 +555,7 @@ public class AudioPlayer {
         audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 1);
         audioPlayerFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
-        audioPlayerFrame.addWindowListener(new WindowAdapter() {
+        audioPlayerFrame.addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e) {
                 // no other pre/post close window Runnables
@@ -606,7 +606,7 @@ public class AudioPlayer {
         playPauseButton.setContentAreaFilled(false);
         playPauseButton.setBorderPainted(false);
         playPauseButton.setVisible(true);
-        playPauseButton.addMouseListener(new MouseAdapter() {
+        playPauseButton.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 handlePlayPauseButtonClick();
@@ -650,13 +650,13 @@ public class AudioPlayer {
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
-        audioProgressLabel.addMouseListener(new MouseAdapter() {
+        audioProgressLabel.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleAudioProgressLabelClick(e);
             }
         });
-        audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter() {
+        audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter(){
             @Override
             public void mouseDragged(MouseEvent e) {
                 handleAudioProgressLabelClick(e);
@@ -1471,6 +1471,10 @@ public class AudioPlayer {
      * Handles a click from the play/pause button.
      */
     public static void handlePlayPauseButtonClick() {
+        if (!shouldAllowClick()) {
+            return;
+        }
+
         // always before handle button methods
         Preconditions.checkNotNull(currentAudioFile);
         Preconditions.checkArgument(!uiLocked);
@@ -1591,7 +1595,7 @@ public class AudioPlayer {
                     else {
                         int currentIndex = 0;
 
-                        for (int i = 0; i < validAudioFiles.size(); i++) {
+                        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
                             if (validAudioFiles.get(i).getAbsolutePath()
                                     .equals(currentAudioFile.getAbsolutePath())) {
                                 currentIndex = i;
@@ -1670,6 +1674,10 @@ public class AudioPlayer {
      * Handles a click from the last button.
      */
     public static void handleLastAudioButtonClick() {
+        if (!shouldAllowClick()) {
+            return;
+        }
+
 //        // always before handle button methods
 //        Preconditions.checkNotNull(currentAudioFile);
 //        Preconditions.checkArgument(!uiLocked);
@@ -1697,6 +1705,10 @@ public class AudioPlayer {
      * Handles a click from the next audio button.
      */
     public static void handleNextAudioButtonClick() {
+        if (!shouldAllowClick()) {
+            return;
+        }
+
 //        // always before handle button methods
 //        Preconditions.checkNotNull(currentAudioFile);
 //        Preconditions.checkArgument(!uiLocked);
@@ -1831,6 +1843,30 @@ public class AudioPlayer {
         }
     }
 
+    /**
+     * The time in ms to delay possible ui interactions.
+     */
+    private static final int ACTION_TIMEOUT_MS = 600;
+
+    /**
+     * The last time a ui action was permitted.
+     */
+    private static long lastActionTime;
+
+    /**
+     * Returns whether to allow a requested ui action such as a button click.
+     *
+     * @return whether to allow a requested ui action such as a button click
+     */
+    private static boolean shouldAllowClick() {
+        if (System.currentTimeMillis() - lastActionTime >= ACTION_TIMEOUT_MS) {
+            lastActionTime = System.currentTimeMillis();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /*
     Inner class thread workers
      */
@@ -1842,7 +1878,7 @@ public class AudioPlayer {
     /**
      * The class to update the audio location label and progress bar.
      */
-    private static class AudioLocationUpdator {
+    private static class AudioLocationUpdator{
         /**
          * The delay between update cycles for the audio lcoation text.
          */
@@ -1960,7 +1996,7 @@ public class AudioPlayer {
     /**
      * Private inner class for the scrolling audio label.
      */
-    private static class ScrollingTitleLabel {
+    private static class ScrollingTitleLabel{
         /**
          * The minimum width of the titel label.
          */
@@ -2098,7 +2134,7 @@ public class AudioPlayer {
     /**
      * A class to control the visibility of the audio volume level label.
      */
-    private static class AudioVolumeLabelAnimator {
+    private static class AudioVolumeLabelAnimator{
         /**
          * Whether this object has been killed.
          */
