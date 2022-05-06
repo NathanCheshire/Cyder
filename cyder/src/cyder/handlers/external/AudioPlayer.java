@@ -1,6 +1,5 @@
 package cyder.handlers.external;
 
-import com.google.common.base.Preconditions;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -44,6 +43,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo progress bar needs to move smoothly
 
@@ -523,8 +525,8 @@ public class AudioPlayer{
      * @throws IllegalArgumentException if startPlaying is null or or doesn't exist
      */
     public static void showGui(File startPlaying) {
-        Preconditions.checkNotNull(startPlaying);
-        Preconditions.checkArgument(startPlaying.exists());
+        checkNotNull(startPlaying);
+        checkArgument(startPlaying.exists());
 
         currentAudioFile = startPlaying;
         refreshAudioFiles();
@@ -1381,7 +1383,7 @@ public class AudioPlayer{
      * within the same directory as the current audio file
      */
     private static void refreshAudioFiles() {
-        Preconditions.checkNotNull(currentAudioFile);
+        checkNotNull(currentAudioFile);
 
         validAudioFiles.clear();
 
@@ -1476,8 +1478,8 @@ public class AudioPlayer{
         }
 
         // always before handle button methods
-        Preconditions.checkNotNull(currentAudioFile);
-        Preconditions.checkArgument(!uiLocked);
+        checkNotNull(currentAudioFile);
+        checkArgument(!uiLocked);
 
         // if we're playing, pause the audio
         if (isAudioPlaying()) {
@@ -1742,8 +1744,8 @@ public class AudioPlayer{
      */
     public static void handleRepeatButtonClick() {
         // always before handle button methods
-        Preconditions.checkNotNull(currentAudioFile);
-        Preconditions.checkArgument(!uiLocked);
+        checkNotNull(currentAudioFile);
+        checkArgument(!uiLocked);
 
         repeatAudio = !repeatAudio;
     }
@@ -1758,8 +1760,8 @@ public class AudioPlayer{
      */
     public static void handleShuffleButtonClick() {
         // always before handle button methods
-        Preconditions.checkNotNull(currentAudioFile);
-        Preconditions.checkArgument(!uiLocked);
+        checkNotNull(currentAudioFile);
+        checkArgument(!uiLocked);
 
         shuffleAudio = !shuffleAudio;
     }
@@ -1770,8 +1772,8 @@ public class AudioPlayer{
      * @param audioFile the audio file to add to the beginning of the queue
      */
     public static void addAudioNext(File audioFile) {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(audioFile.exists());
+        checkNotNull(audioFile);
+        checkArgument(audioFile.exists());
 
         if (!isWidgetOpen()) {
             showGui(audioFile);
@@ -1786,8 +1788,8 @@ public class AudioPlayer{
      * @param audioFile the audio file to add to the end of the queue
      */
     public static void addAudioLast(File audioFile) {
-        Preconditions.checkNotNull(audioFile);
-        Preconditions.checkArgument(audioFile.exists());
+        checkNotNull(audioFile);
+        checkArgument(audioFile.exists());
 
         if (!isWidgetOpen()) {
             showGui(audioFile);
@@ -1906,8 +1908,8 @@ public class AudioPlayer{
          * @param progressBar the progress bar to update
          */
         public AudioLocationUpdator(JLabel effectLabel, CyderProgressBar progressBar) {
-            Preconditions.checkNotNull(effectLabel);
-            Preconditions.checkNotNull(progressBar);
+            checkNotNull(effectLabel);
+            checkNotNull(progressBar);
 
             this.effectLabel = effectLabel;
             this.progressBar = progressBar;
