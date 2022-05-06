@@ -1,5 +1,7 @@
 package cyder.handlers.external;
 
+import cyder.annotations.CyderAuthor;
+import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
 import cyder.constants.CyderFonts;
@@ -47,6 +49,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// todo on view transition progress bar sets to full
+
 // todo progress bar needs to move smoothly
 
 // todo progress bar should be smoothly draggable and not resume audio until mouse released, click actions should
@@ -64,6 +68,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
  */
+@Vanilla
+@CyderAuthor(author = "Nathan Cheshire")
 public class AudioPlayer{
     /**
      * The audio player frame.
@@ -1187,14 +1193,20 @@ public class AudioPlayer{
     private static void setupAndShowFrameView(FrameView view) {
         setUiComponentsVisible(false);
 
+        // todo extract vars like this and make class level private
+        int yPadding = 20;
+
         switch (view) {
             case FULL:
+                setUiComponentsVisible(true);
+                currentFrameView = FrameView.FULL;
+
+                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN);
+
                 // set location of all components needed
                 int xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
                 int yOff = CyderDragLabel.DEFAULT_HEIGHT;
                 yOff += 20;
-
-                int yPadding = 20;
 
                 albumArtLabel.setLocation(xOff, yOff);
                 yOff += ALBUM_ART_LABEL_SIZE + yPadding;
@@ -1235,24 +1247,61 @@ public class AudioPlayer{
 
                 yOff += 40 + yPadding;
 
-                setUiComponentsVisible(true);
-                currentFrameView = FrameView.FULL;
                 break;
             case HIDDEN_ART:
-                setUiComponentsVisible(false);
+                setUiComponentsVisible(true);
+
+                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN - ALBUM_ART_LABEL_SIZE - 40);
+
+                albumArtLabel.setVisible(false);
+                albumArtLabel.setBorder(null);
 
                 // set location of all components needed
-                // only set elements to show to visible
+                xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
+                yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
+
+                // xOff of rest of components is s.t. the total width is 1.5x width of album art label
+                xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+
+                refreshAudioTitleLabel();
+
+                audioTitleLabelContainer.setLocation(xOff, yOff);
+                yOff += 40 + yPadding;
+
+                buttonWidth = 30;
+                spacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+
+                shuffleAudioButton.setLocation(xOff + spacing, yOff);
+                lastAudioButton.setLocation(xOff + spacing * 2 + buttonWidth, yOff);
+                playPauseButton.setLocation(xOff + spacing * 3 + buttonWidth * 2, yOff);
+                nextAudioButton.setLocation(xOff + spacing * 4 + buttonWidth * 3, yOff);
+                repeatAudioButton.setLocation(xOff + spacing * 5 + buttonWidth * 4, yOff);
+
+                yOff += 30 + yPadding;
+
+                audioProgressBar.setLocation(xOff, yOff);
+                audioProgressBar.setValue(audioProgressBar.getMaximum());
+
+                // 0,0 since it is layered perfectly over audioProgressBar
+                audioProgressLabel.setLocation(0, 0);
+
+                audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
+                        yOff + 35);
+
+                yOff += 40 + yPadding;
+
+                audioVolumeSlider.setLocation(xOff, yOff);
+
+                yOff += 40 + yPadding;
 
                 currentFrameView = FrameView.HIDDEN_ART;
                 break;
             case MINI:
+                currentFrameView = FrameView.MINI;
                 setUiComponentsVisible(false);
 
                 // set location of all components needed
                 // only set elements to show to visible, (buttons)
-
-                currentFrameView = FrameView.MINI;
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported frame view to switch to: " + view);
@@ -1305,6 +1354,11 @@ public class AudioPlayer{
      * default album art.
      */
     private static void refreshAlbumArt() {
+        if (currentFrameView != FrameView.FULL) {
+            albumArtLabel.setVisible(false);
+            return;
+        }
+
         File albumArtFilePng = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
                 FileUtil.getFilename(currentAudioFile) + ".png");
         File albumArtFileJpg = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
