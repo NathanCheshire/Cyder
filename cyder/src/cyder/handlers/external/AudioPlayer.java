@@ -1,6 +1,7 @@
 package cyder.handlers.external;
 
 import cyder.annotations.CyderAuthor;
+import cyder.annotations.SuppressCyderInspections;
 import cyder.annotations.Vanilla;
 import cyder.annotations.Widget;
 import cyder.constants.CyderColors;
@@ -43,11 +44,18 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+// todo do some kind of a cool effect for dreamy album art?
+
+// todo still get stream closed issues like crazy even if we check for fis not null
+//  perhaps in that method if an error is throw we need to clean up resources regardless and assume fis was null
+//  or at least in that specific exception StreamClosedException just carry on like usual
 
 // todo need to be able to stop a dreamified audio
 
@@ -71,7 +79,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Vanilla
 @CyderAuthor(author = "Nathan Cheshire")
-public class AudioPlayer{
+@SuppressCyderInspections(values = "VanillaInspection")
+public class AudioPlayer {
     /**
      * The audio player frame.
      */
@@ -254,7 +263,7 @@ public class AudioPlayer{
      */
     private static final CyderIconButton lastAudioButton =
             new CyderIconButton("Last", lastIcon, lastIconHover,
-                    new MouseAdapter(){
+                    new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleLastAudioButtonClick();
@@ -276,7 +285,7 @@ public class AudioPlayer{
      */
     private static final CyderIconButton nextAudioButton =
             new CyderIconButton("Next", nextIcon, nextIconHover,
-                    new MouseAdapter(){
+                    new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleNextAudioButtonClick();
@@ -298,7 +307,7 @@ public class AudioPlayer{
      */
     private static final CyderIconButton repeatAudioButton =
             new CyderIconButton("Repeat", repeatIcon, repeatIconHover,
-                    new MouseAdapter(){
+                    new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleRepeatButtonClick();
@@ -320,7 +329,7 @@ public class AudioPlayer{
      */
     private static final CyderIconButton shuffleAudioButton =
             new CyderIconButton("Shuffle", shuffleIcon, shuffleIconHover,
-                    new MouseAdapter(){
+                    new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             handleShuffleButtonClick();
@@ -340,7 +349,7 @@ public class AudioPlayer{
     /**
      * The available frame views for both the audio player and YouTube downloader.
      */
-    private enum FrameView{
+    private enum FrameView {
         /**
          * All ui elements visible.
          */
@@ -457,7 +466,7 @@ public class AudioPlayer{
      */
     private static final CyderIconButton switchFrameAudioView = new CyderIconButton(
             "Switch Mode", alternateView, alternateViewHover,
-            new MouseAdapter(){
+            new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     switch (currentFrameView) {
@@ -490,15 +499,11 @@ public class AudioPlayer{
     /**
      * Possible ways a user can interact with the audio player.
      */
-    private enum LastAction{
+    private enum LastAction {
         /**
          * The user pressed play.
          */
         Play,
-        /**
-         * The user pressed pause.
-         */
-        Pause,
         /**
          * The user pressed skip back or skip forward.
          */
@@ -507,6 +512,10 @@ public class AudioPlayer{
          * The user changed the audio location.
          */
         Scrub,
+        /**
+         * An audio file was chosen using the file chooser menu option.
+         */
+        FileChosen,
         /**
          * Something else not yet handled.
          */
@@ -576,7 +585,7 @@ public class AudioPlayer{
         audioPlayerFrame.getTopDragLabel().addButton(switchFrameAudioView, 1);
         audioPlayerFrame.setCurrentMenuType(CyderFrame.MenuType.PANEL);
         audioPlayerFrame.setMenuEnabled(true);
-        audioPlayerFrame.addWindowListener(new WindowAdapter(){
+        audioPlayerFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 // no other pre/post close window Runnables
@@ -627,7 +636,7 @@ public class AudioPlayer{
         playPauseButton.setContentAreaFilled(false);
         playPauseButton.setBorderPainted(false);
         playPauseButton.setVisible(true);
-        playPauseButton.addMouseListener(new MouseAdapter(){
+        playPauseButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handlePlayPauseButtonClick();
@@ -671,13 +680,13 @@ public class AudioPlayer{
         audioProgressLabel.setForeground(CyderColors.vanila);
         audioProgressBar.add(audioProgressLabel);
         audioProgressLabel.setFocusable(false);
-        audioProgressLabel.addMouseListener(new MouseAdapter(){
+        audioProgressLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleAudioProgressLabelClick(e);
             }
         });
-        audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter(){
+        audioProgressLabel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 handleAudioProgressLabelClick(e);
@@ -807,7 +816,7 @@ public class AudioPlayer{
 
         if (shouldPlay) {
             lastAction = LastAction.Scrub;
-            //playAudio();
+            //playAudio(); //todo
         }
     }
 
@@ -1090,9 +1099,13 @@ public class AudioPlayer{
                 chooseFileLocked.set(false);
 
                 if (chosenFile != null && FileUtil.isSupportedAudioExtension(chosenFile)) {
+                    lastAction = LastAction.FileChosen;
+
                     pauseAudio();
+
                     currentAudioFile = chosenFile;
                     pauseLocation = 0;
+                    totalAudioLength = 0;
 
                     refreshFrameTitle();
                     refreshAudioTitleLabel();
@@ -1654,6 +1667,11 @@ public class AudioPlayer{
     private static final int PAUSE_AUDIO_REACTION_OFFSET = 10000;
 
     /**
+     * The semaphore used to ensure it is impossible for more than one audio to be playing at any one time.
+     */
+    private static final Semaphore audioPlayingSemaphore = new Semaphore(1);
+
+    /**
      * Starts playing the current audio file.
      */
     private static void playAudio() {
@@ -1673,17 +1691,28 @@ public class AudioPlayer{
 
             audioPlayer = new Player(bis);
 
+            AtomicBoolean ignoredExceptionThrown = new AtomicBoolean(false);
+
             CyderThreadRunner.submit(() -> {
                 try {
                     refreshPlayPauseButtonIcon();
                     lastAction = LastAction.Play;
+
+                    audioPlayingSemaphore.acquire();
                     audioPlayer.play();
+
                     refreshPlayPauseButtonIcon();
                 } catch (Exception ignored) {
-                    // occasionally JLayer likes to throw for no apparently reason
-                    // so we'll just reset resources and play again
-                    pauseAudio();
-                    playAudio();
+                    ignoredExceptionThrown.set(true);
+                } finally {
+                    audioPlayingSemaphore.release();
+
+                    if (ignoredExceptionThrown.get()) {
+                        // occasionally JLayer likes to throw for no apparently reason
+                        // so we'll just reset resources and play again
+                        pauseAudio();
+                        playAudio();
+                    }
                 }
 
                 try {
@@ -1759,25 +1788,24 @@ public class AudioPlayer{
         }
     }
 
+    // todo solution: don't set fis to null and use a semaphore for all access
+
     /**
      * Pauses playback of the current audio file.
      */
     private static void pauseAudio() {
-        lastAction = LastAction.Pause;
-
         try {
             if (fis != null) {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
                 fis.close();
                 fis = null;
             }
-
-            closeIfNotNull(bis);
-            closePlayerObject();
-            refreshPlayPauseButtonIcon();
-        } catch (Exception e) {
-            ExceptionHandler.handle(e);
+        } catch (Exception ignored) {
         }
+
+        closeIfNotNull(bis);
+        closePlayerObject();
+        refreshPlayPauseButtonIcon();
     }
 
     /**
@@ -1823,6 +1851,8 @@ public class AudioPlayer{
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
 
+        lastAction = LastAction.Skip;
+
         pauseAudio();
 
         float totalSeconds = AudioUtil.getMillisFast(currentAudioFile) / 1000.0f;
@@ -1860,6 +1890,8 @@ public class AudioPlayer{
 
         checkNotNull(currentAudioFile);
         checkArgument(!uiLocked);
+
+        lastAction = LastAction.Skip;
 
         pauseAudio();
         pauseLocation = 0;
@@ -2043,7 +2075,7 @@ public class AudioPlayer{
     /**
      * The class to update the audio location label and progress bar.
      */
-    private static class AudioLocationUpdator{
+    private static class AudioLocationUpdator {
         /**
          * The delay between update cycles for the audio lcoation text.
          */
@@ -2149,7 +2181,7 @@ public class AudioPlayer{
     /**
      * Private inner class for the scrolling audio label.
      */
-    private static class ScrollingTitleLabel{
+    private static class ScrollingTitleLabel {
         /**
          * The minimum width of the titel label.
          */
@@ -2287,7 +2319,7 @@ public class AudioPlayer{
     /**
      * A class to control the visibility of the audio volume level label.
      */
-    private static class AudioVolumeLabelAnimator{
+    private static class AudioVolumeLabelAnimator {
         /**
          * Whether this object has been killed.
          */
