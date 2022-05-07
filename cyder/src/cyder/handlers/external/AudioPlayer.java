@@ -49,11 +49,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo if within the first 5 seconds and skip back, skip to beginning of auido
+// todo need to be able to stop a dreamified audio
 
 // todo on view transition progress bar sets to full
 
-// todo progress bar needs to move smoothly
+// todo progress bar needs to move smoothly even if 1s audio length
 
 // todo progress bar should be smoothly draggable and not resume audio until mouse released, click actions should
 //  be delayed by delay function of a max click rate
@@ -1131,9 +1131,18 @@ public class AudioPlayer{
                         if ((currentAudioFilename + AudioUtil.DREAMY_SUFFIX)
                                 .equalsIgnoreCase(FileUtil.getFilename(audioFile))) {
 
-                            // stop audio
+                            if (isAudioPlaying()) {
+                                pauseAudio();
+                            }
 
-                            // use pause position to play dreamified wav
+                            currentAudioFile = audioFile;
+
+                            refreshFrameTitle();
+                            refreshAudioTitleLabel();
+                            refreshAlbumArt();
+                            refreshAudioFiles();
+                            refreshAudioProgressLabel();
+                            playAudio();
 
                             return;
                         }
@@ -1417,10 +1426,16 @@ public class AudioPlayer{
             return;
         }
 
+        String name = FileUtil.getFilename(currentAudioFile);
+
+        if (name.endsWith(AudioUtil.DREAMY_SUFFIX)) {
+            name = name.substring(0, name.length() - AudioUtil.DREAMY_SUFFIX.length());
+        }
+
         File albumArtFilePng = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
-                FileUtil.getFilename(currentAudioFile) + ".png");
+                name + ".png");
         File albumArtFileJpg = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
-                FileUtil.getFilename(currentAudioFile) + ".jpg");
+                name + ".jpg");
 
         ImageIcon customAlbumArt = null;
 
