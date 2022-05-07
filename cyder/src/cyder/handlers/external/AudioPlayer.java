@@ -555,6 +555,8 @@ public class AudioPlayer{
             pauseLocation = 0;
 
             // todo use method for duplicate calls like this when we want to refresh most things
+            // refreshAndPlay() method
+
             refreshFrameTitle();
             refreshAudioTitleLabel();
             refreshAudioProgressLabel();
@@ -619,7 +621,7 @@ public class AudioPlayer{
         audioPlayerFrame.getContentPane().add(lastAudioButton);
 
         playPauseButton = new JButton();
-        refreshPlayPauseButton();
+        refreshPlayPauseButtonIcon();
         playPauseButton.setFocusPainted(false);
         playPauseButton.setOpaque(false);
         playPauseButton.setContentAreaFilled(false);
@@ -1514,7 +1516,7 @@ public class AudioPlayer{
     /**
      * Refreshes the icon of the play/pause button.
      */
-    private static void refreshPlayPauseButton() {
+    private static void refreshPlayPauseButtonIcon() {
         if (isAudioPlaying()) {
             playPauseButton.setIcon(pauseIcon);
             playPauseButton.setToolTipText("Pause");
@@ -1653,10 +1655,10 @@ public class AudioPlayer{
 
             CyderThreadRunner.submit(() -> {
                 try {
-                    refreshPlayPauseButton();
+                    refreshPlayPauseButtonIcon();
                     lastAction = LastAction.Play;
                     audioPlayer.play();
-                    refreshPlayPauseButton();
+                    refreshPlayPauseButtonIcon();
                 } catch (Exception ignored) {
                     // occasionally JLayer likes to throw for no apparently reason
                     // so we'll just reset resources and play again
@@ -1671,7 +1673,7 @@ public class AudioPlayer{
                     ExceptionHandler.handle(e);
                 }
 
-                closeAudioPlayer();
+                closePlayerObject();
 
                 // no user interaction so proceed naturally
                 if (lastAction == LastAction.Play) {
@@ -1751,8 +1753,8 @@ public class AudioPlayer{
             }
 
             closeIfNotNull(bis);
-            closeAudioPlayer();
-            refreshPlayPauseButton();
+            closePlayerObject();
+            refreshPlayPauseButtonIcon();
         } catch (Exception e) {
             ExceptionHandler.handle(e);
         }
@@ -1761,7 +1763,7 @@ public class AudioPlayer{
     /**
      * Ends and closes the audio player JLayer object if not null.
      */
-    private static void closeAudioPlayer() {
+    private static void closePlayerObject() {
         if (audioPlayer != null) {
             audioPlayer.close();
             audioPlayer = null;
@@ -1785,6 +1787,12 @@ public class AudioPlayer{
     }
 
     /**
+     * The number of seconds which will trigger a song restart instead of previous audio skip action if
+     * the skip back button is pressed in the inclusive [0, SECONDS_IN_RESTART_TOL].
+     */
+    private static final int SECONDS_IN_RESTART_TOL = 5;
+
+    /**
      * Handles a click from the last button.
      */
     public static void handleLastAudioButtonClick() {
@@ -1796,10 +1804,19 @@ public class AudioPlayer{
         checkArgument(!uiLocked);
 
         pauseAudio();
+
+        float totalSeconds = AudioUtil.getMillisFast(currentAudioFile) / 1000.0f;
+        int secondsIn = (int) Math.ceil(totalSeconds * pauseLocation / totalAudioLength);
+
         pauseLocation = 0;
         totalAudioLength = 0;
 
         refreshAudioFiles();
+
+        if (secondsIn <= SECONDS_IN_RESTART_TOL) {
+            playAudio();
+            return;
+        }
 
         int currentIndex = getCurrentAudioIndex();
         int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
