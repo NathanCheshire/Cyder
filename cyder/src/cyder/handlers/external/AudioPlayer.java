@@ -51,21 +51,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo on view transition progress bar sets to full
 
-// todo we're still logging newlines that have no length...
-
 // todo progress bar needs to move smoothly
 
 // todo progress bar should be smoothly draggable and not resume audio until mouse released, click actions should
 //  be delayed by delay function of a max click rate
+// todo need a custom component for this
 
 // todo views should slide in and out like StraightShot
 
 // todo dreamify should be seamless audio transition, wait and get location then switch
 
-// todo need to prevent spamming of skip actions, method which buttons first check for
-
-// todo need to refresh audio files before going on to next one and before skip actions
-// in case a file was deleted, basically don't hold a list of valid ones
+// todo need to refresh audio files BEFORE choosing audio and BEFORE going on to next one and before skip actions
+//  in case a file was deleted, basically don't hold a list of valid ones
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
@@ -1644,6 +1641,9 @@ public class AudioPlayer{
                     audioPlayer.play();
                     refreshPlayPauseButton();
                 } catch (Exception ignored) {
+                    // occasionally JLayer likes to throw for no apparently reason
+                    // so we'll just reset resources and play again
+                    pauseAudio();
                     playAudio();
                 }
 
@@ -1806,29 +1806,31 @@ public class AudioPlayer{
             return;
         }
 
-        // todo stop audio first too?
+        checkNotNull(currentAudioFile);
+        checkArgument(!uiLocked);
 
-//        // always before handle button methods
-//        Preconditions.checkNotNull(currentAudioFile);
-//        Preconditions.checkArgument(!uiLocked);
-//
-//        int currentIndex = 0;
-//
-//        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-//            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
-//                currentIndex = i;
-//                break;
-//            }
-//        }
-//
-//        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
-//
-//        refreshFrameTitle();
-//        refreshAudioTitleLabel();
-//        refreshAlbumArt();
-//        refreshAudioFiles();
-//        refreshAudioProgressLabel();
-//        playAudio();
+        pauseAudio();
+
+        refreshAudioFiles();
+
+        int currentIndex = 0;
+
+        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
+
+        currentAudioFile = validAudioFiles.get(nextIndex);
+
+        refreshFrameTitle();
+        refreshAudioTitleLabel();
+        refreshAlbumArt();
+        refreshAudioProgressLabel();
+        playAudio();
     }
 
     /**

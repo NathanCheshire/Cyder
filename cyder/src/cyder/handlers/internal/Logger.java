@@ -177,7 +177,7 @@ public class Logger {
                 ExitCondition condition = (ExitCondition) representation;
                 logBuilder.append(condition.getCode());
 
-                logBuilder.append("[");
+                logBuilder.append(" [");
                 logBuilder.append(condition.getDescription());
                 logBuilder.append("], exceptions thrown: ");
 
