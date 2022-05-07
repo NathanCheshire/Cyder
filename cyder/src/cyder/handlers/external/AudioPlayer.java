@@ -49,6 +49,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// todo if within the first 5 seconds and skip back, skip to beginning of auido
+
 // todo on view transition progress bar sets to full
 
 // todo progress bar needs to move smoothly
@@ -1775,27 +1777,34 @@ public class AudioPlayer{
             return;
         }
 
-//        // always before handle button methods
-//        Preconditions.checkNotNull(currentAudioFile);
-//        Preconditions.checkArgument(!uiLocked);
-//
-//        int currentIndex = 0;
-//
-//        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-//            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
-//                currentIndex = i;
-//                break;
-//            }
-//        }
-//
-//        int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
-//
-//        refreshFrameTitle();
-//        refreshAudioTitleLabel();
-//        refreshAlbumArt();
-//        refreshAudioFiles();
-//        refreshAudioProgressLabel();
-//        playAudio();
+        checkNotNull(currentAudioFile);
+        checkArgument(!uiLocked);
+
+        pauseAudio();
+        pauseLocation = 0;
+        totalAudioLength = 0;
+
+        refreshAudioFiles();
+
+        int currentIndex = 0;
+
+        // todo extract method to get current index
+        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
+            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
+
+        currentAudioFile = validAudioFiles.get(lastIndex);
+
+        refreshFrameTitle();
+        refreshAudioTitleLabel();
+        refreshAlbumArt();
+        refreshAudioProgressLabel();
+        playAudio();
     }
 
     /**
@@ -1810,6 +1819,8 @@ public class AudioPlayer{
         checkArgument(!uiLocked);
 
         pauseAudio();
+        pauseLocation = 0;
+        totalAudioLength = 0;
 
         refreshAudioFiles();
 
