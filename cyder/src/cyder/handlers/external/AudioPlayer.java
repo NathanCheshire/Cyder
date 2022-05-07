@@ -1182,9 +1182,14 @@ public class AudioPlayer{
                                 pauseAudio();
                             }
 
-                            currentAudioFile = destinationFile;
+                            currentAudioFile = destinationFile.getAbsoluteFile();
 
-                            // todo refresh methods and play call here after figuring out how to play wav files
+                            refreshFrameTitle();
+                            refreshAudioTitleLabel();
+                            refreshAlbumArt();
+                            refreshAudioFiles();
+                            refreshAudioProgressLabel();
+                            playAudio();
 
                             audioPlayerFrame.notify("Successfully dreamified audio");
                         } catch (Exception e) {

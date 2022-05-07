@@ -56,30 +56,30 @@ public class CyderWatchdog {
      * Upon a possible freeze event, the user will be informed and prompted to exit or restart Cyder.
      */
     public static void initializeWatchDog() {
-//        CyderThreadRunner.submit(() -> {
-//            OUTER:
-//                while (true) {
-//                    try {
-//                        // timeout first
-//                        Thread.sleep(INITIALIZE_TIMEOUT);
-//
-//                        // get thread group and enumerate over threads
-//                        ThreadGroup group = Thread.currentThread().getThreadGroup();
-//                        Thread[] currentThreads = new Thread[group.activeCount()];
-//                        group.enumerate(currentThreads);
-//
-//                        for (Thread thread : currentThreads) {
-//                            // thread found so start actual watchdog timer and break out of initializer
-//                            if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
-//                                startWatchDog(thread);
-//                                break OUTER;
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        Logger.Debug(ExceptionHandler.getPrintableException(e));
-//                    }
-//            }
-//        }, IgnoreThread.WatchdogInitializer.getName());
+        CyderThreadRunner.submit(() -> {
+            OUTER:
+                while (true) {
+                    try {
+                        // timeout first
+                        Thread.sleep(INITIALIZE_TIMEOUT);
+
+                        // get thread group and enumerate over threads
+                        ThreadGroup group = Thread.currentThread().getThreadGroup();
+                        Thread[] currentThreads = new Thread[group.activeCount()];
+                        group.enumerate(currentThreads);
+
+                        for (Thread thread : currentThreads) {
+                            // thread found so start actual watchdog timer and break out of initializer
+                            if (thread.getName().equals(AWT_EVENT_QUEUE_0_NAME)) {
+                                startWatchDog(thread);
+                                break OUTER;
+                            }
+                        }
+                    } catch (Exception e) {
+                        Logger.Debug(ExceptionHandler.getPrintableException(e));
+                    }
+            }
+        }, IgnoreThread.WatchdogInitializer.getName());
     }
 
     /**

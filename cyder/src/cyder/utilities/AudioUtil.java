@@ -156,30 +156,12 @@ public class AudioUtil {
         return Executors.newSingleThreadExecutor(
                 new CyderThreadFactory("Audio Dreamifier: "
                         + FileUtil.getFilename(wavOrMp3File))).submit(() -> {
-            File usageFile = wavOrMp3File;
-
-            // if an mp3 file, convert usageFile to wav
-            if (!FileUtil.validateExtension(usageFile, ".wav")) {
-                Future<Optional<File>> wavFile = mp3ToWav(usageFile);
-
-                while (!wavFile.isDone()) {
-                    Thread.onSpinWait();
-                }
-
-                if (wavFile.get().isPresent()) {
-                    usageFile = wavFile.get().get();
-                } else {
-                    // couldn't convert so return an empty
-                    // optional, caller should check for this
-                    return Optional.empty();
-                }
-            }
 
             // in case the audio wav name contains spaces, surround with quotes
-            String safeFilename = "\"" + usageFile.getAbsolutePath() + "\"";
+            String safeFilename = "\"" + wavOrMp3File.getAbsolutePath() + "\"";
 
             File outputFile =  OSUtil.buildFile(DynamicDirectory.DYNAMIC_PATH,
-                    "tmp", FileUtil.getFilename(usageFile) + DREAMY_SUFFIX + ".wav");
+                    "tmp", FileUtil.getFilename(wavOrMp3File) + DREAMY_SUFFIX + ".mp3");
 
             ProcessBuilder pb = new ProcessBuilder(
                     getFfmpegCommand(),
@@ -191,7 +173,7 @@ public class AudioUtil {
             Process p = pb.start();
 
             // get original time of wav (after process started to save time)
-            Future<Integer> startingMillis = getMillis(usageFile);
+            Future<Integer> startingMillis = getMillis(wavOrMp3File);
             while (!startingMillis.isDone()) {
                 Thread.onSpinWait();
             }
@@ -216,7 +198,7 @@ public class AudioUtil {
                 Thread.sleep(500);
             }
 
-            // return dreamified wav
+            // return dreamified
             return Optional.of(outputFile);
         });
     }
