@@ -1792,7 +1792,7 @@ public class AudioPlayer{
     }
 
     /**
-     * The number of seconds which will trigger a song restart instead of previous audio skip action if
+     * The number of seconds which will not trigger a song restart instead of previous audio skip action if
      * the skip back button is pressed in the inclusive [0, SECONDS_IN_RESTART_TOL].
      */
     private static final int SECONDS_IN_RESTART_TOL = 5;
@@ -1818,7 +1818,7 @@ public class AudioPlayer{
 
         refreshAudioFiles();
 
-        if (secondsIn <= SECONDS_IN_RESTART_TOL) {
+        if (secondsIn > SECONDS_IN_RESTART_TOL) {
             playAudio();
             return;
         }
