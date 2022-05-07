@@ -1298,10 +1298,39 @@ public class AudioPlayer{
                 break;
             case MINI:
                 currentFrameView = FrameView.MINI;
-                setUiComponentsVisible(false);
+                setUiComponentsVisible(true);
+
+                // todo loading files... needs to be hidden once loaded
+                // todo 150 and 40 need to be abstracted away
+                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN - ALBUM_ART_LABEL_SIZE - 150);
+
+                albumArtLabel.setVisible(false);
+                albumArtLabel.setBorder(null);
 
                 // set location of all components needed
-                // only set elements to show to visible, (buttons)
+                xOff = DEFAULT_FRAME_LEN / 2 - ALBUM_ART_LABEL_SIZE / 2;
+                yOff = CyderDragLabel.DEFAULT_HEIGHT + 10;
+
+                // xOff of rest of components is s.t. the total width is 1.5x width of album art label
+                xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
+
+                refreshAudioTitleLabel();
+
+                yOff += 40 + yPadding;
+
+                buttonWidth = 30;
+                spacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+
+                shuffleAudioButton.setLocation(xOff + spacing, yOff);
+                lastAudioButton.setLocation(xOff + spacing * 2 + buttonWidth, yOff);
+                playPauseButton.setLocation(xOff + spacing * 3 + buttonWidth * 2, yOff);
+                nextAudioButton.setLocation(xOff + spacing * 4 + buttonWidth * 3, yOff);
+                repeatAudioButton.setLocation(xOff + spacing * 5 + buttonWidth * 4, yOff);
+
+                yOff += 30 + yPadding;
+
+                // todo disable audio progress bar, audio progress label and updating of them
+
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported frame view to switch to: " + view);
@@ -1764,6 +1793,8 @@ public class AudioPlayer{
         if (!shouldAllowClick()) {
             return;
         }
+
+        // todo stop audio first too?
 
 //        // always before handle button methods
 //        Preconditions.checkNotNull(currentAudioFile);
