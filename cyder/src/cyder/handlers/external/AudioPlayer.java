@@ -1197,15 +1197,27 @@ public class AudioPlayer{
     }
 
     /**
+     * The padding used between component rows.
+     */
+    private static final int yComponentPadding = 20;
+
+    /**
+     * The width and height used for the primary control buttons.
+     */
+    private static final int primaryButtonWidth = 30;
+
+    /**
+     * The spacing between the primary buttons.
+     */
+    private static final int primaryButtonSpacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+
+    /**
      * Sets component visibilities and locations based on the provided frame view.
      *
      * @param view the requested frame view
      */
     private static void setupAndShowFrameView(FrameView view) {
         setUiComponentsVisible(false);
-
-        // todo extract vars like this and make class level private
-        int yPadding = 20;
 
         switch (view) {
             case FULL:
@@ -1220,28 +1232,26 @@ public class AudioPlayer{
                 yOff += 20;
 
                 albumArtLabel.setLocation(xOff, yOff);
-                yOff += ALBUM_ART_LABEL_SIZE + yPadding;
+                yOff += ALBUM_ART_LABEL_SIZE + yComponentPadding;
 
                 refreshAlbumArt();
 
-                // xOff of rest of components is s.t. the total width is 1.5x width of album art label
+                // xOff of rest of components is len s.t. the total
+                // width is 1.5x the width of the  album art label
                 xOff = (int) (DEFAULT_FRAME_LEN / 2 - (1.5 * ALBUM_ART_LABEL_SIZE) / 2);
 
                 refreshAudioTitleLabel();
 
                 audioTitleLabelContainer.setLocation(xOff, yOff);
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
-                int buttonWidth = 30;
-                int spacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+                shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
+                lastAudioButton.setLocation(xOff + primaryButtonSpacing * 2 + primaryButtonWidth, yOff);
+                playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
+                nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
+                repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
 
-                shuffleAudioButton.setLocation(xOff + spacing, yOff);
-                lastAudioButton.setLocation(xOff + spacing * 2 + buttonWidth, yOff);
-                playPauseButton.setLocation(xOff + spacing * 3 + buttonWidth * 2, yOff);
-                nextAudioButton.setLocation(xOff + spacing * 4 + buttonWidth * 3, yOff);
-                repeatAudioButton.setLocation(xOff + spacing * 5 + buttonWidth * 4, yOff);
-
-                yOff += 30 + yPadding;
+                yOff += 30 + yComponentPadding;
 
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
@@ -1252,11 +1262,11 @@ public class AudioPlayer{
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
 
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
                 audioVolumeSlider.setLocation(xOff, yOff);
 
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
                 break;
             case HIDDEN_ART:
@@ -1278,18 +1288,15 @@ public class AudioPlayer{
                 refreshAudioTitleLabel();
 
                 audioTitleLabelContainer.setLocation(xOff, yOff);
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
-                buttonWidth = 30;
-                spacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+                shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
+                lastAudioButton.setLocation(xOff + primaryButtonSpacing * 2 + primaryButtonWidth, yOff);
+                playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
+                nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
+                repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
 
-                shuffleAudioButton.setLocation(xOff + spacing, yOff);
-                lastAudioButton.setLocation(xOff + spacing * 2 + buttonWidth, yOff);
-                playPauseButton.setLocation(xOff + spacing * 3 + buttonWidth * 2, yOff);
-                nextAudioButton.setLocation(xOff + spacing * 4 + buttonWidth * 3, yOff);
-                repeatAudioButton.setLocation(xOff + spacing * 5 + buttonWidth * 4, yOff);
-
-                yOff += 30 + yPadding;
+                yOff += 30 + yComponentPadding;
 
                 audioProgressBar.setLocation(xOff, yOff);
                 audioProgressBar.setValue(audioProgressBar.getMaximum());
@@ -1300,11 +1307,11 @@ public class AudioPlayer{
                 audioVolumePercentLabel.setLocation(DEFAULT_FRAME_LEN / 2 - audioVolumePercentLabel.getWidth() / 2,
                         yOff + 35);
 
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
                 audioVolumeSlider.setLocation(xOff, yOff);
 
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
                 currentFrameView = FrameView.HIDDEN_ART;
                 break;
@@ -1327,20 +1334,24 @@ public class AudioPlayer{
 
                 refreshAudioTitleLabel();
 
-                yOff += 40 + yPadding;
+                yOff += 40 + yComponentPadding;
 
-                buttonWidth = 30;
-                spacing = (int) ((1.5 * ALBUM_ART_LABEL_SIZE - 5 * 30) / 6);
+                shuffleAudioButton.setLocation(xOff + primaryButtonSpacing, yOff);
+                lastAudioButton.setLocation(xOff + primaryButtonSpacing * 2 + primaryButtonWidth, yOff);
+                playPauseButton.setLocation(xOff + primaryButtonSpacing * 3 + primaryButtonWidth * 2, yOff);
+                nextAudioButton.setLocation(xOff + primaryButtonSpacing * 4 + primaryButtonWidth * 3, yOff);
+                repeatAudioButton.setLocation(xOff + primaryButtonSpacing * 5 + primaryButtonWidth * 4, yOff);
 
-                shuffleAudioButton.setLocation(xOff + spacing, yOff);
-                lastAudioButton.setLocation(xOff + spacing * 2 + buttonWidth, yOff);
-                playPauseButton.setLocation(xOff + spacing * 3 + buttonWidth * 2, yOff);
-                nextAudioButton.setLocation(xOff + spacing * 4 + buttonWidth * 3, yOff);
-                repeatAudioButton.setLocation(xOff + spacing * 5 + buttonWidth * 4, yOff);
+                yOff += 30 + yComponentPadding;
 
-                yOff += 30 + yPadding;
+                audioProgressBar.setVisible(false);
+                audioProgressLabel.setVisible(false);
+                audioVolumeSlider.setVisible(false);
 
-                // todo disable audio progress bar, audio progress label and updating of them
+                if (audioLocationUpdator != null) {
+                    audioLocationUpdator.kill();
+                    audioLocationUpdator = null;
+                }
 
                 break;
             default:
@@ -1465,6 +1476,10 @@ public class AudioPlayer{
      * Refreshes the audio progres label and total length.
      */
     private static void refreshAudioProgressLabel() {
+        if (currentFrameView == FrameView.MINI) {
+            return;
+        }
+
         if (audioLocationUpdator != null) {
             audioLocationUpdator.kill();
         }
@@ -1786,16 +1801,7 @@ public class AudioPlayer{
 
         refreshAudioFiles();
 
-        int currentIndex = 0;
-
-        // todo extract method to get current index
-        for (int i = 0 ; i < validAudioFiles.size() ; i++) {
-            if (validAudioFiles.get(i).getAbsolutePath().equals(currentAudioFile.getAbsolutePath())) {
-                currentIndex = i;
-                break;
-            }
-        }
-
+        int currentIndex = getCurrentAudioIndex();
         int lastIndex = currentIndex == 0 ? validAudioFiles.size() - 1 : currentIndex - 1;
 
         currentAudioFile = validAudioFiles.get(lastIndex);
@@ -1822,6 +1828,24 @@ public class AudioPlayer{
         pauseLocation = 0;
         totalAudioLength = 0;
 
+        int currentIndex = getCurrentAudioIndex();
+        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
+
+        currentAudioFile = validAudioFiles.get(nextIndex);
+
+        refreshFrameTitle();
+        refreshAudioTitleLabel();
+        refreshAlbumArt();
+        refreshAudioProgressLabel();
+        playAudio();
+    }
+
+    /**
+     * Refreshes the valid audio files and returns the index of the current audio file.
+     *
+     * @return the index of the current audio file
+     */
+    private static int getCurrentAudioIndex() {
         refreshAudioFiles();
 
         int currentIndex = 0;
@@ -1833,15 +1857,7 @@ public class AudioPlayer{
             }
         }
 
-        int nextIndex = currentIndex == validAudioFiles.size() - 1 ? 0 : currentIndex + 1;
-
-        currentAudioFile = validAudioFiles.get(nextIndex);
-
-        refreshFrameTitle();
-        refreshAudioTitleLabel();
-        refreshAlbumArt();
-        refreshAudioProgressLabel();
-        playAudio();
+        return currentIndex;
     }
 
     /**
@@ -2023,6 +2039,10 @@ public class AudioPlayer{
 
             this.effectLabel = effectLabel;
             this.progressBar = progressBar;
+
+            if (currentFrameView == FrameView.MINI) {
+                return;
+            }
 
             try {
                 CyderThreadRunner.submit(() -> {
