@@ -49,8 +49,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-// todo loading files... needs to be hidden once loaded
-
 // todo on view transition progress bar sets to full
 
 // todo progress bar needs to move smoothly
@@ -2013,23 +2011,7 @@ public class AudioPlayer{
 
             try {
                 CyderThreadRunner.submit(() -> {
-                    Future<Integer> millis = AudioUtil.getMillis(currentAudioFile);
-
-                    // while waiting set label to blank and progress bar to 0
-                    progressBar.setValue(0);
-                    audioProgressLabel.setText("");
-
-                    while (!millis.isDone()) {
-                        Thread.onSpinWait();
-                    }
-
-                    int totalMillis = 0;
-
-                    try {
-                        totalMillis = millis.get();
-                    } catch (Exception e) {
-                        ExceptionHandler.handle(e);
-                    }
+                    int totalMillis = AudioUtil.getMillisFast(currentAudioFile);
 
                     if (totalMillis == 0) {
                         return;

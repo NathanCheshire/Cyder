@@ -7,9 +7,12 @@ import cyder.enums.DynamicDirectory;
 import cyder.exceptions.IllegalMethodException;
 import cyder.handlers.internal.ExceptionHandler;
 import cyder.threads.CyderThreadFactory;
+import javazoom.jl.decoder.Bitstream;
+import javazoom.jl.decoder.Header;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -494,5 +497,35 @@ public class AudioUtil {
         }
 
         return StringUtil.getTrimmedText(sb.toString());
+    }
+
+    /**
+     * Returns the numver of milliseconds in an audio file faster than using the
+     * standard {@link AudioUtil#getMillis(File)} method which utilizes ffprobe.
+     *
+     * @param audioFile the audio file to return the duration of
+     * @return the duration of the provided audio file
+     */
+    public static int getMillisFast(File audioFile) {
+        try {
+            Header h = null;
+            FileInputStream fis = new FileInputStream(audioFile);
+            Bitstream bitstream = new Bitstream(fis);
+            h = bitstream.readFrame();
+
+            int size = h.calculate_framesize();
+            float ms_per_frame = h.ms_per_frame();
+            int maxSize = h.max_number_of_frames(10000);
+            float t = h.total_ms(size);
+            long tn = 0;
+            tn = fis.getChannel().size();
+
+            int min = h.min_number_of_frames(500);
+            return (int) h.total_ms((int) tn);
+        } catch (Exception e) {
+            ExceptionHandler.handle(e);
+        }
+
+        return 0;
     }
 }
