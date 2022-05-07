@@ -51,6 +51,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo on view transition progress bar sets to full
 
+// todo we're still logging newlines that have no length...
+
 // todo progress bar needs to move smoothly
 
 // todo progress bar should be smoothly draggable and not resume audio until mouse released, click actions should

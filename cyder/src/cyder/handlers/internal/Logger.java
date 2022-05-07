@@ -100,6 +100,13 @@ public class Logger {
             return;
         }
 
+        // don't log new lines
+        if (representation instanceof String
+                && (((String) representation).trim().isEmpty()
+                || ((String) representation).equals("\n"))) {
+            return;
+        }
+
         StringBuilder logBuilder = new StringBuilder(getLogTime());
 
         switch (tag) {
