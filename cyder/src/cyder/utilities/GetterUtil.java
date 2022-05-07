@@ -374,13 +374,15 @@ public class GetterUtil {
 
                 // label to show where files will be
                 JLabel tempLabel = new JLabel();
-                tempLabel.setText("<html><div align=\"center\">Loading files...</div></html>");
+                tempLabel.setText("<html><div align=\"center\">Loading...</div></html>");
                 tempLabel.setHorizontalAlignment(JLabel.CENTER);
                 tempLabel.setVerticalAlignment(JLabel.CENTER);
                 tempLabel.setFont(CyderFonts.defaultFont);
-                tempLabel.setForeground(darkMode ? CyderColors.defaultDarkModeTextColor
+                tempLabel.setForeground(darkMode
+                        ? CyderColors.defaultDarkModeTextColor
                         : CyderColors.navy);
-                tempLabel.setBorder(new LineBorder(darkMode ? CyderColors.defaultDarkModeTextColor
+                tempLabel.setBorder(new LineBorder(darkMode
+                        ? CyderColors.defaultDarkModeTextColor
                         : CyderColors.navy, 5, false));
                 tempLabel.setOpaque(false);
                 tempLabel.setBounds(10, 90, 600, 400);
@@ -446,7 +448,8 @@ public class GetterUtil {
                     dirFieldRef.get().setEnabled(true);
                     dirFieldRef.get().requestFocus();
 
-                    refFrame.revokeAllNotifications();
+                    tempLabel.setVisible(false);
+                    refFrame.getContentPane().remove(tempLabel);
 
                     backward.push(currentDirectory);
                 }, "File Getter Loader");

@@ -49,6 +49,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+// todo loading files... needs to be hidden once loaded
+
 // todo on view transition progress bar sets to full
 
 // todo progress bar needs to move smoothly
@@ -402,6 +404,16 @@ public class AudioPlayer{
      * The width and height of the album art label.
      */
     private static final int ALBUM_ART_LABEL_SIZE = 300;
+
+    /**
+     * The number to subtract from the frame height when the frame is in mini mode.
+     */
+    private static final int MINI_FRAME_HEIGHT_OFFSET = 150;
+
+    /**
+     * The number to subtract from the frame height when the frame is in hidden art mode.
+     */
+    private static final int HIDDEN_ART_HEIGHT_OFFSET = 40;
 
     /**
      * The width of a primary ui control row.
@@ -1171,7 +1183,7 @@ public class AudioPlayer{
 
                             currentAudioFile = destinationFile;
 
-                            // todo refresh methods and play call here
+                            // todo refresh methods and play call here after figuring out how to play wav files
 
                             audioPlayerFrame.notify("Successfully dreamified audio");
                         } catch (Exception e) {
@@ -1251,7 +1263,8 @@ public class AudioPlayer{
             case HIDDEN_ART:
                 setUiComponentsVisible(true);
 
-                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN - ALBUM_ART_LABEL_SIZE - 40);
+                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
+                        - ALBUM_ART_LABEL_SIZE - HIDDEN_ART_HEIGHT_OFFSET);
 
                 albumArtLabel.setVisible(false);
                 albumArtLabel.setBorder(null);
@@ -1300,9 +1313,8 @@ public class AudioPlayer{
                 currentFrameView = FrameView.MINI;
                 setUiComponentsVisible(true);
 
-                // todo loading files... needs to be hidden once loaded
-                // todo 150 and 40 need to be abstracted away
-                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN - ALBUM_ART_LABEL_SIZE - 150);
+                audioPlayerFrame.setSize(DEFAULT_FRAME_LEN, DEFAULT_FRAME_LEN
+                        - ALBUM_ART_LABEL_SIZE - MINI_FRAME_HEIGHT_OFFSET);
 
                 albumArtLabel.setVisible(false);
                 albumArtLabel.setBorder(null);
