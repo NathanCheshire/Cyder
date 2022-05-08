@@ -183,7 +183,7 @@ public class CyderSplash {
                                 StringUtil.getMinHeight("By Nathan Cheshire", nathanFont) + 10);
                         splashFrame.getContentPane().add(creatorLabel);
 
-                        while (creatorLabel.getY() > FRAME_LEN / 2 + ICON_LEN / 2 + creatorLabel.getHeight() + 10) {
+                        while (creatorLabel.getY() > FRAME_LEN / 2 + ICON_LEN / 2 + creatorLabel.getHeight()) {
                             creatorLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
                             Thread.sleep(5);
                         }
@@ -202,7 +202,10 @@ public class CyderSplash {
                         loadingLabel.setForeground(CyderColors.vanila);
                         loadingLabel.setSize(FRAME_LEN,
                                 StringUtil.getMinHeight(CyderStrings.europeanToymaker, newFont));
-                        loadingLabel.setLocation(0, 510);
+                        loadingLabel.setLocation(creatorLabel.getX(), creatorLabel.getY() - 5);
+
+                        creatorLabel.setVisible(false);
+                        splashFrame.getContentPane().remove(creatorLabel);
                         splashFrame.getContentPane().add(loadingLabel);
 
                         for (int i = 0; i < 30; i++) {

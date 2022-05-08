@@ -53,10 +53,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 // todo do some kind of a cool effect for dreamy album art?
 
-// todo still get stream closed issues like crazy even if we check for fis not null
-//  perhaps in that method if an error is throw we need to clean up resources regardless and assume fis was null
-//  or at least in that specific exception StreamClosedException just carry on like usual
-
 // todo need to be able to stop a dreamified audio
 
 // todo on view transition progress bar sets to full
@@ -68,11 +64,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 // todo need a custom component for this
 
 // todo views should slide in and out like StraightShot
-
-// todo dreamify should be seamless audio transition, wait and get location then switch
-
-// todo need to refresh audio files BEFORE choosing audio and BEFORE going on to next one and before skip actions
-//  in case a file was deleted, basically don't hold a list of valid ones
 
 /**
  * An audio player widget which can also download YouTube video audio and thumbnails.
