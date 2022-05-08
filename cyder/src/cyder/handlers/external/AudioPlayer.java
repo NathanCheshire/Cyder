@@ -1857,6 +1857,8 @@ public class AudioPlayer {
 
         lastAction = LastAction.Skip;
 
+        boolean shouldPlay = isAudioPlaying();
+
         pauseAudio();
 
         float totalSeconds = AudioUtil.getMillisFast(currentAudioFile) / 1000.0f;
@@ -1881,7 +1883,10 @@ public class AudioPlayer {
         refreshAudioTitleLabel();
         refreshAlbumArt();
         refreshAudioProgressLabel();
-        playAudio();
+
+        if (shouldPlay) {
+            playAudio();
+        }
     }
 
     /**
@@ -1897,7 +1902,10 @@ public class AudioPlayer {
 
         lastAction = LastAction.Skip;
 
+        boolean shouldPlay = isAudioPlaying();
+
         pauseAudio();
+
         pauseLocation = 0;
         totalAudioLength = 0;
 
@@ -1910,7 +1918,10 @@ public class AudioPlayer {
         refreshAudioTitleLabel();
         refreshAlbumArt();
         refreshAudioProgressLabel();
-        playAudio();
+
+        if (shouldPlay) {
+            playAudio();
+        }
     }
 
     /**
