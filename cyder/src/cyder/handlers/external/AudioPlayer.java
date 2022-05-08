@@ -509,6 +509,10 @@ public class AudioPlayer {
          */
         Skip,
         /**
+         * The audio was skipped
+         */
+        Pause,
+        /**
          * The user changed the audio location.
          */
         Scrub,
@@ -1788,12 +1792,12 @@ public class AudioPlayer {
         }
     }
 
-    // todo solution: don't set fis to null and use a semaphore for all access
-
     /**
      * Pauses playback of the current audio file.
      */
     private static void pauseAudio() {
+        lastAction = LastAction.Pause;
+
         try {
             if (fis != null) {
                 pauseLocation = totalAudioLength - fis.available() - PAUSE_AUDIO_REACTION_OFFSET;
