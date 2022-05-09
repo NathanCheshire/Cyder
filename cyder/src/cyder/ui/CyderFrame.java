@@ -1505,7 +1505,7 @@ public class CyderFrame extends JFrame {
                 // failsafe
                 super.dispose();
             }
-        }, "[" + getTitle() + "]  dispose() animation thread");
+        }, "[" + getTitle() + "] dispose() animation thread");
     }
 
     /**

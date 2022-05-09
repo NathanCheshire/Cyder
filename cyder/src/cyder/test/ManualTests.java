@@ -134,7 +134,8 @@ public class ManualTests {
 
         CyderButton cb1 = new CyderButton("Remove last");
         cb1.setBounds(100, 180, 150, 40);
-        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(testFrame.getTopDragLabel().getButtonList().size() - 1));
+        cb1.addActionListener(e -> testFrame.getTopDragLabel().removeButton(
+                testFrame.getTopDragLabel().getButtonList().size() - 1));
         testFrame.getContentPane().add(cb1);
 
         CyderButton addPinFirst = new CyderButton("Add Random Butter first");
@@ -337,7 +338,7 @@ public class ManualTests {
 
             try {
                 int x = testFrame.getContentPane().getX();
-                for (int i = testFrame.getContentPane().getY(); i > -testFrame.getHeight(); i--) {
+                for (int i = testFrame.getContentPane().getY() ; i > -testFrame.getHeight() ; i--) {
                     testFrame.getContentPane().setLocation(x, i);
                     Thread.sleep(1);
                 }
@@ -355,7 +356,7 @@ public class ManualTests {
         slideLeft.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int y = testFrame.getContentPane().getY();
-                for (int i = 0; i > -testFrame.getWidth(); i--) {
+                for (int i = 0 ; i > -testFrame.getWidth() ; i--) {
                     testFrame.getContentPane().setLocation(i, y);
                     Thread.sleep(1);
                 }
@@ -373,7 +374,7 @@ public class ManualTests {
         slideDown.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int x = testFrame.getContentPane().getX();
-                for (int i = 0; i < testFrame.getHeight(); i++) {
+                for (int i = 0 ; i < testFrame.getHeight() ; i++) {
                     testFrame.getContentPane().setLocation(x, i);
                     Thread.sleep(1);
                 }
@@ -391,7 +392,7 @@ public class ManualTests {
         slideRight.addActionListener(e -> CyderThreadRunner.submit(() -> {
             try {
                 int y = testFrame.getContentPane().getY();
-                for (int i = 0; i < testFrame.getWidth(); i++) {
+                for (int i = 0 ; i < testFrame.getWidth() ; i++) {
                     testFrame.getContentPane().setLocation(i, y);
                     Thread.sleep(1);
                 }
@@ -449,7 +450,7 @@ public class ManualTests {
         cf.finalizeAndShow();
 
         CyderThreadRunner.submit(() -> {
-            for (int i = 0; i <= jpb.getMaximum() / 2; i++) {
+            for (int i = 0 ; i <= jpb.getMaximum() / 2 ; i++) {
                 jpb.setValue(i);
                 try {
                     Thread.sleep(2000 / jpb.getMaximum());
@@ -458,7 +459,7 @@ public class ManualTests {
                 }
             }
 
-            for (int i = jpb.getMaximum() / 2; i <= jpb.getMaximum(); i++) {
+            for (int i = jpb.getMaximum() / 2 ; i <= jpb.getMaximum() ; i++) {
                 jpb.setValue(i);
                 try {
                     Thread.sleep(500 / jpb.getMaximum());
@@ -582,7 +583,7 @@ public class ManualTests {
 
         int startX = 50;
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0 ; i < 5 ; i++) {
             CyderCheckbox cb = new CyderCheckbox();
             cb.setBounds(startX + (60) * i, 40, 50, 50);
             testFrame.getContentPane().add(cb);
@@ -609,7 +610,8 @@ public class ManualTests {
         //add components to the layout at specified position
         CyderButton testButton = new CyderButton("This");
         testButton.setSize(100, 100);
-        testButton.addActionListener(e -> gridTestFrame.notify(new NotificationBuilder("Notified button clicked")));
+        testButton.addActionListener(e -> gridTestFrame.notify(
+                new NotificationBuilder("Notified button clicked")));
         layout.addComponent(testButton, 0, 0, CyderGridLayout.Position.MIDDLE_RIGHT);
 
         CyderLabel testLabel2 = new CyderLabel("A");
@@ -662,11 +664,12 @@ public class ManualTests {
                 CyderFlowLayout.VerticalAlignment.CENTER, 25, 15);
 
         //add 10 buttons to layout
-        for (int i = 1; i < 11; i++) {
+        for (int i = 1 ; i < 11 ; i++) {
             CyderButton cb = new CyderButton("Test Button " + i);
             cb.setSize(200, 50);
             int finalI = i;
-            cb.addActionListener(e -> testFrame.notify(new NotificationBuilder(finalI + " button: " + cb)));
+            cb.addActionListener(e -> testFrame.notify(
+                    new NotificationBuilder(finalI + " button: " + cb)));
             layout.addComponent(cb);
         }
 

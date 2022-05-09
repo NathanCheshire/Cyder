@@ -1436,8 +1436,11 @@ public class AudioPlayer {
 
         String name = FileUtil.getFilename(currentAudioFile);
 
+        boolean dreamy = false;
+
         if (name.endsWith(AudioUtil.DREAMY_SUFFIX)) {
             name = name.substring(0, name.length() - AudioUtil.DREAMY_SUFFIX.length());
+            dreamy = true;
         }
 
         File albumArtFilePng = OSUtil.buildFile(currentUserAlbumArtDir.getAbsolutePath(),
@@ -1459,10 +1462,24 @@ public class AudioPlayer {
             ExceptionHandler.handle(e);
         }
 
-        albumArtLabel.setIcon(ImageUtil.resizeImage(customAlbumArt, ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE));
+        if (dreamy) {
+            ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
+                    ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
+
+            ImageIcon distortedIcon = ImageUtil.toImageIcon(
+                    ImageUtil.applyGaussianBlur(ImageUtil.toBufferedImage(regularIcon)));
+
+            albumArtLabel.setIcon(distortedIcon);
+            audioPlayerFrame.setCustomTaskbarIcon(distortedIcon);
+        } else {
+            ImageIcon regularIcon = ImageUtil.resizeImage(customAlbumArt,
+                    ALBUM_ART_LABEL_SIZE, ALBUM_ART_LABEL_SIZE);
+            albumArtLabel.setIcon(regularIcon);
+            audioPlayerFrame.setCustomTaskbarIcon(regularIcon);
+        }
+
         albumArtLabel.repaint();
 
-        audioPlayerFrame.setCustomTaskbarIcon(customAlbumArt);
         audioPlayerFrame.setUseCustomTaskbarIcon(customAlbumArt != null);
 
         ConsoleFrame.INSTANCE.revalidateMenu();

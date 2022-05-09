@@ -50,13 +50,13 @@ public class ImageUtil {
                 imageToPixelate.getHeight(),
                 imageToPixelate.getType());
 
-        for (int y = 0; y < imageToPixelate.getHeight(); y += pixelSize) {
-            for (int x = 0; x < imageToPixelate.getWidth(); x += pixelSize) {
+        for (int y = 0 ; y < imageToPixelate.getHeight() ; y += pixelSize) {
+            for (int x = 0 ; x < imageToPixelate.getWidth() ; x += pixelSize) {
                 BufferedImage croppedImage = getCroppedImage(imageToPixelate, x, y, pixelSize, pixelSize);
                 Color dominantColor = ColorUtil.getDominantColor(croppedImage);
 
-                for (int yd = y; (yd < y + pixelSize) && (yd < pixelateImage.getHeight()); yd++) {
-                    for (int xd = x; (xd < x + pixelSize) && (xd < pixelateImage.getWidth()); xd++) {
+                for (int yd = y ; (yd < y + pixelSize) && (yd < pixelateImage.getHeight()) ; yd++) {
+                    for (int xd = x ; (xd < x + pixelSize) && (xd < pixelateImage.getWidth()) ; xd++) {
                         pixelateImage.setRGB(xd, yd, dominantColor.getRGB());
                     }
                 }
@@ -657,7 +657,7 @@ public class ImageUtil {
             PixelGrabber pg = new PixelGrabber(icon, 0, 0, w, h, pixels, 0, w);
             pg.grabPixels();
             Color firstColor = new Color(pixels[0]);
-            for (int i = 1; i < pixels.length; i++) {
+            for (int i = 1 ; i < pixels.length ; i++) {
                 if (!new Color(pixels[i]).equals(firstColor)) {
                     ret = false;
                     break;
@@ -717,7 +717,7 @@ public class ImageUtil {
                 if (pixels1.length != pixels2.length) {
                     ret = false;
                 } else {
-                    for (int i = 1; i < pixels1.length; i++) {
+                    for (int i = 1 ; i < pixels1.length ; i++) {
                         if (pixels1[i] != pixels2[i]) {
                             ret = false;
                             break;
@@ -840,7 +840,7 @@ public class ImageUtil {
             int size2 = db2.getSize();
 
             if (size == size2) {
-                for (int i = 0; i < size; i++) {
+                for (int i = 0 ; i < size ; i++) {
                     if (db1.getElem(i) != db2.getElem(i)) {
                         return false;
                     }
@@ -937,5 +937,12 @@ public class ImageUtil {
 
             return Optional.empty();
         });
+    }
+
+    public static BufferedImage applyGaussianBlur(BufferedImage image) {
+        Preconditions.checkNotNull(image);
+
+
+        return null;
     }
 }

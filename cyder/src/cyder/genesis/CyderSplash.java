@@ -208,7 +208,7 @@ public class CyderSplash {
                         splashFrame.getContentPane().remove(creatorLabel);
                         splashFrame.getContentPane().add(loadingLabel);
 
-                        for (int i = 0; i < 30; i++) {
+                        for (int i = 0 ; i < 30 ; i++) {
                             loadingLabel.setText(message);
                             loadingLabel.repaint();
                             Thread.sleep(dotTimeout);
